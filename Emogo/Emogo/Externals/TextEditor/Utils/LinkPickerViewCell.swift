@@ -29,7 +29,10 @@ class LinkPickerViewCell: UICollectionViewCell {
         self.lblLink.text = content.coverImage.trim()
         self.lblDescription.text =  content.description.trim()
         self.imgLogo.image = nil
-        self.imgLogo.setForAnimatedImage(strImage:content.coverImageVideo)
+        self.imgLogo.setForAnimatedImage(strImage: content.coverImageVideo) { (_) in
+            
+        }
+       // self.imgLogo.setForAnimatedImage(strImage:content.coverImageVideo)
         self.imgLogo.clipsToBounds = true
         self.imgLogo.contentMode = .scaleAspectFit
        

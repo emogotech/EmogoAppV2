@@ -21,8 +21,8 @@ class FilterCell: UICollectionViewCell {
     
     func prepareCell(filter:Filter) {
         lblTitle.text = filter.iconName
-        self.imgView.image = filter.icon?.resize(to: CGSize(width: imgView.bounds.size.width*2, height: imgView.bounds.size.height*2))
-
+       // self.imgView.image = filter.icon?.resize(to: CGSize(width: imgView.bounds.size.width*2, height: imgView.bounds.size.height*2))
+        self.imgView.image = filter.icon
     }
 
 }

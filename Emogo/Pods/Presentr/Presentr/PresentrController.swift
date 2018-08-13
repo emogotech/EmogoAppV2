@@ -153,11 +153,19 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
     private func setupCornerRadius(roundCorners: Bool?, cornerRadius: CGFloat) {
         let shouldRoundCorners = roundCorners ?? presentationType.shouldRoundCorners
         if shouldRoundCorners {
-            presentedViewController.view.layer.cornerRadius = cornerRadius
-            presentedViewController.view.layer.masksToBounds = true
+           // presentedViewController.view.layer.cornerRadius = cornerRadius
+         //   presentedViewController.view.layer.masksToBounds = true
+            self.roundCorners([.topLeft, .topRight], radius: cornerRadius, View: presentedViewController.view)
         } else {
             presentedViewController.view.layer.cornerRadius = 0
         }
+    }
+    
+    func roundCorners(_ corners: UIRectCorner, radius: CGFloat,View:UIView) {
+        let path = UIBezierPath(roundedRect: View.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        View.layer.mask = mask
     }
     
     private func addDropShadow(shadow: PresentrShadow?) {

@@ -72,8 +72,8 @@ class EditStreamController: UITableViewController {
         tfEmogoTitle.delegate = self
         tfEmogoTitle.placeholder = nil
         tfEmogoTitle.title = nil
-        tfDescription.placeholder = "CAPTION(OPTIONAL)"
-        tfDescription.placeholderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        tfDescription.placeholder = "Caption (Optional)"
+        tfDescription.placeholderColor = UIColor(r: 150, g: 150, b: 150)
         tfEmogoTitle.selectedLineColor = .clear
         self.lblCaption.text = ""
         self.lblCaption.font = UIFont.systemFont(ofSize: 13)
@@ -97,14 +97,38 @@ class EditStreamController: UITableViewController {
     }
     
     func prepareNavigationbarButtons(){
+        let button   = UIButton(type: .system)
+        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitle("CANCEL", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        button.frame = CGRect(x: 10, y: -12, width: 60, height: 40)
+     
+        button.addTarget(self, action: #selector(self.btnCancelAction(_:)), for: .touchUpInside)
+        let btnBack = UIBarButtonItem(customView: button)
         
-        let btnBack = UIBarButtonItem(title: "CANCEL", style: .plain, target: self, action: #selector(self.btnCancelAction(_:)))
-        btnBack.tintColor = UIColor.lightGray
         self.navigationItem.leftBarButtonItem = btnBack
         
-        let btnDone = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
+         let buttonDone  = UIButton(type: .system)
+        buttonDone.setTitle("DONE", for: .normal)
+       
+        buttonDone.frame = CGRect(x: 0, y: 0, width: 60, height: 40)
+       // buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
+        // buttonDone.setTitleColor(kNavigationColor, for: .normal)
+        buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        buttonDone.addTarget(self, action: #selector(self.btnDoneAction(_:)), for: .touchUpInside)
+        let btnDone = UIBarButtonItem(customView: buttonDone)
         self.navigationItem.rightBarButtonItem = btnDone
         self.title = "Edit Emogo"
+        
+//        let btnBack = UIBarButtonItem(title: "CANCEL", style: .plain, target: self, action: #selector(self.btnCancelAction(_:)))
+//        btnBack.tintColor = UIColor.lightGray
+//
+//        self.navigationItem.leftBarButtonItem = btnBack
+//
+//        let btnDone = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
+//
+//        self.navigationItem.rightBarButtonItem = btnDone
+//        self.title = "Edit Emogo"
     }
     
     
@@ -134,7 +158,7 @@ class EditStreamController: UITableViewController {
         switchMakeEmogoGlobal.isRoundButton = true
         switchMakeEmogoGlobal.layer.borderWidth = 1.0
         switchMakeEmogoGlobal.layer.borderColor = UIColor.black.cgColor
-        self.viewTitle.layer.contents = UIImage(named: "gradient")?.cgImage
+        //self.viewTitle.layer.contents = UIImage(named: "gradient")?.cgImage
 
     }
     //MARK:- Action For Buttons
@@ -550,10 +574,12 @@ extension EditStreamController: CropViewControllerDelegate {
 extension EditStreamController :UITextViewDelegate, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == tfDescription {
+        
+        if textField == tfEmogoTitle {
+            tfEmogoTitle.resignFirstResponder()
             tfDescription.becomeFirstResponder()
         }else{
-            tfEmogoTitle.becomeFirstResponder()
+             tfEmogoTitle.resignFirstResponder()
         }
         return true
     }
@@ -581,7 +607,7 @@ extension EditStreamController {
     
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 1 {
+        if indexPath.row == 2 {
             return contentRowHeight  + 30
         }else {
             return super.tableView(tableView, heightForRowAt: indexPath)

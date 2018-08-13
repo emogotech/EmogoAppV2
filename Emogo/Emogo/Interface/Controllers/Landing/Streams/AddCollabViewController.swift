@@ -27,6 +27,7 @@ class AddCollabViewController: UIViewController {
     @IBOutlet weak var btnInviteFriends: UIButton!
     @IBOutlet weak var kConsViewTop: NSLayoutConstraint!
     
+    @IBOutlet weak var imgSearchIcon: UIImageView!
     var arrIndexSection : [String] = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     var arrayToShow = [Any]()
     var arraySearch = [Any]()
@@ -84,16 +85,29 @@ class AddCollabViewController: UIViewController {
         }
         self.tblAddCollab.separatorStyle = .none
         self.getContacts()
-      
-        btnInviteFriends.setTitle("INVITE FRIENDS", for: .normal)
-        btnInviteFriends.titleLabel?.font = UIFont(name: kFontMedium, size: 11.0)
-        btnInviteFriends.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
-        
-      
-        btnCancel.setTitle("CANCEL", for: .normal)
-        btnCancel.titleLabel?.font = UIFont(name: kFontRegular, size: 11.0)
-        btnCancel.setTitleColor(UIColor(r: 74, g: 74, b: 74), for: .normal)
-       // prepareNavBarButtons()
+        self.navigationController?.isNavigationBarHidden = false
+    
+        var button = UIButton(type: .system)
+        button =  self.getShadowButton(Alignment: 0)
+        button.frame = CGRect(x: 10, y: -12, width: 60, height: 40)
+        button.setTitle("CANCEL", for: .normal)
+        button.titleLabel?.font = UIFont(name: kFontRegular, size: 11.0)
+        button.setTitleColor(UIColor(r: 74, g: 74, b: 74), for: .normal)
+        button.addTarget(self, action: #selector(self.cancelButtonAction), for: .touchUpInside)
+        self.viewAddCollab.addSubview(button)
+
+        var button1 = UIButton(type: .system)
+        button1 =  self.getShadowButton(Alignment: 1)
+        button1.frame = CGRect(x: viewAddCollab.frame.size.width - 80, y: -5, width: 60, height: 40)
+        button1.titleLabel?.numberOfLines = 0;
+        button1.setTitle("INVITE\nFRIENDS", for: .normal)
+        button1.titleLabel?.font = UIFont(name: kFontMedium, size: 11.0)
+        button1.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
+        button1.addTarget(self, action: #selector(self.inviteButtonAction), for: .touchUpInside)
+        self.viewAddCollab.addSubview(button1)
+
+        self.title = "Add Collaborators"
+
         tfSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
 
     }
@@ -130,7 +144,13 @@ class AddCollabViewController: UIViewController {
   
     @IBAction func btnActionAdd(_ sender: Any) {
             print(arrayTempSelected)
-            self.updateColabs()
+        if self.arrayTempSelected.isEmpty == true {
+            self.showToast(strMSG: kAlertAddCollab)
+            
+        }else{
+           self.updateColabs()
+        }
+        
     }
     
     //MARK:- Selector Methods
@@ -557,7 +577,7 @@ extension AddCollabViewController: UITextFieldDelegate {
         }else{
             self.viewAddCollab.isHidden = true
             self.prepareNavBarButtons()
-            self.kConsViewTop.constant = 0
+            self.kConsViewTop.constant = -13
            
         }
          self.performSearch(text: (sender.text?.trim())!)
@@ -574,23 +594,40 @@ extension AddCollabViewController: UITextFieldDelegate {
         }else{
             self.viewAddCollab.isHidden = true
             self.prepareNavBarButtons()
-            self.kConsViewTop.constant = 0
+            self.kConsViewTop.constant = -13
         }
         return true
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
+         self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone")
         if self.tfSearch.text == nil {
             self.viewAddCollab.isHidden = false
             self.kConsViewTop.constant =  kOriginalContants
         }else{
             self.prepareNavBarButtons()
             self.viewAddCollab.isHidden = true
-            self.kConsViewTop.constant = 0
+            self.kConsViewTop.constant = -13
         }
     }
-
-        
-
   
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let startingLength = tfSearch.text?.count ?? 0
+        let lengthToAdd = string.count
+        let lengthToReplace = range.length
+        
+        let newLength = startingLength + lengthToAdd - lengthToReplace
+        print(newLength)
+        
+        if newLength == 0 {
+            self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone-1")
+        }else{
+            self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone")
+            
+        }
+        
+        return true
+    }
 
 }

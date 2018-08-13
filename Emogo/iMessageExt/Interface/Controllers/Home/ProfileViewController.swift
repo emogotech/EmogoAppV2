@@ -73,9 +73,9 @@ class ProfileViewController: UIViewController {
     
     let color = UIColor(r: 155, g: 155, b: 155)
     let colorSelected = UIColor.black
-    let font = UIFont(name: "SFProText-Light", size: 14.0)
+    let font = UIFont(name: "SFProText-Bold", size: 14.0)
     let fontSelected = UIFont(name: "SFProText-Medium", size: 14.0)
-    let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
+    let fontSegment = UIFont(name: "SFProText-Bold", size: 12.0)
 
     var lastOffset:CGPoint! = CGPoint.zero
     var didScrollInLast:Bool! = false

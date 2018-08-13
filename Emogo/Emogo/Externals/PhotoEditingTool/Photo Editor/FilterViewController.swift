@@ -71,7 +71,7 @@ class FilterViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.hideStatusBar()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -107,17 +107,15 @@ class FilterViewController: UIViewController {
     func prepareNavigationButton(isEditing:Bool) {
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.leftBarButtonItem = nil
+        navigationItem.hidesBackButton = true
         if isEditing {
             let btnSave = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(self.actionForSaveButton))
             let btnCancel = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.actionForCancelButton))
             self.navigationItem.leftBarButtonItem = btnCancel
             self.navigationItem.rightBarButtonItem = btnSave
-            navigationItem.hidesBackButton = true
-
         }else {
-            navigationItem.hidesBackButton = false
-//            let back = UIBarButtonItem(image: #imageLiteral(resourceName: "photo-edit-back"), style: .plain, target: self, action: #selector(self.actionforCancel))
-//            self.navigationItem.leftBarButtonItem = back
+            let back = UIBarButtonItem(image: #imageLiteral(resourceName: "photo-edit-back"), style: .plain, target: self, action: #selector(self.actionforCancel))
+            self.navigationItem.leftBarButtonItem = back
             let save = UIBarButtonItem(image:#imageLiteral(resourceName: "crrop_icon") , style: .plain, target: self, action: #selector(self.actionForCropButton))
             self.navigationItem.rightBarButtonItem = save
             

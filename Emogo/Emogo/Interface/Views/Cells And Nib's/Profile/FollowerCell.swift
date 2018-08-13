@@ -38,12 +38,12 @@ class FollowerCell: UITableViewCell {
         }
         if type == .Follower {
             if follow.isFollowing {
-                self.btnFollow.setImage(#imageLiteral(resourceName: "following_button"), for: .normal)
+                self.btnFollow.setImage(#imageLiteral(resourceName: "unfollow_btn"), for: .normal)
             }else {
-                self.btnFollow.setImage(#imageLiteral(resourceName: "follow_button"), for: .normal)
+                self.btnFollow.setImage(#imageLiteral(resourceName: "follow_btn"), for: .normal)
             }
         }else {
-            self.btnFollow.setImage(#imageLiteral(resourceName: "following_button"), for: .normal)
+            self.btnFollow.setImage(#imageLiteral(resourceName: "unfollow_btn"), for: .normal)
         }
         if follow.displayName.trim().isEmpty {
             self.lblName.text = follow.fullName

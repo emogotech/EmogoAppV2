@@ -55,7 +55,8 @@ class StreamListViewController: UIViewController {
     var isMyStreamPublic:Bool! = true
 
     var selectedImageView:UIImageView?
-    
+    var topConstraintRange = 40
+
     //-=-------------------------
     
     @IBOutlet weak var menuView: FSPagerView! {
@@ -364,9 +365,9 @@ class StreamListViewController: UIViewController {
         self.streamCollectionView.delegate = self
         
         // Change individual layout attributes for the spacing between cells
-        collectionLayout.minimumColumnSpacing = 8.0
-        collectionLayout.minimumInteritemSpacing = 8.0
-        collectionLayout.sectionInset = UIEdgeInsetsMake(10, 8, 0, 8)
+        collectionLayout.minimumColumnSpacing = 13.0
+        collectionLayout.minimumInteritemSpacing = 13.0
+        collectionLayout.sectionInset = UIEdgeInsetsMake(12, 13, 0, 13)
        
         collectionLayout.columnCount = 2
         // Collection view attributes
@@ -409,7 +410,7 @@ class StreamListViewController: UIViewController {
         self.kSegmentHeight.constant = 33.0
         let nibViews = Bundle.main.loadNibNamed("SegmentHeaderViewCell", owner: self, options: nil)
         self.segmentheader = nibViews?.first as! SegmentHeaderViewCell
-//        self.segmentheader.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+    //        self.segmentheader.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
        // collectionLayout.sectionInset = UIEdgeInsetsMake(38, 8, 0, 8)
         self.segmentheader.frame = CGRect(x: self.segmentheader.frame.origin.x, y: self.segmentheader.frame.origin.y, width: kFrame.size.width, height: 33)
         self.segmentContainerView.addSubview(self.segmentheader)
@@ -541,8 +542,6 @@ class StreamListViewController: UIViewController {
     }
     
     
-   
-    
     func setViewSearchHeightFor_iPhoneX(){
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
         }
@@ -551,7 +550,7 @@ class StreamListViewController: UIViewController {
     // MARK: - Prepare Layouts When View Appear
     
     func prepareLayoutForApper(){
-       self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
+       self.viewMenu.layer.contents = UIImage(named: "home-gradient-1")?.cgImage
         menuView.isAddBackground = false
         menuView.isAddTitle = true
         
@@ -713,6 +712,7 @@ class StreamListViewController: UIViewController {
         if btnSearch.tag == 1 {
             self.view.endEditing(true)
             txtSearch.text = ""
+            self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone-1")
            // btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
             btnSearch.tag = 0
             isUpdateList = true
@@ -855,8 +855,11 @@ class StreamListViewController: UIViewController {
             }else if type == .down {
                 self.streamCollectionView.es.stopLoadingMore()
             }
+            print(self.arrayToShow)
             self.lblNoResult.isHidden = true
             self.lblNoResult.text = kAlert_No_Stream_found
+         
+           
             DispatchQueue.main.async {
                 self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                 
@@ -1237,7 +1240,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 return cell
             }else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
-                cell.layer.cornerRadius = 5.0
+                cell.layer.cornerRadius = 11.0
                 cell.layer.masksToBounds = true
                 cell.isExclusiveTouch = true
                 let stream = self.arrayToShow[indexPath.row]
@@ -1264,7 +1267,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             }
             else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
-                cell.layer.cornerRadius = 5.0
+                cell.layer.cornerRadius = 11.0
                 cell.layer.masksToBounds = true
                 cell.isExclusiveTouch = true
                 let stream = self.arrayToShow[indexPath.row]
@@ -1301,7 +1304,6 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
  */
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         if self.isSearch == false {
             if currentStreamType == .People {
@@ -1309,7 +1311,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 return CGSize(width: itemWidth, height: 100)
             }else {
                 let itemWidth = collectionView.bounds.size.width/2.0
-                return CGSize(width: itemWidth, height: itemWidth - 40)
+                return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
             }
         }else {
             if isSearch && isTapPeople {
@@ -1318,23 +1320,22 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             }
             else {
                 let itemWidth = collectionView.bounds.size.width/2.0
-                return CGSize(width: itemWidth, height: itemWidth - 40)
+                return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
             }
         }
-      
+        
         /*
-       
-        else if isPeopleList {
-            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
-            return CGSize(width: itemWidth, height: 100)
-        }
-        else {
-            let itemWidth = collectionView.bounds.size.width/2.0
-            return CGSize(width: itemWidth, height: itemWidth - 40)
-        }
- */
+         
+         else if isPeopleList {
+         let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+         return CGSize(width: itemWidth, height: 100)
+         }
+         else {
+         let itemWidth = collectionView.bounds.size.width/2.0
+         return CGSize(width: itemWidth, height: itemWidth - 40)
+         }
+         */
     }
-    
    
 
    
@@ -1361,8 +1362,14 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             }else {
                
                 if let cell = collectionView.cellForItem(at: indexPath) {
-                    let stream = self.arrayToShow[indexPath.row]
-                    self.getStream(cell: cell as! StreamCell, indexPath: indexPath, streamID: stream.ID)
+                    
+                    self.selectedImageView = (cell as! StreamCell).imgCover
+                    StreamList.sharedInstance.arrayViewStream = self.arrayToShow
+                    let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                    obj.currentIndex = indexPath.row
+                    obj.streamType = currentStreamType.rawValue
+                    ContentList.sharedInstance.objStream = nil
+                    self.navigationController?.pushViewController(obj, animated: true)
                }
                 
             }
@@ -1389,8 +1396,13 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             }else {
            
                 if let cell = collectionView.cellForItem(at: indexPath) {
-                    let stream = self.arrayToShow[indexPath.row]
-                    self.getStream(cell: cell as! StreamCell, indexPath: indexPath, streamID: stream.ID)
+                    self.selectedImageView = (cell as! StreamCell).imgCover
+                    StreamList.sharedInstance.arrayViewStream = self.arrayToShow
+                    let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                    obj.currentIndex = indexPath.row
+                    obj.streamType = currentStreamType.rawValue
+                    ContentList.sharedInstance.objStream = nil
+                    self.navigationController?.pushViewController(obj, animated: true)
                }
             }
         }
@@ -1409,11 +1421,11 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         
         if (self.lastContentOffset > scrollView.contentOffset.y && !isSearch  ) {
             if  scrollView.contentOffset.y < -20 {
-                UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseOut], animations: {
-               //  print("up View")
+                UIView.animate(withDuration: 2.0) {
                     self.kSearchViewHieght.constant = 52.0
                     self.imgSearchIcon.isHidden = false
-                }, completion: nil)
+                }
+               
             }
         }
             
@@ -1421,19 +1433,20 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             
             if scrollView.contentOffset.y > 0.5 {
                 
-                UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseIn], animations: {
+                UIView.animate(withDuration: 2.0) {
                   //  print("Down View")
                     self.kSearchViewHieght.constant = 0.0
                     self.imgSearchIcon.isHidden = true
-                }, completion: nil)
+                }
             }
         }
         
         // update the new position acquired
         self.lastContentOffset = scrollView.contentOffset.y
-        
+ 
     }
     
+   
 }
 
 extension StreamListViewController : UITextFieldDelegate {
@@ -1451,6 +1464,30 @@ extension StreamListViewController : UITextFieldDelegate {
         }
         return true
     }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone")
+
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let startingLength = txtSearch.text?.count ?? 0
+        let lengthToAdd = string.count
+        let lengthToReplace = range.length
+        
+        let newLength = startingLength + lengthToAdd - lengthToReplace
+        print(newLength)
+        
+        if newLength == 0 {
+            self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone-1")
+        }else{
+            self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone")
+            
+        }
+        
+        return true
+    }
+
     
 
     func didTapActionSearch(searchString: String) {

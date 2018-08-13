@@ -285,7 +285,7 @@ class PreviewController: UIViewController {
 //        var imgEdit = #imageLiteral(resourceName: "edit_icon")
 //        var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
         
-        let buttonEdit = self.getShadowButton(Alignment: 1)
+        let buttonEdit = self.getShadowButton(Alignment: 2)
         buttonEdit.setImage(#imageLiteral(resourceName: "edit icon_new"), for: .normal)
       //  buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
         buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
@@ -401,7 +401,10 @@ class PreviewController: UIViewController {
 //                    UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.set(nil, forKey: "imageObj")
 //                    UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.synchronize()
                 }else{
-                    self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
+                    self.imgPreview.setForAnimatedImage(strImage: seletedImage.coverImage) { (_) in
+                        
+                    }
+                    //self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
                 }
                 
             }else {
@@ -413,7 +416,9 @@ class PreviewController: UIViewController {
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
-                    self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo.trim())
+                self.imgPreview.setForAnimatedImage(strImage: seletedImage.coverImageVideo.trim()) { (_) in
+                    
+                } //self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo.trim())
             }
         }
         self.txtTitleImage.isUserInteractionEnabled = true
@@ -992,14 +997,17 @@ class PreviewController: UIViewController {
                             imgUrl = url
                         }
                         self.kLinkLogoWidth.constant = 120.0
+                        self.kLinkPreviewHieght.constant = 120.0
+                        self.viewLinkPreview.isHidden = false
                         
                         if imgUrl.isEmpty {
                             self.kLinkLogoWidth.constant = 0.0
                         }
-                        self.imgLogo.setForAnimatedImage(strImage: imgUrl)
-                        self.kLinkPreviewHieght.constant = 120.0
-                        self.viewLinkPreview.isHidden = true
-                       // self.viewLinkPreview.isHidden = false
+                       // self.imgLogo.setForAnimatedImage(strImage: imgUrl)
+                        self.imgLogo.setForAnimatedImage(strImage: imgUrl) { (_) in
+                            
+                        }
+                      
         },
                     onError: {
                         

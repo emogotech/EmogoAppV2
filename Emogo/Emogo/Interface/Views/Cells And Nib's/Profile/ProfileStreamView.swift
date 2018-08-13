@@ -26,7 +26,8 @@ class ProfileStreamView: UICollectionReusableView {
         self.imgCover.addGestureRecognizer(tap)
         imgCover.isUserInteractionEnabled = true
         DispatchQueue.main.async {
-             self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
+            self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
+            // self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
            self.viewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 5)
         }
     }

@@ -119,6 +119,8 @@ class VPMOTPView: UIView {
     
     weak var delegate: VPMOTPViewDelegate?
     
+    var text = ""
+
     fileprivate var secureEntryData = [String]()
     
     override func awakeFromNib() {
@@ -245,6 +247,7 @@ class VPMOTPView: UIView {
                 }
             }
             
+            text = enteredOTPString
             if enteredOTPString.count == otpFieldsCount {
                 delegate?.enteredOTP(otpString: enteredOTPString)
                 

@@ -253,7 +253,13 @@ class CustomCameraViewController: SwiftyCamViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = .white
-        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back icon_shadow"), style: .plain, target: self, action: #selector(self.btnBack))
+        let button   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
+        button.contentHorizontalAlignment  = .left
+        button.contentVerticalAlignment = .bottom
+        button.setImage(#imageLiteral(resourceName: "back icon_shadow"), for: .normal)
+        button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
+        let btnBack = UIBarButtonItem(customView: button)
+    //    let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back icon_shadow"), style: .plain, target: self, action: #selector(self.btnBack))
         navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .clear
         self.navigationItem.leftBarButtonItem = btnBack
@@ -262,7 +268,12 @@ class CustomCameraViewController: SwiftyCamViewController {
     func addNextButton(isAddButton:Bool){
         if isAddButton {
             self.navigationItem.rightBarButtonItem  = nil
-            let btnNext = UIBarButtonItem(image:#imageLiteral(resourceName: "next"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
+            let buttonNext   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
+            buttonNext.setImage(#imageLiteral(resourceName: "share_button"), for: .normal)
+            buttonNext.addTarget(self, action: #selector(self.previewScreenNavigated), for: .touchUpInside)
+            buttonNext.contentHorizontalAlignment  = .right
+            buttonNext.contentVerticalAlignment = .bottom
+            let btnNext = UIBarButtonItem(customView: buttonNext)
             self.navigationItem.rightBarButtonItem = btnNext
         }else {
             self.navigationItem.rightBarButtonItem  = nil
@@ -273,10 +284,21 @@ class CustomCameraViewController: SwiftyCamViewController {
         if isAddButton {
             self.navigationItem.rightBarButtonItem  = nil
             self.navigationItem.leftBarButtonItem  = nil
-            let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBack))
-            
+            let button   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
+            button.setImage(#imageLiteral(resourceName: "back icon_shadow"), for: .normal)
+            button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
+            button.contentHorizontalAlignment  = .left
+            button.contentVerticalAlignment = .bottom
+            let btnBack = UIBarButtonItem(customView: button)
             self.navigationItem.leftBarButtonItem = btnBack
-            let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
+            
+            let buttonNext   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
+            buttonNext.setImage(#imageLiteral(resourceName: "share_button"), for: .normal)
+            buttonNext.addTarget(self, action: #selector(self.previewScreenNavigated), for: .touchUpInside)
+            buttonNext.contentHorizontalAlignment  = .right
+            buttonNext.contentVerticalAlignment = .bottom
+            let btnNext = UIBarButtonItem(customView: buttonNext)
+           // let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
             self.navigationItem.rightBarButtonItem = btnNext
         }else {
             self.navigationItem.rightBarButtonItem  = nil
@@ -669,6 +691,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
             // self.previewContainer.layoutIfNeeded()
             //  self.previewContainer.updateConstraintsIfNeeded()
+            self.isPreviewOpen = false
         }
     }
     
@@ -679,6 +702,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.addNextButton(isAddButton: true)
             self.viewUP()
         }
+        
         if kDefault?.value(forKey: kRetakeIndex) != nil {
             let value:Int = kDefault?.value(forKey: kRetakeIndex) as! Int
             let linkContent = ContentList.sharedInstance.arrayContent[value]
@@ -693,6 +717,9 @@ class CustomCameraViewController: SwiftyCamViewController {
             ContentList.sharedInstance.arrayContent[value] = linkContent
         }else   {
             ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+        }
+        if self.isPreviewOpen == true {
+            self.viewUP()
         }
         self.btnPreviewOpen.isHidden = false
         
@@ -810,6 +837,8 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             self.btnCameraSwitch.alpha = 1.0
             //                        self.btnRecording.alpha = 1.0
         })
+        
+        
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
@@ -831,6 +860,9 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             setupButtonWhileRecording(isAddButton: true)
             self.updateData(content: camera)
             self.previewCollection.reloadData()
+            DispatchQueue.main.async {
+                self.previewCollection.reloadData()
+            }
         }
     }
     
@@ -903,10 +935,6 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
 
 extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return  ContentList.sharedInstance.arrayContent.count
     }
@@ -920,9 +948,13 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("collection view frame----\(collectionView.frame)")
         return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height - 10)
     }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 12
+    }
+    
 }
 
 

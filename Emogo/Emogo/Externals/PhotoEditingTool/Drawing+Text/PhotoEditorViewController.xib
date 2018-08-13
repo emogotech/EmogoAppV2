@@ -120,10 +120,10 @@
                     <rect key="frame" x="0.0" y="555" width="375" height="112"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LKz-ks-tbI">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                            <rect key="frame" x="0.0" y="8" width="375" height="56"/>
                             <subviews>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MkI-z0-CKK">
-                                    <rect key="frame" x="25" y="3" width="324" height="24"/>
+                                    <rect key="frame" x="10" y="3" width="355" height="24"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="24" id="tkR-gl-dqd"/>
@@ -144,7 +144,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </textField>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iiN-Kj-blU" customClass="MBAutoGrowingTextView">
-                                    <rect key="frame" x="25" y="29" width="324" height="24"/>
+                                    <rect key="frame" x="10" y="29" width="355" height="24"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="4Kd-bX-yz0"/>
@@ -158,13 +158,13 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="MkI-z0-CKK" secondAttribute="trailing" constant="26" id="0Gm-r5-sm9"/>
+                                <constraint firstAttribute="trailing" secondItem="MkI-z0-CKK" secondAttribute="trailing" constant="10" id="0Gm-r5-sm9"/>
                                 <constraint firstAttribute="bottom" secondItem="iiN-Kj-blU" secondAttribute="bottom" constant="3" id="X7p-lV-zih"/>
                                 <constraint firstItem="iiN-Kj-blU" firstAttribute="top" secondItem="MkI-z0-CKK" secondAttribute="bottom" constant="2" id="Yn5-qz-9cu"/>
-                                <constraint firstAttribute="trailing" secondItem="iiN-Kj-blU" secondAttribute="trailing" constant="26" id="kUD-QX-V5d"/>
-                                <constraint firstItem="MkI-z0-CKK" firstAttribute="leading" secondItem="LKz-ks-tbI" secondAttribute="leading" constant="25" id="oXx-9V-bIb"/>
+                                <constraint firstAttribute="trailing" secondItem="iiN-Kj-blU" secondAttribute="trailing" constant="10" id="kUD-QX-V5d"/>
+                                <constraint firstItem="MkI-z0-CKK" firstAttribute="leading" secondItem="LKz-ks-tbI" secondAttribute="leading" constant="10" id="oXx-9V-bIb"/>
                                 <constraint firstItem="MkI-z0-CKK" firstAttribute="top" secondItem="LKz-ks-tbI" secondAttribute="top" constant="3" id="ppY-Vl-2c0"/>
-                                <constraint firstItem="iiN-Kj-blU" firstAttribute="leading" secondItem="LKz-ks-tbI" secondAttribute="leading" constant="25" id="waF-LZ-h3u"/>
+                                <constraint firstItem="iiN-Kj-blU" firstAttribute="leading" secondItem="LKz-ks-tbI" secondAttribute="leading" constant="10" id="waF-LZ-h3u"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MuV-RG-GzI">
@@ -194,9 +194,9 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="LKz-ks-tbI" firstAttribute="leading" secondItem="YU1-9g-Utk" secondAttribute="leading" id="3vt-Jz-UM0"/>
-                        <constraint firstItem="MuV-RG-GzI" firstAttribute="top" secondItem="LKz-ks-tbI" secondAttribute="bottom" constant="8" id="5TR-w1-ma9"/>
+                        <constraint firstItem="MuV-RG-GzI" firstAttribute="top" secondItem="LKz-ks-tbI" secondAttribute="bottom" id="5TR-w1-ma9"/>
                         <constraint firstItem="MuV-RG-GzI" firstAttribute="leading" secondItem="YU1-9g-Utk" secondAttribute="leading" id="6nE-RG-Dtt"/>
-                        <constraint firstItem="LKz-ks-tbI" firstAttribute="top" secondItem="YU1-9g-Utk" secondAttribute="top" id="EWr-QA-D3p"/>
+                        <constraint firstItem="LKz-ks-tbI" firstAttribute="top" secondItem="YU1-9g-Utk" secondAttribute="top" constant="8" id="EWr-QA-D3p"/>
                         <constraint firstAttribute="trailing" secondItem="LKz-ks-tbI" secondAttribute="trailing" id="Gzy-ii-j4L"/>
                         <constraint firstAttribute="bottom" secondItem="MuV-RG-GzI" secondAttribute="bottom" id="N0e-td-qpL"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="112" id="TOG-pP-OvN"/>

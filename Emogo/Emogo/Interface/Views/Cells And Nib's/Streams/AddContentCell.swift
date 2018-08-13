@@ -36,7 +36,10 @@ class LinkListCell: UICollectionViewCell {
             imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
         }
         self.imgCover.image = nil
-        self.imgCover.setForAnimatedImage(strImage:content.coverImageVideo)
+         self.viewContent.isHidden = true
+        self.imgCover.setForAnimatedImage(strImage: content.coverImageVideo) { (_) in
+            self.viewContent.isHidden = false
+        }
     }
 }
 

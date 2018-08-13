@@ -38,7 +38,8 @@ class MyStuffCell: UICollectionViewCell {
         }else {
             imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
         }
-        
+        self.viewContent.isHidden = true
+
         if content.type == .image {
             self.btnPlay.isHidden = true
             self.imgCover.setForAnimatedImage(strImage:content.coverImage)

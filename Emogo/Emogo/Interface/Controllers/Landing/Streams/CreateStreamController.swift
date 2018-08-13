@@ -52,7 +52,7 @@ class CreateStreamController: UITableViewController {
     var isPerform:Bool! = false
     var isAddContent:Bool!
     var minimumSize: CGSize = CGSize.zero
-    
+    var buttonDone = UIButton(type: .system)
     var contentRowHeight : CGFloat = 30.0
     var exestingNavigation:UINavigationController?
     //var delegate:CreateStreamControllerDelegate?
@@ -87,16 +87,17 @@ class CreateStreamController: UITableViewController {
     // MARK: - Prepare Layouts
     
     private func prepareLayouts(){
-        tfEmogoTitle.becomeFirstResponder()
+          tfEmogoTitle.becomeFirstResponder()
 //        tfEmogoTitle.inputAccessoryView = toolBar
 //        textFieldNext.inputAccessoryView = toolBar
 //        tfDescription.inputAccessoryView = toolBar
         tfEmogoTitle.placeholder = "Emogo Title"
         tfEmogoTitle.title = "Emogo Title"
-        tfDescription.placeholder = "CAPTION(OPTIONAL)"
-        tfDescription.placeholderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        tfDescription.placeholder = "Caption (Optional)"
+        tfDescription.placeholderColor = UIColor(r: 150, g: 150, b: 150)
+    
         tfEmogoTitle.selectedLineColor = .clear
-        self.lblCaption.text = "CAPTION(OPTIONAL)"
+        self.lblCaption.text = "Caption (Optional)"
         if self.tfDescription.text.count > 0 {
             self.lblCaption.isHidden = false
         }else{
@@ -133,13 +134,27 @@ class CreateStreamController: UITableViewController {
     
     func prepareNavigationbarButtons(){
         
-        let btnBack = UIBarButtonItem(title: "CANCEL", style: .plain, target: self, action: #selector(self.btnCloseAction(_:)))
-        btnBack.tintColor = UIColor.lightGray
+        let button   = UIButton(type: .system)
+        button.setTitleColor(UIColor.lightGray, for: .normal)
+        button.setTitle("CANCEL", for: .normal)
+        button.frame = CGRect(x: 10, y: -12, width: 60, height: 40)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        button.addTarget(self, action: #selector(self.btnCloseAction(_:)), for: .touchUpInside)
+        let btnBack = UIBarButtonItem(customView: button)
+        
         self.navigationItem.leftBarButtonItem = btnBack
         
-        let btnDone = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
+        buttonDone  = UIButton(type: .system)
+        buttonDone.setTitle("DONE", for: .normal)
+        buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
+        buttonDone.frame = CGRect(x: 0, y: 0, width: 60, height: 40)
+       // buttonDone.setTitleColor(kNavigationColor, for: .normal)
+        buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        buttonDone.addTarget(self, action: #selector(self.btnDoneAction(_:)), for: .touchUpInside)
+        let btnDone = UIBarButtonItem(customView: buttonDone)
         self.navigationItem.rightBarButtonItem = btnDone
         self.title = "Create New Emogo"
+        
     }
     //MARK:- action for buttons
     
@@ -417,6 +432,7 @@ class CreateStreamController: UITableViewController {
     }
     
     @objc func textFieldDidChange(_ textField: SkyFloatingLabelTextField) {
+        buttonDone.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
         if (tfEmogoTitle.text?.trim().isEmpty)! {
             tfEmogoTitle.placeholder = "Emogo Title"
             tfEmogoTitle.title = nil

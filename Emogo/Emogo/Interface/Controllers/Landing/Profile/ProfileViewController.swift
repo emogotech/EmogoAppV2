@@ -31,6 +31,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var lblFullName: UILabel!
     @IBOutlet weak var lblWebsite: UILabel!
     @IBOutlet weak var lblLocation: UILabel!
+   
     @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var btnStream: UIButton!
     @IBOutlet weak var btnColab: UIButton!
@@ -49,6 +50,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var btnNextStuff: UIButton!
     @IBOutlet weak var btnAdd: UIButton!
 
+    @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var heightviewBio: NSLayoutConstraint!
     @IBOutlet weak var kViewLocWebHeight: NSLayoutConstraint!
     @IBOutlet weak var segmentMain: HMSegmentedControl!
@@ -58,6 +60,8 @@ class ProfileViewController: UIViewController {
     
     var arrayTopContent = [TopContent]()
     var arrayMyStreams = [StreamDAO]()
+    var strFollowing = String()
+    var strFollowers = String()
     
     var currentMenu: ProfileMenu = .stream {
         
@@ -75,9 +79,9 @@ class ProfileViewController: UIViewController {
     
     let color = UIColor(r: 155, g: 155, b: 155)
     let colorSelected = UIColor.black
-    let font = UIFont(name: "SFProText-Light", size: 14.0)
+    let font = UIFont(name: "SFProText-Medium", size: 14.0)
     let fontSelected = UIFont(name: "SFProText-Medium", size: 14.0)
-    let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
+    let fontSegment = UIFont(name: "SFProText-Bold", size: 12.0)
 
     var lastOffset:CGPoint! = CGPoint.zero
     var didScrollInLast:Bool! = false
@@ -107,6 +111,7 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         self.lblNOResult.isHidden = true
         self.configureProfileNavigation()
+      
         self.prepareLayout(listUpdate: false)
         updateList(hud: true)
     }
@@ -141,7 +146,8 @@ class ProfileViewController: UIViewController {
     // MARK: - Prepare Layouts
     
     func prepareLayouts(){
-        self.title = "Profile"
+        
+        //self.title = "Profile"
         self.btnNext.isHidden = true
         self.btnAdd.isHidden = false
         self.lblNOResult.isHidden = true
@@ -157,9 +163,9 @@ class ProfileViewController: UIViewController {
         
       
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 8.0
-        layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(10, 8, 0, 8)
+        layout.minimumColumnSpacing = 13.0
+        layout.minimumInteritemSpacing = 13.0
+        layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
         layout.columnCount = 2
 
         // Collection view attributes
@@ -230,6 +236,7 @@ class ProfileViewController: UIViewController {
         segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
        // segmentControl.backgroundColor = UIColor.white
         segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
+        
         segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         segmentControl.selectionStyle = .textWidthStripe
         segmentControl.selectedSegmentIndex = 0
@@ -243,9 +250,9 @@ class ProfileViewController: UIViewController {
             print("Selected index \(index) (via block)")
             self.updateSegment(selected: index)
         }
-         segmentMain.selectionIndicatorHeight = 1.0
+         segmentMain.selectionIndicatorHeight = 3.0
          segmentMain.backgroundColor = UIColor.white
-         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
+         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
         // segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
          segmentMain.selectionIndicatorColor =  kCardViewBordorColor
          segmentMain.selectionStyle = .textWidthStripe
@@ -260,37 +267,39 @@ class ProfileViewController: UIViewController {
     func prepareLayout(listUpdate:Bool) {
        // lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
        // lblUserName.minimumScaleFactor = 1.0
+     
         APIServiceManager.sharedInstance.apiForGetUserInfo(userID: UserDAO.sharedInstance.user.userProfileID, isCurrentUser: true) { (_, _) in
             
             DispatchQueue.main.async {
-                self.imgLink.image = #imageLiteral(resourceName: "link icon")
-                self.imgLocation.image = #imageLiteral(resourceName: "location icon")
+               //self.imgLink.image = #imageLiteral(resourceName: "link icon")
+               // self.imgLocation.image = #imageLiteral(resourceName: "location icon")
+                self.imgLink.image =  #imageLiteral(resourceName: "link_icon")
+                self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
                 self.lblLocation.isHidden = false
                 self.lblWebsite.isHidden = false
                 self.lblBio.isHidden =  false
                 self.lblFollowers.isHidden = true
                 self.lblFollowing.isHidden = true
-
-                self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
+                self.lblName.text =  UserDAO.sharedInstance.user.fullName.trim().capitalized
+//                self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
+                self.lblFullName.text = "\(UserDAO.sharedInstance.user.displayName.trim())"
                 self.lblFullName.minimumScaleFactor = 1.0
-              //  self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
                 self.lblWebsite.minimumScaleFactor = 1.0
-               // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
                 self.lblLocation.minimumScaleFactor = 1.0
                 self.lblBio.text = UserDAO.sharedInstance.user.biography.trim()
-               
-                //self.lblBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
-                self.title = UserDAO.sharedInstance.user.fullName.trim()
                 self.lblBio.minimumScaleFactor = 1.0
                 self.imgLink.isHidden = false
                 self.imgLocation.isHidden = false
                 
-                
                 if UserDAO.sharedInstance.user.website.trim().count > 20 {
                     self.lblWebsite.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))...".trim()
+                }else{
+                      self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
                 }
                 if UserDAO.sharedInstance.user.location.trim().count > 15 {
                     self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))...".trim()
+                }else{
+                     self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
                 }
                 
                 self.heightviewBio.constant = 42
@@ -309,7 +318,9 @@ class ProfileViewController: UIViewController {
                 let tapFollowing = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
                
                 if UserDAO.sharedInstance.user.followers.trim().isEmpty && !UserDAO.sharedInstance.user.following.trim().isEmpty  {
-                    self.lblFollowers.text = UserDAO.sharedInstance.user.following.trim()
+                    self.strFollowing = "\(UserDAO.sharedInstance.user.following.trim())  FOLLOWING"
+                    self.lblFollowers.halfTextColorChange(fullText:self.strFollowing.trim() , changeText: UserDAO.sharedInstance.user.following.trim())
+                   // self.lblFollowers.text = UserDAO.sharedInstance.user.following.trim()
                     self.lblFollowing.text = ""
                     self.lblFollowers.isHidden = false
                     self.lblFollowers.tag = 0
@@ -319,7 +330,10 @@ class ProfileViewController: UIViewController {
                 }
                 
                 if UserDAO.sharedInstance.user.following.trim().isEmpty && !UserDAO.sharedInstance.user.followers.trim().isEmpty  {
-                    self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
+                    self.strFollowers = "\(UserDAO.sharedInstance.user.followers.trim())  FOLLOWERS"
+                    self.lblFollowers.halfTextColorChange(fullText:self.strFollowers.trim() , changeText: UserDAO.sharedInstance.user.followers.trim())
+                    
+                    //self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
                     self.lblFollowers.isHidden = false
                     self.lblFollowers.tag = 111
                     self.lblFollowers.isUserInteractionEnabled = true
@@ -334,16 +348,21 @@ class ProfileViewController: UIViewController {
                     self.lblFollowing.isHidden = false
                     self.lblFollowers.tag = 111
                     self.lblFollowing.tag = 0
-                    self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
+             
+                    self.strFollowers = " \(UserDAO.sharedInstance.user.followers.trim())  FOLLOWERS"
+                    self.lblFollowers.halfTextColorChange(fullText:self.strFollowers.trim() , changeText: UserDAO.sharedInstance.user.followers.trim())
+                   // self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
                     self.lblFollowers.isUserInteractionEnabled = true
                     self.lblFollowers.addGestureRecognizer(tapFollow)
-                    self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
+                    self.strFollowing = " \(UserDAO.sharedInstance.user.following.trim())  FOLLOWING"
+                    self.lblFollowing.halfTextColorChange(fullText:self.strFollowing.trim() , changeText: UserDAO.sharedInstance.user.following.trim())
+                   // self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
                     self.lblFollowing.isUserInteractionEnabled = true
                     self.lblFollowing.addGestureRecognizer(tapFollowing)
                 }
-                //print(UserDAO.sharedInstance.user.userImage.trim())
+               
                 if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
-                    self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
+                self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
                 }else {
                     if UserDAO.sharedInstance.user.displayName.isEmpty {
                         self.imgUser.setImage(string:UserDAO.sharedInstance.user.fullName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.fullName ), circular: true)
@@ -352,12 +371,10 @@ class ProfileViewController: UIViewController {
                     }
                 }
                 // self.imgUser.borderWidth = 1.0
-                //  self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
+                // self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
                 
                 if !UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    
-                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))...".trim()
-                    self.lblWebsite.text =  "\(UserDAO.sharedInstance.user.website.trim(count: 20))...".trim()
+                   
                     self.lblLocation.isHidden = false
                     self.lblWebsite.isHidden =  false
                     self.imgLink.isHidden = false
@@ -372,7 +389,13 @@ class ProfileViewController: UIViewController {
                 }
 
              else if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))...".trim()
+                    
+                    if UserDAO.sharedInstance.user.website.trim().count > 20 {
+                        self.lblLocation.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))...".trim()
+                        
+                    }else{
+                         self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    }
                     self.lblLocation.isHidden =  false
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = true
@@ -387,7 +410,14 @@ class ProfileViewController: UIViewController {
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(170))
                 }
                 else if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && !UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))...".trim()
+                 
+                    if UserDAO.sharedInstance.user.website.trim().count > 20 {
+                        self.lblLocation.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))...".trim()
+
+                    }else{
+                        self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    }
+                    
                     self.lblLocation.isHidden =  false
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = false
@@ -402,7 +432,7 @@ class ProfileViewController: UIViewController {
                 }
                
                 else if !UserDAO.sharedInstance.user.location.trim().isEmpty && UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))...".trim()
+                   
                     self.lblLocation.isHidden =  false
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = true
@@ -414,13 +444,13 @@ class ProfileViewController: UIViewController {
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(170))
                 }
                 else if !UserDAO.sharedInstance.user.location.trim().isEmpty && UserDAO.sharedInstance.user.website.trim().isEmpty && !UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))...".trim()
+                  
                     self.lblLocation.isHidden =  false
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = false
                     self.imgLink.isHidden = true
                     self.imgLocation.isHidden = false
-                    self.imgLocation.image = self.imgLink.image
+                    self.imgLocation.image = self.imgLocation.image
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
                     self.lblLocation.addGestureRecognizer(tap)
                     self.lblLocation.isUserInteractionEnabled = true
@@ -471,7 +501,7 @@ class ProfileViewController: UIViewController {
         
         
         if  self.currentMenu == .stuff {
-            kStuffOptionsHeight.constant = 17.0
+            kStuffOptionsHeight.constant = 28.0
         }else {
             kStuffOptionsHeight.constant = 0.0
         }
@@ -869,6 +899,7 @@ class ProfileViewController: UIViewController {
         ContentList.sharedInstance.arrayContent.removeAll()
         switch selected {
         case 0:
+             layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
             if kDefault?.bool(forKey: kHapticFeedback) == true{
                 Haptic.impact(.light).generate()
             }else{
@@ -882,6 +913,7 @@ class ProfileViewController: UIViewController {
             self.segmentMain.selectedSegmentIndex = 0
             break
         case 1:
+             layout.sectionInset = UIEdgeInsetsMake(3, 13, 0, 13)
             if kDefault?.bool(forKey: kHapticFeedback) == true{
                 Haptic.impact(.light).generate()
             }else{
@@ -895,6 +927,7 @@ class ProfileViewController: UIViewController {
             self.segmentMain.selectedSegmentIndex = 1
             break
         case 2:
+            layout.sectionInset = UIEdgeInsetsMake(9, 13, 0, 13)
             if kDefault?.bool(forKey: kHapticFeedback) == true{
                 Haptic.impact(.light).generate()
             }else{
@@ -954,7 +987,7 @@ class ProfileViewController: UIViewController {
         self.profileCollectionView.es.resetNoMoreData()
         switch currentMenu {
         case .stuff:
-            kStuffOptionsHeight.constant = 17.0
+            kStuffOptionsHeight.constant = 28.0
             if ContentList.sharedInstance.arrayStuff.count == 0  && self.isStuffUpdated {
                 HUDManager.sharedInstance.showHUD()
                 self.getTopContents()
@@ -1502,7 +1535,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let content = array[indexPath.row]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStuffCell, for: indexPath) as! MyStuffCell
             // for Add Content
-            cell.layer.cornerRadius = 5.0
+            cell.layer.cornerRadius = 11.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
             cell.btnSelect.tag = indexPath.row
@@ -1514,7 +1547,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             
         }else if currentMenu == .stream{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
-            cell.layer.cornerRadius = 5.0
+            cell.layer.cornerRadius = 11.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
             cell.btnEdit.tag = indexPath.row
@@ -1537,7 +1570,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             
         }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
-            cell.layer.cornerRadius = 5.0
+            cell.layer.cornerRadius = 11.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
             self.lblNOResult.isHidden = true
@@ -1574,7 +1607,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 headerView.prepareLayout(stream:UserDAO.sharedInstance.user.stream!,isCurrentUser: true)
                 headerView.btnEditHeader.addTarget(self, action: #selector(self.btnActionForHeaderEdit(sender:)), for: .touchUpInside)
             }
-            headerView.imgCover.layer.cornerRadius = 5.0
+            headerView.imgCover.layer.cornerRadius = 11.0
             headerView.imgCover.layer.masksToBounds = true
             headerView.imgUser.isHidden = true
             headerView.btnEditHeader.isHidden = false
@@ -1605,7 +1638,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }
         }else {
             let itemWidth = collectionView.bounds.size.width/2.0
-            return CGSize(width: itemWidth, height: itemWidth - 40)
+               return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
+           
         }
         
     }

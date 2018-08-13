@@ -1,0 +1,6 @@
+framework module BPCircleActivityIndicator {
+  umbrella header "BPCircleActivityIndicator-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -66,15 +66,18 @@ class User {
         }
         if let obj = userData["followers"] {
             if "\(obj)" != "0" {
+                self.followers = "\(obj)"
                // self.followers = "\(obj)\nfollowers"
-                self.followers = "\(obj)\nFOLLOWERS"
-                
+                //self.followers = "\(obj)\nFOLLOWERS"
+               // self.followers = "\(obj) followers"
             }
         }
         if let obj = userData["following"] {
             if "\(obj)" != "0" {
+                  self.following = "\(obj)"
                // self.following = "\(obj)\nfollowing"
-                 self.following = "\(obj)\nFOLLOWING"
+               //  self.following = "\(obj)\nFOLLOWING"
+               // self.following = "\(obj) following"
             }
         }
         if let obj = userData["branchio_url"] {

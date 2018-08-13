@@ -10,6 +10,7 @@ PODS:
     - BMPlayer/Core
     - NVActivityIndicatorView (~> 4.0.0)
     - SnapKit (~> 4.0.0)
+  - BPCircleActivityIndicator (0.1)
   - Branch (0.23.2):
     - Branch/Core (= 0.23.2)
   - Branch/Core (0.23.2)
@@ -54,6 +55,7 @@ DEPENDENCIES:
   - Alamofire
   - AWSS3
   - BMPlayer
+  - BPCircleActivityIndicator
   - Branch
   - Crashlytics
   - CropViewController
@@ -81,6 +83,7 @@ SPEC REPOS:
     - AWSCore
     - AWSS3
     - BMPlayer
+    - BPCircleActivityIndicator
     - Branch
     - Cache
     - Crashlytics
@@ -113,6 +116,7 @@ SPEC CHECKSUMS:
   AWSCore: b4895b4a5256d0040f8825ad31f3477d081f508f
   AWSS3: a92df2b4625488b5aae142f4311379fcd6bae3a7
   BMPlayer: 44eebf06eb01450dd14ea74b27d07c5222f0eed1
+  BPCircleActivityIndicator: 8ec5d896c8a05fc916203f990f0037f78d223256
   Branch: 085821e2f2ff386e780cf48a0f7a622e7fcf9593
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
@@ -140,6 +144,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: 769f8961f0864bc2593d0a4732875c1dc822b0c0
+PODFILE CHECKSUM: 6f405416e14d88586873ec28ada8a3772fa0f4c9
 
 COCOAPODS: 1.5.0

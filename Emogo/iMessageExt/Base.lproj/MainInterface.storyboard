@@ -63,17 +63,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ea5-OP-dhr">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66D-iQ-1Mw">
-                                <rect key="frame" x="0.0" y="20" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="n29-VB-Idj"/>
-                                    <constraint firstAttribute="width" constant="50" id="qMH-Mv-mfp"/>
-                                </constraints>
-                                <state key="normal" image="back icon"/>
-                                <connections>
-                                    <action selector="btnBackAction:" destination="eQ0-lP-RCy" eventType="touchUpInside" id="4qn-Ql-7ZZ"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s4g-1O-hxs">
                                 <rect key="frame" x="0.0" y="75" width="375" height="464"/>
                                 <subviews>
@@ -124,7 +113,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="pDn-OM-QzU" firstAttribute="centerX" secondItem="s4g-1O-hxs" secondAttribute="centerX" id="DkY-fo-dcf"/>
                                     <constraint firstItem="e29-6a-s7A" firstAttribute="top" secondItem="3Bj-tb-DKW" secondAttribute="bottom" constant="24" id="Fhg-NW-llI"/>
@@ -209,6 +198,17 @@
                                     <constraint firstItem="8PK-hh-KpV" firstAttribute="centerX" secondItem="Njs-i8-I1c" secondAttribute="centerX" id="s3t-07-Un6"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66D-iQ-1Mw">
+                                <rect key="frame" x="0.0" y="20" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="n29-VB-Idj"/>
+                                    <constraint firstAttribute="width" constant="50" id="qMH-Mv-mfp"/>
+                                </constraints>
+                                <state key="normal" image="back icon"/>
+                                <connections>
+                                    <action selector="btnBackAction:" destination="eQ0-lP-RCy" eventType="touchUpInside" id="4qn-Ql-7ZZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -3895,18 +3895,6 @@ Cg
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GVz-UJ-kDs">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Se-w6-qsS">
-                                <rect key="frame" x="0.0" y="20" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="CvQ-yc-YfY"/>
-                                    <constraint firstAttribute="height" constant="50" id="l8g-XA-fzd"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="back icon"/>
-                                <connections>
-                                    <action selector="btnTapBackAction:" destination="euY-X2-5dE" eventType="touchUpInside" id="yyo-Cy-5mj"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n6n-S9-hqT">
                                 <rect key="frame" x="0.0" y="78" width="375" height="417"/>
                                 <subviews>
@@ -4080,6 +4068,18 @@ Cg
                                     <constraint firstAttribute="trailing" secondItem="Zvt-fw-y7d" secondAttribute="trailing" constant="24" id="v9j-Uv-2Kg"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Se-w6-qsS">
+                                <rect key="frame" x="0.0" y="20" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="CvQ-yc-YfY"/>
+                                    <constraint firstAttribute="height" constant="50" id="l8g-XA-fzd"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="back icon"/>
+                                <connections>
+                                    <action selector="btnTapBackAction:" destination="euY-X2-5dE" eventType="touchUpInside" id="yyo-Cy-5mj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -4125,18 +4125,6 @@ Cg
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OOf-G2-xTH">
-                                <rect key="frame" x="3" y="25" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="1mD-Ib-vSc"/>
-                                    <constraint firstAttribute="height" constant="50" id="wKJ-KO-SGk"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="back icon"/>
-                                <connections>
-                                    <action selector="btnBackSignUp:" destination="p5e-Me-8D9" eventType="touchUpInside" id="QEb-gN-bWe"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Do-Je-gOb">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
@@ -4372,6 +4360,18 @@ Cg
                                     <constraint firstItem="PTZ-ux-WLk" firstAttribute="top" secondItem="MRX-Aw-0ap" secondAttribute="bottom" constant="20" id="xyu-x4-Zao"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OOf-G2-xTH">
+                                <rect key="frame" x="3" y="25" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="1mD-Ib-vSc"/>
+                                    <constraint firstAttribute="height" constant="50" id="wKJ-KO-SGk"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="back icon"/>
+                                <connections>
+                                    <action selector="btnBackSignUp:" destination="p5e-Me-8D9" eventType="touchUpInside" id="QEb-gN-bWe"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -4414,7 +4414,7 @@ Cg
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eov-h6-HVy">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eov-h6-HVy">
                                 <rect key="frame" x="0.0" y="205.5" width="375" height="256"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imsg_logo_closed_icon" translatesAutoresizingMaskIntoConstraints="NO" id="L27-tp-yH1">
@@ -4608,18 +4608,6 @@ Cg
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wIu-0p-RY1">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o4M-bc-DOE">
-                                <rect key="frame" x="0.0" y="20" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="9bq-6N-sJs"/>
-                                    <constraint firstAttribute="height" constant="50" id="jED-3t-y9a"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="back icon"/>
-                                <connections>
-                                    <action selector="btnTapBackAction:" destination="fCp-1W-Tf9" eventType="touchUpInside" id="uPc-oL-ET1"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gim-fj-ahi">
                                 <rect key="frame" x="0.0" y="83" width="375" height="429"/>
                                 <subviews>
@@ -4828,6 +4816,18 @@ Cg
                                     <constraint firstItem="EQu-kx-jRE" firstAttribute="trailing" secondItem="GlU-A5-Sj2" secondAttribute="trailing" id="zTe-92-Ra2"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o4M-bc-DOE">
+                                <rect key="frame" x="0.0" y="20" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="9bq-6N-sJs"/>
+                                    <constraint firstAttribute="height" constant="50" id="jED-3t-y9a"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="back icon"/>
+                                <connections>
+                                    <action selector="btnTapBackAction:" destination="fCp-1W-Tf9" eventType="touchUpInside" id="uPc-oL-ET1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -4870,7 +4870,7 @@ Cg
         <image name="Unlike_icon" width="41" height="36"/>
         <image name="add to emogo btn" width="114" height="30"/>
         <image name="add_content_icon" width="147" height="147"/>
-        <image name="back icon" width="12" height="20"/>
+        <image name="back icon" width="11" height="22"/>
         <image name="back-icon" width="7" height="14"/>
         <image name="browse-streams-btn" width="155" height="45"/>
         <image name="button:WDl-4L-x4H:image" width="17" height="17">
@@ -5026,7 +5026,7 @@ AAAAAAAAAAAAIPk
         <image name="check-box-empty" width="26" height="26"/>
         <image name="check-emogo-stream-btn" width="155" height="45"/>
         <image name="code-image" width="133" height="133"/>
-        <image name="content_next_btn" width="160" height="53"/>
+        <image name="content_next_btn" width="157" height="47"/>
         <image name="cross-gradient" width="25" height="25"/>
         <image name="crossHeader" width="12" height="12"/>
         <image name="demo_images" width="48" height="48"/>
@@ -5046,7 +5046,7 @@ AAAAAAAAAAAAIPk
         <image name="let's go btn" width="215" height="50"/>
         <image name="link icon" width="15" height="15"/>
         <image name="location icon" width="15" height="15"/>
-        <image name="lock_icon" width="9" height="13"/>
+        <image name="lock_icon" width="8" height="10"/>
         <image name="messages_icon" width="43" height="37"/>
         <image name="mobilenumber_image" width="133" height="133"/>
         <image name="more icon" width="38" height="18"/>
@@ -5056,13 +5056,13 @@ AAAAAAAAAAAAIPk
         <image name="registration-screens-logo" width="166" height="31"/>
         <image name="rounded-corner" width="375" height="35"/>
         <image name="search" width="20" height="20"/>
-        <image name="search_bar_iphone" width="291" height="35"/>
+        <image name="search_bar_iphone" width="298" height="35"/>
         <image name="search_icon_iphone" width="13" height="13"/>
         <image name="select_active_icon" width="23" height="23"/>
         <image name="send_icon" width="34" height="36"/>
         <image name="setting_icon1" width="22" height="22"/>
         <image name="share-icon" width="21" height="19"/>
-        <image name="share_profile" width="32" height="32"/>
+        <image name="share_profile" width="16" height="21"/>
         <image name="shareicon_profile" width="19" height="27"/>
         <image name="stream-card-placeholder" width="145" height="145"/>
         <image name="stream_flag" width="15" height="4"/>
@@ -5074,7 +5074,7 @@ AAAAAAAAAAAAIPk
         <image name="view_nav_edit_icon" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sQ3-6V-Kwm"/>
+        <segue reference="TKa-OT-FPQ"/>
         <segue reference="aBY-iT-vxB"/>
     </inferredMetricsTieBreakers>
 </document>

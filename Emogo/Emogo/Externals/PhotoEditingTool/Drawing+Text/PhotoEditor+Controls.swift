@@ -280,7 +280,7 @@ extension PhotoEditorViewController {
     
      func drawButtonTapped() {
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(0.8 * Double(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {() -> Void in
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(0.1 * Double(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {() -> Void in
             guard let edgeMenu = self.edgeMenuLeft else { return }
             edgeMenu.open()
             self.colorPickerView.isHidden = false

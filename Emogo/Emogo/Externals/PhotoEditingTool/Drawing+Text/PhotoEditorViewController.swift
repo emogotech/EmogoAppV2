@@ -219,11 +219,11 @@ enum EditingFeature {
         btnNext.addTarget(self, action: #selector(self.actionForRightMenu(sender:)), for: .touchUpInside)
         
         self.edgeMenu = DPEdgeMenu(items: [btnText, btnDraw, btnSticker,btnNext],
-                                   animationDuration: 0.8, menuPosition: .right)
+                                   animationDuration: 0.0, menuPosition: .right)
         guard let edgeMenu = self.edgeMenu else { return }
         edgeMenu.backgroundColor = UIColor.clear
         edgeMenu.itemSpacing = 0.0
-        edgeMenu.animationDuration = 0.5
+        edgeMenu.animationDuration = 0.1
         
         //        weak var weakSelf = self
         //        self.view.setMenuActionWithBlock { (tapGesture) in
@@ -255,11 +255,11 @@ enum EditingFeature {
         draw3.addTarget(self, action: #selector(self.actionForLeftMenu(sender:)), for: .touchUpInside)
         
         self.edgeMenuLeft = DPEdgeMenu(items: [draw1, draw2, draw3],
-                                       animationDuration: 0.8, menuPosition: .left)
+                                       animationDuration: 0.0, menuPosition: .left)
         guard let edgeMenu = self.edgeMenuLeft else { return }
         edgeMenu.backgroundColor = UIColor.clear
         edgeMenu.itemSpacing = 0.0
-        edgeMenu.animationDuration = 0.5
+        edgeMenu.animationDuration = 0.1
         if edgeMenu.superview == nil {
             self.view.addSubview(edgeMenu)
         }
@@ -282,7 +282,10 @@ enum EditingFeature {
     func prepareGifView(){
         self.canvasView.isHidden = true
         self.animatedImageView.isHidden = false
-        self.animatedImageView.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+        self.animatedImageView.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (_) in
+            
+        }
+       // self.animatedImageView.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
         SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
             image?.getColors({ (colors) in
                 self.animatedImageView.backgroundColor = colors.primary

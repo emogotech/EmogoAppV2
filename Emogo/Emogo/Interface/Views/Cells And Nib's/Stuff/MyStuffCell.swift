@@ -16,7 +16,6 @@ class MyStuffCell: UICollectionViewCell {
     @IBOutlet weak var imgSelect: UIImageView!
     @IBOutlet weak var btnSelect: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
-    
    
 
     func prepareLayout(content:ContentDAO?){
@@ -30,31 +29,42 @@ class MyStuffCell: UICollectionViewCell {
            }else {
             self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
         }
-      //  self.imgCover.backgroundColor = .black
+        self.viewContent.isHidden = true
+        self.btnPlay.isHidden = true
+
         imgCover.contentMode = .scaleAspectFill
+       
+        
+        if content.type == .image {
+            self.imgCover.setForAnimatedImage(strImage: content.coverImage) { (_) in
+                self.viewContent.isHidden = (self.lblTitle.text?.trim().isEmpty)!
+            }
+        }else if content.type == .video {
+            self.imgCover.image = nil
+            self.imgCover.setForAnimatedImage(strImage: content.coverImageVideo) { (_) in
+                self.viewContent.isHidden = (self.lblTitle.text?.trim().isEmpty)!
+                self.btnPlay.isHidden = false
+            }
+        }else if content.type == .link {
+            self.imgCover.image = nil
+            self.imgCover.setForAnimatedImage(strImage: content.coverImageVideo) { (_) in
+                self.viewContent.isHidden = (self.lblTitle.text?.trim().isEmpty)!
+            }
+           
+        }else {
+            self.imgCover.setForAnimatedImage(strImage: content.coverImage) { (_) in
+                self.viewContent.isHidden = (self.lblTitle.text?.trim().isEmpty)!
+            }
+       
+        }
+        if content.type == .notes {
+            self.lblDescription.text = ""
+        }
+        
         if content.isSelected {
             imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
         }else {
             imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
-        }
-        
-        if content.type == .image {
-            self.btnPlay.isHidden = true
-            self.imgCover.setForAnimatedImage(strImage:content.coverImage)
-        }else if content.type == .video {
-            self.imgCover.image = nil
-            self.imgCover.setForAnimatedImage(strImage:content.coverImageVideo)
-            self.btnPlay.isHidden = false
-        }else if content.type == .link {
-            self.imgCover.image = nil
-            self.imgCover.setForAnimatedImage(strImage:content.coverImageVideo)
-            self.btnPlay.isHidden = true
-        }else {
-            self.btnPlay.isHidden = true
-            self.imgCover.setForAnimatedImage(strImage:content.coverImage)
-        }
-        if content.type == .notes {
-            self.lblDescription.text = ""
         }
     }
 }

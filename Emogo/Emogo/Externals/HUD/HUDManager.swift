@@ -26,13 +26,14 @@ class HUDManager: NSObject {
     let activityIndicator : PMProgressHUD = {
         let view = PMProgressHUD(frame: CGRect.zero)
         view.imgLogo = UIImage(named:"loader")!
+         view.tintColor = UIColor.black
         view.firstColor = UIColor(r: 186.0, g: 186.0, b: 189.0)
-        view.secondColor = UIColor(r: 0, g: 173.0, b: 243.0)
+        view.secondColor = UIColor(r: 0, g: 122.0, b: 255.0)
         view.thirdColor = UIColor(r: 186.0, g: 186.0, b: 189.0)
         view.duration = 2.5
         view.lineWidth = 5.0
-        view.bgColor =  UIColor.black.withAlphaComponent(0.7)
-        
+        view.bgColor =  UIColor.white.withAlphaComponent(0.7)
+      //   view.bgColor =  UIColor.white
         return view
     }()
     

@@ -193,6 +193,9 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.preparePreview(index: indexPath.row)
     }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 12
+    }
     
 }
 

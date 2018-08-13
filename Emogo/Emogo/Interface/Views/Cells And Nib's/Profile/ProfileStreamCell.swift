@@ -20,7 +20,7 @@ class ProfileStreamCell: UICollectionViewCell {
     @IBOutlet weak var cardView: CardView!
     @IBOutlet weak var imgAdd: UIImageView!
 
-    var size:CGSize! = CGSize(width: 250, height: 250)
+ //   var size:CGSize! = CGSize(width: 250, height: 250)
     // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
         
@@ -36,13 +36,17 @@ class ProfileStreamCell: UICollectionViewCell {
 //            self.cardView.dropShadow()
             self.lblName.isHidden = false
             self.imgAdd.isHidden =  true
+            self.viewContent.isHidden = true
             //   self.imgCover.backgroundColor = .black
-            self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
             self.lblTitle.text = stream.Title.trim()
             self.lblTitle.minimumScaleFactor = 1.0
             self.accessibilityLabel =   stream.Title.trim()
-            self.lblName.text =  "by \(stream.Author.trim())"
+          //  self.lblName.text =  "by \(stream.Author.trim())"
+             self.lblName.text =  "\(stream.Author.trim())"
             self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+            
+           
+            
             btnEdit.isHidden = true
             if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 btnEdit.isHidden = false
@@ -52,8 +56,15 @@ class ProfileStreamCell: UICollectionViewCell {
             }else {
                 self.btnLock.setImage(#imageLiteral(resourceName: "unlock_icon"), for: .normal)
             }
-            self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim()) { (_, imgSize) in
-                self.size = imgSize
+            
+//            self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim()) { (_, imgSize) in
+//                self.size = imgSize
+//            }
+            self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim()) { (isLoaded) in
+                if isLoaded! {
+                    self.viewContent.isHidden = false
+                }
+                
             }
            
             
@@ -62,4 +73,5 @@ class ProfileStreamCell: UICollectionViewCell {
         
     }
     
+   
 }

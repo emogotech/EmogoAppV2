@@ -13,6 +13,9 @@ def common_pods_for_target
     pod "GSKStretchyHeaderView"
     pod "Haptica"
     pod "SkeletonView"
+    pod "BPCircleActivityIndicator"
+
+
 
 end
 

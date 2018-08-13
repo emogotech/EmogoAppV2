@@ -52,6 +52,9 @@ class ProfileUpdateViewController: UITableViewController {
         txtBio.text = UserDAO.sharedInstance.user.biography.trim()
         txtWebsite.text = UserDAO.sharedInstance.user.website.trim()
         txtDisplayName.text = UserDAO.sharedInstance.user.displayName.trim()
+        txtDisplayName.textContainer.maximumNumberOfLines = 1
+        txtDisplayName.textContainer.lineBreakMode = .byTruncatingTail
+        
         //txtBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
         txtLocation.text = UserDAO.sharedInstance.user.location.trim()
       //  self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
@@ -86,6 +89,8 @@ class ProfileUpdateViewController: UITableViewController {
         
         let btnSave = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
         self.navigationItem.rightBarButtonItem?.setTitleTextAttributes(myAttribute2, for: .normal)
+       // self.navigationItem.rightBarButtonItem?.tintColor = UIColor(hex: "007AFF")
+         btnSave.tintColor = UIColor(hex: "007AFF")
         self.navigationItem.rightBarButtonItem = btnSave
        
         

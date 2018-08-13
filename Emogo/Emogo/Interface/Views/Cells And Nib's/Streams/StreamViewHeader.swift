@@ -32,6 +32,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var viewTop: UIView!
     @IBOutlet weak var lblColabLabel: UILabel!
     @IBOutlet weak var kConstantImageWidth: NSLayoutConstraint!
+    @IBOutlet weak var kConstantLikeWidth: NSLayoutConstraint!
+    @IBOutlet weak var btnLikeOtherUser: UIButton!
 
     var streamDelegate:StreamViewHeaderDelegate?
     var objColab:StreamViewDAO!
@@ -49,7 +51,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         // You can change the minimum and maximum content heights
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
         self.stretchDelegate  = self
-        self.maximumContentHeight = 306
+        self.maximumContentHeight = 250
 
     }
     
@@ -58,7 +60,9 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         imgCollabOne.isHidden = false
 
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
-        self.viewTop.addBlurView(style: UIBlurEffectStyle.dark)
+       // self.viewTop.layer.contents = UIImage(named: "top-gradient-1")?.cgImage
+        //top-gradient
+       // self.viewTop.addBlurView(style: UIBlurEffectStyle.dark)
         guard let objStream = stream  else {
             return
         }
@@ -79,6 +83,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
 
         self.lblDescription.numberOfLines = 0
       //  self.lblDescription.minimumScaleFactor = 1.0
+     
         self.lblLikeCount.text = objStream.totalLikeCount.trim()
         self.lblViewCount.text = objStream.viewCount.trim()
         self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: kPlaceholderImage)
@@ -140,15 +145,15 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         if !objStream.totalCollaborator.trim().isEmpty {
             colabcount = Int(objStream.totalCollaborator!)
             if colabcount! > 2 {
-                self.lblColabLabel.text = "by " +  objStream.author.capitalized + " and \(colabcount!-1) others"
+                self.lblColabLabel.text = " " +  objStream.author.capitalized + "\n & \(colabcount!-1) others"
             }else {
-                self.lblColabLabel.text = "by " +  objStream.author.capitalized + " and \(colabcount!-1) other"
+                self.lblColabLabel.text = " " +  objStream.author.capitalized + "\n & \(colabcount!-1) other"
             }
             kConstantImageWidth.constant = 60.0
         }
         
         if colabcount == 0 ||  colabcount == 1 {
-            self.lblColabLabel.text =  "by " + objStream.author.capitalized
+            self.lblColabLabel.text =  " " + objStream.author.capitalized
             kConstantImageWidth.constant = 40.0
         }
        

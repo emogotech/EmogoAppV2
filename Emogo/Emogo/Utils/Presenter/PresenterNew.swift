@@ -39,8 +39,8 @@ class PresenterNew: NSObject {
     
     static let EditStreamPresenter: Presentr = {
         let width = ModalSize.full
-        let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 60), sizeLandscape: Float(kFrame.size.width - 60))
-        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 60))
+        let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 30), sizeLandscape: Float(kFrame.size.width - 30))
+        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 30))
         let customType = PresentationType.custom(width: width, height: height, center: center)
         let customPresenter = Presentr(presentationType: customType)
         customPresenter.transitionType = .coverVertical

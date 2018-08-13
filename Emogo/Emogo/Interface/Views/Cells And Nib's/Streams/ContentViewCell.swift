@@ -92,18 +92,30 @@ class ContentViewCell: UICollectionViewCell {
             self.loadDynamicBackground("", image: seletedImage.imgPreview)
         }else {
             if seletedImage.type == .image || seletedImage.type == .notes {
-                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImage)
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImage) { (_) in
+                    
+                }
+               
                 self.loadDynamicBackground(seletedImage.coverImage)
                 //self.btnPlayIcon.isHidden = true
             }else   if seletedImage.type == .video {
-                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                //self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (_) in
+                    
+                }
                 self.loadDynamicBackground(seletedImage.coverImageVideo)
                  self.btnPlayIcon.isHidden = false
             }else if seletedImage.type == .link {
-                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (_) in
+                    
+                }
+               // self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 self.loadDynamicBackground(seletedImage.coverImageVideo)
             }else {
-                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (_) in
+                    
+                }
+               // self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 self.loadDynamicBackground(seletedImage.coverImageVideo)
 
             }

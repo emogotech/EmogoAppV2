@@ -75,7 +75,10 @@ class GiphyCell: UICollectionViewCell {
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
         lblName.text = content.name
         lblName.minimumScaleFactor = 1.0
-        self.imageView.setForAnimatedImage(strImage:content.url)
+        self.viewContent.isHidden = true
+        self.imageView.setForAnimatedImage(strImage: content.url) { (_) in
+            self.viewContent.isHidden = false
+        }
         if content.isSelected {
             imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
         }else {

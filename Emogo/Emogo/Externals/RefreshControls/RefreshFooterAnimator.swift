@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BPCircleActivityIndicator
 
 class RefreshFooterAnimator: UIView ,ESRefreshProtocol, ESRefreshAnimatorProtocol{
     
@@ -19,16 +20,14 @@ class RefreshFooterAnimator: UIView ,ESRefreshProtocol, ESRefreshAnimatorProtoco
     public var state: ESRefreshViewState = .pullToRefresh
     
     
-    var loadingView : LoadingView = {
-        let loading = LoadingView(frame: .zero)
-        loading.load?.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        loading.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        loading.load?.lineWidth = 3.0
-        loading.load?.duration = 2.0
-        loading.loaderImage?.isHidden = true
+    var loadingView : BPCircleActivityIndicator = {
+        
+        let loading = BPCircleActivityIndicator()
+        loading.isHidden = true
         loading.translatesAutoresizingMaskIntoConstraints = false
         return loading
     }()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,21 +41,23 @@ class RefreshFooterAnimator: UIView ,ESRefreshProtocol, ESRefreshAnimatorProtoco
     
     private func setupView(){
         self.addSubview(loadingView)
-        loadingView.widthAnchor.constraint(equalToConstant: self.frame.size.width).isActive = true
-        loadingView.heightAnchor.constraint(equalToConstant: self.frame.size.height).isActive = true
         loadingView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        loadingView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        loadingView.load?.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        loadingView.load?.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        loadingView.topAnchor.constraint(equalTo: self.topAnchor, constant: 15.0).isActive = true
+        loadingView.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        loadingView.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
     
     public func refreshAnimationBegin(view: ESRefreshComponent) {
-        loadingView.startLoaderWithAnimation()
+        loadingView.isHidden = false
+        loadingView.rotateSpeed(0.2).interval(0.1).animate()
     }
     
     public func refreshAnimationEnd(view: ESRefreshComponent) {
-        loadingView.stopLoaderWithAnimation()
+        loadingView.stop()
+        loadingView.isHidden = true
+        
     }
+    
     public func refresh(view: ESRefreshComponent, progressDidChange progress: CGFloat) {
     }
     public func refresh(view: ESRefreshComponent, stateDidChange state: ESRefreshViewState) {

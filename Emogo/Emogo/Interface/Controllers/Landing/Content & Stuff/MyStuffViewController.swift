@@ -192,7 +192,31 @@ class MyStuffViewController: UIViewController {
     }
     
     @objc func btnPlayAction(sender:UIButton){
-        self.openFullView(index: sender.tag)
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        let content = array[sender.tag]
+        if content.isAdd {
+            //   btnActionForAddContent()
+        }else {
+            ContentList.sharedInstance.arrayContent = array
+            if ContentList.sharedInstance.arrayContent.count != 0 {
+                //
+                // let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                
+                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                objPreview.currentIndex = sender.tag
+                objPreview.isProfile = "TRUE"
+                let nav = UINavigationController(rootViewController: objPreview)
+                let indexPath = IndexPath(row: sender.tag, section: 0)
+                if let imageCell = stuffCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
+                    nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                    nav.cc_swipeBackDisabled = true
+                }
+                self.present(nav, animated: true, completion: nil)
+                
+                //  self.navigationController?.push(viewController: objPreview)
+            }
+        }
+      //  self.openFullView(index: sender.tag)
     }
     
     
@@ -557,10 +581,10 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             let content = array[indexPath.row]
             content.isSelected = !content.isSelected
-            for (index,obj) in ContentList.sharedInstance.arrayStuff.enumerated() {
+            for (tag,obj) in ContentList.sharedInstance.arrayStuff.enumerated() {
                 if obj.contentID.trim() == content.contentID.trim() {
                     obj.isSelected =  content.isSelected
-                    ContentList.sharedInstance.arrayStuff[index] = obj
+                    ContentList.sharedInstance.arrayStuff[tag] = obj
                 }
             }
             
@@ -581,8 +605,13 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     func updateSelected(obj:ContentDAO){
         
-        if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
-            ContentList.sharedInstance.arrayContent.remove(at: index)
+          let isContains =  ContentList.sharedInstance.arrayContent.contains(where: {$0.contentID.trim() == obj.contentID.trim()})
+        if isContains {
+            if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
+                if !obj.isSelected  {
+                    ContentList.sharedInstance.arrayContent.remove(at: index)
+                }
+            }
         }else {
             if obj.isSelected  {
                 ContentList.sharedInstance.arrayContent.insert(obj, at: 0)

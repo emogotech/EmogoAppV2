@@ -186,6 +186,13 @@ extension UIView {
         
     }
     
+    func addGradient(color:UIColor){
+        let gradient = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = [UIColor.red, UIColor.blue, UIColor.red, UIColor.blue]
+        self.layer.insertSublayer(gradient, at: 0)
+    }
+    
 }
 
 extension UIView {
@@ -232,6 +239,19 @@ extension UIView {
         layer.cornerRadius = 0.0
         layer.shadowRadius = 0.0
         layer.shadowOpacity = 0.0
+    }
+}
+
+extension UILabel {
+    func halfTextColorChange (fullText : String , changeText : String ) {
+        let strNumber: NSString = fullText as NSString
+        let range = (strNumber).range(of: changeText)
+        let attribute = NSMutableAttributedString.init(string: fullText)
+        let color = UIColor(r: 0, g: 122, b: 255)
+        attribute.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: range)
+       
+        attribute.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: 15.0), range: range)
+        self.attributedText = attribute
     }
 }
 
@@ -403,12 +423,45 @@ extension UIImageView {
         if strImage.isEmpty{
             return
         }
-        self.sd_setShowActivityIndicatorView(true)
-        self.sd_setIndicatorStyle(.gray)
+        self.sd_setShowActivityIndicatorView(false)
+       // self.sd_setIndicatorStyle(.gray)
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
-        self.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "stream-card-placeholder"))
+        self.sd_setImage(with: imgURL, placeholderImage: nil)
     }
     
+    func setImageWithURL(strImage:String,isAddLoader:Bool? = nil,handler : @escaping ((_ result : Bool?) -> Void)){
+          var loader:PMDotLoaderView? = nil
+          if isAddLoader == nil {
+             loader = PMDotLoaderView()
+            if let viewWithTag = self.viewWithTag(3289382) {
+                viewWithTag.removeFromSuperview()
+            }
+            loader?.tintColor = UIColor(r: 200, g: 200, b: 200)
+            loader?.tag = 3289382
+            self.addSubview(loader!)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                loader?.center = self.center
+            }
+            loader?.startAnimating()
+        }
+        
+        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+        self.sd_setImage(with: imgURL) { (image, _ ,_ , _) in
+            if let _ = image {
+                handler(true)
+            }else {
+                handler(true)
+            }
+            if isAddLoader == nil {
+                loader?.isHidden = true
+                loader?.stopAnimating()
+                loader?.removeFromSuperview()
+                if let viewWithTag = self.viewWithTag(3289382) {
+                    viewWithTag.removeFromSuperview()
+                }
+            }
+        }
+    }
     
     func setImageWithURL(strImage:String,handler : @escaping ((_ image : UIImage?, _ imageSize:CGSize?) -> Void)){
         if strImage.isEmpty{
@@ -1241,12 +1294,48 @@ extension FLAnimatedImageView {
     }
     
     
-    func setForAnimatedImage(strImage:String){
+//    func setForAnimatedImage(strImage:String){
+//        if strImage.isEmpty{
+//            return
+//        }
+//        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+//
+//        self.setImageUrl(imgURL)
+//    }
+    
+    
+    func setForAnimatedImage(strImage:String,handler : @escaping ((_ result : Bool?) -> Void)){
+        
         if strImage.isEmpty{
+            handler(true)
             return
         }
+        if let viewWithTag = self.viewWithTag(3289382) {
+            viewWithTag.removeFromSuperview()
+        }
+        let loader = PMDotLoaderView()
+        loader.tintColor = UIColor(r: 225, g: 225, b: 225)
+        loader.tag = 3289382
+        self.addSubview(loader)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            loader.center = self.center
+        }
+        loader.startAnimating()
+        
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
-        self.setImageUrl(imgURL)
+        self.setImageUrl(imgURL) { (image) in
+            if let _ = image {
+                handler(true)
+            }else {
+                handler(true)
+            }
+            loader.isHidden = true
+            loader.stopAnimating()
+            loader.removeFromSuperview()
+            if let viewWithTag = self.viewWithTag(3289382) {
+                viewWithTag.removeFromSuperview()
+            }
+        }
     }
     
     

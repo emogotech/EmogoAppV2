@@ -45,6 +45,7 @@ extension FilterViewController {
             filterOptionUpdated()
             break
         case 333:
+            self.btnMLEffects.isHidden = false
             let obj:MLFiltersViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_MLFiltersView) as! MLFiltersViewController
             obj.image = self.canvasImageView.image
             obj.delegate = self
@@ -75,6 +76,7 @@ extension FilterViewController {
             if self.isFilterSelected  {
                 self.filterCollectionView.reloadData()
                 self.gradientButton.isHidden = true
+                self.btnMLEffects.isHidden = true
                 let img = self.imageOrientation(self.image!)
                 editingService.setImage (image: img)
                 self.filterView.isHidden = false
@@ -83,6 +85,7 @@ extension FilterViewController {
             }else {
                 self.filterViewButton.isHidden = true
                 self.gradientButton.isHidden = false
+                self.btnMLEffects.isHidden = false
                 self.filterView.isHidden = true
                 self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
             }
@@ -99,6 +102,7 @@ extension FilterViewController {
             self.gradientViewHeightConstraint.constant = 170
             self.view.setNeedsUpdateConstraints()
             self.filterButton.isHidden = false
+            self.btnMLEffects.isHidden = true
             self.gradientButton.isHidden = true
             let img = self.imageOrientation(self.image!)
             editingService.setImage (image: img)
@@ -116,6 +120,7 @@ extension FilterViewController {
             self.gradientButton.isHidden = false
             self.filterViewButton.isHidden = true
             self.gradientImageView.isHidden = true
+            self.btnMLEffects.isHidden = false
             self.gradientView.isHidden = true
             self.setImageView(image: self.image!)
             self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)

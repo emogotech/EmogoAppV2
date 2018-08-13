@@ -784,7 +784,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         let itemWidth = collectionView.bounds.size.width/2.0
-        return CGSize(width: itemWidth, height: itemWidth - 40)
+        return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -85,7 +85,6 @@ class ContactsViewCell: UITableViewCell {
         
         btnCheck.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30).isActive = true
         btnCheck.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-
         
     }
     

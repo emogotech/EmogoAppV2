@@ -23,12 +23,19 @@ class PreviewCell: UICollectionViewCell {
                 self.previewImage.image = image
             }
         }else {
+            
             if content.type == .image ||  content.type == .notes {
-                    self.previewImage.setForAnimatedImage(strImage:content.coverImage)
+                 self.previewImage.setForAnimatedImage(strImage: content.coverImage) { (_) in
+                    
+                }
             }else if content.type == .gif {
-                self.previewImage.setForAnimatedImage(strImage:content.coverImage)
+                 self.previewImage.setForAnimatedImage(strImage: content.coverImage) { (_) in
+                    
+                }
             }else {
-                self.previewImage.setForAnimatedImage(strImage:content.coverImageVideo)
+                 self.previewImage.setForAnimatedImage(strImage: content.coverImageVideo) { (_) in
+                    
+                }
             }
         }
         if content.type == .image {

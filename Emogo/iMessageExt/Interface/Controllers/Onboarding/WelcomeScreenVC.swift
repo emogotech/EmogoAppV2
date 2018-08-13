@@ -39,8 +39,8 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         
         
         self.viewSplash.isHidden = false
-//   self.viewExpand.isHidden = true
-       // self.viewCollapse.isHidden = true
+//       self.viewExpand.isHidden = true
+      // self.viewCollapse.isHidden = true
         
         pageController.delegate = self
         pageControllerClosed.delegate = self

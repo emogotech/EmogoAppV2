@@ -10,22 +10,22 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="SF-Pro-Display-Bold.otf">
-            <string>SFProDisplay-Bold</string>
+        <array key="SF-UI-Display-Regular.otf">
+            <string>SFUIDisplay-Regular</string>
         </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="profileStreamView" id="U6b-Vx-4bR" customClass="ProfileStreamView" customModule="Emogo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="182"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="213"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uk0-Pj-VVK">
-                    <rect key="frame" x="8" y="6" width="304" height="174"/>
+                    <rect key="frame" x="12" y="3" width="296" height="210"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ANb-Ix-v28">
-                    <rect key="frame" x="281" y="18" width="21" height="22"/>
+                    <rect key="frame" x="276" y="16" width="21" height="22"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="21" id="QWc-XF-V2M"/>
                         <constraint firstAttribute="height" constant="22" id="vxQ-pS-sW1"/>
@@ -33,44 +33,43 @@
                     <state key="normal" image="edit_icon_card"/>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval" translatesAutoresizingMaskIntoConstraints="NO" id="dlc-mY-dtk" customClass="NZCircularImageView">
-                    <rect key="frame" x="115" y="51" width="90" height="88"/>
+                    <rect key="frame" x="115" y="66.5" width="90" height="88"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="90" id="MF5-pd-P3N"/>
                         <constraint firstAttribute="height" constant="88" id="aQU-FX-CEd"/>
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6PO-hz-kZt">
-                    <rect key="frame" x="7" y="149" width="306" height="30"/>
+                    <rect key="frame" x="12" y="169" width="296" height="44"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MG3-Ew-L6g">
-                            <rect key="frame" x="5" y="0.0" width="292" height="30"/>
-                            <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="17"/>
+                            <rect key="frame" x="13" y="3" width="275" height="27"/>
+                            <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="22"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="MG3-Ew-L6g" firstAttribute="top" secondItem="6PO-hz-kZt" secondAttribute="top" id="7fZ-6o-HfU"/>
-                        <constraint firstAttribute="bottom" secondItem="MG3-Ew-L6g" secondAttribute="bottom" id="HTF-rg-uBj"/>
-                        <constraint firstAttribute="height" constant="30" id="RBv-9L-ze1"/>
-                        <constraint firstAttribute="trailing" secondItem="MG3-Ew-L6g" secondAttribute="trailing" constant="9" id="nPK-bE-k9e"/>
-                        <constraint firstItem="MG3-Ew-L6g" firstAttribute="leading" secondItem="6PO-hz-kZt" secondAttribute="leading" constant="5" id="whi-Sy-DK1"/>
+                        <constraint firstAttribute="height" constant="44" id="RBv-9L-ze1"/>
+                        <constraint firstAttribute="bottom" secondItem="MG3-Ew-L6g" secondAttribute="bottom" constant="14" id="arf-1X-bZl"/>
+                        <constraint firstAttribute="trailing" secondItem="MG3-Ew-L6g" secondAttribute="trailing" constant="8" id="nPK-bE-k9e"/>
+                        <constraint firstItem="MG3-Ew-L6g" firstAttribute="leading" secondItem="6PO-hz-kZt" secondAttribute="leading" constant="13" id="whi-Sy-DK1"/>
                     </constraints>
                 </view>
             </subviews>
             <constraints>
-                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="6PO-hz-kZt" secondAttribute="bottom" constant="3" id="0te-kd-Pmw"/>
-                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="uk0-Pj-VVK" secondAttribute="trailing" constant="8" id="52B-3f-rAO"/>
-                <constraint firstItem="uk0-Pj-VVK" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="8" id="AzI-a0-L1M"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="6PO-hz-kZt" secondAttribute="bottom" id="0te-kd-Pmw"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="uk0-Pj-VVK" secondAttribute="trailing" constant="12" id="52B-3f-rAO"/>
+                <constraint firstItem="uk0-Pj-VVK" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="12" id="AzI-a0-L1M"/>
                 <constraint firstItem="dlc-mY-dtk" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" constant="4" id="N0R-uE-Lbg"/>
                 <constraint firstItem="dlc-mY-dtk" firstAttribute="centerX" secondItem="U6b-Vx-4bR" secondAttribute="centerX" id="TVa-Wt-Ybx"/>
-                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="uk0-Pj-VVK" secondAttribute="bottom" constant="2" id="XjV-oO-zeS"/>
-                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="6PO-hz-kZt" secondAttribute="trailing" constant="7" id="Yag-3C-aUh"/>
-                <constraint firstItem="uk0-Pj-VVK" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" constant="6" id="YkL-GW-Sa9"/>
-                <constraint firstItem="ANb-Ix-v28" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" constant="18" id="gbL-7M-sMK"/>
-                <constraint firstItem="6PO-hz-kZt" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="7" id="gqa-ud-HtW"/>
-                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="ANb-Ix-v28" secondAttribute="trailing" constant="18" id="huy-dZ-FZc"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="uk0-Pj-VVK" secondAttribute="bottom" id="XjV-oO-zeS"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="6PO-hz-kZt" secondAttribute="trailing" constant="12" id="Yag-3C-aUh"/>
+                <constraint firstItem="uk0-Pj-VVK" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" constant="3" id="YkL-GW-Sa9"/>
+                <constraint firstItem="ANb-Ix-v28" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" constant="16" id="gbL-7M-sMK"/>
+                <constraint firstItem="6PO-hz-kZt" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="12" id="gqa-ud-HtW"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="ANb-Ix-v28" secondAttribute="trailing" constant="23" id="huy-dZ-FZc"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <connections>
@@ -80,11 +79,11 @@
                 <outlet property="lblTitle" destination="MG3-Ew-L6g" id="Hwc-wc-bl0"/>
                 <outlet property="viewContainer" destination="6PO-hz-kZt" id="dpD-P8-QiP"/>
             </connections>
-            <point key="canvasLocation" x="65" y="116"/>
+            <point key="canvasLocation" x="65" y="131.5"/>
         </collectionReusableView>
     </objects>
     <resources>
-        <image name="Oval" width="90" height="88"/>
+        <image name="Oval" width="90" height="90"/>
         <image name="edit_icon_card" width="21" height="21"/>
     </resources>
 </document>

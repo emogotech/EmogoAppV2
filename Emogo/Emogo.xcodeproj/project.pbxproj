@@ -162,6 +162,9 @@
 		F0B3EEAD20E4FD9C00599675 /* CCSwipBackPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EF0B0720DCF26C0004AC50 /* CCSwipBackPresentationController.swift */; };
 		F0C1139E20D39F4E00F1569C /* AddCollabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */; };
 		F0C113A020D39F7C00F1569C /* AddCollabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */; };
+		F0C15BC2211AF26C0048A2CA /* PMDotLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C15BC1211AF26C0048A2CA /* PMDotLoaderView.swift */; };
+		F0C15BC5211AF2920048A2CA /* RefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C15BC3211AF28E0048A2CA /* RefreshFooterAnimator.swift */; };
+		F0C15BC6211AF2920048A2CA /* RefreshHeaderAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C15BC4211AF2910048A2CA /* RefreshHeaderAnimator.swift */; };
 		F0C7592620EC9624004AB444 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
 		F0E90B6B21072BA8003DE904 /* Copperplate.ttc in Resources */ = {isa = PBXBuildFile; fileRef = F0E90B6A21072BA8003DE904 /* Copperplate.ttc */; };
 		F0E90B71210732DE003DE904 /* VPMOTPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E90B6F210732DD003DE904 /* VPMOTPTextField.swift */; };
@@ -320,6 +323,7 @@
 		F4311879202B88D2006139F7 /* filter_gradient_5.png in Resources */ = {isa = PBXBuildFile; fileRef = F431186B202B88CD006139F7 /* filter_gradient_5.png */; };
 		F431E3B820C693F8008D425B /* CreateNotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F431E3B720C693F8008D425B /* CreateNotesViewController.swift */; };
 		F4334A7B20D8F8570026C778 /* PMAnimatedSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4334A7A20D8F8570026C778 /* PMAnimatedSwitch.swift */; };
+		F433CAC021197FBB00071A7C /* PMGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433CABF21197FBB00071A7C /* PMGradientView.swift */; };
 		F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */; };
 		F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */; };
 		F433EDA420174160004FEB93 /* StreamViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA320174160004FEB93 /* StreamViewHeader.xib */; };
@@ -476,8 +480,6 @@
 		F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CF824320905569005636FE /* ContactsViewCell.swift */; };
 		F4D0DDCA1FE7CA1C004E7BE2 /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
 		F4E4B48C20BD606E009CD301 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A151FBB238A006DA9D9 /* Main.storyboard */; };
-		F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */; };
-		F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */; };
 		F4E758791FD68242008DB12E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
 		F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB751FC3F5CC00552260 /* KDLoadingView.swift */; };
 		F4ECD5A420E373A7000BE025 /* DrawingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECD5A320E373A7000BE025 /* DrawingImageView.swift */; };
@@ -668,6 +670,9 @@
 		F0B3EEA820E4E78100599675 /* LikeStreamListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeStreamListCell.swift; sourceTree = "<group>"; };
 		F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollabViewController.swift; sourceTree = "<group>"; };
 		F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollabCell.swift; sourceTree = "<group>"; };
+		F0C15BC1211AF26C0048A2CA /* PMDotLoaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMDotLoaderView.swift; sourceTree = "<group>"; };
+		F0C15BC3211AF28E0048A2CA /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
+		F0C15BC4211AF2910048A2CA /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
 		F0E90B6A21072BA8003DE904 /* Copperplate.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Copperplate.ttc; sourceTree = "<group>"; };
 		F0E90B6F210732DD003DE904 /* VPMOTPTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPMOTPTextField.swift; sourceTree = "<group>"; };
 		F0E90B70210732DD003DE904 /* VPMOTPView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPMOTPView.swift; sourceTree = "<group>"; };
@@ -833,6 +838,7 @@
 		F431186B202B88CD006139F7 /* filter_gradient_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_5.png; sourceTree = "<group>"; };
 		F431E3B720C693F8008D425B /* CreateNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNotesViewController.swift; sourceTree = "<group>"; };
 		F4334A7A20D8F8570026C778 /* PMAnimatedSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMAnimatedSwitch.swift; sourceTree = "<group>"; };
+		F433CABF21197FBB00071A7C /* PMGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMGradientView.swift; sourceTree = "<group>"; };
 		F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamHeaderView.swift; sourceTree = "<group>"; };
 		F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamHeaderView.xib; sourceTree = "<group>"; };
 		F433EDA320174160004FEB93 /* StreamViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StreamViewHeader.xib; sourceTree = "<group>"; };
@@ -1010,8 +1016,6 @@
 		F4CF824320905569005636FE /* ContactsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewCell.swift; sourceTree = "<group>"; };
 		F4DAE8F2205BC58B00B5A892 /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
 		F4DAE8F3205BC58F00B5A892 /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
-		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
-		F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
 		F4ECD5A320E373A7000BE025 /* DrawingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingImageView.swift; sourceTree = "<group>"; };
 		F4EF0B0020DCD0BB0004AC50 /* PMNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMNavigationController.swift; sourceTree = "<group>"; };
 		F4EF0B0220DCD1360004AC50 /* PMNavigationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMNavigationDelegate.swift; sourceTree = "<group>"; };
@@ -1446,6 +1450,7 @@
 				F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */,
 				F4522CA71FCC46D20021562D /* PMSwitch.swift */,
 				F409FC6B1FE3D7AB0093E0E7 /* PMTextField.swift */,
+				F433CABF21197FBB00071A7C /* PMGradientView.swift */,
 				F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */,
 			);
 			path = "Custom UI";
@@ -2325,6 +2330,7 @@
 			isa = PBXGroup;
 			children = (
 				F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */,
+				F0C15BC1211AF26C0048A2CA /* PMDotLoaderView.swift */,
 				F49D74911FBC2E650096A0CC /* HUDManager.swift */,
 			);
 			path = HUD;
@@ -2420,8 +2426,8 @@
 		F4E758741FD68175008DB12E /* RefreshControls */ = {
 			isa = PBXGroup;
 			children = (
-				F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */,
-				F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */,
+				F0C15BC3211AF28E0048A2CA /* RefreshFooterAnimator.swift */,
+				F0C15BC4211AF2910048A2CA /* RefreshHeaderAnimator.swift */,
 			);
 			path = RefreshControls;
 			sourceTree = "<group>";
@@ -2837,6 +2843,7 @@
 				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/BPCircleActivityIndicator/BPCircleActivityIndicator.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/GSKStretchyHeaderView/GSKStretchyHeaderView.framework",
 				"${BUILT_PRODUCTS_DIR}/Haptica/Haptica.framework",
@@ -2853,6 +2860,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BPCircleActivityIndicator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSKStretchyHeaderView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Haptica.framework",
@@ -2879,6 +2887,7 @@
 				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/BPCircleActivityIndicator/BPCircleActivityIndicator.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/GSKStretchyHeaderView/GSKStretchyHeaderView.framework",
 				"${BUILT_PRODUCTS_DIR}/Haptica/Haptica.framework",
@@ -2895,6 +2904,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BPCircleActivityIndicator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSKStretchyHeaderView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Haptica.framework",
@@ -2958,6 +2968,7 @@
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/BMPlayer/BMPlayer.framework",
+				"${BUILT_PRODUCTS_DIR}/BPCircleActivityIndicator/BPCircleActivityIndicator.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
@@ -2989,6 +3000,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BMPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BPCircleActivityIndicator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
@@ -3096,6 +3108,7 @@
 				F43612F71FD69B3200788FFE /* AGBlurFilter.swift in Sources */,
 				F4C9554520A31D890065D1C8 /* FNSMosaic.mlmodel in Sources */,
 				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,
+				F0C15BC6211AF2920048A2CA /* RefreshHeaderAnimator.swift in Sources */,
 				F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */,
 				F009A93920D0F8A700051547 /* ActionSheetViewCell.swift in Sources */,
 				33DAB2F91FC6B9AC0053AC23 /* FSPagerCollectionView.swift in Sources */,
@@ -3119,7 +3132,6 @@
 				F41846F520DBBCAE0077CEAB /* ZoomTransitionDestinationDelegate.swift in Sources */,
 				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
 				F4C9554720A31D890065D1C8 /* FNSLaMuse.mlmodel in Sources */,
-				F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
 				F436C997204D434500EE4254 /* PMReorderCollectionView.swift in Sources */,
 				F40D3E6620CE5B9F008ED566 /* TextEditorView.swift in Sources */,
@@ -3196,6 +3208,7 @@
 				F4CA097A2052A6D2004EEFCE /* ProfileHeaderView.swift in Sources */,
 				F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */,
 				F0C1139E20D39F4E00F1569C /* AddCollabViewController.swift in Sources */,
+				F0C15BC5211AF2920048A2CA /* RefreshFooterAnimator.swift in Sources */,
 				F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */,
 				F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */,
 				F429C4D520F5FCB300601B70 /* RightEdgeInteractionController.swift in Sources */,
@@ -3233,6 +3246,7 @@
 				F4EF0B0B20DCF26D0004AC50 /* CCSwipBackPresentationController.swift in Sources */,
 				F46AB0C720BC2BFC00229031 /* VideoEditor+UITextView.swift in Sources */,
 				F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */,
+				F0C15BC2211AF26C0048A2CA /* PMDotLoaderView.swift in Sources */,
 				F4B8887220AAB7550056666B /* VideoEditorViewController.swift in Sources */,
 				F44509AC2088D37700B48706 /* ContactsViewController.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
@@ -3290,6 +3304,7 @@
 				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
 				F44939EA1FEADCA700AE2FCA /* Operation.swift in Sources */,
 				F4086D8E206E2F16005C7318 /* UIView+YGPulseView.m in Sources */,
+				F433CAC021197FBB00071A7C /* PMGradientView.swift in Sources */,
 				F0C113A020D39F7C00F1569C /* AddCollabCell.swift in Sources */,
 				F41FD95C20A9583F00FA8623 /* PhotoEditor+Gestures.swift in Sources */,
 				F4FC55F620D25D7A006C22E1 /* NotesPreviewViewController.swift in Sources */,
@@ -3331,7 +3346,6 @@
 				F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */,
 				F4C9554620A31D890065D1C8 /* FNSFeathers.mlmodel in Sources */,
 				F41752E5201CB573005AFE4A /* TermsAndPrivacyViewController.swift in Sources */,
-				F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */,
 				F409FC681FE3B1220093E0E7 /* ImportCell.swift in Sources */,
 				F4EF0B0120DCD0BB0004AC50 /* PMNavigationController.swift in Sources */,
 				F41FD95720A9583F00FA8623 /* CropView.swift in Sources */,

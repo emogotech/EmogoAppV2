@@ -23,21 +23,34 @@ class StreamCell: UICollectionViewCell {
     // MARK: - Override Functions
     
     override func awakeFromNib() {
-        
+        super.awakeFromNib()
     }
     
     // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
         
          self.imgCover.contentMode = .scaleAspectFill
-        self.imgCover.isHidden = false
+         self.imgCover.isHidden = false
      //   self.imgCover.backgroundColor = .black
-         self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
-         self.lblTitle.text = stream.Title.trim()
+        //kPlaceholderImage
+        self.viewContent.isHidden = true
+        self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim()) { (result) in
+            if result! {
+                self.viewContent.isHidden = false
+            }
+        }
+        // self.lblTitle.text = stream.Title.trim()
          self.lblTitle.minimumScaleFactor = 1.0
          self.accessibilityLabel =   stream.Title.trim()
-         self.lblName.text =  "by \(stream.Author.trim().capitalized)"
-         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+         //self.lblName.text =  "by \(stream.Author.trim().capitalized)"
+         self.lblName.text =  "\(stream.Author.trim().capitalized)"
+          if stream.Title.trim().count > 15 {
+             self.lblTitle.text = "\(stream.Title.trim(count: 15))..."
+          }else{
+             self.lblTitle.text = stream.Title.trim()
+          }
+           self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
+        // self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
     }
    
 }

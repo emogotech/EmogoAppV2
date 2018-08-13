@@ -39,6 +39,7 @@ static char TAG_ACTIVITY_INDICATOR;
         [self updateActivityIndicatorFrame];
         
         dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self.activityIndicator setHidden:YES];
             [self addSubview:self.activityIndicator];
         });
     }

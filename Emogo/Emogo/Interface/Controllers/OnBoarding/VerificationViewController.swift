@@ -27,6 +27,7 @@ class VerificationViewController: UIViewController {
         super.viewDidLoad()
         
         prepareLayouts()
+    
        
     }
     
@@ -84,12 +85,11 @@ class VerificationViewController: UIViewController {
     
     // MARK: -  Action Methods And Selector
     @IBAction func btnGoToLandingScreen(_ sender: Any) {
-      
-        
+      print(self.otpView.text)
         if (self.txtOtP.trim().isEmpty) {
-           // self.txtOtP.shake()
+          //  self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
         }else if (txtOtP.trim().count) != 5 {
-            self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
+          //  self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
         }else {
             self.view.endEditing(true)
             if self.isForLogin == nil {
@@ -97,6 +97,7 @@ class VerificationViewController: UIViewController {
             }else {
                 verifyLogin()
             }
+            self.txtOtP = ""
         }
     }
     

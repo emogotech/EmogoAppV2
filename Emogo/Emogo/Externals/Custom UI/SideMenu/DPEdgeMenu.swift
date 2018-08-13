@@ -66,9 +66,11 @@ public enum DPBoundaryMenuPosition: Int {
   case right
   case bottom
 }
+let kAnimationDelay: Double = 0.0
+let kDefaultAnimationDuration: CGFloat = 0.0
 
-let kAnimationDelay: Double = 0.08
-let kDefaultAnimationDuration: CGFloat = 1.3
+//let kAnimationDelay: Double = 0.08
+//let kDefaultAnimationDuration: CGFloat = 1.3
 
 public class DPEdgeMenu: UIView {
 

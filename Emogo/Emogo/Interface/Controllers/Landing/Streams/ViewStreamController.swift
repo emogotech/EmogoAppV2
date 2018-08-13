@@ -81,9 +81,16 @@ class ViewStreamController: UIViewController {
        
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 8.0
-        layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(20, 8, 8, 8)
+        
+//        layout.minimumColumnSpacing = 8.0
+//        layout.minimumInteritemSpacing = 8.0
+//        layout.sectionInset = UIEdgeInsetsMake(20, 8, 8, 8)
+        
+        
+          layout.minimumColumnSpacing = 13.0
+          layout.minimumInteritemSpacing = 13.0
+          layout.sectionInset = UIEdgeInsetsMake(12, 13, 0, 13)
+        
        // layout.isEnableReorder = true
         layout.columnCount = 2
         
@@ -112,9 +119,9 @@ class ViewStreamController: UIViewController {
      longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.viewStreamCollectionView.addGestureRecognizer(longPressGesture)
         configureStrechyHeader()
-        if self.objStream != nil {
-            self.prepareIBOutlets()
-        }
+//        if self.objStream != nil {
+//            self.prepareIBOutlets()
+//        }
 
     }
     
@@ -123,16 +130,22 @@ class ViewStreamController: UIViewController {
         self.stretchyHeader = nibViews?.first as! StreamViewHeader
         self.viewStreamCollectionView.addSubview(self.stretchyHeader)
         stretchyHeader.streamDelegate = self
-        stretchyHeader.maximumContentHeight = 306
-        stretchyHeader.swipeToDown(height: 300)
+        stretchyHeader.viewViewCount.isHidden = true
+        stretchyHeader.viewLike.isHidden = true
+        
+        stretchyHeader.maximumContentHeight = 250
+        stretchyHeader.swipeToDown(height: 250)
         
         if self.objStream?.likeStatus == "0" {
+            self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         }else{
+            self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             
         }
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
+        stretchyHeader.btnLikeOtherUser.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnLike.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
          stretchyHeader.btnLikeList.addTarget(self, action: #selector(self.showLikeList(sender:)), for: .touchUpInside)
         self.viewStreamCollectionView.bringSubview(toFront: stretchyHeader)
@@ -147,7 +160,8 @@ class ViewStreamController: UIViewController {
         
         var arrayButtons = [UIBarButtonItem]()
         
-        let imgP = UIImage(named: "back_icon_stream")
+      //  let imgP = UIImage(named: "back_icon_stream")
+        let imgP = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         
@@ -158,6 +172,10 @@ class ViewStreamController: UIViewController {
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             stretchyHeader.viewLike.isHidden = false
             stretchyHeader.viewViewCount.isHidden = false
+            stretchyHeader.btnLike.isHidden = false
+            stretchyHeader.kConstantLikeWidth.constant = 37.0
+            stretchyHeader.btnLikeOtherUser.isHidden = true
+            
             let imgEdit = UIImage(named: "view_nav_edit_icon")
             let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
             arrayButtons.append(rightEditBarButtonItem)
@@ -198,15 +216,20 @@ class ViewStreamController: UIViewController {
             
             stretchyHeader.viewLike.isHidden = true
             stretchyHeader.viewViewCount.isHidden = true
+            stretchyHeader.btnLike.isHidden = true
+            stretchyHeader.kConstantLikeWidth.constant = 0.0
+            stretchyHeader.btnLikeOtherUser.isHidden = false
 
         }
       
         self.navigationItem.rightBarButtonItems = arrayButtons
         
         if self.objStream?.likeStatus == "0" {
+            self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
             
         }else{
+            self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
         }
         self.stretchyHeader.btnLike.isHidden = false
@@ -255,10 +278,10 @@ class ViewStreamController: UIViewController {
             
         }
         if isRefresh {
-            if self.objStream != nil {
-                ContentList.sharedInstance.objStream = nil
-                return
-            }
+//            if self.objStream != nil {
+//                ContentList.sharedInstance.objStream = nil
+//                return
+//            }
             if ContentList.sharedInstance.objStream != nil {
                 self.isUpload  = true
                 for v in 0...StreamList.sharedInstance.arrayViewStream.count-1 {
@@ -459,9 +482,12 @@ class ViewStreamController: UIViewController {
         if self.objStream != nil {
             if  kDefault?.bool(forKey: kHapticFeedback) == true {
                 self.stretchyHeader.btnLike.isHaptic = true
+                self.stretchyHeader.btnLikeOtherUser.isHaptic = true
                 self.stretchyHeader.btnLike.hapticType = .impact(.light)
+                self.stretchyHeader.btnLikeOtherUser.hapticType = .impact(.light)
             }else{
                 self.stretchyHeader.btnLike.isHaptic = false
+                self.stretchyHeader.btnLikeOtherUser.isHaptic = false
             }
             
             
@@ -513,12 +539,29 @@ class ViewStreamController: UIViewController {
     }
     
     @objc func btnPlayAction(sender:UIButton){
-        if (self.objStream?.canAddContent)! {
-            let index = sender.tag - 1
-            self.openFullViewForVideo(index: index)
-        }else {
-            self.openFullViewForVideo(index: sender.tag)
+        ContentList.sharedInstance.arrayContent.removeAll()
+        let profileContent = ContentDAO(contentData: [:])
+        profileContent.coverImage = objStream?.coverImage
+        profileContent.isUploaded = true
+        profileContent.type = .image
+        profileContent.fileName = "SreamCover"
+        profileContent.name = objStream?.title
+        profileContent.description = objStream?.description
+        var array = objStream?.arrayContent.filter { $0.isAdd == false }
+        array?.insert(profileContent, at: 0)
+        ContentList.sharedInstance.arrayContent = array
+        ContentList.sharedInstance.objStream = objStream?.streamID
+        let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+        objPreview.isViewCount = "TRUE"
+        objPreview.delegate = self
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        objPreview.currentIndex = indexPath.row + 1
+        let nav = UINavigationController(rootViewController: objPreview)
+        if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
+            nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+            nav.cc_swipeBackDisabled = true
         }
+        self.present(nav, animated: true, completion: nil)
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -614,11 +657,13 @@ class ViewStreamController: UIViewController {
                     if let totalLike = self.objStream?.totalLiked.trim(){
                         self.stretchyHeader.lblLikeCount.text = "\(totalLike)"
                     }
+                    self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                 }else{
                     if let totalLike = self.objStream?.totalLiked.trim(){
                         self.stretchyHeader.lblLikeCount.text = "\(totalLike)"
                     }
+                    self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                 }
             
@@ -632,6 +677,9 @@ class ViewStreamController: UIViewController {
    
     
     func next() {
+     //   self.objStream = nil
+       // isDidLoad = true
+        self.viewStreamCollectionView.isHidden = true
         self.lblNoContent.isHidden = true
         self.btnAddContent.isHidden = true
         stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
@@ -644,8 +692,13 @@ class ViewStreamController: UIViewController {
     }
     
     func previous() {
+      //  isDidLoad = true
+
+        self.viewStreamCollectionView.isHidden = true
+     //   self.objStream = nil
         self.btnAddContent.isHidden = true
         stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
+        
         self.lblNoContent.isHidden = true
         if currentIndex != 0{
             currentIndex =  currentIndex - 1
@@ -781,8 +834,9 @@ class ViewStreamController: UIViewController {
             if  self.isDidLoad == true {
                 HUDManager.sharedInstance.hideHUD()
             }
-             //self.isDidLoad = true
+             self.isDidLoad = true
             self.lblNoContent.isHidden = true
+            self.viewStreamCollectionView.isHidden = false
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
                 self.viewStreamCollectionView.reloadData()
@@ -1041,7 +1095,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
         
-        cell.layer.cornerRadius = 5.0
+        cell.layer.cornerRadius = 11.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
         let content = objStream?.arrayContent[indexPath.row]
@@ -1144,7 +1198,27 @@ extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewCont
     
     
     func showPreview() {
-        self.openFullView(index: nil)
+        ContentList.sharedInstance.arrayContent.removeAll()
+        let profileContent = ContentDAO(contentData: [:])
+        profileContent.coverImage = objStream?.coverImage
+        profileContent.isUploaded = true
+        profileContent.type = .image
+        profileContent.fileName = "SreamCover"
+        profileContent.name = objStream?.title
+        profileContent.description = objStream?.description
+        var array = objStream?.arrayContent.filter { $0.isAdd == false }
+        array?.insert(profileContent, at: 0)
+        ContentList.sharedInstance.arrayContent = array
+        ContentList.sharedInstance.objStream = objStream?.streamID
+        let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+        objPreview.isViewCount = "TRUE"
+        objPreview.delegate = self
+        objPreview.currentIndex = 0
+        let nav = UINavigationController(rootViewController: objPreview)
+        nav.cc_setZoomTransition(originalView: stretchyHeader.imgCover)
+        nav.cc_swipeBackDisabled = true
+        self.present(nav, animated: true, completion: nil)
+       // self.openFullView(index: nil)
     }
    
         

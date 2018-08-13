@@ -102,6 +102,7 @@
                                                                     <subviews>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="brigtness-effect-icon" translatesAutoresizingMaskIntoConstraints="NO" id="cMb-A2-Qlx">
                                                                             <rect key="frame" x="13" y="0.0" width="35" height="35"/>
+                                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" constant="35" id="dG0-tv-hth"/>
                                                                                 <constraint firstAttribute="height" constant="35" id="hCp-SG-Nwq"/>
@@ -129,6 +130,7 @@
                                                                 </view>
                                                             </subviews>
                                                         </view>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="bK5-8d-Vkp" firstAttribute="top" secondItem="Ahm-V4-wsV" secondAttribute="top" id="MgO-Xi-dwR"/>
                                                             <constraint firstAttribute="trailing" secondItem="bK5-8d-Vkp" secondAttribute="trailing" id="QfJ-vZ-nkw"/>
@@ -147,7 +149,7 @@
                                                 </connections>
                                             </collectionView>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="y46-uh-OmQ"/>
                                         </constraints>

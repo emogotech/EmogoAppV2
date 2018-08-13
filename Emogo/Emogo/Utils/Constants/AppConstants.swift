@@ -385,7 +385,7 @@ let kAlert_ValidWebsite                                         = "Please Enter 
 let kAlert_ProfileStreamAdded                                  = "Your Profile Emogo is Updated."
 let kAlert_Select_Stream_For_Assign                                                  = "Please select a emogo to assign as Profile Emogo."
 let kAlert_UnFollow_a_User            = "Do you really want to unfollow %@?"
-
+let kAlertAddCollab = "Before proceeding, please select atleast one collaborator."
 
 struct screenSize  {
     static let Width         = UIScreen.main.bounds.size.width
