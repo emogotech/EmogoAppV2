@@ -88,6 +88,7 @@ class CreateStreamController: UITableViewController {
     
     private func prepareLayouts(){
           tfEmogoTitle.becomeFirstResponder()
+       
 //        tfEmogoTitle.inputAccessoryView = toolBar
 //        textFieldNext.inputAccessoryView = toolBar
 //        tfDescription.inputAccessoryView = toolBar
@@ -478,29 +479,40 @@ extension CreateStreamController :UITextViewDelegate, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == tfEmogoTitle {
-            tfEmogoTitle.resignFirstResponder()
             tfDescription.becomeFirstResponder()
         }else{
-            tfEmogoTitle.resignFirstResponder()
+            textField.resignFirstResponder()
         }
+      
         return true
     }
     
     func textViewDidChange(_ textView: UITextView) {
         
      //   self.lblCaption.isHidden = textView.text.isEmpty
-        
+        self.tfDescription.text = self.tfDescription.text.trim().replacingOccurrences(of: "\n", with: "")
         if self.tfDescription.contentSize.height > contentRowHeight {
-            contentRowHeight = self.tfDescription.contentSize.height
-            self.tableView.beginUpdates()
-            self.tableView.endUpdates()
+            print(self.tfDescription.text)
+            if self.tfDescription.text.trim().replacingOccurrences(of: "\n", with: "").isEmpty {
+                contentRowHeight = 30
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
+            }else {
+                contentRowHeight = self.tfDescription.contentSize.height
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
+            }
+          
         }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
-            //tfDescription.resignFirstResponder()
-            textFieldNext.becomeFirstResponder()
+            tfDescription.resignFirstResponder()
+            if tfDescription.text.isEmpty {
+                tfDescription.placeholder = "Caption (Optional)"
+            }
+            //textFieldNext.becomeFirstResponder()
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250
@@ -511,7 +523,7 @@ extension CreateStreamController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     
-        if indexPath.row == 1 {
+        if indexPath.row == 2 {
             return contentRowHeight  + 10
         }else {
             return super.tableView(tableView, heightForRowAt: indexPath)

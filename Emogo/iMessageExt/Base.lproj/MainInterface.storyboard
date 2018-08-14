@@ -573,7 +573,7 @@
                                                                     <rect key="frame" x="0.0" y="50" width="100" height="50"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qOW-HV-33l">
-                                                                            <rect key="frame" x="9.5" y="13" width="81.5" height="23"/>
+                                                                            <rect key="frame" x="10" y="13" width="81.5" height="23"/>
                                                                             <subviews>
                                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="view-icon" translatesAutoresizingMaskIntoConstraints="NO" id="aPH-xC-ov1">
                                                                                     <rect key="frame" x="3" y="3" width="21" height="17"/>
@@ -3491,7 +3491,7 @@ Cg
                                         </connections>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="30x-6s-hx4">
-                                        <rect key="frame" x="121" y="157" width="134" height="21"/>
+                                        <rect key="frame" x="120.5" y="157" width="134" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="jnN-NN-CRI"/>
                                         </constraints>
@@ -3744,7 +3744,7 @@ Cg
                                 </cells>
                             </collectionView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Content available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="Fq8-wN-wjI">
-                                <rect key="frame" x="107" y="499" width="161" height="21"/>
+                                <rect key="frame" x="107.5" y="499" width="161" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="2OJ-ti-Uht"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="161" id="Xnv-L2-8Vw"/>
@@ -5071,7 +5071,7 @@ AAAAAAAAAAAAIPk
         <image name="text me my code btn" width="215" height="50"/>
         <image name="user_name_image" width="132" height="132"/>
         <image name="view-icon" width="21" height="17"/>
-        <image name="view_nav_edit_icon" width="32" height="32"/>
+        <image name="view_nav_edit_icon" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="TKa-OT-FPQ"/>

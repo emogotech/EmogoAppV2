@@ -26,7 +26,8 @@ class LikeListCell: UITableViewCell {
         if like.isFollowing {
             self.btnFollow.setImage(#imageLiteral(resourceName: "following_button"), for: .normal)
         }else {
-            self.btnFollow.setImage(#imageLiteral(resourceName: "follow_button"), for: .normal)
+            let img = UIImage(named: "follow_btn")
+            self.btnFollow.setImage(img, for: .normal)
         }
         self.lblUserName.text = like.name
         self.lblDisplayname.text = like.userDisplayName

@@ -44,6 +44,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         // Initialization code
         imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.showPreview))
+        tap.numberOfTapsRequired = 1
+        self.imgCover.isExclusiveTouch = true
         self.imgCover.addGestureRecognizer(tap)
         
         self.expansionMode = .topOnly
@@ -177,6 +179,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @objc func showPreview(){
         
         if self.streamDelegate != nil {
+            self.imgCover.isUserInteractionEnabled = false
             streamDelegate?.showPreview()
         }
     }

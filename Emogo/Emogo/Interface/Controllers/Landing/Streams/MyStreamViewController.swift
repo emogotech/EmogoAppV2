@@ -31,6 +31,7 @@ class MyStreamViewController: UIViewController {
     var stretchyHeader: MyStreamHeaderView!
     var lastSelectedIndex:IndexPath?
     var arraySelected = [StreamDAO]()
+    var layout = CHTCollectionViewWaterfallLayout()
     
     // MARK: - Override Functions
 
@@ -65,12 +66,14 @@ class MyStreamViewController: UIViewController {
         self.myStreamCollectionView.dataSource  = self
         self.myStreamCollectionView.delegate = self
         
-        let layout = CHTCollectionViewWaterfallLayout()
+       
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 8.0
-        layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(20, 8, 0, 8)
+
+        layout.minimumColumnSpacing = 13.0
+        layout.minimumInteritemSpacing = 13.0
+        layout.sectionInset = UIEdgeInsetsMake(12, 13, 0, 13)
         layout.columnCount = 2
+        
         // Collection view attributes
         self.myStreamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         self.myStreamCollectionView.alwaysBounceVertical = true
@@ -117,11 +120,11 @@ class MyStreamViewController: UIViewController {
             self.updateStuffList(index: index)
         }
         
-        self.stretchyHeader.segmentControl.selectionIndicatorHeight = 1.0
+        self.stretchyHeader.segmentControl.selectionIndicatorHeight = 3.0
         self.stretchyHeader.segmentControl.backgroundColor =  UIColor(r: 245, g: 245, b: 245)
-        self.stretchyHeader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
-        self.stretchyHeader.segmentControl.selectionIndicatorColor = UIColor(r: 155, g: 155, b: 155)
-        self.stretchyHeader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        self.stretchyHeader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 15.0)]
+        self.stretchyHeader.segmentControl.selectionIndicatorColor = UIColor(r: 0, g: 122, b: 255)
+        self.stretchyHeader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 15.0)]
         self.stretchyHeader.segmentControl.selectionStyle = .textWidthStripe
         self.stretchyHeader.segmentControl.selectedSegmentIndex = 0
         self.stretchyHeader.segmentControl.selectionIndicatorLocation = .down
@@ -141,11 +144,13 @@ class MyStreamViewController: UIViewController {
     func updateStuffList(index:Int){
         switch index {
         case 0:
+            layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
             self.selectedType = StreamType.Emogo
             self.getMyStreams(type: .start, filter: .Emogo)
             
             break
         case 1:
+            layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
             self.getColabStreams(type: .start)
             break
             
@@ -251,10 +256,10 @@ class MyStreamViewController: UIViewController {
                 self.myStreamCollectionView.es.stopLoadingMore()
             }
             
-          //  self.lblNoResult.isHidden = true
+            self.lblNoResult.isHidden = true
             self.btnDone.isUserInteractionEnabled = true
             if StreamList.sharedInstance.arrayMyStream.count == 1 {
-             //   self.lblNoResult.isHidden = false
+              //  self.lblNoResult.isHidden = false
                 self.btnDone.isUserInteractionEnabled = false
                 }
             self.currentType = refreshType
@@ -454,7 +459,7 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
         let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
         cell.prepareLayout(stream: stream)
       //  cell.imgCover.setImageWithURL(strImage: self.objContent.coverImage, placeholder: kPlaceholderImage)
-        cell.layer.cornerRadius = 5.0
+        cell.layer.cornerRadius = 11.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
         

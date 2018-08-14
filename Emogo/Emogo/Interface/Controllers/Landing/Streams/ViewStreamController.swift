@@ -92,7 +92,7 @@ class ViewStreamController: UIViewController {
           layout.sectionInset = UIEdgeInsetsMake(12, 13, 0, 13)
         
        // layout.isEnableReorder = true
-        layout.columnCount = 2
+          layout.columnCount = 2
         
         // Collection view attributes
         self.viewStreamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -490,12 +490,17 @@ class ViewStreamController: UIViewController {
                 self.stretchyHeader.btnLikeOtherUser.isHaptic = false
             }
             
-            
             if self.objStream?.likeStatus == "0" {
                 self.objStream?.likeStatus = "1"
+                self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             }else{
                 self.objStream?.likeStatus = "0"
+                self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
             }
+          
+            
             self.likeDislikeStream()
         }
         
@@ -644,11 +649,8 @@ class ViewStreamController: UIViewController {
       //MARK:- Like Dislike Stream
     
     func likeDislikeStream(){
-       
         
-        HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: (self.objStream?.streamID)!, status: (self.objStream?.likeStatus)!) {(count,status, results,error) in
-             HUDManager.sharedInstance.hideHUD()
            if (error?.isEmpty)! {
              self.objStream?.likeStatus = status
              self.objStream?.totalLiked = count
@@ -1198,6 +1200,9 @@ extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewCont
     
     
     func showPreview() {
+        if self.objStream == nil{
+       
+        }else{
         ContentList.sharedInstance.arrayContent.removeAll()
         let profileContent = ContentDAO(contentData: [:])
         profileContent.coverImage = objStream?.coverImage
@@ -1208,8 +1213,10 @@ extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewCont
         profileContent.description = objStream?.description
         var array = objStream?.arrayContent.filter { $0.isAdd == false }
         array?.insert(profileContent, at: 0)
+       
         ContentList.sharedInstance.arrayContent = array
         ContentList.sharedInstance.objStream = objStream?.streamID
+       
         let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
         objPreview.isViewCount = "TRUE"
         objPreview.delegate = self
@@ -1217,7 +1224,11 @@ extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewCont
         let nav = UINavigationController(rootViewController: objPreview)
         nav.cc_setZoomTransition(originalView: stretchyHeader.imgCover)
         nav.cc_swipeBackDisabled = true
-        self.present(nav, animated: true, completion: nil)
+        self.present(nav, animated: true) {
+            self.stretchyHeader.imgCover.isUserInteractionEnabled = true
+         }
+        }
+       // self.present(nav, animated: true, completion: nil)
        // self.openFullView(index: nil)
     }
    

@@ -38,7 +38,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         self.expansionMode = .topOnly
         // You can change the minimum and maximum content heights
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
-        self.maximumContentHeight = 306
+        self.maximumContentHeight = 250
         self.stretchDelegate  = self
       
     }
@@ -185,7 +185,8 @@ class MyStreamCell:UICollectionViewCell {
             self.imgCover.setImageWithURL(strImage:stream.CoverImage.trim(), placeholder: kPlaceholderImage)
             self.lblTitle.text = stream.Title.trim()
             self.lblTitle.minimumScaleFactor = 1.0
-            self.lblName.text =  "by \(stream.Author.trim())"
+           // self.lblName.text =  "by \(stream.Author.trim())"
+            self.lblName.text =  "\(stream.Author.trim())"
             self.lblName.minimumScaleFactor = 1.0
             self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
             if stream.isSelected {

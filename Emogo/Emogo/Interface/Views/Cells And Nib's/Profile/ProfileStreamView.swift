@@ -11,6 +11,7 @@ protocol ProfileStreamViewDelegate {
     func actionForCover(imageView:UIImageView)
 }
 class ProfileStreamView: UICollectionReusableView {
+    
     @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!

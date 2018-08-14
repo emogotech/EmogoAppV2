@@ -65,9 +65,9 @@ class MyStuffViewController: UIViewController {
         
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 8.0
-        layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(8, 8, 0, 8)
+        layout.minimumColumnSpacing = 13.0
+        layout.minimumInteritemSpacing = 13.0
+        layout.sectionInset = UIEdgeInsetsMake(12, 13, 0, 13)
         layout.columnCount = 2
         // Collection view attributes
         self.stuffCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -504,7 +504,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         let content = array[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStuffCell, for: indexPath) as! MyStuffCell
         // for Add Content
-        cell.layer.cornerRadius = 5.0
+        cell.layer.cornerRadius = 11.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
         cell.btnPlay.tag = indexPath.row

@@ -1311,6 +1311,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 return CGSize(width: itemWidth, height: 100)
             }else {
                 let itemWidth = collectionView.bounds.size.width/2.0
+                
                 return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
             }
         }else {
@@ -1321,6 +1322,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             else {
                 let itemWidth = collectionView.bounds.size.width/2.0
                 return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
+                
             }
         }
         

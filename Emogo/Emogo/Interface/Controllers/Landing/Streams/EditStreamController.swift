@@ -579,7 +579,7 @@ extension EditStreamController :UITextViewDelegate, UITextFieldDelegate {
             tfEmogoTitle.resignFirstResponder()
             tfDescription.becomeFirstResponder()
         }else{
-             tfEmogoTitle.resignFirstResponder()
+             textField.resignFirstResponder()
         }
         return true
     }

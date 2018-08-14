@@ -10,6 +10,7 @@ import UIKit
 import GiphyCoreSDK
 
 class GiphyViewController: UIViewController {
+    
     @IBOutlet weak var giphyCollectionView: UICollectionView!
     @IBOutlet weak var txtSearch: UITextField!
     @IBOutlet weak var btnNext: UIButton!
@@ -37,9 +38,9 @@ class GiphyViewController: UIViewController {
         ContentList.sharedInstance.arrayContent.removeAll()
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 8.0
-        layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        layout.minimumColumnSpacing = 13.0
+        layout.minimumInteritemSpacing = 13.0
+        layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
         layout.columnCount = 2
         // Collection view attributes
         self.giphyCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -223,7 +224,7 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
         // Create the cell and return the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_GiphyCell, for: indexPath) as! GiphyCell
         // for Add Content
-        cell.layer.cornerRadius = 5.0
+        cell.layer.cornerRadius = 11.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
         let content = self.arrayGiphy[indexPath.row]

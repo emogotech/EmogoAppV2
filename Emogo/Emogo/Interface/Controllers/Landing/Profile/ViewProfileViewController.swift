@@ -68,6 +68,9 @@ class ViewProfileViewController: UIViewController {
         self.title = objPeople.fullName
         self.lblNOResult.text = kAlert_No_Stream_found
         self.configureNavigationWithTitle()
+        self.imgLink.image =  #imageLiteral(resourceName: "link_icon")
+        self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
+        self.imgSingleView.image = #imageLiteral(resourceName: "location_icon")
         let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
         let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
         self.navigationItem.rightBarButtonItems = [btnFlag,btnShare]
@@ -79,10 +82,15 @@ class ViewProfileViewController: UIViewController {
         self.viewSingle.isHidden = true
         
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 8.0
-        layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(4, 8, 0, 8)
-        layout.columnCount = 2
+//        layout.minimumColumnSpacing = 8.0
+//        layout.minimumInteritemSpacing = 8.0
+//        layout.sectionInset = UIEdgeInsetsMake(4, 8, 0, 8)
+//        layout.columnCount = 2
+        
+            layout.minimumColumnSpacing = 13.0
+            layout.minimumInteritemSpacing = 13.0
+            layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
+            layout.columnCount = 2
         
         // Collection view attributes
         self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -106,9 +114,9 @@ class ViewProfileViewController: UIViewController {
             print("Selected index \(index) (via block)")
             self.updateSegment(selected: index)
         }
-        segmentMain.selectionIndicatorHeight = 1.0
+        segmentMain.selectionIndicatorHeight = 3.0
         segmentMain.backgroundColor = UIColor.white
-        segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
+        segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
        // segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         segmentMain.selectionIndicatorColor = kCardViewBordorColor
         segmentMain.selectionStyle = .textWidthStripe
@@ -146,9 +154,9 @@ class ViewProfileViewController: UIViewController {
                         self.objPeople = people
                         self.lblFullName.text =  people.displayName.trim().capitalized
                         self.lblFullName.minimumScaleFactor = 1.0
-                        self.lblWebsite.text = people.website.trim()
+                       // self.lblWebsite.text = people.website.trim()
                         self.lblWebsite.minimumScaleFactor = 1.0
-                        self.lblLocation.text = people.location.trim()
+                      //  self.lblLocation.text = people.location.trim()
                         self.lblLocation.minimumScaleFactor = 1.0
                         self.lblBio.text = people.biography.trim()
                         //self.lblBirthday.text = people.birthday.trim()
@@ -156,6 +164,18 @@ class ViewProfileViewController: UIViewController {
                         self.lblBio.minimumScaleFactor = 1.0
                         self.imgLink.isHidden = false
                         self.imgLocation.isHidden = false
+                        self.imgSingleView.isHidden = true
+                        
+                        if people.website.trim().count > 20 {
+                            self.lblWebsite.text = "\(people.website.trim(count: 20))...".trim()
+                        }else{
+                            self.lblWebsite.text = people.website.trim()
+                        }
+                        if people.location.trim().count > 15 {
+                            self.lblLocation.text = "\(people.location.trim(count: 15))...".trim()
+                        }else{
+                            self.lblLocation.text = people.location.trim()
+                        }
                         
                         self.kHeightlblBio.constant = 42
                         self.kHeightViewLocation.constant = 32
@@ -171,20 +191,7 @@ class ViewProfileViewController: UIViewController {
                         if people.website.trim().isEmpty {
                             self.imgLink.isHidden = true
                         }
-                        if people.location.isEmpty && !people.website.trim().isEmpty {
-                            self.lblLocation.text = people.website.trim()
-                            self.lblWebsite.isHidden = true
-                            self.imgLink.isHidden = true
-                            self.imgLocation.isHidden = false
-                            self.imgLocation.image = self.imgLink.image
-                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
-                            self.lblLocation.addGestureRecognizer(tap)
-                            self.lblLocation.isUserInteractionEnabled = true
-                        }else {
-                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
-                            self.lblWebsite.addGestureRecognizer(tap)
-                            self.lblWebsite.isUserInteractionEnabled = true
-                        }
+                   
                         //   self.imgUser.borderWidth = 1.0
                         // self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
                         //print(people.userImage.trim())
@@ -206,8 +213,8 @@ class ViewProfileViewController: UIViewController {
 //                        }
                         if !people.displayName.trim().isEmpty && !people.location.trim().isEmpty && !people.website.trim().isEmpty && people.biography.trim().isEmpty  {
                             
-                            self.lblLocation.text = people.location.trim()
-                            self.lblWebsite.text =  people.website.trim()
+//                            self.lblLocation.text = people.location.trim()
+//                            self.lblWebsite.text =  people.website.trim()
                             self.lblLocation.isHidden = false
                             self.lblWebsite.isHidden =  false
                             self.imgLink.isHidden = false
@@ -222,8 +229,12 @@ class ViewProfileViewController: UIViewController {
                         }
                             
                         else if !people.displayName.trim().isEmpty &&  people.location.trim().isEmpty && !people.website.trim().isEmpty && people.biography.trim().isEmpty {
-                         
-                            self.lblSingleView.text = people.website.trim()
+                            if people.website.trim().count > 20 {
+                                self.lblSingleView.text = people.website.trim()
+                            }else{
+                                self.lblSingleView.text = people.website.trim()
+                            }
+                           // self.lblSingleView.text = people.website.trim()
                             self.viewSingle.isHidden = false
                             self.lblWebsite.isHidden = true
                             self.lblLocation.isHidden = true
@@ -239,8 +250,15 @@ class ViewProfileViewController: UIViewController {
                             self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
                         }
                         else if people.displayName.trim().isEmpty &&  people.location.trim().isEmpty && !people.website.trim().isEmpty && !people.biography.trim().isEmpty {
+                            
+                            if people.website.trim().count > 20 {
+                                self.lblSingleView.text = people.website.trim()
+                            }else{
+                                self.lblSingleView.text = people.website.trim()
+                            }
                            // self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
-                            self.lblSingleView.text = people.website.trim()
+                          //  self.lblSingleView.text = people.website.trim()
+                            
                             self.viewSingle.isHidden = false
                             self.lblWebsite.isHidden = true
                             self.lblBio.isHidden = false
@@ -255,8 +273,14 @@ class ViewProfileViewController: UIViewController {
                         }
                             
                         else if !people.location.trim().isEmpty && people.website.trim().isEmpty && people.biography.trim().isEmpty && people.displayName.trim().isEmpty  {
+                            
+                            if people.location.trim().count > 15 {
+                                self.lblSingleView.text = people.location.trim()
+                            }else{
+                                self.lblSingleView.text = people.location.trim()
+                            }
                            // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
-                            self.lblSingleView.text = people.location.trim()
+                           // self.lblSingleView.text = people.location.trim()
                             self.viewSingle.isHidden = false
                             self.lblWebsite.isHidden = true
                             self.lblBio.isHidden = true
@@ -270,7 +294,12 @@ class ViewProfileViewController: UIViewController {
                         }
                         else if !people.location.trim().isEmpty && people.website.trim().isEmpty && !people.biography.trim().isEmpty && !people.displayName.trim().isEmpty {
                            // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
-                            self.lblSingleView.text = people.location.trim()
+                            //self.lblSingleView.text = people.location.trim()
+                            if people.location.trim().count > 15 {
+                                self.lblSingleView.text = people.location.trim()
+                            }else{
+                                self.lblSingleView.text = people.location.trim()
+                            }
                             self.viewSingle.isHidden = false
                             self.lblWebsite.isHidden = true
                             self.lblBio.isHidden = false
@@ -329,6 +358,20 @@ class ViewProfileViewController: UIViewController {
                             self.kHeightlblName.constant = 0
                             self.kHeaderHeight.constant = 223
                             self.topConstraintRange = (CGFloat(0)..<CGFloat(223))
+                            
+                        }else if !people.location.trim().isEmpty && !people.displayName.trim().isEmpty && people.biography.trim().isEmpty && people.website.trim().isEmpty {
+                            
+                            self.viewSingle.isHidden = false
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = true
+                            self.lblLocation.isHidden = true
+                            self.imgSingleView.image = self.imgLocation.image
+                            if people.location.trim().count > 15 {
+                                self.lblSingleView.text = people.location.trim()
+                            }else{
+                                self.lblSingleView.text = people.location.trim()
+                            }
+                            
                         }
                             
                         else{
@@ -470,6 +513,7 @@ class ViewProfileViewController: UIViewController {
     private func updateSegment(selected:Int){
         switch selected {
         case 0:
+            layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
             if kDefault?.bool(forKey: kHapticFeedback) == true{
                 Haptic.impact(.light).generate()
             }else{
@@ -483,6 +527,7 @@ class ViewProfileViewController: UIViewController {
             self.segmentMain.selectedSegmentIndex = 0
             break
         case 1:
+            layout.sectionInset = UIEdgeInsetsMake(3, 13, 0, 13)
             if kDefault?.bool(forKey: kHapticFeedback) == true{
                 Haptic.impact(.light).generate()
             }else{
@@ -753,7 +798,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
-        cell.layer.cornerRadius = 5.0
+        cell.layer.cornerRadius = 11.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
         var stream:StreamDAO?
@@ -832,7 +877,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
                 headerView.prepareLayout(stream: self.objPeople.stream! , isCurrentUser: false, image: self.objPeople.userImage)
                 headerView.delegate = self
             }
-            headerView.imgCover.layer.cornerRadius = 5.0
+            headerView.imgCover.layer.cornerRadius = 11.0
             headerView.imgCover.layer.masksToBounds = true
             headerView.imgUser.isHidden = true
             

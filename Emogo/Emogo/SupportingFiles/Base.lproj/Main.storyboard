@@ -455,26 +455,26 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2p-I2-dOf">
                                                             <rect key="frame" x="0.0" y="65" width="145" height="45"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xRr-ZG-QeL">
-                                                                    <rect key="frame" x="5" y="0.0" width="0.0" height="21"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xRr-ZG-QeL">
+                                                                    <rect key="frame" x="13" y="0.0" width="0.0" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="7pL-jt-ERF"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="13"/>
+                                                                    <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jK9-xo-Skp">
-                                                                    <rect key="frame" x="5" y="21" width="100" height="21"/>
+                                                                    <rect key="frame" x="13" y="21" width="91" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="dz1-P9-ofh"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
+                                                                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="select_active_icon" translatesAutoresizingMaskIntoConstraints="NO" id="sZh-dW-p96">
-                                                                    <rect key="frame" x="119" y="21" width="20" height="20"/>
+                                                                    <rect key="frame" x="118" y="15" width="20" height="20"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="20" id="fdS-Gk-qp5"/>
                                                                         <constraint firstAttribute="height" constant="20" id="ocw-4z-o0u"/>
@@ -483,20 +483,20 @@
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
-                                                                <constraint firstItem="xRr-ZG-QeL" firstAttribute="leading" secondItem="s2p-I2-dOf" secondAttribute="leading" constant="5" id="Ojg-LT-7Om"/>
+                                                                <constraint firstItem="xRr-ZG-QeL" firstAttribute="leading" secondItem="s2p-I2-dOf" secondAttribute="leading" constant="13" id="Ojg-LT-7Om"/>
                                                                 <constraint firstAttribute="bottom" secondItem="jK9-xo-Skp" secondAttribute="bottom" constant="3" id="PBl-aK-3ef"/>
                                                                 <constraint firstItem="jK9-xo-Skp" firstAttribute="top" secondItem="xRr-ZG-QeL" secondAttribute="bottom" id="XvN-fZ-pbg"/>
                                                                 <constraint firstItem="sZh-dW-p96" firstAttribute="leading" secondItem="jK9-xo-Skp" secondAttribute="trailing" constant="14" id="g3c-DX-eL7"/>
                                                                 <constraint firstItem="xRr-ZG-QeL" firstAttribute="top" secondItem="s2p-I2-dOf" secondAttribute="top" id="hT9-jz-ogz"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xRr-ZG-QeL" secondAttribute="trailing" id="hcS-UQ-oDk"/>
-                                                                <constraint firstItem="jK9-xo-Skp" firstAttribute="leading" secondItem="s2p-I2-dOf" secondAttribute="leading" constant="5" id="raw-gy-BaW"/>
+                                                                <constraint firstItem="jK9-xo-Skp" firstAttribute="leading" secondItem="s2p-I2-dOf" secondAttribute="leading" constant="13" id="raw-gy-BaW"/>
                                                                 <constraint firstAttribute="height" constant="45" id="vqn-H7-6fi"/>
-                                                                <constraint firstAttribute="bottom" secondItem="sZh-dW-p96" secondAttribute="bottom" constant="4" id="ydF-ey-hQ4"/>
-                                                                <constraint firstAttribute="trailing" secondItem="sZh-dW-p96" secondAttribute="trailing" constant="6" id="zkW-d9-0vG"/>
+                                                                <constraint firstAttribute="bottom" secondItem="sZh-dW-p96" secondAttribute="bottom" constant="10" id="ydF-ey-hQ4"/>
+                                                                <constraint firstAttribute="trailing" secondItem="sZh-dW-p96" secondAttribute="trailing" constant="7" id="zkW-d9-0vG"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="pdA-6A-vGg" firstAttribute="top" secondItem="bhH-ub-8ED" secondAttribute="top" id="F6x-QU-6Er"/>
                                                         <constraint firstAttribute="bottom" secondItem="s2p-I2-dOf" secondAttribute="bottom" id="Gil-Ct-XLw"/>
@@ -515,11 +515,12 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream_icon_add" translatesAutoresizingMaskIntoConstraints="NO" id="X9Y-zA-5Li">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X9Y-zA-5Li">
                                                     <rect key="frame" x="0.0" y="0.0" width="145" height="110"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="X9Y-zA-5Li" firstAttribute="top" secondItem="BR1-8l-QIH" secondAttribute="top" id="MFn-RW-Efl"/>
                                             <constraint firstItem="bhH-ub-8ED" firstAttribute="top" secondItem="BR1-8l-QIH" secondAttribute="top" id="PPd-Ae-RKM"/>
@@ -2031,7 +2032,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="13"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="done"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="vNh-Vo-efA" id="HG1-Tz-msK"/>
                                                     </connections>
@@ -4717,7 +4718,7 @@
                                                         </label>
                                                     </subviews>
                                                 </view>
-                                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstItem="GNA-HU-8eL" firstAttribute="top" secondItem="kED-pC-FhV" secondAttribute="bottom" constant="3" id="DRB-13-nao"/>
                                                     <constraint firstItem="GNA-HU-8eL" firstAttribute="leading" secondItem="W56-iu-jjx" secondAttribute="leading" id="IoL-Pp-6u7"/>
@@ -6067,7 +6068,6 @@ A
         <image name="search_icon_iphone-1" width="13" height="13"/>
         <image name="select_active_icon" width="23" height="23"/>
         <image name="select_icon" width="23" height="19"/>
-        <image name="stream_icon_add" width="147" height="147"/>
         <image name="text me my code btn" width="215" height="50"/>
         <image name="username_image" width="133" height="133"/>
         <image name="video-icon" width="30" height="25"/>

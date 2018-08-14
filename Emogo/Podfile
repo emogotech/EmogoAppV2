@@ -43,9 +43,6 @@ target 'Emogo' do
     pod "RichEditorView"
     pod 'DropDown'
 
-    
-    
-    
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target

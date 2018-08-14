@@ -17,7 +17,7 @@ class LinkViewController: UIViewController {
     @IBOutlet weak var linkCollectionView: UICollectionView!
     
     // MARK: - Variables
-    
+    let layout = CHTCollectionViewWaterfallLayout()
     
     // MARK: - Override Functions
     
@@ -45,9 +45,15 @@ class LinkViewController: UIViewController {
         self.linkCollectionView.delegate = self
         linkCollectionView.alwaysBounceVertical = true
         ContentList.sharedInstance.arrayContent.removeAll()
-
-        self.getMyLinks(type:.start)
         
+        layout.minimumColumnSpacing = 13.0
+        layout.minimumInteritemSpacing = 13.0
+        layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
+        layout.columnCount = 2
+        
+        self.getMyLinks(type:.start)
+        self.linkCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.linkCollectionView.collectionViewLayout = layout
         // Load More
         self.configureLoadMoreAndRefresh()
     }
@@ -266,7 +272,7 @@ extension LinkViewController:UITextFieldDelegate {
 }
 
 
-extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -278,7 +284,7 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
         let content = ContentList.sharedInstance.arrayLink[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_LinkListCell, for: indexPath) as! LinkListCell
         // for Add Content
-        cell.layer.cornerRadius = 5.0
+        cell.layer.cornerRadius = 11.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
         cell.prepareLayout(content:content)
@@ -287,9 +293,12 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-        return CGSize(width: itemWidth, height: itemWidth)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+//        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
+//        return CGSize(width: itemWidth, height: itemWidth )
+        let itemWidth = collectionView.bounds.size.width/2.0
+        return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
+    
     }
     
     

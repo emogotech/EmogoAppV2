@@ -44,7 +44,7 @@ class ContentViewController: UIViewController {
     var delegate:ContentViewControllerDelegate?
     var isProfile:String?
     var lightBoxIndex:Int! = 0
-   var arrayLightBoxIndexes = [Int]()
+    var arrayLightBoxIndexes = [Int]()
     var isFromNotesEdit:Bool! = false
     var viewIndex:Int?
 
@@ -119,10 +119,11 @@ class ContentViewController: UIViewController {
         btnOther.isHidden = false
         self.btnLikeDislike.isHidden = false
         btnOther.isHidden = false
+        print(ContentList.sharedInstance.arrayContent)
         if currentIndex != nil {
-            let isIndexValid = ContentList.sharedInstance.arrayContent.indices.contains(currentIndex)
+            let isIndexValid = ContentList.sharedInstance.arrayContent.indices.contains(self.currentIndex)
             if isIndexValid {
-                seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
+                seletedImage = ContentList.sharedInstance.arrayContent[self.currentIndex]
             }
         }
         
@@ -245,9 +246,12 @@ class ContentViewController: UIViewController {
         
         if seletedImage.likeStatus == 0{
             seletedImage.likeStatus = 1
+            self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
         }else{
             seletedImage.likeStatus = 0
+            self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         }
+        
         self.likeDislikeContent()
     }
     
@@ -647,9 +651,9 @@ class ContentViewController: UIViewController {
     //MARK:- Like Dislike Content
     
     func likeDislikeContent(){
-        HUDManager.sharedInstance.showHUD()
+    //    HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForLikeDislikeContent(content: self.seletedImage.contentID, status:self.seletedImage.likeStatus)  { (isSuccess, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
+         //   HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 if self.seletedImage.likeStatus == 0 {
                   self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
@@ -657,7 +661,7 @@ class ContentViewController: UIViewController {
                     self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                 }
             }else{
-                HUDManager.sharedInstance.hideHUD()
+             //   HUDManager.sharedInstance.hideHUD()
                 self.showToast(strMSG: errorMsg!)
             }
         }
