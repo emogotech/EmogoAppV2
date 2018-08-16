@@ -18,7 +18,120 @@ class ContentViewCell: UICollectionViewCell {
     @IBOutlet weak var kLinkIogoWidth: NSLayoutConstraint!
     @IBOutlet weak var linkLogo: UIImageView!
 
-
+    
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        DispatchQueue.main.async {
+            self.roundCorners([.topLeft, .topRight], radius: 10)
+        }
+    }
+    
+    func prepareView(seletedImage:ContentDAO) {
+        
+        self.imgCover.image = nil
+        self.imgCover.animatedImage = nil
+        if !seletedImage.color.trim().isEmpty {
+            imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
+        }
+        self.lblTitleImage.text = ""
+        self.lblImageDescription.text = ""
+        
+        if  seletedImage.imgPreview != nil {
+            self.imgCover.image = seletedImage.imgPreview
+            
+        }
+        if seletedImage.type == .link {
+            linkLogo.isHidden = false
+            kLinkIogoWidth.constant = 30.0
+            
+        }else {
+            kLinkIogoWidth.constant = 0.0
+            linkLogo.isHidden = true
+        }
+        
+        if !seletedImage.color.trim().isEmpty {
+            imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
+        }
+        
+        self.btnPlayIcon.isHidden = true
+        if seletedImage.imgPreview != nil {
+            self.imgCover.image = seletedImage.imgPreview
+        }else {
+            if seletedImage.type == .image || seletedImage.type == .notes {
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImage) { (img) in
+                    if let img = img {
+                        img.getColors({ (colors) in
+                            self.imgCover.backgroundColor = colors.primary
+                        })
+                    }
+                }
+                
+                //self.btnPlayIcon.isHidden = true
+            }else   if seletedImage.type == .video {
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
+                    if let img = img {
+                        img.getColors({ (colors) in
+                            self.imgCover.backgroundColor = colors.primary
+                        })
+                    }
+                }
+                self.btnPlayIcon.isHidden = false
+            }else if seletedImage.type == .link {
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
+                    if let img = img {
+                        img.getColors({ (colors) in
+                            self.imgCover.backgroundColor = colors.primary
+                        })
+                    }
+                }
+            }else {
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
+                    if let img = img {
+                        img.getColors({ (colors) in
+                            self.imgCover.backgroundColor = colors.primary
+                        })
+                    }
+                }
+            }
+        }
+        navigationImageView =  self.imgCover
+        self.imgCover.contentMode = .scaleAspectFit
+        // disable Like Unlike and save icon
+        self.lblTitleImage.addShadow()
+        self.lblImageDescription.addShadow()
+        self.lblImageDescription.isHidden = false
+        self.lblTitleImage.isHidden = false
+        if seletedImage.name.trim().isEmpty {
+            self.lblTitleImage.isHidden = true
+        }else {
+            self.lblTitleImage.text = seletedImage.name.trim()
+        }
+        if seletedImage.description.trim().isEmpty {
+            self.lblImageDescription.isHidden = true
+        }else {
+            self.lblImageDescription.numberOfLines = 0
+            
+            self.lblImageDescription.text = seletedImage.description.trim()
+            let lines = self.lblImageDescription.numberOfVisibleLines
+            if lines > 2 {
+                //  self.btnMore.isHidden = false
+            }else {
+                // self.btnMore.isHidden = true
+            }
+            self.lblImageDescription.numberOfLines = 0
+        }
+        
+        if seletedImage.type == .notes {
+            self.lblImageDescription.text = ""
+        }
+    }
+    
+    
+    
+    
+/*
     lazy var effectView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .dark)
         let view = UIVisualEffectView(effect: effect)
@@ -72,11 +185,15 @@ class ContentViewCell: UICollectionViewCell {
         
         self.imgCover.image = nil
         self.imgCover.animatedImage = nil
-    
+        if !seletedImage.color.trim().isEmpty {
+            imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
+        }
         self.lblTitleImage.text = ""
         self.lblImageDescription.text = ""
+        
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
+            
         }
         if seletedImage.type == .link {
             linkLogo.isHidden = false
@@ -162,7 +279,7 @@ class ContentViewCell: UICollectionViewCell {
         }
         backgroundImageView.layer.add(CATransition(), forKey: kCATransitionFade)
     }
-    
+    */
 }
 
 

@@ -180,6 +180,7 @@ class MyStreamCell:UICollectionViewCell {
             
         }else {
             self.imgCover.contentMode = .scaleAspectFill
+          
             imgAdd.isHidden = true
             cardView.isHidden = false
             self.imgCover.setImageWithURL(strImage:stream.CoverImage.trim(), placeholder: kPlaceholderImage)

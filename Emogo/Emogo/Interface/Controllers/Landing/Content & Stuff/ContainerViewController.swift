@@ -358,6 +358,7 @@ class ContainerViewController: UIViewController {
                             let  con = ContentDAO(contentData: [:])
                             con.type = .video
                             con.imgPreview = image
+                            con.color = image.getColors().primary.toHexString
                             con.fileUrl = url
                             con.isUploaded = false
                             if let file =  obj?.value(forKey: "filename"){
@@ -374,6 +375,7 @@ class ContainerViewController: UIViewController {
                         let con = ContentDAO(contentData: [:])
                         con.type = .image
                         con.imgPreview = image
+                        con.color = image?.getColors().primary.toHexString
                         con.isUploaded = false
                         if let file =  obj?.value(forKey: "filename"){
                             con.fileName = file as! String

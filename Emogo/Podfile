@@ -15,8 +15,6 @@ def common_pods_for_target
     pod "SkeletonView"
     pod "BPCircleActivityIndicator"
 
-
-
 end
 
 
@@ -42,6 +40,7 @@ target 'Emogo' do
     pod "Haptica"
     pod "RichEditorView"
     pod 'DropDown'
+pod 'SwiftMessages'
 
     target 'EmogoTests' do
         inherit! :search_paths

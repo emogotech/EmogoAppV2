@@ -45,6 +45,9 @@ PODS:
   - SkeletonView (1.1.1)
   - SnapKit (4.0.0)
   - SwiftLinkPreview (2.1.0)
+  - SwiftMessages (4.1.4):
+    - SwiftMessages/App (= 4.1.4)
+  - SwiftMessages/App (4.1.4)
   - SwiftyCam (2.6.0)
   - SwiftyJSON (3.1.4)
   - XLActionController (4.0.0):
@@ -73,43 +76,10 @@ DEPENDENCIES:
   - SDWebImage
   - SkeletonView
   - SwiftLinkPreview
+  - SwiftMessages
   - SwiftyCam
   - SwiftyJSON
   - XLActionController
-
-SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - Alamofire
-    - AWSCore
-    - AWSS3
-    - BMPlayer
-    - BPCircleActivityIndicator
-    - Branch
-    - Cache
-    - Crashlytics
-    - CropViewController
-    - DropDown
-    - Fabric
-    - GiphyCoreSDK
-    - GSKStretchyHeaderView
-    - Haptica
-    - Hue
-    - iCarousel
-    - Imaginary
-    - IQKeyboardManagerSwift
-    - Lightbox
-    - NVActivityIndicatorView
-    - Presentr
-    - PryntTrimmerView
-    - RichEditorView
-    - RS3DSegmentedControl
-    - SDWebImage
-    - SkeletonView
-    - SnapKit
-    - SwiftLinkPreview
-    - SwiftyCam
-    - SwiftyJSON
-    - XLActionController
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -140,10 +110,11 @@ SPEC CHECKSUMS:
   SkeletonView: 041053e904504e7d8db83df166e599be75659fe1
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftLinkPreview: 2366319a604683d14292c0b59d70a619c1e3d461
+  SwiftMessages: 2c33fdee8b8f38dfc7e1036684456b505891da8c
   SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: 6f405416e14d88586873ec28ada8a3772fa0f4c9
+PODFILE CHECKSUM: aec83f86843b4cb8b6a458c67d10398af200bee5
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.4.0

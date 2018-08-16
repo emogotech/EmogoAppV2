@@ -20,7 +20,7 @@
 //  [self sd_setImageWithURL:url];
 }
 
--(void)setImageUrl:(NSURL *)url completion:(void (^)(FLAnimatedImage *))callback{
+-(void)setImageUrl:(NSURL *)url completion:(void (^)(UIImage *))callback{
     [self sd_setImageWithURL:url completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
        callback(image);
     }];

@@ -41,7 +41,7 @@ class ViewStreamController: UIViewController {
 
     var indexForMinimum = 0
     var isFromCreateStream:String?
-   
+    var objNavigation:UINavigationController? = nil
 
     
     override func viewDidLoad() {
@@ -132,18 +132,17 @@ class ViewStreamController: UIViewController {
         stretchyHeader.streamDelegate = self
         stretchyHeader.viewViewCount.isHidden = true
         stretchyHeader.viewLike.isHidden = true
-        
+        stretchyHeader.btnLike.delegate = self
+        stretchyHeader.btnLikeOtherUser.delegate = self
         stretchyHeader.maximumContentHeight = 250
         stretchyHeader.swipeToDown(height: 250)
+        self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+        self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         
-        if self.objStream?.likeStatus == "0" {
-            self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-        }else{
-            self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-            
-        }
+        self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
+        self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
+        
+        
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
         stretchyHeader.btnLikeOtherUser.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnLike.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
@@ -221,16 +220,13 @@ class ViewStreamController: UIViewController {
             stretchyHeader.btnLikeOtherUser.isHidden = false
 
         }
-      
         self.navigationItem.rightBarButtonItems = arrayButtons
-        
         if self.objStream?.likeStatus == "0" {
-            self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-            
+            self.stretchyHeader.btnLikeOtherUser.isSelected = false
+            self.stretchyHeader.btnLike.isSelected = false
         }else{
-            self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+            self.stretchyHeader.btnLikeOtherUser.isSelected = true
+            self.stretchyHeader.btnLike.isSelected = true
         }
         self.stretchyHeader.btnLike.isHidden = false
 
@@ -477,7 +473,7 @@ class ViewStreamController: UIViewController {
        }
     }
     
-    @objc func likeStreamAction(sender:UIButton){
+    @objc func likeStreamAction(sender:FaveButton){
       // print("Like Action")
         if self.objStream != nil {
             if  kDefault?.bool(forKey: kHapticFeedback) == true {
@@ -489,15 +485,15 @@ class ViewStreamController: UIViewController {
                 self.stretchyHeader.btnLike.isHaptic = false
                 self.stretchyHeader.btnLikeOtherUser.isHaptic = false
             }
-            
+           // sender.isSelected = !sender.isSelected
             if self.objStream?.likeStatus == "0" {
                 self.objStream?.likeStatus = "1"
-                self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-                self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+             //   self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+              //  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             }else{
                 self.objStream?.likeStatus = "0"
-                self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-                self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+            //    self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .selected)
+             //   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .selected)
             }
           
             
@@ -561,12 +557,18 @@ class ViewStreamController: UIViewController {
         objPreview.delegate = self
         let indexPath = IndexPath(row: sender.tag, section: 0)
         objPreview.currentIndex = indexPath.row + 1
-        let nav = UINavigationController(rootViewController: objPreview)
-        if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
-            nav.cc_setZoomTransition(originalView: imageCell.imgCover)
-            nav.cc_swipeBackDisabled = true
+        objNavigation = UINavigationController(rootViewController: objPreview)
+        if let nav = objNavigation {
+            if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
+                
+                navigationImageView = imageCell.imgCover
+                nav.cc_setZoomTransition(originalView: navigationImageView!)
+                
+                nav.cc_swipeBackDisabled = true
+            }
+            self.present(nav, animated: true, completion: nil)
         }
-        self.present(nav, animated: true, completion: nil)
+       
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -659,14 +661,18 @@ class ViewStreamController: UIViewController {
                     if let totalLike = self.objStream?.totalLiked.trim(){
                         self.stretchyHeader.lblLikeCount.text = "\(totalLike)"
                     }
-                    self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-                   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+//                    self.stretchyHeader.btnLikeOtherUser.isSelected = false
+//                    self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+//                    self.stretchyHeader.btnLike.isSelected = false
+//                   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                 }else{
                     if let totalLike = self.objStream?.totalLiked.trim(){
                         self.stretchyHeader.lblLikeCount.text = "\(totalLike)"
                     }
-                    self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-                  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+//                    self.stretchyHeader.btnLike.isSelected = true
+//                    self.stretchyHeader.btnLikeOtherUser.isSelected = true
+//                    self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
+//                  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
                 }
             
             }else{
@@ -1021,6 +1027,7 @@ class ViewStreamController: UIViewController {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
+                    camera.color = obj.fullResolutionImage?.getColors().primary.toHexString
                     self.updateData(content: camera)
                     group.leave()
                 }
@@ -1029,6 +1036,7 @@ class ViewStreamController: UIViewController {
                     }, completionBlock: { (image) in
                         if let img = image {
                             camera.imgPreview = img
+                            camera.color = img.getColors().primary.toHexString
                             self.updateData(content: camera)
                         }
                         group.leave()
@@ -1045,6 +1053,7 @@ class ViewStreamController: UIViewController {
                     obj.phAsset?.getOrigianlImage(handler: { (img, _) in
                         if img != nil {
                             camera.imgPreview = img
+                            camera.color = img?.getColors().primary.toHexString
                         }else {
                             camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
                         }
@@ -1137,12 +1146,18 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         objPreview.isViewCount = "TRUE"
         objPreview.delegate = self
         objPreview.currentIndex = indexPath.row + 1
-        let nav = UINavigationController(rootViewController: objPreview)
-        if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentCell {
-            nav.cc_setZoomTransition(originalView: imageCell.imgCover)
-            nav.cc_swipeBackDisabled = true
+        objNavigation = UINavigationController(rootViewController: objPreview)
+        if let nav = objNavigation {
+            if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
+                
+                navigationImageView = imageCell.imgCover
+                nav.cc_setZoomTransition(originalView: navigationImageView!)
+                
+                nav.cc_swipeBackDisabled = true
+            }
+            self.present(nav, animated: true, completion: nil)
         }
-        self.present(nav, animated: true, completion: nil)
+        
     }
     
    
@@ -1197,7 +1212,18 @@ extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewCont
             self.stretchyHeader.lblViewCount.text = count
         }
     }
-    
+    func currentPreview(content:ContentDAO,index:IndexPath){
+        if let _ = objNavigation {
+            
+            if let tempIndex =  self.objStream?.arrayContent.index(where: {$0.contentID.trim() == content.contentID.trim()}) {
+                let indexPath = IndexPath(row: tempIndex, section: 0)
+                if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
+                    navigationImageView = imageCell.imgCover
+                    objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
+                }
+            }
+        }
+    }
     
     func showPreview() {
         if self.objStream == nil{
@@ -1221,12 +1247,17 @@ extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewCont
         objPreview.isViewCount = "TRUE"
         objPreview.delegate = self
         objPreview.currentIndex = 0
-        let nav = UINavigationController(rootViewController: objPreview)
-        nav.cc_setZoomTransition(originalView: stretchyHeader.imgCover)
-        nav.cc_swipeBackDisabled = true
-        self.present(nav, animated: true) {
-            self.stretchyHeader.imgCover.isUserInteractionEnabled = true
-         }
+            
+            
+      objNavigation = UINavigationController(rootViewController: objPreview)
+            if let nav = objNavigation {
+                navigationImageView = stretchyHeader.imgCover
+                nav.cc_setZoomTransition(originalView: navigationImageView!)
+                nav.cc_swipeBackDisabled = true
+                self.present(nav, animated: true) {
+                    self.stretchyHeader.imgCover.isUserInteractionEnabled = true
+                }
+            }
         }
        // self.present(nav, animated: true, completion: nil)
        // self.openFullView(index: nil)
@@ -1246,6 +1277,20 @@ extension ViewStreamController :AddCollabViewControllerDelegate{
     }
 }
 
+extension ViewStreamController :FaveButtonDelegate{
+    
+    func faveButton(_ faveButton: FaveButton, didSelected selected: Bool) {
+//        if selected {
+//            self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
+//            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
+//        }else {
+//            self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+//            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+//        }
+    }
+    
+   
+}
 //extension CHTCollectionViewWaterfallLayout {
 //
 //    override func invalidationContext(forInteractivelyMovingItems targetIndexPaths: [IndexPath], withTargetPosition targetPosition: CGPoint, previousIndexPaths: [IndexPath], previousPosition: CGPoint) -> UICollectionViewLayoutInvalidationContext {

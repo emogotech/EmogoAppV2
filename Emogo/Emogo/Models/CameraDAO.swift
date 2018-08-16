@@ -178,6 +178,9 @@ class ContentDAO{
         if let obj  = contentData["url"] {
             self.coverImage = obj as! String
         }
+        if let obj  = contentData["color"] {
+            self.color = obj as! String
+        }
         if let obj  = contentData["id"] {
             self.contentID = "\(obj)"
         }

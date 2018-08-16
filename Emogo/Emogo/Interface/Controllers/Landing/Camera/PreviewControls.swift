@@ -46,6 +46,7 @@ extension PreviewController {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
+                    camera.color = obj.fullResolutionImage?.getColors().primary.toHexString
                     self.updateData(content: camera)
                     group.leave()
                 }else {
@@ -55,6 +56,7 @@ extension PreviewController {
                     }, completionBlock: { (image) in
                         if let img = image {
                             camera.imgPreview = img
+                            camera.color = img.getColors().primary.toHexString
                             self.updateData(content: camera)
                         }
                         group.leave()
@@ -72,6 +74,7 @@ extension PreviewController {
                     obj.phAsset?.getOrigianlImage(handler: { (img, _) in
                         if img != nil {
                             camera.imgPreview = img
+                            camera.color = img?.getColors().primary.toHexString
                         }else {
                             camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
                         }

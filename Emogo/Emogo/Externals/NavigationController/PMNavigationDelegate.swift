@@ -10,13 +10,17 @@ import Foundation
 import UIKit
 
 extension StreamListViewController: ZoomTransitionSourceDelegate {
+  
+    var animationDuration: TimeInterval {
+        return 0.4
+    }
     
     func transitionSourceImageView() -> UIImageView {
         return selectedImageView ?? UIImageView()
     }
     
     func transitionSourceImageViewFrame(forward: Bool) -> CGRect {
-        guard let selectedImageView = selectedImageView else { return CGRect.zero }
+        guard let selectedImageView = selectedImageView else { return .zero }
         return selectedImageView.convert(selectedImageView.bounds, to: view)
     }
     
@@ -35,12 +39,16 @@ extension StreamListViewController: ZoomTransitionSourceDelegate {
 
 extension ProfileViewController: ZoomTransitionSourceDelegate {
     
+    var animationDuration: TimeInterval {
+        return 0.4
+    }
+    
     func transitionSourceImageView() -> UIImageView {
         return selectedImageView ?? UIImageView()
     }
     
     func transitionSourceImageViewFrame(forward: Bool) -> CGRect {
-        guard let selectedImageView = selectedImageView else { return CGRect.zero }
+        guard let selectedImageView = selectedImageView else { return .zero }
         return selectedImageView.convert(selectedImageView.bounds, to: view)
     }
     
@@ -59,12 +67,16 @@ extension ProfileViewController: ZoomTransitionSourceDelegate {
 
 extension ViewProfileViewController: ZoomTransitionSourceDelegate {
     
+    var animationDuration: TimeInterval {
+        return 0.4
+    }
+    
     func transitionSourceImageView() -> UIImageView {
         return selectedImageView ?? UIImageView()
     }
     
     func transitionSourceImageViewFrame(forward: Bool) -> CGRect {
-        guard let selectedImageView = selectedImageView else { return CGRect.zero }
+        guard let selectedImageView = selectedImageView else { return .zero }
         return selectedImageView.convert(selectedImageView.bounds, to: view)
     }
     
@@ -86,19 +98,14 @@ extension ViewStreamController: ZoomTransitionDestinationDelegate {
     
     func transitionDestinationImageViewFrame(forward: Bool) -> CGRect {
         if forward {
-           // return .zero
-
-//            if self.stretchyHeader != nil {
-//             return stretchyHeader.imgCover.bounds
-//            }
-            
-            return CGRect(x: 0, y: 0, width: kFrame.size.width, height: 306)
+            let x: CGFloat = 0
+            let y: CGFloat = topLayoutGuide.length
+            let width: CGFloat = view.frame.width
+            let height: CGFloat = width * 2 / 3
+            return CGRect(x: x, y: y, width: width, height: height)
         } else {
-            if self.stretchyHeader != nil {
-                return stretchyHeader.imgCover.convert(stretchyHeader.imgCover.bounds, to: view)
-            }
+            return  stretchyHeader.imgCover.convert( stretchyHeader.imgCover.bounds, to: view)
         }
-        return .zero
     }
     
     func transitionDestinationWillBegin() {

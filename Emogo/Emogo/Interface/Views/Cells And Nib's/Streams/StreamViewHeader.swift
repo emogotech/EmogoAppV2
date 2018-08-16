@@ -19,7 +19,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var imgCover: UIImageView!
-    @IBOutlet weak var btnLike: UIButton!
+    @IBOutlet weak var btnLike:FaveButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
     @IBOutlet weak var viewLike: UIView!
     @IBOutlet weak var viewViewCount: UIView!
@@ -33,7 +33,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var lblColabLabel: UILabel!
     @IBOutlet weak var kConstantImageWidth: NSLayoutConstraint!
     @IBOutlet weak var kConstantLikeWidth: NSLayoutConstraint!
-    @IBOutlet weak var btnLikeOtherUser: UIButton!
+    @IBOutlet weak var btnLikeOtherUser:FaveButton!
 
     var streamDelegate:StreamViewHeaderDelegate?
     var objColab:StreamViewDAO!

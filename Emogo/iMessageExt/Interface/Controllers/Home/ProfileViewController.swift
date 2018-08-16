@@ -236,7 +236,7 @@ class ProfileViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.imgLink.image = #imageLiteral(resourceName: "link icon")
-                self.imgLocation.image = #imageLiteral(resourceName: "location icon")
+                self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
                 self.lblLocation.isHidden = false
                 self.lblWebsite.isHidden = false
                 self.lblFollowers.isHidden = true

@@ -2578,7 +2578,7 @@ Cg
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ZW-8J-QaO">
                                         <rect key="frame" x="8" y="174" width="359" height="32"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location icon" translatesAutoresizingMaskIntoConstraints="NO" id="bks-0x-1Qz">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location_icon" translatesAutoresizingMaskIntoConstraints="NO" id="bks-0x-1Qz">
                                                 <rect key="frame" x="1" y="8" width="15" height="15"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="15" id="iW0-QD-ErM"/>
@@ -3225,7 +3225,7 @@ Cg
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gIq-37-DaP">
                                         <rect key="frame" x="85" y="216" width="210" height="32"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location icon" translatesAutoresizingMaskIntoConstraints="NO" id="xSE-uw-zeC">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location_icon" translatesAutoresizingMaskIntoConstraints="NO" id="xSE-uw-zeC">
                                                 <rect key="frame" x="1" y="8" width="15" height="15"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="15" id="GCU-uC-61z"/>
@@ -3273,7 +3273,7 @@ Cg
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XjG-a4-4GH">
                                         <rect key="frame" x="82" y="216" width="210" height="32"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location icon" translatesAutoresizingMaskIntoConstraints="NO" id="4wC-Hk-uQw">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location_icon" translatesAutoresizingMaskIntoConstraints="NO" id="4wC-Hk-uQw">
                                                 <rect key="frame" x="62" y="8" width="15" height="15"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="15" id="8Tu-4l-cvt"/>
@@ -5045,7 +5045,7 @@ AAAAAAAAAAAAIPk
         <image name="imsg_logo_open_icon" width="166" height="31"/>
         <image name="let's go btn" width="215" height="50"/>
         <image name="link icon" width="15" height="15"/>
-        <image name="location icon" width="15" height="15"/>
+        <image name="location_icon" width="9" height="13"/>
         <image name="lock_icon" width="8" height="10"/>
         <image name="messages_icon" width="43" height="37"/>
         <image name="mobilenumber_image" width="133" height="133"/>

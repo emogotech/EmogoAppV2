@@ -16,7 +16,7 @@ class MyStuffCell: UICollectionViewCell {
     @IBOutlet weak var imgSelect: UIImageView!
     @IBOutlet weak var btnSelect: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
-   
+
 
     func prepareLayout(content:ContentDAO?){
         guard let content = content  else {
@@ -33,8 +33,9 @@ class MyStuffCell: UICollectionViewCell {
         self.btnPlay.isHidden = true
 
         imgCover.contentMode = .scaleAspectFill
-       
-        
+        if !content.color.trim().isEmpty {
+            imgCover.backgroundColor = UIColor(hex: content.color.trim())
+        }
         if content.type == .image {
             self.imgCover.setForAnimatedImage(strImage: content.coverImage) { (_) in
                 self.viewContent.isHidden = (self.lblTitle.text?.trim().isEmpty)!

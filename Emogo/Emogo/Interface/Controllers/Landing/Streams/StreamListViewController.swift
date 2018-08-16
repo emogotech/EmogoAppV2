@@ -14,6 +14,8 @@ import Presentr
 class StreamListViewController: UIViewController {
     
     @IBOutlet weak var segmentContainerView : UIView!
+    @IBOutlet weak var segmentSearch: HMSegmentedControl!
+    @IBOutlet weak var kHeightSegmentSearch: NSLayoutConstraint!
     
     // MARK: - UI Elements
     @IBOutlet weak var streamCollectionView: UICollectionView!
@@ -50,7 +52,7 @@ class StreamListViewController: UIViewController {
     var isTapStream : Bool = false
     var isUpdateList:Bool! = false
     var searchStr : String!
-    let kSearchHeight = 60.0
+    let kSearchHeight = 33.0
     let kButtonWidth = 65.0
     var isMyStreamPublic:Bool! = true
 
@@ -125,7 +127,9 @@ class StreamListViewController: UIViewController {
         prepareLayouts()
         txtSearch.delegate = self
         viewSearchButtons.isHidden = true
+        segmentSearch.isHidden = true
         kViewSearchButtonsHeight.constant = 0.0
+        self.kHeightSegmentSearch.constant = 0.0
         self.kSearchViewHieght.constant = 0.0
     
         kCancelWidthConstraint.constant = 0.0
@@ -379,9 +383,9 @@ class StreamListViewController: UIViewController {
         
         self.configureLoadMoreAndRefresh()
         
-        self.btnStreamSearch.isUserInteractionEnabled = false
-        self.btnPeopleSearch.isUserInteractionEnabled = true
-        
+//        self.btnStreamSearch.isUserInteractionEnabled = false
+//        self.btnPeopleSearch.isUserInteractionEnabled = true
+//        
     
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -399,10 +403,62 @@ class StreamListViewController: UIViewController {
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         self.viewMenu.addGestureRecognizer(swipeUp)
         
+        //SegmentControl
+        
+        // Segment control Configure
+        segmentSearch.sectionTitles = ["EMOGOS", "PEOPLE"]
+        
+        segmentSearch.indexChangeBlock = {(_ index: Int) -> Void in
+            
+            print("Selected index \(index) (via block)")
+            self.updateSegment(selected: index)
+        }
+        segmentSearch.selectionIndicatorHeight = 3.0
+        segmentSearch.backgroundColor = UIColor.white
+        segmentSearch.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
+        // segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        segmentSearch.selectionIndicatorColor =  kCardViewBordorColor
+        segmentSearch.selectionStyle = .textWidthStripe
+        segmentSearch.selectedSegmentIndex = 0
+        segmentSearch.selectionIndicatorLocation = .down
+        segmentSearch.shouldAnimateUserSelection = false
         
        // pulsator.numPulse = 3
       //  pulsator.backgroundColor = UIColor(red: 0, green: 0.46, blue: 0.76, alpha: 1).cgColor
 
+    }
+    
+    func updateSegment(selected:Int){
+      
+        switch selected {
+        case 0:
+            segmentSearch.selectedSegmentIndex = 0
+            self.isSearch = true
+            self.isTapPeople = false
+            self.isTapStream = true
+            self.streamCollectionView.isHidden = false
+            PeopleList.sharedInstance.requestURl = ""
+            StreamList.sharedInstance.requestURl = ""
+            collectionLayout.columnCount = 2
+            HUDManager.sharedInstance.showHUD()
+            self.getStreamGlobalSearch(searchText: searchStr, type: .start)
+            break
+        case 1:
+            segmentSearch.selectedSegmentIndex = 1
+            self.isSearch = true
+            self.isTapPeople = true
+            self.isTapStream = false
+            collectionLayout.columnCount = 3
+            self.streamCollectionView.isHidden = false
+            PeopleList.sharedInstance.requestURl = ""
+            StreamList.sharedInstance.requestURl = ""
+            HUDManager.sharedInstance.showHUD()
+            self.getPeopleGlobalSearch(searchText: searchStr, type: .start)
+            break
+       
+        default:
+            break
+        }
     }
     
     func configureStreamHeader() {
@@ -414,13 +470,16 @@ class StreamListViewController: UIViewController {
        // collectionLayout.sectionInset = UIEdgeInsetsMake(38, 8, 0, 8)
         self.segmentheader.frame = CGRect(x: self.segmentheader.frame.origin.x, y: self.segmentheader.frame.origin.y, width: kFrame.size.width, height: 33)
         self.segmentContainerView.addSubview(self.segmentheader)
+       
         
     }
     
     func updateCircleMenu(){
         print("index to change----->\(currentStreamType.hashValue)")
         self.segmentContainerView.isHidden = true
+     
         self.kSegmentHeight.constant = 0.0
+   
         if  currentStreamType == StreamType.Public ||  currentStreamType == StreamType.Private{
             self.menuView.currentIndex = 0
             if self.segmentheader != nil {
@@ -507,18 +566,46 @@ class StreamListViewController: UIViewController {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
-                let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-                ContentList.sharedInstance.arrayContent.removeAll()
-                ContentList.sharedInstance.objStream = nil
-                kContainerNav = ""
-                 self.addLeftTransitionView(subtype: kCATransitionFromRight)
-                self.navigationController?.pushViewController(obj, animated: false)
+                if isSearch {
+                    self.segmentSearch.selectedSegmentIndex = 1
+                    self.isSearch = true
+                    self.isTapPeople = true
+                    self.isTapStream = false
+                    collectionLayout.columnCount = 3
+                    self.streamCollectionView.isHidden = false
+                    PeopleList.sharedInstance.requestURl = ""
+                    StreamList.sharedInstance.requestURl = ""
+                    HUDManager.sharedInstance.showHUD()
+                    self.getPeopleGlobalSearch(searchText: searchStr, type: .start)
+                }else {
+                    let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+                    ContentList.sharedInstance.arrayContent.removeAll()
+                    ContentList.sharedInstance.objStream = nil
+                    kContainerNav = ""
+                    self.addLeftTransitionView(subtype: kCATransitionFromRight)
+                    self.navigationController?.pushViewController(obj, animated: false)
+                }
+               
                 break
             case UISwipeGestureRecognizerDirection.right:
-               self.isUpdateList = true
-                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                self.addLeftTransitionView(subtype: kCATransitionFromLeft)
-                self.navigationController?.pushViewController(obj, animated: false)
+                if isSearch {
+                    self.segmentSearch.selectedSegmentIndex = 0
+                    self.isSearch = true
+                    self.isTapPeople = false
+                    self.isTapStream = true
+                    self.streamCollectionView.isHidden = false
+                    PeopleList.sharedInstance.requestURl = ""
+                    StreamList.sharedInstance.requestURl = ""
+                    collectionLayout.columnCount = 2
+                    HUDManager.sharedInstance.showHUD()
+                    self.getStreamGlobalSearch(searchText: searchStr, type: .start)
+                }else {
+                    self.isUpdateList = true
+                    let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                    self.addLeftTransitionView(subtype: kCATransitionFromLeft)
+                    self.navigationController?.pushViewController(obj, animated: false)
+                }
+              
                 break
                 
             case UISwipeGestureRecognizerDirection.down:
@@ -735,6 +822,7 @@ class StreamListViewController: UIViewController {
                 self.streamCollectionView.reloadData()
                 self.kSearchViewHieght.constant = 0.0
                 self.kViewSearchButtonsHeight.constant = 0.0
+                self.kHeightSegmentSearch.constant = 0.0
                 self.kCancelWidthConstraint.constant = 0.0
                 self.viewSearchButtons.isHidden = true
                 self.updateCircleMenu()
@@ -758,7 +846,7 @@ class StreamListViewController: UIViewController {
             isMenuOpen = false
         }
     }
-    
+    /*
     @IBAction func btnActionStreamSearch(_ sender : UIButton){
         switch sender.tag {
             
@@ -794,7 +882,7 @@ class StreamListViewController: UIViewController {
             break
             
         }
-    }
+    }*/
     
     // MARK: - Class Methods
     func checkForListSize() {
@@ -1041,8 +1129,8 @@ class StreamListViewController: UIViewController {
                 self.streamCollectionView.reloadData()
             }
             
-            self.btnStreamSearch.isUserInteractionEnabled = true
-            self.btnPeopleSearch.isUserInteractionEnabled = false
+           // self.btnStreamSearch.isUserInteractionEnabled = true
+           // self.btnPeopleSearch.isUserInteractionEnabled = false
             
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -1130,8 +1218,8 @@ class StreamListViewController: UIViewController {
                 }
                 
                 self.viewMenu.isHidden = true
-                self.btnStreamSearch.isUserInteractionEnabled = false
-                self.btnPeopleSearch.isUserInteractionEnabled = true
+                //self.btnStreamSearch.isUserInteractionEnabled = false
+               // self.btnPeopleSearch.isUserInteractionEnabled = true
                 
                 if !(errorMsg?.isEmpty)! {
                     self.showToast(type: .success, strMSG: errorMsg!)
@@ -1500,11 +1588,14 @@ extension StreamListViewController : UITextFieldDelegate {
         self.kSegmentHeight.constant = 0.0
         kCancelWidthConstraint.constant = 65.0
         self.viewSearchButtons.isHidden = false
+        self.segmentSearch.isHidden = false
         self.kViewSearchButtonsHeight.constant = CGFloat(self.kSearchHeight)
+        self.kHeightSegmentSearch.constant = 33.0
         collectionLayout.columnCount = 2
+        self.segmentSearch.selectedSegmentIndex = 0
         HUDManager.sharedInstance.showHUD()
-        self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_inactive"), for: .normal)
-        self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_active"), for: .normal)
+//        self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_inactive"), for: .normal)
+//        self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_active"), for: .normal)
         isSearch = true
         isTapPeople = false
         isTapStream = true

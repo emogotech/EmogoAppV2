@@ -47,7 +47,9 @@ class StreamContentCell: UICollectionViewCell {
               self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
             if content.type == .image {
                 self.btnPlay.isHidden = true
-
+                if !content.color.trim().isEmpty {
+                    imgCover.backgroundColor = UIColor(hex: content.color.trim())
+                }
                 self.imgCover.setImageWithURL(strImage: content.coverImage.trim()) { (result) in
                     if result! {
                         self.viewContent.isHidden = (self.lblName.text?.trim().isEmpty)!

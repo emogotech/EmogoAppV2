@@ -243,14 +243,14 @@ extension AlertViewController {
         guard let fontPath = bundle.path(forResource: name, ofType: "ttf"),
             let data = try? Data(contentsOf: URL(fileURLWithPath: fontPath)),
             let provider = CGDataProvider(data: data as CFData),
-            let font = CGFont(provider)
+            let kfont = CGFont(provider)
         else {
             return false
         }
 
         var error: Unmanaged<CFError>?
 
-        let success = CTFontManagerRegisterGraphicsFont(font, &error)
+        let success = CTFontManagerRegisterGraphicsFont(kfont, &error)
         if !success {
             print("Error loading font. Font is possibly already registered.")
             return false

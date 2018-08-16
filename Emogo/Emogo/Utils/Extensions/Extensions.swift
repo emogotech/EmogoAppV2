@@ -14,7 +14,7 @@ import Photos
 import MobileCoreServices
 import SafariServices
 import Imaginary
-
+import SwiftMessages
 
 
 // MARK: - UIColor
@@ -22,6 +22,39 @@ extension UIColor {
     
     convenience init (r : CGFloat , g : CGFloat , b : CGFloat ) {
         self.init(red: r / 255.0 , green: g / 255.0 , blue: b / 255.0 , alpha: 1.0)
+    }
+    
+    var toHexString: String {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        self.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return String(
+            format: "%02X%02X%02X",
+            Int(r * 0xff),
+            Int(g * 0xff),
+            Int(b * 0xff)
+        )
+    }
+    
+    convenience init(hex: String) {
+        let scanner = Scanner(string: hex)
+        scanner.scanLocation = 0
+        
+        var rgbValue: UInt64 = 0
+        
+        scanner.scanHexInt64(&rgbValue)
+        
+        let r = (rgbValue & 0xff0000) >> 16
+        let g = (rgbValue & 0xff00) >> 8
+        let b = rgbValue & 0xff
+        
+        self.init(
+            red: CGFloat(r) / 0xff,
+            green: CGFloat(g) / 0xff,
+            blue: CGFloat(b) / 0xff, alpha: 1
+        )
     }
     
 }
@@ -534,7 +567,8 @@ extension UIViewController {
     
     func showToast(type:AlertType = .success,strMSG:String) {
         if strMSG != "request failed" {
-            
+            self.show(strMSG: strMSG)
+            /*
             AppDelegate.appDelegate.window?.makeToast(message: strMSG,
                                                       duration: TimeInterval(3.0),
                                                       position: .top,
@@ -543,6 +577,7 @@ extension UIViewController {
                                                       titleColor: UIColor.yellow,
                                                       messageColor: UIColor.white,
                                                       font: nil)
+ */
             
             //            self.view.makeToast(message: strMSG,
             //                                duration: TimeInterval(3.0),
@@ -555,7 +590,26 @@ extension UIViewController {
         }
         
     }
-    
+    private func show(strMSG:String) {
+        
+        let messageView: MessageView = MessageView.viewFromNib(layout: .cardView)
+        messageView.configureBackgroundView(width: 250)
+        messageView.configureContent(title: nil, body: strMSG, iconImage: #imageLiteral(resourceName: "alert_icon"), iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
+            SwiftMessages.hide()
+        }
+        messageView.iconImageView?.tintColor = UIColor.black
+        messageView.button?.isHidden = true
+        messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+        messageView.backgroundView.layer.cornerRadius = 10
+        var config = SwiftMessages.defaultConfig
+        config.presentationStyle = .bottom
+        
+        config.duration = .seconds(seconds: 3.0)
+        config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
+        config.presentationContext  = .window(windowLevel: UIWindowLevelStatusBar)
+        SwiftMessages.show(config: config, view: messageView)
+    }
+   
     func configureLandingNavigation(){
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.isNavigationBarHidden = false
@@ -1171,18 +1225,30 @@ extension UIImage {
 
 extension UITableViewController {
     func showToastOnWindow(strMSG:String) {
+        self.show(strMSG: strMSG)
+    }
+    
+    private func show(strMSG:String) {
         
-        AppDelegate.appDelegate.window?.makeToast(message: strMSG,
-                                                  duration: TimeInterval(3.0),
-                                                  position: .top,
-                                                  image: nil,
-                                                  backgroundColor: UIColor.black.withAlphaComponent(0.6),
-                                                  titleColor: UIColor.white,
-                                                  messageColor: UIColor.white,
-                                                  font: nil)
+        let messageView: MessageView = MessageView.viewFromNib(layout: .cardView)
+        messageView.configureBackgroundView(width: 250)
+        messageView.configureContent(title: nil, body: strMSG, iconImage: #imageLiteral(resourceName: "alert_icon"), iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
+            SwiftMessages.hide()
+        }
+        messageView.iconImageView?.tintColor = UIColor.black
+        messageView.button?.isHidden = true
+        messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+        messageView.backgroundView.layer.cornerRadius = 10
+        var config = SwiftMessages.defaultConfig
+        config.presentationStyle = .bottom
         
+        config.duration = .seconds(seconds: 3.0)
+        config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
+        config.presentationContext  = .window(windowLevel: UIWindowLevelStatusBar)
+        SwiftMessages.show(config: config, view: messageView)
     }
 }
+
 
 
 
@@ -1304,10 +1370,10 @@ extension FLAnimatedImageView {
 //    }
     
     
-    func setForAnimatedImage(strImage:String,handler : @escaping ((_ result : Bool?) -> Void)){
+    func setForAnimatedImage(strImage:String,handler : @escaping ((_ result : UIImage?) -> Void)){
         
         if strImage.isEmpty{
-            handler(true)
+            handler(nil)
             return
         }
         if let viewWithTag = self.viewWithTag(3289382) {
@@ -1324,11 +1390,7 @@ extension FLAnimatedImageView {
         
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
         self.setImageUrl(imgURL) { (image) in
-            if let _ = image {
-                handler(true)
-            }else {
-                handler(true)
-            }
+            handler(image)
             loader.isHidden = true
             loader.stopAnimating()
             loader.removeFromSuperview()

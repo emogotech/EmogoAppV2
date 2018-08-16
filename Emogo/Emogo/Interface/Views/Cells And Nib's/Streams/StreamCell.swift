@@ -34,6 +34,8 @@ class StreamCell: UICollectionViewCell {
      //   self.imgCover.backgroundColor = .black
         //kPlaceholderImage
         self.viewContent.isHidden = true
+      
+        
         self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim()) { (result) in
             if result! {
                 self.viewContent.isHidden = false

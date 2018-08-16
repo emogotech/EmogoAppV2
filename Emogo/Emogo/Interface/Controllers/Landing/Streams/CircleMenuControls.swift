@@ -215,6 +215,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
         self.segmentheader.segmentControl.selectedSegmentIndex = 0
         self.segmentheader.segmentControl.selectionIndicatorLocation = .down
         self.segmentheader.segmentControl.shouldAnimateUserSelection = false
+        self.segmentheader.segmentControl.isUserDraggable = true
         
     }
     
@@ -324,6 +325,7 @@ extension StreamListViewController {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
+                    camera.color = obj.fullResolutionImage?.getColors().primary.toHexString
                     self.updateData(content: camera)
                     group.leave()
                 }else {
@@ -333,6 +335,7 @@ extension StreamListViewController {
                     }, completionBlock: { (image) in
                         if let img = image {
                             camera.imgPreview = img
+                            camera.color = img.getColors().primary.toHexString
                             self.updateData(content: camera)
                         }
                         group.leave()
@@ -349,6 +352,7 @@ extension StreamListViewController {
                     obj.phAsset?.getOrigianlImage(handler: { (img, _) in
                         if img != nil {
                             camera.imgPreview = img
+                            camera.color = img?.getColors().primary.toHexString
                         }else {
                             camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
                         }

@@ -204,7 +204,8 @@ extension MyStuffPreViewController:UICollectionViewDelegate,UICollectionViewData
                 let nav = UINavigationController(rootViewController: objPreview)
                 let indexPath = IndexPath(row: indexPath.row, section: 0)
                 if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentCell {
-                    nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                    navigationImageView = imageCell.imgCover
+                    nav.cc_setZoomTransition(originalView: navigationImageView!)
                     nav.cc_swipeBackDisabled = true
                 }
             }

@@ -195,6 +195,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let camera = ContentDAO(contentData: [:])
                     camera.type = .image
                     camera.imgPreview = image
+                    camera.color = image?.getColors().primary.toHexString
                     camera.fileName = NSUUID().uuidString + ".png"
                     camera.height = Int((image?.size.height)!)
                     camera.width = Int((image?.size.width)!)

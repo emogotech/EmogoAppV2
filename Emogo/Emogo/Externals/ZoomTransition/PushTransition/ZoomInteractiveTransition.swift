@@ -9,10 +9,10 @@
 import UIKit
 
 public final class ZoomInteractiveTransition: UIPercentDrivenInteractiveTransition {
-
     weak var navigationController: UINavigationController?
-    fileprivate weak var viewController: UIViewController?
-    fileprivate var interactive = false
+    weak var zoomPopGestureRecognizer: UIScreenEdgePanGestureRecognizer?
+    private weak var viewController: UIViewController?
+    private var interactive: Bool = false
 
     var interactionController: ZoomInteractiveTransition? {
         return interactive ? self : nil
@@ -28,14 +28,21 @@ public final class ZoomInteractiveTransition: UIPercentDrivenInteractiveTransiti
             guard let view = recognizer.view else { return }
             let progress = recognizer.translation(in: view).x / view.bounds.width
             let velocity = recognizer.velocity(in: view).x
-            if progress > 0.33 || velocity > 1000.0 {
+            if progress > 0.33 || velocity > 1000 {
                 finish()
             } else {
                 if #available(iOS 10.0, *), let viewController = viewController {
                     navigationController?.viewControllers.append(viewController)
-                    update(0.0)
+                    update(0)
                 }
                 cancel()
+
+                if let viewController = viewController as? ZoomTransitionDestinationDelegate {
+                    viewController.transitionDestinationDidCancel()
+                }
+                if let viewController = navigationController?.viewControllers.last as? ZoomTransitionSourceDelegate {
+                    viewController.transitionSourceDidCancel()
+                }
             }
             interactive = false
         default:
@@ -48,16 +55,23 @@ public final class ZoomInteractiveTransition: UIPercentDrivenInteractiveTransiti
 // MARK: - UIGestureRecognizerDelegate
 
 extension ZoomInteractiveTransition: UIGestureRecognizerDelegate {
-
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        interactive = true
-        if #available(iOS 10.0, *) {
-         //   viewController = navigationController?.popViewController(animated: true)
+        let isDestinationController: Bool = navigationController?.viewControllers.last is ZoomTransitionDestinationDelegate
+        if gestureRecognizer === navigationController?.interactivePopGestureRecognizer {
+            return !isDestinationController
+        } else if gestureRecognizer === zoomPopGestureRecognizer {
+            if isDestinationController {
+                interactive = true
+                if #available(iOS 10.0, *) {
+                    viewController = navigationController?.popViewController(animated: true)
+                }
+                return true
+            }
         }
-        return true
+        return false
     }
 
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return gestureRecognizer is UIScreenEdgePanGestureRecognizer
+        return otherGestureRecognizer === navigationController?.interactivePopGestureRecognizer
     }
 }

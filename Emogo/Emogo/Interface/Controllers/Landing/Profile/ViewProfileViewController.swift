@@ -242,6 +242,7 @@ class ViewProfileViewController: UIViewController {
                             self.kHeightlblBio.constant = 0
                             self.imgLink.isHidden = true
                             self.imgLocation.isHidden = true
+                            self.imgSingleView.isHidden = false
                             self.imgSingleView.image = self.imgLink.image
                             let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
                             self.lblSingleView.addGestureRecognizer(tap)
@@ -264,6 +265,7 @@ class ViewProfileViewController: UIViewController {
                             self.lblBio.isHidden = false
                             self.imgLink.isHidden = true
                             self.imgLocation.isHidden = true
+                            self.imgSingleView.isHidden = false
                             self.imgSingleView.image = self.imgLink.image
                             let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
                             self.lblSingleView.addGestureRecognizer(tap)
@@ -288,7 +290,8 @@ class ViewProfileViewController: UIViewController {
                             self.imgLink.isHidden = true
                             self.imgLocation.isHidden = true
                             self.lblLocation.isHidden = true
-                            self.imgSingleView.image = self.imgLocation.image
+                            self.imgSingleView.isHidden = false
+                            self.imgSingleView.image = #imageLiteral(resourceName: "location_icon")
                             self.kHeaderHeight.constant = 211//178
                             self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
                         }
@@ -305,7 +308,8 @@ class ViewProfileViewController: UIViewController {
                             self.lblBio.isHidden = false
                             self.imgLink.isHidden = true
                             self.imgLocation.isHidden = true
-                            self.imgSingleView.image = self.imgLocation.image
+                            self.imgSingleView.isHidden = false
+                            self.imgSingleView.image = #imageLiteral(resourceName: "location_icon")
                             self.kHeaderHeight.constant = 253//178
                             self.topConstraintRange = (CGFloat(0)..<CGFloat(253))
                         }
@@ -364,13 +368,34 @@ class ViewProfileViewController: UIViewController {
                             self.viewSingle.isHidden = false
                             self.imgLink.isHidden = true
                             self.imgLocation.isHidden = true
+                            self.imgSingleView.isHidden = false
                             self.lblLocation.isHidden = true
-                            self.imgSingleView.image = self.imgLocation.image
+                            self.imgSingleView.image = #imageLiteral(resourceName: "location_icon")
                             if people.location.trim().count > 15 {
                                 self.lblSingleView.text = people.location.trim()
                             }else{
                                 self.lblSingleView.text = people.location.trim()
                             }
+                            self.kHeightlblBio.constant = 0
+                            self.kHeaderHeight.constant = 211//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
+                            
+                        }else if people.location.trim().isEmpty && !people.displayName.trim().isEmpty && people.biography.trim().isEmpty && !people.website.trim().isEmpty {
+                            
+                            self.viewSingle.isHidden = false
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = true
+                            self.lblLocation.isHidden = true
+                            self.imgSingleView.isHidden = false
+                            self.imgSingleView.image = self.imgLink.image
+                            if people.website.trim().count > 20 {
+                                self.lblSingleView.text = people.website.trim()
+                            }else{
+                                self.lblSingleView.text = people.website.trim()
+                            }
+                            self.kHeightlblBio.constant = 0
+                            self.kHeaderHeight.constant = 211//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
                             
                         }
                             

@@ -618,6 +618,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             if obj.type == .photo || obj.type == .livePhoto {
                 camera.fileName = NSUUID().uuidString + ".png"
                 camera.type = .image
+               
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
                     self.updateData(content: camera)
@@ -629,6 +630,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                     }, completionBlock: { (image) in
                         if let img = image {
                             camera.imgPreview = img
+                            camera.color = img.getColors().primary.toHexString
                             self.updateData(content: camera)
                         }
                         group.leave()
@@ -645,6 +647,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                     obj.phAsset?.getOrigianlImage(handler: { (img, _) in
                         if img != nil {
                             camera.imgPreview = img
+                            camera.color = img?.getColors().primary.toHexString
                         }else {
                             camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
                         }
@@ -778,6 +781,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             let camera = ContentDAO(contentData: [:])
             camera.type = .image
             camera.imgPreview = photo
+            camera.color = photo.getColors().primary.toHexString
             camera.fileName = NSUUID().uuidString + ".png"
             self.updateData(content: camera)
             self.btnCamera.isUserInteractionEnabled = true
@@ -853,6 +857,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             let camera = ContentDAO(contentData: [:])
             camera.type = .video
             camera.imgPreview = image
+            camera.color = image.getColors().primary.toHexString
             camera.fileName = url.absoluteString.getName()
             camera.fileUrl = url
             print(camera.fileName)

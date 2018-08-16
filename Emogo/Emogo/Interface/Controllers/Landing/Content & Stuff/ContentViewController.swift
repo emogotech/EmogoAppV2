@@ -17,6 +17,7 @@ import Haptica
 
 protocol ContentViewControllerDelegate {
     func updateViewCount(count:String)
+    func currentPreview(content:ContentDAO,index:IndexPath)
 }
 
 class ContentViewController: UIViewController {
@@ -854,6 +855,9 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
         guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
         self.currentIndex = indexPath.row
         self.updateContent()
+        if self.delegate != nil {
+            self.delegate?.currentPreview(content: self.seletedImage, index: indexPath)
+        }
        // print(indexPath)
     }
 }

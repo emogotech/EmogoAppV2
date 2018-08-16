@@ -16,7 +16,7 @@ import UIKit
 // MARK: -  Constants Variables
 let kFrame                               = UIScreen.main.bounds
 let kScale                               = UIScreen.main.scale
-
+var navigationImageView                  : UIImageView?
 let kDefault                             = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
 
 

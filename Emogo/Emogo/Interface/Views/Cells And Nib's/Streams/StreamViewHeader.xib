@@ -209,7 +209,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hR-WH-JyQ">
                             <rect key="frame" x="0.0" y="202" width="310" height="48"/>
                             <subviews>
-                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gJ-DM-QZF">
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gJ-DM-QZF" customClass="FaveButton" customModule="Emogo" customModuleProvider="target">
                                     <rect key="frame" x="268" y="2" width="37" height="33"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="33" id="9VE-h4-sgd"/>
@@ -217,6 +217,14 @@
                                     </constraints>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="3" maxX="0.0" maxY="0.0"/>
                                     <state key="normal" image="Unlike_icon"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                            <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                            <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="zdk-6b-txq">
                                     <rect key="frame" x="15" y="4" width="250" height="26"/>
@@ -251,7 +259,7 @@
                                 <constraint firstItem="zdk-6b-txq" firstAttribute="top" secondItem="7hR-WH-JyQ" secondAttribute="top" constant="4" id="yFN-qj-lRq"/>
                             </constraints>
                         </view>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OCT-rm-AGS">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OCT-rm-AGS" customClass="FaveButton" customModule="Emogo" customModuleProvider="target">
                             <rect key="frame" x="268" y="13" width="37" height="33"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="37" id="40G-4K-bR3"/>
@@ -259,6 +267,14 @@
                             </constraints>
                             <inset key="imageEdgeInsets" minX="0.0" minY="3" maxX="0.0" maxY="0.0"/>
                             <state key="normal" image="Unlike_icon"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
+                                    <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                    <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -308,9 +324,9 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="btnCollab" destination="g4V-5K-llI" id="VNl-SV-7sB"/>
-                <outlet property="btnLike" destination="6gJ-DM-QZF" id="gee-ZA-4ID"/>
+                <outlet property="btnLike" destination="6gJ-DM-QZF" id="zUZ-x1-ezE"/>
                 <outlet property="btnLikeList" destination="6r7-Op-MWl" id="I0I-KP-6LT"/>
-                <outlet property="btnLikeOtherUser" destination="OCT-rm-AGS" id="ffd-rW-Llf"/>
+                <outlet property="btnLikeOtherUser" destination="OCT-rm-AGS" id="tIZ-US-WvS"/>
                 <outlet property="imgCollabOne" destination="Mlf-s9-RF9" id="Vcu-xB-xfI"/>
                 <outlet property="imgCollabTwo" destination="u6H-Pb-Fpo" id="eef-JK-oPz"/>
                 <outlet property="imgCover" destination="i1b-sa-qbQ" id="hZs-Zk-3S1"/>

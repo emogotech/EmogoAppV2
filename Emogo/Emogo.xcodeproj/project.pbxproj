@@ -237,12 +237,6 @@
 		F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4173F6C1FFCE59D00EC897E /* RecordButton.swift */; };
 		F41752E5201CB573005AFE4A /* TermsAndPrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */; };
 		F41752E8201CB690005AFE4A /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41752E7201CB690005AFE4A /* Checkbox.swift */; };
-		F41846F520DBBCAE0077CEAB /* ZoomTransitionDestinationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846EE20DBBC990077CEAB /* ZoomTransitionDestinationDelegate.swift */; };
-		F41846F620DBBCAE0077CEAB /* ZoomTransitionSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846EF20DBBC9B0077CEAB /* ZoomTransitionSourceDelegate.swift */; };
-		F41846F720DBBCAE0077CEAB /* ZoomInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846F120DBBCA10077CEAB /* ZoomInteractiveTransition.swift */; };
-		F41846F820DBBCAE0077CEAB /* ZoomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846F220DBBCA10077CEAB /* ZoomTransitioning.swift */; };
-		F41846F920DBBCAE0077CEAB /* ZoomNavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846F320DBBCA30077CEAB /* ZoomNavigationControllerDelegate.swift */; };
-		F41846FA20DBBCAE0077CEAB /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846F420DBBCA60077CEAB /* UIImageView+extension.swift */; };
 		F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */; };
 		F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
 		F41FD94020A9583F00FA8623 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD91920A9582F00FA8623 /* GradientView.swift */; };
@@ -472,6 +466,28 @@
 		F4C9554E20A31DA00065D1C8 /* Gram+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C9554C20A31D9F0065D1C8 /* Gram+UIImage.swift */; };
 		F4CA097A2052A6D2004EEFCE /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CA09792052A6D2004EEFCE /* ProfileHeaderView.swift */; };
 		F4CA097C2052C5C3004EEFCE /* MyStuffCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CA097B2052C5C3004EEFCE /* MyStuffCollectionCell.swift */; };
+		F4CB032621256F7700AF74E7 /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032221256F7500AF74E7 /* Ring.swift */; };
+		F4CB032721256F7700AF74E7 /* FaveIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032321256F7500AF74E7 /* FaveIcon.swift */; };
+		F4CB032821256F7700AF74E7 /* FaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032421256F7600AF74E7 /* FaveButton.swift */; };
+		F4CB032921256F7700AF74E7 /* Spark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032521256F7700AF74E7 /* Spark.swift */; };
+		F4CB032E21256F8A00AF74E7 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032A21256F8800AF74E7 /* Easing.swift */; };
+		F4CB032F21256F8A00AF74E7 /* Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032B21256F8800AF74E7 /* Init.swift */; };
+		F4CB033021256F8A00AF74E7 /* Constraints+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032C21256F8900AF74E7 /* Constraints+.swift */; };
+		F4CB033121256F8A00AF74E7 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032D21256F8A00AF74E7 /* Geometry.swift */; };
+		F4CB03322125714B00AF74E7 /* FaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032421256F7600AF74E7 /* FaveButton.swift */; };
+		F4CB03332125715600AF74E7 /* Constraints+.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032C21256F8900AF74E7 /* Constraints+.swift */; };
+		F4CB03342125715600AF74E7 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032A21256F8800AF74E7 /* Easing.swift */; };
+		F4CB03352125715600AF74E7 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032D21256F8A00AF74E7 /* Geometry.swift */; };
+		F4CB03362125715600AF74E7 /* Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032B21256F8800AF74E7 /* Init.swift */; };
+		F4CB03372125715600AF74E7 /* FaveIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032321256F7500AF74E7 /* FaveIcon.swift */; };
+		F4CB03382125715600AF74E7 /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032221256F7500AF74E7 /* Ring.swift */; };
+		F4CB03392125715600AF74E7 /* Spark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB032521256F7700AF74E7 /* Spark.swift */; };
+		F4CB037B2125886300AF74E7 /* ZoomTransitionDestinationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB03742125885F00AF74E7 /* ZoomTransitionDestinationDelegate.swift */; };
+		F4CB037C2125886300AF74E7 /* ZoomTransitionSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB03752125885F00AF74E7 /* ZoomTransitionSourceDelegate.swift */; };
+		F4CB037D2125886300AF74E7 /* ZoomInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB03772125886000AF74E7 /* ZoomInteractiveTransition.swift */; };
+		F4CB037E2125886300AF74E7 /* ZoomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB03782125886100AF74E7 /* ZoomTransitioning.swift */; };
+		F4CB037F2125886300AF74E7 /* ZoomNavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB03792125886200AF74E7 /* ZoomNavigationControllerDelegate.swift */; };
+		F4CB03802125886300AF74E7 /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB037A2125886300AF74E7 /* UIImageView+extension.swift */; };
 		F4CDD4F42011DBF8005436A1 /* ActionSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */; };
 		F4CDD4F62011DD6E005436A1 /* ActionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CDD4F52011DD6E005436A1 /* ActionData.swift */; };
 		F4CDD4FA2011DE07005436A1 /* PMActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4CDD4F82011DE07005436A1 /* PMActionCell.xib */; };
@@ -747,13 +763,6 @@
 		F4173F6C1FFCE59D00EC897E /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyViewController.swift; sourceTree = "<group>"; };
 		F41752E7201CB690005AFE4A /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
-		F41846EE20DBBC990077CEAB /* ZoomTransitionDestinationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomTransitionDestinationDelegate.swift; sourceTree = "<group>"; };
-		F41846EF20DBBC9B0077CEAB /* ZoomTransitionSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomTransitionSourceDelegate.swift; sourceTree = "<group>"; };
-		F41846F020DBBC9E0077CEAB /* ZoomTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomTransitioning.h; sourceTree = "<group>"; };
-		F41846F120DBBCA10077CEAB /* ZoomInteractiveTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomInteractiveTransition.swift; sourceTree = "<group>"; };
-		F41846F220DBBCA10077CEAB /* ZoomTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomTransitioning.swift; sourceTree = "<group>"; };
-		F41846F320DBBCA30077CEAB /* ZoomNavigationControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomNavigationControllerDelegate.swift; sourceTree = "<group>"; };
-		F41846F420DBBCA60077CEAB /* UIImageView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamViewController.swift; sourceTree = "<group>"; };
 		F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIBadgeButton.swift; sourceTree = "<group>"; };
 		F41FD91920A9582F00FA8623 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
@@ -1008,6 +1017,21 @@
 		F4C9554C20A31D9F0065D1C8 /* Gram+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Gram+UIImage.swift"; sourceTree = "<group>"; };
 		F4CA09792052A6D2004EEFCE /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		F4CA097B2052C5C3004EEFCE /* MyStuffCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStuffCollectionCell.swift; sourceTree = "<group>"; };
+		F4CB032221256F7500AF74E7 /* Ring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ring.swift; sourceTree = "<group>"; };
+		F4CB032321256F7500AF74E7 /* FaveIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaveIcon.swift; sourceTree = "<group>"; };
+		F4CB032421256F7600AF74E7 /* FaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaveButton.swift; sourceTree = "<group>"; };
+		F4CB032521256F7700AF74E7 /* Spark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spark.swift; sourceTree = "<group>"; };
+		F4CB032A21256F8800AF74E7 /* Easing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
+		F4CB032B21256F8800AF74E7 /* Init.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Init.swift; sourceTree = "<group>"; };
+		F4CB032C21256F8900AF74E7 /* Constraints+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constraints+.swift"; sourceTree = "<group>"; };
+		F4CB032D21256F8A00AF74E7 /* Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		F4CB03742125885F00AF74E7 /* ZoomTransitionDestinationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomTransitionDestinationDelegate.swift; sourceTree = "<group>"; };
+		F4CB03752125885F00AF74E7 /* ZoomTransitionSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomTransitionSourceDelegate.swift; sourceTree = "<group>"; };
+		F4CB03762125886000AF74E7 /* ZoomTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomTransitioning.h; sourceTree = "<group>"; };
+		F4CB03772125886000AF74E7 /* ZoomInteractiveTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomInteractiveTransition.swift; sourceTree = "<group>"; };
+		F4CB03782125886100AF74E7 /* ZoomTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomTransitioning.swift; sourceTree = "<group>"; };
+		F4CB03792125886200AF74E7 /* ZoomNavigationControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomNavigationControllerDelegate.swift; sourceTree = "<group>"; };
+		F4CB037A2125886300AF74E7 /* UIImageView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetController.swift; sourceTree = "<group>"; };
 		F4CDD4F52011DD6E005436A1 /* ActionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionData.swift; sourceTree = "<group>"; };
 		F4CDD4F82011DE07005436A1 /* PMActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PMActionCell.xib; sourceTree = "<group>"; };
@@ -1395,6 +1419,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F4CB032121256F6500AF74E7 /* FavButton */,
 				F0E90B6E210732DD003DE904 /* VPMOTPView */,
 				F4430A3720F760AB00515FEB /* CollectionView */,
 				F4EF0AFF20DCD0570004AC50 /* NavigationController */,
@@ -2413,6 +2438,21 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		F4CB032121256F6500AF74E7 /* FavButton */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB032C21256F8900AF74E7 /* Constraints+.swift */,
+				F4CB032A21256F8800AF74E7 /* Easing.swift */,
+				F4CB032D21256F8A00AF74E7 /* Geometry.swift */,
+				F4CB032B21256F8800AF74E7 /* Init.swift */,
+				F4CB032421256F7600AF74E7 /* FaveButton.swift */,
+				F4CB032321256F7500AF74E7 /* FaveIcon.swift */,
+				F4CB032221256F7500AF74E7 /* Ring.swift */,
+				F4CB032521256F7700AF74E7 /* Spark.swift */,
+			);
+			path = FavButton;
+			sourceTree = "<group>";
+		};
 		F4CDD4F22011DBC0005436A1 /* ActionSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -2447,13 +2487,13 @@
 		F4EF0B0420DCF24B0004AC50 /* PushTransition */ = {
 			isa = PBXGroup;
 			children = (
-				F41846F420DBBCA60077CEAB /* UIImageView+extension.swift */,
-				F41846F120DBBCA10077CEAB /* ZoomInteractiveTransition.swift */,
-				F41846F320DBBCA30077CEAB /* ZoomNavigationControllerDelegate.swift */,
-				F41846EE20DBBC990077CEAB /* ZoomTransitionDestinationDelegate.swift */,
-				F41846F020DBBC9E0077CEAB /* ZoomTransitioning.h */,
-				F41846F220DBBCA10077CEAB /* ZoomTransitioning.swift */,
-				F41846EF20DBBC9B0077CEAB /* ZoomTransitionSourceDelegate.swift */,
+				F4CB037A2125886300AF74E7 /* UIImageView+extension.swift */,
+				F4CB03772125886000AF74E7 /* ZoomInteractiveTransition.swift */,
+				F4CB03792125886200AF74E7 /* ZoomNavigationControllerDelegate.swift */,
+				F4CB03742125885F00AF74E7 /* ZoomTransitionDestinationDelegate.swift */,
+				F4CB03762125886000AF74E7 /* ZoomTransitioning.h */,
+				F4CB03782125886100AF74E7 /* ZoomTransitioning.swift */,
+				F4CB03752125885F00AF74E7 /* ZoomTransitionSourceDelegate.swift */,
 			);
 			path = PushTransition;
 			sourceTree = "<group>";
@@ -2502,6 +2542,7 @@
 				335B1A511FBB23FE006DA9D9 /* Embed App Extensions */,
 				C173F5211AF5667D4A90FF7B /* [CP] Embed Pods Frameworks */,
 				F45133991FD1801D00941755 /* ShellScript */,
+				915876DA0908FFC277CBDDCE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2523,6 +2564,7 @@
 				335B1A1F1FBB238A006DA9D9 /* Frameworks */,
 				335B1A201FBB238A006DA9D9 /* Resources */,
 				3D35FD3244544ECEE59095FA /* [CP] Embed Pods Frameworks */,
+				1A4AB98A715CB72A3B41FBA6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2543,6 +2585,7 @@
 				335B1A2A1FBB238B006DA9D9 /* Frameworks */,
 				335B1A2B1FBB238B006DA9D9 /* Resources */,
 				4221665022DB283B717FA017 /* [CP] Embed Pods Frameworks */,
+				A48137EA3F4D5C1703399429 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2562,6 +2605,7 @@
 				335B1A3F1FBB23FE006DA9D9 /* Sources */,
 				335B1A401FBB23FE006DA9D9 /* Frameworks */,
 				335B1A411FBB23FE006DA9D9 /* Resources */,
+				704DEF93371C69CA7B2A9EE9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2580,6 +2624,7 @@
 				335B1A521FBB2413006DA9D9 /* Sources */,
 				335B1A531FBB2413006DA9D9 /* Frameworks */,
 				335B1A541FBB2413006DA9D9 /* Resources */,
+				BAD4CB8BA65035EE219598E4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2797,6 +2842,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1A4AB98A715CB72A3B41FBA6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		24E5B8FD9D7FDC61532EBB4C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2921,6 +2981,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoUITests/Pods-EmogoUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		704DEF93371C69CA7B2A9EE9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ShareExt/Pods-ShareExt-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7DC7DD69B9FB2A05FF180134 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2939,6 +3014,36 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		915876DA0908FFC277CBDDCE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Emogo/Pods-Emogo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A48137EA3F4D5C1703399429 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoUITests/Pods-EmogoUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AFC226E0A45A038A8B181A5C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2955,6 +3060,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BAD4CB8BA65035EE219598E4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C173F5211AF5667D4A90FF7B /* [CP] Embed Pods Frameworks */ = {
@@ -2989,6 +3109,7 @@
 				"${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework",
@@ -3021,6 +3142,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkeletonView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLinkPreview.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLActionController.framework",
@@ -3073,6 +3195,7 @@
 				F43612E21FD69B0E00788FFE /* AGImageMetalDevice.swift in Sources */,
 				F43612F91FD69B3200788FFE /* AGDetailsFilter.swift in Sources */,
 				F403765D1FDE9F830007C696 /* Types.swift in Sources */,
+				F4CB032621256F7700AF74E7 /* Ring.swift in Sources */,
 				F406FD002087854B006192B4 /* FollowerDAO.swift in Sources */,
 				F4838ADA2084CE840034F2B4 /* ProfileStreamView.swift in Sources */,
 				33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */,
@@ -3090,6 +3213,8 @@
 				F4B8887820AABDAC0056666B /* VideoEditor+Delegate.swift in Sources */,
 				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
 				2BD7EF112022EABE00FA0956 /* SharedData.swift in Sources */,
+				F4CB03802125886300AF74E7 /* UIImageView+extension.swift in Sources */,
+				F4CB033021256F8A00AF74E7 /* Constraints+.swift in Sources */,
 				F4402F6E1FCD6AD700152D01 /* CollaboratorDAO.swift in Sources */,
 				F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */,
 				F4B4560E20B2C8EE007E4753 /* VideoEditor+PlayRate.swift in Sources */,
@@ -3097,11 +3222,10 @@
 				F4402F741FCD918400152D01 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */,
 				F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */,
 				F4C20FF8209AE4E80094A7FC /* FilterCell.swift in Sources */,
-				F41846F720DBBCAE0077CEAB /* ZoomInteractiveTransition.swift in Sources */,
 				F4430A3C20F760AC00515FEB /* ASCollectionViewLayout.swift in Sources */,
 				F4B8887420AAB8CE0056666B /* PMVideoEditor.swift in Sources */,
 				F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */,
-				F41846F820DBBCAE0077CEAB /* ZoomTransitioning.swift in Sources */,
+				F4CB037D2125886300AF74E7 /* ZoomInteractiveTransition.swift in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */,
 				F4F2A0DE2057D20100ED76D7 /* DeeplinkDAO.swift in Sources */,
@@ -3126,10 +3250,10 @@
 				F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */,
 				F4EF0B0C20DCF26D0004AC50 /* CCZoomAnimatedTransitioning.swift in Sources */,
 				F4B8887620AABD9D0056666B /* VideoEditor+Controls.swift in Sources */,
+				F4CB037C2125886300AF74E7 /* ZoomTransitionSourceDelegate.swift in Sources */,
 				F40557CF20AEB90500A28F51 /* CountryCell.swift in Sources */,
 				F41FD95220A9583F00FA8623 /* PhotoEditor+Controls.swift in Sources */,
 				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
-				F41846F520DBBCAE0077CEAB /* ZoomTransitionDestinationDelegate.swift in Sources */,
 				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
 				F4C9554720A31D890065D1C8 /* FNSLaMuse.mlmodel in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
@@ -3157,6 +3281,7 @@
 				F41FD96320A9583F00FA8623 /* PhotoEditor+Font.swift in Sources */,
 				F41FD95620A9583F00FA8623 /* PhotoEditorViewController.swift in Sources */,
 				F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */,
+				F4CB032F21256F8A00AF74E7 /* Init.swift in Sources */,
 				F46AC6E42043E92E00B71102 /* TLPhotoCollectionViewCell.swift in Sources */,
 				F40D3E6920CE6A16008ED566 /* PMColorPickerView.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
@@ -3175,6 +3300,7 @@
 				F41FD94520A9583F00FA8623 /* UIImage+Size.swift in Sources */,
 				F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */,
 				F42DCD392098406F00078969 /* DPEdgeMenu.swift in Sources */,
+				F4CB037B2125886300AF74E7 /* ZoomTransitionDestinationDelegate.swift in Sources */,
 				F06256D7209C2A0700AE0558 /* SettingViewController.swift in Sources */,
 				F41FD94E20A9583F00FA8623 /* ColorCollectionViewCell.swift in Sources */,
 				F49DF30B20060E05009A2D3A /* FLAnimatedImage.m in Sources */,
@@ -3197,6 +3323,7 @@
 				F0875C3620C6BD0400CCBBBA /* LikeListViewController.swift in Sources */,
 				F43612DF1FD69B0E00788FFE /* AGImageChain.swift in Sources */,
 				F41FD96620A9583F00FA8623 /* StickersViewController.swift in Sources */,
+				F4CB032921256F7700AF74E7 /* Spark.swift in Sources */,
 				F46AC6E52043E92E00B71102 /* TLAssetsCollection.swift in Sources */,
 				F4FC55F820D2721D006C22E1 /* ContentViewController.swift in Sources */,
 				F46AB0C920BC2C3300229031 /* VideoEditor+Keyboard.swift in Sources */,
@@ -3257,6 +3384,7 @@
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				F40D3E6420CE5B9F008ED566 /* LinkPickerView.swift in Sources */,
 				F49B42992004D965006DD15D /* GiphyDAO.swift in Sources */,
+				F4CB032E21256F8A00AF74E7 /* Easing.swift in Sources */,
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
 				F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */,
 				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
@@ -3274,12 +3402,14 @@
 				F4FC55FA20D27DAE006C22E1 /* ContentViewCell.swift in Sources */,
 				F403765A1FDE9F830007C696 /* NotificationCenter+ObserveOnce.swift in Sources */,
 				F0FDA20D20D25DB5006BA09A /* EditStreamController.swift in Sources */,
+				F4CB037F2125886300AF74E7 /* ZoomNavigationControllerDelegate.swift in Sources */,
 				F040CC872050034B00224035 /* HHPageView.m in Sources */,
 				33DAB2FB1FC6B9AC0053AC23 /* FSPagerViewCell.swift in Sources */,
 				F4430A3D20F760AC00515FEB /* ASCollectionViewParallaxCell.swift in Sources */,
 				F4ECD5A420E373A7000BE025 /* DrawingImageView.swift in Sources */,
 				F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				F4522CA61FCC2DC10021562D /* AddStreamViewController.swift in Sources */,
+				F4CB037E2125886300AF74E7 /* ZoomTransitioning.swift in Sources */,
 				F41FD95420A9583F00FA8623 /* PhotoEditor+Keyboard.swift in Sources */,
 				F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */,
 				C8B8AC35202895E70023ECD3 /* SwiftyRecordButton.swift in Sources */,
@@ -3301,6 +3431,7 @@
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
 				F429C4D320F5FCA500601B70 /* LeftEdgeInteractionController.swift in Sources */,
 				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
+				F4CB033121256F8A00AF74E7 /* Geometry.swift in Sources */,
 				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
 				F44939EA1FEADCA700AE2FCA /* Operation.swift in Sources */,
 				F4086D8E206E2F16005C7318 /* UIView+YGPulseView.m in Sources */,
@@ -3319,7 +3450,7 @@
 				F4EF0B0A20DCF26D0004AC50 /* CCZoomTransitionVCExtension.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				F41FD95820A9583F00FA8623 /* StickerCollectionViewCell.swift in Sources */,
-				F41846F920DBBCAE0077CEAB /* ZoomNavigationControllerDelegate.swift in Sources */,
+				F4CB032821256F7700AF74E7 /* FaveButton.swift in Sources */,
 				F42217C02007521A002D4E4E /* TPKeyboardAvoidingScrollView.m in Sources */,
 				F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */,
 				F409FC6C1FE3D7AB0093E0E7 /* PMTextField.swift in Sources */,
@@ -3327,7 +3458,6 @@
 				F401DFB91FE2AE1300BD7DDA /* MyStuffCell.swift in Sources */,
 				F4A5F74D209C685100AC9AE1 /* FilterViewController+Controls.swift in Sources */,
 				F46AB0CB20BC37FA00229031 /* VideoEditor+API.swift in Sources */,
-				F41846FA20DBBCAE0077CEAB /* UIImageView+extension.swift in Sources */,
 				F49DF3042005F186009A2D3A /* FLAnimatedImageView+ImageURL.m in Sources */,
 				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
@@ -3348,6 +3478,7 @@
 				F41752E5201CB573005AFE4A /* TermsAndPrivacyViewController.swift in Sources */,
 				F409FC681FE3B1220093E0E7 /* ImportCell.swift in Sources */,
 				F4EF0B0120DCD0BB0004AC50 /* PMNavigationController.swift in Sources */,
+				F4CB032721256F7700AF74E7 /* FaveIcon.swift in Sources */,
 				F41FD95720A9583F00FA8623 /* CropView.swift in Sources */,
 				F4334A7B20D8F8570026C778 /* PMAnimatedSwitch.swift in Sources */,
 				F497B3B61FD7EC8D006614F2 /* PeopleCell.swift in Sources */,
@@ -3356,7 +3487,6 @@
 				F4A5F753209C898E00AC9AE1 /* GradientFilterCell.swift in Sources */,
 				F42864321FC4A12500E3549D /* PreviewController.swift in Sources */,
 				F480778120D1441B008E5BDA /* NotesViewController.swift in Sources */,
-				F41846F620DBBCAE0077CEAB /* ZoomTransitionSourceDelegate.swift in Sources */,
 				F431E3B820C693F8008D425B /* CreateNotesViewController.swift in Sources */,
 				F44939E71FEA567800AE2FCA /* ESPullToRefresh+Manager.swift in Sources */,
 			);
@@ -3422,8 +3552,11 @@
 				332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
 				F022DBC320F754EB0043FFFB /* CountryCell.swift in Sources */,
+				F4CB03332125715600AF74E7 /* Constraints+.swift in Sources */,
 				F065AAAD20E0DDC600993DD6 /* FollowerCell.swift in Sources */,
+				F4CB03342125715600AF74E7 /* Easing.swift in Sources */,
 				F4F2A0DF2057D37000ED76D7 /* DeeplinkDAO.swift in Sources */,
+				F4CB03362125715600AF74E7 /* Init.swift in Sources */,
 				F49B429A2004DBD5006DD15D /* GiphyDAO.swift in Sources */,
 				2BBBDD5B2009042400914546 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				F0B3EEA720E4E61D00599675 /* LikeListViewController.swift in Sources */,
@@ -3445,6 +3578,7 @@
 				F005121720DA7D7D00EA4E50 /* NZCircularImageView.m in Sources */,
 				2B692C9E2076024B006C4691 /* KASlideShow.m in Sources */,
 				337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */,
+				F4CB03372125715600AF74E7 /* FaveIcon.swift in Sources */,
 				F497B3B71FD7F44E006614F2 /* PeopleDAO.swift in Sources */,
 				F4266EFF1FF6808D0075BFD7 /* ProfileDAO.swift in Sources */,
 				33DAB2F51FC6B9020053AC23 /* FSPagerViewCell.swift in Sources */,
@@ -3477,6 +3611,7 @@
 				2BA272701FD6A82100543957 /* CollaboratorViewController.swift in Sources */,
 				337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */,
 				F0F9DC3820E0F4CC000E2CA1 /* SettingViewController.swift in Sources */,
+				F4CB03322125714B00AF74E7 /* FaveButton.swift in Sources */,
 				F022DBC620F75F540043FFFB /* SHSPhoneTextField.m in Sources */,
 				2BFE0064200F84EF0086DEBF /* FLAnimatedImageView+WebCache.m in Sources */,
 				337B8F931FBEECBE00CFACE3 /* SignUpNameViewController.swift in Sources */,
@@ -3486,6 +3621,7 @@
 				F03548C820E3BD0700C2E275 /* ProfileStreamViewCell.swift in Sources */,
 				2B677A3A1FF28E3B00709663 /* PeopleSearchCollectionViewCell.swift in Sources */,
 				F0231CAD21087A6700ADE30F /* VPMOTPView.swift in Sources */,
+				F4CB03352125715600AF74E7 /* Geometry.swift in Sources */,
 				F065AAA320E0C43E00993DD6 /* MyStuffCell.swift in Sources */,
 				F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */,
 				F03330E820E110EB006C0C58 /* ViewProfileViewController.swift in Sources */,
@@ -3495,7 +3631,9 @@
 				F065AAA520E0C51B00993DD6 /* CardView.swift in Sources */,
 				F0B3EEAA20E4FD9300599675 /* CCZoomTransitionVCExtension.swift in Sources */,
 				F036D15720DBA141003ED5AD /* HMSegmentedControl.m in Sources */,
+				F4CB03382125715600AF74E7 /* Ring.swift in Sources */,
 				F0593AA720FCBA8A00AD6003 /* StreamViewHeader.swift in Sources */,
+				F4CB03392125715600AF74E7 /* Spark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

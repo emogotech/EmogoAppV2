@@ -1116,7 +1116,8 @@ class ProfileViewController: UIViewController {
                 let nav = UINavigationController(rootViewController: objPreview)
                 let indexPath = IndexPath(row: sender.tag, section: 0)
                 if let imageCell = profileCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
-                    nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                    navigationImageView = imageCell.imgCover
+                    nav.cc_setZoomTransition(originalView: navigationImageView!)
                     nav.cc_swipeBackDisabled = true
                 }
                 self.present(nav, animated: true, completion: nil)
@@ -1422,6 +1423,7 @@ class ProfileViewController: UIViewController {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
+                    camera.color = obj.fullResolutionImage?.getColors().primary.toHexString
                     self.updateData(content: camera)
                     group.leave()
                 }else {
@@ -1431,6 +1433,7 @@ class ProfileViewController: UIViewController {
                     }, completionBlock: { (image) in
                         if let img = image {
                             camera.imgPreview = img
+                            camera.color = img.getColors().primary.toHexString
                             self.updateData(content: camera)
                         }
                         group.leave()
@@ -1447,6 +1450,7 @@ class ProfileViewController: UIViewController {
                     obj.phAsset?.getOrigianlImage(handler: { (img, _) in
                         if img != nil {
                             camera.imgPreview = img
+                            camera.color = img?.getColors().primary.toHexString
                         }else {
                             camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
                         }
@@ -1662,7 +1666,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                       objPreview.isProfile = "TRUE"
                     let nav = UINavigationController(rootViewController: objPreview)
                     if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
-                        nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                        navigationImageView = imageCell.imgCover
+                        nav.cc_setZoomTransition(originalView: navigationImageView!)
                         nav.cc_swipeBackDisabled = true
                     }
                     self.present(nav, animated: true, completion: nil)

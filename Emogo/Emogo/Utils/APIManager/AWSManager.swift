@@ -9,6 +9,7 @@
 import UIKit
 import AWSS3
 import AWSCore
+import SwiftMessages
 
 enum AWSResult<T, Error> {
     case success(T)
@@ -358,7 +359,7 @@ class AWSRequestManager:NSObject {
     func createContent(StreamID:[String],array:[ContentDAO]){
         var arrayParams = [Any]()
         for obj in array {
-            let param = ["url":obj.coverImage!,"name":obj.name!,"type":obj.type.rawValue,"description":obj.description!,"video_image":obj.coverImageVideo!,"height":obj.height!,"width":obj.width!] as [String : Any]
+            let param = ["url":obj.coverImage!,"name":obj.name!,"type":obj.type.rawValue,"description":obj.description!,"video_image":obj.coverImageVideo!,"height":obj.height!,"width":obj.width!,"color":obj.color!] as [String : Any]
             arrayParams.append(param)
         }
         print(arrayParams)
@@ -413,14 +414,23 @@ class AWSRequestManager:NSObject {
     }
     
     func showToast(strMSG:String){
-        AppDelegate.appDelegate.window?.makeToast(message: strMSG,
-                                                  duration: TimeInterval(3.0),
-                                                  position: .top,
-                                                  image: nil,
-                                                  backgroundColor: UIColor.black.withAlphaComponent(0.6),
-                                                  titleColor: UIColor.white,
-                                                  messageColor: UIColor.white,
-                                                  font: nil)
+        let messageView: MessageView = MessageView.viewFromNib(layout: .cardView)
+        messageView.configureBackgroundView(width: 250)
+        messageView.configureContent(title: nil, body: strMSG, iconImage: #imageLiteral(resourceName: "alert_icon"), iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
+            SwiftMessages.hide()
+        }
+        messageView.iconImageView?.tintColor = UIColor.black
+        messageView.button?.isHidden = true
+        messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+        messageView.backgroundView.layer.cornerRadius = 10
+        var config = SwiftMessages.defaultConfig
+        config.presentationStyle = .bottom
+        
+        config.duration = .seconds(seconds: 3.0)
+        config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
+        config.presentationContext  = .window(windowLevel: UIWindowLevelStatusBar)
+        SwiftMessages.show(config: config, view: messageView)
+        
     }
  }
 

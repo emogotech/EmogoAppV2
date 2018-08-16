@@ -311,8 +311,9 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
             let nav = UINavigationController(rootViewController: objPreview)
             let indexPath = IndexPath(row: indexPath.row, section: 0)
             if let imageCell = collectionView.cellForItem(at: indexPath) as? LinkListCell {
-                nav.cc_setZoomTransition(originalView: imageCell.imgCover)
-                nav.cc_swipeBackDisabled = true
+                navigationImageView = imageCell.imgCover
+                nav.cc_setZoomTransition(originalView: navigationImageView!)
+                 nav.cc_swipeBackDisabled = true
             }
             self.present(nav, animated: true, completion: nil)
         }

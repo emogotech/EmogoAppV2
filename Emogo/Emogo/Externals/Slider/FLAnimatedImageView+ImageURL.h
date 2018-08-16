@@ -12,6 +12,6 @@
 @interface FLAnimatedImageView (ImageURL)
 
 -(void)setImageUrl:(NSURL *)url;
-- (void)setImageUrl:(NSURL *)url completion:(void(^)(FLAnimatedImage * _Nullable image))callback;
+- (void)setImageUrl:(NSURL *)url completion:(void(^)(UIImage * _Nullable image))callback;
 
 @end
