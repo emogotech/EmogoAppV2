@@ -134,8 +134,8 @@ class ViewStreamController: UIViewController {
         stretchyHeader.viewLike.isHidden = true
         stretchyHeader.btnLike.delegate = self
         stretchyHeader.btnLikeOtherUser.delegate = self
-        stretchyHeader.maximumContentHeight = 250
-        stretchyHeader.swipeToDown(height: 250)
+        stretchyHeader.maximumContentHeight = 200
+        stretchyHeader.swipeToDown(height: 200)
         self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         
@@ -1218,6 +1218,7 @@ extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewCont
             if let tempIndex =  self.objStream?.arrayContent.index(where: {$0.contentID.trim() == content.contentID.trim()}) {
                 let indexPath = IndexPath(row: tempIndex, section: 0)
                 if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
+                    self.viewStreamCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
                     navigationImageView = imageCell.imgCover
                     objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
                 }

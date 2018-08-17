@@ -31,7 +31,8 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnSave: UIButton!
     @IBOutlet weak var btnOther: UIButton!
-
+   // @IBOutlet weak var btnMore: UIButton!
+    
     let cellIdentifier = "contentViewCell"
     var seletedImage:ContentDAO!
     var isForEditOnly:Bool!
@@ -48,6 +49,7 @@ class ContentViewController: UIViewController {
     var arrayLightBoxIndexes = [Int]()
     var isFromNotesEdit:Bool! = false
     var viewIndex:Int?
+    var isMoreTapped:Bool! = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,9 +87,15 @@ class ContentViewController: UIViewController {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
         self.navigationController?.isNavigationBarHidden = true
-        bottomToolBarView.backgroundColor = UIColor.clear
+        if !seletedImage.color.trim().isEmpty {
+             bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+        }
+        //bottomToolBarView.backgroundColor = UIColor.clear
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
-            bottomToolBarView.backgroundColor = UIColor.black
+            if !seletedImage.color.trim().isEmpty {
+                bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+            }
+           // bottomToolBarView.backgroundColor = UIColor.black
         }
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -144,6 +152,7 @@ class ContentViewController: UIViewController {
         btnAddToEmogo.isHidden = true
         btnShare.isHidden = true
         btnSave.isHidden = true
+       // self.btnMore.isHidden = true
         
         
         if self.seletedImage.isShowAddStream {
@@ -208,6 +217,17 @@ class ContentViewController: UIViewController {
         let indexPath = IndexPath(row: currentIndex, section: 0)
             collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
     }
+    
+//    @IBAction func btnMoreAction(_ sender: Any) {
+//        isMoreTapped = !isMoreTapped
+//        if isMoreTapped {
+//            txtDescription.textContainer.maximumNumberOfLines = 3
+//        }else {
+//            txtDescription.textContainer.maximumNumberOfLines = 3
+//
+//        }
+//
+//    }
     
     @IBAction func btnShowReportListAction(_ sender: Any){
         if seletedImage.isDelete {
@@ -833,7 +853,11 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
         cell.prepareView(seletedImage: content)
         cell.btnPlayIcon.tag = indexPath.row
         cell.btnPlayIcon.addTarget(self, action: #selector(self.openFullView), for: .touchUpInside)
-            return cell
+        
+//        cell.btnMore.tag = indexPath.row
+//        cell.btnMore.addTarget(self, action: #selector(self.btnMoreAction), for: .touchUpInside)
+        
+        return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: kFrame.size.width, height: self.collectionView.frame.size.height)

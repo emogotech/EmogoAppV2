@@ -17,9 +17,7 @@ class ContentViewCell: UICollectionViewCell {
     @IBOutlet weak var btnPlayIcon: UIButton!
     @IBOutlet weak var kLinkIogoWidth: NSLayoutConstraint!
     @IBOutlet weak var linkLogo: UIImageView!
-
-    
-    
+    var isReadMore:Bool! = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -64,6 +62,7 @@ class ContentViewCell: UICollectionViewCell {
                     if let img = img {
                         img.getColors({ (colors) in
                             self.imgCover.backgroundColor = colors.primary
+                          
                         })
                     }
                 }
@@ -105,22 +104,26 @@ class ContentViewCell: UICollectionViewCell {
         self.lblTitleImage.isHidden = false
         if seletedImage.name.trim().isEmpty {
             self.lblTitleImage.isHidden = true
+            self.btnMore.isHidden = true
         }else {
+            self.lblTitleImage.numberOfLines = 2
             self.lblTitleImage.text = seletedImage.name.trim()
         }
         if seletedImage.description.trim().isEmpty {
             self.lblImageDescription.isHidden = true
+            self.btnMore.isHidden = true
         }else {
-            self.lblImageDescription.numberOfLines = 0
-            
+            self.lblImageDescription.numberOfLines = 3
             self.lblImageDescription.text = seletedImage.description.trim()
             let lines = self.lblImageDescription.numberOfVisibleLines
             if lines > 2 {
-                //  self.btnMore.isHidden = false
+                  self.btnMore.isHidden = false
+                
             }else {
-                // self.btnMore.isHidden = true
+                 self.btnMore.isHidden = true
+                
             }
-            self.lblImageDescription.numberOfLines = 0
+            self.lblImageDescription.numberOfLines = 3
         }
         
         if seletedImage.type == .notes {
@@ -130,6 +133,15 @@ class ContentViewCell: UICollectionViewCell {
     
     
     
+    @IBAction func btnMoreAction(_ sender: Any) {
+        isReadMore = !isReadMore
+        if isReadMore {
+            self.lblImageDescription.numberOfLines = 0
+        }else {
+            self.lblImageDescription.numberOfLines = 3
+        }
+       
+    }
     
 /*
     lazy var effectView: UIVisualEffectView = {

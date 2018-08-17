@@ -263,7 +263,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Initialize
     fileprivate func initializeApplication(){
-        
         // Keyboard Manager
         IQKeyboardManager.sharedManager().enable = true
         AppDelegate.appDelegate = self

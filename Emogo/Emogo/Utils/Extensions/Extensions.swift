@@ -463,6 +463,10 @@ extension UIImageView {
     }
     
     func setImageWithURL(strImage:String,isAddLoader:Bool? = nil,handler : @escaping ((_ result : Bool?) -> Void)){
+        if strImage.trim().isEmpty {
+            handler(true)
+            return
+        }
           var loader:PMDotLoaderView? = nil
           if isAddLoader == nil {
              loader = PMDotLoaderView()
@@ -624,7 +628,7 @@ extension UIViewController {
         let btnHome = UIButton()
         btnHome.frame = CGRect(x: 0, y: 0, width: (img2?.size.width)!, height: (img2?.size.height)!)
         btnHome.setImage(img2, for: .normal)
-        self.navigationItem.titleView = btnHome
+       // self.navigationItem.titleView = btnHome
      
     }
     

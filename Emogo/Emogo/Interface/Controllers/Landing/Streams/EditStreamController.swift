@@ -223,11 +223,13 @@ class EditStreamController: UITableViewController {
 
             if self.objStream?.type.lowercased() == "public"{
                 self.switchEmogoPrivate.on = false
+                
                 self.switchEmogoPrivate.animationSwitcherButton()
                 streamType = "Public"
 
             }else {
                 self.switchEmogoPrivate.on = true
+               
                 streamType = "Private"
                 self.switchEmogoPrivate.animationSwitcherButton()
             }
@@ -238,8 +240,11 @@ class EditStreamController: UITableViewController {
             self.switchAddContent.on      = false
             self.switchAddPeople.animationSwitcherButton()
             self.switchAddContent.animationSwitcherButton()
-            
-            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+            print(objStream?.idCreatedBy)
+            print(UserDAO.sharedInstance.user.userProfileID)
+            print(UserDAO.sharedInstance.user.userId)
+
+            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 
                 self.selectedCollaborators = (self.objStream?.arrayColab)!
                 

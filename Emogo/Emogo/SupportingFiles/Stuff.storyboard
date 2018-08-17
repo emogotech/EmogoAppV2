@@ -2734,7 +2734,7 @@ Cg
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q6J-rC-k8n">
                                                             <rect key="frame" x="3" y="593" width="370" height="30"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWO-p6-gfl">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWO-p6-gfl">
                                                                     <rect key="frame" x="12" y="2" width="300" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="25" id="rzQ-Gs-6yi"/>
@@ -2746,7 +2746,7 @@ Cg
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIe-Kz-EYW">
                                                                     <rect key="frame" x="12" y="28" width="300" height="2"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="2" id="FMt-fl-5JC"/>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="2" id="7uW-5D-YxK"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2759,15 +2759,27 @@ Cg
                                                                         <constraint firstAttribute="height" constant="30" id="RvC-bE-Owf"/>
                                                                     </constraints>
                                                                 </imageView>
+                                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXL-2C-KdF">
+                                                                    <rect key="frame" x="335" y="7" width="27" height="22"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="22" id="hyl-rI-hHL"/>
+                                                                    </constraints>
+                                                                    <state key="normal" image="more_icon"/>
+                                                                    <connections>
+                                                                        <action selector="btnMoreAction:" destination="sZy-qC-YbX" eventType="touchUpInside" id="PqM-hT-mGw"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstItem="Wnm-gp-5Xy" firstAttribute="centerY" secondItem="Q6J-rC-k8n" secondAttribute="centerY" id="1GI-I2-Fnb"/>
                                                                 <constraint firstAttribute="trailing" secondItem="Wnm-gp-5Xy" secondAttribute="trailing" constant="18" id="3JS-NM-I4v"/>
+                                                                <constraint firstAttribute="trailing" secondItem="IXL-2C-KdF" secondAttribute="trailing" constant="8" id="43R-6d-Rdj"/>
+                                                                <constraint firstAttribute="bottom" secondItem="IXL-2C-KdF" secondAttribute="bottom" constant="1" id="4UI-Nw-3aB"/>
                                                                 <constraint firstItem="RWO-p6-gfl" firstAttribute="leading" secondItem="Q6J-rC-k8n" secondAttribute="leading" constant="12" id="C9R-2X-Elc"/>
                                                                 <constraint firstItem="uIe-Kz-EYW" firstAttribute="leading" secondItem="Q6J-rC-k8n" secondAttribute="leading" constant="12" id="CU4-B7-Fkc"/>
+                                                                <constraint firstAttribute="trailing" secondItem="uIe-Kz-EYW" secondAttribute="trailing" constant="58" id="Hjw-Wk-pIg"/>
                                                                 <constraint firstItem="uIe-Kz-EYW" firstAttribute="top" secondItem="RWO-p6-gfl" secondAttribute="bottom" constant="1" id="Izt-qN-tl3"/>
-                                                                <constraint firstAttribute="trailing" secondItem="uIe-Kz-EYW" secondAttribute="trailing" constant="58" id="TOg-xw-19G"/>
                                                                 <constraint firstAttribute="bottom" secondItem="uIe-Kz-EYW" secondAttribute="bottom" id="YgS-v9-Zqr"/>
                                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="Z51-v2-wNS"/>
                                                                 <constraint firstItem="Wnm-gp-5Xy" firstAttribute="leading" secondItem="RWO-p6-gfl" secondAttribute="trailing" constant="10" id="boW-jI-AkW"/>
@@ -2797,6 +2809,7 @@ Cg
                                             <constraint firstAttribute="trailing" secondItem="AW1-Mz-m9Y" secondAttribute="trailing" id="jAY-fw-NMj"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="btnMore" destination="IXL-2C-KdF" id="fcd-eK-8S5"/>
                                             <outlet property="btnPlayIcon" destination="eWv-qI-A6S" id="UuX-1G-u0w"/>
                                             <outlet property="imgCover" destination="oon-wZ-tQ0" id="j50-SG-5Nu"/>
                                             <outlet property="kLinkIogoWidth" destination="34n-qb-ZzX" id="mIJ-BW-HU3"/>
@@ -2852,7 +2865,6 @@ Cg
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="zE0-mB-eUK" firstAttribute="leading" secondItem="o69-p3-Ckf" secondAttribute="trailing" constant="20" id="0id-uX-c6k"/>
                                     <constraint firstAttribute="height" constant="50" id="34n-aY-FDS"/>
@@ -2952,7 +2964,7 @@ Cg
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RmZ-9a-VI4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2876" y="-1217"/>
+            <point key="canvasLocation" x="2876" y="-1217.5412293853074"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="ysd-6c-xfW">
@@ -3788,7 +3800,7 @@ Cg
                                         </cells>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="8K4-IB-vOP">
-                                        <rect key="frame" x="121" y="167" width="134" height="21"/>
+                                        <rect key="frame" x="120.5" y="167" width="134" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="fPy-J6-9ak"/>
                                         </constraints>
@@ -4939,6 +4951,7 @@ Cg
         <image name="lock_icon" width="8" height="10"/>
         <image name="messages_icon" width="43" height="37"/>
         <image name="more icon" width="38" height="18"/>
+        <image name="more_icon" width="27" height="8"/>
         <image name="play_button" width="30" height="30"/>
         <image name="rounded-corner" width="375" height="35"/>
         <image name="save btn" width="157" height="47"/>

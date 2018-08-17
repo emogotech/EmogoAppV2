@@ -186,11 +186,11 @@ class ProfileViewController: UIViewController {
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
-        self.profileCollectionView.addGestureRecognizer(swipeRight)
+        self.view.addGestureRecognizer(swipeRight)
       
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
-        self.profileCollectionView.addGestureRecognizer(swipeLeft)
+        self.view.addGestureRecognizer(swipeLeft)
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.profileCollectionView.addGestureRecognizer(longPressGesture)
@@ -692,6 +692,7 @@ class ProfileViewController: UIViewController {
     @objc func profileBackAction(){
         
         self.addLeftTransitionView(subtype: kCATransitionFromRight)
+
         self.navigationController?.popNormal()
     }
 
@@ -739,6 +740,8 @@ class ProfileViewController: UIViewController {
                         let index = self.selectedType.hashValue + 1
                         self.segmentControl.selectedSegmentIndex = index
                         self.updateStuffList(index: index)
+                    }else {
+                        self.profileBackAction()
                     }
                     }
                 break

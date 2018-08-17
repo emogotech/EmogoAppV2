@@ -26,7 +26,8 @@ class CreateStreamController: UITableViewController {
     @IBOutlet weak var viewAddCoverImage: UIView!
     @IBOutlet weak var tfEmogoTitle: SkyFloatingLabelTextField!
     @IBOutlet weak var tfDescription: MBAutoGrowingTextView!
-    @IBOutlet weak var switchForEmogoPrivate: PMAnimatedSwitch!
+   // @IBOutlet weak var switchForEmogoPrivate: PMAnimatedSwitch!
+    @IBOutlet weak var switchForEmogoPrivate: UISwitch!
     @IBOutlet weak var lblCaption: UILabel!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var lblAddCoverImage: UILabel!
@@ -127,10 +128,10 @@ class CreateStreamController: UITableViewController {
         // If Stream is public
         //self.rowHieght.constant = 0.0
         self.isExpandRow = false
-        switchForEmogoPrivate.delegate = self
-        switchForEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))
-        switchForEmogoPrivate.layer.borderWidth = 1.0
-        switchForEmogoPrivate.layer.borderColor = UIColor.black.cgColor
+//        switchForEmogoPrivate.delegate = self
+//        switchForEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))
+//        switchForEmogoPrivate.layer.borderWidth = 1.0
+//        switchForEmogoPrivate.layer.borderColor = UIColor.black.cgColor
     }
     
     func prepareNavigationbarButtons(){
@@ -159,6 +160,15 @@ class CreateStreamController: UITableViewController {
     }
     //MARK:- action for buttons
     
+    @IBAction func switchActionForEmogoPrivate(_ sender: Any) {
+        
+        if self.switchForEmogoPrivate.isOn {
+            currentStreamType = StreamType.Private
+        }else{
+            currentStreamType = StreamType.Public
+        }
+        
+    }
     @IBAction func btnCloseAction(_ sender: Any) {
         self.view.endEditing(true)
         self.dismiss(animated: true, completion: nil)
@@ -252,16 +262,23 @@ class CreateStreamController: UITableViewController {
     }
     private func createStream(cover:String,width:Int,hieght:Int){
         
-        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: false , canAddPeople: false ,height:hieght,width:width) { (isSuccess, errorMsg,stream) in
+        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: currentStreamType!.rawValue, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: false , canAddPeople: false ,height:hieght,width:width) { (isSuccess, errorMsg,stream) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToast(type: .error, strMSG: kAlert_Stream_Added_Success)
                 DispatchQueue.main.async{
-                    if self.switchForEmogoPrivate.on {
+//                    if self.switchForEmogoPrivate.on {
+//                        currentStreamType = StreamType.Private
+//                    }else {
+//                        currentStreamType = StreamType.Public
+//                    }
+                    
+                    if self.switchForEmogoPrivate.isOn {
                         currentStreamType = StreamType.Private
                     }else {
                         currentStreamType = StreamType.Public
                     }
+                    
                     StreamList.sharedInstance.arrayStream.insert(stream!, at: 0)
                     NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
                     if isAssignProfile != nil {
@@ -327,7 +344,13 @@ class CreateStreamController: UITableViewController {
                 // Back Screen
                 self.dismiss(animated: true, completion: nil)
                 
-                if self.switchForEmogoPrivate.on {
+//                if self.switchForEmogoPrivate.on {
+//                    currentStreamType = StreamType.Private
+//                }else {
+//                    currentStreamType = StreamType.Public
+//                }
+//
+                if self.switchForEmogoPrivate.isOn {
                     currentStreamType = StreamType.Private
                 }else {
                     currentStreamType = StreamType.Public

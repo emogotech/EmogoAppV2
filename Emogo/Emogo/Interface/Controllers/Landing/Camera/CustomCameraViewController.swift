@@ -138,6 +138,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         //        btnCamera.frame = CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 160.0, width: 75.0, height: 75.0)
         
         cameraDelegate = self
+        tapToFocus = true
         doubleTapCameraSwitch = false
         allowAutoRotate = true
         shouldUseDeviceOrientation = true

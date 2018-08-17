@@ -2086,7 +2086,7 @@
                                                     <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ceg-gw-Zw0" customClass="PMAnimatedSwitch" customModule="Emogo" customModuleProvider="target">
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ceg-gw-Zw0" customClass="PMAnimatedSwitch" customModule="Emogo" customModuleProvider="target">
                                                     <rect key="frame" x="315" y="13" width="50" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
@@ -2102,6 +2102,18 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xhn-eK-r5J">
+                                                    <rect key="frame" x="315" y="14" width="49" height="31"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="31" id="TbV-Dy-eqc"/>
+                                                        <constraint firstAttribute="width" constant="47" id="llN-ju-QUi"/>
+                                                    </constraints>
+                                                    <color key="onTintColor" red="0.0" green="0.73333333329999995" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="thumbTintColor" red="0.7843137255" green="0.7843137255" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="switchActionForEmogoPrivate:" destination="vNh-Vo-efA" eventType="valueChanged" id="S3S-Av-Jvx"/>
+                                                    </connections>
+                                                </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0B-Ci-cvC">
                                                     <rect key="frame" x="0.0" y="59" width="375" height="1"/>
                                                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -2123,9 +2135,11 @@
                                                 <constraint firstItem="ceg-gw-Zw0" firstAttribute="leading" secondItem="acB-Qn-Lgz" secondAttribute="trailing" constant="3" id="LgQ-pM-bmF"/>
                                                 <constraint firstItem="acB-Qn-Lgz" firstAttribute="top" secondItem="iS9-92-ddn" secondAttribute="top" constant="10" id="VWn-DV-02u"/>
                                                 <constraint firstItem="acB-Qn-Lgz" firstAttribute="leading" secondItem="iS9-92-ddn" secondAttribute="leading" constant="12" id="eUg-R8-ROW"/>
+                                                <constraint firstItem="xhn-eK-r5J" firstAttribute="top" secondItem="iS9-92-ddn" secondAttribute="top" constant="14" id="gUm-JS-zSu"/>
                                                 <constraint firstItem="ceg-gw-Zw0" firstAttribute="top" secondItem="iS9-92-ddn" secondAttribute="top" constant="13" id="gak-qJ-Bjb"/>
                                                 <constraint firstItem="ceg-gw-Zw0" firstAttribute="leading" secondItem="0Za-sp-toW" secondAttribute="trailing" constant="3" id="jRn-sv-SU4"/>
                                                 <constraint firstAttribute="trailing" secondItem="g0B-Ci-cvC" secondAttribute="trailing" id="niW-nf-YHv"/>
+                                                <constraint firstAttribute="trailing" secondItem="xhn-eK-r5J" secondAttribute="trailing" constant="13" id="wrQ-Ca-Cj0"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -2165,7 +2179,7 @@
                         <outlet property="imgCover" destination="q6f-aR-OCD" id="b7G-Qf-JBh"/>
                         <outlet property="lblAddCoverImage" destination="WcU-eI-qAH" id="r4i-uz-41l"/>
                         <outlet property="lblCaption" destination="7aY-dB-1PQ" id="ioR-H1-RZb"/>
-                        <outlet property="switchForEmogoPrivate" destination="ceg-gw-Zw0" id="vd4-L0-3zy"/>
+                        <outlet property="switchForEmogoPrivate" destination="xhn-eK-r5J" id="eax-5B-T1a"/>
                         <outlet property="textFieldNext" destination="AhN-It-AoG" id="vcP-3n-SMf"/>
                         <outlet property="tfDescription" destination="9jT-A6-fdz" id="gzg-6w-t7a"/>
                         <outlet property="tfEmogoTitle" destination="ZgC-po-daf" id="SE5-Vg-EaR"/>
@@ -3029,7 +3043,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="add cover Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuT-8V-Thc">
-                                                    <rect key="frame" x="137" y="85" width="101" height="17"/>
+                                                    <rect key="frame" x="137.5" y="85" width="101" height="17"/>
                                                     <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -4537,9 +4551,6 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" keyboardType="alphabet" keyboardAppearance="alert" returnKeyType="search"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="mEX-OF-iVR" id="9KO-yw-ThO"/>
-                                        </connections>
                                     </textField>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search_icon_iphone-1" translatesAutoresizingMaskIntoConstraints="NO" id="Png-43-ocE">
                                         <rect key="frame" x="26" y="25" width="13" height="13"/>
@@ -4846,7 +4857,6 @@
                         <outlet property="btnAdd" destination="4By-Gz-jgX" id="pH0-06-9BH"/>
                         <outlet property="btnMenu" destination="VgS-gc-2TV" id="cjW-0D-pmX"/>
                         <outlet property="btnSearch" destination="1Rx-W5-l3A" id="9C2-ny-rZJ"/>
-                        <outlet property="imgSearchIcon" destination="Png-43-ocE" id="bCz-10-4c5"/>
                         <outlet property="kCancelWidthConstraint" destination="S8e-bz-3ce" id="dGb-D4-fyq"/>
                         <outlet property="kHeightSegmentSearch" destination="YiA-D1-CLI" id="1u7-wi-lWA"/>
                         <outlet property="kMenuViewHeight" destination="fNX-I3-2Xs" id="fJs-FB-Zrt"/>
@@ -4858,7 +4868,6 @@
                         <outlet property="segmentContainerView" destination="ahK-Wp-PkF" id="eLO-Hc-p0w"/>
                         <outlet property="segmentSearch" destination="hve-Y2-3dR" id="nA3-Sk-DZ7"/>
                         <outlet property="streamCollectionView" destination="gsJ-AF-oQ0" id="xfO-fd-3DF"/>
-                        <outlet property="txtSearch" destination="tZU-T5-ozw" id="vxh-t6-7u2"/>
                         <outlet property="viewCollection" destination="4O8-Oe-gMh" id="ltz-Yi-fMJ"/>
                         <outlet property="viewMenu" destination="IpZ-v5-Sfa" id="0JT-pJ-Z0X"/>
                         <outlet property="viewSearchButtons" destination="kSr-RV-t48" id="6B6-Xw-rt7"/>
