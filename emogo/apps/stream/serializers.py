@@ -202,7 +202,8 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             featured=self.validated_data.get('featured', False),
             created_by=self.context.get('request').user,
             height=self.validated_data.get('height', 300),
-            width=self.validated_data.get('width', 300)
+            width=self.validated_data.get('width', 300),
+            color = self.validated_data.get('color')
         )
         stream.save()
         # Update any_one_can_edit flag is type is Public
@@ -241,7 +242,6 @@ class ViewStreamSerializer(StreamSerializer):
     total_likes = serializers.SerializerMethodField()
     user_liked = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
-    # have_some_update = serializers.SerializerMethodField()
     user_image = serializers.SerializerMethodField()
     is_collaborator = serializers.SerializerMethodField()
 

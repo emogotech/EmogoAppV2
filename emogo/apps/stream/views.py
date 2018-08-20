@@ -107,7 +107,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.queryset)
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -142,7 +142,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         self.serializer_class = ViewStreamSerializer
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update','stream_permission')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update','stream_permission', 'color')
         serializer = self.get_serializer(instance, context=self.request, fields=fields)
         if getattr(instance, '_prefetched_objects_cache', None):
             # If 'prefetch_related' has been applied to a queryset, we need to
@@ -676,3 +676,24 @@ class IncreaseStreamViewCount(CreateAPIView):
         # To return created stream data
         # self.serializer_class = ViewStreamSerializer
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+
+class ContentInBulkAPI(ContentAPI):
+    """
+    Get Contents in bulk
+    """
+    def list(self, request, *args, **kwargs):
+        """
+        :param ids: list of content ids
+        :return: All content details.
+        """
+        self.serializer_class = ViewContentSerializer
+        ids = eval(request.query_params['ids']) if request.query_params.get('ids') else ''
+        queryset = self.get_queryset().filter(id__in=ids)
+        #  Customized field list
+        fields = (
+        'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
+        'color', 'user_image', 'full_name', 'order', 'liked')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)

@@ -290,7 +290,7 @@ class UserStearms(ListAPIView):
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -424,7 +424,7 @@ class UserLikedSteams(ListAPIView):
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'color')
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -504,7 +504,7 @@ class UserCollaborators(ListAPIView):
         queryset =  self.get_queryset().filter(id__in=stream_ids).order_by('-upd')
 
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type','stream_permission', 'have_some_update')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type','stream_permission', 'have_some_update', 'color')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
