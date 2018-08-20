@@ -211,7 +211,7 @@ class UserDetailSerializer(UserProfileSerializer):
             return self.context.user
 
     def get_profile_stream(self, obj):
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes', 'is_collaborator', 'have_some_update')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes', 'is_collaborator', 'have_some_update', 'color')
         if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
             if obj.profile_stream.type == 'Private' and obj.profile_stream.created_by != self.get_user_instance():
                 if self.get_user_instance().username in [x.phone_number for x in obj.profile_stream.profile_stream_collaborator_list]:
@@ -463,7 +463,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     collaborator_qs = Collaborator.actives.all().select_related('stream')
 
     def use_fields(self):
-        fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width', 'have_some_update')
+        fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width', 'have_some_update', 'color')
         return fields
 
     def get_featured(self, obj):
