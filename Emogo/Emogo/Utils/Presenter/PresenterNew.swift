@@ -52,7 +52,7 @@ class PresenterNew: NSObject {
         customPresenter.blurBackground = false
         return customPresenter
     }()
-    
+    /*
     static let ActionSheetPresenter: Presentr = {
         
         if UIDevice.current.modelName.lowercased().contains("iphone5") || UIDevice.current.modelName.lowercased().contains("iphone 5") {
@@ -89,6 +89,43 @@ class PresenterNew: NSObject {
             return customPresenter
         }
        
+    }()*/
+     static let ActionSheetPresenter: Presentr = {
+        
+        if UIDevice.current.modelName.lowercased().contains("iphone5") || UIDevice.current.modelName.lowercased().contains("iphone 5") {
+            let width = ModalSize.full
+            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height -  150.0), sizeLandscape: Float(kFrame.size.width - 150.0))
+            let cennterY = kFrame.size.height - (kFrame.size.height -  150.0)
+            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+            let customType = PresentationType.custom(width: width, height: height, center: center)
+            let customPresenter = Presentr(presentationType: customType)
+            customPresenter.transitionType = .coverVertical
+            customPresenter.dismissTransitionType = .coverVertical
+            customPresenter.roundCorners = true
+            customPresenter.cornerRadius = 35.0
+            customPresenter.backgroundOpacity = 0.85
+            customPresenter.dismissOnSwipe = true
+            customPresenter.blurBackground = false
+            return customPresenter
+        }else {
+            
+            let width = ModalSize.full
+            let height = ModalSize.customOrientation(sizePortrait: Float(370.0), sizeLandscape: Float(370.0))
+            let cennterY = kFrame.size.height - 370.0
+            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+            let customType = PresentationType.custom(width: width, height: height, center: center)
+            let customPresenter = Presentr(presentationType: customType)
+            customPresenter.transitionType = .coverVertical
+            customPresenter.dismissTransitionType = .coverVertical
+            customPresenter.roundCorners = true
+            customPresenter.cornerRadius = 35.0
+            customPresenter.backgroundOpacity = 0.85
+            customPresenter.dismissOnSwipe = true
+            customPresenter.blurBackground = false
+            
+            return customPresenter
+        }
+        
     }()
     
     static let AddCollabPresenter: Presentr = {

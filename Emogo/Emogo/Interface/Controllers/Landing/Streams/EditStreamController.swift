@@ -22,14 +22,20 @@ class EditStreamController: UITableViewController {
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var tfDescription: MBAutoGrowingTextView!
     @IBOutlet weak var tfEmogoTitle: SkyFloatingLabelTextField!
-    @IBOutlet weak var switchAddPeople: PMAnimatedSwitch!
     @IBOutlet weak var btnChangeCover: UIButton!
-    @IBOutlet weak var switchEmogoPrivate: PMAnimatedSwitch!
-    @IBOutlet weak var switchAddContent: PMAnimatedSwitch!
-    @IBOutlet weak var switchMakeEmogoGlobal: PMAnimatedSwitch!
     @IBOutlet weak var lblCaption: UILabel!
     @IBOutlet weak var btnAddCollab: UIButton!
     @IBOutlet weak var viewTitle: UIView!
+    
+//    @IBOutlet weak var switchEmogoPrivate: PMAnimatedSwitch!
+//    @IBOutlet weak var switchAddContent: PMAnimatedSwitch!
+//    @IBOutlet weak var switchMakeEmogoGlobal: PMAnimatedSwitch!
+//    @IBOutlet weak var switchAddPeople: PMAnimatedSwitch!
+    
+    @IBOutlet weak var switchEmogoPrivate: UISwitch!
+    @IBOutlet weak var switchAddContent: UISwitch!
+    @IBOutlet weak var switchMakeEmogoGlobal:  UISwitch!
+    @IBOutlet weak var switchAddPeople:  UISwitch!
 
     var delegate:CustomCameraViewControllerDelegate?
     var coverImage:UIImage!
@@ -58,7 +64,7 @@ class EditStreamController: UITableViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        prepareSwitches()
+       // prepareSwitches()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -131,7 +137,7 @@ class EditStreamController: UITableViewController {
 //        self.title = "Edit Emogo"
     }
     
-    
+    /*
     func prepareSwitches(){
         switchEmogoPrivate.tag = 101
         switchEmogoPrivate.delegate = self
@@ -160,7 +166,72 @@ class EditStreamController: UITableViewController {
         switchMakeEmogoGlobal.layer.borderColor = UIColor.black.cgColor
         //self.viewTitle.layer.contents = UIImage(named: "gradient")?.cgImage
 
+    }*/
+    
+    //MARK:- Switch Action
+    
+    @IBAction func switchActionEmogoPrivate(_ sender: UISwitch) {
+        if self.switchEmogoPrivate.isOn {
+            streamType = "Private"
+            self.switchMakeEmogoGlobal.isOn = false
+
+        }else {
+            streamType = "Public"
+            self.switchMakeEmogoGlobal.isOn = false
+          
+        }
     }
+    
+    @IBAction func switchActionAddContent(_ sender: UISwitch) {
+        if self.switchAddContent.isOn {
+                print("102 on")
+        }else {
+                print("102 off")
+        }
+    }
+    
+    @IBAction func switchActionAddPeople(_ sender: UISwitch) {
+        if self.switchAddPeople.isOn {
+             print("103 on")
+        }else {
+             print("103 off")
+        }
+    }
+    
+    
+    
+    @IBAction func switchActionEmogoGlobal(_ sender: UISwitch) {
+        if self.switchMakeEmogoGlobal.isOn {
+            self.switchAddContent.isOn = false
+            self.switchAddContent.isUserInteractionEnabled = false
+            self.switchAddPeople.isOn = false
+            self.switchAddPeople.isUserInteractionEnabled = false
+            if switchEmogoPrivate.isOn == true {
+                self.switchEmogoPrivate.isOn = false
+                
+                self.streamType = "Public"
+            }
+          
+            self.btnAddCollab.isUserInteractionEnabled = false
+        }else {
+            self.switchAddContent.isOn = false
+            self.switchAddPeople.isOn = false
+            if self.objStream?.arrayColab.count == 0 {
+                self.switchAddPeople.isUserInteractionEnabled = false
+                self.switchAddContent.isUserInteractionEnabled = false
+            }else {
+                self.switchAddPeople.isUserInteractionEnabled = true
+                self.switchAddContent.isUserInteractionEnabled = true
+            }
+            
+            self.btnAddCollab.isUserInteractionEnabled = true
+        }
+       
+    }
+   
+    
+    
+    
     //MARK:- Action For Buttons
     @IBAction func btnDoneAction(_ sender: Any) {
         self.view.endEditing(true)
@@ -178,7 +249,7 @@ class EditStreamController: UITableViewController {
                 if self.strCoverImage.isEmpty {
                     self.uploadCoverImage()
                 }else {
-                    self.editStream(cover: self.strCoverImage,width:(self.objStream?.width)!,hieght:(self.objStream?.hieght)! )
+                    self.editStream(cover: self.strCoverImage,width:(self.objStream?.width)!,hieght:(self.objStream?.hieght)!,color:self.coverImage.getColors().primary.toHexString)
                 }
             }
         }
@@ -218,28 +289,26 @@ class EditStreamController: UITableViewController {
             }
            
             
-            self.switchMakeEmogoGlobal.on = (self.objStream?.anyOneCanEdit)!
-            self.switchMakeEmogoGlobal.animationSwitcherButton()
+           self.switchMakeEmogoGlobal.isOn = (self.objStream?.anyOneCanEdit)!
+          //  self.switchMakeEmogoGlobal.animationSwitcherButton()
 
             if self.objStream?.type.lowercased() == "public"{
-                self.switchEmogoPrivate.on = false
+                self.switchEmogoPrivate.isOn = false
                 
-                self.switchEmogoPrivate.animationSwitcherButton()
+                //self.switchEmogoPrivate.animationSwitcherButton()
                 streamType = "Public"
 
             }else {
-                self.switchEmogoPrivate.on = true
+                self.switchEmogoPrivate.isOn = true
                
                 streamType = "Private"
-                self.switchEmogoPrivate.animationSwitcherButton()
+              //  self.switchEmogoPrivate.animationSwitcherButton()
             }
             
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isUserInteractionEnabled  = false
-            self.switchAddPeople.on       = false
-            self.switchAddContent.on      = false
-            self.switchAddPeople.animationSwitcherButton()
-            self.switchAddContent.animationSwitcherButton()
+            self.switchAddPeople.isOn       = false
+            self.switchAddContent.isOn      = false
             print(objStream?.idCreatedBy)
             print(UserDAO.sharedInstance.user.userProfileID)
             print(UserDAO.sharedInstance.user.userId)
@@ -328,19 +397,16 @@ class EditStreamController: UITableViewController {
             self.tableView.beginUpdates()
             self.tableView.endUpdates()
         }
-        self.switchAddPeople.on = (self.objStream?.userCanAddPeople)!
-        self.switchAddContent.on = (self.objStream?.userCanAddContent)!
-        self.switchAddPeople.animationSwitcherButton()
-        self.switchAddContent.animationSwitcherButton()
+    
+        self.switchAddPeople.isOn = (self.objStream?.userCanAddPeople)!
+        self.switchAddContent.isOn = (self.objStream?.userCanAddContent)!
 
         if (self.objStream?.anyOneCanEdit)! {
             self.btnAddCollab.isUserInteractionEnabled = false
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isUserInteractionEnabled = false
-            self.switchAddPeople.on = false
-            self.switchAddContent.on = false
-            self.switchAddPeople.animationSwitcherButton()
-            self.switchAddContent.animationSwitcherButton()
+            self.switchAddPeople.isOn = false
+            self.switchAddContent.isOn = false
         }
         self.tableView.reloadData()
     }
@@ -425,7 +491,7 @@ class EditStreamController: UITableViewController {
             if error == nil {
                 DispatchQueue.main.async {
                     if self.streamID != nil   {
-                        self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
+                        self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height),color: self.coverImage.getColors().primary.toHexString )
                     }else {
                         HUDManager.sharedInstance.hideHUD()
                     }
@@ -435,8 +501,8 @@ class EditStreamController: UITableViewController {
             }
         }
     }
-    private func editStream(cover:String,width:Int,hieght:Int){
-        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchMakeEmogoGlobal.on, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.on, canAddPeople: self.switchAddPeople.on,height:hieght,width:width) { (isSuccess, errorMsg) in
+    private func editStream(cover:String,width:Int,hieght:Int,color:String){
+        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchMakeEmogoGlobal.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width,color:color) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Edited_Success)
@@ -619,6 +685,7 @@ extension EditStreamController {
         }
     }
 }
+/*
 extension EditStreamController :PMSwitcherChangeValueDelegate{
     func switcherDidChangeValue(switcher: PMAnimatedSwitch, value: Bool) {
         
@@ -700,7 +767,7 @@ extension EditStreamController :PMSwitcherChangeValueDelegate{
     }
     
     
-}
+}*/
 
 extension EditStreamController :AddCollabViewControllerDelegate{
     func selectedColabs(arrayColab: [CollaboratorDAO]) {

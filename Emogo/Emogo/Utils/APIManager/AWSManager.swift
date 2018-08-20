@@ -415,23 +415,29 @@ class AWSRequestManager:NSObject {
     
     func showToast(strMSG:String){
         let messageView: MessageView = MessageView.viewFromNib(layout: .cardView)
-        messageView.configureBackgroundView(width: 250)
-        messageView.configureContent(title: nil, body: strMSG, iconImage: #imageLiteral(resourceName: "alert_icon"), iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
+       // messageView.layoutMargins = .init(top: 65, left: 0, bottom: 0, right: 0)
+        messageView.configureBackgroundView(width: kFrame.size.width - 95)
+        messageView.configureContent(title: nil, body: strMSG, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: nil) { _ in
             SwiftMessages.hide()
         }
-        messageView.iconImageView?.tintColor = UIColor.black
+        //   messageView.bounceAnimationOffset =
+        messageView.bodyLabel?.font = UIFont(name: kFontBold, size: 16.0)
+        messageView.bodyLabel?.textAlignment = .center
+        messageView.bodyLabel?.textColor = UIColor.white
+        messageView.titleLabel?.textAlignment = .center
+        messageView.iconImageView?.tintColor = UIColor.white
         messageView.button?.isHidden = true
-        messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+        messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
         messageView.backgroundView.layer.cornerRadius = 10
         var config = SwiftMessages.defaultConfig
-        config.presentationStyle = .bottom
-        
+        config.presentationStyle = .top
         config.duration = .seconds(seconds: 3.0)
-        config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
+        config.dimMode = .color(color: UIColor.clear, interactive: true)
+        // config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
         config.presentationContext  = .window(windowLevel: UIWindowLevelStatusBar)
         SwiftMessages.show(config: config, view: messageView)
-        
     }
+    
  }
 
 

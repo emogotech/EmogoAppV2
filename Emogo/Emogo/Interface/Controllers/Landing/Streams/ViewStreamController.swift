@@ -32,6 +32,7 @@ class ViewStreamController: UIViewController {
     var isUpload:Bool! = false
     var isbackFromDown:Bool! = false
     var isDidLoad:Bool! = false
+    var color : String?
 
     // MARK: - Override Functions
     var stretchyHeader: StreamViewHeader!

@@ -47,7 +47,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         tap.numberOfTapsRequired = 1
         self.imgCover.isExclusiveTouch = true
         self.imgCover.addGestureRecognizer(tap)
-        
+       
         self.expansionMode = .topOnly
         
         // You can change the minimum and maximum content heights
@@ -82,13 +82,17 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.lblName.minimumScaleFactor = 1.0
         self.lblDescription.text = objStream.description.trim()
         self.lblDescription.shadow()
-
         self.lblDescription.numberOfLines = 0
       //  self.lblDescription.minimumScaleFactor = 1.0
      
         self.lblLikeCount.text = objStream.totalLikeCount.trim()
         self.lblViewCount.text = objStream.viewCount.trim()
+    
+        if (stream?.color.trim().isEmpty)! {
+            imgCover.backgroundColor = UIColor(hex: (stream?.color.trim())!)
+        }
         self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: kPlaceholderImage)
+        
 //        if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
 //            btnEdit.isHidden = false
 //            btnDelete.isHidden = false

@@ -99,7 +99,6 @@ extension UIView {
     }
     
     func addCorner (radius : CGFloat , borderWidth : CGFloat , color : UIColor ) {
-        
         self.layer.cornerRadius = radius
         self.layer.borderWidth = borderWidth
         self.layer.borderColor = color.cgColor
@@ -219,10 +218,11 @@ extension UIView {
         
     }
     
-    func addGradient(color:UIColor){
+    func addGradient(color:[UIColor]){
         let gradient = CAGradientLayer()
         gradient.frame = self.bounds
-        gradient.colors = [UIColor.red, UIColor.blue, UIColor.red, UIColor.blue]
+        gradient.locations = [0.0, 1.0]
+        gradient.colors = color
         self.layer.insertSublayer(gradient, at: 0)
     }
     
@@ -597,19 +597,23 @@ extension UIViewController {
     private func show(strMSG:String) {
         
         let messageView: MessageView = MessageView.viewFromNib(layout: .cardView)
-        messageView.configureBackgroundView(width: 250)
-        messageView.configureContent(title: nil, body: strMSG, iconImage: #imageLiteral(resourceName: "alert_icon"), iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
+        messageView.configureBackgroundView(width: kFrame.size.width - 95)
+        messageView.configureContent(title: nil, body: strMSG, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
             SwiftMessages.hide()
         }
-        messageView.iconImageView?.tintColor = UIColor.black
+     //   messageView.bounceAnimationOffset =
+        messageView.bodyLabel?.font = UIFont(name: kFontBold, size: 16.0)
+        messageView.bodyLabel?.textColor = UIColor.white
+        messageView.bodyLabel?.textAlignment = .center
+        messageView.iconImageView?.tintColor = UIColor.white
         messageView.button?.isHidden = true
-        messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+        messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
         messageView.backgroundView.layer.cornerRadius = 10
         var config = SwiftMessages.defaultConfig
-        config.presentationStyle = .bottom
-        
+        config.presentationStyle = .top
         config.duration = .seconds(seconds: 3.0)
-        config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
+        config.dimMode = .color(color: UIColor.clear, interactive: true)
+       // config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
         config.presentationContext  = .window(windowLevel: UIWindowLevelStatusBar)
         SwiftMessages.show(config: config, view: messageView)
     }
@@ -1233,24 +1237,30 @@ extension UITableViewController {
     }
     
     private func show(strMSG:String) {
-        
+        //  MarginAdjustable+Animation.swift
         let messageView: MessageView = MessageView.viewFromNib(layout: .cardView)
-        messageView.configureBackgroundView(width: 250)
-        messageView.configureContent(title: nil, body: strMSG, iconImage: #imageLiteral(resourceName: "alert_icon"), iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
+        messageView.configureBackgroundView(width: kFrame.size.width - 95)
+        messageView.configureContent(title: nil, body: strMSG, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
             SwiftMessages.hide()
         }
-        messageView.iconImageView?.tintColor = UIColor.black
+        //   messageView.bounceAnimationOffset =
+        messageView.bodyLabel?.font = UIFont(name: kFontBold, size: 16.0)
+        messageView.bodyLabel?.textColor = UIColor.white
+        messageView.iconImageView?.tintColor = UIColor.white
+        messageView.bodyLabel?.textAlignment = .center
+        messageView.titleLabel?.textAlignment = .center
         messageView.button?.isHidden = true
-        messageView.backgroundView.backgroundColor = UIColor.init(white: 0.97, alpha: 1)
+        messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
         messageView.backgroundView.layer.cornerRadius = 10
         var config = SwiftMessages.defaultConfig
-        config.presentationStyle = .bottom
-        
+        config.presentationStyle = .top
         config.duration = .seconds(seconds: 3.0)
-        config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
+        config.dimMode = .color(color: UIColor.clear, interactive: true)
+        // config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
         config.presentationContext  = .window(windowLevel: UIWindowLevelStatusBar)
         SwiftMessages.show(config: config, view: messageView)
     }
+    
 }
 
 

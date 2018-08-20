@@ -58,6 +58,7 @@ class StreamListViewController: UIViewController {
 
     var selectedImageView:UIImageView?
     var topConstraintRange = 40
+    var stream:StreamViewDAO?
 
     //-=-------------------------
     
@@ -705,7 +706,9 @@ class StreamListViewController: UIViewController {
     
     func prepareSearchBar(){
         txtSearch = UITextField(frame: CGRect(x: 0, y: 0, width: kFrame.size.width - 100, height: 30))
-        imgSearchIcon = UIImageView(frame: CGRect(x: 10, y: 5, width: 20, height: 20))
+        let image = UIImage(named: "search_icon_iphone-1")
+        imgSearchIcon = UIImageView(frame: CGRect(x: 10, y: (image?.size.height)!/2.0, width: (image?.size.width)!, height: (image?.size.height)!))
+        imgSearchIcon.contentMode = .scaleAspectFit
         imgSearchIcon.image =  UIImage(named: "search_icon_iphone-1")
         txtSearch.paddingLeft = 30
         txtSearch.borderStyle = .roundedRect
@@ -1599,6 +1602,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                     obj.currentIndex = indexPath.row
                     obj.streamType = currentStreamType.rawValue
+                    
                     ContentList.sharedInstance.objStream = nil
                     self.navigationController?.pushViewController(obj, animated: true)
                }

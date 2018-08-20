@@ -216,6 +216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dictData["description"] = url.valueOf("description")
             dictData["video_image"] = url.valueOf("coverImageVideo")
             dictData["height"] = url.valueOf("height")
+            dictData["color"] = url.valueOf("color")
             let width = url.valueOf("width")?.components(separatedBy: "/")
             dictData["width"] = width?[0]
             let content = ContentDAO(contentData: dictData)
@@ -233,6 +234,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dictData["width"] = url.valueOf("width")
             dictData["id"] = url.valueOf("content_id")
             dictData["type"] = url.valueOf("type")
+            dictData["color"] = url.valueOf("color")
             dictData["created_by"] = url.valueOf("created_by")
             let content = ContentDAO(contentData: dictData)
             let strID:String! =  url.valueOf("stream_id")

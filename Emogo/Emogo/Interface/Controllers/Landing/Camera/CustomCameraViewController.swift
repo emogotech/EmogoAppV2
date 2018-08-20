@@ -59,8 +59,9 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     var isForImageOnly    :   Bool?
     
-    var cameraOption:HMSegmentedControl = HMSegmentedControl()
-    
+  //  var cameraOption:HMSegmentedControl = HMSegmentedControl()
+       var cameraOption:RS3DSegmentedControl = RS3DSegmentedControl()
+
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -130,6 +131,13 @@ class CustomCameraViewController: SwiftyCamViewController {
     func prepareLayouts(){
         btnCamera.isEnabled = true
         btnCamera.delegate = self
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            self.btnCamera.isHaptic = true
+            self.btnCamera.hapticType = .impact(.heavy)
+        }else{
+            self.btnCamera.isHaptic = false
+        }
+        
         //        btnCamera.center = self.cameraButtonContainer.center
         //        let frameForCamera = self.cameraButtonContainer.frame
         //        btnCamera.frame = frameForCamera
@@ -219,6 +227,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @objc func prepareForCameraMode(){
+         /*
         cameraOption = HMSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
         self.cameraOption.backgroundColor = UIColor.clear
         self.cameraOption.selectedSegmentIndex = cameraMode.hashValue
@@ -234,16 +243,14 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.updateCameraType(index: index)
         }
         self.cameraModeOptions.addSubview(self.cameraOption)
-        
-        /*
+        */
          self.cameraOption = RS3DSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
          cameraModeOptions.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
          self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
          self.cameraOption.delegate = self
          self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
-         self.cameraOption.textFont = UIFont(name: kFontRegular, size: 16.0)
+         self.cameraOption.textFont = UIFont(name: kFontRegular, size: 14.0)
          self.cameraModeOptions.addSubview(self.cameraOption)
-         */
     }
     
     
@@ -486,13 +493,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     @objc func captureModeTap(_ sender: UIGestureRecognizer){
        // print("Normal tap")
         
-        if kDefault?.bool(forKey: kHapticFeedback) == true {
-            Haptic.impact(.heavy).generate()
-            self.btnCamera.isHaptic = true
-            self.btnCamera.hapticType = .impact(.heavy)
-        }else{
-            self.btnCamera.isHaptic = false
-        }
+       
         if self.cameraMode  == .handFree {
             if isRecording {
                 self.lblRecordTimer.isHidden = true
@@ -778,6 +779,12 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+           Haptic.impact(.heavy).generate()
+           // Haptic.selection.generate()
+          //  Haptic.notification(.warning).generate()
+        }
+        
         if isDismiss == nil {
             let camera = ContentDAO(contentData: [:])
             camera.type = .image
@@ -789,6 +796,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             self.cameraOption.isUserInteractionEnabled = true
             DispatchQueue.main.async {
                 self.previewCollection.reloadData()
+                self.previewCollection.scrollToItemIfAvailable(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
             }
             //    setupButtonWhileRecording(isAddButton: true)
             
@@ -853,7 +861,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         if self.isForImageOnly != nil {
             return
         }
-        
+        Haptic.notification(.success).generate()
         if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:true) {
             let camera = ContentDAO(contentData: [:])
             camera.type = .video
@@ -868,6 +876,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             self.previewCollection.reloadData()
             DispatchQueue.main.async {
                 self.previewCollection.reloadData()
+                self.previewCollection.scrollToItemIfAvailable(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
             }
         }
     }

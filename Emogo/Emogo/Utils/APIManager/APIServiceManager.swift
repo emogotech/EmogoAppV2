@@ -205,7 +205,7 @@ class APIServiceManager: NSObject {
     
     // MARK: - Create Stream API
     
-    func apiForCreateStream( streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,height:Int,width:Int,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?,_ stream:StreamDAO?)->Void){
+    func apiForCreateStream( streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,height:Int,width:Int,color:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?,_ stream:StreamDAO?)->Void){
         var jsonCollaborator = [[String:Any]]()
         for obj in collaborator {
             let value = ["name":obj.name.trim(),"phone_number":obj.phone.trim()]
@@ -214,6 +214,7 @@ class APIServiceManager: NSObject {
         var  params: [String: Any]!
         if anyOneCanEdit == true {
             params = [
+                "color":color,
                 "height":height,
                 "width":width,
                 "name" : streamName,
@@ -229,6 +230,7 @@ class APIServiceManager: NSObject {
             ]
         }else {
             params = [
+                "color":color,
                 "height":height,
                 "width":width,
                 "name" : streamName,
@@ -244,13 +246,13 @@ class APIServiceManager: NSObject {
             ]
         }
 
-       // print(params)
+       print(params)
         
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kStreamAPI, Param: params) { (result) in
             
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -276,7 +278,7 @@ class APIServiceManager: NSObject {
     }
     
     // MARK: - Edit Stream API
-    func apiForEditStream(streamID:String,streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,height:Int,width:Int,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForEditStream(streamID:String,streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,height:Int,width:Int,color:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         
         var jsonCollaborator = [[String:Any]]()
         for obj in collaborator {
@@ -286,6 +288,7 @@ class APIServiceManager: NSObject {
         var  params: [String: Any]!
         if anyOneCanEdit == true {
             params = [
+                "color":color,
                 "height":height,
                 "width":width,
                 "name" : streamName,
@@ -301,6 +304,7 @@ class APIServiceManager: NSObject {
             ]
         }else {
             params = [
+                "color":color,
                 "height":height,
                 "width":width,
                 "name" : streamName,

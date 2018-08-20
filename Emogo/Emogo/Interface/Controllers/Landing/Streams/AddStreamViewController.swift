@@ -333,7 +333,7 @@ class AddStreamViewController: UITableViewController {
                 if self.strCoverImage.isEmpty {
                     self.uploadCoverImage()
                 }else {
-                    self.editStream(cover: self.strCoverImage,width:(self.objStream?.width)!,hieght:(self.objStream?.hieght)! )
+                    self.editStream(cover: self.strCoverImage,width:(self.objStream?.width)!,hieght:(self.objStream?.hieght)!,color:self.coverImage.getColors().primary.toHexString )
                 }
             }
         }
@@ -486,7 +486,8 @@ class AddStreamViewController: UITableViewController {
         self.fileName =  NSUUID().uuidString + ".png"
         self.strCoverImage = ""
         self.imgCover.contentMode = .scaleAspectFit
-        self.imgCover.backgroundColor = image.getColors().background
+        self.imgCover.backgroundColor = image.getColors().primary
+       // self.imgCover.backgroundColor = image.getColors().background
         print(self.fileName)
     }
     
@@ -525,9 +526,9 @@ class AddStreamViewController: UITableViewController {
             if error == nil {
                 DispatchQueue.main.async {
                     if self.streamID == nil   {
-                        self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
+                        self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height),color: (image?.getColors().primary.toHexString)!)
                     } else {
-                        self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
+                        self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height),color: (image?.getColors().primary.toHexString)!)
                     }
                 }
             }else {
@@ -559,9 +560,9 @@ class AddStreamViewController: UITableViewController {
         }
     }
     
-    private func createStream(cover:String,width:Int,hieght:Int){
+    private func createStream(cover:String,width:Int,hieght:Int,color:String){
         
-        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg,stream) in
+        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width,color:color) { (isSuccess, errorMsg,stream) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Added_Success)
@@ -618,8 +619,8 @@ class AddStreamViewController: UITableViewController {
     }
     
     
-    private func editStream(cover:String,width:Int,hieght:Int){
-        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
+    private func editStream(cover:String,width:Int,hieght:Int,color:String){
+        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width,color:color) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Edited_Success)

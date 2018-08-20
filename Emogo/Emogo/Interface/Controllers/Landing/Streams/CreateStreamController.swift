@@ -128,6 +128,7 @@ class CreateStreamController: UITableViewController {
         // If Stream is public
         //self.rowHieght.constant = 0.0
         self.isExpandRow = false
+        self.switchForEmogoPrivate.isOn = false
 //        switchForEmogoPrivate.delegate = self
 //        switchForEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))
 //        switchForEmogoPrivate.layer.borderWidth = 1.0
@@ -163,9 +164,9 @@ class CreateStreamController: UITableViewController {
     @IBAction func switchActionForEmogoPrivate(_ sender: Any) {
         
         if self.switchForEmogoPrivate.isOn {
-            currentStreamType = StreamType.Private
+            streamType = StreamType.Private.rawValue
         }else{
-            currentStreamType = StreamType.Public
+            streamType = StreamType.Public.rawValue
         }
         
     }
@@ -210,6 +211,7 @@ class CreateStreamController: UITableViewController {
         self.fileName =  NSUUID().uuidString + ".png"
         self.strCoverImage = ""
         self.imgCover.contentMode = .scaleAspectFit
+       
         self.imgCover.backgroundColor = image.getColors().background
         self.viewAddCoverImage.isHidden = true
         self.lblAddCoverImage.isHidden = true
@@ -252,7 +254,7 @@ class CreateStreamController: UITableViewController {
             if error == nil {
                 DispatchQueue.main.async {
                     if self.streamID == nil   {
-                        self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
+                        self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height), color: (image?.getColors().primary.toHexString)!)
                     }
                 }
             }else {
@@ -260,9 +262,9 @@ class CreateStreamController: UITableViewController {
             }
         }
     }
-    private func createStream(cover:String,width:Int,hieght:Int){
+    private func createStream(cover:String,width:Int,hieght:Int,color:String){
         
-        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: currentStreamType!.rawValue, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: false , canAddPeople: false ,height:hieght,width:width) { (isSuccess, errorMsg,stream) in
+        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: false , canAddPeople: false ,height:hieght,width:width,color:color) { (isSuccess, errorMsg,stream) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToast(type: .error, strMSG: kAlert_Stream_Added_Success)

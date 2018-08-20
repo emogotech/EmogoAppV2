@@ -2934,19 +2934,27 @@ Cg
                                     <constraint firstItem="Tjh-CY-3ah" firstAttribute="top" secondItem="gHr-cV-s6R" secondAttribute="top" id="vDE-2u-l0X"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eg8-no-d56" customClass="BMPlayer" customModule="BMPlayer">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Wpd-Re-J64" firstAttribute="leading" secondItem="qkU-x5-PGe" secondAttribute="leading" id="5Cn-Fz-cVf"/>
+                            <constraint firstItem="eg8-no-d56" firstAttribute="top" secondItem="qkU-x5-PGe" secondAttribute="top" id="5Lv-GX-TAZ"/>
                             <constraint firstItem="IiW-oU-7kt" firstAttribute="bottom" secondItem="qkU-x5-PGe" secondAttribute="bottom" id="7oH-S8-YIa"/>
                             <constraint firstItem="IiW-oU-7kt" firstAttribute="trailing" secondItem="qkU-x5-PGe" secondAttribute="trailing" id="A7P-3j-WZj"/>
                             <constraint firstItem="Wpd-Re-J64" firstAttribute="trailing" secondItem="qkU-x5-PGe" secondAttribute="trailing" id="BKP-dC-Rcq"/>
                             <constraint firstItem="gHr-cV-s6R" firstAttribute="top" secondItem="qkU-x5-PGe" secondAttribute="top" id="F5l-Pw-aXV"/>
+                            <constraint firstItem="eg8-no-d56" firstAttribute="bottom" secondItem="qkU-x5-PGe" secondAttribute="bottom" id="aHz-fo-TAc"/>
                             <constraint firstItem="Wpd-Re-J64" firstAttribute="bottom" secondItem="qkU-x5-PGe" secondAttribute="bottom" id="cHq-gO-DHU"/>
                             <constraint firstItem="IiW-oU-7kt" firstAttribute="leading" secondItem="qkU-x5-PGe" secondAttribute="leading" id="cf1-vy-Yyd"/>
+                            <constraint firstItem="eg8-no-d56" firstAttribute="trailing" secondItem="qkU-x5-PGe" secondAttribute="trailing" id="cuf-7Y-ZCc"/>
                             <constraint firstItem="gHr-cV-s6R" firstAttribute="trailing" secondItem="qkU-x5-PGe" secondAttribute="trailing" id="hoh-5G-hTf"/>
                             <constraint firstItem="Wpd-Re-J64" firstAttribute="top" secondItem="qkU-x5-PGe" secondAttribute="top" id="kAf-Ur-6tF"/>
                             <constraint firstItem="gHr-cV-s6R" firstAttribute="leading" secondItem="qkU-x5-PGe" secondAttribute="leading" id="mAT-bz-LGe"/>
+                            <constraint firstItem="eg8-no-d56" firstAttribute="leading" secondItem="qkU-x5-PGe" secondAttribute="leading" id="xnn-XW-pEA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qkU-x5-PGe"/>
                     </view>
@@ -2960,6 +2968,7 @@ Cg
                         <outlet property="btnShare" destination="y0S-4V-P0P" id="REL-jm-BUO"/>
                         <outlet property="collectionView" destination="Wpd-Re-J64" id="WYf-rP-vsV"/>
                         <outlet property="kEditWidthConstraint" destination="xRn-Hf-tDA" id="yAE-Sd-niL"/>
+                        <outlet property="playerView" destination="eg8-no-d56" id="HDJ-M4-7d1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RmZ-9a-VI4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3800,7 +3809,7 @@ Cg
                                         </cells>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="8K4-IB-vOP">
-                                        <rect key="frame" x="120.5" y="167" width="134" height="21"/>
+                                        <rect key="frame" x="121.5" y="167" width="134" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="fPy-J6-9ak"/>
                                         </constraints>

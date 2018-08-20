@@ -153,6 +153,7 @@
 		F065AAB520E0E37F00993DD6 /* ProfileStreamView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F065AAB320E0E37F00993DD6 /* ProfileStreamView.xib */; };
 		F0875C3620C6BD0400CCBBBA /* LikeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */; };
 		F0875C3820C6BD2B00CCBBBA /* LikeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0875C3720C6BD2B00CCBBBA /* LikeListCell.swift */; };
+		F0AB406D212ADDBC00DADFC6 /* ActionSheetCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AB406C212ADDBC00DADFC6 /* ActionSheetCollectionCell.swift */; };
 		F0ACBEC120F4DD2A0008F145 /* CollectionImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ACBEC020F4DD2A0008F145 /* CollectionImagesCell.swift */; };
 		F0B3EEA720E4E61D00599675 /* LikeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B3EEA620E4E61D00599675 /* LikeListViewController.swift */; };
 		F0B3EEA920E4E78100599675 /* LikeStreamListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B3EEA820E4E78100599675 /* LikeStreamListCell.swift */; };
@@ -681,6 +682,7 @@
 		F065AAB320E0E37F00993DD6 /* ProfileStreamView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileStreamView.xib; sourceTree = "<group>"; };
 		F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListViewController.swift; sourceTree = "<group>"; };
 		F0875C3720C6BD2B00CCBBBA /* LikeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListCell.swift; sourceTree = "<group>"; };
+		F0AB406C212ADDBC00DADFC6 /* ActionSheetCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetCollectionCell.swift; sourceTree = "<group>"; };
 		F0ACBEC020F4DD2A0008F145 /* CollectionImagesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionImagesCell.swift; sourceTree = "<group>"; };
 		F0B3EEA620E4E61D00599675 /* LikeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeListViewController.swift; sourceTree = "<group>"; };
 		F0B3EEA820E4E78100599675 /* LikeStreamListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeStreamListCell.swift; sourceTree = "<group>"; };
@@ -1879,6 +1881,7 @@
 				F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */,
 				F005121320DA331F00EA4E50 /* SegmentHeaderViewCell.swift */,
 				F005121420DA331F00EA4E50 /* SegmentHeaderViewCell.xib */,
+				F0AB406C212ADDBC00DADFC6 /* ActionSheetCollectionCell.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -3292,6 +3295,7 @@
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
 				F4FC55F420D241B3006C22E1 /* ActionSheetModel.swift in Sources */,
 				F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */,
+				F0AB406D212ADDBC00DADFC6 /* ActionSheetCollectionCell.swift in Sources */,
 				F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */,
 				F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */,
 				F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */,

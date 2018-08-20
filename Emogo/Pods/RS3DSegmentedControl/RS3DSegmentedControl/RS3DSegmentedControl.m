@@ -36,15 +36,14 @@
         self.backgroundImage.contentMode = UIViewContentModeBottom;
         UIImage * image = [UIImage imageWithContentsOfFile:imagePath];
         self.backgroundImage.image = image;
-        
-        [self addSubview:_backgroundImage];
+      //  [self addSubview:_backgroundImage];
         
         _carousel = [[iCarousel alloc] initWithFrame:self.bounds];
         _carousel.backgroundColor = [UIColor clearColor];
         _carousel.type = iCarouselTypeCustom;
         _carousel.decelerationRate = 0.6f;
         _carousel.scrollSpeed = 0.5f;
-        _carousel.scrollEnabled = NO;
+        _carousel.scrollEnabled = YES;
         _carousel.stopAtItemBoundary = NO;
         _carousel.dataSource = self;
         
@@ -123,7 +122,7 @@
     {
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, self.frame.size.height)];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 30)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 25)];
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];

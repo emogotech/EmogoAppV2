@@ -13,12 +13,19 @@ import Lightbox
 import Photos
 import IQKeyboardManagerSwift
 import Haptica
+import BMPlayer
 
 
-protocol ContentViewControllerDelegate {
+ protocol ContentViewControllerDelegate {
     func updateViewCount(count:String)
     func currentPreview(content:ContentDAO,index:IndexPath)
 }
+
+extension ContentViewControllerDelegate {
+    func updateViewCount(count:String){
+    }
+}
+
 
 class ContentViewController: UIViewController {
 
@@ -31,6 +38,8 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnSave: UIButton!
     @IBOutlet weak var btnOther: UIButton!
+    @IBOutlet weak var playerView: BMPlayer!
+
    // @IBOutlet weak var btnMore: UIButton!
     
     let cellIdentifier = "contentViewCell"
@@ -70,7 +79,7 @@ class ContentViewController: UIViewController {
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
-        self.collectionView.addGestureRecognizer(swipeDown)
+      //  self.collectionView.addGestureRecognizer(swipeDown)
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kDeepLinkContentAdded)), object: nil)
 
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kDeepLinkContentAdded), object: nil, queue: nil) { (notification) in
@@ -824,6 +833,29 @@ class ContentViewController: UIViewController {
     }
     
     
+    func preparePlayerView(strURL:String){
+        
+        guard let videoUrl =  URL(string: strURL) else {
+            return
+        }
+        let asset = BMPlayerResource(url: videoUrl)
+        playerView.setVideo(resource: asset)
+        
+        // Back button event
+        playerView.backBlock = {  (isFullScreen) in
+            if isFullScreen == true { return }
+            //let _ = self.navigationController?.popViewController(animated: true)
+        }
+        playerView.playStateDidChange = { (isPlaying: Bool) in
+            print("playStateDidChange \(isPlaying)")
+        }
+        
+        //Listen to when the play time changes
+        playerView.playTimeDidChange = { (currentTime: TimeInterval, totalTime: TimeInterval) in
+            print("playTimeDidChange currentTime: \(currentTime) totalTime: \(totalTime)")
+        }
+    }
+    
     
     /*
     // MARK: - Navigation
@@ -864,7 +896,13 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.viewIndex = indexPath.row
-           self.openFullView()
+        let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
+        if content.type == .video {
+            self.playerView.isHidden = false
+            self.preparePlayerView(strURL: content.coverImage)
+        }else {
+            self.openFullView()
+        }
       
     }
     

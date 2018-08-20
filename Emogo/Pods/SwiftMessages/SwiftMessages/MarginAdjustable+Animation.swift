@@ -15,6 +15,7 @@ public extension MarginAdjustable where Self: UIView {
     }
 
     private func topAdjustment(context: AnimationContext) -> CGFloat {        
+    //    var top: CGFloat = 65
         var top: CGFloat = 0
         if !context.safeZoneConflicts.isDisjoint(with: [.sensorNotch, .statusBar]) {
             #if SWIFTMESSAGES_APP_EXTENSIONS

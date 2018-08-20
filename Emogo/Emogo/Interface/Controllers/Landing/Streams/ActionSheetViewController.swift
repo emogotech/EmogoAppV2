@@ -20,9 +20,11 @@ class ActionSheetViewController: UIViewController {
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var tblOptions: UITableView!
     @IBOutlet weak var kCreateEmogoConstraints: NSLayoutConstraint!
-
-    var delegate : ActionSheetViewControllerDelegate!
+    @IBOutlet weak var collectionOption: UICollectionView!
     
+    
+    var delegate : ActionSheetViewControllerDelegate!
+    var collectionLayout = CHTCollectionViewWaterfallLayout()
     let fontSelected = UIFont(name: "SFProDisplay-Regular", size: 12.0)
     var fromViewStream =  false
     var menuItems = ActionSheetModel()
@@ -30,24 +32,41 @@ class ActionSheetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-       self.tblOptions.delegate = self
-       self.tblOptions.dataSource = self
+//       self.tblOptions.delegate = self
+//       self.tblOptions.dataSource = self
+        
+        self.collectionOption.delegate = self
+        self.collectionOption.dataSource = self
         
         if fromViewStream == true {
-            self.kCreateEmogoConstraints.constant = 0
+          self.kCreateEmogoConstraints.constant = 0
         }else{
-            self.kCreateEmogoConstraints.constant = 60
+          self.kCreateEmogoConstraints.constant = 80
         }
+        self.prepareLayout()
         
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.tblOptions.reloadData()
+        self.collectionOption.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func prepareLayout() {
+        
+        collectionLayout.minimumColumnSpacing = 0.0
+        collectionLayout.minimumInteritemSpacing = 0.0
+        collectionLayout.columnCount = 3
+        // Collection view attributes
+        self.collectionOption.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.collectionOption.alwaysBounceVertical = true
+        
+        // Add the waterfall layout to your collection view
+        self.collectionOption.collectionViewLayout = collectionLayout
+        
     }
  
     //MARK:- Button Action
@@ -66,6 +85,8 @@ class ActionSheetViewController: UIViewController {
         }
     }
 }
+
+/*
     //MARK:- tableview delegate & datasource
 
 extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
@@ -114,4 +135,107 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     
+}*/
+//MARK:- collectionView delegate and datasource
+
+extension ActionSheetViewController:UICollectionViewDelegate, UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
+   
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+         print(self.menuItems.arrayActions.count)
+         return self.menuItems.arrayActions.count
+    }
+   
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell: ActionSheetCollectionCell =  collectionView.dequeueReusableCell(withReuseIdentifier: "ActionSheetCollectionCell", for: indexPath) as! ActionSheetCollectionCell
+//        cell.lblNameOption.text  = self.menuItems.arrayActions[indexPath.row].iconName
+//        cell.imgOption.image = self.menuItems.arrayActions[indexPath.row].icon
+         let image = self.menuItems.arrayActions[indexPath.row].icon
+        cell.btnOptionMenu.setImage(image, for: .normal)
+        cell.lblNameOption.text =  self.menuItems.arrayActions[indexPath.row].iconName
+        switch indexPath.row {
+        case 0:
+            cell.imgRight.isHidden = false
+            cell.imgBottom.isHidden = false
+            cell.imgTop.isHidden = true
+            cell.imgLeft.isHidden = true
+
+            break
+        case 1:
+             cell.imgRight.isHidden = false
+            cell.imgBottom.isHidden = false
+            cell.imgTop.isHidden = true
+            cell.imgLeft.isHidden = true
+            break
+        case 2:
+            cell.imgRight.isHidden = true
+            cell.imgBottom.isHidden = false
+            cell.imgTop.isHidden = true
+            cell.imgLeft.isHidden = true
+            
+            break
+        case 3:
+            cell.imgRight.isHidden = false
+            cell.imgBottom.isHidden = true
+            cell.imgTop.isHidden = true
+            cell.imgLeft.isHidden = true
+            
+            break
+        case 4:
+          
+            cell.imgRight.isHidden = false
+            cell.imgBottom.isHidden = true
+            cell.imgTop.isHidden = true
+            cell.imgLeft.isHidden = false
+            
+            break
+        case 5:
+
+            cell.imgRight.isHidden = true
+            cell.imgBottom.isHidden = true
+            cell.imgTop.isHidden = true
+            cell.imgLeft.isHidden = true
+            
+            break
+        default:
+            break
+        }
+       
+        return cell
+        
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+     
+        var strType:String! = ""
+        if indexPath.row == 0 {
+            strType = "1"
+        }else if indexPath.row == 1 {
+            strType = "2"
+        }else if indexPath.row == 2 {
+            strType = "3"
+        }else if indexPath.row == 3 {
+            strType = "4"
+        }else if indexPath.row == 4 {
+            strType = "5"
+        }else if indexPath.row == 5 {
+            strType = "6"
+        }
+        self.dismissWithAnimation {
+            if self.delegate != nil {
+                self.delegate.didSelectAction(type: strType)
+            }
+        }
+    }
+    
+ func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    
+    
+        let itemWidth = collectionView.bounds.size.width/3.0
+        let itemHeight = collectionView.bounds.size.height/2.0
+    
+       return CGSize(width: itemWidth, height: itemHeight)
+
+    
+    
+    }
 }
