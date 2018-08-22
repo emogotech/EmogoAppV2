@@ -20,8 +20,8 @@ class ActionSheetViewController: UIViewController {
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var tblOptions: UITableView!
     @IBOutlet weak var kCreateEmogoConstraints: NSLayoutConstraint!
-    @IBOutlet weak var collectionOption: UICollectionView!
-    
+  //  @IBOutlet weak var collectionOption: UICollectionView!
+    @IBOutlet weak var lblOr: UILabel!
     
     var delegate : ActionSheetViewControllerDelegate!
     var collectionLayout = CHTCollectionViewWaterfallLayout()
@@ -35,26 +35,30 @@ class ActionSheetViewController: UIViewController {
 //       self.tblOptions.delegate = self
 //       self.tblOptions.dataSource = self
         
-        self.collectionOption.delegate = self
-        self.collectionOption.dataSource = self
+      //  self.collectionOption.delegate = self
+        //self.collectionOption.dataSource = self
         
         if fromViewStream == true {
-          self.kCreateEmogoConstraints.constant = 0
+        // self.kCreateEmogoConstraints.constant = 0
+          self.btnCreateNewEmogo.isHidden = true
+          self.lblOr.isHidden = true
         }else{
-          self.kCreateEmogoConstraints.constant = 80
+        //  self.kCreateEmogoConstraints.constant = 80
+          self.lblOr.isHidden = false
         }
-        self.prepareLayout()
+     //   self.prepareLayout()
         
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.collectionOption.reloadData()
+       // self.collectionOption.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    /*
     func prepareLayout() {
         
         collectionLayout.minimumColumnSpacing = 0.0
@@ -67,7 +71,7 @@ class ActionSheetViewController: UIViewController {
         // Add the waterfall layout to your collection view
         self.collectionOption.collectionViewLayout = collectionLayout
         
-    }
+    }*/
  
     //MARK:- Button Action
     
@@ -84,7 +88,34 @@ class ActionSheetViewController: UIViewController {
             }
         }
     }
+    //MARK:-  Action for buttons
+    
+    @IBAction func actionForContentOptions(_ sender: UIButton) {
+        var strType:String! = ""
+        if sender.tag == 1 {
+            strType = "2"
+        }else if sender.tag == 0 {
+            strType = "1"
+        }else if sender.tag == 2 {
+            strType = "3"
+        }else if sender.tag == 3 {
+            strType = "4"
+        }else if sender.tag == 5 {
+            strType = "6"
+        }else if sender.tag == 4 {
+            strType = "5"
+        }
+        self.dismissWithAnimation {
+            if self.delegate != nil {
+                self.delegate.didSelectAction(type: strType)
+            }
+        }
+    }
 }
+
+
+
+
 
 /*
     //MARK:- tableview delegate & datasource
@@ -136,6 +167,8 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
     
     
 }*/
+
+/*
 //MARK:- collectionView delegate and datasource
 
 extension ActionSheetViewController:UICollectionViewDelegate, UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
@@ -186,7 +219,7 @@ extension ActionSheetViewController:UICollectionViewDelegate, UICollectionViewDa
             cell.imgRight.isHidden = false
             cell.imgBottom.isHidden = true
             cell.imgTop.isHidden = true
-            cell.imgLeft.isHidden = false
+            cell.imgLeft.isHidden = true
             
             break
         case 5:
@@ -208,17 +241,17 @@ extension ActionSheetViewController:UICollectionViewDelegate, UICollectionViewDa
      
         var strType:String! = ""
         if indexPath.row == 0 {
-            strType = "1"
-        }else if indexPath.row == 1 {
             strType = "2"
+        }else if indexPath.row == 1 {
+            strType = "1"
         }else if indexPath.row == 2 {
             strType = "3"
         }else if indexPath.row == 3 {
             strType = "4"
         }else if indexPath.row == 4 {
-            strType = "5"
-        }else if indexPath.row == 5 {
             strType = "6"
+        }else if indexPath.row == 5 {
+            strType = "5"
         }
         self.dismissWithAnimation {
             if self.delegate != nil {
@@ -228,14 +261,14 @@ extension ActionSheetViewController:UICollectionViewDelegate, UICollectionViewDa
     }
     
  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-    
-    
-        let itemWidth = collectionView.bounds.size.width/3.0
-        let itemHeight = collectionView.bounds.size.height/2.0
-    
-       return CGSize(width: itemWidth, height: itemHeight)
+    let itemHeight = collectionView.bounds.size.height/2.0
 
-    
-    
+    if indexPath.row == 1 && indexPath.row == 4{
+        let itemWidth = collectionView.bounds.size.width/3 + 20
+          return CGSize(width: itemWidth,height: itemHeight)
+     }else{
+        let itemWidth = collectionView.bounds.size.width/3 - 20
+        return CGSize(width: itemWidth, height: itemHeight)
+        }
     }
-}
+}*/

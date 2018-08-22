@@ -68,6 +68,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         guard let objStream = stream  else {
             return
         }
+        imgCover.isHidden = false
+
         self.imgCover.contentMode = .scaleAspectFill
         //   self.imgCover.backgroundColor = .black
         if objStream.totalCollaborator.isEmpty || objStream.totalCollaborator == "0"  {
@@ -134,7 +136,6 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             self.imgCollabOne.isHidden = true
         }
         
-        
         if !objStream.colabImageSecond.trim().isEmpty {
             
             if  objStream.colabImageSecond.contains(kImageFormat) {
@@ -193,6 +194,21 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     }
     
     func stretchyHeaderView(_ headerView: GSKStretchyHeaderView, didChangeStretchFactor stretchFactor: CGFloat) {
+        var alpha: CGFloat = 1
+     //   var blurAlpha: CGFloat = 1
+        if stretchFactor > 1 {
+            alpha = CGFloatTranslateRange(stretchFactor, 1, 1.12, 1, 0)
+         //   blurAlpha = alpha
+        } else if stretchFactor < 0.8 {
+            alpha = CGFloatTranslateRange(stretchFactor, 0.2, 0.8, 0, 1)
+        }
+        alpha = max(0, alpha)
+        
+     //   self.imgCover.alpha = blurAlpha
+        viewTop.alpha = alpha
+        viewContainer.alpha = alpha
+        btnLikeOtherUser.alpha = alpha
+
     }
     
 }

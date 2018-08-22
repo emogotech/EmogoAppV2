@@ -596,19 +596,19 @@ extension UIViewController {
     }
     private func show(strMSG:String) {
         
-        let messageView: MessageView = MessageView.viewFromNib(layout: .cardView)
+        let messageView: MessageView = MessageView.viewFromNib(layout: .centeredView)
         messageView.configureBackgroundView(width: kFrame.size.width - 95)
-        messageView.configureContent(title: nil, body: strMSG, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
+        messageView.configureContent(title: strMSG, body: nil, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
             SwiftMessages.hide()
         }
      //   messageView.bounceAnimationOffset =
-        messageView.bodyLabel?.font = UIFont(name: kFontBold, size: 16.0)
-        messageView.bodyLabel?.textColor = UIColor.white
-        messageView.bodyLabel?.textAlignment = .center
+        messageView.titleLabel?.font = UIFont(name: kFontBold, size: 16.0)
+        messageView.titleLabel?.textColor = UIColor.white
+        messageView.titleLabel?.textAlignment = .center
         messageView.iconImageView?.tintColor = UIColor.white
         messageView.button?.isHidden = true
         messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
-        messageView.backgroundView.layer.cornerRadius = 10
+        messageView.backgroundView.layer.cornerRadius = 35
         var config = SwiftMessages.defaultConfig
         config.presentationStyle = .top
         config.duration = .seconds(seconds: 3.0)
@@ -624,16 +624,26 @@ extension UIViewController {
         self.navigationController?.navigationBar.barTintColor = .white
         let img = UIImage(named: "my_profile")
         let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
-        self.navigationItem.leftBarButtonItem = btnProfile
+        self.navigationItem.leftBarButtonItem = nil
         let img1 = UIImage(named: "camera_icon")
         let btnCamera = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCameraAction))
-        self.navigationItem.rightBarButtonItem = btnCamera
+        self.navigationItem.rightBarButtonItems = [btnCamera,btnProfile]
         let img2 = UIImage(named: "home_icon_active")
         let btnHome = UIButton()
         btnHome.frame = CGRect(x: 0, y: 0, width: (img2?.size.width)!, height: (img2?.size.height)!)
         btnHome.setImage(img2, for: .normal)
        // self.navigationItem.titleView = btnHome
      
+    }
+    
+    func configureLandingSearchNavigation(){
+        self.navigationItem.setRightBarButtonItems(nil, animated: true)
+        let img = UIImage(named: "my_profile")
+        let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
+       // self.navigationItem.setLeftBarButton(btnProfile, animated: true)
+        let img1 = UIImage(named: "camera_icon")
+        let btnCamera = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCameraAction))
+        self.navigationItem.setRightBarButtonItems([btnCamera,btnProfile], animated: true)
     }
     
     func configureNavigationWithTitle(){
@@ -1238,7 +1248,7 @@ extension UITableViewController {
     
     private func show(strMSG:String) {
         //  MarginAdjustable+Animation.swift
-        let messageView: MessageView = MessageView.viewFromNib(layout: .cardView)
+        let messageView: MessageView = MessageView.viewFromNib(layout: .centeredView)
         messageView.configureBackgroundView(width: kFrame.size.width - 95)
         messageView.configureContent(title: nil, body: strMSG, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
             SwiftMessages.hide()
@@ -1251,7 +1261,7 @@ extension UITableViewController {
         messageView.titleLabel?.textAlignment = .center
         messageView.button?.isHidden = true
         messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
-        messageView.backgroundView.layer.cornerRadius = 10
+        messageView.backgroundView.layer.cornerRadius = 35
         var config = SwiftMessages.defaultConfig
         config.presentationStyle = .top
         config.duration = .seconds(seconds: 3.0)

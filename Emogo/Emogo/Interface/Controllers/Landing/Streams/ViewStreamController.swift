@@ -129,7 +129,7 @@ class ViewStreamController: UIViewController {
     func configureStrechyHeader() {
         let nibViews = Bundle.main.loadNibNamed("StreamViewHeader", owner: self, options: nil)
         self.stretchyHeader = nibViews?.first as! StreamViewHeader
-        self.viewStreamCollectionView.addSubview(self.stretchyHeader)
+       
         stretchyHeader.streamDelegate = self
         stretchyHeader.viewViewCount.isHidden = true
         stretchyHeader.viewLike.isHidden = true
@@ -848,6 +848,11 @@ class ViewStreamController: UIViewController {
             self.viewStreamCollectionView.isHidden = false
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
+                if self.stretchyHeader != nil  {
+                    if self.stretchyHeader.superview == nil {
+                    self.viewStreamCollectionView.addSubview(self.stretchyHeader)
+                    }
+                }
                 self.viewStreamCollectionView.reloadData()
                 self.prepareIBOutlets()
             }
@@ -933,7 +938,7 @@ class ViewStreamController: UIViewController {
         let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
         actionVC.delegate = self
         actionVC.fromViewStream = true
-        customPresentViewController(PresenterNew.ActionSheetPresenter, viewController: actionVC, animated: true, completion: nil)
+        customPresentViewController(PresenterNew.ActionSheetViewStreamPresenter, viewController: actionVC, animated: true, completion: nil)
         /*
         let actionController = ActionSheetController()
         

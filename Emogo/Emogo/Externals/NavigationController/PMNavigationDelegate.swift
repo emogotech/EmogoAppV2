@@ -8,11 +8,11 @@
 
 import Foundation
 import UIKit
-
+/*
 extension StreamListViewController: ZoomTransitionSourceDelegate {
   
     var animationDuration: TimeInterval {
-        return 0.4
+        return 0.2
     }
     
     func transitionSourceImageView() -> UIImageView {
@@ -36,11 +36,12 @@ extension StreamListViewController: ZoomTransitionSourceDelegate {
         selectedImageView?.isHidden = false
     }
 }
+ 
 
 extension ProfileViewController: ZoomTransitionSourceDelegate {
     
     var animationDuration: TimeInterval {
-        return 0.4
+        return 0.2
     }
     
     func transitionSourceImageView() -> UIImageView {
@@ -68,7 +69,7 @@ extension ProfileViewController: ZoomTransitionSourceDelegate {
 extension ViewProfileViewController: ZoomTransitionSourceDelegate {
     
     var animationDuration: TimeInterval {
-        return 0.4
+        return 0.2
     }
     
     func transitionSourceImageView() -> UIImageView {
@@ -104,7 +105,8 @@ extension ViewStreamController: ZoomTransitionDestinationDelegate {
             let height: CGFloat = width * 2 / 3
             return CGRect(x: x, y: y, width: width, height: height)
         } else {
-            return  stretchyHeader.imgCover.convert( stretchyHeader.imgCover.bounds, to: view)
+      //  return   stretchyHeader.imgCover.convert( stretchyHeader.imgCover.bounds, to: view)
+            return .zero
         }
     }
     
@@ -116,7 +118,7 @@ extension ViewStreamController: ZoomTransitionDestinationDelegate {
     
     func transitionDestinationDidEnd(transitioningImageView imageView: UIImageView) {
         if self.stretchyHeader != nil {
-            stretchyHeader.imgCover.isHidden = false
+            stretchyHeader.imgCover.isHidden = true
             stretchyHeader.imgCover.image = imageView.image
         }
        
@@ -124,7 +126,9 @@ extension ViewStreamController: ZoomTransitionDestinationDelegate {
     
     func transitionDestinationDidCancel() {
         if self.stretchyHeader != nil {
-            stretchyHeader.imgCover.isHidden = false
+            stretchyHeader.imgCover.isHidden = true
         }
     }
 }
+
+ */

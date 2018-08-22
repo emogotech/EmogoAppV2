@@ -38,7 +38,6 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnSave: UIButton!
     @IBOutlet weak var btnOther: UIButton!
-    @IBOutlet weak var playerView: BMPlayer!
 
    // @IBOutlet weak var btnMore: UIButton!
     
@@ -59,6 +58,15 @@ class ContentViewController: UIViewController {
     var isFromNotesEdit:Bool! = false
     var viewIndex:Int?
     var isMoreTapped:Bool! = false
+    
+    var playerView:BMPlayer = {
+        let player = BMPlayer()
+        player.isShowControl = false
+        player.isUserInteractionEnabled = false
+        return player
+    }()
+
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,14 +80,14 @@ class ContentViewController: UIViewController {
         if self.currentIndex != nil{
             let temp = ContentList.sharedInstance.arrayContent[self.currentIndex]
             if temp.type == .video {
-                let videoUrl = URL(string: temp.coverImage)
-                LightboxConfig.handleVideo(self, videoUrl!)
+            //    let videoUrl = URL(string: temp.coverImage)
+             //   LightboxConfig.handleVideo(self, videoUrl!)
             }
         }
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
-      //  self.collectionView.addGestureRecognizer(swipeDown)
+        self.collectionView.addGestureRecognizer(swipeDown)
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kDeepLinkContentAdded)), object: nil)
 
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kDeepLinkContentAdded), object: nil, queue: nil) { (notification) in
@@ -96,6 +104,7 @@ class ContentViewController: UIViewController {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
         self.navigationController?.isNavigationBarHidden = true
+
         if !seletedImage.color.trim().isEmpty {
              bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
         }
@@ -104,7 +113,6 @@ class ContentViewController: UIViewController {
             if !seletedImage.color.trim().isEmpty {
                 bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
             }
-           // bottomToolBarView.backgroundColor = UIColor.black
         }
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -123,6 +131,9 @@ class ContentViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.statusBarStyle = .default
+        if self.playerView.superview != nil {
+            self.playerView.removeFromSuperview()
+        }
     }
 
     
@@ -192,6 +203,10 @@ class ContentViewController: UIViewController {
              self.btnSave.isHidden = false
              self.btnShare.isHidden = false
         }
+        bottomToolBarView.backgroundColor = UIColor.black
+        if !seletedImage.color.trim().isEmpty {
+            bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+        }
     }
     
     func deeplinkHandle(){
@@ -253,6 +268,10 @@ class ContentViewController: UIViewController {
         if isProfile != nil  {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
             ContentList.sharedInstance.arrayContent = array
+        }
+        
+        if self.playerView.superview != nil {
+            self.playerView.removeFromSuperview()
         }
         self.dismiss(animated: true, completion: nil)
     }
@@ -599,7 +618,6 @@ class ContentViewController: UIViewController {
                 }
             NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier), object: "Delete")
 
-                
                 if self.isFromAll != nil {
                     ContentList.sharedInstance.arrayStuff.remove(at: self.currentIndex)
                 }
@@ -832,7 +850,6 @@ class ContentViewController: UIViewController {
         self.navigationController?.pushAsPresent(viewController: obj)
     }
     
-    
     func preparePlayerView(strURL:String){
         
         guard let videoUrl =  URL(string: strURL) else {
@@ -853,8 +870,20 @@ class ContentViewController: UIViewController {
         //Listen to when the play time changes
         playerView.playTimeDidChange = { (currentTime: TimeInterval, totalTime: TimeInterval) in
             print("playTimeDidChange currentTime: \(currentTime) totalTime: \(totalTime)")
+            self.playerView.isUserInteractionEnabled = false
+            if currentTime == totalTime {
+                self.playerView.isUserInteractionEnabled = true
+                if !self.playerView.isPlaying {
+                    self.playerView.play()
+                }
+            }
         }
+        
     }
+    
+    
+    
+   
     
     
     /*
@@ -881,10 +910,22 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ContentViewCell
         let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
-       
         cell.prepareView(seletedImage: content)
         cell.btnPlayIcon.tag = indexPath.row
         cell.btnPlayIcon.addTarget(self, action: #selector(self.openFullView), for: .touchUpInside)
+        if self.playerView.superview != nil {
+            self.playerView.removeFromSuperview()
+        }
+        if content.type == .video {
+            DispatchQueue.main.async {
+                if self.playerView.superview == nil {
+                    self.playerView.frame = cell.playerContainerView.bounds
+                    cell.playerContainerView.addSubview(self.playerView)
+                    self.preparePlayerView(strURL: content.coverImage)
+                }
+            }
+        }
+        
         
 //        cell.btnMore.tag = indexPath.row
 //        cell.btnMore.addTarget(self, action: #selector(self.btnMoreAction), for: .touchUpInside)
@@ -896,14 +937,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.viewIndex = indexPath.row
-        let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
-        if content.type == .video {
-            self.playerView.isHidden = false
-            self.preparePlayerView(strURL: content.coverImage)
-        }else {
-            self.openFullView()
-        }
-      
+        self.openFullView()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

@@ -43,7 +43,7 @@
         _carousel.type = iCarouselTypeCustom;
         _carousel.decelerationRate = 0.6f;
         _carousel.scrollSpeed = 0.5f;
-        _carousel.scrollEnabled = YES;
+        _carousel.scrollEnabled = NO;
         _carousel.stopAtItemBoundary = NO;
         _carousel.dataSource = self;
         

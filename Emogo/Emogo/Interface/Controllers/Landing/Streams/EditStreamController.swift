@@ -249,7 +249,8 @@ class EditStreamController: UITableViewController {
                 if self.strCoverImage.isEmpty {
                     self.uploadCoverImage()
                 }else {
-                    self.editStream(cover: self.strCoverImage,width:(self.objStream?.width)!,hieght:(self.objStream?.hieght)!,color:self.coverImage.getColors().primary.toHexString)
+                    
+                    self.editStream(cover: self.strCoverImage,width:(self.objStream?.width)!,hieght:(self.objStream?.hieght)!,color:(self.objStream?.color)!)
                 }
             }
         }
@@ -491,7 +492,7 @@ class EditStreamController: UITableViewController {
             if error == nil {
                 DispatchQueue.main.async {
                     if self.streamID != nil   {
-                        self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height),color: self.coverImage.getColors().primary.toHexString )
+                        self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height),color: (image?.getColors().primary.toHexString)! )
                     }else {
                         HUDManager.sharedInstance.hideHUD()
                     }

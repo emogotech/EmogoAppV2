@@ -414,7 +414,7 @@ class AWSRequestManager:NSObject {
     }
     
     func showToast(strMSG:String){
-        let messageView: MessageView = MessageView.viewFromNib(layout: .cardView)
+        let messageView: MessageView = MessageView.viewFromNib(layout: .centeredView)
        // messageView.layoutMargins = .init(top: 65, left: 0, bottom: 0, right: 0)
         messageView.configureBackgroundView(width: kFrame.size.width - 95)
         messageView.configureContent(title: nil, body: strMSG, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: nil) { _ in
@@ -428,7 +428,7 @@ class AWSRequestManager:NSObject {
         messageView.iconImageView?.tintColor = UIColor.white
         messageView.button?.isHidden = true
         messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
-        messageView.backgroundView.layer.cornerRadius = 10
+        messageView.backgroundView.layer.cornerRadius = 35
         var config = SwiftMessages.defaultConfig
         config.presentationStyle = .top
         config.duration = .seconds(seconds: 3.0)

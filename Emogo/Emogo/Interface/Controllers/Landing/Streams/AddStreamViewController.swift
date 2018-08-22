@@ -333,7 +333,7 @@ class AddStreamViewController: UITableViewController {
                 if self.strCoverImage.isEmpty {
                     self.uploadCoverImage()
                 }else {
-                    self.editStream(cover: self.strCoverImage,width:(self.objStream?.width)!,hieght:(self.objStream?.hieght)!,color:self.coverImage.getColors().primary.toHexString )
+                    self.editStream(cover: self.strCoverImage,width:(self.objStream?.width)!,hieght:(self.objStream?.hieght)!,color:(self.objStream?.color)! )
                 }
             }
         }

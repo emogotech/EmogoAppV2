@@ -10,11 +10,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="SF-Pro-Display-Bold.otf">
-            <string>SFProDisplay-Bold</string>
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
         </array>
-        <array key="SF-Pro-Display-Semibold.otf">
-            <string>SFProDisplay-Semibold</string>
+        <array key="SF-UI-Display-Regular.otf">
+            <string>SFUIDisplay-Regular</string>
         </array>
     </customFonts>
     <objects>
@@ -35,33 +35,33 @@
                             <rect key="frame" x="0.0" y="170" width="367" height="45"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="ODG-Mp-Vs4">
-                                    <rect key="frame" x="5" y="0.0" width="357" height="21"/>
+                                    <rect key="frame" x="15" y="2" width="347" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="qfx-B7-wfa"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="17"/>
+                                    <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="22"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="deH-pw-fuB">
-                                    <rect key="frame" x="5" y="21" width="357" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="deH-pw-fuB">
+                                    <rect key="frame" x="15" y="24" width="347" height="14"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="zpc-C2-wjw"/>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" id="zpc-C2-wjw"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="13"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="deH-pw-fuB" firstAttribute="leading" secondItem="nBo-0g-yhA" secondAttribute="leading" constant="5" id="3qb-GZ-GKI"/>
+                                <constraint firstItem="deH-pw-fuB" firstAttribute="leading" secondItem="nBo-0g-yhA" secondAttribute="leading" constant="15" id="3qb-GZ-GKI"/>
                                 <constraint firstAttribute="trailing" secondItem="deH-pw-fuB" secondAttribute="trailing" constant="5" id="Iez-5g-2o4"/>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="hsM-al-w3b"/>
-                                <constraint firstItem="ODG-Mp-Vs4" firstAttribute="leading" secondItem="nBo-0g-yhA" secondAttribute="leading" constant="5" id="jW4-i2-A4j"/>
-                                <constraint firstItem="ODG-Mp-Vs4" firstAttribute="top" secondItem="nBo-0g-yhA" secondAttribute="top" id="kZ1-ED-X7p"/>
-                                <constraint firstItem="deH-pw-fuB" firstAttribute="top" secondItem="ODG-Mp-Vs4" secondAttribute="bottom" id="kxX-78-Caz"/>
-                                <constraint firstAttribute="bottom" secondItem="deH-pw-fuB" secondAttribute="bottom" constant="3" id="mmh-PD-WZ2"/>
+                                <constraint firstItem="ODG-Mp-Vs4" firstAttribute="leading" secondItem="nBo-0g-yhA" secondAttribute="leading" constant="15" id="jW4-i2-A4j"/>
+                                <constraint firstItem="ODG-Mp-Vs4" firstAttribute="top" secondItem="nBo-0g-yhA" secondAttribute="top" constant="2" id="kZ1-ED-X7p"/>
+                                <constraint firstItem="deH-pw-fuB" firstAttribute="top" secondItem="ODG-Mp-Vs4" secondAttribute="bottom" constant="1" id="kxX-78-Caz"/>
+                                <constraint firstAttribute="bottom" secondItem="deH-pw-fuB" secondAttribute="bottom" constant="7" id="mmh-PD-WZ2"/>
                                 <constraint firstAttribute="trailing" secondItem="ODG-Mp-Vs4" secondAttribute="trailing" constant="5" id="uAu-0v-CrM"/>
                             </constraints>
                         </view>
@@ -72,7 +72,7 @@
                                 <constraint firstAttribute="width" constant="40" id="rFY-OI-Ybz"/>
                             </constraints>
                             <inset key="imageEdgeInsets" minX="-4" minY="-6" maxX="0.0" maxY="0.0"/>
-                            <state key="normal" image="back-circle-icon"/>
+                            <state key="normal" image="white_back_icon"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ha6-5d-Cjf">
                             <rect key="frame" x="168.5" y="92.5" width="30" height="30"/>
@@ -135,11 +135,11 @@
                 <outlet property="sliderCover" destination="QIb-Yg-Nru" id="how-JX-7Sj"/>
                 <outlet property="viewContainer" destination="nBo-0g-yhA" id="jbv-qk-820"/>
             </connections>
-            <point key="canvasLocation" x="495" y="-15"/>
+            <point key="canvasLocation" x="494.5" y="-15"/>
         </view>
     </objects>
     <resources>
-        <image name="back-circle-icon" width="24" height="24"/>
         <image name="play_button" width="30" height="30"/>
+        <image name="white_back_icon" width="7" height="13"/>
     </resources>
 </document>

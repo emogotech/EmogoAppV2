@@ -62,10 +62,10 @@ class MyStreamViewController: UIViewController {
     func prepareLayouts(){
         
         // Attach datasource and delegate
-        
+      //  self.navigationController?.isNavigationBarHidden = false
         self.myStreamCollectionView.dataSource  = self
         self.myStreamCollectionView.delegate = self
-        
+      //  self.configureNewNavigation()
        
         // Change individual layout attributes for the spacing between cells
 
@@ -93,10 +93,61 @@ class MyStreamViewController: UIViewController {
                 ContentList.sharedInstance.arrayToCreate.insert(objContent, at: 0)
             }
             self.configureStrechyHeader()
+            
+            
+            let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeRight.direction = UISwipeGestureRecognizerDirection.right
+            self.myStreamCollectionView.addGestureRecognizer(swipeRight)
+            
+            let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+            self.myStreamCollectionView.addGestureRecognizer(swipeLeft)
         }
       
     }
-   
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.left:
+              //  if currentStreamType == .Emogo  {
+                    if  self.stretchyHeader.segmentControl != nil {
+                        self.stretchyHeader.segmentControl.selectedSegmentIndex = 1
+              //  }
+                 Animation.addRightTransition(collection: self.myStreamCollectionView)
+                 self.updateStuffList(index: 1)
+                }
+                break
+                case UISwipeGestureRecognizerDirection.right:
+                  //  if  currentStreamType == .Collab {
+                        if  self.stretchyHeader.segmentControl != nil {
+                            self.stretchyHeader.segmentControl.selectedSegmentIndex = 0
+                        }
+                        Animation.addLeftTransition(collection: self.myStreamCollectionView)
+                        self.updateStuffList(index: 0)
+                  //  }
+                 break
+            default:
+                 break
+            }
+        }
+        
+    }
+    /*
+    func configureNewNavigation(){
+       
+        //  let imgP = UIImage(named: "back_icon_stream")
+        let imgP = UIImage(named: "back_icon")
+        let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
+        self.navigationItem.leftBarButtonItem = btnback
+    }
+    @objc  func btnCancelAction(){
+       
+            self.navigationController?.popViewController(animated: true)
+            //   self.navigationController?.pop()
+        
+    }*/
+    
     
     func configureStrechyHeader(){
         let nibViews = Bundle.main.loadNibNamed("MyStreamHeaderView", owner: self, options: nil)
@@ -120,10 +171,11 @@ class MyStreamViewController: UIViewController {
             self.updateStuffList(index: index)
         }
         
-        self.stretchyHeader.segmentControl.selectionIndicatorHeight = 3.0
+        self.stretchyHeader.segmentControl.selectionIndicatorHeight = 1.0
         self.stretchyHeader.segmentControl.backgroundColor =  UIColor(r: 245, g: 245, b: 245)
         self.stretchyHeader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 15.0)]
-        self.stretchyHeader.segmentControl.selectionIndicatorColor = UIColor(r: 0, g: 122, b: 255)
+         self.stretchyHeader.segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+     //   self.stretchyHeader.segmentControl.selectionIndicatorColor = UIColor(r: 0, g: 122, b: 255)
         self.stretchyHeader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 15.0)]
         self.stretchyHeader.segmentControl.selectionStyle = .textWidthStripe
         self.stretchyHeader.segmentControl.selectedSegmentIndex = 0
@@ -468,7 +520,7 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
             let itemWidth = collectionView.bounds.size.width/2.0
-        return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
+            return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
     }
   
     

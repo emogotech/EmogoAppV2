@@ -780,7 +780,16 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         
         if kDefault?.bool(forKey: kHapticFeedback) == true {
-           Haptic.impact(.heavy).generate()
+            self.btnCamera.isHaptic = true
+            self.btnCamera.hapticType = .impact(.heavy)
+            Haptic.impact(.heavy).generate()
+            if #available(iOS 10.0, *) {
+                let impact = UIImpactFeedbackGenerator()
+                impact.impactOccurred() // 2
+            } else {
+                // Fallback on earlier versions
+            } // 1
+            
            // Haptic.selection.generate()
           //  Haptic.notification(.warning).generate()
         }
@@ -970,11 +979,10 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
         return 12
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.openFullView(index: indexPath.row)
+    }
 }
-
-
-
-
 
 extension CustomCameraViewController:CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {

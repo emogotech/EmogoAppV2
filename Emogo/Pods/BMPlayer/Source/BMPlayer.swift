@@ -52,6 +52,9 @@ open class BMPlayer: UIView {
         }
     }
     
+    open var isShowControl: Bool! = true
+       
+    
     //Closure fired when play time changed
     open var playTimeDidChange:((TimeInterval, TimeInterval) -> Void)?
     
@@ -226,6 +229,9 @@ open class BMPlayer: UIView {
     // MARK: - Action Response
     
     @objc fileprivate func panDirection(_ pan: UIPanGestureRecognizer) {
+        if !isShowControl {
+            return
+        }
         // 根据在view上Pan的位置，确定是调音量还是亮度
         let locationPoint = pan.location(in: self)
         
@@ -382,18 +388,20 @@ open class BMPlayer: UIView {
         } else {
             controlView =  BMPlayerControlView()
         }
-        
-        addSubview(controlView)
+        if isShowControl {
+            addSubview(controlView)
+        }
         controlView.updateUI(isFullScreen)
         controlView.delegate = self
         controlView.player   = self
         controlView.snp.makeConstraints { (make) in
             make.edges.equalTo(self)
         }
-        
+       
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.panDirection(_:)))
         self.addGestureRecognizer(panGesture)
     }
+    
     
     fileprivate func initUIData() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.onOrientationChanged), name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation, object: nil)

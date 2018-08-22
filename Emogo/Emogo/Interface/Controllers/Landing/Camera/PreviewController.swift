@@ -373,7 +373,7 @@ class PreviewController: UIViewController {
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
-                self.imgPreview.backgroundColor = colors.primary
+             //   self.imgPreview.backgroundColor = .black
                 self.txtTitleImage.textColor = .white//colors.secondary
                 self.txtDescription.textColor = .white//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -382,7 +382,7 @@ class PreviewController: UIViewController {
             if seletedImage.type == .image  || seletedImage.type == .notes {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgPreview.backgroundColor = colors.primary
+                 //       self.imgPreview.backgroundColor = .black
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -410,7 +410,7 @@ class PreviewController: UIViewController {
             }else {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgPreview.backgroundColor = colors.primary
+                    //    self.imgPreview.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary

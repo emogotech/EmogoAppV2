@@ -233,6 +233,7 @@ class ProfileViewController: UIViewController {
         segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
           
             print("Selected index \(index) (via block)")
+            self.lblNOResult.isHidden = true
             self.updateStuffList(index: index)
         }
         segmentControl.selectionIndicatorHeight = 1.0
@@ -253,11 +254,13 @@ class ProfileViewController: UIViewController {
             print("Selected index \(index) (via block)")
             self.updateSegment(selected: index)
         }
-         segmentMain.selectionIndicatorHeight = 3.0
+        
+         segmentMain.selectionIndicatorHeight = 1.0
+         segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
          segmentMain.backgroundColor = UIColor.white
          segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
         // segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
-         segmentMain.selectionIndicatorColor =  kCardViewBordorColor
+       //  segmentMain.selectionIndicatorColor =  kCardViewBordorColor
          segmentMain.selectionStyle = .textWidthStripe
          segmentMain.selectedSegmentIndex = 0
          segmentMain.selectionIndicatorLocation = .down
@@ -720,8 +723,9 @@ class ProfileViewController: UIViewController {
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            self.lblNOResult.isHidden = true
             switch swipeGesture.direction {
-               
+            
             case UISwipeGestureRecognizerDirection.left:
                // print("Swie Left")
                 if kDefault?.bool(forKey: kHapticFeedback) == true{
@@ -734,6 +738,7 @@ class ProfileViewController: UIViewController {
                     self.updateSegment(selected: 1)
                     //self.updateSegment(selected: 102)
                 }else if currentMenu == .colabs {
+                    self.lblNOResult.isHidden = true
                     Animation.addRightTransition(collection: self.profileCollectionView)
                     self.updateSegment(selected: 2)
                     //self.updateSegment(selected: 103)
@@ -757,6 +762,7 @@ class ProfileViewController: UIViewController {
                     
                 }
                 if currentMenu == .colabs {
+                    self.lblNOResult.isHidden = true
                     Animation.addLeftTransition(collection: self.profileCollectionView)
                     self.updateSegment(selected: 0)
                    // self.updateSegment(selected: 101)
@@ -1212,6 +1218,7 @@ class ProfileViewController: UIViewController {
 
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
+            self.lblNOResult.isHidden = true
             StreamList.sharedInstance.arrayProfileStream.removeAll()
             self.profileCollectionView.reloadData()
         }
@@ -1269,6 +1276,8 @@ class ProfileViewController: UIViewController {
     }
     func getMyStuff(type:RefreshType){
         if type == .start || type == .up {
+            self.lblNOResult.isHidden = true
+
             ContentList.sharedInstance.arrayContent.removeAll()
             for _ in  ContentList.sharedInstance.arrayStuff {
                 if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
@@ -1314,6 +1323,7 @@ class ProfileViewController: UIViewController {
     
     func getColabs(type:RefreshType){
         if type == .start || type == .up {
+            self.lblNOResult.isHidden = true
             StreamList.sharedInstance.arrayProfileColabStream.removeAll()
             self.profileCollectionView.reloadData()
         }
