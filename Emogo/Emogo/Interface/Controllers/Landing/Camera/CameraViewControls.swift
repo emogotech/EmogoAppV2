@@ -191,6 +191,7 @@ extension CustomCameraViewController {
     }
     
     func openFullView(index:Int){
+        self.navigationItem.rightBarButtonItem = nil
         var arrayContents = [LightboxImage]()
         for obj in ContentList.sharedInstance.arrayContent {
             var image:LightboxImage!
@@ -216,7 +217,17 @@ extension CustomCameraViewController {
         }
         let controller = LightboxController(images: arrayContents, startIndex: index)
         controller.dynamicBackground = true
-        present(controller, animated: true, completion: nil)
+        present(controller, animated: true) {
+            let buttonNext   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
+            buttonNext.setImage(#imageLiteral(resourceName: "share_button"), for: .normal)
+            buttonNext.addTarget(self, action: #selector(self.previewScreenNavigated), for: .touchUpInside)
+            buttonNext.contentHorizontalAlignment  = .right
+            buttonNext.contentVerticalAlignment = .bottom
+            let btnNext = UIBarButtonItem(customView: buttonNext)
+            // let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
+            self.navigationItem.rightBarButtonItem = btnNext
+        }
+    //    present(controller, animated: true, completion: nil)
 }
 }
 

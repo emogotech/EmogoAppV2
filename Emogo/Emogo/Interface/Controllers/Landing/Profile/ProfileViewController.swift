@@ -247,7 +247,7 @@ class ProfileViewController: UIViewController {
         segmentControl.selectionIndicatorLocation = .down
         segmentControl.shouldAnimateUserSelection = false
       
-        segmentMain.sectionTitles = ["EMOGOS", "COLLABS", "MY STUFF"]
+        segmentMain.sectionTitles = ["Emogos", "Collabs", "My Stuff"]
         
         segmentMain.indexChangeBlock = {(_ index: Int) -> Void in
             
@@ -258,7 +258,11 @@ class ProfileViewController: UIViewController {
          segmentMain.selectionIndicatorHeight = 1.0
          segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
          segmentMain.backgroundColor = UIColor.white
-         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
+//         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
+        
+        segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        segmentMain.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
         // segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
        //  segmentMain.selectionIndicatorColor =  kCardViewBordorColor
          segmentMain.selectionStyle = .textWidthStripe

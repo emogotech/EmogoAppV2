@@ -105,8 +105,8 @@ class EditStreamController: UITableViewController {
     func prepareNavigationbarButtons(){
         let button   = UIButton(type: .system)
         button.setTitleColor(UIColor.lightGray, for: .normal)
-        button.setTitle("CANCEL", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        button.setTitle("Cancel", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
         button.frame = CGRect(x: 10, y: -12, width: 60, height: 40)
      
         button.addTarget(self, action: #selector(self.btnCancelAction(_:)), for: .touchUpInside)
@@ -115,12 +115,12 @@ class EditStreamController: UITableViewController {
         self.navigationItem.leftBarButtonItem = btnBack
         
          let buttonDone  = UIButton(type: .system)
-        buttonDone.setTitle("DONE", for: .normal)
+        buttonDone.setTitle("Done", for: .normal)
        
         buttonDone.frame = CGRect(x: 0, y: 0, width: 60, height: 40)
        // buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
         // buttonDone.setTitleColor(kNavigationColor, for: .normal)
-        buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
         buttonDone.addTarget(self, action: #selector(self.btnDoneAction(_:)), for: .touchUpInside)
         let btnDone = UIBarButtonItem(customView: buttonDone)
         self.navigationItem.rightBarButtonItem = btnDone
@@ -174,27 +174,34 @@ class EditStreamController: UITableViewController {
         if self.switchEmogoPrivate.isOn {
             streamType = "Private"
             self.switchMakeEmogoGlobal.isOn = false
+            self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
+            self.switchEmogoPrivate.thumbTintColor = UIColor.white
 
         }else {
             streamType = "Public"
             self.switchMakeEmogoGlobal.isOn = false
-          
+            self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
+            self.switchEmogoPrivate.thumbTintColor = UIColor.white
         }
     }
     
     @IBAction func switchActionAddContent(_ sender: UISwitch) {
         if self.switchAddContent.isOn {
                 print("102 on")
+               self.switchAddContent.thumbTintColor = UIColor.white
         }else {
                 print("102 off")
+               self.switchAddContent.thumbTintColor = UIColor.lightGray
         }
     }
     
     @IBAction func switchActionAddPeople(_ sender: UISwitch) {
         if self.switchAddPeople.isOn {
              print("103 on")
+             self.switchAddPeople.thumbTintColor = UIColor.white
         }else {
              print("103 off")
+            self.switchAddPeople.thumbTintColor = UIColor.lightGray
         }
     }
     
@@ -203,19 +210,24 @@ class EditStreamController: UITableViewController {
     @IBAction func switchActionEmogoGlobal(_ sender: UISwitch) {
         if self.switchMakeEmogoGlobal.isOn {
             self.switchAddContent.isOn = false
+            self.switchAddContent.thumbTintColor = UIColor.lightGray
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isOn = false
             self.switchAddPeople.isUserInteractionEnabled = false
+            self.switchAddPeople.thumbTintColor = UIColor.lightGray
+            self.switchMakeEmogoGlobal.thumbTintColor = UIColor.white
             if switchEmogoPrivate.isOn == true {
                 self.switchEmogoPrivate.isOn = false
-                
+                 self.switchMakeEmogoGlobal.thumbTintColor = UIColor.white
                 self.streamType = "Public"
             }
-          
+            self.switchEmogoPrivate.thumbTintColor = UIColor.lightGray
             self.btnAddCollab.isUserInteractionEnabled = false
         }else {
             self.switchAddContent.isOn = false
+            self.switchAddContent.thumbTintColor = UIColor.lightGray
             self.switchAddPeople.isOn = false
+            self.switchAddPeople.thumbTintColor = UIColor.lightGray
             if self.objStream?.arrayColab.count == 0 {
                 self.switchAddPeople.isUserInteractionEnabled = false
                 self.switchAddContent.isUserInteractionEnabled = false
@@ -223,7 +235,7 @@ class EditStreamController: UITableViewController {
                 self.switchAddPeople.isUserInteractionEnabled = true
                 self.switchAddContent.isUserInteractionEnabled = true
             }
-            
+            self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
             self.btnAddCollab.isUserInteractionEnabled = true
         }
        
@@ -291,16 +303,20 @@ class EditStreamController: UITableViewController {
            
             
            self.switchMakeEmogoGlobal.isOn = (self.objStream?.anyOneCanEdit)!
+          
           //  self.switchMakeEmogoGlobal.animationSwitcherButton()
 
             if self.objStream?.type.lowercased() == "public"{
                 self.switchEmogoPrivate.isOn = false
-                
+                self.switchEmogoPrivate.thumbTintColor =  UIColor.lightGray
+                self.switchMakeEmogoGlobal.thumbTintColor = UIColor.white
                 //self.switchEmogoPrivate.animationSwitcherButton()
                 streamType = "Public"
 
             }else {
                 self.switchEmogoPrivate.isOn = true
+                self.switchEmogoPrivate.thumbTintColor =  UIColor.white
+                self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
                
                 streamType = "Private"
               //  self.switchEmogoPrivate.animationSwitcherButton()
@@ -309,7 +325,9 @@ class EditStreamController: UITableViewController {
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isUserInteractionEnabled  = false
             self.switchAddPeople.isOn       = false
+            self.switchAddPeople.thumbTintColor = UIColor.lightGray
             self.switchAddContent.isOn      = false
+            self.switchAddContent.thumbTintColor = UIColor.lightGray
             print(objStream?.idCreatedBy)
             print(UserDAO.sharedInstance.user.userProfileID)
             print(UserDAO.sharedInstance.user.userId)
@@ -407,7 +425,9 @@ class EditStreamController: UITableViewController {
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isUserInteractionEnabled = false
             self.switchAddPeople.isOn = false
+            self.switchAddPeople.thumbTintColor =  UIColor.lightGray
             self.switchAddContent.isOn = false
+            self.switchAddContent.thumbTintColor =  UIColor.lightGray
         }
         self.tableView.reloadData()
     }

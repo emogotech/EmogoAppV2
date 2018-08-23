@@ -73,7 +73,7 @@ class CreateStreamController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.viewTitle.layer.contents = UIImage(named: "gradient")?.cgImage
+       // self.viewTitle.layer.contents = UIImage(named: "gradient")?.cgImage
     }
 
     override func didReceiveMemoryWarning() {
@@ -129,6 +129,10 @@ class CreateStreamController: UITableViewController {
         //self.rowHieght.constant = 0.0
         self.isExpandRow = false
         self.switchForEmogoPrivate.isOn = false
+       
+        self.switchForEmogoPrivate.thumbTintColor = UIColor.lightGray
+        
+      
 //        switchForEmogoPrivate.delegate = self
 //        switchForEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))
 //        switchForEmogoPrivate.layer.borderWidth = 1.0
@@ -139,20 +143,20 @@ class CreateStreamController: UITableViewController {
         
         let button   = UIButton(type: .system)
         button.setTitleColor(UIColor.lightGray, for: .normal)
-        button.setTitle("CANCEL", for: .normal)
+        button.setTitle("Cancel", for: .normal)
         button.frame = CGRect(x: 10, y: -12, width: 60, height: 40)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
         button.addTarget(self, action: #selector(self.btnCloseAction(_:)), for: .touchUpInside)
         let btnBack = UIBarButtonItem(customView: button)
         
         self.navigationItem.leftBarButtonItem = btnBack
         
         buttonDone  = UIButton(type: .system)
-        buttonDone.setTitle("DONE", for: .normal)
+        buttonDone.setTitle("Done", for: .normal)
         buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
         buttonDone.frame = CGRect(x: 0, y: 0, width: 60, height: 40)
        // buttonDone.setTitleColor(kNavigationColor, for: .normal)
-        buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
         buttonDone.addTarget(self, action: #selector(self.btnDoneAction(_:)), for: .touchUpInside)
         let btnDone = UIBarButtonItem(customView: buttonDone)
         self.navigationItem.rightBarButtonItem = btnDone
@@ -165,8 +169,10 @@ class CreateStreamController: UITableViewController {
         
         if self.switchForEmogoPrivate.isOn {
             streamType = StreamType.Private.rawValue
+            self.switchForEmogoPrivate.thumbTintColor = UIColor.white
         }else{
             streamType = StreamType.Public.rawValue
+            self.switchForEmogoPrivate.thumbTintColor = UIColor.lightGray
         }
         
     }
@@ -277,8 +283,10 @@ class CreateStreamController: UITableViewController {
                     
                     if self.switchForEmogoPrivate.isOn {
                         currentStreamType = StreamType.Private
+                        self.switchForEmogoPrivate.thumbTintColor = UIColor.white
                     }else {
                         currentStreamType = StreamType.Public
+                        self.switchForEmogoPrivate.thumbTintColor = UIColor.lightGray
                     }
                     
                     StreamList.sharedInstance.arrayStream.insert(stream!, at: 0)
@@ -354,8 +362,10 @@ class CreateStreamController: UITableViewController {
 //
                 if self.switchForEmogoPrivate.isOn {
                     currentStreamType = StreamType.Private
+                    self.switchForEmogoPrivate.thumbTintColor = UIColor.white
                 }else {
                     currentStreamType = StreamType.Public
+                    self.switchForEmogoPrivate.thumbTintColor = UIColor.white
                 }
                 
                 let array  = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }

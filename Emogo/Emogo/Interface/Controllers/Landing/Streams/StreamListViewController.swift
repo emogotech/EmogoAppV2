@@ -171,7 +171,7 @@ class StreamListViewController: UIViewController {
                 }
             }
             if self.arrayToShow.count == 0 {
-               // self.lblNoResult.isHidden = false
+                self.lblNoResult.isHidden = false
             }else {
                 self.lblNoResult.isHidden = true
             }
@@ -356,6 +356,7 @@ class StreamListViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
+        self.lblNoResult.isHidden = true
         // Logout User if Token Is Expired
         AppDelegate.appDelegate.removeOberserver()
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil, queue: nil) { (notification) in
@@ -410,7 +411,7 @@ class StreamListViewController: UIViewController {
         //SegmentControl
         
         // Segment control Configure
-        segmentSearch.sectionTitles = ["EMOGOS", "PEOPLE"]
+        segmentSearch.sectionTitles = ["Emogos", "People"]
         
         segmentSearch.indexChangeBlock = {(_ index: Int) -> Void in
             
@@ -421,8 +422,9 @@ class StreamListViewController: UIViewController {
        
         segmentSearch.backgroundColor = UIColor.white
         
-        segmentSearch.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
-        segmentSearch.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        self.segmentSearch.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        self.segmentSearch.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        self.segmentSearch.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
        // segmentSearch.selectionIndicatorColor =  kCardViewBordorColor
         segmentSearch.selectionStyle = .textWidthStripe
         segmentSearch.selectedSegmentIndex = 0
@@ -665,7 +667,7 @@ class StreamListViewController: UIViewController {
     // MARK: - Prepare Layouts When View Appear
     
     func prepareLayoutForApper(){
-       self.viewMenu.layer.contents = UIImage(named: "home-gradient-1")?.cgImage
+        self.viewMenu.layer.contents = UIImage(named: "home-gradient-1")?.cgImage
         menuView.isAddBackground = false
         menuView.isAddTitle = true
         
@@ -719,9 +721,9 @@ class StreamListViewController: UIViewController {
         imgSearchIcon.image =  UIImage(named: "search_icon_iphone-1")
         txtSearch.paddingLeft = 30
         txtSearch.borderStyle = .none
-        txtSearch.layer.borderWidth = 1.0
-        txtSearch.layer.cornerRadius = 5.0
-        txtSearch.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 0.7)
+        txtSearch.layer.borderWidth = 2.0
+        txtSearch.layer.cornerRadius = 15.0
+        txtSearch.layer.borderColor = UIColor(r: 102, g: 102, b: 102).cgColor
         txtSearch.placeholder = "Search"
         txtSearch.font = UIFont(name: kFontRegular, size: 14.0)
         txtSearch.textColor = UIColor.black
@@ -873,7 +875,6 @@ class StreamListViewController: UIViewController {
     }
     
    @objc func btnSearchCancelAction(){
-    txtSearch.resignFirstResponder()
     txtSearch.text = ""
     self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone-1")
     // btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
@@ -888,9 +889,12 @@ class StreamListViewController: UIViewController {
         collectionLayout.columnCount = 2
     }
     DispatchQueue.main.async {
+        self.txtSearch.resignFirstResponder()
+        
         self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
         if self.arrayToShow.count == 0 {
-           // self.lblNoResult.isHidden = false
+            self.lblNoResult.isHidden = false
+            self.lblNoResult.text = kAlert_No_Stream_found
         }else {
             self.lblNoResult.isHidden = true
         }
@@ -899,8 +903,10 @@ class StreamListViewController: UIViewController {
         self.kViewSearchButtonsHeight.constant = 0.0
         self.kHeightSegmentSearch.constant = 0.0
         self.viewSearchButtons.isHidden = true
+        self.txtSearch.frame = CGRect(x: 0, y: 0, width: kFrame.size.width - 135, height: 30)
+        self.configureLandingSearchNavigation()
         self.updateCircleMenu()
-        
+      //  self.txtSearch = UITextField(frame: CGRect(x: 0, y: 0, width: kFrame.size.width - 135, height: 30))
     }
     if isMenuOpen {
         self.menuView.isHidden = true
@@ -908,6 +914,8 @@ class StreamListViewController: UIViewController {
         Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
         isMenuOpen = false
     }
+    
+
     }
     
     
@@ -931,7 +939,8 @@ class StreamListViewController: UIViewController {
             DispatchQueue.main.async {
                 self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                 if self.arrayToShow.count == 0 {
-                    //self.lblNoResult.isHidden = false
+                    self.lblNoResult.isHidden = false
+                    self.lblNoResult.text = kAlert_No_Stream_found
                 }else {
                     self.lblNoResult.isHidden = true
                 }
@@ -1026,7 +1035,8 @@ class StreamListViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                     if self.arrayToShow.count == 0 {
-                      //  self.lblNoResult.isHidden = false
+                       self.lblNoResult.isHidden = false
+                        self.lblNoResult.text = kAlert_No_Stream_found
                     }else {
                         self.lblNoResult.isHidden = true
                     }
@@ -1068,9 +1078,10 @@ class StreamListViewController: UIViewController {
                 self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                 
                 if self.arrayToShow.count == 0 {
-                   // self.lblNoResult.isHidden = false
+                   self.lblNoResult.isHidden = false
+                    self.lblNoResult.text = kAlert_No_Stream_found
                 }else {
-                    //self.lblNoResult.isHidden = true
+                    self.lblNoResult.isHidden = true
                 }
                 self.streamCollectionView.reloadData()
             }
@@ -1192,7 +1203,8 @@ class StreamListViewController: UIViewController {
             DispatchQueue.main.async {
                 self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                 if self.arrayToShow.count == 0 {
-                   // self.lblNoResult.isHidden = false
+                    self.lblNoResult.isHidden = false
+                    self.lblNoResult.text = kAlert_No_Stream_found
                 }else {
                     self.lblNoResult.isHidden = true
                 }
@@ -1237,7 +1249,7 @@ class StreamListViewController: UIViewController {
             DispatchQueue.main.async {
                 self.arrayToShow = StreamList.sharedInstance.arrayMyStream
                 if self.arrayToShow.count == 0 {
-                   // self.lblNoResult.isHidden = false
+                    self.lblNoResult.isHidden = false
                 }else {
                     self.lblNoResult.isHidden = true
                   
@@ -1320,11 +1332,11 @@ class StreamListViewController: UIViewController {
                     self.streamCollectionView.es.stopLoadingMore()
                 }
                 self.lblNoResult.isHidden = true
-               // self.lblNoResult.text = kAlert_No_Stream_found
+                self.lblNoResult.text = kAlert_No_Stream_found
                 DispatchQueue.main.async {
                     self.arrayToShow = StreamList.sharedInstance.arrayMyStream
                     if self.arrayToShow.count == 0 {
-                       // self.lblNoResult.isHidden = false
+                        self.lblNoResult.isHidden = false
                       
                     }else {
                        
@@ -1622,12 +1634,28 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         
         if(velocity.y>0) {
             //Code will work without the animation block.I am using animation block incase if you want to set any delay to it.
-            self.hideStatusBar()
             self.navigationController?.setNavigationBarHidden(true, animated: true)
+            self.hideStatusBar()
+          
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+                self.viewMenu.isHidden = true
+            }) { (_) in
+                
+            }
+            Animation.viewSlideInFromBottomToTop(views: self.viewMenu,duration:0.5)
+            
             
         } else {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
             self.showStatusBar()
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {
+                self.viewMenu.isHidden = false
+            }) { (_) in
+                
+            }
+           
+         
+           
         }
     }
     
@@ -1725,8 +1753,10 @@ extension StreamListViewController : UITextFieldDelegate,UISearchBarDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        self.txtSearch.frame = CGRect(x: 0, y: 0, width: kFrame.size.width - 135, height: 30)
-        configureLandingSearchNavigation()
+        if (textField.text?.trim().isEmpty)! {
+            self.txtSearch.frame = CGRect(x: 0, y: 0, width: kFrame.size.width - 135, height: 30)
+            configureLandingSearchNavigation()
+        }
     }
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         return true

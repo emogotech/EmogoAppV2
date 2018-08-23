@@ -62,8 +62,10 @@ class SettingViewController: UIViewController {
         }
         if kDefault?.bool(forKey: kHapticFeedback) == true{
             switchHaptic.isOn = true
+            switchHaptic.thumbTintColor = UIColor.white
         }else{
             switchHaptic.isOn = false
+            switchHaptic.thumbTintColor = UIColor.lightGray
         }
     }
     
@@ -105,9 +107,11 @@ class SettingViewController: UIViewController {
     @IBAction func switchHapticAction(_ sender: Any) {
         
         if switchHaptic.isOn == true {
+            self.switchHaptic.thumbTintColor = UIColor.white
             self.isHapticFeedback = true
             kDefault?.set(true, forKey: kHapticFeedback)
         }else{
+            self.switchHaptic.thumbTintColor = UIColor.lightGray
             switchHaptic.isOn = false
             self.isHapticFeedback = false
           

@@ -33,20 +33,29 @@ class Animation: NSObject {
         view.layer.add(transition!, forKey: nil)
     }
     
-   class func viewSlideInFromTopToBottom(views: UIView) {
+    class func viewSlideInFromTopToBottom(views: UIView,duration:Double? = nil) {
         var transition: CATransition? = nil
         transition = CATransition()
-        transition!.duration = 0.5
+        if duration != nil {
+            transition!.duration = duration!
+        }else {
+            transition!.duration = 0.5
+        }
+        
         transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition!.type = kCATransitionPush
         transition!.subtype = kCATransitionFromTop
         views.layer.add(transition!, forKey: nil)
     }
-  class func viewSlideInFromBottomToTop(views: UIView) {
+  class func viewSlideInFromBottomToTop(views: UIView,duration:Double? = nil) {
         var transition: CATransition? = nil
         transition = CATransition()
+    if duration != nil {
+        transition!.duration = duration!
+    }else {
         transition!.duration = 0.5
-        transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+    }
+    transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition!.type = kCATransitionPush
         transition!.subtype = kCATransitionFromBottom
         views.layer.add(transition!, forKey: nil)

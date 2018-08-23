@@ -110,22 +110,24 @@ class MyStreamViewController: UIViewController {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
-              //  if currentStreamType == .Emogo  {
+                
+               if selectedType == .Emogo  {
                     if  self.stretchyHeader.segmentControl != nil {
                         self.stretchyHeader.segmentControl.selectedSegmentIndex = 1
-              //  }
+                    }
                  Animation.addRightTransition(collection: self.myStreamCollectionView)
                  self.updateStuffList(index: 1)
-                }
+               }
                 break
                 case UISwipeGestureRecognizerDirection.right:
-                  //  if  currentStreamType == .Collab {
+                   if  selectedType == .Collab {
                         if  self.stretchyHeader.segmentControl != nil {
                             self.stretchyHeader.segmentControl.selectedSegmentIndex = 0
+                            
                         }
                         Animation.addLeftTransition(collection: self.myStreamCollectionView)
                         self.updateStuffList(index: 0)
-                  //  }
+                   }
                  break
             default:
                  break
@@ -173,10 +175,9 @@ class MyStreamViewController: UIViewController {
         
         self.stretchyHeader.segmentControl.selectionIndicatorHeight = 1.0
         self.stretchyHeader.segmentControl.backgroundColor =  UIColor(r: 245, g: 245, b: 245)
-        self.stretchyHeader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 15.0)]
-         self.stretchyHeader.segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
-     //   self.stretchyHeader.segmentControl.selectionIndicatorColor = UIColor(r: 0, g: 122, b: 255)
-        self.stretchyHeader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 15.0)]
+        self.stretchyHeader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        self.stretchyHeader.segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        self.stretchyHeader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
         self.stretchyHeader.segmentControl.selectionStyle = .textWidthStripe
         self.stretchyHeader.segmentControl.selectedSegmentIndex = 0
         self.stretchyHeader.segmentControl.selectionIndicatorLocation = .down
@@ -197,17 +198,18 @@ class MyStreamViewController: UIViewController {
         switch index {
         case 0:
             layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
-            self.selectedType = StreamType.Emogo
+            self.selectedType = .Emogo
             self.getMyStreams(type: .start, filter: .Emogo)
             
             break
         case 1:
+            self.selectedType = .Collab
             layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
             self.getColabStreams(type: .start)
             break
             
         default:
-            self.selectedType = StreamType.Emogo
+            self.selectedType = .Emogo
             
         }
       
