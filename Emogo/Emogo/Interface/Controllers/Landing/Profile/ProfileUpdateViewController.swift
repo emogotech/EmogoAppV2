@@ -87,13 +87,19 @@ class ProfileUpdateViewController: UITableViewController {
         let btnClose = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnCloseAction))
         self.navigationItem.leftBarButtonItem = btnClose
         
-        let btnSave = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
-        self.navigationItem.rightBarButtonItem?.setTitleTextAttributes(myAttribute2, for: .normal)
-       // self.navigationItem.rightBarButtonItem?.tintColor = UIColor(hex: "007AFF")
-         btnSave.tintColor = UIColor(hex: "007AFF")
-        self.navigationItem.rightBarButtonItem = btnSave
+        let btnSave  = UIButton(type: .system)
+        btnSave.setTitle("Done", for: .normal)
+        btnSave.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
+        btnSave.tintColor = UIColor(hex: "007AFF")
+        btnSave.addTarget(self, action: #selector(self.btnDoneAction(_:)), for: .touchUpInside)
+        let btnDone = UIBarButtonItem(customView: btnSave)
+      
+       // let btnSave = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
        
-        
+       // self.navigationItem.rightBarButtonItem?.setTitleTextAttributes(myAttribute2, for: .normal)
+       // self.navigationItem.rightBarButtonItem?.tintColor = UIColor(hex: "007AFF")
+     
+        self.navigationItem.rightBarButtonItem = btnDone
         self.title = "Edit Profile"
     }
     

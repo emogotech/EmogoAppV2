@@ -48,6 +48,7 @@ class StreamDAO {
     var haveSomeUpdate:Bool! = false
     var isColabStream:Bool! = false
     var canAddContent:Bool! = false
+    var color:String! = ""
 
     
    
@@ -85,6 +86,9 @@ class StreamDAO {
         }
         if let obj = streamData["height"] {
             self.hieght = Int("\(obj)")
+        }
+        if let obj  = streamData["color"] {
+            self.color = obj as! String
         }
         
         if let obj  = streamData["have_some_update"] {
@@ -234,6 +238,7 @@ class StreamViewDAO{
     var colabImageFirst:String! = ""
     var colabImageSecond:String! = ""
     var arrayLikedUsers = [LikedUser]()
+    var color:String! = ""
     
     init(streamData:[String:Any]) {
         
@@ -258,6 +263,10 @@ class StreamViewDAO{
         if let obj  = streamData["type"] {
             self.type = obj as! String
         }
+        if let obj  = streamData["color"] {
+            self.color = obj as! String
+        }
+        
         if let obj  = streamData["stream_permission"] {
             if obj is [String:Any] {
                 let dict:[String:Any] = obj as! [String : Any]

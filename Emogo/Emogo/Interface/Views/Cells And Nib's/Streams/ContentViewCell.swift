@@ -13,23 +13,27 @@ class ContentViewCell: UICollectionViewCell {
     @IBOutlet weak var imgCover: FLAnimatedImageView!
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var lblTitleImage: UILabel!
-    @IBOutlet weak var lblImageDescription: UILabel!
+    @IBOutlet weak var lblImageDescription: MBAutoGrowingTextView!
     @IBOutlet weak var btnPlayIcon: UIButton!
     @IBOutlet weak var kLinkIogoWidth: NSLayoutConstraint!
     @IBOutlet weak var linkLogo: UIImageView!
+    @IBOutlet weak var playerContainerView: UIView!
 
-    
-    
+    var isReadMore:Bool! = false
+    var strDescription:String! = ""
     
     override func awakeFromNib() {
         super.awakeFromNib()
+      
         DispatchQueue.main.async {
             self.roundCorners([.topLeft, .topRight], radius: 10)
         }
+     
+       
     }
     
     func prepareView(seletedImage:ContentDAO) {
-        
+        self.imgCover.backgroundColor  = .black
         self.imgCover.image = nil
         self.imgCover.animatedImage = nil
         if !seletedImage.color.trim().isEmpty {
@@ -56,6 +60,8 @@ class ContentViewCell: UICollectionViewCell {
         }
         
         self.btnPlayIcon.isHidden = true
+        self.imgCover.isHidden = false
+        self.playerContainerView.isHidden = true
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
         }else {
@@ -63,26 +69,32 @@ class ContentViewCell: UICollectionViewCell {
                 self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImage) { (img) in
                     if let img = img {
                         img.getColors({ (colors) in
-                            self.imgCover.backgroundColor = colors.primary
+                        //    self.imgCover.backgroundColor = colors.primary
+                          
                         })
                     }
                 }
                 
                 //self.btnPlayIcon.isHidden = true
             }else   if seletedImage.type == .video {
-                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
+                self.imgCover.isHidden = true
+                self.playerContainerView.isHidden = false
+
+               self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
                     if let img = img {
                         img.getColors({ (colors) in
-                            self.imgCover.backgroundColor = colors.primary
+                        //    self.imgCover.backgroundColor = colors.primary
                         })
                     }
                 }
-                self.btnPlayIcon.isHidden = false
+               //  self.btnPlayIcon.isHidden = false
+
+
             }else if seletedImage.type == .link {
                 self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
                     if let img = img {
                         img.getColors({ (colors) in
-                            self.imgCover.backgroundColor = colors.primary
+                        //    self.imgCover.backgroundColor = colors.primary
                         })
                     }
                 }
@@ -90,7 +102,7 @@ class ContentViewCell: UICollectionViewCell {
                 self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
                     if let img = img {
                         img.getColors({ (colors) in
-                            self.imgCover.backgroundColor = colors.primary
+                         //   self.imgCover.backgroundColor = colors.primary
                         })
                     }
                 }
@@ -105,22 +117,24 @@ class ContentViewCell: UICollectionViewCell {
         self.lblTitleImage.isHidden = false
         if seletedImage.name.trim().isEmpty {
             self.lblTitleImage.isHidden = true
+            self.btnMore.isHidden = true
         }else {
+            self.lblTitleImage.numberOfLines = 2
             self.lblTitleImage.text = seletedImage.name.trim()
         }
+        strDescription = seletedImage.description.trim()
         if seletedImage.description.trim().isEmpty {
             self.lblImageDescription.isHidden = true
+            self.btnMore.isHidden = true
         }else {
-            self.lblImageDescription.numberOfLines = 0
-            
-            self.lblImageDescription.text = seletedImage.description.trim()
-            let lines = self.lblImageDescription.numberOfVisibleLines
-            if lines > 2 {
-                //  self.btnMore.isHidden = false
+            if seletedImage.description.trim().count <  100 {
+                self.btnMore.isHidden = true
+                self.lblImageDescription.text = seletedImage.description.trim()
             }else {
-                // self.btnMore.isHidden = true
+                self.btnMore.isHidden = false
+                 self.lblImageDescription.text = seletedImage.description.trim().trim(count: 100)
             }
-            self.lblImageDescription.numberOfLines = 0
+          
         }
         
         if seletedImage.type == .notes {
@@ -130,6 +144,18 @@ class ContentViewCell: UICollectionViewCell {
     
     
     
+    @IBAction func btnMoreAction(_ sender: Any) {
+        isReadMore = !isReadMore
+        if isReadMore {
+            self.lblImageDescription.text = strDescription.trim()
+        }else {
+            self.lblImageDescription.text = strDescription.trim().trim(count: 100)
+        }
+       
+    }
+    
+    
+   
     
 /*
     lazy var effectView: UIVisualEffectView = {

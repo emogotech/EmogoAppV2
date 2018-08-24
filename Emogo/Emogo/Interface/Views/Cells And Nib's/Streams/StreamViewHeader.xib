@@ -30,7 +30,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HR2-Gh-htd" customClass="CardView" customModule="Emogo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="310" height="250"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream-card-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="i1b-sa-qbQ">
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream-card-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="i1b-sa-qbQ">
                             <rect key="frame" x="0.0" y="0.0" width="310" height="250"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </imageView>

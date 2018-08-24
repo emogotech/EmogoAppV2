@@ -1247,6 +1247,8 @@ extension SwiftyCamViewController {
 
 		let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(singleTapGesture(tap:)))
 		singleTapGesture.numberOfTapsRequired = 1
+        singleTapGesture.cancelsTouchesInView = false
+        singleTapGesture.numberOfTouchesRequired = 1
 		singleTapGesture.delegate = self
 		previewLayer.addGestureRecognizer(singleTapGesture)
 

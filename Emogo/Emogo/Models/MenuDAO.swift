@@ -53,5 +53,6 @@ class Menu {
         self.icon = icon
         self.iconName = name
     }
+   
 }
 

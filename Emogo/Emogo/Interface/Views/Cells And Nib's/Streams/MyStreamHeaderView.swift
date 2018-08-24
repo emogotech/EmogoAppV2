@@ -38,7 +38,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         self.expansionMode = .topOnly
         // You can change the minimum and maximum content heights
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
-        self.maximumContentHeight = 250
+        self.maximumContentHeight = 230
         self.stretchDelegate  = self
       
     }
@@ -91,6 +91,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         sliderCover.delay = 1 // Delay between transitions
         sliderCover.transitionDuration = 0.5 // Transition duration
         sliderCover.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
+      
         sliderCover.imagesContentMode = .scaleAspectFill // Choose a content mode for images to display
         sliderCover.add(KASlideShowGestureType.all)
         sliderCover.isExclusiveTouch = true
@@ -180,7 +181,10 @@ class MyStreamCell:UICollectionViewCell {
             
         }else {
             self.imgCover.contentMode = .scaleAspectFill
-          
+            
+            if !stream.color.trim().isEmpty {
+                imgCover.backgroundColor = UIColor(hex: stream.color.trim())
+            }
             imgAdd.isHidden = true
             cardView.isHidden = false
             self.imgCover.setImageWithURL(strImage:stream.CoverImage.trim(), placeholder: kPlaceholderImage)

@@ -16,6 +16,7 @@
 
 import UIKit
 
+
 //MARK: Public Protocol Declaration
 
 /// Delegate for SwiftyCamButton
@@ -76,6 +77,7 @@ open class SwiftyCamButton: UIButton {
     /// UITapGestureRecognizer Function
     
     @objc fileprivate func Tap() {
+       
        delegate?.buttonWasTapped()
     }
     

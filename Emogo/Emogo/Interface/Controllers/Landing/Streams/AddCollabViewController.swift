@@ -595,6 +595,7 @@ extension AddCollabViewController: UITextFieldDelegate {
             self.viewAddCollab.isHidden = true
             self.prepareNavBarButtons()
             self.kConsViewTop.constant = -13
+            
         }
         return true
     }

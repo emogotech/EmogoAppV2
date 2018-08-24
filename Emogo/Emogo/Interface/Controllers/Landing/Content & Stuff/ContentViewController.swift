@@ -13,12 +13,19 @@ import Lightbox
 import Photos
 import IQKeyboardManagerSwift
 import Haptica
+import BMPlayer
 
 
-protocol ContentViewControllerDelegate {
+ protocol ContentViewControllerDelegate {
     func updateViewCount(count:String)
     func currentPreview(content:ContentDAO,index:IndexPath)
 }
+
+extension ContentViewControllerDelegate {
+    func updateViewCount(count:String){
+    }
+}
+
 
 class ContentViewController: UIViewController {
 
@@ -32,6 +39,8 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnSave: UIButton!
     @IBOutlet weak var btnOther: UIButton!
 
+   // @IBOutlet weak var btnMore: UIButton!
+    
     let cellIdentifier = "contentViewCell"
     var seletedImage:ContentDAO!
     var isForEditOnly:Bool!
@@ -48,6 +57,16 @@ class ContentViewController: UIViewController {
     var arrayLightBoxIndexes = [Int]()
     var isFromNotesEdit:Bool! = false
     var viewIndex:Int?
+    var isMoreTapped:Bool! = false
+    
+    var playerView:BMPlayer = {
+        let player = BMPlayer()
+        player.isShowControl = false
+        player.isUserInteractionEnabled = false
+        return player
+    }()
+
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,8 +80,8 @@ class ContentViewController: UIViewController {
         if self.currentIndex != nil{
             let temp = ContentList.sharedInstance.arrayContent[self.currentIndex]
             if temp.type == .video {
-                let videoUrl = URL(string: temp.coverImage)
-                LightboxConfig.handleVideo(self, videoUrl!)
+            //    let videoUrl = URL(string: temp.coverImage)
+             //   LightboxConfig.handleVideo(self, videoUrl!)
             }
         }
         
@@ -85,9 +104,15 @@ class ContentViewController: UIViewController {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
         self.navigationController?.isNavigationBarHidden = true
-        bottomToolBarView.backgroundColor = UIColor.clear
+
+        if !seletedImage.color.trim().isEmpty {
+             bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+        }
+        //bottomToolBarView.backgroundColor = UIColor.clear
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
-            bottomToolBarView.backgroundColor = UIColor.black
+            if !seletedImage.color.trim().isEmpty {
+                bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+            }
         }
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -106,6 +131,9 @@ class ContentViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.statusBarStyle = .default
+        if self.playerView.superview != nil {
+            self.playerView.removeFromSuperview()
+        }
     }
 
     
@@ -144,6 +172,7 @@ class ContentViewController: UIViewController {
         btnAddToEmogo.isHidden = true
         btnShare.isHidden = true
         btnSave.isHidden = true
+       // self.btnMore.isHidden = true
         
         
         if self.seletedImage.isShowAddStream {
@@ -173,6 +202,10 @@ class ContentViewController: UIViewController {
              self.btnAddToEmogo.isHidden = false
              self.btnSave.isHidden = false
              self.btnShare.isHidden = false
+        }
+        bottomToolBarView.backgroundColor = UIColor.black
+        if !seletedImage.color.trim().isEmpty {
+            bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
         }
     }
     
@@ -209,6 +242,17 @@ class ContentViewController: UIViewController {
             collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
     }
     
+//    @IBAction func btnMoreAction(_ sender: Any) {
+//        isMoreTapped = !isMoreTapped
+//        if isMoreTapped {
+//            txtDescription.textContainer.maximumNumberOfLines = 3
+//        }else {
+//            txtDescription.textContainer.maximumNumberOfLines = 3
+//
+//        }
+//
+//    }
+    
     @IBAction func btnShowReportListAction(_ sender: Any){
         if seletedImage.isDelete {
             self.showDelete()
@@ -224,6 +268,10 @@ class ContentViewController: UIViewController {
         if isProfile != nil  {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
             ContentList.sharedInstance.arrayContent = array
+        }
+        
+        if self.playerView.superview != nil {
+            self.playerView.removeFromSuperview()
         }
         self.dismiss(animated: true, completion: nil)
     }
@@ -570,7 +618,6 @@ class ContentViewController: UIViewController {
                 }
             NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier), object: "Delete")
 
-                
                 if self.isFromAll != nil {
                     ContentList.sharedInstance.arrayStuff.remove(at: self.currentIndex)
                 }
@@ -803,6 +850,40 @@ class ContentViewController: UIViewController {
         self.navigationController?.pushAsPresent(viewController: obj)
     }
     
+    func preparePlayerView(strURL:String){
+        
+        guard let videoUrl =  URL(string: strURL) else {
+            return
+        }
+        let asset = BMPlayerResource(url: videoUrl)
+        playerView.setVideo(resource: asset)
+        
+        // Back button event
+        playerView.backBlock = {  (isFullScreen) in
+            if isFullScreen == true { return }
+            //let _ = self.navigationController?.popViewController(animated: true)
+        }
+        playerView.playStateDidChange = { (isPlaying: Bool) in
+            print("playStateDidChange \(isPlaying)")
+        }
+        
+        //Listen to when the play time changes
+        playerView.playTimeDidChange = { (currentTime: TimeInterval, totalTime: TimeInterval) in
+            print("playTimeDidChange currentTime: \(currentTime) totalTime: \(totalTime)")
+            self.playerView.isUserInteractionEnabled = false
+            if currentTime == totalTime {
+                self.playerView.isUserInteractionEnabled = true
+                if !self.playerView.isPlaying {
+                    self.playerView.play()
+                }
+            }
+        }
+        
+    }
+    
+    
+    
+   
     
     
     /*
@@ -829,19 +910,34 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ContentViewCell
         let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
-       
         cell.prepareView(seletedImage: content)
         cell.btnPlayIcon.tag = indexPath.row
         cell.btnPlayIcon.addTarget(self, action: #selector(self.openFullView), for: .touchUpInside)
-            return cell
+        if self.playerView.superview != nil {
+            self.playerView.removeFromSuperview()
+        }
+        if content.type == .video {
+            DispatchQueue.main.async {
+                if self.playerView.superview == nil {
+                    self.playerView.frame = cell.playerContainerView.bounds
+                    cell.playerContainerView.addSubview(self.playerView)
+                    self.preparePlayerView(strURL: content.coverImage)
+                }
+            }
+        }
+        
+        
+//        cell.btnMore.tag = indexPath.row
+//        cell.btnMore.addTarget(self, action: #selector(self.btnMoreAction), for: .touchUpInside)
+        
+        return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: kFrame.size.width, height: self.collectionView.frame.size.height)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.viewIndex = indexPath.row
-           self.openFullView()
-      
+        self.openFullView()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

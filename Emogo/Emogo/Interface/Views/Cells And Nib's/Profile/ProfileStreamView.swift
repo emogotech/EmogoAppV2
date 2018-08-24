@@ -54,7 +54,7 @@ class ProfileStreamView: UICollectionReusableView {
             }
            
         }
-     self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
+        self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
         self.imgCover.contentMode = .scaleAspectFill
         self.imgUser.layer.masksToBounds = true
         self.lblTitle.text = stream.Title.trim().capitalized

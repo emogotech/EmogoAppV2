@@ -98,7 +98,7 @@ class ProfileViewController: UIViewController {
     
    // 178
     let layout = CHTCollectionViewWaterfallLayout()
-
+    var objNavigation:UINavigationController?
     
     // MARK: - Override Functions
     
@@ -186,15 +186,18 @@ class ProfileViewController: UIViewController {
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
-        self.profileCollectionView.addGestureRecognizer(swipeRight)
+        self.view.addGestureRecognizer(swipeRight)
       
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
-        self.profileCollectionView.addGestureRecognizer(swipeLeft)
+        self.view.addGestureRecognizer(swipeLeft)
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.profileCollectionView.addGestureRecognizer(longPressGesture)
 
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
+        edgePan.edges = .right
+        view.addGestureRecognizer(edgePan)
         
 //        let tapFollow = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
 //        self.lblFollowers.isUserInteractionEnabled = true
@@ -230,6 +233,7 @@ class ProfileViewController: UIViewController {
         segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
           
             print("Selected index \(index) (via block)")
+            self.lblNOResult.isHidden = true
             self.updateStuffList(index: index)
         }
         segmentControl.selectionIndicatorHeight = 1.0
@@ -243,18 +247,24 @@ class ProfileViewController: UIViewController {
         segmentControl.selectionIndicatorLocation = .down
         segmentControl.shouldAnimateUserSelection = false
       
-        segmentMain.sectionTitles = ["EMOGOS", "COLLABS", "MY STUFF"]
+        segmentMain.sectionTitles = ["Emogos", "Collabs", "My Stuff"]
         
         segmentMain.indexChangeBlock = {(_ index: Int) -> Void in
             
             print("Selected index \(index) (via block)")
             self.updateSegment(selected: index)
         }
-         segmentMain.selectionIndicatorHeight = 3.0
+        
+         segmentMain.selectionIndicatorHeight = 1.0
+         segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
          segmentMain.backgroundColor = UIColor.white
-         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
+//         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
+        
+        segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        segmentMain.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
         // segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
-         segmentMain.selectionIndicatorColor =  kCardViewBordorColor
+       //  segmentMain.selectionIndicatorColor =  kCardViewBordorColor
          segmentMain.selectionStyle = .textWidthStripe
          segmentMain.selectedSegmentIndex = 0
          segmentMain.selectionIndicatorLocation = .down
@@ -692,6 +702,7 @@ class ProfileViewController: UIViewController {
     @objc func profileBackAction(){
         
         self.addLeftTransitionView(subtype: kCATransitionFromRight)
+
         self.navigationController?.popNormal()
     }
 
@@ -716,8 +727,9 @@ class ProfileViewController: UIViewController {
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            self.lblNOResult.isHidden = true
             switch swipeGesture.direction {
-               
+            
             case UISwipeGestureRecognizerDirection.left:
                // print("Swie Left")
                 if kDefault?.bool(forKey: kHapticFeedback) == true{
@@ -730,6 +742,7 @@ class ProfileViewController: UIViewController {
                     self.updateSegment(selected: 1)
                     //self.updateSegment(selected: 102)
                 }else if currentMenu == .colabs {
+                    self.lblNOResult.isHidden = true
                     Animation.addRightTransition(collection: self.profileCollectionView)
                     self.updateSegment(selected: 2)
                     //self.updateSegment(selected: 103)
@@ -739,6 +752,8 @@ class ProfileViewController: UIViewController {
                         let index = self.selectedType.hashValue + 1
                         self.segmentControl.selectedSegmentIndex = index
                         self.updateStuffList(index: index)
+                    }else {
+                        self.profileBackAction()
                     }
                     }
                 break
@@ -751,6 +766,7 @@ class ProfileViewController: UIViewController {
                     
                 }
                 if currentMenu == .colabs {
+                    self.lblNOResult.isHidden = true
                     Animation.addLeftTransition(collection: self.profileCollectionView)
                     self.updateSegment(selected: 0)
                    // self.updateSegment(selected: 101)
@@ -799,6 +815,15 @@ class ProfileViewController: UIViewController {
         }
         }
     }
+    
+    @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        if recognizer.state == .recognized {
+            print("Screen edge swiped!")
+            self.addLeftTransitionView(subtype: kCATransitionFromRight)
+            self.navigationController?.popNormal()
+        }
+    }
+    
     @objc func handleTapGesture(_ gesture: UITapGestureRecognizer) {
         let obj:FollowersViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_FollowersView) as! FollowersViewController
         if gesture.view?.tag == 111 {
@@ -1113,14 +1138,14 @@ class ProfileViewController: UIViewController {
                 let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 objPreview.currentIndex = sender.tag
                 objPreview.isProfile = "TRUE"
-                let nav = UINavigationController(rootViewController: objPreview)
+                objNavigation = UINavigationController(rootViewController: objPreview)
                 let indexPath = IndexPath(row: sender.tag, section: 0)
                 if let imageCell = profileCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
                     navigationImageView = imageCell.imgCover
-                    nav.cc_setZoomTransition(originalView: navigationImageView!)
-                    nav.cc_swipeBackDisabled = true
+                    objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
+                    objNavigation!.cc_swipeBackDisabled = true
                 }
-                self.present(nav, animated: true, completion: nil)
+                self.present(objNavigation!, animated: true, completion: nil)
                 
                 //  self.navigationController?.push(viewController: objPreview)
             }
@@ -1186,7 +1211,7 @@ class ProfileViewController: UIViewController {
         }else if self.currentMenu == .colabs {
             self.lblNOResult.isHidden = true
             if StreamList.sharedInstance.arrayProfileColabStream.count == 0 {
-                self.lblNOResult.text  = "No Emogo Found"
+               // self.lblNOResult.text  = "No Emogo Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
@@ -1197,6 +1222,7 @@ class ProfileViewController: UIViewController {
 
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
+            self.lblNOResult.isHidden = true
             StreamList.sharedInstance.arrayProfileStream.removeAll()
             self.profileCollectionView.reloadData()
         }
@@ -1254,6 +1280,8 @@ class ProfileViewController: UIViewController {
     }
     func getMyStuff(type:RefreshType){
         if type == .start || type == .up {
+            self.lblNOResult.isHidden = true
+
             ContentList.sharedInstance.arrayContent.removeAll()
             for _ in  ContentList.sharedInstance.arrayStuff {
                 if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
@@ -1299,6 +1327,7 @@ class ProfileViewController: UIViewController {
     
     func getColabs(type:RefreshType){
         if type == .start || type == .up {
+            self.lblNOResult.isHidden = true
             StreamList.sharedInstance.arrayProfileColabStream.removeAll()
             self.profileCollectionView.reloadData()
         }
@@ -1664,13 +1693,14 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                       objPreview.currentIndex = indexPath.row
                       objPreview.isProfile = "TRUE"
-                    let nav = UINavigationController(rootViewController: objPreview)
+                    objPreview.delegate = self
+                    objNavigation = UINavigationController(rootViewController: objPreview)
                     if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
                         navigationImageView = imageCell.imgCover
-                        nav.cc_setZoomTransition(originalView: navigationImageView!)
-                        nav.cc_swipeBackDisabled = true
+                        objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
+                        objNavigation!.cc_swipeBackDisabled = false
                     }
-                    self.present(nav, animated: true, completion: nil)
+                    self.present(objNavigation!, animated: true, completion: nil)
                     
                   //  self.navigationController?.push(viewController: objPreview)
                 }
@@ -1783,4 +1813,20 @@ extension ProfileViewController : ActionSheetControllerHeaderActionDelegate {
     func actionSheetControllerHeaderButtonAction() {
         self.actionForAddStream()
     }
+}
+
+extension ProfileViewController : ContentViewControllerDelegate {
+    
+    func currentPreview(content: ContentDAO, index: IndexPath) {
+        if let _ = objNavigation {
+            
+            if let imageCell = profileCollectionView.cellForItem(at: index) as? MyStuffCell {
+                self.profileCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: false)
+                navigationImageView = imageCell.imgCover
+                objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
+            }
+        }
+    }
+    
+   
 }

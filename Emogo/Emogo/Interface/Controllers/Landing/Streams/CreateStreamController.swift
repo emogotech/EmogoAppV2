@@ -26,7 +26,8 @@ class CreateStreamController: UITableViewController {
     @IBOutlet weak var viewAddCoverImage: UIView!
     @IBOutlet weak var tfEmogoTitle: SkyFloatingLabelTextField!
     @IBOutlet weak var tfDescription: MBAutoGrowingTextView!
-    @IBOutlet weak var switchForEmogoPrivate: PMAnimatedSwitch!
+   // @IBOutlet weak var switchForEmogoPrivate: PMAnimatedSwitch!
+    @IBOutlet weak var switchForEmogoPrivate: UISwitch!
     @IBOutlet weak var lblCaption: UILabel!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var lblAddCoverImage: UILabel!
@@ -72,7 +73,7 @@ class CreateStreamController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.viewTitle.layer.contents = UIImage(named: "gradient")?.cgImage
+       // self.viewTitle.layer.contents = UIImage(named: "gradient")?.cgImage
     }
 
     override func didReceiveMemoryWarning() {
@@ -127,30 +128,35 @@ class CreateStreamController: UITableViewController {
         // If Stream is public
         //self.rowHieght.constant = 0.0
         self.isExpandRow = false
-        switchForEmogoPrivate.delegate = self
-        switchForEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))
-        switchForEmogoPrivate.layer.borderWidth = 1.0
-        switchForEmogoPrivate.layer.borderColor = UIColor.black.cgColor
+        self.switchForEmogoPrivate.isOn = false
+       
+        self.switchForEmogoPrivate.thumbTintColor = UIColor.lightGray
+        
+      
+//        switchForEmogoPrivate.delegate = self
+//        switchForEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))
+//        switchForEmogoPrivate.layer.borderWidth = 1.0
+//        switchForEmogoPrivate.layer.borderColor = UIColor.black.cgColor
     }
     
     func prepareNavigationbarButtons(){
         
         let button   = UIButton(type: .system)
         button.setTitleColor(UIColor.lightGray, for: .normal)
-        button.setTitle("CANCEL", for: .normal)
+        button.setTitle("Cancel", for: .normal)
         button.frame = CGRect(x: 10, y: -12, width: 60, height: 40)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
         button.addTarget(self, action: #selector(self.btnCloseAction(_:)), for: .touchUpInside)
         let btnBack = UIBarButtonItem(customView: button)
         
         self.navigationItem.leftBarButtonItem = btnBack
         
         buttonDone  = UIButton(type: .system)
-        buttonDone.setTitle("DONE", for: .normal)
+        buttonDone.setTitle("Done", for: .normal)
         buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
         buttonDone.frame = CGRect(x: 0, y: 0, width: 60, height: 40)
        // buttonDone.setTitleColor(kNavigationColor, for: .normal)
-        buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 13.0)
+        buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
         buttonDone.addTarget(self, action: #selector(self.btnDoneAction(_:)), for: .touchUpInside)
         let btnDone = UIBarButtonItem(customView: buttonDone)
         self.navigationItem.rightBarButtonItem = btnDone
@@ -159,6 +165,17 @@ class CreateStreamController: UITableViewController {
     }
     //MARK:- action for buttons
     
+    @IBAction func switchActionForEmogoPrivate(_ sender: Any) {
+        
+        if self.switchForEmogoPrivate.isOn {
+            streamType = StreamType.Private.rawValue
+            self.switchForEmogoPrivate.thumbTintColor = UIColor.white
+        }else{
+            streamType = StreamType.Public.rawValue
+            self.switchForEmogoPrivate.thumbTintColor = UIColor.lightGray
+        }
+        
+    }
     @IBAction func btnCloseAction(_ sender: Any) {
         self.view.endEditing(true)
         self.dismiss(animated: true, completion: nil)
@@ -200,6 +217,7 @@ class CreateStreamController: UITableViewController {
         self.fileName =  NSUUID().uuidString + ".png"
         self.strCoverImage = ""
         self.imgCover.contentMode = .scaleAspectFit
+       
         self.imgCover.backgroundColor = image.getColors().background
         self.viewAddCoverImage.isHidden = true
         self.lblAddCoverImage.isHidden = true
@@ -242,7 +260,7 @@ class CreateStreamController: UITableViewController {
             if error == nil {
                 DispatchQueue.main.async {
                     if self.streamID == nil   {
-                        self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
+                        self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height), color: (image?.getColors().primary.toHexString)!)
                     }
                 }
             }else {
@@ -250,18 +268,27 @@ class CreateStreamController: UITableViewController {
             }
         }
     }
-    private func createStream(cover:String,width:Int,hieght:Int){
+    private func createStream(cover:String,width:Int,hieght:Int,color:String){
         
-        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: false , canAddPeople: false ,height:hieght,width:width) { (isSuccess, errorMsg,stream) in
+        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: false , canAddPeople: false ,height:hieght,width:width,color:color) { (isSuccess, errorMsg,stream) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToast(type: .error, strMSG: kAlert_Stream_Added_Success)
                 DispatchQueue.main.async{
-                    if self.switchForEmogoPrivate.on {
+//                    if self.switchForEmogoPrivate.on {
+//                        currentStreamType = StreamType.Private
+//                    }else {
+//                        currentStreamType = StreamType.Public
+//                    }
+                    
+                    if self.switchForEmogoPrivate.isOn {
                         currentStreamType = StreamType.Private
+                        self.switchForEmogoPrivate.thumbTintColor = UIColor.white
                     }else {
                         currentStreamType = StreamType.Public
+                        self.switchForEmogoPrivate.thumbTintColor = UIColor.lightGray
                     }
+                    
                     StreamList.sharedInstance.arrayStream.insert(stream!, at: 0)
                     NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
                     if isAssignProfile != nil {
@@ -327,10 +354,18 @@ class CreateStreamController: UITableViewController {
                 // Back Screen
                 self.dismiss(animated: true, completion: nil)
                 
-                if self.switchForEmogoPrivate.on {
+//                if self.switchForEmogoPrivate.on {
+//                    currentStreamType = StreamType.Private
+//                }else {
+//                    currentStreamType = StreamType.Public
+//                }
+//
+                if self.switchForEmogoPrivate.isOn {
                     currentStreamType = StreamType.Private
+                    self.switchForEmogoPrivate.thumbTintColor = UIColor.white
                 }else {
                     currentStreamType = StreamType.Public
+                    self.switchForEmogoPrivate.thumbTintColor = UIColor.white
                 }
                 
                 let array  = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }

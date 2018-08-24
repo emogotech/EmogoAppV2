@@ -63,7 +63,7 @@ extension ZoomInteractiveTransition: UIGestureRecognizerDelegate {
             if isDestinationController {
                 interactive = true
                 if #available(iOS 10.0, *) {
-                    viewController = navigationController?.popViewController(animated: true)
+                //    viewController = navigationController?.popViewController(animated: true)
                 }
                 return true
             }

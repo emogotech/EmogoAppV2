@@ -52,7 +52,7 @@ class PresenterNew: NSObject {
         customPresenter.blurBackground = false
         return customPresenter
     }()
-    
+    /*
     static let ActionSheetPresenter: Presentr = {
         
         if UIDevice.current.modelName.lowercased().contains("iphone5") || UIDevice.current.modelName.lowercased().contains("iphone 5") {
@@ -89,6 +89,152 @@ class PresenterNew: NSObject {
             return customPresenter
         }
        
+    }()*/
+     static let ActionSheetPresenter: Presentr = {
+        
+         if deviceType.iPhoneX  {
+            
+            let width = ModalSize.full
+            let height = ModalSize.customOrientation(sizePortrait: Float(415), sizeLandscape: Float(415))
+            let cennterY = kFrame.size.height - 415
+            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+            let customType = PresentationType.custom(width: width, height: height, center: center)
+            let customPresenter = Presentr(presentationType: customType)
+            customPresenter.transitionType = .coverVertical
+            customPresenter.dismissTransitionType = .coverVertical
+            customPresenter.roundCorners = true
+            customPresenter.cornerRadius = 35.0
+            customPresenter.backgroundOpacity = 0.85
+            customPresenter.dismissOnSwipe = true
+            customPresenter.blurBackground = false
+            
+            return customPresenter
+            
+         }else  if deviceType.iPhone6_6s{
+            
+            let width = ModalSize.full
+            let height = ModalSize.customOrientation(sizePortrait: Float(380), sizeLandscape: Float(380))
+            let cennterY = kFrame.size.height - 380
+            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+            let customType = PresentationType.custom(width: width, height: height, center: center)
+            let customPresenter = Presentr(presentationType: customType)
+            customPresenter.transitionType = .coverVertical
+            customPresenter.dismissTransitionType = .coverVertical
+            customPresenter.roundCorners = true
+            customPresenter.cornerRadius = 35.0
+            customPresenter.backgroundOpacity = 0.85
+            customPresenter.dismissOnSwipe = true
+            customPresenter.blurBackground = false
+            
+            return customPresenter
+            
+         }else{
+        
+            let width = ModalSize.full
+            let height = ModalSize.customOrientation(sizePortrait: Float(405), sizeLandscape: Float(405))
+            let cennterY = kFrame.size.height - 405
+            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+            let customType = PresentationType.custom(width: width, height: height, center: center)
+            let customPresenter = Presentr(presentationType: customType)
+            customPresenter.transitionType = .coverVertical
+            customPresenter.dismissTransitionType = .coverVertical
+            customPresenter.roundCorners = true
+            if  deviceType.iPhone5_5s {
+                customPresenter.cornerRadius = 0.0
+            }else {
+                customPresenter.cornerRadius = 35.0
+            }
+          
+            customPresenter.backgroundOpacity = 0.85
+            customPresenter.dismissOnSwipe = true
+            customPresenter.blurBackground = false
+        
+            return customPresenter
+    }
+    }()
+    
+        static let ActionSheetViewStreamPresenter: Presentr = {
+            
+            if deviceType.iPhoneX  {
+                
+                let width = ModalSize.full
+                let height = ModalSize.customOrientation(sizePortrait: Float(320), sizeLandscape: Float(320))
+                let cennterY = kFrame.size.height - 320
+                let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+                let customType = PresentationType.custom(width: width, height: height, center: center)
+                let customPresenter = Presentr(presentationType: customType)
+                customPresenter.transitionType = .coverVertical
+                customPresenter.dismissTransitionType = .coverVertical
+                customPresenter.roundCorners = true
+                customPresenter.cornerRadius = 35.0
+                customPresenter.backgroundOpacity = 0.85
+                customPresenter.dismissOnSwipe = true
+                customPresenter.blurBackground = false
+                
+                return customPresenter
+                
+            }else  if deviceType.iPhone6_6s{
+                
+                let width = ModalSize.full
+                let height = ModalSize.customOrientation(sizePortrait: Float(290), sizeLandscape: Float(290))//340
+                let cennterY = kFrame.size.height - 290
+                let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+                let customType = PresentationType.custom(width: width, height: height, center: center)
+                let customPresenter = Presentr(presentationType: customType)
+                customPresenter.transitionType = .coverVertical
+                customPresenter.dismissTransitionType = .coverVertical
+                customPresenter.roundCorners = true
+                customPresenter.cornerRadius = 35.0
+                customPresenter.backgroundOpacity = 0.85
+                customPresenter.dismissOnSwipe = true
+                customPresenter.blurBackground = false
+                
+                return customPresenter
+                
+            }else{
+                
+                let width = ModalSize.full
+                let height = ModalSize.customOrientation(sizePortrait: Float(350), sizeLandscape: Float(350))
+                let cennterY = kFrame.size.height - 350
+                let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+                let customType = PresentationType.custom(width: width, height: height, center: center)
+                let customPresenter = Presentr(presentationType: customType)
+                customPresenter.transitionType = .coverVertical
+                customPresenter.dismissTransitionType = .coverVertical
+                customPresenter.roundCorners = true
+                if  deviceType.iPhone5_5s {
+                    customPresenter.cornerRadius = 0.0
+                }else {
+                    customPresenter.cornerRadius = 35.0
+                }
+                
+                customPresenter.backgroundOpacity = 0.85
+                customPresenter.dismissOnSwipe = true
+                customPresenter.blurBackground = false
+                
+                return customPresenter
+            }
+        /*
+        if UIDevice.current.modelName.lowercased().contains("iphone5") || UIDevice.current.modelName.lowercased().contains("iphone 5") {
+            let width = ModalSize.full
+            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height -  390.0), sizeLandscape: Float(kFrame.size.width - 390.0))
+            let cennterY = kFrame.size.height - (kFrame.size.height -  390.0)
+            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+            let customType = PresentationType.custom(width: width, height: height, center: center)
+            let customPresenter = Presentr(presentationType: customType)
+            customPresenter.transitionType = .coverVertical
+            customPresenter.dismissTransitionType = .coverVertical
+            customPresenter.roundCorners = true
+            customPresenter.cornerRadius = 35.0
+            customPresenter.backgroundOpacity = 0.85
+            customPresenter.dismissOnSwipe = true
+            customPresenter.blurBackground = false
+            return customPresenter
+        }else {
+          
+        }
+        */
+        
     }()
     
     static let AddCollabPresenter: Presentr = {

@@ -26,6 +26,7 @@ class StreamContentCell: UICollectionViewCell {
     
     func prepareLayout(content:ContentDAO){
          self.imgCover.contentMode = .scaleAspectFill
+     
         if content.isAdd == true {
             imgAdd.isHidden = false
             viewCard.isHidden = true

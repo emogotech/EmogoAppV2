@@ -32,6 +32,7 @@ class ViewStreamController: UIViewController {
     var isUpload:Bool! = false
     var isbackFromDown:Bool! = false
     var isDidLoad:Bool! = false
+    var color : String?
 
     // MARK: - Override Functions
     var stretchyHeader: StreamViewHeader!
@@ -128,14 +129,14 @@ class ViewStreamController: UIViewController {
     func configureStrechyHeader() {
         let nibViews = Bundle.main.loadNibNamed("StreamViewHeader", owner: self, options: nil)
         self.stretchyHeader = nibViews?.first as! StreamViewHeader
-        self.viewStreamCollectionView.addSubview(self.stretchyHeader)
+       
         stretchyHeader.streamDelegate = self
         stretchyHeader.viewViewCount.isHidden = true
         stretchyHeader.viewLike.isHidden = true
         stretchyHeader.btnLike.delegate = self
         stretchyHeader.btnLikeOtherUser.delegate = self
-        stretchyHeader.maximumContentHeight = 250
-        stretchyHeader.swipeToDown(height: 250)
+        stretchyHeader.maximumContentHeight = 200
+        stretchyHeader.swipeToDown(height: 200)
         self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         
@@ -847,6 +848,11 @@ class ViewStreamController: UIViewController {
             self.viewStreamCollectionView.isHidden = false
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
+                if self.stretchyHeader != nil  {
+                    if self.stretchyHeader.superview == nil {
+                    self.viewStreamCollectionView.addSubview(self.stretchyHeader)
+                    }
+                }
                 self.viewStreamCollectionView.reloadData()
                 self.prepareIBOutlets()
             }
@@ -932,7 +938,7 @@ class ViewStreamController: UIViewController {
         let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
         actionVC.delegate = self
         actionVC.fromViewStream = true
-        customPresentViewController(PresenterNew.ActionSheetPresenter, viewController: actionVC, animated: true, completion: nil)
+        customPresentViewController(PresenterNew.ActionSheetViewStreamPresenter, viewController: actionVC, animated: true, completion: nil)
         /*
         let actionController = ActionSheetController()
         
@@ -1218,6 +1224,7 @@ extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewCont
             if let tempIndex =  self.objStream?.arrayContent.index(where: {$0.contentID.trim() == content.contentID.trim()}) {
                 let indexPath = IndexPath(row: tempIndex, section: 0)
                 if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
+                    self.viewStreamCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
                     navigationImageView = imageCell.imgCover
                     objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
                 }

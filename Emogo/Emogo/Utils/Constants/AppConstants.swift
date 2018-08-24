@@ -33,7 +33,10 @@ let kaddStreamSwitchOffColor = UIColor(red: 219.0/255.0, green: 217.0/255.0, blu
 let kaddStreamSwitchOnColor = UIColor(red: 0, green: 173/255.0, blue: 243/255.0, alpha: 1.0)
 
 let kaddCardBorderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
+//let ksearchBorderColor = UIColor(red: 102, green: 102, blue: 102, alpha: 0.1).c
 let kaddCardBorderWidth : CGFloat = 3
+
+let kImageColor = ""
 
 var kContainerNav = ""
 var kBackNav = ""

@@ -10,6 +10,7 @@
 import Foundation
 import UIKit
 import RS3DSegmentedControl
+import Lightbox
 
 // MARK: - ENUM'S
 
@@ -188,6 +189,46 @@ extension CustomCameraViewController {
             return String(format:"%02i:%02i:%02i", hours, minutes, seconds)
         }
     }
+    
+    func openFullView(index:Int){
+        self.navigationItem.rightBarButtonItem = nil
+        var arrayContents = [LightboxImage]()
+        for obj in ContentList.sharedInstance.arrayContent {
+            var image:LightboxImage!
+            let text = obj.name + "\n" +  obj.description
+            
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
+                }else{
+                    let url = URL(string: obj.coverImage)
+                    image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: nil)
+                }
+            }else if  obj.type == .video {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
+                }else {
+                    let url = URL(string: obj.coverImageVideo)
+                    let videoUrl = URL(string: obj.coverImage)
+                    image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
+                }
+            }
+            arrayContents.append(image)
+        }
+        let controller = LightboxController(images: arrayContents, startIndex: index)
+        controller.dynamicBackground = true
+        present(controller, animated: true) {
+            let buttonNext   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
+            buttonNext.setImage(#imageLiteral(resourceName: "share_button"), for: .normal)
+            buttonNext.addTarget(self, action: #selector(self.previewScreenNavigated), for: .touchUpInside)
+            buttonNext.contentHorizontalAlignment  = .right
+            buttonNext.contentVerticalAlignment = .bottom
+            let btnNext = UIBarButtonItem(customView: buttonNext)
+            // let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
+            self.navigationItem.rightBarButtonItem = btnNext
+        }
+    //    present(controller, animated: true, completion: nil)
+}
 }
 
 
@@ -251,8 +292,8 @@ extension CustomCameraViewController:RS3DSegmentedControlDelegate {
                 self.btnGallery.alpha    =   1.0
                 self.btnTimer.alpha      =   1.0
             }, completion: { (success) in
-                self.btnGallery.isHidden    =   false
-                self.btnTimer.isHidden      =   false
+             //   self.btnGallery.isHidden    =   false
+              //  self.btnTimer.isHidden      =   false
             })
             
             break
@@ -263,8 +304,8 @@ extension CustomCameraViewController:RS3DSegmentedControlDelegate {
                 self.btnGallery.alpha    =   0.0
                 self.btnTimer.alpha      =   0.0
             }, completion: { (success) in
-                self.btnGallery.isHidden    =   true
-                self.btnTimer.isHidden      =   true
+             //   self.btnGallery.isHidden    =   true
+            //    self.btnTimer.isHidden      =   true
             })
             
             break
@@ -275,8 +316,8 @@ extension CustomCameraViewController:RS3DSegmentedControlDelegate {
                 self.btnGallery.alpha    =   1.0
                 self.btnTimer.alpha      =   1.0
             }, completion: { (success) in
-                self.btnGallery.isHidden    =   false
-                self.btnTimer.isHidden      =   false
+               // self.btnGallery.isHidden    =   false
+              //  self.btnTimer.isHidden      =   false
             })
             
         }
