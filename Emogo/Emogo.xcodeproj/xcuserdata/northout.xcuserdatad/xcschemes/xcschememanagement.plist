@@ -12,12 +12,20 @@
 		<key>ShareExt.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
+<<<<<<< HEAD
 			<integer>37</integer>
+=======
+			<integer>36</integer>
+>>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
 		</dict>
 		<key>iMessageExt.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
+<<<<<<< HEAD
 			<integer>36</integer>
+=======
+			<integer>37</integer>
+>>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
 		</dict>
 	</dict>
 </dict>

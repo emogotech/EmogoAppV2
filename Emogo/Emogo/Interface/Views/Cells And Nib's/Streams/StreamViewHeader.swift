@@ -122,10 +122,28 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             self.imgUser.setImage(string:objStream.author.trim(), color: UIColor(r: 0, g: 122, b: 255), circular: true)
         }
      
+<<<<<<< HEAD
     
         
    
         if !objStream.colabImageFirst.trim().isEmpty && objStream.colabImageSecond.trim().isEmpty {
+=======
+        if !objStream.colabImageFirst.trim().isEmpty {
+           
+            if  objStream.colabImageFirst.contains(kImageFormat) {
+                self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
+
+            }else {
+                
+                self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.brown, circular: true)
+            }
+           
+        }else{
+            self.imgCollabOne.isHidden = true
+        }
+        
+        if !objStream.colabImageSecond.trim().isEmpty {
+>>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
             
             self.imgCollabOne.isHidden = false
             self.imgCollabTwo.isHidden = true

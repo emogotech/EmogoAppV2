@@ -638,7 +638,10 @@ extension UIViewController {
     
     func configureLandingSearchNavigation(){
         self.navigationItem.setRightBarButtonItems(nil, animated: true)
+<<<<<<< HEAD
         
+=======
+>>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
         let img = UIImage(named: "my_profile")
         let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
        // self.navigationItem.setLeftBarButton(btnProfile, animated: true)

@@ -886,9 +886,15 @@ class StreamListViewController: UIViewController {
     }
     
    @objc func btnSearchCancelAction(){
+<<<<<<< HEAD
    // txtSearch.text = ""
    // self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone-1")
    // btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
+=======
+    txtSearch.text = ""
+    self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone-1")
+    // btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
+>>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
     isUpdateList = true
     self.viewMenu.isHidden = false
     isSearch = false
@@ -900,8 +906,13 @@ class StreamListViewController: UIViewController {
         collectionLayout.columnCount = 2
     }
     DispatchQueue.main.async {
+<<<<<<< HEAD
        // self.txtSearch.resignFirstResponder()
         self.prepareSearchBar()
+=======
+        self.txtSearch.resignFirstResponder()
+        
+>>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
         self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
         if self.arrayToShow.count == 0 {
             self.lblNoResult.isHidden = false
@@ -1754,10 +1765,17 @@ extension StreamListViewController : UITextFieldDelegate,UISearchBarDelegate {
                         self.txtSearch.frame = CGRect(x: 0, y: 0, width: kFrame.size.width - 80, height: self.txtSearch.frame.size.height)
                         self.navigationItem.rightBarButtonItem = barbutton
                       //  self.navigationItem.setRightBarButtonItems([barbutton], animated: true)
+<<<<<<< HEAD
 
         }, completion: { (finished) -> Void in
         })
 
+=======
+
+        }, completion: { (finished) -> Void in
+        })
+
+>>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
         UIView.animate(withDuration: 0.7) {
             clearButton.alpha = 1.0
         }
