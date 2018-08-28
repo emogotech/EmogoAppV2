@@ -244,6 +244,7 @@ class ViewStreamSerializer(StreamSerializer):
     liked = serializers.SerializerMethodField()
     user_image = serializers.SerializerMethodField()
     is_collaborator = serializers.SerializerMethodField()
+    stream_contents = serializers.SerializerMethodField()
 
     def get_total_collaborator(self, obj):
         try:
@@ -275,31 +276,6 @@ class ViewStreamSerializer(StreamSerializer):
             return True if obj.profile_stream_collaborator_list.__len__() > 0 else False
         except Exception:
             return '0'
-
-    # def get_have_some_update(self, obj):
-    #     # 1. Get last view date of user views Stream
-    #     try:
-    #         last_view_date = max(row.action_date for row in obj.total_view_count)
-    #     except ValueError:
-    #         return True
-    #     # 1. Get last date of add content to stream
-    #     if obj.content_list.__len__() > 0:
-    #         last_content_added_date = max(row.attached_date for row in obj.content_list)
-    #         if last_view_date < last_content_added_date:
-    #             return True
-    #     # 2. Get last date of modify content of stream
-    #     if obj.content_list.__len__() > 0:
-    #         last_content_modify_date = max(row.content.upd for row in obj.content_list)
-    #         if last_view_date < last_content_modify_date:
-    #             return True
-    #     # 3. Get last date of collaborator added in stream
-    #     if obj.stream_collaborator.__len__() > 0:
-    #         last_collaborator_added = max(row.crd for row in obj.stream_collaborator)
-    #         if last_view_date < last_collaborator_added:
-    #             return True
-    #     if last_view_date < obj.upd:
-    #         return True
-    #     return False
 
     def get_liked(self, obj):
         for x in obj.total_like_dislike_data:
@@ -408,6 +384,12 @@ class ViewStreamSerializer(StreamSerializer):
         if list_of_obj.__len__():
             return {'can_add_content': list_of_obj[0].can_add_content, 'can_add_people': list_of_obj[0].can_add_people}
         return {'can_add_content': False , 'can_add_people': False}
+
+    def get_stream_contents(self, obj):
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
+                  'full_name', 'user_image', 'liked')
+        instances = obj.content_list[0:2]
+        return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
 
 class ContentListSerializer(serializers.ListSerializer):
