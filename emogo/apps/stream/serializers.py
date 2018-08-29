@@ -631,10 +631,13 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
         extra_kwargs = {'status': {'required': True, 'allow_null': False}}
 
     def liked(self, obj):
-        return LikeDislikeStream.objects.filter(status=1, stream=obj.get('stream'))
+        try:
+            stream = obj.get('stream') 
+        except:
+            stream = obj
+        return LikeDislikeStream.objects.filter(status=1, stream=stream)
 
     def get_total_liked(self, obj):
-
         return self.liked(obj).aggregate(total_liked=Count('id')).get('total_liked',0)
    
     def get_user_liked(self, obj):
