@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ShowPreviewViewControllerDelegate {
+    func dismissTapped()
+}
+
 class ShowPreviewViewController: UIViewController {
     
     var objContent:ContentDAO!
@@ -15,7 +19,10 @@ class ShowPreviewViewController: UIViewController {
     @IBOutlet weak var imgView: FLAnimatedImageView!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
-
+    @IBOutlet weak var btnClose: UIButton!
+    var delegate:ShowPreviewViewControllerDelegate?
+    var isProfile:String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -23,7 +30,18 @@ class ShowPreviewViewController: UIViewController {
     }
 
     func prepreLayout(){
+        
+        
+        self.btnClose.isHidden = true
         self.imgView.isUserInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.btnDismiss))
+        self.imgView.addGestureRecognizer(tap)
+        
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        edgePan.edges = .right
+        view.addGestureRecognizer(edgePan)
+        
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         self.imgView.addGestureRecognizer(swipeUp)
@@ -60,6 +78,12 @@ class ShowPreviewViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+   @objc func btnDismiss() {
+    
+    self.navigationController?.popViewController(animated: false)
+        //self.dismissViewController()
+    }
+    
     @IBAction func btnCloseAction(_ sender: Any) {
         self.dismissViewController()
     }
@@ -68,13 +92,13 @@ class ShowPreviewViewController: UIViewController {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
                 
-            case UISwipeGestureRecognizerDirection.up:
-                self.dismissViewController()
+            case UISwipeGestureRecognizerDirection.up:                self.dismissViewController()
                 break
                 
             case UISwipeGestureRecognizerDirection.down:
                 self.dismissViewController()
                 break
+              
                 
             default:
                 break
@@ -90,7 +114,11 @@ class ShowPreviewViewController: UIViewController {
 //        transition.type = kCATransitionReveal
 //        transition.subtype = kCATransitionFromRight
 //        self.view.window!.layer.add(transition, forKey: nil)
-        self.dismiss(animated: false, completion: nil)
+        self.dismiss(animated: false) {
+            if self.delegate != nil {
+                self.delegate?.dismissTapped()
+            }
+        }
     }
     
     /*

@@ -77,6 +77,7 @@ let kStoryboardID_AddCollaboratorsView = "addCollaboratorsView"
 let kStoryboardID_InitialView = "initialView"
 let kStoryboardID_PeopleListView = "peopleListView"
 let kStoryboardID_viewStream = "viewStream"
+let kStoryboardID_EmogoDetailView = "emogoDetailView"
 let kStoryboardID_MyStreamView = "myStreamView"
 let kStoryboardID_ContainerView = "containerView"
 let kStoryboardID_MyStuffView = "myStuffView"
@@ -105,6 +106,7 @@ let kStoryboardID_CreateStreamView = "createStreamView"
 let kStoryboardID_EditStreamView = "editStreamView"
 let kStoryboardID_AddCollabView = "addCollabView"
 let kStoryboardID_MLFiltersView = "mlFiltersView"
+let kStoryboardID_TestDetailView = "testDetailView"
 
 
 

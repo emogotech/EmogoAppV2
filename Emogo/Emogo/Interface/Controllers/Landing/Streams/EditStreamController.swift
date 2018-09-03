@@ -181,11 +181,7 @@ class EditStreamController: UITableViewController {
             streamType = "Public"
             self.switchMakeEmogoGlobal.isOn = false
             self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
-<<<<<<< HEAD
             self.switchEmogoPrivate.thumbTintColor = UIColor.lightGray
-=======
-            self.switchEmogoPrivate.thumbTintColor = UIColor.white
->>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
         }
     }
     
@@ -307,17 +303,13 @@ class EditStreamController: UITableViewController {
            
             
            self.switchMakeEmogoGlobal.isOn = (self.objStream?.anyOneCanEdit)!
-          
+           
           //  self.switchMakeEmogoGlobal.animationSwitcherButton()
 
             if self.objStream?.type.lowercased() == "public"{
                 self.switchEmogoPrivate.isOn = false
                 self.switchEmogoPrivate.thumbTintColor =  UIColor.lightGray
-<<<<<<< HEAD
-                self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
-=======
                 self.switchMakeEmogoGlobal.thumbTintColor = UIColor.white
->>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
                 //self.switchEmogoPrivate.animationSwitcherButton()
                 streamType = "Public"
 
@@ -333,17 +325,10 @@ class EditStreamController: UITableViewController {
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isUserInteractionEnabled  = false
             self.switchAddPeople.isOn       = false
-            self.switchAddPeople.thumbTintColor = UIColor.lightGray
+          //  self.switchAddPeople.thumbTintColor = UIColor.lightGray
             self.switchAddContent.isOn      = false
-            self.switchAddContent.thumbTintColor = UIColor.lightGray
-<<<<<<< HEAD
+           // self.switchAddContent.thumbTintColor = UIColor.lightGray
            
-=======
-            print(objStream?.idCreatedBy)
-            print(UserDAO.sharedInstance.user.userProfileID)
-            print(UserDAO.sharedInstance.user.userId)
-
->>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
             if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 
                 self.selectedCollaborators = (self.objStream?.arrayColab)!

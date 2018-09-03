@@ -15,7 +15,6 @@ import SkeletonView
 
 class ViewStreamController: UIViewController {
    
-    
     // MARK: - UI Elements
     @IBOutlet weak var viewStreamCollectionView: UICollectionView!
     @IBOutlet weak var lblNoContent: UILabel!
@@ -33,7 +32,8 @@ class ViewStreamController: UIViewController {
     var isbackFromDown:Bool! = false
     var isDidLoad:Bool! = false
     var color : String?
-
+    var image:UIImage?
+    var currentStream:StreamDAO?
     // MARK: - Override Functions
     var stretchyHeader: StreamViewHeader!
     var longPressGesture:UILongPressGestureRecognizer!
@@ -65,7 +65,12 @@ class ViewStreamController: UIViewController {
         self.navigationItem.hidesBackButton = true
         
     }
-   
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//
+//       self.stretchyHeader.imgCover.isHidden = false
+//
+//    }
  
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -137,6 +142,7 @@ class ViewStreamController: UIViewController {
         stretchyHeader.btnLikeOtherUser.delegate = self
         stretchyHeader.maximumContentHeight = 200
         stretchyHeader.swipeToDown(height: 200)
+        stretchyHeader.imgCover.isUserInteractionEnabled = true
         self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         

@@ -244,6 +244,8 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
         kContainerNav = ""
+        self.navigationController?.delegate = nil
+       
         self.navigationController?.pushNormal(viewController: obj)
     }
     

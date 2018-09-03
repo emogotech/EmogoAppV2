@@ -102,6 +102,9 @@ class ContentViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+         self.view.alpha = 1.0
+        
         UIApplication.shared.statusBarStyle = .lightContent
         self.navigationController?.isNavigationBarHidden = true
 
@@ -130,6 +133,9 @@ class ContentViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        self.view.alpha = 0.0
+      
         UIApplication.shared.statusBarStyle = .default
         if self.playerView.superview != nil {
             self.playerView.removeFromSuperview()
@@ -203,7 +209,8 @@ class ContentViewController: UIViewController {
              self.btnSave.isHidden = false
              self.btnShare.isHidden = false
         }
-        bottomToolBarView.backgroundColor = UIColor.black
+      //  bottomToolBarView.backgroundColor = UIColor.black
+          bottomToolBarView.backgroundColor = UIColor.clear
         if !seletedImage.color.trim().isEmpty {
             bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
         }
@@ -273,6 +280,7 @@ class ContentViewController: UIViewController {
         if self.playerView.superview != nil {
             self.playerView.removeFromSuperview()
         }
+        self.showStatusBar()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -370,6 +378,7 @@ class ContentViewController: UIViewController {
                     let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
                     ContentList.sharedInstance.arrayContent = array
                 }
+                self.showStatusBar()
                 self.dismiss(animated: true, completion: nil)
             break
                 
@@ -823,25 +832,40 @@ class ContentViewController: UIViewController {
             }
             
         }else{
+            
+//            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+//
+//            }) { (_) in
+//
+//            }
             let controller = LightboxController(images: arrayContents, startIndex: index)
             controller.pageDelegate = self
+        
             if self.arrayLightBoxIndexes.count != 0 {
                 controller.dismissalDelegate = self
             }
             controller.dynamicBackground = true
             if arrayContents.count != 0 {
-                present(controller, animated: true, completion: nil)
+                
+                self.hideStatusBar()
+                self.navigationController?.push(viewController: controller)
+                
+              // self.navigationController?.pushViewController(controller, animated: true)
+               //present(controller, animated: true, completion: nil)
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self.viewIndex = -1
                 }
             }
         }
     }
-    
+   
     func gifPreview(){
         let obj:ShowPreviewViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ShowPreviewView) as! ShowPreviewViewController
         obj.objContent = self.seletedImage
-        self.present(obj, animated: false, completion: nil)
+        obj.delegate = self
+       self.navigationController?.push(viewController: obj)
+       //self.present(obj, animated: false, completion: nil)
     }
     
     func notePreview(){
@@ -1041,8 +1065,17 @@ extension ContentViewController:LightboxControllerPageDelegate,LightboxControlle
         let index = self.arrayLightBoxIndexes[self.lightBoxIndex]
             let isContent = ContentList.sharedInstance.arrayContent.indices.contains(index)
             if  isContent {
-                self.currentIndex = index
-                self.seletedImage = ContentList.sharedInstance.arrayContent[ self.currentIndex]
+//                self.currentIndex = index
+//                self.seletedImage = ContentList.sharedInstance.arrayContent[ self.currentIndex]
+                
+                ContentList.sharedInstance.objStream = nil
+                if isProfile != nil  {
+                    let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
+                    ContentList.sharedInstance.arrayContent = array
+                }
+                self.showStatusBar()
+                //self.view.alpha = 0.0
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -1055,5 +1088,10 @@ extension ContentViewController:MFMessageComposeViewControllerDelegate,UINavigat
         controller.dismiss(animated: true, completion: nil)
     }
 }
-
+extension ContentViewController:ShowPreviewViewControllerDelegate {
+    func dismissTapped(){
+ 
+     self.dismiss(animated: true, completion: nil)
+    }
+}
 

@@ -11,6 +11,7 @@ import XLActionController
 import Haptica
 import Presentr
 
+
 class StreamListViewController: UIViewController {
     
     @IBOutlet weak var segmentContainerView : UIView!
@@ -59,6 +60,9 @@ class StreamListViewController: UIViewController {
     var selectedImageView:UIImageView?
     var topConstraintRange = 40
     var stream:StreamViewDAO?
+    var selectedCell:StreamCell!
+ 
+
 
     //-=-------------------------
     
@@ -90,7 +94,7 @@ class StreamListViewController: UIViewController {
     let pulsator = Pulsator()
     var txtSearch:UITextField!
     var imgSearchIcon = UIImageView()
-
+   
 
     
     /*
@@ -135,10 +139,12 @@ class StreamListViewController: UIViewController {
         kViewSearchButtonsHeight.constant = 0.0
         self.kHeightSegmentSearch.constant = 0.0
         self.kSearchViewHieght.constant = 0.0
-    
+        self.navigationController?.delegate = self
         kCancelWidthConstraint.constant = 0.0
         self.segmentContainerView.isHidden = true
         self.kSegmentHeight.constant = 0.0
+        
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -357,6 +363,7 @@ class StreamListViewController: UIViewController {
     // MARK: - Prepare Layouts
     func prepareLayouts(){
         self.lblNoResult.isHidden = true
+        self.navigationController?.delegate = self
         // Logout User if Token Is Expired
         AppDelegate.appDelegate.removeOberserver()
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil, queue: nil) { (notification) in
@@ -833,6 +840,7 @@ class StreamListViewController: UIViewController {
     
     override func btnCameraAction() {
         self.view.endEditing(true)
+        self.navigationController?.delegate = nil
         actionForCamera()
     }
     
@@ -841,10 +849,12 @@ class StreamListViewController: UIViewController {
     }
     
     override func btnMyProfileAction() {
+        self.navigationController?.delegate = nil
         isUpdateList = true
         self.view.endEditing(true)
         let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
         self.addLeftTransitionView(subtype: kCATransitionFromLeft)
+        self.navigationController?.delegate = nil
         self.navigationController?.pushViewController(obj, animated: false)
     }
     
@@ -886,15 +896,9 @@ class StreamListViewController: UIViewController {
     }
     
    @objc func btnSearchCancelAction(){
-<<<<<<< HEAD
    // txtSearch.text = ""
    // self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone-1")
    // btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
-=======
-    txtSearch.text = ""
-    self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone-1")
-    // btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
->>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
     isUpdateList = true
     self.viewMenu.isHidden = false
     isSearch = false
@@ -906,13 +910,8 @@ class StreamListViewController: UIViewController {
         collectionLayout.columnCount = 2
     }
     DispatchQueue.main.async {
-<<<<<<< HEAD
        // self.txtSearch.resignFirstResponder()
         self.prepareSearchBar()
-=======
-        self.txtSearch.resignFirstResponder()
-        
->>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
         self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
         if self.arrayToShow.count == 0 {
             self.lblNoResult.isHidden = false
@@ -1601,15 +1600,40 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 }
             }else {
                
-                if let cell = collectionView.cellForItem(at: indexPath) {
-                    
-                    self.selectedImageView = (cell as! StreamCell).imgCover
-                    StreamList.sharedInstance.arrayViewStream = self.arrayToShow
+               if let cell = collectionView.cellForItem(at: indexPath) {
+                   self.selectedCell = cell as! StreamCell
+                  // selectedImageView = self.selectedCell.imgCover
+              
+                    //print(self.selectedImageView)
+                 StreamList.sharedInstance.arrayViewStream = self.arrayToShow
+                    /*
                     let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                     obj.currentIndex = indexPath.row
                     obj.streamType = currentStreamType.rawValue
                     ContentList.sharedInstance.objStream = nil
                     self.navigationController?.pushViewController(obj, animated: true)
+                    */
+                    
+               // self.selectedImageView = (cell as! StreamCell).imgCover
+            
+//                    StreamList.sharedInstance.arrayViewStream = self.arrayToShow
+//
+                    let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+                     obj.currentIndex = indexPath.row
+                     obj.streamType = currentStreamType.rawValue
+                     obj.image =  self.selectedCell.imgCover.image
+                     self.navigationController?.delegate = self
+                   // self.navigationController?.push(viewController: obj)
+                    self.navigationController?.pushViewController(obj, animated: true)
+              
+//                    let obj:TestDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_TestDetailView) as! TestDetailViewController
+//                    obj.currentIndex = indexPath.row
+//                    obj.image =  self.selectedCell.imgCover.image
+              
+//                    self.navigationController?.push(viewController: obj)
+                //    self.navigationController?.pushViewController(obj, animated: true)
+                
+           
                }
                 
             }
@@ -1643,6 +1667,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     obj.streamType = currentStreamType.rawValue
                     
                     ContentList.sharedInstance.objStream = nil
+                    self.navigationController?.delegate = self
                     self.navigationController?.pushViewController(obj, animated: true)
                }
             }
@@ -1715,8 +1740,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         self.lastContentOffset = scrollView.contentOffset.y
  */
     }
-    
-    
+   
    
 }
 
@@ -1765,17 +1789,10 @@ extension StreamListViewController : UITextFieldDelegate,UISearchBarDelegate {
                         self.txtSearch.frame = CGRect(x: 0, y: 0, width: kFrame.size.width - 80, height: self.txtSearch.frame.size.height)
                         self.navigationItem.rightBarButtonItem = barbutton
                       //  self.navigationItem.setRightBarButtonItems([barbutton], animated: true)
-<<<<<<< HEAD
 
         }, completion: { (finished) -> Void in
         })
 
-=======
-
-        }, completion: { (finished) -> Void in
-        })
-
->>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
         UIView.animate(withDuration: 0.7) {
             clearButton.alpha = 1.0
         }

@@ -468,7 +468,7 @@ extension UIImageView {
             return
         }
           var loader:PMDotLoaderView? = nil
-          if isAddLoader == nil {
+          if isAddLoader != nil {
              loader = PMDotLoaderView()
             if let viewWithTag = self.viewWithTag(3289382) {
                 viewWithTag.removeFromSuperview()
@@ -489,7 +489,7 @@ extension UIImageView {
             }else {
                 handler(true)
             }
-            if isAddLoader == nil {
+            if isAddLoader != nil {
                 loader?.isHidden = true
                 loader?.stopAnimating()
                 loader?.removeFromSuperview()
@@ -638,10 +638,7 @@ extension UIViewController {
     
     func configureLandingSearchNavigation(){
         self.navigationItem.setRightBarButtonItems(nil, animated: true)
-<<<<<<< HEAD
         
-=======
->>>>>>> e4b76ae07d493afaa3202793ffe8bd1d7f02e0de
         let img = UIImage(named: "my_profile")
         let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
        // self.navigationItem.setLeftBarButton(btnProfile, animated: true)
@@ -1398,32 +1395,38 @@ extension FLAnimatedImageView {
 //    }
     
     
-    func setForAnimatedImage(strImage:String,handler : @escaping ((_ result : UIImage?) -> Void)){
+    func setForAnimatedImage(strImage:String,isAddLoader:Bool? = nil, handler : @escaping ((_ result : UIImage?) -> Void)){
         
         if strImage.isEmpty{
             handler(nil)
             return
         }
-        if let viewWithTag = self.viewWithTag(3289382) {
-            viewWithTag.removeFromSuperview()
-        }
         let loader = PMDotLoaderView()
-        loader.tintColor = UIColor(r: 225, g: 225, b: 225)
-        loader.tag = 3289382
-        self.addSubview(loader)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            loader.center = self.center
+
+        if isAddLoader != nil {
+            if let viewWithTag = self.viewWithTag(3289382) {
+                viewWithTag.removeFromSuperview()
+            }
+            
+            loader.tintColor = UIColor(r: 225, g: 225, b: 225)
+            loader.tag = 3289382
+            self.addSubview(loader)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                loader.center = self.center
+            }
+            loader.startAnimating()
         }
-        loader.startAnimating()
-        
+     
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
         self.setImageUrl(imgURL) { (image) in
             handler(image)
-            loader.isHidden = true
-            loader.stopAnimating()
-            loader.removeFromSuperview()
-            if let viewWithTag = self.viewWithTag(3289382) {
-                viewWithTag.removeFromSuperview()
+            if isAddLoader != nil {
+                loader.isHidden = true
+                loader.stopAnimating()
+                loader.removeFromSuperview()
+                if let viewWithTag = self.viewWithTag(3289382) {
+                    viewWithTag.removeFromSuperview()
+                }
             }
         }
     }

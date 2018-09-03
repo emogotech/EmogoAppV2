@@ -450,6 +450,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         }else {
             if kContainerNav.isEmpty {
                 //  addLeftTransitionView(subtype: kCATransitionFromLeft)
+                
                 self.navigationController?.popNormal()
             }else {
                 kContainerNav = "1"
@@ -572,12 +573,14 @@ class CustomCameraViewController: SwiftyCamViewController {
         }else {
             if kContainerNav.isEmpty {
                 //  addLeftTransitionView(subtype: kCATransitionFromLeft)
+             
                 self.navigationController?.popNormal()
             }else {
                 kContainerNav = "1"
                 self.prepareContainerToPresent()
             }
         }
+       
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         SharedData.sharedInstance.tempVC = nil
         

@@ -115,6 +115,7 @@
 		F005121620DA331F00EA4E50 /* SegmentHeaderViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F005121420DA331F00EA4E50 /* SegmentHeaderViewCell.xib */; };
 		F005121720DA7D7D00EA4E50 /* NZCircularImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1E1FFE92C200A406FF /* NZCircularImageView.m */; };
 		F005121820DA7D8100EA4E50 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1D1FFE92B900A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
+		F005B6ED2137C4AB003EF08B /* TestDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F005B6EC2137C4AB003EF08B /* TestDetailViewController.swift */; };
 		F009A93720D0F88E00051547 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93620D0F88E00051547 /* ActionSheetViewController.swift */; };
 		F009A93920D0F8A700051547 /* ActionSheetViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */; };
 		F00E69BA2111B57900F54639 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */; };
@@ -415,6 +416,8 @@
 		F4838AD72084B7BA0034F2B4 /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F4838AD62084B7BA0034F2B4 /* HMSegmentedControl.m */; };
 		F4838ADA2084CE840034F2B4 /* ProfileStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4838AD82084CE840034F2B4 /* ProfileStreamView.swift */; };
 		F4838ADB2084CE840034F2B4 /* ProfileStreamView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4838AD92084CE840034F2B4 /* ProfileStreamView.xib */; };
+		F4890EA721354B7400FC720D /* ZOZolaZoomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F4890EA621354B7400FC720D /* ZOZolaZoomTransition.m */; };
+		F4890EA92135519F00FC720D /* EmogoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4890EA82135519F00FC720D /* EmogoDetailViewController.swift */; };
 		F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
 		F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
 		F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
@@ -655,6 +658,7 @@
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
 		F005121320DA331F00EA4E50 /* SegmentHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentHeaderViewCell.swift; sourceTree = "<group>"; };
 		F005121420DA331F00EA4E50 /* SegmentHeaderViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SegmentHeaderViewCell.xib; sourceTree = "<group>"; };
+		F005B6EC2137C4AB003EF08B /* TestDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDetailViewController.swift; sourceTree = "<group>"; };
 		F009A93620D0F88E00051547 /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
 		F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewCell.swift; sourceTree = "<group>"; };
 		F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
@@ -960,6 +964,9 @@
 		F4838AD62084B7BA0034F2B4 /* HMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMSegmentedControl.m; sourceTree = "<group>"; };
 		F4838AD82084CE840034F2B4 /* ProfileStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStreamView.swift; sourceTree = "<group>"; };
 		F4838AD92084CE840034F2B4 /* ProfileStreamView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileStreamView.xib; sourceTree = "<group>"; };
+		F4890EA521354B7400FC720D /* ZOZolaZoomTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZOZolaZoomTransition.h; sourceTree = "<group>"; };
+		F4890EA621354B7400FC720D /* ZOZolaZoomTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZOZolaZoomTransition.m; sourceTree = "<group>"; };
+		F4890EA82135519F00FC720D /* EmogoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmogoDetailViewController.swift; sourceTree = "<group>"; };
 		F49023C41FC4010A004F3C90 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		F49023C61FC42665004F3C90 /* iMessageExt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMessageExt-Bridging-Header.h"; sourceTree = "<group>"; };
 		F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
@@ -2228,12 +2235,14 @@
 				F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */,
 				F497B3B11FD7EA38006614F2 /* PeopleListViewController.swift */,
 				F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */,
+				F4890EA82135519F00FC720D /* EmogoDetailViewController.swift */,
 				F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */,
 				F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */,
 				F009A93620D0F88E00051547 /* ActionSheetViewController.swift */,
 				F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */,
 				F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */,
 				F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */,
+				F005B6EC2137C4AB003EF08B /* TestDetailViewController.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -2490,6 +2499,8 @@
 		F4EF0B0420DCF24B0004AC50 /* PushTransition */ = {
 			isa = PBXGroup;
 			children = (
+				F4890EA521354B7400FC720D /* ZOZolaZoomTransition.h */,
+				F4890EA621354B7400FC720D /* ZOZolaZoomTransition.m */,
 				F4CB037A2125886300AF74E7 /* UIImageView+extension.swift */,
 				F4CB03772125886000AF74E7 /* ZoomInteractiveTransition.swift */,
 				F4CB03792125886200AF74E7 /* ZoomNavigationControllerDelegate.swift */,
@@ -3298,6 +3309,7 @@
 				F0AB406D212ADDBC00DADFC6 /* ActionSheetCollectionCell.swift in Sources */,
 				F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */,
 				F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */,
+				F4890EA721354B7400FC720D /* ZOZolaZoomTransition.m in Sources */,
 				F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */,
 				F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */,
 				F46AC6E22043E92E00B71102 /* TLAlbumPopView.swift in Sources */,
@@ -3392,6 +3404,7 @@
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
 				F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */,
 				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
+				F005B6ED2137C4AB003EF08B /* TestDetailViewController.swift in Sources */,
 				F46AC6E02043E92E00B71102 /* TLCollectionTableViewCell.swift in Sources */,
 				F40557CD20AEB50C00A28F51 /* CountryDAO.swift in Sources */,
 				33DAB2FA1FC6B9AC0053AC23 /* FSPagerView.swift in Sources */,
@@ -3428,6 +3441,7 @@
 				F42217B720075045002D4E4E /* ProfileUpdateViewController.swift in Sources */,
 				F41FD95B20A9583F00FA8623 /* UIImageView+Alpha.swift in Sources */,
 				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
+				F4890EA92135519F00FC720D /* EmogoDetailViewController.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
 				F403765C1FDE9F830007C696 /* Durations.swift in Sources */,
 				F4522CA21FCBFC2B0021562D /* CircleMenuControls.swift in Sources */,

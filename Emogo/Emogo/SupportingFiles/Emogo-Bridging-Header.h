@@ -20,4 +20,5 @@
 #import "HHPageView.h"
 #import "UIView+YGPulseView.h"
 #import "HMSegmentedControl.h"
+#import "ZOZolaZoomTransition.h"
 
