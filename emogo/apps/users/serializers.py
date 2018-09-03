@@ -175,51 +175,17 @@ class UserDetailSerializer(UserProfileSerializer):
         model = UserProfile
         fields = '__all__'
 
-<<<<<<< HEAD
-    # Todo: Need to remove this code but not confirm from Mobile site.
-    # def get_streams(self, obj):
-    #
-    #     # By default user can see only public stream
-    #     instances = obj.user_streams().filter(type='Public')
-    #
-    #     if self.context.get('request') is not None:
-    #         if obj.user.id == self.context.get('request').user.id:
-    #             instances = obj.user_streams()
-    #
-    #         # While logged-in user visits another user profile then will club user created streams and
-    #         # streams in which user as collaborators.
-    #         if obj.user.id != self.context.get('request').user.id:
-    #             collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
-    #             if collaborators_streams.exists():
-    #                 collaborators_streams = [x.stream for x in collaborators_streams]
-    #                 self_created = [x for x in instances]
-    #                 instances = collaborators_streams + self_created
-    #     instances = get_stream_qs_objects(instances)
-    #     return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
-    #
-    # def get_collaborators(self, obj):
-    #     if self.context.get('request') is not None:
-    #         collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
-    #         if collaborators_streams.exists():
-    #             collaborators_streams = [x.stream for x in collaborators_streams]
-    #             collaborators_streams = get_stream_qs_objects(collaborators_streams)
-    #         return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
-    #     return list()
-=======
+
     def get_user_instance(self):
         if isinstance(self.context, dict):
             return self.context.get('request').user
         else:
             return self.context.user
->>>>>>> 2a905bfa4b8941bc6f1f502c4c72431e43d14ae1
 
     def get_profile_stream(self, obj):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes', 'is_collaborator', 'have_some_update', 'color', 'stream_permission', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'stream_contents', 'any_one_can_edit', 'collaborators', 'user_image')
 
         if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
-<<<<<<< HEAD
-            return ViewStreamSerializer(obj.profile_stream, fields=fields).data
-=======
             setattr(obj.profile_stream, 'stream_collaborator', obj.profile_stream.profile_stream_collaborator_list)
             setattr(obj.profile_stream, 'content_list', obj.profile_stream.profile_stream_content_list)
 
@@ -229,7 +195,6 @@ class UserDetailSerializer(UserProfileSerializer):
                 return dict()
             else:
                 return ViewStreamSerializer(obj.profile_stream, fields=fields, context = self.context).data
->>>>>>> 2a905bfa4b8941bc6f1f502c4c72431e43d14ae1
         return dict()
 
     def get_followers(self, obj):
@@ -523,18 +488,8 @@ class GetTopStreamSerializer(serializers.Serializer):
         else:
             total = owner_qs.count()
             result_list = owner_qs[0:10]
-<<<<<<< HEAD
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
-    # def get_my_stream(self, obj):
-    #     # Get self created streams
-    #     result_list = self.qs.filter(created_by=self.context.user).order_by('-upd')
-    #     total = result_list.count()
-    #     result_list = result_list[0:10]
-    #     return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
-=======
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.get_serializer_context()).data}
->>>>>>> 2a905bfa4b8941bc6f1f502c4c72431e43d14ae1
 
     def get_people(self, obj):
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name', 'user_id')
@@ -548,11 +503,8 @@ class GetTopStreamSerializer(serializers.Serializer):
         result_list = self.qs.filter(id__in=stream_ids_list).order_by('-upd')
         total = result_list.count()
         result_list = result_list[0:10]
-<<<<<<< HEAD
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
-=======
+
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.get_serializer_context()).data }
->>>>>>> 2a905bfa4b8941bc6f1f502c4c72431e43d14ae1
 
     def get_following_stream(self, obj):
         # 1. Get user as collaborator in streams created by following's
