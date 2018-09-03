@@ -14,6 +14,8 @@ public protocol LightboxControllerDismissalDelegate: class {
 public protocol LightboxControllerTouchDelegate: class {
 
   func lightboxController(_ controller: LightboxController, didTouch image: LightboxImage, at index: Int)
+    
+  func lightboxControllerWillDismiss(_ controller: LightboxController)
 }
 
 open class LightboxController: UIViewController {
@@ -178,8 +180,12 @@ open class LightboxController: UIViewController {
     currentPage = initialPage
 
     goTo(currentPage, animated: false)
+    
+   
+    
+  
   }
-
+   
   open override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     if !presented {
@@ -217,7 +223,10 @@ open class LightboxController: UIViewController {
     super.viewWillTransition(to: size, with: coordinator)
 
     coordinator.animate(alongsideTransition: { _ in
-      self.configureLayout(size)
+       
+            self.configureLayout(size)
+      
+     
     }, completion: nil)
   }
 
@@ -295,7 +304,9 @@ open class LightboxController: UIViewController {
   }
 
   fileprivate func loadDynamicBackground(_ image: UIImage) {
-    backgroundView.image = image
+  
+    self.backgroundView.image = image
+    
     backgroundView.layer.add(CATransition(), forKey: kCATransitionFade)
   }
 
@@ -368,9 +379,15 @@ extension LightboxController: PageViewDelegate {
   func pageViewDidTouch(_ pageView: PageView) {
     guard !pageView.hasZoomed else { return }
 
-    imageTouchDelegate?.lightboxController(self, didTouch: images[currentPage], at: currentPage)
+//    imageTouchDelegate?.lightboxController(self, didTouch: images[currentPage], at: currentPage)
+    
+    imageTouchDelegate?.lightboxControllerWillDismiss(self)
+    self.navigationController?.popViewController(animated: false)
 
+   // dismiss(animated: true, completion: nil)
+   
     let visible = (headerView.alpha == 1.0)
+   
     toggleControls(pageView: pageView, visible: !visible)
   }
 }
@@ -408,6 +425,7 @@ extension LightboxController: HeaderViewDelegate {
 
   func headerView(_ headerView: HeaderView, didPressCloseButton closeButton: UIButton) {
     closeButton.isEnabled = false
+    
     presented = false
     dismissalDelegate?.lightboxControllerWillDismiss(self)
     dismiss(animated: true, completion: nil)

@@ -46,12 +46,25 @@ class StreamDAO {
     var selectionType:StreamType!
     var count:Int! = 0
     var haveSomeUpdate:Bool! = false
+    var anyOneCanEdit:Bool! = false
     var isColabStream:Bool! = false
     var canAddContent:Bool! = false
+    var canAddPeople:Bool! = false
     var color:String! = ""
-
+    var userCanAddPeople:Bool! = false
+    var userCanAddContent:Bool! = false
+    var likeStatus:String! = ""
+    var arrayContent = [ContentDAO]()
+    var arrayColab = [CollaboratorDAO]()
+    var totalCollaborator:String! = ""
+    var totalLikeCount:String! = ""
+    var viewCount:String! = ""
+    var description:String! = ""
+    var totalLiked:String! = ""
+    var colabImageFirst:String! = ""
+    var colabImageSecond:String! = ""
     
-   
+    
     // People
 
     var fullName                   :String! = ""
@@ -68,6 +81,9 @@ class StreamDAO {
         }
         if let obj  = streamData["author"] {
             self.Author = obj as! String
+        }
+        if let obj  = streamData["description"] {
+            self.description = obj as! String
         }
         if let obj  = streamData["image"] {
             self.CoverImage = obj as! String
@@ -87,8 +103,19 @@ class StreamDAO {
         if let obj = streamData["height"] {
             self.hieght = Int("\(obj)")
         }
+        if let obj = streamData["total_liked"] {
+            self.totalLiked = "\(obj)"
+        }
         if let obj  = streamData["color"] {
             self.color = obj as! String
+            self.color = color.replacingOccurrences(of: "#", with: "")
+        }
+        if let obj  = streamData["any_one_can_edit"] {
+            let value  = "\(obj)"
+            self.anyOneCanEdit = value.toBool()
+        }
+        if let obj  = streamData["view_count"] {
+            self.viewCount = "\(obj)"
         }
         
         if let obj  = streamData["have_some_update"] {
@@ -99,15 +126,123 @@ class StreamDAO {
             let value  = "\(obj)"
             self.isColabStream = value.toBool()
         }
+        if let obj =  streamData["liked"] {
+            self.likeStatus = "\(obj)"
+        }
+        if let obj  = streamData["total_collaborator"] {
+            self.totalCollaborator = "\(obj)"
+        }
         
         if let obj  = streamData["stream_permission"] {
             if obj is [String:Any] {
-                if let value = (obj as! [String:Any]) ["can_add_content"] {
-                    let canadd  = "\(value)"
-                    self.canAddContent = canadd.toBool()
+                let dict:[String:Any] = obj as! [String : Any]
+                if let obj  = dict["can_add_content"] {
+                    let value  = "\(obj)"
+                    self.canAddContent = value.toBool()
+                }
+                if let obj  = dict["can_add_people"] {
+                    let value  = "\(obj)"
+                    self.canAddPeople = value.toBool()
                 }
             }
         }
+        
+        if let obj  = streamData["collaborator_permission"] {
+            if obj is [String:Any] {
+                let dict:[String:Any] = obj as! [String : Any]
+                if let obj  = dict["can_add_content"] {
+                    let value  = "\(obj)"
+                    self.userCanAddContent = value.toBool()
+                }
+                if let obj  = dict["can_add_people"] {
+                    let value  = "\(obj)"
+                    self.userCanAddPeople = value.toBool()
+                }
+            }
+        }
+        
+        if let obj  = streamData["stream_contents"] {
+            let objContent:[Any] = obj as! [Any]
+            for value in objContent {
+                let dict:NSDictionary = value as! NSDictionary
+                let conent = ContentDAO(contentData: dict.replacingNullsWithEmptyStrings() as! [String : Any])
+                conent.isUploaded = true
+                
+                if self.canAddContent == true {
+                    conent.isShowAddStream = true
+                }
+                 if UserDAO.sharedInstance.user != nil {
+                    if self.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                    conent.isDelete = true
+                    self.canAddContent = true
+                    self.canAddPeople = true
+                  }
+                }
+                 if UserDAO.sharedInstance.user != nil {
+                   if conent.createdBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                    conent.isEdit = true
+                    conent.isDelete = true
+                 }
+                }
+                if self.canAddContent == true  || self.canAddPeople == true ||  self.streamType.lowercased() == "public" {
+                    conent.isShowAddStream = true
+                }
+                self.arrayContent.append(conent)
+            }
+        }
+        if let obj  = streamData["collaborators"] {
+            let objColab:[Any] = obj as! [Any]
+            for value in objColab {
+                let colab = CollaboratorDAO(colabData: value as! [String : Any])
+              if UserDAO.sharedInstance.user != nil {
+                if colab.userID == UserDAO.sharedInstance.user.userProfileID.trim() {
+                    colab.isSelected = true
+                    self.userImage = colab.userImage
+                }else {
+                    colab.isSelected = colab.addedByMe
+                }
+            
+                self.arrayColab.append(colab)
+             }
+            }
+            
+            for colab in self.arrayColab {
+                if colab.userID.trim() != self.IDcreatedBy.trim() {
+                    if colabImageFirst.trim().isEmpty {
+                        if colab.userImage.isEmpty {
+                            self.colabImageFirst =  colab.name
+                        }else {
+                            self.colabImageFirst =  colab.userImage
+                        }
+                    } else if colabImageSecond.trim().isEmpty {
+                        if colab.userImage.isEmpty{
+                            self.colabImageSecond = colab.name
+                        }else{
+                            self.colabImageSecond = colab.userImage
+                        }
+                    }
+                    
+                    if !self.colabImageFirst.trim().isEmpty &&  !self.colabImageSecond.trim().isEmpty {
+                        break
+                    }
+                }
+            }
+        }
+        
+        if let obj = streamData["user_image"]{
+            self.userImage = obj as! String
+        }
+        
+        if let obj  = streamData["total_likes"] {
+            self.totalLikeCount = "\(obj)"
+        }
+        if UserDAO.sharedInstance.user != nil {
+            if self.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                self.canAddPeople = true
+                self.canAddContent = true
+            }
+        }
+        
         
     }
     
@@ -356,7 +491,7 @@ class StreamViewDAO{
         
 
        
-        if let obj  = streamData["contents"] {
+        if let obj  = streamData["stream_contents"] {
             let objContent:[Any] = obj as! [Any]
             for value in objContent {
                 let dict:NSDictionary = value as! NSDictionary
@@ -366,10 +501,12 @@ class StreamViewDAO{
                 if self.canAddContent == true {
                     conent.isShowAddStream = true
                 }
+                if UserDAO.sharedInstance.user != nil {
                 if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
                     conent.isDelete = true
                     self.canAddContent = true
                     self.canAddPeople = true
+                 }
                 }
                 if conent.createdBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
                     conent.isEdit = true
@@ -421,12 +558,12 @@ class StreamViewDAO{
             self.hieght = Int("\(obj)")
         }
       
-       
+        if UserDAO.sharedInstance.user != nil {
         if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
             self.canAddPeople = true
             self.canAddContent = true
+         }
         }
-        
     }
 }
 

@@ -61,7 +61,8 @@ public class LightboxConfig {
   public struct CloseButton {
     public static var enabled = true
     public static var size: CGSize?
-    public static var text = NSLocalizedString("Close", comment: "")
+   // public static var text = NSLocalizedString("Close", comment: "")
+      public static var text = NSLocalizedString("", comment: "")
     public static var image: UIImage?
 
     public static var textAttributes: [NSAttributedStringKey: Any] = [

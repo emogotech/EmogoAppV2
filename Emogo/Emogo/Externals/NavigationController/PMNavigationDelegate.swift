@@ -8,11 +8,12 @@
 
 import Foundation
 import UIKit
-/*
+
+
+
 extension StreamListViewController: ZoomTransitionSourceDelegate {
-  
     var animationDuration: TimeInterval {
-        return 0.2
+        return 0.4
     }
     
     func transitionSourceImageView() -> UIImageView {
@@ -35,13 +36,82 @@ extension StreamListViewController: ZoomTransitionSourceDelegate {
     func transitionSourceDidCancel() {
         selectedImageView?.isHidden = false
     }
+    
+    // Uncomment method below if you customize the animation.
+    func zoomAnimation(animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
+        UIView.animate(
+            withDuration: animationDuration,
+            delay: 0,
+            usingSpringWithDamping: 0.8,
+            initialSpringVelocity: 2,
+            options: .curveEaseInOut,
+            animations: animations,
+            completion: completion)
+    }
 }
- 
+
+// MARK: - ZoomTransitionDestinationDelegate
+
+
+extension TestDetailViewController: ZoomTransitionDestinationDelegate {
+    func transitionDestinationImageViewFrame(forward: Bool) -> CGRect {
+        if forward {
+            let x: CGFloat = 0
+            let y: CGFloat = topLayoutGuide.length
+            let width: CGFloat = view.frame.width
+            let height: CGFloat = 250
+            return CGRect(x: x, y: y, width: width, height: height)
+        } else {
+            return imgTestDetail.convert(imgTestDetail.bounds, to: view)
+        }
+    }
+    
+    func transitionDestinationWillBegin() {
+        imgTestDetail.isHidden = true
+    }
+    
+    func transitionDestinationDidEnd(transitioningImageView imageView: UIImageView) {
+        imgTestDetail.isHidden = false
+        imgTestDetail.image = imageView.image
+    }
+    
+    func transitionDestinationDidCancel() {
+        imgTestDetail.isHidden = false
+    }
+}
+
+extension EmogoDetailViewController: ZoomTransitionDestinationDelegate {
+    func transitionDestinationImageViewFrame(forward: Bool) -> CGRect {
+        if forward {
+            let x: CGFloat = 0
+            let y: CGFloat = topLayoutGuide.length
+            let width: CGFloat = view.frame.width
+            let height: CGFloat = self.stretchyHeader.imgCover.bounds.size.height
+            return CGRect(x: x, y: y, width: width, height: height)
+        } else {
+            return self.stretchyHeader.imgCover.convert(self.stretchyHeader.imgCover.bounds, to: view)
+        }
+    }
+    
+    func transitionDestinationWillBegin() {
+        self.stretchyHeader.imgCover.isHidden = true
+    }
+    
+    func transitionDestinationDidEnd(transitioningImageView imageView: UIImageView) {
+        self.stretchyHeader.imgCover.isHidden = false
+         self.stretchyHeader.imgCover.image = imageView.image
+    }
+    
+    func transitionDestinationDidCancel() {
+        self.stretchyHeader.imgCover.isHidden = false
+    }
+}
+
 
 extension ProfileViewController: ZoomTransitionSourceDelegate {
     
     var animationDuration: TimeInterval {
-        return 0.2
+        return 0.4
     }
     
     func transitionSourceImageView() -> UIImageView {
@@ -69,7 +139,7 @@ extension ProfileViewController: ZoomTransitionSourceDelegate {
 extension ViewProfileViewController: ZoomTransitionSourceDelegate {
     
     var animationDuration: TimeInterval {
-        return 0.2
+        return 0.4
     }
     
     func transitionSourceImageView() -> UIImageView {
@@ -131,4 +201,3 @@ extension ViewStreamController: ZoomTransitionDestinationDelegate {
     }
 }
 
- */

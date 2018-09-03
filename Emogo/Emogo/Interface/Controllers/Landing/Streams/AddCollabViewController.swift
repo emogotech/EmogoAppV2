@@ -27,6 +27,7 @@ class AddCollabViewController: UIViewController {
     @IBOutlet weak var btnInviteFriends: UIButton!
     @IBOutlet weak var kConsViewTop: NSLayoutConstraint!
     
+    @IBOutlet weak var kConsAddCollabBottom: NSLayoutConstraint!
     @IBOutlet weak var imgSearchIcon: UIImageView!
     var arrIndexSection : [String] = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     var arrayToShow = [Any]()
@@ -577,8 +578,10 @@ extension AddCollabViewController: UITextFieldDelegate {
         }else{
             self.viewAddCollab.isHidden = true
             self.prepareNavBarButtons()
-            self.kConsViewTop.constant = -13
-           
+            self.kConsViewTop.constant = 0
+            if deviceType.iPhoneX{
+               self.kConsViewTop.constant = -13
+            }
         }
          self.performSearch(text: (sender.text?.trim())!)
     }
@@ -594,7 +597,11 @@ extension AddCollabViewController: UITextFieldDelegate {
         }else{
             self.viewAddCollab.isHidden = true
             self.prepareNavBarButtons()
-            self.kConsViewTop.constant = -13
+            self.kConsViewTop.constant = 0
+            if deviceType.iPhoneX{
+                 self.kConsViewTop.constant = -13
+            }
+            
         }
         return true
     }
@@ -606,7 +613,10 @@ extension AddCollabViewController: UITextFieldDelegate {
         }else{
             self.prepareNavBarButtons()
             self.viewAddCollab.isHidden = true
-            self.kConsViewTop.constant = -13
+            self.kConsViewTop.constant = 0
+            if deviceType.iPhoneX{
+                self.kConsViewTop.constant = -13
+            }
         }
     }
   

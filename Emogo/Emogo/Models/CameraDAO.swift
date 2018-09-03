@@ -180,6 +180,7 @@ class ContentDAO{
         }
         if let obj  = contentData["color"] {
             self.color = obj as! String
+            self.color = color.replacingOccurrences(of: "#", with: "")
         }
         if let obj  = contentData["id"] {
             self.contentID = "\(obj)"
@@ -212,11 +213,11 @@ class ContentDAO{
                 self.height = 300
             }
         }
-        
-        if self.createdBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+         if UserDAO.sharedInstance.user != nil {
+           if self.createdBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
             self.isEdit = true
             self.isDelete = true
-            
+            }
         }
         
         if let obj = contentData["imageObj"] {

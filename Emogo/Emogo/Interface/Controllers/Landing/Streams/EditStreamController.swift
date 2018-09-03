@@ -181,7 +181,7 @@ class EditStreamController: UITableViewController {
             streamType = "Public"
             self.switchMakeEmogoGlobal.isOn = false
             self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
-            self.switchEmogoPrivate.thumbTintColor = UIColor.white
+            self.switchEmogoPrivate.thumbTintColor = UIColor.lightGray
         }
     }
     
@@ -303,7 +303,7 @@ class EditStreamController: UITableViewController {
            
             
            self.switchMakeEmogoGlobal.isOn = (self.objStream?.anyOneCanEdit)!
-          
+           
           //  self.switchMakeEmogoGlobal.animationSwitcherButton()
 
             if self.objStream?.type.lowercased() == "public"{
@@ -325,13 +325,10 @@ class EditStreamController: UITableViewController {
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isUserInteractionEnabled  = false
             self.switchAddPeople.isOn       = false
-            self.switchAddPeople.thumbTintColor = UIColor.lightGray
+          //  self.switchAddPeople.thumbTintColor = UIColor.lightGray
             self.switchAddContent.isOn      = false
-            self.switchAddContent.thumbTintColor = UIColor.lightGray
-            print(objStream?.idCreatedBy)
-            print(UserDAO.sharedInstance.user.userProfileID)
-            print(UserDAO.sharedInstance.user.userId)
-
+           // self.switchAddContent.thumbTintColor = UIColor.lightGray
+           
             if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 
                 self.selectedCollaborators = (self.objStream?.arrayColab)!

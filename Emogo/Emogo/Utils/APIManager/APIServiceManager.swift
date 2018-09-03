@@ -434,7 +434,7 @@ class APIServiceManager: NSObject {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            //print(data)
+                            print(data)
                             let result:[String:Any] = data as! [String:Any]
                             if let value = result["emogo"] {
                                 let dict:[String:Any] = value as! [String : Any]
@@ -957,7 +957,7 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
-                           // print(result)
+                            print(result)
                             for obj in result {
                                 let content = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 content.isUploaded = true

@@ -1211,7 +1211,7 @@ class ProfileViewController: UIViewController {
         }else if self.currentMenu == .colabs {
             self.lblNOResult.isHidden = true
             if StreamList.sharedInstance.arrayProfileColabStream.count == 0 {
-                self.lblNOResult.text  = "No Emogo Found"
+               // self.lblNOResult.text  = "No Emogo Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }

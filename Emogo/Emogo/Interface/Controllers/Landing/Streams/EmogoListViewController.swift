@@ -1,5 +1,5 @@
 //
-//  StreamListViewController.swift
+//  EmogoListViewController.swift
 //  Emogo
 //
 //  Created by Pushpendra on 03/09/18.
@@ -8,25 +8,22 @@
 
 import UIKit
 
+class EmogoListViewController: UIViewController {
 
-var selectedImageView:UIImageView?
+    @IBOutlet private weak var emogoCollectionView: UICollectionView!
 
-class StreamListViewController: UIViewController {
-    
-    @IBOutlet weak var streamCollectionView: UICollectionView!
-    @IBOutlet weak var lblNoResult: UILabel!
-    
     
     var collectionLayout = CHTCollectionViewWaterfallLayout()
     var arrayToShow = [StreamDAO]()
     var selectedCell:StreamCell!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.navigationController?.isNavigationBarHidden = false
         prepareLayout()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -34,15 +31,12 @@ class StreamListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureLandingNavigation()
+        //self.configureLandingNavigation()
     }
     
     func prepareLayout(){
-        self.navigationController?.isNavigationBarHidden = false
-   //    self.configureLandingNavigation()
-        self.lblNoResult.isHidden = true
-        self.streamCollectionView.dataSource  = self
-        self.streamCollectionView.delegate = self
+        self.emogoCollectionView.dataSource  = self
+        self.emogoCollectionView.delegate = self
         
         // Change individual layout attributes for the spacing between cells
         collectionLayout.minimumColumnSpacing = 13.0
@@ -51,10 +45,10 @@ class StreamListViewController: UIViewController {
         
         collectionLayout.columnCount = 2
         // Collection view attributes
-        self.streamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
-        self.streamCollectionView.alwaysBounceVertical = true
+        self.emogoCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.emogoCollectionView.alwaysBounceVertical = true
         // Add the waterfall layout to your collection view
-        self.streamCollectionView.collectionViewLayout = collectionLayout
+        self.emogoCollectionView.collectionViewLayout = collectionLayout
         configureLoadMoreAndRefresh()
         getTopStreamList()
     }
@@ -65,7 +59,7 @@ class StreamListViewController: UIViewController {
         let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
-        self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
+        self.emogoCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
             UIApplication.shared.beginIgnoringInteractionEvents()
             if currentStreamType == .People {
                 // self?.getUsersList(type:.up)
@@ -74,7 +68,7 @@ class StreamListViewController: UIViewController {
             }
         }
         
-        self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
+        self.emogoCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             
             if currentStreamType == .People {
                 
@@ -83,30 +77,10 @@ class StreamListViewController: UIViewController {
             }
             
         }
-        self.streamCollectionView.expiredTimeInterval = 15.0
-    }
-   
-    
-    override func btnCameraAction() {
-        self.view.endEditing(true)
-        //actionForCamera()
-        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-        ContentList.sharedInstance.arrayContent.removeAll()
-        ContentList.sharedInstance.objStream = nil
-        kContainerNav = ""
-        self.navigationController?.pushNormal(viewController: obj)
+        self.emogoCollectionView.expiredTimeInterval = 15.0
     }
     
-    override func btnHomeAction() {
-        
-    }
     
-    override func btnMyProfileAction() {
-        self.view.endEditing(true)
-        let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-        self.addLeftTransitionView(subtype: kCATransitionFromLeft)
-        self.navigationController?.pushViewController(obj, animated: false)
-    }
     
     
     
@@ -120,13 +94,8 @@ class StreamListViewController: UIViewController {
                 StreamList.sharedInstance.arrayStream = streams
                 DispatchQueue.main.async {
                     self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-                    if self.arrayToShow.count == 0 {
-                        self.lblNoResult.isHidden = false
-                        self.lblNoResult.text = kAlert_No_Stream_found
-                    }else {
-                        self.lblNoResult.isHidden = true
-                    }
-                    self.streamCollectionView.reloadData()
+                    
+                    self.emogoCollectionView.reloadData()
                 }
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -149,71 +118,58 @@ class StreamListViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
             AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             if refreshType == .end {
-                self.streamCollectionView.es.noticeNoMoreData()
+                self.emogoCollectionView.es.noticeNoMoreData()
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
-                self.streamCollectionView.es.stopPullToRefresh()
+                self.emogoCollectionView.es.stopPullToRefresh()
             }else if type == .down {
-                self.streamCollectionView.es.stopLoadingMore()
+                self.emogoCollectionView.es.stopLoadingMore()
             }
             print(self.arrayToShow)
-            self.lblNoResult.isHidden = true
             // self.lblNoResult.text = kAlert_No_Stream_found
-            
             
             DispatchQueue.main.async {
                 self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                 
-                if self.arrayToShow.count == 0 {
-                    self.lblNoResult.isHidden = false
-                    self.lblNoResult.text = kAlert_No_Stream_found
-                }else {
-                    self.lblNoResult.isHidden = true
-                }
-                self.streamCollectionView.reloadData()
+                self.emogoCollectionView.reloadData()
             }
-            self.streamCollectionView.reloadData()
+            self.emogoCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
         }
     }
-
     
-
+    
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 
-extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout {
+extension EmogoListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout {
     
-   
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.arrayToShow.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageListCell", for: indexPath) as! ImageListCell
         cell.layer.cornerRadius = 11.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
         let stream = self.arrayToShow[indexPath.row]
-        cell.prepareLayouts(stream: stream)
-        cell.cardView.shadowColor = UIColor.blue
-        cell.cardView.shadowOffsetWidth = 0
-        cell.cardView.shadowOffsetHeight = 10
-        cell.cardView.shadowOpacity = 1.0
+        cell.imageView.setImageWithURL(strImage: stream.CoverImage, placeholder: "")
         return cell
     }
     
@@ -223,15 +179,57 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) {
-            self.selectedCell = cell as! StreamCell
-            selectedImageView = self.selectedCell.imgCover
-            StreamList.sharedInstance.arrayViewStream = self.arrayToShow
-            let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
-            obj.currentIndex = indexPath.row
-            obj.streamType = currentStreamType.rawValue
-            self.navigationController?.pushViewController(obj, animated: true)
-        }
+        let cell = collectionView.cellForItem(at: indexPath) as! ImageListCell
+        //   self.selectedCell = cell as! ImageListCell
+        selectedImageView = cell.imageView
+        StreamList.sharedInstance.arrayViewStream = self.arrayToShow
+        let obj:TestDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: "testDetailView") as! TestDetailViewController
+        self.navigationController?.pushViewController(obj, animated: true)
     }
     
 }
+
+extension EmogoListViewController: ZoomTransitionSourceDelegate {
+    var animationDuration: TimeInterval {
+        return 0.4
+    }
+    
+    func transitionSourceImageView() -> UIImageView {
+        return selectedImageView ?? UIImageView()
+    }
+    
+    func transitionSourceImageViewFrame(forward: Bool) -> CGRect {
+        guard let selectedImageView = selectedImageView else { return .zero }
+        return selectedImageView.convert(selectedImageView.bounds, to: view)
+    }
+    
+    func transitionSourceWillBegin() {
+        selectedImageView?.isHidden = true
+    }
+    
+    func transitionSourceDidEnd() {
+        selectedImageView?.isHidden = false
+    }
+    
+    func transitionSourceDidCancel() {
+        selectedImageView?.isHidden = false
+    }
+    
+    // Uncomment method below if you customize the animation.
+    func zoomAnimation(animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
+        UIView.animate(
+            withDuration: animationDuration,
+            delay: 0,
+            usingSpringWithDamping: 0.8,
+            initialSpringVelocity: 2,
+            options: .curveEaseInOut,
+            animations: animations,
+            completion: completion)
+    }
+}
+
+final class ImageListCell: UICollectionViewCell {
+    @IBOutlet weak var imageView: UIImageView!
+}
+
+

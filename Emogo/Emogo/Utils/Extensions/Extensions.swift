@@ -468,7 +468,7 @@ extension UIImageView {
             return
         }
           var loader:PMDotLoaderView? = nil
-          if isAddLoader == nil {
+          if isAddLoader != nil {
              loader = PMDotLoaderView()
             if let viewWithTag = self.viewWithTag(3289382) {
                 viewWithTag.removeFromSuperview()
@@ -489,7 +489,7 @@ extension UIImageView {
             }else {
                 handler(true)
             }
-            if isAddLoader == nil {
+            if isAddLoader != nil {
                 loader?.isHidden = true
                 loader?.stopAnimating()
                 loader?.removeFromSuperview()
@@ -619,8 +619,6 @@ extension UIViewController {
     }
    
     func configureLandingNavigation(){
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.barTintColor = .white
         let img = UIImage(named: "my_profile")
         let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
@@ -638,6 +636,7 @@ extension UIViewController {
     
     func configureLandingSearchNavigation(){
         self.navigationItem.setRightBarButtonItems(nil, animated: true)
+        
         let img = UIImage(named: "my_profile")
         let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
        // self.navigationItem.setLeftBarButton(btnProfile, animated: true)

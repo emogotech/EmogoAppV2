@@ -15,7 +15,8 @@ class ShowPreviewViewController: UIViewController {
     @IBOutlet weak var imgView: FLAnimatedImageView!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
-
+    @IBOutlet weak var btnClose: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -23,7 +24,11 @@ class ShowPreviewViewController: UIViewController {
     }
 
     func prepreLayout(){
+        
+        
+      
         self.imgView.isUserInteractionEnabled = true
+        
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         self.imgView.addGestureRecognizer(swipeUp)
@@ -58,6 +63,10 @@ class ShowPreviewViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+   @objc func btnCloseAction() {
+          self.dismissViewController()
     }
     
     @IBAction func btnCloseAction(_ sender: Any) {

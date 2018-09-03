@@ -34,13 +34,15 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var kConstantImageWidth: NSLayoutConstraint!
     @IBOutlet weak var kConstantLikeWidth: NSLayoutConstraint!
     @IBOutlet weak var btnLikeOtherUser:FaveButton!
-
+    @IBOutlet weak var kConsImgTop: NSLayoutConstraint!
     var streamDelegate:StreamViewHeaderDelegate?
     var objColab:StreamViewDAO!
     let kImageFormat = "http"
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+      
         // Initialization code
         imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.showPreview))
@@ -53,14 +55,151 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         // You can change the minimum and maximum content heights
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
         self.stretchDelegate  = self
-        self.maximumContentHeight = 250
+        self.maximumContentHeight = 200
 
+    }
+    func prepareLayout(stream:StreamDAO?){
+        
+        imgCollabTwo.isHidden = true
+        imgCollabOne.isHidden = true
+     //   imgUser.isHidden = true
+
+        self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
+        // self.viewTop.layer.contents = UIImage(named: "top-gradient-1")?.cgImage
+        //top-gradient
+        // self.viewTop.addBlurView(style: UIBlurEffectStyle.dark)
+        guard let objStream = stream  else {
+            return
+        }
+        imgCover.isHidden = false
+        if !objStream.color.trim().isEmpty {
+            imgCover.backgroundColor = UIColor(hex: objStream.color.trim())
+        }
+        
+        self.imgCover.contentMode = .scaleAspectFill
+        //   self.imgCover.backgroundColor = .black
+        if objStream.totalCollaborator.isEmpty || objStream.totalCollaborator == "0"  {
+            btnCollab.isHidden = false
+        }else {
+            //   btnCollab.badgeString = objStream.totalCollaborator
+            btnCollab.isHidden = false
+            // btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
+        }
+        self.lblName.text = objStream.Title.trim()
+        self.lblName.shadow()
+        self.lblName.minimumScaleFactor = 1.0
+        self.lblDescription.text = objStream.description.trim()
+        self.lblDescription.shadow()
+        self.lblDescription.numberOfLines = 0
+        //  self.lblDescription.minimumScaleFactor = 1.0
+        
+        self.lblLikeCount.text = objStream.totalLikeCount.trim()
+        self.lblViewCount.text = objStream.viewCount.trim()
+        
+        if (stream?.color.trim().isEmpty)! {
+            imgCover.backgroundColor = UIColor(hex: (stream?.color.trim())!)
+        }
+        
+       
+        self.imgCover.setOriginalImage(strImage: objStream.CoverImage, placeholder: kPlaceholderImage)
+    
+//        if objStream.anyOneCanEdit == true {
+//            btnCollab.isHidden = true
+//        }
+        if  objStream.canAddPeople == true {
+            // btnEdit.isHidden = false
+        }
+        btnCollab.isHidden = false
+        
+        if !objStream.userImage.trim().isEmpty {
+            self.imgUser.isHidden = false
+            self.imgUser.setImageWithResizeURL(objStream.userImage.trim())
+        }
+        else {
+            
+            self.imgUser.setImage(string:objStream.Author.trim(), color: UIColor(r: 0, g: 122, b: 255), circular: true)
+        }
+      
+        if !objStream.colabImageFirst.trim().isEmpty && objStream.colabImageSecond.trim().isEmpty {
+            
+            self.imgCollabOne.isHidden = false
+            self.imgCollabTwo.isHidden = true
+            
+            if  objStream.colabImageFirst.contains(kImageFormat) {
+                self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
+                
+            }else {
+                self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.cyan, circular: true)
+                
+            }
+            
+        }else if objStream.colabImageFirst.trim().isEmpty && !objStream.colabImageSecond.trim().isEmpty {
+            self.imgCollabOne.isHidden = false
+            if  objStream.colabImageSecond.contains(kImageFormat) {
+                self.imgCollabOne.setImageWithResizeURL(objStream.colabImageSecond.trim())
+                
+            }else {
+                self.imgCollabOne.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.cyan, circular: true)
+                
+            }
+            self.imgCollabTwo.isHidden = true
+        }else if !objStream.colabImageFirst.trim().isEmpty && !objStream.colabImageSecond.trim().isEmpty{
+            
+            self.imgCollabOne.isHidden = false
+            self.imgCollabTwo.isHidden = false
+            if !objStream.colabImageSecond.trim().isEmpty {
+                
+                if  objStream.colabImageSecond.contains(kImageFormat) {
+                    self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
+                    
+                }else {
+                    self.imgCollabTwo.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.cyan, circular: true)
+                    
+                }
+            }else{
+                self.imgCollabTwo.isHidden = true
+            }
+            
+            if !objStream.colabImageFirst.trim().isEmpty {
+                
+                if  objStream.colabImageFirst.contains(kImageFormat) {
+                    self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
+                    
+                }else {
+                    
+                    self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.brown, circular: true)
+                }
+                
+            }else{
+                self.imgCollabOne.isHidden = true
+            }
+            
+        }
+        var colabcount:Int! = 0
+        if !objStream.totalCollaborator.trim().isEmpty {
+            colabcount = Int(objStream.totalCollaborator!)
+            if colabcount! > 2 {
+                self.lblColabLabel.text = " " +  objStream.Author + "\n & \(colabcount!-1) others"
+            }else {
+                self.lblColabLabel.text = " " +  objStream.Author + "\n & \(colabcount!-1) other"
+            }
+            kConstantImageWidth.constant = 60.0
+        }
+        
+        if colabcount == 0 ||  colabcount == 1 {
+            self.lblColabLabel.text =  " " + objStream.Author
+            kConstantImageWidth.constant = 40.0
+        }
+        
     }
     
     func prepareLayout(stream:StreamViewDAO?){
+        if stream == nil {
+            return
+        }
         imgCollabTwo.isHidden = false
         imgCollabOne.isHidden = false
-
+      
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
        // self.viewTop.layer.contents = UIImage(named: "top-gradient-1")?.cgImage
         //top-gradient
@@ -122,31 +261,65 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             self.imgUser.setImage(string:objStream.author.trim(), color: UIColor(r: 0, g: 122, b: 255), circular: true)
         }
      
-        if !objStream.colabImageFirst.trim().isEmpty {
-           
+    
+        if !objStream.colabImageFirst.trim().isEmpty && objStream.colabImageSecond.trim().isEmpty {
+            
+            self.imgCollabOne.isHidden = false
+            self.imgCollabTwo.isHidden = true
+            
             if  objStream.colabImageFirst.contains(kImageFormat) {
                 self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
-
-            }else {
                 
-                self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.brown, circular: true)
+            }else {
+                self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.cyan, circular: true)
+                
             }
-           
-        }else{
-            self.imgCollabOne.isHidden = true
-        }
-        
-        if !objStream.colabImageSecond.trim().isEmpty {
+            
+        }else if objStream.colabImageFirst.trim().isEmpty && !objStream.colabImageSecond.trim().isEmpty {
+            
+            self.imgCollabOne.isHidden = false
+            self.imgCollabTwo.isHidden = true
             
             if  objStream.colabImageSecond.contains(kImageFormat) {
-            self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
+                self.imgCollabOne.setImageWithResizeURL(objStream.colabImageSecond.trim())
                 
             }else {
-                self.imgCollabTwo.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.cyan, circular: true)
-
+                self.imgCollabOne.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.cyan, circular: true)
+                
             }
-        }else{
-            self.imgCollabTwo.isHidden = true
+            
+            
+        }else if !objStream.colabImageFirst.trim().isEmpty && !objStream.colabImageSecond.trim().isEmpty{
+            
+            self.imgCollabOne.isHidden = false
+            self.imgCollabTwo.isHidden = false
+            if !objStream.colabImageSecond.trim().isEmpty {
+                
+                if  objStream.colabImageSecond.contains(kImageFormat) {
+                    self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
+                    
+                }else {
+                    self.imgCollabTwo.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.cyan, circular: true)
+                    
+                }
+            }else{
+                self.imgCollabTwo.isHidden = true
+            }
+            
+            if !objStream.colabImageFirst.trim().isEmpty {
+                
+                if  objStream.colabImageFirst.contains(kImageFormat) {
+                    self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
+                    
+                }else {
+                    
+                    self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.brown, circular: true)
+                }
+                
+            }else{
+                self.imgCollabOne.isHidden = true
+            }
+            
         }
         var colabcount:Int! = 0
         if !objStream.totalCollaborator.trim().isEmpty {
@@ -167,6 +340,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
        
     }
    
+    
+    
     
     
     @IBAction func btnShowFullDescription(_ sender: UIButton) {
