@@ -107,7 +107,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.queryset)
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -555,7 +555,7 @@ class ExtremistReportAPI(CreateAPIView):
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=self.request.data)
 
 
-class StreamLikeDislikeAPI(CreateAPIView):
+class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
     """
     Like Dislike CRUD API
     """
@@ -568,6 +568,10 @@ class StreamLikeDislikeAPI(CreateAPIView):
     def get_serializer_context(self):
         followers = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
         return {'request': self.request, 'followers':followers}
+    
+    def get(self, request, *args, **kwargs):
+        if kwargs.get('stream_id') is not None:
+            return self.retrieve(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         """
@@ -581,7 +585,51 @@ class StreamLikeDislikeAPI(CreateAPIView):
         serializer.create(serializer)
         # To return created stream data
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+    
+    def retrieve(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        """
+        # Customized field list
+        fields = ( 'total_liked', 'user_liked')
+        queryset = Stream.objects.filter(id =  kwargs.get('stream_id'))
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields, context=self.get_serializer_context())
+        return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+
+class StreamLikeAPI(RetrieveAPIView):
+    """
+    Like Dislike CRUD API
+    """
+    serializer_class = StreamLikeDislikeSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_serializer_context(self):
+        followers = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
+        return {'request': self.request, 'followers':followers}
+    
+    def get(self, request, *args, **kwargs):
+        if kwargs.get('stream_id') is not None:
+            return self.retrieve(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        """
+        # Customized field list
+        fields = ( 'total_liked', 'user_liked')
+        queryset = Stream.objects.filter(id =  kwargs.get('stream_id'))
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields, context=self.get_serializer_context())
+        return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 class ContentLikeDislikeAPI(CreateAPIView):
     """
