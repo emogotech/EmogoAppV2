@@ -1393,32 +1393,38 @@ extension FLAnimatedImageView {
 //    }
     
     
-    func setForAnimatedImage(strImage:String,handler : @escaping ((_ result : UIImage?) -> Void)){
+    func setForAnimatedImage(strImage:String,isAddLoader:Bool? = nil, handler : @escaping ((_ result : UIImage?) -> Void)){
         
         if strImage.isEmpty{
             handler(nil)
             return
         }
-        if let viewWithTag = self.viewWithTag(3289382) {
-            viewWithTag.removeFromSuperview()
-        }
         let loader = PMDotLoaderView()
-        loader.tintColor = UIColor(r: 225, g: 225, b: 225)
-        loader.tag = 3289382
-        self.addSubview(loader)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            loader.center = self.center
+
+        if isAddLoader != nil {
+            if let viewWithTag = self.viewWithTag(3289382) {
+                viewWithTag.removeFromSuperview()
+            }
+            
+            loader.tintColor = UIColor(r: 225, g: 225, b: 225)
+            loader.tag = 3289382
+            self.addSubview(loader)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                loader.center = self.center
+            }
+            loader.startAnimating()
         }
-        loader.startAnimating()
-        
+     
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
         self.setImageUrl(imgURL) { (image) in
             handler(image)
-            loader.isHidden = true
-            loader.stopAnimating()
-            loader.removeFromSuperview()
-            if let viewWithTag = self.viewWithTag(3289382) {
-                viewWithTag.removeFromSuperview()
+            if isAddLoader != nil {
+                loader.isHidden = true
+                loader.stopAnimating()
+                loader.removeFromSuperview()
+                if let viewWithTag = self.viewWithTag(3289382) {
+                    viewWithTag.removeFromSuperview()
+                }
             }
         }
     }

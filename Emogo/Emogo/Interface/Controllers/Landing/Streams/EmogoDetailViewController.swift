@@ -42,22 +42,21 @@ class EmogoDetailViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if image == nil {
+           
+            self.stretchyHeader.imgCover.setOriginalImage(strImage: (currentStream?.CoverImage)!, placeholder: kPlaceholderImage)
+        }else {
+            
+            self.stretchyHeader.imgCover.image = image
+        }
         
-//        if image == nil {
-//
-//            self.stretchyHeader.imgCover.setOriginalImage(strImage: (currentStream?.CoverImage)!, placeholder: kPlaceholderImage)
-//        }else {
-//
-//            self.stretchyHeader.imgCover.image = image
-//        }
-//
         self.stretchyHeader.imgCover.isHidden = false
         
     }
    
     
     func prepareLayouts(){
-     //   self.configureNavigationTite()
+        self.configureNavigationTite()
         self.currentStream = StreamList.sharedInstance.arrayViewStream[currentIndex]
         
         self.lblNoContent.isHidden = true
@@ -110,7 +109,7 @@ class EmogoDetailViewController: UIViewController {
         self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
         self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
-        self.stretchyHeader.imgCover.image = selectedImageView?.image
+        self.stretchyHeader.imgCover.image = image
         stretchyHeader.btnCollab.isUserInteractionEnabled = true
         
          stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
