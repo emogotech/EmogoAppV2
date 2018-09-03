@@ -12,21 +12,12 @@ import UIKit
 
 class PMNavigationController:UINavigationController {
     
-    public let zoomNavigationControllerDelegate = ZoomNavigationControllerDelegate()
-
+    private let zoomNavigationControllerDelegate: ZoomNavigationControllerDelegate = .init()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = zoomNavigationControllerDelegate
     }
-    
-//    public let zoomNavigationControllerDelegate: ZoomNavigationControllerDelegate = .init()
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//
-//        delegate = zoomNavigationControllerDelegate
-//    }
     
     
 }

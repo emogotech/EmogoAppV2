@@ -863,9 +863,7 @@ class ContentViewController: UIViewController {
     func gifPreview(){
         let obj:ShowPreviewViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ShowPreviewView) as! ShowPreviewViewController
         obj.objContent = self.seletedImage
-        obj.delegate = self
-       self.navigationController?.push(viewController: obj)
-       //self.present(obj, animated: false, completion: nil)
+        self.present(obj, animated: false, completion: nil)
     }
     
     func notePreview(){
@@ -1088,10 +1086,5 @@ extension ContentViewController:MFMessageComposeViewControllerDelegate,UINavigat
         controller.dismiss(animated: true, completion: nil)
     }
 }
-extension ContentViewController:ShowPreviewViewControllerDelegate {
-    func dismissTapped(){
- 
-     self.dismiss(animated: true, completion: nil)
-    }
-}
+
 

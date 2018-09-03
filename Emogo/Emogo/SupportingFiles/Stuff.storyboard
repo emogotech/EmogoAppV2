@@ -3814,7 +3814,7 @@ Cg
                                         </cells>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="8K4-IB-vOP">
-                                        <rect key="frame" x="121" y="167" width="134" height="21"/>
+                                        <rect key="frame" x="120.5" y="167" width="134" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="fPy-J6-9ak"/>
                                         </constraints>
