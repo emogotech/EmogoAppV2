@@ -234,7 +234,7 @@ class ViewStreamSerializer(StreamSerializer):
     """
     author = serializers.SerializerMethodField()
     collaborators = serializers.SerializerMethodField()
-    # contents = serializers.SerializerMethodField()
+    contents = serializers.SerializerMethodField()
     stream_permission = serializers.SerializerMethodField()
     collaborator_permission = serializers.SerializerMethodField()
     total_collaborator = serializers.SerializerMethodField()
@@ -348,12 +348,11 @@ class ViewStreamSerializer(StreamSerializer):
         return ViewCollaboratorSerializer(list_of_instances,
                                           many=True, fields=fields, context=self.context).data
 
-    # def get_contents(self, obj):
-    #     fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-    #               'full_name', 'user_image', 'liked')
-    #     # instances = Content.actives.filter(streams=obj).distinct().order_by('-id')
-    #     instances = obj.content_list
-    #     return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
+    def get_contents(self, obj):
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
+                  'full_name', 'user_image', 'liked')
+        instances = obj.content_list
+        return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
     def get_stream_permission(self, obj):
         qs = obj.stream_collaborator

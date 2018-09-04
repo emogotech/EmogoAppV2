@@ -93,13 +93,15 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = ViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked')
+
         if current_url == 'stream_collaborator':
             user_data = User.objects.filter(username__in=[x.phone_number for x in instance.stream_collaborator]).values('username','user_data__user_image')
             self.request.data.update({'collab_user_image': user_data})
-            serializer = self.get_serializer(instance, fields=('collaborators',), context=self.request)
+            serializer = self.get_serializer(instance, fields=fields, context=self.request)
         # Return all data
         else:
-            serializer = self.get_serializer(instance, context=self.request)
+            serializer = self.get_serializer(instance, fields=fields, context=self.request)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def list(self, request, *args, **kwargs):
