@@ -491,7 +491,7 @@ class StreamViewDAO{
         
 
        
-        if let obj  = streamData["stream_contents"] {
+        if let obj  = streamData["contents"] {
             let objContent:[Any] = obj as! [Any]
             for value in objContent {
                 let dict:NSDictionary = value as! NSDictionary

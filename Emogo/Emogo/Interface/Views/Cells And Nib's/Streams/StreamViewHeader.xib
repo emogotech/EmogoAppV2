@@ -277,7 +277,7 @@
                             </userDefinedRuntimeAttributes>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="7hR-WH-JyQ" secondAttribute="bottom" id="0GV-nW-sMP"/>
                         <constraint firstItem="8Am-Sm-20R" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" id="0WP-MK-XOK"/>
@@ -302,10 +302,13 @@
                         <userDefinedRuntimeAttribute type="number" keyPath="cRadius">
                             <real key="value" value="5"/>
                         </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                            <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" red="0.90980392160000001" green="0.90980392160000001" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="HR2-Gh-htd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="2Hn-L7-aOX"/>
                 <constraint firstItem="HR2-Gh-htd" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="2W0-Sc-i2N"/>
@@ -331,6 +334,7 @@
                 <outlet property="imgCollabTwo" destination="u6H-Pb-Fpo" id="eef-JK-oPz"/>
                 <outlet property="imgCover" destination="i1b-sa-qbQ" id="hZs-Zk-3S1"/>
                 <outlet property="imgUser" destination="2Kv-N8-M7k" id="6Vn-Uo-ai9"/>
+                <outlet property="imgViewTopGradient" destination="8Am-Sm-20R" id="2Hx-6I-1fh"/>
                 <outlet property="kConsImgTop" destination="qj0-Ub-3qR" id="VXZ-dJ-p3h"/>
                 <outlet property="kConstantImageWidth" destination="9yV-kf-Lih" id="DLu-a8-SSA"/>
                 <outlet property="kConstantLikeWidth" destination="N1Z-In-Jsq" id="vRN-ba-DXj"/>

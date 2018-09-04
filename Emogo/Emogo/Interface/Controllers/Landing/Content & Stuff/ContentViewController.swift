@@ -26,7 +26,6 @@ extension ContentViewControllerDelegate {
     }
 }
 
-
 class ContentViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -38,8 +37,11 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnSave: UIButton!
     @IBOutlet weak var btnOther: UIButton!
+    @IBOutlet weak var tempImgView: FLAnimatedImageView!
+    @IBOutlet weak var btnBack: UIButton!
+  
 
-   // @IBOutlet weak var btnMore: UIButton!
+    // @IBOutlet weak var btnMore: UIButton!
     
     let cellIdentifier = "contentViewCell"
     var seletedImage:ContentDAO!
@@ -58,7 +60,8 @@ class ContentViewController: UIViewController {
     var isFromNotesEdit:Bool! = false
     var viewIndex:Int?
     var isMoreTapped:Bool! = false
-    
+    var isDidload:Bool! = false
+
     var playerView:BMPlayer = {
         let player = BMPlayer()
         player.isShowControl = false
@@ -72,7 +75,12 @@ class ContentViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.collectionView.isHidden = true
+//        if let img = navigationImageView {
+//            tempImgView.image = img.image
+//            //tempImgView.contentMode = .scaleAspectFill
+//        }
+//
+         self.collectionView.isHidden = true
         deeplinkHandle()
         
         updateContent()
@@ -84,10 +92,11 @@ class ContentViewController: UIViewController {
              //   LightboxConfig.handleVideo(self, videoUrl!)
             }
         }
-        
+      
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
         self.collectionView.addGestureRecognizer(swipeDown)
+        
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kDeepLinkContentAdded)), object: nil)
 
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kDeepLinkContentAdded), object: nil, queue: nil) { (notification) in
@@ -95,21 +104,60 @@ class ContentViewController: UIViewController {
             ContentList.sharedInstance.arrayContent.removeAll()
             ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
             self.currentIndex = 0
-             self.updateContent()
+            self.updateContent()
             
         }
+       
         
     }
+    
+    @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        if recognizer.state == .recognized {
+            print("Screen edge swiped!")
+            self.addLeftTransitionView(subtype: kCATransitionFromRight)
+            self.navigationController?.popNormal()
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-         self.view.alpha = 1.0
+        if let img = navigationImageView {
+            tempImgView.image = img.image
+            //tempImgView.contentMode = .scaleAspectFill
+            
+            tempImgView.setForAnimatedImage(strImage: seletedImage.coverImage) { (img) in
+                if let img = img {
+                    img.getColors({ (colors) in
+                        //    self.imgCover.backgroundColor = colors.primary
+
+                    })
+//                    let frameHeight = Int(kFrame.size.height)
+//                    if frameHeight > seletedImage.height {
+//                        if seletedImage.width <  seletedImage.height {
+//                            self.tempImgView.image =  img.resizeToScreenSize()
+//                            //self.kConsimgHeight.constant = img.resizeToScreenSize().size.height
+//                        }
+//                    }else{
+//                        self.kConsimgHeight.constant = self.bounds.height
+//                        self.scrollView.isScrollEnabled = false
+                    //}
+
+                }
+            }
+        }
         
+        // self.view.alpha = 1.0
+        self.hideStatusBar()
         UIApplication.shared.statusBarStyle = .lightContent
         self.navigationController?.isNavigationBarHidden = true
 
-        if !seletedImage.color.trim().isEmpty {
-             bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+        if self.seletedImage.width < self.seletedImage.height {
+            bottomToolBarView.backgroundColor = UIColor.clear
+        }else{
+            if !seletedImage.color.trim().isEmpty {
+                bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+            }
         }
         //bottomToolBarView.backgroundColor = UIColor.clear
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
@@ -117,6 +165,7 @@ class ContentViewController: UIViewController {
                 bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
             }
         }
+      
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -127,14 +176,16 @@ class ContentViewController: UIViewController {
                 self.updateCollectionView()
             }
             self.isFromNotesEdit = false
-             self.collectionView.isHidden = false
+            self.collectionView.isHidden = false
+            self.tempImgView.isHidden = true
         }
+       
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.view.alpha = 0.0
+       // self.view.alpha = 0.0
       
         UIApplication.shared.statusBarStyle = .default
         if self.playerView.superview != nil {
@@ -174,12 +225,14 @@ class ContentViewController: UIViewController {
         }
         self.collectionView.reloadData()
         
-        
         btnAddToEmogo.isHidden = true
         btnShare.isHidden = true
         btnSave.isHidden = true
        // self.btnMore.isHidden = true
-        
+        self.bottomToolBarView.isHidden = false
+        self.btnEdit.isHidden = false
+        self.btnOther.isHidden = false
+        self.btnBack.isHidden = false
         
         if self.seletedImage.isShowAddStream {
             btnAddToEmogo.isHidden = false
@@ -210,9 +263,12 @@ class ContentViewController: UIViewController {
              self.btnShare.isHidden = false
         }
       //  bottomToolBarView.backgroundColor = UIColor.black
-          bottomToolBarView.backgroundColor = UIColor.clear
-        if !seletedImage.color.trim().isEmpty {
-            bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+        if self.seletedImage.width < self.seletedImage.height {
+            bottomToolBarView.backgroundColor = UIColor.clear
+        }else{
+            if !seletedImage.color.trim().isEmpty {
+                bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+            }
         }
     }
     
@@ -760,12 +816,21 @@ class ContentViewController: UIViewController {
     @objc func openFullView(){
         if self.seletedImage.type == .gif {
             self.gifPreview()
+            self.bottomToolBarView.isHidden = false
+            self.btnEdit.isHidden = false
+            self.btnOther.isHidden = false
+            self.btnBack.isHidden = false
             return
         }
         if seletedImage.type == .link {
             guard let url = URL(string: seletedImage.coverImage) else {
                 return //be safe
             }
+            self.bottomToolBarView.isHidden = false
+            self.btnEdit.isHidden = false
+            self.btnOther.isHidden = false
+            self.btnBack.isHidden = false
+            
             self.openURL(url: url)
             return
         }
@@ -838,32 +903,34 @@ class ContentViewController: UIViewController {
 //            }) { (_) in
 //
 //            }
-            let controller = LightboxController(images: arrayContents, startIndex: index)
-            controller.pageDelegate = self
-        
-            if self.arrayLightBoxIndexes.count != 0 {
-                controller.dismissalDelegate = self
-            }
-            controller.dynamicBackground = true
-            if arrayContents.count != 0 {
-                
-                self.hideStatusBar()
-                self.navigationController?.push(viewController: controller)
-                
-              // self.navigationController?.pushViewController(controller, animated: true)
-               //present(controller, animated: true, completion: nil)
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.viewIndex = -1
-                }
-            }
+//            let controller = LightboxController(images: arrayContents, startIndex: index)
+//            controller.pageDelegate = self
+//        
+//            if self.arrayLightBoxIndexes.count != 0 {
+//                controller.dismissalDelegate = self
+//            }
+//            controller.dynamicBackground = true
+//            if arrayContents.count != 0 {
+//                
+//                self.hideStatusBar()
+//                self.navigationController?.push(viewController: controller)
+//                
+//              // self.navigationController?.pushViewController(controller, animated: true)
+//               //present(controller, animated: true, completion: nil)
+//                
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//                    self.viewIndex = -1
+//                }
+//            }
         }
     }
    
     func gifPreview(){
         let obj:ShowPreviewViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ShowPreviewView) as! ShowPreviewViewController
         obj.objContent = self.seletedImage
-        self.present(obj, animated: false, completion: nil)
+        obj.delegate = self
+       self.navigationController?.push(viewController: obj)
+       //self.present(obj, animated: false, completion: nil)
     }
     
     func notePreview(){
@@ -931,6 +998,8 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
   
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ContentViewCell
+        let index = ContentList.sharedInstance.arrayContent.indices.contains(indexPath.row)
+        if index {
         let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
         cell.prepareView(seletedImage: content)
         cell.btnPlayIcon.tag = indexPath.row
@@ -947,18 +1016,27 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 }
             }
         }
-        
-        
-//        cell.btnMore.tag = indexPath.row
-//        cell.btnMore.addTarget(self, action: #selector(self.btnMoreAction), for: .touchUpInside)
-        
+    }
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showFullView))
+//        cell.scrollView.isExclusiveTouch = true
+//        cell.scrollView.addGestureRecognizer(tap)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: kFrame.size.width, height: self.collectionView.frame.size.height)
+
+       return CGSize(width: kFrame.size.width, height: self.collectionView.frame.size.height)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0.0
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0.0
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.viewIndex = indexPath.row
+        self.showFullView()
         self.openFullView()
     }
     
@@ -977,6 +1055,30 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
             self.delegate?.currentPreview(content: self.seletedImage, index: indexPath)
         }
        // print(indexPath)
+    }
+    
+    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+      
+        
+    }
+    
+    @objc func showFullView() {
+        
+        if self.bottomToolBarView.isHidden == true {
+            self.bottomToolBarView.isHidden = false
+            self.btnEdit.isHidden = false
+            self.btnOther.isHidden = false
+            self.btnBack.isHidden = false
+            
+           
+        }else{
+            self.bottomToolBarView.isHidden = true
+            self.btnEdit.isHidden = true
+            self.btnOther.isHidden = true
+            self.btnBack.isHidden = true
+        }
+        
+        
     }
 }
 
@@ -1086,5 +1188,10 @@ extension ContentViewController:MFMessageComposeViewControllerDelegate,UINavigat
         controller.dismiss(animated: true, completion: nil)
     }
 }
-
+extension ContentViewController:ShowPreviewViewControllerDelegate {
+    func dismissTapped(){
+ 
+     self.dismiss(animated: true, completion: nil)
+    }
+}
 

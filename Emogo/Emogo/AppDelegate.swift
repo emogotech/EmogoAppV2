@@ -1,3 +1,4 @@
+
 //
 //  AppDelegate.swift
 //  Emogo
@@ -276,7 +277,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             kDefault?.set(true, forKey: kIsAppLaunch)
             kDefault?.set(true, forKey: kHapticFeedback)
       }
-       
+     UINavigationBar.appearance().barTintColor = .white
     }
     
     // MARK: - Branch SDK Configuration

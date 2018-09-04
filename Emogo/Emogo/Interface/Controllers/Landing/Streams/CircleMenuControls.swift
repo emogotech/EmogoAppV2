@@ -5,7 +5,7 @@
 //  Created by Pushpendra on 13/12/17.
 //  Copyright © 2017 Vikas Goyal. All rights reserved.
 //
-/*
+
 import Foundation
 import UIKit
 import Haptica
@@ -244,8 +244,6 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
         kContainerNav = ""
-        self.navigationController?.delegate = nil
-       
         self.navigationController?.pushNormal(viewController: obj)
     }
     
@@ -444,7 +442,7 @@ extension StreamListViewController : ActionSheetViewControllerDelegate {
         }
     }
 }
-*/
+
 extension ProfileViewController : ActionSheetViewControllerDelegate {
     func didSelectAction(type:String) {
         switch type {

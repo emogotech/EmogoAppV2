@@ -241,17 +241,21 @@ class PreviewController: UIViewController {
     func prepareNavBarButtons(){
         btnDone.isUserInteractionEnabled = true
         btnAddStream.isUserInteractionEnabled = true
-        self.navigationController?.isNavigationBarHidden = false
-
-//        self.navigationController?.navigationBar.barTintColor = .clear
-//        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.1)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.navigationBar.tintColor = .white
-        
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
+        if self.navigationController?.isNavigationBarHidden == true {
+            self.navigationController?.isNavigationBarHidden = false
+            
+            //        self.navigationController?.navigationBar.barTintColor = .clear
+            //        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+            //        self.navigationController?.navigationBar.shadowImage = UIImage()
+            //        self.navigationController?.navigationBar.isTranslucent = true
+            //        self.navigationController?.navigationBar.tintColor = .white
+            
+            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+            self.navigationController?.navigationBar.shadowImage = UIImage()
+            self.navigationController?.navigationBar.isTranslucent = true
+           
+        }
+        self.navigationController?.navigationBar.barTintColor = .clear
         self.navigationController?.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         self.navigationController?.navigationBar.tintColor = .white //.clear
         

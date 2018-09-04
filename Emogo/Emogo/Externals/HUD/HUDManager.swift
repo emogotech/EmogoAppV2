@@ -38,10 +38,10 @@ class HUDManager: NSObject {
     private func setupView(){
      
         overlayView = UIView(frame: UIScreen.main.bounds)
-        overlayView.tag = 7832738278273
+        overlayView.tag = 7832
         overlayView.backgroundColor = .clear
         
-        if let view = AppDelegate.appDelegate.window?.viewWithTag(7832738278273) {
+        if let view = AppDelegate.appDelegate.window?.viewWithTag(7832) {
             view.removeFromSuperview()
         }
         

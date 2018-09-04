@@ -35,6 +35,7 @@ let kaddStreamSwitchOnColor = UIColor(red: 0, green: 173/255.0, blue: 243/255.0,
 let kaddCardBorderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
 //let ksearchBorderColor = UIColor(red: 102, green: 102, blue: 102, alpha: 0.1).c
 let kaddCardBorderWidth : CGFloat = 3
+var kRefreshCell : Bool = false
 
 let kImageColor = ""
 
@@ -48,9 +49,7 @@ var kShowRetake = ""
 // Selected Tag For Container
 var currentTag = 111
 
-
-
-var currentStreamType:StreamType! =  .populer  //.featured
+var currentStreamType:StreamType! =  .featured  //.featured
 
 
 var arraySelectedContent:[ContentDAO]?

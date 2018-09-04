@@ -19,9 +19,7 @@ class TestDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = false
-        self.imgTestDetail.image = selectedImageView?.image
-        self.imgTestDetail.contentMode = .scaleAspectFill
+     
         // Do any additional setup after loading the view.
     }
    

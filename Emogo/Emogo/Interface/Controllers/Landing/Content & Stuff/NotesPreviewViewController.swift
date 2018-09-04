@@ -43,7 +43,8 @@ class NotesPreviewViewController: UIViewController {
     }
     
     @objc func backButtonAction(){
-        self.navigationController?.popViewAsDismiss()
+        self.navigationController?.popViewController(animated: false)
+        //self.navigationController?.popViewAsDismiss()
     }
    
     /*

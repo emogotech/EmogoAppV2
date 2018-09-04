@@ -18,22 +18,20 @@ class ContentViewCell: UICollectionViewCell {
     @IBOutlet weak var kLinkIogoWidth: NSLayoutConstraint!
     @IBOutlet weak var linkLogo: UIImageView!
     @IBOutlet weak var playerContainerView: UIView!
-
+    @IBOutlet weak var scrollView: PMScrollView!
+    @IBOutlet weak var kConsimgHeight: NSLayoutConstraint!
     var isReadMore:Bool! = false
     var strDescription:String! = ""
     
     override func awakeFromNib() {
         super.awakeFromNib()
-      
         DispatchQueue.main.async {
             self.roundCorners([.topLeft, .topRight], radius: 10)
         }
-     
-       
     }
     
     func prepareView(seletedImage:ContentDAO) {
-        self.imgCover.backgroundColor  = .black
+       // self.imgCover.backgroundColor  = .black
         self.imgCover.image = nil
         self.imgCover.animatedImage = nil
         if !seletedImage.color.trim().isEmpty {
@@ -41,7 +39,7 @@ class ContentViewCell: UICollectionViewCell {
         }
         self.lblTitleImage.text = ""
         self.lblImageDescription.text = ""
-        
+         self.scrollView.isScrollEnabled = true
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
             
@@ -59,6 +57,13 @@ class ContentViewCell: UICollectionViewCell {
             imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
         }
         
+        let frameHeight = Int(kFrame.size.height)
+        if frameHeight < seletedImage.height {
+            
+            self.kConsimgHeight.constant = self.bounds.height
+            self.scrollView.isScrollEnabled = true
+        }
+        
         self.btnPlayIcon.isHidden = true
         self.imgCover.isHidden = false
         self.playerContainerView.isHidden = true
@@ -72,6 +77,17 @@ class ContentViewCell: UICollectionViewCell {
                         //    self.imgCover.backgroundColor = colors.primary
                           
                         })
+                        let frameHeight = Int(kFrame.size.height)
+                        if frameHeight > seletedImage.height {
+                            if seletedImage.width <  seletedImage.height {
+                                self.imgCover.image =  img.resizeToScreenSize()
+                                self.kConsimgHeight.constant = img.resizeToScreenSize().size.height
+                            }
+                        }else{
+                            self.kConsimgHeight.constant = self.bounds.height
+                            self.scrollView.isScrollEnabled = false
+                        }
+                     
                     }
                 }
                 
@@ -85,6 +101,16 @@ class ContentViewCell: UICollectionViewCell {
                         img.getColors({ (colors) in
                         //    self.imgCover.backgroundColor = colors.primary
                         })
+                        let frameHeight = Int(kFrame.size.height)
+                        if frameHeight > seletedImage.height {
+                            if seletedImage.width <  seletedImage.height {
+                                self.imgCover.image =  img.resizeToScreenSize()
+                                self.kConsimgHeight.constant = img.resizeToScreenSize().size.height
+                            }
+                        }else{
+                            self.kConsimgHeight.constant = self.bounds.height
+                            self.scrollView.isScrollEnabled = false
+                        }
                     }
                 }
                //  self.btnPlayIcon.isHidden = false
@@ -96,6 +122,17 @@ class ContentViewCell: UICollectionViewCell {
                         img.getColors({ (colors) in
                         //    self.imgCover.backgroundColor = colors.primary
                         })
+                        let frameHeight = Int(kFrame.size.height)
+                        if frameHeight > seletedImage.height {
+                            if seletedImage.width <  seletedImage.height {
+                                self.imgCover.image =  img.resizeToScreenSize()
+                                self.kConsimgHeight.constant = img.resizeToScreenSize().size.height
+                            }
+                        }else{
+                            self.kConsimgHeight.constant = self.bounds.height
+                            self.scrollView.isScrollEnabled = false
+                        }
+                        
                     }
                 }
             }else {
@@ -140,9 +177,11 @@ class ContentViewCell: UICollectionViewCell {
         if seletedImage.type == .notes {
             self.lblImageDescription.text = ""
         }
+        
+       
     }
     
-    
+ 
     
     @IBAction func btnMoreAction(_ sender: Any) {
         isReadMore = !isReadMore

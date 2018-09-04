@@ -681,8 +681,8 @@ class ProfileViewController: UIViewController {
         }
         
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.isNavigationBarHidden = false
+    //    self.navigationController?.navigationBar.isTranslucent = false
+    //    self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         self.navigationController?.navigationBar.tintColor = UIColor.darkGray
         let img = UIImage(named: "forward_black")
@@ -1693,8 +1693,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                       objPreview.currentIndex = indexPath.row
                       objPreview.isProfile = "TRUE"
-                    objPreview.delegate = self
-                    objNavigation = UINavigationController(rootViewController: objPreview)
+                      objPreview.delegate = self
+                      objNavigation = UINavigationController(rootViewController: objPreview)
                     if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
                         navigationImageView = imageCell.imgCover
                         objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
@@ -1708,29 +1708,29 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         }else {
           //  let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
                 var index = 0
-            if let cell = collectionView.cellForItem(at: indexPath) {
-                selectedImageView = (cell as! ProfileStreamCell).imgCover
-            }
-            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-            if currentMenu == .stream {
-                let tempStream = self.arrayMyStreams[indexPath.row]
-                let tempIndex = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
-                if tempIndex != nil {
-                    index = tempIndex!
+            
+            if let cell = collectionView.cellForItem(at: indexPath) as? ProfileStreamCell {
+                selectedImageView = cell.imgCover
+               let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+                if currentMenu == .stream {
+                    let tempStream = self.arrayMyStreams[indexPath.row]
+                    let tempIndex = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
+                    if tempIndex != nil {
+                        index = tempIndex!
+                    }
+                    obj.viewStream = "fromProfile"
+                    StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
+                }else {
+                    obj.viewStream = "fromColabProfile"
+                    index = indexPath.row
+                    StreamList.sharedInstance.arrayViewStream.removeAll()
+                    StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream
                 }
-                obj.viewStream = "fromProfile"
-                
-                StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
-            }else {
-                
-                obj.viewStream = "fromColabProfile"
-                index = indexPath.row
-                StreamList.sharedInstance.arrayViewStream.removeAll()
-                StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream
+                obj.image =  selectedImageView?.image
+                obj.currentIndex = index
+                ContentList.sharedInstance.objStream = nil
+                self.navigationController?.pushViewController(obj, animated: true)
             }
-            obj.currentIndex = index
-            ContentList.sharedInstance.objStream = nil
-            self.navigationController?.pushViewController(obj, animated: true)
             }
         }
     
@@ -1799,12 +1799,12 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 StreamList.sharedInstance.arrayViewStream = array
             }
         }
-      
         selectedImageView = imageView
-        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+        let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
         obj.currentIndex = profileStreamIndex
         obj.viewStream = "fromProfile"
         ContentList.sharedInstance.objStream = nil
+        obj.image =  selectedImageView?.image
         self.navigationController?.pushViewController(obj, animated: true)
     }
 }

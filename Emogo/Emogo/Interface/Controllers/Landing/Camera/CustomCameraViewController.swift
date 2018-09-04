@@ -104,7 +104,6 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -114,7 +113,6 @@ class CustomCameraViewController: SwiftyCamViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("ForceStopVideoRecording"), object: nil)
         
         //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("StopRec"), object: nil)
-        
         self.showStatusBar()
     }
     
@@ -255,12 +253,16 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     
     func prepareNavBarButtons(){
-        self.navigationController?.isNavigationBarHidden = false
-        
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
+        if self.navigationController?.isNavigationBarHidden == true {
+             self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            self.navigationController?.navigationBar.shadowImage = UIImage()
+            self.navigationController?.navigationBar.isTranslucent = true
+            navigationItem.hidesBackButton = true
+        }
+   
         self.navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.navigationBar.barTintColor = .clear
         let button   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
         button.contentHorizontalAlignment  = .left
         button.contentVerticalAlignment = .bottom
@@ -268,8 +270,6 @@ class CustomCameraViewController: SwiftyCamViewController {
         button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
         let btnBack = UIBarButtonItem(customView: button)
     //    let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back icon_shadow"), style: .plain, target: self, action: #selector(self.btnBack))
-        navigationItem.hidesBackButton = true
-        self.navigationController?.navigationBar.barTintColor = .clear
         self.navigationItem.leftBarButtonItem = btnBack
     }
     

@@ -197,27 +197,7 @@ extension UIView {
         
     }
     
-    
-    func fadeIn(duration: TimeInterval ) {
         
-        UIView.animate(withDuration: duration, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations:  {
-            
-            self.alpha = 1.0
-            
-        }, completion: nil)
-        
-    }
-    
-    func fadeOut(duration: TimeInterval ) {
-        
-        UIView.animate(withDuration: duration , delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations:  {
-            
-            self.alpha = 0.0
-            
-        }, completion: nil)
-        
-    }
-    
     func addGradient(color:[UIColor]){
         let gradient = CAGradientLayer()
         gradient.frame = self.bounds
@@ -619,13 +599,17 @@ extension UIViewController {
     }
    
     func configureLandingNavigation(){
+      //  self.navigationController?.navigationBar.isTranslucent = true
+        if self.navigationController?.isNavigationBarHidden == true {
+             self.navigationController?.isNavigationBarHidden = false
+        }
         self.navigationController?.navigationBar.barTintColor = .white
         let img = UIImage(named: "my_profile")
         let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
-        self.navigationItem.leftBarButtonItem = nil
+        self.navigationItem.leftBarButtonItem = btnProfile
         let img1 = UIImage(named: "camera_icon")
         let btnCamera = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCameraAction))
-        self.navigationItem.rightBarButtonItems = [btnCamera,btnProfile]
+        self.navigationItem.rightBarButtonItem = btnCamera
         let img2 = UIImage(named: "home_icon_active")
         let btnHome = UIButton()
         btnHome.frame = CGRect(x: 0, y: 0, width: (img2?.size.width)!, height: (img2?.size.height)!)
@@ -636,13 +620,13 @@ extension UIViewController {
     
     func configureLandingSearchNavigation(){
         self.navigationItem.setRightBarButtonItems(nil, animated: true)
-        
-        let img = UIImage(named: "my_profile")
-        let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
-       // self.navigationItem.setLeftBarButton(btnProfile, animated: true)
+//        let img = UIImage(named: "my_profile")
+//        let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
+//        self.navigationItem.setLeftBarButton(btnProfile, animated: true)
         let img1 = UIImage(named: "camera_icon")
         let btnCamera = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCameraAction))
-        self.navigationItem.setRightBarButtonItems([btnCamera,btnProfile], animated: true)
+        self.navigationItem.setRightBarButton(btnCamera, animated: true)
+      //  self.navigationItem.setRightBarButtonItems([btnCamera,btnProfile], animated: true)
     }
     
     func configureNavigationWithTitle(){
@@ -678,7 +662,7 @@ extension UIViewController {
         
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
         self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.isNavigationBarHidden = false
+    //    self.navigationController?.isNavigationBarHidden = false
         if color != nil {
             self.navigationController?.navigationBar.barTintColor = color
         }else {
@@ -859,7 +843,7 @@ extension UINavigationController {
      - parameter duration: transition animation duration.
      */
     func push(viewController vc: UIViewController, transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.8) {
-        self.addTransition(transitionType: type, duration: duration)
+       // self.addTransition(transitionType: type, duration: duration)
         self.pushViewController(vc, animated: false)
     }
     
@@ -1236,6 +1220,22 @@ extension UIImage {
         return combinedImage!
     }
     
+    func resizeImage(newWidth: CGFloat) -> UIImage {
+        let image = self
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0,width: newWidth, height: newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+    
+    func resizeToScreenSize()->UIImage{
+        return resizeImage(newWidth: kFrame.size.width)
+    }
+    
     
     
 }
@@ -1393,32 +1393,38 @@ extension FLAnimatedImageView {
 //    }
     
     
-    func setForAnimatedImage(strImage:String,handler : @escaping ((_ result : UIImage?) -> Void)){
+    func setForAnimatedImage(strImage:String,isAddLoader:Bool? = nil, handler : @escaping ((_ result : UIImage?) -> Void)){
         
         if strImage.isEmpty{
             handler(nil)
             return
         }
-        if let viewWithTag = self.viewWithTag(3289382) {
-            viewWithTag.removeFromSuperview()
-        }
         let loader = PMDotLoaderView()
-        loader.tintColor = UIColor(r: 225, g: 225, b: 225)
-        loader.tag = 3289382
-        self.addSubview(loader)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            loader.center = self.center
+
+        if isAddLoader != nil {
+            if let viewWithTag = self.viewWithTag(3289382) {
+                viewWithTag.removeFromSuperview()
+            }
+            
+            loader.tintColor = UIColor(r: 225, g: 225, b: 225)
+            loader.tag = 3289382
+            self.addSubview(loader)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                loader.center = self.center
+            }
+            loader.startAnimating()
         }
-        loader.startAnimating()
-        
+     
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
         self.setImageUrl(imgURL) { (image) in
             handler(image)
-            loader.isHidden = true
-            loader.stopAnimating()
-            loader.removeFromSuperview()
-            if let viewWithTag = self.viewWithTag(3289382) {
-                viewWithTag.removeFromSuperview()
+            if isAddLoader != nil {
+                loader.isHidden = true
+                loader.stopAnimating()
+                loader.removeFromSuperview()
+                if let viewWithTag = self.viewWithTag(3289382) {
+                    viewWithTag.removeFromSuperview()
+                }
             }
         }
     }

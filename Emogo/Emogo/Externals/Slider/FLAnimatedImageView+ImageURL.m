@@ -25,6 +25,8 @@
        callback(image);
     }];
 }
+-(void)setImageUrl:(NSURL *)url withHeight:(NSInteger)Height {
+}
 
 
 @end

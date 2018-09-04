@@ -1,6 +1,8 @@
 import UIKit
 import Hue
 
+
+
 public protocol LightboxControllerPageDelegate: class {
 
   func lightboxController(_ controller: LightboxController, didMoveToPage page: Int)
@@ -17,6 +19,8 @@ public protocol LightboxControllerTouchDelegate: class {
     
   func lightboxControllerWillDismiss(_ controller: LightboxController)
 }
+
+
 
 open class LightboxController: UIViewController {
 
@@ -135,12 +139,13 @@ open class LightboxController: UIViewController {
       configurePages(value)
     }
   }
-
+  //open weak var delegate: LightboxControllerDelegate?
   open weak var pageDelegate: LightboxControllerPageDelegate?
   open weak var dismissalDelegate: LightboxControllerDismissalDelegate?
   open weak var imageTouchDelegate: LightboxControllerTouchDelegate?
   open internal(set) var presented = false
   open fileprivate(set) var seen = false
+ 
 
   lazy var transitionManager: LightboxTransition = LightboxTransition()
   var pageViews = [PageView]()
@@ -168,7 +173,7 @@ open class LightboxController: UIViewController {
 
     statusBarHidden = true
 
-    view.backgroundColor = UIColor.black
+    //view.backgroundColor = UIColor.black
     transitionManager.lightboxController = self
     transitionManager.scrollView = scrollView
     transitioningDelegate = transitionManager
@@ -304,9 +309,9 @@ open class LightboxController: UIViewController {
   }
 
   fileprivate func loadDynamicBackground(_ image: UIImage) {
-  
+   
     self.backgroundView.image = image
-    
+
     backgroundView.layer.add(CATransition(), forKey: kCATransitionFade)
   }
 

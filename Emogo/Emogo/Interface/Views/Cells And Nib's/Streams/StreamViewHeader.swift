@@ -35,6 +35,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var kConstantLikeWidth: NSLayoutConstraint!
     @IBOutlet weak var btnLikeOtherUser:FaveButton!
     @IBOutlet weak var kConsImgTop: NSLayoutConstraint!
+    @IBOutlet weak var imgViewTopGradient: UIImageView!
+
     var streamDelegate:StreamViewHeaderDelegate?
     var objColab:StreamViewDAO!
     let kImageFormat = "http"
@@ -51,7 +53,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.imgCover.addGestureRecognizer(tap)
        
         self.expansionMode = .topOnly
-        
+        self.contentExpands = false
         // You can change the minimum and maximum content heights
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
         self.stretchDelegate  = self
@@ -95,7 +97,15 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         
         self.lblLikeCount.text = objStream.totalLikeCount.trim()
         self.lblViewCount.text = objStream.viewCount.trim()
-        
+        self.viewTop.fadeIn(0.1, delay: 0.4) { (_) in
+            
+        }
+        self.viewContainer.fadeIn(0.2, delay: 0.4) { (_) in
+            
+        }
+        self.imgViewTopGradient.fadeIn(0.1, delay: 0.4) { (_) in
+            
+        }
         if (stream?.color.trim().isEmpty)! {
             imgCover.backgroundColor = UIColor(hex: (stream?.color.trim())!)
         }
@@ -190,7 +200,6 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             self.lblColabLabel.text =  " " + objStream.Author
             kConstantImageWidth.constant = 40.0
         }
-        
     }
     
     func prepareLayout(stream:StreamViewDAO?){
@@ -336,13 +345,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             self.lblColabLabel.text =  " " + objStream.author.capitalized
             kConstantImageWidth.constant = 40.0
         }
-       
-       
     }
-   
-    
-    
-    
     
     @IBAction func btnShowFullDescription(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected

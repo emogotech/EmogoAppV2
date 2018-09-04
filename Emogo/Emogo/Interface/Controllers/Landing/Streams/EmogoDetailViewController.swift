@@ -11,6 +11,9 @@ import MessageUI
 import Messages
 import Lightbox
 
+protocol EmogoDetailViewControllerDelegate {
+    func nextItemScrolled(index:Int)
+}
 class EmogoDetailViewController: UIViewController {
     
     @IBOutlet weak var viewStreamCollectionView: UICollectionView!
@@ -27,6 +30,7 @@ class EmogoDetailViewController: UIViewController {
     var isUpload:Bool! = false
     var objStream:StreamViewDAO?
     var streamType:String!
+    var delegate:EmogoDetailViewControllerDelegate?
     // StreamList.sharedInstance.arrayViewStream
     
     override func viewDidLoad() {
@@ -42,22 +46,12 @@ class EmogoDetailViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-//        if image == nil {
-//
-//            self.stretchyHeader.imgCover.setOriginalImage(strImage: (currentStream?.CoverImage)!, placeholder: kPlaceholderImage)
-//        }else {
-//
-//            self.stretchyHeader.imgCover.image = image
-//        }
-//
         self.stretchyHeader.imgCover.isHidden = false
-        
     }
    
     
     func prepareLayouts(){
-     //   self.configureNavigationTite()
+       // self.configureNavigationTite()
         self.currentStream = StreamList.sharedInstance.arrayViewStream[currentIndex]
         
         self.lblNoContent.isHidden = true
@@ -89,6 +83,7 @@ class EmogoDetailViewController: UIViewController {
             swipeLeft.direction = UISwipeGestureRecognizerDirection.left
             viewStreamCollectionView.addGestureRecognizer(swipeLeft)
         }
+        kRefreshCell = true
         configureStrechyHeader()
         configureNavigation()
         prepareHeaderData()
@@ -111,6 +106,7 @@ class EmogoDetailViewController: UIViewController {
         self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
         self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
         self.stretchyHeader.imgCover.image = selectedImageView?.image
+        self.stretchyHeader.imgCover.backgroundColor = selectedImageView?.backgroundColor
         stretchyHeader.btnCollab.isUserInteractionEnabled = true
         
          stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
@@ -127,6 +123,9 @@ class EmogoDetailViewController: UIViewController {
     
     
     func configureNavigation(){
+        if self.navigationController?.isNavigationBarHidden == true {
+            self.navigationController?.isNavigationBarHidden = false
+        }
         var arrayButtons = [UIBarButtonItem]()
         
         //  let imgP = UIImage(named: "back_icon_stream")
@@ -457,10 +456,128 @@ class EmogoDetailViewController: UIViewController {
     func btnActionForAddContent() {
         ContentList.sharedInstance.arrayContent.removeAll()
         let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
-        //   actionVC.delegate = self
-        actionVC.fromViewStream = true
+             actionVC.delegate = self
+             actionVC.fromViewStream = true
         customPresentViewController(PresenterNew.ActionSheetViewStreamPresenter, viewController: actionVC, animated: true, completion: nil)
         
+    }
+    
+    func btnImportAction(){
+        let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+            self?.preparePreview(assets: assets)
+            }, didCancel: nil)
+        viewController.didExceedMaximumNumberOfSelection = { (picker) in
+        }
+        viewController.selectedAssets = [TLPHAsset]()
+        var configure = TLPhotosPickerConfigure()
+        configure.numberOfColumn = 3
+        configure.maxSelectedAssets = 10
+        configure.muteAudio = false
+        configure.usedCameraButton = false
+        configure.usedPrefetch = false
+        viewController.configure = configure
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    func preparePreview(assets:[TLPHAsset]){
+        HUDManager.sharedInstance.showHUD()
+        let group = DispatchGroup()
+        for obj in assets {
+            group.enter()
+            let camera = ContentDAO(contentData: [:])
+            camera.isUploaded = false
+            if obj.type == .photo || obj.type == .livePhoto {
+                camera.fileName = NSUUID().uuidString + ".png"
+                camera.type = .image
+                if obj.fullResolutionImage != nil {
+                    camera.imgPreview = obj.fullResolutionImage
+                    camera.color = obj.fullResolutionImage?.getColors().primary.toHexString
+                    self.updateData(content: camera)
+                    group.leave()
+                }
+                else {
+                    obj.cloudImageDownload(progressBlock: { (progress) in
+                    }, completionBlock: { (image) in
+                        if let img = image {
+                            camera.imgPreview = img
+                            camera.color = img.getColors().primary.toHexString
+                            self.updateData(content: camera)
+                        }
+                        group.leave()
+                    })
+                }
+            }
+            else if obj.type == .video {
+                camera.type = .video
+                obj.tempCopyMediaFile(progressBlock: { (progress) in
+                    print(progress)
+                }, completionBlock: { (url, mimeType) in
+                    camera.fileUrl = url
+                    camera.fileName = url.lastPathComponent
+                    obj.phAsset?.getOrigianlImage(handler: { (img, _) in
+                        if img != nil {
+                            camera.imgPreview = img
+                            camera.color = img?.getColors().primary.toHexString
+                        }else {
+                            camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
+                        }
+                        self.updateData(content: camera)
+                        group.leave()
+                    })
+                })
+            }
+        }
+        group.notify(queue: .main, execute: {
+            HUDManager.sharedInstance.hideHUD()
+            if ContentList.sharedInstance.arrayContent.count == assets.count {
+                self.perform(#selector(self.previewScreenNavigated), with: self, afterDelay: 0.2)
+            }
+        })
+    }
+    
+    func updateData(content:ContentDAO) {
+        ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+    }
+    
+    @objc func previewScreenNavigated(){
+        if   ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            ContentList.sharedInstance.objStream = self.objStream?.streamID
+            self.navigationController?.pushNormal(viewController: objPreview)
+        }
+    }
+    
+    func actionForCamera(){
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        ContentList.sharedInstance.arrayContent.removeAll()
+        self.navigationController?.pushNormal(viewController: obj)
+    }
+    
+    func btnActionForLink(){
+        
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LinkView)
+        self.navigationController?.push(viewController: controller)
+    }
+    
+    func btnActionForGiphy(){
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_GiphyView)
+        self.navigationController?.push(viewController: controller)
+    }
+    
+    
+    func btnActionForMyStuff(){
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
+        self.navigationController?.push(viewController: controller)
+    }
+    func btnActionForNotes(){
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
+        controller.isOpenFrom = "StreamView"
+        self.navigationController?.push(viewController: controller)
     }
     
     func composeMessage() -> MSMessage {
@@ -499,6 +616,9 @@ class EmogoDetailViewController: UIViewController {
         Animation.addRightTransition(collection: self.viewStreamCollectionView)
         self.viewStreamCollectionView.reloadData()
         self.updateLayOut()
+        if self.delegate != nil {
+            self.delegate?.nextItemScrolled(index: currentIndex)
+        }
     }
     
     func previous() {
@@ -516,11 +636,14 @@ class EmogoDetailViewController: UIViewController {
         Animation.addLeftTransition(collection: self.viewStreamCollectionView)
         self.viewStreamCollectionView.reloadData()
         self.updateLayOut()
+        if self.delegate != nil {
+            self.delegate?.nextItemScrolled(index: currentIndex)
+        }
     }
     
     func updateLayOut(){
         if self.stretchyHeader != nil  {
-            self.stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
+     //       self.stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
         }
         if ContentList.sharedInstance.objStream != nil {
             
@@ -571,6 +694,10 @@ class EmogoDetailViewController: UIViewController {
         self.prepareHeaderData()
          self.viewStreamCollectionView.isHidden = false
         self.viewStreamCollectionView.reloadData()
+        kRefreshCell = true
+        self.viewStreamCollectionView.es.resetNoMoreData()
+        
+      
     }
     
     func likeDislikeStream(){
@@ -663,8 +790,7 @@ class EmogoDetailViewController: UIViewController {
         }
         APIServiceManager.sharedInstance.apiForViewStream(streamID:id) { (stream, errorMsg) in
             if (errorMsg?.isEmpty)! {
-                self.viewStreamCollectionView.es.stopLoadingMore()
-                
+                self.viewStreamCollectionView.es.noticeNoMoreData()
                 self.currentStream.arrayContent = (stream?.arrayContent)!
                 self.viewStreamCollectionView.reloadData()
             }
@@ -832,6 +958,36 @@ extension EmogoDetailViewController :AddCollabViewControllerDelegate{
         self.updateLayOut()
     }
 }
+
+
+extension EmogoDetailViewController : ActionSheetViewControllerDelegate {
+    func didSelectAction(type:String) {
+        switch type {
+        case "1":
+            self.btnImportAction()
+            break
+        case "2":
+            self.actionForCamera()
+            break
+        case "3":
+            self.btnActionForLink()
+            break
+        case "4":
+            self.btnActionForNotes()
+            break
+        case "5":
+            self.btnActionForGiphy()
+            break
+        case "6":
+            self.btnActionForMyStuff()
+            break
+        default:
+            break
+        }
+    }
+    
+}
+
 
 //extension EmogoDetailViewController:MFMessageComposeViewControllerDelegate {
 //    
