@@ -32,7 +32,7 @@ class MyStuffCell: UICollectionViewCell {
         self.viewContent.isHidden = true
         self.btnPlay.isHidden = true
 
-        imgCover.contentMode = .scaleAspectFill
+        imgCover.contentMode = .scaleAspectFit
         if !content.color.trim().isEmpty {
             imgCover.backgroundColor = UIColor(hex: content.color.trim())
         }

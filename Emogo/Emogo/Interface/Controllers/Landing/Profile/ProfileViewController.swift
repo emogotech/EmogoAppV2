@@ -290,9 +290,15 @@ class ProfileViewController: UIViewController {
                 self.lblBio.isHidden =  false
                 self.lblFollowers.isHidden = true
                 self.lblFollowing.isHidden = true
-                self.lblName.text =  UserDAO.sharedInstance.user.fullName.trim().capitalized
+                self.lblName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
+                
+                if UserDAO.sharedInstance.user.displayName.trim().isEmpty {
+                      self.lblName.text =  UserDAO.sharedInstance.user.fullName.trim().capitalized
+                      self.lblFullName.text = ""
+                }
 //                self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
-                self.lblFullName.text = "\(UserDAO.sharedInstance.user.displayName.trim())"
+                
+                self.lblFullName.text = "\(UserDAO.sharedInstance.user.fullName.trim())"
                 self.lblFullName.minimumScaleFactor = 1.0
                 self.lblWebsite.minimumScaleFactor = 1.0
                 self.lblLocation.minimumScaleFactor = 1.0
@@ -1696,12 +1702,16 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                       objPreview.delegate = self
                       objNavigation = UINavigationController(rootViewController: objPreview)
                     if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
+
                         navigationImageView = imageCell.imgCover
+                        navigationImageView?.contentMode = .scaleAspectFill
                         objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
                         objNavigation!.cc_swipeBackDisabled = false
                     }
+                    objNavigation?.isNavigationBarHidden = true
+
                     self.present(objNavigation!, animated: true, completion: nil)
-                    
+                 
                   //  self.navigationController?.push(viewController: objPreview)
                 }
             }

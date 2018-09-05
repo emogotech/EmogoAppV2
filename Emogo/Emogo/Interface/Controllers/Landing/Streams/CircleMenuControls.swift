@@ -479,6 +479,8 @@ extension ProfileViewController : ActionSheetViewControllerDelegate {
         self.navigationController?.push(viewController: controller)
     }
 }
+
+/*
 extension ViewStreamController : ActionSheetViewControllerDelegate {
     func didSelectAction(type:String) {
         switch type {
@@ -505,5 +507,5 @@ extension ViewStreamController : ActionSheetViewControllerDelegate {
         }
     }
    
-}
+}*/
 

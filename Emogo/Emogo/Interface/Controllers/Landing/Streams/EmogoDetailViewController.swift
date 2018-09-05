@@ -94,7 +94,7 @@ class EmogoDetailViewController: UIViewController {
         let nibViews = Bundle.main.loadNibNamed("StreamViewHeader", owner: self, options: nil)
         self.stretchyHeader = nibViews?.first as! StreamViewHeader
         self.viewStreamCollectionView.addSubview(self.stretchyHeader)
-        // stretchyHeader.streamDelegate = self
+        stretchyHeader.streamDelegate = self
         stretchyHeader.viewViewCount.isHidden = true
         stretchyHeader.viewLike.isHidden = true
         stretchyHeader.btnLike.delegate = self
@@ -909,21 +909,24 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
     
     func showPreview() {
         if self.objStream == nil{
-            
+
         }else{
+        
+       
             ContentList.sharedInstance.arrayContent.removeAll()
             let profileContent = ContentDAO(contentData: [:])
-            profileContent.coverImage = objStream?.coverImage
+            profileContent.coverImage = currentStream.CoverImage
             profileContent.isUploaded = true
             profileContent.type = .image
             profileContent.fileName = "SreamCover"
-            profileContent.name = objStream?.title
-            profileContent.description = objStream?.description
-            var array = objStream?.arrayContent.filter { $0.isAdd == false }
-            array?.insert(profileContent, at: 0)
-            
+            profileContent.name = currentStream.Title
+            profileContent.description = currentStream.description
+        
+            var array = currentStream.arrayContent.filter { $0.isAdd == false }
+            array.insert(profileContent, at: 0)
+            print(array)
             ContentList.sharedInstance.arrayContent = array
-            ContentList.sharedInstance.objStream = objStream?.streamID
+            ContentList.sharedInstance.objStream = currentStream.ID
             
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
             objPreview.isViewCount = "TRUE"
@@ -936,12 +939,13 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
                 navigationImageView = stretchyHeader.imgCover
                 nav.cc_setZoomTransition(originalView: navigationImageView!)
                 nav.cc_swipeBackDisabled = true
+                //self.present(nav, animated: true, completion: nil)
                 self.present(nav, animated: true) {
                     self.stretchyHeader.imgCover.isUserInteractionEnabled = true
                 }
             }
-        }
-        // self.present(nav, animated: true, completion: nil)
+       }
+       // self.present(nav, animated: true, completion: nil)
         // self.openFullView(index: nil)
     }
     

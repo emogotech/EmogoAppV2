@@ -115,7 +115,6 @@
 		F005121620DA331F00EA4E50 /* SegmentHeaderViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F005121420DA331F00EA4E50 /* SegmentHeaderViewCell.xib */; };
 		F005121720DA7D7D00EA4E50 /* NZCircularImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1E1FFE92C200A406FF /* NZCircularImageView.m */; };
 		F005121820DA7D8100EA4E50 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1D1FFE92B900A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
-		F005B6ED2137C4AB003EF08B /* TestDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F005B6EC2137C4AB003EF08B /* TestDetailViewController.swift */; };
 		F009A93720D0F88E00051547 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93620D0F88E00051547 /* ActionSheetViewController.swift */; };
 		F009A93920D0F8A700051547 /* ActionSheetViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */; };
 		F00E69BA2111B57900F54639 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */; };
@@ -191,7 +190,6 @@
 		F403765F1FDEA12B0007C696 /* GradientBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F403765E1FDEA12B0007C696 /* GradientBarView.swift */; };
 		F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0701FDA997500E8ACC2 /* AddContentCell.swift */; };
 		F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0721FDA998500E8ACC2 /* StreamContentCell.swift */; };
-		F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */; };
 		F40557C920AEB37000A28F51 /* CountryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40557C820AEB37000A28F51 /* CountryPickerViewController.swift */; };
 		F40557CB20AEB39D00A28F51 /* countryCodes.json in Resources */ = {isa = PBXBuildFile; fileRef = F40557CA20AEB39D00A28F51 /* countryCodes.json */; };
 		F40557CD20AEB50C00A28F51 /* CountryDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40557CC20AEB50B00A28F51 /* CountryDAO.swift */; };
@@ -345,6 +343,7 @@
 		F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4361D391FF226F800553E8E /* KASlideShow.m */; };
 		F436C997204D434500EE4254 /* PMReorderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F436C996204D434500EE4254 /* PMReorderCollectionView.swift */; };
 		F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */; };
+		F43CC78A213FF2DD00CBA6AF /* focus.png in Resources */ = {isa = PBXBuildFile; fileRef = F43CC789213FF2D200CBA6AF /* focus.png */; };
 		F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
 		F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
 		F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */; };
@@ -658,7 +657,6 @@
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
 		F005121320DA331F00EA4E50 /* SegmentHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentHeaderViewCell.swift; sourceTree = "<group>"; };
 		F005121420DA331F00EA4E50 /* SegmentHeaderViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SegmentHeaderViewCell.xib; sourceTree = "<group>"; };
-		F005B6EC2137C4AB003EF08B /* TestDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDetailViewController.swift; sourceTree = "<group>"; };
 		F009A93620D0F88E00051547 /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
 		F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewCell.swift; sourceTree = "<group>"; };
 		F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
@@ -718,7 +716,6 @@
 		F403765E1FDEA12B0007C696 /* GradientBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBarView.swift; sourceTree = "<group>"; };
 		F404C0701FDA997500E8ACC2 /* AddContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentCell.swift; sourceTree = "<group>"; };
 		F404C0721FDA998500E8ACC2 /* StreamContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamContentCell.swift; sourceTree = "<group>"; };
-		F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStreamController.swift; sourceTree = "<group>"; };
 		F40557C820AEB37000A28F51 /* CountryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickerViewController.swift; sourceTree = "<group>"; };
 		F40557CA20AEB39D00A28F51 /* countryCodes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countryCodes.json; sourceTree = "<group>"; };
 		F40557CC20AEB50B00A28F51 /* CountryDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDAO.swift; sourceTree = "<group>"; };
@@ -880,6 +877,7 @@
 		F4361D3A1FF226FA00553E8E /* KASlideShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KASlideShow.h; sourceTree = "<group>"; };
 		F436C996204D434500EE4254 /* PMReorderCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMReorderCollectionView.swift; sourceTree = "<group>"; };
 		F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewControls.swift; sourceTree = "<group>"; };
+		F43CC789213FF2D200CBA6AF /* focus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = focus.png; sourceTree = "<group>"; };
 		F43E92D21FCEB43100AF3FAC /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewController.swift; sourceTree = "<group>"; };
 		F4402F691FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewCell.swift; sourceTree = "<group>"; };
@@ -2161,6 +2159,7 @@
 		F4402F6F1FCD917900152D01 /* TextField */ = {
 			isa = PBXGroup;
 			children = (
+				F43CC789213FF2D200CBA6AF /* focus.png */,
 				F445453B200374DD00ED59C3 /* UITextField+Max.h */,
 				F445453A200374DC00ED59C3 /* UITextField+Max.m */,
 				F4402F701FCD918300152D01 /* SkyFloatingLabelTextField.swift */,
@@ -2234,7 +2233,6 @@
 				F4522CA51FCC2DC10021562D /* AddStreamViewController.swift */,
 				F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */,
 				F497B3B11FD7EA38006614F2 /* PeopleListViewController.swift */,
-				F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */,
 				F4890EA82135519F00FC720D /* EmogoDetailViewController.swift */,
 				F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */,
 				F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */,
@@ -2242,7 +2240,6 @@
 				F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */,
 				F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */,
 				F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */,
-				F005B6EC2137C4AB003EF08B /* TestDetailViewController.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -2769,6 +2766,7 @@
 				F41FD94A20A9583F00FA8623 /* StickersViewController.xib in Resources */,
 				F44939E51FEA567800AE2FCA /* icon_pull_to_refresh_arrow@2x.png in Resources */,
 				F41FD95520A9583F00FA8623 /* PhotoCropEditorBorder@3x.png in Resources */,
+				F43CC78A213FF2DD00CBA6AF /* focus.png in Resources */,
 				F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */,
 				F4A69BA41FC45181008F9534 /* beep.wav in Resources */,
 				F46AC6E32043E92E00B71102 /* TLCollectionTableViewCell.xib in Resources */,
@@ -3347,7 +3345,6 @@
 				F4C2489F20514EAA00D74EA5 /* DatePickerDialog.swift in Sources */,
 				F480777B20D0EFCA008E5BDA /* LinkPickerViewCell.swift in Sources */,
 				F4CA097A2052A6D2004EEFCE /* ProfileHeaderView.swift in Sources */,
-				F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */,
 				F0C1139E20D39F4E00F1569C /* AddCollabViewController.swift in Sources */,
 				F0C15BC5211AF2920048A2CA /* RefreshFooterAnimator.swift in Sources */,
 				F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */,
@@ -3402,7 +3399,6 @@
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
 				F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */,
 				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
-				F005B6ED2137C4AB003EF08B /* TestDetailViewController.swift in Sources */,
 				F46AC6E02043E92E00B71102 /* TLCollectionTableViewCell.swift in Sources */,
 				F40557CD20AEB50C00A28F51 /* CountryDAO.swift in Sources */,
 				33DAB2FA1FC6B9AC0053AC23 /* FSPagerView.swift in Sources */,

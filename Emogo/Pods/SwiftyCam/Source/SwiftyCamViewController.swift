@@ -244,6 +244,8 @@ open class SwiftyCamViewController: UIViewController {
 	/// Last changed orientation
 
 	fileprivate var deviceOrientation            : UIDeviceOrientation?
+   
+
 
 	/// Disable view autorotation for forced portrait recorindg
 
@@ -686,12 +688,13 @@ open class SwiftyCamViewController: UIViewController {
 
 		if let device = videoDevice {
 			do {
+                
 				try device.lockForConfiguration()
-				if device.isFocusModeSupported(.continuousAutoFocus) {
+				if device.isFocusModeSupported(.continuousAutoFocus)  {
 					device.focusMode = .continuousAutoFocus
-					if device.isSmoothAutoFocusSupported {
-						device.isSmoothAutoFocusEnabled = true
-					}
+//                    if device.isSmoothAutoFocusSupported {
+//                        device.isSmoothAutoFocusEnabled = true
+//                    }
 				}
 
 				if device.isExposureModeSupported(.continuousAutoExposure) {
@@ -711,6 +714,7 @@ open class SwiftyCamViewController: UIViewController {
 				print("[SwiftyCam]: Error locking configuration")
 			}
 		}
+        
 
 		do {
 			let videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
@@ -718,6 +722,8 @@ open class SwiftyCamViewController: UIViewController {
 			if session.canAddInput(videoDeviceInput) {
 				session.addInput(videoDeviceInput)
 				self.videoDeviceInput = videoDeviceInput
+             //   videoDevice?.addObserver(self, forKeyPath: "adjustingFocus", options: .new, context: nil)
+
 			} else {
 				print("[SwiftyCam]: Could not add video device input to the session")
 				print(session.canSetSessionPreset(videoInputPresetFromVideoQuality(quality: videoQuality)))
@@ -1033,6 +1039,8 @@ open class SwiftyCamViewController: UIViewController {
 
 		}
 	}
+   
+    
 }
 
 extension SwiftyCamViewController : SwiftyCamButtonDelegate {

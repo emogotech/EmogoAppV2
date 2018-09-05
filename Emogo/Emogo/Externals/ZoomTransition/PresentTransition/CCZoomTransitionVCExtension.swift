@@ -14,7 +14,7 @@ extension UIViewController {
     //originalView: Which being tap in presenting view
     public func cc_setZoomTransition(originalView : UIView) {
         self.modalPresentationStyle = .custom
-        self.modalPresentationCapturesStatusBarAppearance = true
+       // self.modalPresentationCapturesStatusBarAppearance = false
         let transitioner = CCZoomTransitioner()
         transitioner.transitOriginalView = originalView
         self.cc_transitioner = transitioner

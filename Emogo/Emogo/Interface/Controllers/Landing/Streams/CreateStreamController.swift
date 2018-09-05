@@ -300,12 +300,15 @@ class CreateStreamController: UITableViewController {
                             self.dismiss(animated: true, completion: nil)
                             let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                             StreamList.sharedInstance.arrayViewStream = array
-                            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+//                            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                            let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
                             obj.currentIndex = 0
+                          
                             obj.isFromCreateStream = "TRUE"
                             obj.streamType = currentStreamType.rawValue
                             ContentList.sharedInstance.objStream = nil
-                            self.exestingNavigation?.popToViewController(vc: obj)
+                            self.navigationController?.pushNormal(viewController: obj)
+                            //self.exestingNavigation?.popToViewController(vc: obj)
                         }
                         
                         // self.navigationController?.popNormal()
@@ -371,10 +374,13 @@ class CreateStreamController: UITableViewController {
                 let array  = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                 if array.count != 0 {
                     StreamList.sharedInstance.arrayViewStream = array
-                    let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                    let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+                   
+//                    let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                     obj.streamType = currentStreamType.rawValue
                     ContentList.sharedInstance.objStream = id
-                    self.exestingNavigation?.popToViewController(vc: obj)
+                    self.navigationController?.pushNormal(viewController: obj)
+                   // self.exestingNavigation?.popToViewController(vc: obj)
                 }
                 
             }

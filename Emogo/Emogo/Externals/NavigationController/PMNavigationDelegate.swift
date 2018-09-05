@@ -126,33 +126,6 @@ extension StreamListViewController: ZoomTransitionSourceDelegate {
 }
 // MARK: - ZoomTransitionDestinationDelegate
 
-extension TestDetailViewController: ZoomTransitionDestinationDelegate {
-    func transitionDestinationImageViewFrame(forward: Bool) -> CGRect {
-        if forward {
-            let x: CGFloat = 0
-            let y: CGFloat = topLayoutGuide.length
-            let width: CGFloat = view.frame.width
-            let height: CGFloat = width * 2 / 3
-            return CGRect(x: x, y: y, width: width, height: height)
-        } else {
-            return imgTestDetail.convert(imgTestDetail.bounds, to: view)
-        }
-    }
-    
-    func transitionDestinationWillBegin() {
-        imgTestDetail.isHidden = true
-    }
-    
-    func transitionDestinationDidEnd(transitioningImageView imageView: UIImageView) {
-        imgTestDetail.isHidden = false
-        imgTestDetail.image = imageView.image
-    }
-    
-    func transitionDestinationDidCancel() {
-        imgTestDetail.isHidden = false
-    }
-}
-
 
 extension ProfileViewController: ZoomTransitionSourceDelegate {
     

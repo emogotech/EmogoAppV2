@@ -362,7 +362,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @objc func showPreview(){
         
         if self.streamDelegate != nil {
-            self.imgCover.isUserInteractionEnabled = false
+            self.imgCover.isUserInteractionEnabled = true
             streamDelegate?.showPreview()
         }
     }

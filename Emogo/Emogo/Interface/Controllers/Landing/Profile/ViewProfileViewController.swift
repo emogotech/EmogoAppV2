@@ -47,10 +47,11 @@ class ViewProfileViewController: UIViewController {
     var isCalledMyStream:Bool! = true
     var isCalledColabStream:Bool! = true
     var selectedImageView:UIImageView?
+    var selectedIndexPath:IndexPath?
     let font = UIFont(name: "SFProText-Light", size: 14.0)
     let fontSelected = UIFont(name: "SFProText-Medium", size: 14.0)
     let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
-
+    var selectedCell:ProfileStreamCell!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -791,7 +792,12 @@ class ViewProfileViewController: UIViewController {
 extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout,ProfileStreamViewDelegate {
    
     func actionForCover(imageView: UIImageView) {
-        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+        
+        let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+        obj.currentIndex = 0
+        obj.delegate = self
+      
+//        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         
         let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
         if index != nil {
@@ -800,15 +806,21 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             StreamList.sharedInstance.arrayMyStream.insert(self.objPeople.stream!, at: 0)
             obj.currentIndex = 0
         }
-        
-        let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
-        StreamList.sharedInstance.arrayViewStream = array
-        print(array)
         obj.streamType = currentStreamType.rawValue
         obj.viewStream = "View"
         selectedImageView = imageView
+        obj.image =  imageView.image
         ContentList.sharedInstance.objStream = nil
-        self.navigationController?.pushViewController(obj, animated: true)
+        self.navigationController?.pushNormal(viewController: obj)
+        
+//        let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
+//        StreamList.sharedInstance.arrayViewStream = array
+//        print(array)
+//        obj.streamType = currentStreamType.rawValue
+//        obj.viewStream = "View"
+//        selectedImageView = imageView
+//        ContentList.sharedInstance.objStream = nil
+//        self.navigationController?.pushViewController(obj, animated: true)
     }
     
     
@@ -864,28 +876,34 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         if self.streamType == "1" {
             let tempStream = self.arrayMyStreams[indexPath.row]
             let tempIndex = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
-            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+            let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+            obj.currentIndex = 0
+            obj.delegate = self
             if tempIndex != nil {
                 obj.currentIndex = tempIndex!
             }else {
                 obj.currentIndex = indexPath.row
             }
-            
             StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
             obj.streamType = currentStreamType.rawValue
             obj.viewStream = "View"
+            obj.image = selectedImageView?.image
             ContentList.sharedInstance.objStream = nil
-            self.navigationController?.pushViewController(obj, animated: true)
+            self.navigationController?.pushNormal(viewController: obj)
 
         }else {
             ContentList.sharedInstance.mainStreamIndex = nil
             StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
-            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+//            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+            let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+            obj.delegate = self
             obj.currentIndex = indexPath.row
             obj.streamType = currentStreamType.rawValue
+            obj.image = selectedImageView?.image
             obj.viewStream = "View"
             ContentList.sharedInstance.objStream = nil
-            self.navigationController?.pushViewController(obj, animated: true)
+            self.navigationController?.pushNormal(viewController: obj)
+            //self.navigationController?.pushViewController(obj, animated: true)
         }
         
     }
@@ -932,6 +950,19 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         oldContentOffset = scrollView.contentOffset
     }
 
+    
+}
+
+extension ViewProfileViewController : EmogoDetailViewControllerDelegate {
+    
+    func nextItemScrolled(index: Int) {
+        let indexPath = IndexPath(row: index, section: 0)
+        if let cell = profileCollectionView.cellForItem(at: indexPath) {
+            selectedIndexPath = indexPath
+            self.selectedCell = cell as! ProfileStreamCell
+            selectedImageView = self.selectedCell.imgCover
+        }
+    }
     
 }
 

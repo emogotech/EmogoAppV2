@@ -59,9 +59,12 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     var isForImageOnly    :   Bool?
     
-  //  var cameraOption:HMSegmentedControl = HMSegmentedControl()
-       var cameraOption:RS3DSegmentedControl = RS3DSegmentedControl()
-
+    //  var cameraOption:HMSegmentedControl = HMSegmentedControl()
+    var cameraOption:RS3DSegmentedControl = RS3DSegmentedControl()
+    
+    fileprivate var focusing                     = false
+    fileprivate var focusingOverlay              : UIImageView!
+    
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -113,6 +116,8 @@ class CustomCameraViewController: SwiftyCamViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("ForceStopVideoRecording"), object: nil)
         
         //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("StopRec"), object: nil)
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        self.navigationController?.navigationBar.shadowImage = nil
         self.showStatusBar()
     }
     
@@ -225,42 +230,42 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @objc func prepareForCameraMode(){
-         /*
-        cameraOption = HMSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
-        self.cameraOption.backgroundColor = UIColor.clear
-        self.cameraOption.selectedSegmentIndex = cameraMode.hashValue
-        cameraOption.selectionIndicatorHeight = 3.0
-        cameraOption.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,NSAttributedStringKey.font : UIFont(name: kFontRegular, size: 16.0) ?? UIFont.systemFont(ofSize: 16.0)]
-        cameraOption.selectionIndicatorColor = UIColor.white
-        cameraOption.selectionStyle = .textWidthStripe
-        cameraOption.selectionIndicatorLocation = .down
-        cameraOption.shouldAnimateUserSelection = false
-        cameraOption.sectionTitles = ["NORMAL","HANDS-FREE"]
-        cameraOption.indexChangeBlock = {(_ index: Int) -> Void in
-            print("Selected index \(index) (via block)")
-            self.updateCameraType(index: index)
-        }
-        self.cameraModeOptions.addSubview(self.cameraOption)
-        */
-         self.cameraOption = RS3DSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
-         cameraModeOptions.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-         self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-         self.cameraOption.delegate = self
-         self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
-         self.cameraOption.textFont = UIFont(name: kFontRegular, size: 14.0)
+        /*
+         cameraOption = HMSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
+         self.cameraOption.backgroundColor = UIColor.clear
+         self.cameraOption.selectedSegmentIndex = cameraMode.hashValue
+         cameraOption.selectionIndicatorHeight = 3.0
+         cameraOption.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,NSAttributedStringKey.font : UIFont(name: kFontRegular, size: 16.0) ?? UIFont.systemFont(ofSize: 16.0)]
+         cameraOption.selectionIndicatorColor = UIColor.white
+         cameraOption.selectionStyle = .textWidthStripe
+         cameraOption.selectionIndicatorLocation = .down
+         cameraOption.shouldAnimateUserSelection = false
+         cameraOption.sectionTitles = ["NORMAL","HANDS-FREE"]
+         cameraOption.indexChangeBlock = {(_ index: Int) -> Void in
+         print("Selected index \(index) (via block)")
+         self.updateCameraType(index: index)
+         }
          self.cameraModeOptions.addSubview(self.cameraOption)
+         */
+        self.cameraOption = RS3DSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
+        cameraModeOptions.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        self.cameraOption.delegate = self
+        self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
+        self.cameraOption.textFont = UIFont(name: kFontRegular, size: 14.0)
+        self.cameraModeOptions.addSubview(self.cameraOption)
     }
     
     
     func prepareNavBarButtons(){
         if self.navigationController?.isNavigationBarHidden == true {
-             self.navigationController?.isNavigationBarHidden = false
-            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-            self.navigationController?.navigationBar.shadowImage = UIImage()
-            self.navigationController?.navigationBar.isTranslucent = true
+            self.navigationController?.isNavigationBarHidden = false
+           
             navigationItem.hidesBackButton = true
         }
-   
+
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.barTintColor = .clear
         let button   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
@@ -269,7 +274,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         button.setImage(#imageLiteral(resourceName: "back icon_shadow"), for: .normal)
         button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
         let btnBack = UIBarButtonItem(customView: button)
-    //    let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back icon_shadow"), style: .plain, target: self, action: #selector(self.btnBack))
+        //    let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back icon_shadow"), style: .plain, target: self, action: #selector(self.btnBack))
         self.navigationItem.leftBarButtonItem = btnBack
     }
     
@@ -306,7 +311,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             buttonNext.contentHorizontalAlignment  = .right
             buttonNext.contentVerticalAlignment = .bottom
             let btnNext = UIBarButtonItem(customView: buttonNext)
-           // let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
+            // let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
             self.navigationItem.rightBarButtonItem = btnNext
         }else {
             self.navigationItem.rightBarButtonItem  = nil
@@ -492,9 +497,9 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     
     @objc func captureModeTap(_ sender: UIGestureRecognizer){
-       // print("Normal tap")
+        // print("Normal tap")
         
-       
+        
         if self.cameraMode  == .handFree {
             if isRecording {
                 self.lblRecordTimer.isHidden = true
@@ -533,10 +538,10 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @objc func recordingModeTap(_ sender: UIGestureRecognizer){
-       // print("Long tap")
+        // print("Long tap")
         switch sender.state {
         case .began:
-           // print("begin recording")
+            // print("begin recording")
             self.lblRecordTimer.isHidden = true
             self.performCamera(action: .recording)
             self.cameraOption.isUserInteractionEnabled = false
@@ -544,12 +549,12 @@ class CustomCameraViewController: SwiftyCamViewController {
             break
         case .ended:
             if self.cameraMode == .normal {
-              //  print("end Recording")
+                //  print("end Recording")
                 self.lblRecordTimer.isHidden = true
                 //                self.recordButtonTapped(isShow: false)
                 self.performCamera(action: .stop)
             }else{
-               // print(">>>>>>>>>>>>>>>>>else")
+                // print(">>>>>>>>>>>>>>>>>else")
             }
             break
             
@@ -573,14 +578,14 @@ class CustomCameraViewController: SwiftyCamViewController {
         }else {
             if kContainerNav.isEmpty {
                 //  addLeftTransitionView(subtype: kCATransitionFromLeft)
-             
+                
                 self.navigationController?.popNormal()
             }else {
                 kContainerNav = "1"
                 self.prepareContainerToPresent()
             }
         }
-       
+        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         SharedData.sharedInstance.tempVC = nil
         
@@ -623,7 +628,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             if obj.type == .photo || obj.type == .livePhoto {
                 camera.fileName = NSUUID().uuidString + ".png"
                 camera.type = .image
-               
+                
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
                     self.updateData(content: camera)
@@ -771,6 +776,57 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
     }
     
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "adjustingFocus" {
+            self.isFocusing(change: change!)
+        }
+        
+    }
+    
+    func isFocusing(change:[NSKeyValueChangeKey : Any]) {
+        if let adjustingFocus = change[NSKeyValueChangeKey.newKey] as? Int {
+            if adjustingFocus == 1 {
+                focusing = true
+                showFocusOverlay()
+            }else {
+                if focusing {
+                    focusing = false
+                    hideFocusOverlay()
+                }
+            }
+        }
+    }
+    
+    func showFocusOverlay(point:CGPoint? = nil){
+        print("Show Preview")
+        self.focusingOverlay = UIImageView(image: UIImage(named: "focus.png"))
+        self.focusingOverlay.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        if point != nil {
+            focusingOverlay.center = point!
+        }else{
+            focusingOverlay.center = self.view.center
+        }
+        focusingOverlay.alpha = 0.0
+        print(focusingOverlay)
+        view.addSubview(focusingOverlay)
+        view.bringSubview(toFront: focusingOverlay)
+        UIView.animate(withDuration: 0.25, animations: {
+            self.focusingOverlay.alpha = 1.0
+        })
+        if point != nil {
+            self.perform(#selector(self.hideFocusOverlay), with: nil, afterDelay: 2.0)
+        }
+    }
+    @objc func hideFocusOverlay(){
+        print("Hide Indicator")
+        UIView.animate(withDuration: 0.25, animations: {
+            self.focusingOverlay.alpha = 0.0
+        }) { finished in
+            self.focusingOverlay.removeFromSuperview()
+        }
+    }
+    
 }
 
 
@@ -793,8 +849,8 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
                 // Fallback on earlier versions
             } // 1
             
-           // Haptic.selection.generate()
-          //  Haptic.notification(.warning).generate()
+            // Haptic.selection.generate()
+            //  Haptic.notification(.warning).generate()
         }
         
         if isDismiss == nil {
@@ -897,6 +953,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         // Called when a user initiates a tap gesture on the preview layer
         // Will only be called if tapToFocus = true
         // Returns a CGPoint of the tap location on the preview layer
+          self.showFocusOverlay(point: point)
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
@@ -977,7 +1034,7 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height - 10)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 12
     }
