@@ -129,6 +129,9 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
     permission_classes = (IsAuthenticated,)
     filter_class = UsersFilter
 
+    def get_serializer_context(self):
+        return {'request': self.request, 'context':self.request}
+
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
@@ -249,7 +252,8 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             # If requested user is logged in user
         if instance.user == self.request.user:
             fields = fields + ('token',)
-        serializer = UserDetailSerializer(self.get_qs_object(), fields=fields, context=self.request)
+
+        serializer = UserDetailSerializer(self.get_qs_object(), fields=fields, context=self.get_serializer_context())
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
