@@ -46,7 +46,6 @@
         _carousel.scrollEnabled = NO;
         _carousel.stopAtItemBoundary = NO;
         _carousel.dataSource = self;
-        
         [self addSubview:_carousel];
         
         self.layer.shouldRasterize = YES;

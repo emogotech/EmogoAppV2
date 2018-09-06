@@ -182,6 +182,10 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
         // Create the cell and return the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
         let obj =  ContentList.sharedInstance.arrayContent[indexPath.row]
+        cell.layer.borderWidth = 1.0
+        cell.layer.borderColor = UIColor.white.cgColor
+        cell.layer.cornerRadius = 10.0
+        cell.clipsToBounds = true
         cell.setupPreviewWithType(content:obj)
         cell.playIcon.tag = indexPath.row
         cell.playIcon.addTarget(self, action: #selector(self.playIconTapped(sender:)), for: .touchUpInside)
@@ -190,14 +194,17 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height)
+        return CGSize(width: collectionView.frame.size.height - 40, height: collectionView.frame.size.height - 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.preparePreview(index: indexPath.row)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 12
+        return 8
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 8
     }
     
 }

@@ -78,7 +78,11 @@ class FilterViewController: UIViewController {
         self.setImageView(image: image!)
     
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = nil
+    }
     func prepareLayout(){
         //  filterCollectionView.register(UINib(nibName: "FilterCell", bundle: nil), forCellWithReuseIdentifier: "filterCell")
         //  filterCollectionView.register(UINib(nibName: "FilterGradientCell", bundle: nil), forCellWithReuseIdentifier: "filterGradientCell")
@@ -95,12 +99,14 @@ class FilterViewController: UIViewController {
     
     
     func prepareNavigation() {
-        
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.tintColor = .white
-        self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.3)
-    
+        if self.navigationController?.isNavigationBarHidden == true {
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.navigationBar.tintColor = .white
+        }
+      
+    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.barTintColor = .clear
         self.prepareNavigationButton(isEditing: false)
     }
     

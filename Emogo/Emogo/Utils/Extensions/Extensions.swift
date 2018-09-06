@@ -210,6 +210,11 @@ extension UIView {
 
 extension UIView {
     
+    func origin (_ point : CGPoint){
+        frame.origin.x = point.x
+        frame.origin.y = point.y
+    }
+    
     // OUTPUT 1
     func dropShadow(scale: Bool = true) {
         layer.masksToBounds = false
@@ -519,6 +524,17 @@ extension UIButton {
 extension UIViewController {
     
     
+    func pageViewControllerLayout () -> UICollectionViewFlowLayout {
+        let flowLayout = UICollectionViewFlowLayout()
+        let itemSize  = self.navigationController!.isNavigationBarHidden ?
+            CGSize(width: kFrame.size.width, height: kFrame.size.height+20) : CGSize(width: kFrame.size.width, height: kFrame.size.height-64)
+        flowLayout.itemSize = itemSize
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.scrollDirection = .horizontal
+        return flowLayout
+    }
+    
     func dismissWithAnimation(handler : @escaping (() -> Void)) {
         /*
         let transition: CATransition = CATransition()
@@ -599,12 +615,23 @@ extension UIViewController {
     }
    
     func configureLandingNavigation(){
-      //  self.navigationController?.navigationBar.isTranslucent = true
         if self.navigationController?.isNavigationBarHidden == true {
-             self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.isNavigationBarHidden = false
+            var myAttribute2:[NSAttributedStringKey:Any]!
+            if let font = UIFont(name: kFontBold, size: 20.0) {
+                myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
+            }else {
+                myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
+            }
+             //self.navigationController?.navigationBar.isTranslucent = true
+            self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
+          
         }
-        self.navigationController?.navigationBar.barTintColor = .white
-        let img = UIImage(named: "my_profile")
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = nil
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+            let img = UIImage(named: "my_profile")
         let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
         self.navigationItem.leftBarButtonItem = btnProfile
         let img1 = UIImage(named: "camera_icon")
@@ -642,7 +669,6 @@ extension UIViewController {
         }else {
             myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
         }
-        
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.isNavigationBarHidden = false
@@ -1563,6 +1589,9 @@ public extension UIDevice {
 }
 
 
+var kIndexPathPointer = "kIndexPathPointer"
+
+
 extension UICollectionView {
     func scrollToNextItem() {
         let contentOffset = CGFloat(floor(self.contentOffset.x + self.bounds.size.width))
@@ -1578,4 +1607,29 @@ extension UICollectionView {
         let frame: CGRect = CGRect(x: contentOffset, y: self.contentOffset.y , width: self.frame.width, height: self.frame.height)
         self.scrollRectToVisible(frame, animated: true)
     }
+    
+    func setToIndexPath (_ indexPath : IndexPath){
+        objc_setAssociatedObject(self, &kIndexPathPointer, indexPath, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+    
+    func toIndexPath () -> IndexPath {
+        let index = self.contentOffset.x/self.frame.size.width
+        if index > 0{
+            return IndexPath(row: Int(index), section: 0)
+        }else if let indexPath = objc_getAssociatedObject(self,&kIndexPathPointer) as? IndexPath {
+            return indexPath
+        }else{
+            return IndexPath(row: 0, section: 0)
+        }
+    }
+    
+    func fromPageIndexPath () -> IndexPath{
+        let index : Int = Int(self.contentOffset.x/self.frame.size.width)
+        return IndexPath(row: index, section: 0)
+    }
 }
+
+
+
+
+

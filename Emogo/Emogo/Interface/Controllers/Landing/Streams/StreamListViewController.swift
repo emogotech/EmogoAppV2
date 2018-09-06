@@ -131,8 +131,8 @@ class StreamListViewController: UIViewController {
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = false
         self.streamCollectionView.accessibilityLabel = "StreamCollectionView"
+      
         prepareLayouts()
      //   txtSearch.delegate = self
         viewSearchButtons.isHidden = true
@@ -143,6 +143,7 @@ class StreamListViewController: UIViewController {
         kCancelWidthConstraint.constant = 0.0
         self.segmentContainerView.isHidden = true
         self.kSegmentHeight.constant = 0.0
+        
     
     }
     
@@ -152,7 +153,7 @@ class StreamListViewController: UIViewController {
         self.kMenuViewHeight.constant = 115.0
         self.configureLandingNavigation()
         menuView.isHidden = true
-        
+        self.viewSearchMain.backgroundColor = .white
         kShowOnlyMyStream = ""
         self.viewMenu.isHidden = false
         DispatchQueue.main.async {
@@ -200,7 +201,6 @@ class StreamListViewController: UIViewController {
             
            let extraBottomSpace = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
            let guide  =  self.view.safeAreaLayoutGuide
-
             
             self.menuView.removeConstraints(self.menuView.constraints)
             self.menuView.translatesAutoresizingMaskIntoConstraints = false
@@ -211,7 +211,6 @@ class StreamListViewController: UIViewController {
             self.menuView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
             self.menuView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
             self.menuView.heightAnchor.constraint(equalToConstant: frame.size.height).isActive = true
-            
          
 //            self.viewMenu.removeConstraints(self.viewMenu.constraints)
 //            self.viewMenu.translatesAutoresizingMaskIntoConstraints = false
@@ -746,6 +745,8 @@ class StreamListViewController: UIViewController {
         txtSearch.keyboardAppearance = .dark
         txtSearch.returnKeyType = .search
         txtSearch.keyboardType = .asciiCapable
+        txtSearch.clearButtonMode = .whileEditing
+        txtSearch.tintColor =  UIColor(r: 102, g: 102, b: 102)
         self.navigationItem.titleView = nil
         txtSearch.delegate = self
       //   let barbutton = UIBarButtonItem(customView: txtSearch)

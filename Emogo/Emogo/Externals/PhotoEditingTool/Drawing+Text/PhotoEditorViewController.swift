@@ -157,6 +157,8 @@ enum EditingFeature {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
          self.showStatusBar()
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = nil
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -304,16 +306,21 @@ enum EditingFeature {
     }
     
     func prepareNavigation() {
+
+        if self.navigationController?.isNavigationBarHidden == true {
+            self.navigationController?.isNavigationBarHidden = false
+            let myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
+            
+            self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
+            navigationItem.hidesBackButton = true
+            self.navigationController?.navigationBar.tintColor = UIColor.white
+        }
+    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.barTintColor = .clear
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.leftBarButtonItem = nil
-        let myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
         
-        self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.isNavigationBarHidden = false
-        navigationItem.hidesBackButton = true
-        self.navigationController?.navigationBar.barTintColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.8)
-        self.navigationController?.navigationBar.tintColor = UIColor.white
         configureNavigationButtons()
     }
     

@@ -92,6 +92,8 @@ class PreviewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.showStatusBar()
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = nil
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -250,13 +252,13 @@ class PreviewController: UIViewController {
             //        self.navigationController?.navigationBar.isTranslucent = true
             //        self.navigationController?.navigationBar.tintColor = .white
             
-            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-            self.navigationController?.navigationBar.shadowImage = UIImage()
             self.navigationController?.navigationBar.isTranslucent = true
            
         }
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.barTintColor = .clear
-        self.navigationController?.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+      //  self.navigationController?.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         self.navigationController?.navigationBar.tintColor = .white //.clear
         
 //        UIButton *useButton = [UIButton buttonWithType:UIButtonTypeCustom];

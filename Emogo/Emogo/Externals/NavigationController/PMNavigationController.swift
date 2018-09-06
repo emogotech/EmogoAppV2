@@ -20,13 +20,17 @@ class PMNavigationController:UINavigationController {
         delegate = zoomNavigationControllerDelegate
     }
     
-//    public let zoomNavigationControllerDelegate: ZoomNavigationControllerDelegate = .init()
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//
-//        delegate = zoomNavigationControllerDelegate
-//    }
-    
-    
+}
+
+@IBDesignable extension UINavigationController {
+    @IBInspectable var barTintColor: UIColor? {
+        set {
+            guard let uiColor = newValue else { return }
+            navigationBar.barTintColor = uiColor
+        }
+        get {
+            guard let color = navigationBar.barTintColor else { return nil }
+            return color
+        }
+    }
 }

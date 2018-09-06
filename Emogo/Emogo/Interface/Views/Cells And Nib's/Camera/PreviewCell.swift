@@ -16,7 +16,7 @@ class PreviewCell: UICollectionViewCell {
 
 
     func setupPreviewWithType(content:ContentDAO){
-        
+      
         if content.imgPreview != nil {
             if let image = content.imgPreview {
                 print(self.previewImage)

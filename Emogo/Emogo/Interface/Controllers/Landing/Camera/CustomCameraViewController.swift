@@ -80,6 +80,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         self.hideStatusBar()
         lblRecordTimer.isHidden = true
         SharedData.sharedInstance.tempVC = self
+   
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         //        NotificationCenter.default.addObserver(self, selector: #selector(self.stopVideo), name: NSNotification.Name("StopRec"), object: nil)
@@ -181,6 +182,14 @@ class CustomCameraViewController: SwiftyCamViewController {
             let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(recordingModeTap(_:)))
             btnCamera.addGestureRecognizer(longGesture)
         }
+        self.cameraModeOptions.isUserInteractionEnabled = true
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeCameraModeGestureAction(gesture:)))
+        swipeLeft.direction = .left
+        self.cameraModeOptions.addGestureRecognizer(swipeLeft)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeCameraModeGestureAction(gesture:)))
+        swipeRight.direction = .right
+        self.cameraModeOptions.addGestureRecognizer(swipeRight)
         
         // Camera Options
         if self.isForImageOnly != true {
@@ -188,6 +197,10 @@ class CustomCameraViewController: SwiftyCamViewController {
             swipeDown.direction = .down
             self.previewCollection.addGestureRecognizer(swipeDown)
             self.perform(#selector(self.prepareForCameraMode), with: nil, afterDelay: 0.2)
+            
+            
+        
+            
         }
         
     }
@@ -493,6 +506,18 @@ class CustomCameraViewController: SwiftyCamViewController {
                 self.animateView()
             }
         }
+     }
+    
+    @objc func swipeCameraModeGestureAction(gesture : UISwipeGestureRecognizer){
+        if gesture.direction == .left {
+            if cameraOption.selectedSegmentIndex == 0 {
+                self.cameraOption.selectedSegmentIndex = 1
+            }
+        }else if gesture.direction == .right {
+            if cameraOption.selectedSegmentIndex == 1 {
+                self.cameraOption.selectedSegmentIndex = 0
+            }
+        }
     }
     
     
@@ -687,7 +712,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             if self.isPreviewOpen == false {
                 // Down icon
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
-                self.kPreviewHeight.constant = 129.0
+                self.kPreviewHeight.constant = 191.0
             }else {
                 // Up icon
                 self.kPreviewHeight.constant = 24.0
@@ -699,7 +724,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
     }
     private  func viewUP(){
-        self.kPreviewHeight.constant = 129.0
+        self.kPreviewHeight.constant = 191.0
         UIView.animate(withDuration: 0.2) {
             self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
             // self.previewContainer.layoutIfNeeded()
@@ -1028,15 +1053,20 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
         let obj =  ContentList.sharedInstance.arrayContent[indexPath.row]
         cell.setupPreviewWithType(content:obj)
+        cell.layer.borderWidth = 1.0
+        //cell.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.4).cgColor
+        cell.layer.borderColor = UIColor.white.withAlphaComponent(0.4).cgColor
+        cell.layer.cornerRadius = 15.0
+        cell.clipsToBounds = true
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height - 10)
+        return CGSize(width: collectionView.frame.size.height - 65, height: collectionView.frame.size.height - 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 12
+        return 8
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

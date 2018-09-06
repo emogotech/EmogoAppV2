@@ -60,6 +60,7 @@ class ContentViewController: UIViewController {
     var isMoreTapped:Bool! = false
     var isDidload:Bool! = false
     private var lastContentOffset: CGFloat = 0
+    var onceOnly = false
 
 
     var playerView:BMPlayer = {
@@ -79,32 +80,27 @@ class ContentViewController: UIViewController {
 //            tempImgView.image = img.image
 //            //tempImgView.contentMode = .scaleAspectFill
 //        }
-        self.automaticallyAdjustsScrollViewInsets = false
-         self.bottomToolBarView.isHidden = true
-        self.btnOther.isHidden = true
-        self.btnEdit.isHidden = true
-        self.btnBack.isHidden = true
+        self.bottomToolBarView.isHidden = false
+        self.btnOther.isHidden = false
+        self.btnEdit.isHidden = false
+        self.btnBack.isHidden = false
         
-        self.bottomToolBarView.fadeOut(0.0, delay: 0.0) { (_) in
-            
-        }
-        self.btnOther.fadeOut(0.0, delay: 0.0) { (_) in
-            
-        }
-        self.btnEdit.fadeOut(0.0, delay: 0.0) { (_) in
-            
-        }
-        self.btnBack.fadeOut(0.0, delay: 0.0) { (_) in
-            
-        }
-         self.collectionView.isHidden = false
+        self.collectionView.collectionViewLayout = self.pageViewControllerLayout()
+        self.automaticallyAdjustsScrollViewInsets = false
+        let indexPath = IndexPath(row: self.currentIndex, section: 0)
+        collectionView.setToIndexPath(indexPath)
+        collectionView.performBatchUpdates({collectionView.reloadData()}, completion: { finished in
+            if finished {
+                self.collectionView.scrollToItem(at: indexPath,at:.centeredHorizontally, animated: false)
+            }});
+       
         deeplinkHandle()
         
         updateContent()
         
         if self.currentIndex != nil{
-          let  tempContent = ContentList.sharedInstance.arrayContent[self.currentIndex]
-            ContentList.sharedInstance.arrayContent.insert(tempContent, at: 0)
+//          let  tempContent = ContentList.sharedInstance.arrayContent[self.currentIndex]
+//            ContentList.sharedInstance.arrayContent.insert(tempContent, at: 0)
         }
       
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
@@ -120,35 +116,17 @@ class ContentViewController: UIViewController {
             self.currentIndex = 0
             self.updateContent()
         }
+     
        
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        self.bottomToolBarView.isHidden = false
-        self.btnOther.isHidden = false
-        self.btnEdit.isHidden = false
-        self.btnBack.isHidden = false
-        
-        self.bottomToolBarView.fadeIn(0.1, delay: 0.4) { (_) in
-            
-        }
-        self.btnOther.fadeIn(0.1, delay: 0.4) { (_) in
-            
-        }
-        self.btnEdit.fadeIn(0.1, delay: 0.4) { (_) in
-            
-        }
-        self.btnBack.fadeIn(0.1, delay: 0.4) { (_) in
-            
-        }
-       
         // self.view.alpha = 1.0
         self.hideStatusBar()
         UIApplication.shared.statusBarStyle = .lightContent
-
+self.navigationController?.isNavigationBarHidden = true
         if self.seletedImage.width < self.seletedImage.height {
             bottomToolBarView.backgroundColor = UIColor.clear
         }else{
@@ -167,13 +145,28 @@ class ContentViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        ContentList.sharedInstance.arrayContent.remove(at: 0)
-        self.collectionView.reloadData()
-        if !self.isFromNotesEdit {
-            self.updateCollectionView()
-        }
+        //ContentList.sharedInstance.arrayContent.remove(at: 0)
+     //   self.collectionView.reloadData()
+//        if !self.isFromNotesEdit {
+//            self.updateCollectionView()
+//        }
         self.isFromNotesEdit = false
-        self.collectionView.isHidden = false
+//        self.bottomToolBarView.isHidden = false
+//        self.btnOther.isHidden = false
+//        self.btnEdit.isHidden = false
+//        self.btnBack.isHidden = false
+//        self.bottomToolBarView.fadeIn(0.1, delay: 0.4) { (_) in
+//
+//        }
+//        self.btnOther.fadeIn(0.1, delay: 0.4) { (_) in
+//
+//        }
+//        self.btnEdit.fadeIn(0.1, delay: 0.4) { (_) in
+//
+//        }
+//        self.btnBack.fadeIn(0.1, delay: 0.4) { (_) in
+//
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1006,7 +999,7 @@ class ContentViewController: UIViewController {
 
 }
 
-extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
+extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -1014,6 +1007,13 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
             return ContentList.sharedInstance.arrayContent.count
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if !onceOnly {
+            let indexToScrollTo = IndexPath(item: self.currentIndex, section: 0)
+            self.collectionView.scrollToItem(at: indexToScrollTo, at: .left, animated: false)
+            onceOnly = true
+        }
+    }
   
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ContentViewCell
@@ -1033,11 +1033,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
 //        cell.scrollView.addGestureRecognizer(tap)
         return cell
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-       return CGSize(width: kFrame.size.width, height: self.collectionView.frame.size.height)
-    }
-    
+  
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }

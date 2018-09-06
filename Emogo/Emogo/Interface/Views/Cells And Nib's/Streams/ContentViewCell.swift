@@ -24,7 +24,8 @@ class ContentViewCell: UICollectionViewCell {
     @IBOutlet weak var kCenterX: NSLayoutConstraint!
     @IBOutlet weak var kCenterY: NSLayoutConstraint!
     @IBOutlet weak var tempImageView: FLAnimatedImageView!
-
+    @IBOutlet weak var viewCollection: UIView!
+    
     var isReadMore:Bool! = false
     var strDescription:String! = ""
     
@@ -43,8 +44,10 @@ class ContentViewCell: UICollectionViewCell {
         self.kCenterY.priority = .defaultHigh
         self.imgCover.image = nil
         self.imgCover.animatedImage = nil
+        
         if !seletedImage.color.trim().isEmpty {
             imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
+            viewCollection.backgroundColor = UIColor(hex: seletedImage.color.trim())
         }
         self.lblTitleImage.text = ""
         self.lblImageDescription.text = ""
@@ -62,9 +65,9 @@ class ContentViewCell: UICollectionViewCell {
             linkLogo.isHidden = true
         }
         
-        if !seletedImage.color.trim().isEmpty {
-            imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
-        }
+//        if !seletedImage.color.trim().isEmpty {
+//            imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
+//        }
         
        
 //        var contentRect = CGRect.zero

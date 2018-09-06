@@ -277,7 +277,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             kDefault?.set(true, forKey: kIsAppLaunch)
             kDefault?.set(true, forKey: kHapticFeedback)
       }
-     UINavigationBar.appearance().barTintColor = .white
+     
     }
     
     // MARK: - Branch SDK Configuration
@@ -314,6 +314,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame:  UIScreen.main.bounds)
         let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
         let navigation = PMNavigationController(rootViewController: objHome)
+        navigation.barTintColor = .white
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
     }
@@ -341,12 +342,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         // pass the url to the handle deep link call
         Branch.getInstance().continue(userActivity)
-        
         return true
     }
-    
 }
-
 
 /*
  private func composeMessage() -> MSMessage {

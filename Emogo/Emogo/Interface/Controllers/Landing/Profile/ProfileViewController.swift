@@ -49,7 +49,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var btnNextStuff: UIButton!
     @IBOutlet weak var btnAdd: UIButton!
-
+    @IBOutlet weak var imgRoundedCorner: UIImageView!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var heightviewBio: NSLayoutConstraint!
     @IBOutlet weak var kViewLocWebHeight: NSLayoutConstraint!
@@ -1582,6 +1582,14 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.btnPlay.tag = indexPath.row
             cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
             cell.prepareLayout(content:content)
+            
+            if content.type == .notes {
+                cell.layer.borderColor =  UIColor(r: 225, g: 225, b: 225).cgColor
+                cell.layer.borderWidth = 1.0
+            }else {
+                cell.layer.borderWidth = 0.0
+            }
+        
             return cell
             
         }else if currentMenu == .stream{
@@ -1605,6 +1613,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 cell.layer.borderWidth = 0.0
                 cell.layer.borderColor = UIColor.clear.cgColor
             }
+           
             return cell
             
         }else {
@@ -1626,6 +1635,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     cell.layer.borderWidth = 0.0
                     cell.layer.borderColor = UIColor.clear.cgColor
                 }
+                
+              
             }
            
             return cell
@@ -1774,20 +1785,23 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         
         //we compress the top view
         if delta > 0 && kHeaderHeight.constant > topConstraintRange.lowerBound && scrollView.contentOffset.y > 0 {
-            print(delta)
-         //   btnContainer.addBorders(edges: .top, color: .white, thickness: 1)
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
-             print(delta)
+            print("Up\(kHeaderHeight.constant)")
+            if kHeaderHeight.constant <= 0.0 {
+                self.imgRoundedCorner.isHidden = true
+            }
         }
         
         //we expand the top view
         if delta < 0 && kHeaderHeight.constant < topConstraintRange.upperBound && scrollView.contentOffset.y < 0{
-             print(delta)
-         //   btnContainer.addBorders(edges: .top, color: color, thickness: 1)
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
-            print(delta)
+            print("Down\(kHeaderHeight.constant)")
+            if kHeaderHeight.constant > 0.0 {
+                self.imgRoundedCorner.isHidden = false
+            }
+           
         }
         oldContentOffset = scrollView.contentOffset
     }

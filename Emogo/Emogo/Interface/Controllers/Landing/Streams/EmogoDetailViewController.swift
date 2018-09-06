@@ -149,6 +149,7 @@ class EmogoDetailViewController: UIViewController {
             arrayButtons.append(rightEditBarButtonItem)
             
             let imgDownload = UIImage(named: "share_profile")
+            //let imgDownload = UIImage(named: "share_icon")
             let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.shareStreamAction(sender:)))
             arrayButtons.append(rightDownloadBarButtonItem)
             if self.currentStream.anyOneCanEdit {
@@ -908,9 +909,9 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
     }
     
     func showPreview() {
-        if self.objStream == nil{
-
-        }else{
+//        if self.objStream == nil{
+//
+//        }else{
         
        
             ContentList.sharedInstance.arrayContent.removeAll()
@@ -933,7 +934,6 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
             objPreview.delegate = self
             objPreview.currentIndex = 0
             
-            
             objNavigation = UINavigationController(rootViewController: objPreview)
             if let nav = objNavigation {
                 navigationImageView = stretchyHeader.imgCover
@@ -944,7 +944,7 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
                     self.stretchyHeader.imgCover.isUserInteractionEnabled = true
                 }
             }
-       }
+      // }
        // self.present(nav, animated: true, completion: nil)
         // self.openFullView(index: nil)
     }

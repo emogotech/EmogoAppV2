@@ -2818,7 +2818,6 @@ Cg
                                                             </constraints>
                                                         </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstItem="uVr-en-8bX" firstAttribute="top" secondItem="AW1-Mz-m9Y" secondAttribute="top" constant="66" id="0LP-Qd-6TR"/>
                                                         <constraint firstItem="iiu-Db-OZJ" firstAttribute="width" secondItem="AW1-Mz-m9Y" secondAttribute="width" id="3Xb-RI-dDk"/>
@@ -2863,6 +2862,7 @@ Cg
                                             <outlet property="playerContainerView" destination="uVr-en-8bX" id="mAS-CI-j93"/>
                                             <outlet property="scrollView" destination="iiu-Db-OZJ" id="0f3-NV-fAZ"/>
                                             <outlet property="tempImageView" destination="d6v-up-u0n" id="SrU-2m-xn1"/>
+                                            <outlet property="viewCollection" destination="AW1-Mz-m9Y" id="jJK-TP-qaL"/>
                                             <outlet property="viewDescription" destination="Q6J-rC-k8n" id="aXd-ON-50R"/>
                                         </connections>
                                     </collectionViewCell>
@@ -4423,6 +4423,7 @@ Cg
                         <outlet property="heightviewBio" destination="hO5-69-vm7" id="SIN-e6-XwY"/>
                         <outlet property="imgLink" destination="WQW-R5-OwG" id="cst-EF-zGE"/>
                         <outlet property="imgLocation" destination="jtR-l7-1aq" id="esF-BI-qiV"/>
+                        <outlet property="imgRoundedCorner" destination="HG4-5g-kff" id="kQR-3z-UZW"/>
                         <outlet property="imgUser" destination="sHj-wL-esP" id="Qq1-67-Lk5"/>
                         <outlet property="kHeaderHeight" destination="htB-aK-wnd" id="hPy-aw-4ER"/>
                         <outlet property="kStuffOptionsHeight" destination="M77-wF-DOd" id="YYv-ic-suv"/>
