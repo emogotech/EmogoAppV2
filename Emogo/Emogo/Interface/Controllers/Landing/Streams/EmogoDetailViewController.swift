@@ -47,8 +47,18 @@ class EmogoDetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.stretchyHeader.imgCover.isHidden = false
+        // self.showStatusBar()
+        
     }
+//    override func viewWillAppear(_ animated: Bool) {
+//         super.viewWillAppear(animated)
+//        self.showStatusBar()
+//    }
    
+//    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation{
+//        return .fade
+//    }
+    
     
     func prepareLayouts(){
        // self.configureNavigationTite()
@@ -133,7 +143,7 @@ class EmogoDetailViewController: UIViewController {
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         
-        let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
+       let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
         arrayButtons.insert(btnRightBar, at: 0)
         
         
@@ -148,8 +158,8 @@ class EmogoDetailViewController: UIViewController {
             let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
             arrayButtons.append(rightEditBarButtonItem)
             
-            let imgDownload = UIImage(named: "share_profile")
-            //let imgDownload = UIImage(named: "share_icon")
+           // let imgDownload = UIImage(named: "share_profile")
+             let imgDownload = UIImage(named: "share_profile")
             let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.shareStreamAction(sender:)))
             arrayButtons.append(rightDownloadBarButtonItem)
             if self.currentStream.anyOneCanEdit {
@@ -413,6 +423,7 @@ class EmogoDetailViewController: UIViewController {
         
     }
     @objc  func btnCancelAction(){
+       
         if viewStream == nil {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
             self.navigationController?.popToViewController(vc: obj)
@@ -448,7 +459,9 @@ class EmogoDetailViewController: UIViewController {
                 
                 nav.cc_swipeBackDisabled = true
             }
+            
             self.present(nav, animated: true, completion: nil)
+            self.hideStatusBar()
         }
         
     }
@@ -847,6 +860,12 @@ extension EmogoDetailViewController:UICollectionViewDelegate,UICollectionViewDat
         cell.btnPlay.tag = indexPath.row
         cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
         cell.prepareLayout(content:content)
+        if content.type == .notes {
+            cell.layer.borderColor =  UIColor(r: 225, g: 225, b: 225).cgColor
+            cell.layer.borderWidth = 1.0
+        }else {
+            cell.layer.borderWidth = 0.0
+        }
         
         return cell
     }
@@ -879,11 +898,14 @@ extension EmogoDetailViewController:UICollectionViewDelegate,UICollectionViewDat
                 
                 nav.cc_swipeBackDisabled = true
             }
-            self.hideStatusBar()
+           
+           // self.hideStatusBar()
+           // self.perform(#selector(statusBar), with: nil, afterDelay: 0.1)
             self.present(nav, animated: true, completion: nil)
         }
         
     }
+
     
     
 }
@@ -944,6 +966,7 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
                     self.stretchyHeader.imgCover.isUserInteractionEnabled = true
                 }
             }
+            self.hideStatusBar()
       // }
        // self.present(nav, animated: true, completion: nil)
         // self.openFullView(index: nil)

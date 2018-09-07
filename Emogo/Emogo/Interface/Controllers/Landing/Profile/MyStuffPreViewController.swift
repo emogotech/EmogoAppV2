@@ -208,6 +208,7 @@ extension MyStuffPreViewController:UICollectionViewDelegate,UICollectionViewData
                     nav.cc_setZoomTransition(originalView: navigationImageView!)
                     nav.cc_swipeBackDisabled = true
                 }
+                   self.hideStatusBar()
             }
     }
     

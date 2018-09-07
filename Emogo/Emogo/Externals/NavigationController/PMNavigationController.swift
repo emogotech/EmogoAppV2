@@ -26,7 +26,9 @@ class PMNavigationController:UINavigationController {
     @IBInspectable var barTintColor: UIColor? {
         set {
             guard let uiColor = newValue else { return }
+            
             navigationBar.barTintColor = uiColor
+           
         }
         get {
             guard let color = navigationBar.barTintColor else { return nil }

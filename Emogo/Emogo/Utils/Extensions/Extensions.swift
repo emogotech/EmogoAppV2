@@ -551,6 +551,7 @@ extension UIViewController {
     
     func hideStatusBar(){
         UIApplication.shared.isStatusBarHidden = true
+        
     }
     
     func showStatusBar(){

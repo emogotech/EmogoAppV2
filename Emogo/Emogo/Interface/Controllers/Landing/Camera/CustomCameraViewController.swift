@@ -708,6 +708,8 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     private func animateView(){
         UIView.animate(withDuration: 0.2) {
+            
+            
             self.isPreviewOpen = !self.isPreviewOpen
             if self.isPreviewOpen == false {
                 // Down icon
@@ -1054,8 +1056,7 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
         let obj =  ContentList.sharedInstance.arrayContent[indexPath.row]
         cell.setupPreviewWithType(content:obj)
         cell.layer.borderWidth = 1.0
-        //cell.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.4).cgColor
-        cell.layer.borderColor = UIColor.white.withAlphaComponent(0.4).cgColor
+        cell.layer.borderColor = UIColor.white.withAlphaComponent(0.6).cgColor
         cell.layer.cornerRadius = 15.0
         cell.clipsToBounds = true
         return cell

@@ -213,7 +213,7 @@ class MyStuffViewController: UIViewController {
                     nav.cc_swipeBackDisabled = true
                 }
                 self.present(nav, animated: true, completion: nil)
-                
+                self.hideStatusBar()
                 //  self.navigationController?.push(viewController: objPreview)
             }
         }
@@ -537,6 +537,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             nav.cc_swipeBackDisabled = true
             }
             self.present(nav, animated: true, completion: nil)
+            self.hideStatusBar()
         }
 
         /*

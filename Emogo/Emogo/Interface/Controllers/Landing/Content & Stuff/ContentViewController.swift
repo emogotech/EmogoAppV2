@@ -324,9 +324,15 @@ self.navigationController?.isNavigationBarHidden = true
             self.playerView.avPlayer?.pause()
             self.playerView.removeFromSuperview()
         }
+        
+//        self.perform(#selector(showStatusBar1), with: nil, afterDelay: 0)
         self.showStatusBar()
        
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func showStatusBar1(){
+        UIApplication.shared.isStatusBarHidden = false
     }
     
     @IBAction func btnEditAction(_ sender: Any) {

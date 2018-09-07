@@ -697,7 +697,7 @@ class ProfileViewController: UIViewController {
         
         let imgSetting = UIImage(named: "setting_icon")
         let btnSetting = UIBarButtonItem(image: imgSetting, style: .plain, target: self, action: #selector(self.btnSettingAction))
-        let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
+        let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share_profile"), style: .plain, target: self, action: #selector(self.profileShareAction))
         self.navigationItem.leftBarButtonItems = [btnSetting,btnShare]
         
     }
@@ -1151,6 +1151,7 @@ class ProfileViewController: UIViewController {
                     objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
                     objNavigation!.cc_swipeBackDisabled = true
                 }
+                self.hideStatusBar()
                 self.present(objNavigation!, animated: true, completion: nil)
                 
                 //  self.navigationController?.push(viewController: objPreview)
@@ -1720,9 +1721,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                         objNavigation!.cc_swipeBackDisabled = false
                     }
                     objNavigation?.isNavigationBarHidden = true
-
                     self.present(objNavigation!, animated: true, completion: nil)
-                 
+                    self.hideStatusBar()
                   //  self.navigationController?.push(viewController: objPreview)
                 }
             }

@@ -93,6 +93,7 @@ class CreateNotesViewController: UIViewController {
         editorView.delegate = self
         // editorView.inputAccessoryView = toolbar
         editorView.placeholder = ""
+        
         editorView.inputAccessoryView = toolbar
         toolbar.delegate = self
         toolbar.editor = editorView

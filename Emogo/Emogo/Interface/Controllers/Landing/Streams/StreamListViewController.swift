@@ -149,7 +149,7 @@ class StreamListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+       
         self.kMenuViewHeight.constant = 115.0
         self.configureLandingNavigation()
         menuView.isHidden = true

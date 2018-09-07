@@ -316,6 +316,7 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
                  nav.cc_swipeBackDisabled = true
             }
             self.present(nav, animated: true, completion: nil)
+            self.hideStatusBar()
         }
         
     }

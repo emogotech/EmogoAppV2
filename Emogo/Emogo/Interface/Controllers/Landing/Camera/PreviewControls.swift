@@ -183,7 +183,7 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
         let obj =  ContentList.sharedInstance.arrayContent[indexPath.row]
         cell.layer.borderWidth = 1.0
-        cell.layer.borderColor = UIColor.white.cgColor
+        cell.layer.borderColor = UIColor.white.withAlphaComponent(0.6).cgColor
         cell.layer.cornerRadius = 10.0
         cell.clipsToBounds = true
         cell.setupPreviewWithType(content:obj)
