@@ -1193,7 +1193,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kYp-of-DQE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="313" y="-457"/>
+            <point key="canvasLocation" x="334" y="-457"/>
         </scene>
         <!--Show Preview View Controller-->
         <scene sceneID="ekJ-ZU-3eP">
@@ -3849,7 +3849,7 @@ Cg
                                         </cells>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="8K4-IB-vOP">
-                                        <rect key="frame" x="120.5" y="167" width="134" height="21"/>
+                                        <rect key="frame" x="121" y="167" width="134" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="fPy-J6-9ak"/>
                                         </constraints>
@@ -4071,8 +4071,8 @@ Cg
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pgB-7M-Sez">
                                 <rect key="frame" x="0.0" y="243" width="375" height="42"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rounded-corner" translatesAutoresizingMaskIntoConstraints="NO" id="HG4-5g-kff">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="42"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="rounded-corner" translatesAutoresizingMaskIntoConstraints="NO" id="HG4-5g-kff">
+                                        <rect key="frame" x="0.0" y="0.0" width="376" height="1"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OuQ-kw-wjO" customClass="HMSegmentedControl">
                                         <rect key="frame" x="0.0" y="7" width="375" height="28"/>
@@ -4088,7 +4088,7 @@ Cg
                                     <constraint firstAttribute="trailing" secondItem="OuQ-kw-wjO" secondAttribute="trailing" id="4O9-9S-HbG"/>
                                     <constraint firstAttribute="trailing" secondItem="HG4-5g-kff" secondAttribute="trailing" id="FFe-Yf-Opc"/>
                                     <constraint firstItem="OuQ-kw-wjO" firstAttribute="leading" secondItem="pgB-7M-Sez" secondAttribute="leading" id="M48-De-FgJ"/>
-                                    <constraint firstAttribute="bottom" secondItem="HG4-5g-kff" secondAttribute="bottom" id="XY5-rn-1jZ"/>
+                                    <constraint firstItem="OuQ-kw-wjO" firstAttribute="top" secondItem="HG4-5g-kff" secondAttribute="bottom" constant="6" id="jxh-il-BRQ"/>
                                     <constraint firstItem="HG4-5g-kff" firstAttribute="top" secondItem="pgB-7M-Sez" secondAttribute="top" id="n5i-J5-Juf"/>
                                     <constraint firstItem="OuQ-kw-wjO" firstAttribute="top" secondItem="pgB-7M-Sez" secondAttribute="top" constant="7" id="rlh-ef-Pak"/>
                                     <constraint firstItem="HG4-5g-kff" firstAttribute="leading" secondItem="pgB-7M-Sez" secondAttribute="leading" id="u6E-ic-kvI"/>
@@ -4390,7 +4390,7 @@ Cg
                                     <constraint firstAttribute="width" constant="56" id="P1Y-6J-dGc"/>
                                     <constraint firstAttribute="height" constant="56" id="fwl-Cl-jrG"/>
                                 </constraints>
-                                <state key="normal" image="add_icon_home"/>
+                                <state key="normal" image="add_icon_home-3"/>
                                 <connections>
                                     <action selector="btnActionAdd:" destination="d5c-Ex-Dmn" eventType="touchUpInside" id="nhy-aK-lIr"/>
                                 </connections>
@@ -4974,7 +4974,7 @@ Cg
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lTO-sg-r6r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-366" y="199"/>
+            <point key="canvasLocation" x="-361" y="251"/>
         </scene>
     </scenes>
     <resources>
@@ -4982,6 +4982,7 @@ Cg
         <image name="Unlike_icon" width="41" height="36"/>
         <image name="add to emogo btn" width="114" height="30"/>
         <image name="add_icon_home" width="56" height="56"/>
+        <image name="add_icon_home-3" width="121" height="121"/>
         <image name="change_link" width="31" height="31"/>
         <image name="closeButton" width="44" height="44"/>
         <image name="content_next_btn" width="157" height="47"/>
@@ -5003,7 +5004,7 @@ Cg
         <image name="more icon" width="38" height="18"/>
         <image name="more_icon" width="27" height="8"/>
         <image name="play_button" width="30" height="30"/>
-        <image name="rounded-corner" width="375" height="35"/>
+        <image name="rounded-corner" width="1" height="1"/>
         <image name="save btn" width="157" height="47"/>
         <image name="search" width="20" height="20"/>
         <image name="search_bar_link_iphone" width="337" height="43"/>

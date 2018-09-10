@@ -89,7 +89,7 @@ extension PhotoEditorViewController: UITextViewDelegate {
             if(text == "\n") {
                 //            self.doneButtonAction()
                 textView.resignFirstResponder()
-                
+                colorPickerView.isHidden = true
                 self.endDoneTextField(strTxt: textView.text.trim())
                 //            self.endDone()
                 return false

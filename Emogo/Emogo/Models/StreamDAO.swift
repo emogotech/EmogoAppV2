@@ -36,6 +36,7 @@ class StreamDAO {
     var ID:String! = ""
     var Author:String! = ""
     var Title:String! = ""
+    var TitleStream:String! = ""
     var CoverImage:String! = ""
     var IDcreatedBy:String! = ""
     var isSelected:Bool! = false
@@ -79,6 +80,7 @@ class StreamDAO {
         if let obj  = streamData["name"] {
             self.Title = obj as! String
         }
+      
         if let obj  = streamData["author"] {
             self.Author = obj as! String
         }

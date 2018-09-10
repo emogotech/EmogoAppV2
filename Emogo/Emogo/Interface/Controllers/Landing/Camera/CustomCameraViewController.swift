@@ -64,6 +64,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     fileprivate var focusing                     = false
     fileprivate var focusingOverlay              : UIImageView!
+    var isSelected:Bool! = false
     
     // MARK: - Override Functions
     
@@ -86,6 +87,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         //        NotificationCenter.default.addObserver(self, selector: #selector(self.stopVideo), name: NSNotification.Name("StopRec"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.forceStopVideoRecording), name: NSNotification.Name("ForceStopVideoRecording"), object: nil)
         
+        isSelected = false
         
         if self.isDismiss == nil {
             if ContentList.sharedInstance.arrayContent.count == 0 {
@@ -117,8 +119,10 @@ class CustomCameraViewController: SwiftyCamViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("ForceStopVideoRecording"), object: nil)
         
         //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("StopRec"), object: nil)
-        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-        self.navigationController?.navigationBar.shadowImage = nil
+        if isSelected == false {
+            self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            self.navigationController?.navigationBar.shadowImage = nil
+        }
         self.showStatusBar()
     }
     
@@ -266,6 +270,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         self.cameraOption.delegate = self
         self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
         self.cameraOption.textFont = UIFont(name: kFontRegular, size: 14.0)
+        
         self.cameraModeOptions.addSubview(self.cameraOption)
     }
     
@@ -1056,8 +1061,8 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
         let obj =  ContentList.sharedInstance.arrayContent[indexPath.row]
         cell.setupPreviewWithType(content:obj)
         cell.layer.borderWidth = 1.0
-        cell.layer.borderColor = UIColor.white.withAlphaComponent(0.6).cgColor
-        cell.layer.cornerRadius = 15.0
+        cell.layer.borderColor = UIColor.white.withAlphaComponent(0.3).cgColor
+        cell.layer.cornerRadius = 8.0
         cell.clipsToBounds = true
         return cell
     }
@@ -1071,6 +1076,7 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        isSelected = true
         self.openFullView(index: indexPath.row)
     }
 }

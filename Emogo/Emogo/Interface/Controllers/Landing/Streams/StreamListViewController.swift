@@ -154,6 +154,8 @@ class StreamListViewController: UIViewController {
         self.configureLandingNavigation()
         menuView.isHidden = true
         self.viewSearchMain.backgroundColor = .white
+        self.navigationController?.navigationBar.barTintColor = .white
+      self.navigationController?.navigationBar.isTranslucent = false
         kShowOnlyMyStream = ""
         self.viewMenu.isHidden = false
         DispatchQueue.main.async {
@@ -738,7 +740,7 @@ class StreamListViewController: UIViewController {
         txtSearch.borderStyle = .none
         txtSearch.layer.borderWidth = 2.0
         txtSearch.layer.cornerRadius = 15.0
-        txtSearch.layer.borderColor = UIColor(r: 102, g: 102, b: 102).cgColor
+        txtSearch.layer.borderColor = UIColor(r: 115, g: 115, b: 115).cgColor
         txtSearch.placeholder = "Search"
         txtSearch.font = UIFont(name: kFontRegular, size: 14.0)
         txtSearch.textColor = UIColor.black
@@ -768,7 +770,9 @@ class StreamListViewController: UIViewController {
         } else {
             // Fallback on earlier versions
             navigationItem.titleView = searchController.searchBar
+            
         }
+
         definesPresentationContext = true
 //        searchController.searchBar.delegate = self
 
@@ -840,6 +844,7 @@ class StreamListViewController: UIViewController {
     
     override func btnCameraAction() {
         self.view.endEditing(true)
+        self.navigationController?.navigationBar.isTranslucent = true
         actionForCamera()
     }
     
@@ -1570,6 +1575,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
 
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+         self.navigationController?.navigationBar.isTranslucent = true
         if self.isSearch == false {
             if currentStreamType == .People {
                 let people = self.arrayToShow[indexPath.row]

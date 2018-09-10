@@ -217,6 +217,7 @@ extension CustomCameraViewController {
         }
         let controller = LightboxController(images: arrayContents, startIndex: index)
         controller.dynamicBackground = true
+   
         present(controller, animated: true) {
             let buttonNext   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
             buttonNext.setImage(#imageLiteral(resourceName: "share_button"), for: .normal)

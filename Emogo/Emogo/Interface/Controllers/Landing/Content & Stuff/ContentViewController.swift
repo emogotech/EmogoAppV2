@@ -124,9 +124,14 @@ class ContentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // self.view.alpha = 1.0
-        self.hideStatusBar()
-        UIApplication.shared.statusBarStyle = .lightContent
-self.navigationController?.isNavigationBarHidden = true
+      //
+      //  UIApplication.shared.statusBarStyle = .lightContent
+      // setNeedsStatusBarAppearanceUpdate()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            
+            self.hideStatusBar()
+        }
+         self.navigationController?.isNavigationBarHidden = true
         if self.seletedImage.width < self.seletedImage.height {
             bottomToolBarView.backgroundColor = UIColor.clear
         }else{
@@ -180,7 +185,9 @@ self.navigationController?.isNavigationBarHidden = true
         }
     }
 
-    
+//    override var prefersStatusBarHidden: Bool {
+//        return true
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -326,14 +333,19 @@ self.navigationController?.isNavigationBarHidden = true
         }
         
 //        self.perform(#selector(showStatusBar1), with: nil, afterDelay: 0)
-        self.showStatusBar()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+
+               self.showStatusBar()
+        }
+//
        
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc func showStatusBar1(){
-        UIApplication.shared.isStatusBarHidden = false
-    }
+//    @objc func showStatusBar1(){
+//        UIApplication.shared.isStatusBarHidden = false
+//    }
     
     @IBAction func btnEditAction(_ sender: Any) {
         if self.seletedImage != nil {
@@ -1086,15 +1098,15 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
 
     
     @objc func showFullView() {
-        
+      
         if self.bottomToolBarView.isHidden == true {
             self.bottomToolBarView.isHidden = false
             self.btnEdit.isHidden = false
             self.btnOther.isHidden = false
             self.btnBack.isHidden = false
-    
            
         }else{
+          
             self.bottomToolBarView.isHidden = true
             self.btnEdit.isHidden = true
             self.btnOther.isHidden = true

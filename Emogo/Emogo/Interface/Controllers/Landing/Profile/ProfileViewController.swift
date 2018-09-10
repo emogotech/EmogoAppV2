@@ -237,7 +237,8 @@ class ProfileViewController: UIViewController {
             self.updateStuffList(index: index)
         }
         segmentControl.selectionIndicatorHeight = 1.0
-        segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+        segmentControl.backgroundColor =  .white
+      //  segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
        // segmentControl.backgroundColor = UIColor.white
         segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
         
@@ -509,8 +510,8 @@ class ProfileViewController: UIViewController {
                     self.updateList(hud: false)
                 }
             }
-            self.btnContainer.addShadow()
-            self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
+          //  self.btnContainer.addShadow()
+          //  self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
         }
       
       //btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)

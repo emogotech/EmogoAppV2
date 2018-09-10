@@ -259,7 +259,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
             self.window = UIWindow(frame:  UIScreen.main.bounds)
             let navigation = PMNavigationController(rootViewController: objHome)
-           // navigation.barTintColor = UIColor.white
+           //  navigation.barTintColor = UIColor.white
+            
     
             self.window?.rootViewController = navigation
             self.window?.makeKeyAndVisible()
@@ -317,6 +318,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
         let navigation = PMNavigationController(rootViewController: objHome)
         navigation.barTintColor = .white
+    
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
     }

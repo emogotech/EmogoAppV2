@@ -87,6 +87,9 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             btnCollab.isHidden = false
             // btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
         }
+        
+        print("current Tile--->\(objStream.Title)")
+      
         self.lblName.text = objStream.Title.trim()
         self.lblName.shadow()
         self.lblName.minimumScaleFactor = 1.0

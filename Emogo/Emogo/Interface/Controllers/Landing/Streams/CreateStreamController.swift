@@ -140,7 +140,7 @@ class CreateStreamController: UITableViewController {
     }
     
     func prepareNavigationbarButtons(){
-        
+        self.configureNavigationTite(color:UIColor.white)
         let button   = UIButton(type: .system)
         button.setTitleColor(UIColor.lightGray, for: .normal)
         button.setTitle("Cancel", for: .normal)

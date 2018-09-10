@@ -120,12 +120,17 @@ extension PhotoEditorViewController {
     }
     
     @objc func buttonBackAction(){
+        if  self.selectedFeature == .sticker {
+            self.removeStickersView()
+            return
+        }
         self.navigationController?.popViewAsDismiss()
         if self.initContent.isUploaded {
             self.initContent.imgPreview = nil
         }else {
             self.initContent.imgPreview = initImage
         }
+       
         photoEditorDelegate?.doneEditing(image: self.initContent)
     }
     
@@ -295,12 +300,13 @@ extension PhotoEditorViewController {
     func endDoneTextField(strTxt : String){
         if strTxt.trim() == ""{
            // doneButton.isHidden = true
-            colorPickerView.isHidden = true
+       
             canvasImageView.isUserInteractionEnabled = true
-          //  hideToolbar(hide: false)
+            hideToolbar(hide: false)
             isDrawing = false
             self.colorsCollectionView.isHidden = true
-           
+            
+            self.colorPickerViewBottomConstraint?.constant = 0.0
             for beforeTextViewHide in self.canvasImageView.subviews {
                 if beforeTextViewHide.isKind(of: UITextView.self){
                     if beforeTextViewHide.tag == 101{

@@ -124,7 +124,8 @@ open class LightboxController: UIViewController {
       }
     }
   }
-
+    
+   
   open var spacing: CGFloat = 20 {
     didSet {
       configureLayout(view.bounds.size)
@@ -387,9 +388,9 @@ extension LightboxController: PageViewDelegate {
 //    imageTouchDelegate?.lightboxController(self, didTouch: images[currentPage], at: currentPage)
     
     imageTouchDelegate?.lightboxControllerWillDismiss(self)
-    self.navigationController?.popViewController(animated: false)
+    //self.navigationController?.popViewController(animated: false)
 
-   // dismiss(animated: true, completion: nil)
+   dismiss(animated: true, completion: nil)
    
     let visible = (headerView.alpha == 1.0)
    

@@ -28,7 +28,6 @@ class EmogoDetailViewController: UIViewController {
     var isFromCreateStream:String?
     var viewStream:String?
     var isUpload:Bool! = false
-    var objStream:StreamViewDAO?
     var streamType:String!
     var delegate:EmogoDetailViewControllerDelegate?
     // StreamList.sharedInstance.arrayViewStream
@@ -47,13 +46,11 @@ class EmogoDetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.stretchyHeader.imgCover.isHidden = false
+
         // self.showStatusBar()
         
     }
-//    override func viewWillAppear(_ animated: Bool) {
-//         super.viewWillAppear(animated)
-//        self.showStatusBar()
-//    }
+
    
 //    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation{
 //        return .fade
@@ -63,7 +60,6 @@ class EmogoDetailViewController: UIViewController {
     func prepareLayouts(){
        // self.configureNavigationTite()
         self.currentStream = StreamList.sharedInstance.arrayViewStream[currentIndex]
-        
         self.lblNoContent.isHidden = true
         self.viewStreamCollectionView.dataSource  = self
         self.viewStreamCollectionView.delegate = self
@@ -92,6 +88,9 @@ class EmogoDetailViewController: UIViewController {
             let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
             swipeLeft.direction = UISwipeGestureRecognizerDirection.left
             viewStreamCollectionView.addGestureRecognizer(swipeLeft)
+            
+          
+            
         }
         kRefreshCell = true
         configureStrechyHeader()
@@ -130,7 +129,9 @@ class EmogoDetailViewController: UIViewController {
     func prepareHeaderData(){
         stretchyHeader.prepareLayout(stream: currentStream)
     }
-    
+//    override var prefersStatusBarHidden: Bool {
+//        return false
+//    }
     
     func configureNavigation(){
         if self.navigationController?.isNavigationBarHidden == true {
@@ -362,7 +363,7 @@ class EmogoDetailViewController: UIViewController {
                     self.previous()
                 }
                 break
-                
+         
             default:
                 break
             }
@@ -423,7 +424,7 @@ class EmogoDetailViewController: UIViewController {
         
     }
     @objc  func btnCancelAction(){
-       
+        self.navigationController?.navigationBar.isTranslucent = false
         if viewStream == nil {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
             self.navigationController?.popToViewController(vc: obj)
@@ -461,7 +462,7 @@ class EmogoDetailViewController: UIViewController {
             }
             
             self.present(nav, animated: true, completion: nil)
-            self.hideStatusBar()
+            //self.hideStatusBar()
         }
         
     }
@@ -556,13 +557,13 @@ class EmogoDetailViewController: UIViewController {
     @objc func previewScreenNavigated(){
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-            ContentList.sharedInstance.objStream = self.objStream?.streamID
+            ContentList.sharedInstance.objStream = self.currentStream.ID
             self.navigationController?.pushNormal(viewController: objPreview)
         }
     }
     
     func actionForCamera(){
-        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        ContentList.sharedInstance.objStream = self.currentStream.ID
         let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         ContentList.sharedInstance.arrayContent.removeAll()
         self.navigationController?.pushNormal(viewController: obj)
@@ -570,25 +571,25 @@ class EmogoDetailViewController: UIViewController {
     
     func btnActionForLink(){
         
-        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        ContentList.sharedInstance.objStream = self.currentStream.ID
         let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LinkView)
         self.navigationController?.push(viewController: controller)
     }
     
     func btnActionForGiphy(){
-        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        ContentList.sharedInstance.objStream = self.currentStream.ID
         let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_GiphyView)
         self.navigationController?.push(viewController: controller)
     }
     
     
     func btnActionForMyStuff(){
-        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        ContentList.sharedInstance.objStream = self.currentStream.ID
         let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
         self.navigationController?.push(viewController: controller)
     }
     func btnActionForNotes(){
-        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        ContentList.sharedInstance.objStream = self.currentStream.ID
         let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
         controller.isOpenFrom = "StreamView"
         self.navigationController?.push(viewController: controller)
@@ -629,7 +630,9 @@ class EmogoDetailViewController: UIViewController {
         }
         Animation.addRightTransition(collection: self.viewStreamCollectionView)
         self.viewStreamCollectionView.reloadData()
+      
         self.updateLayOut()
+     
         if self.delegate != nil {
             self.delegate?.nextItemScrolled(index: currentIndex)
         }
@@ -649,7 +652,9 @@ class EmogoDetailViewController: UIViewController {
         }
         Animation.addLeftTransition(collection: self.viewStreamCollectionView)
         self.viewStreamCollectionView.reloadData()
+      
         self.updateLayOut()
+        
         if self.delegate != nil {
             self.delegate?.nextItemScrolled(index: currentIndex)
         }
@@ -677,6 +682,7 @@ class EmogoDetailViewController: UIViewController {
                     self.currentStream = stream
                     //self.getStream(currentStream:nil,streamID:streamID)
                 }
+                 self.currentStream = stream
             }
             if SharedData.sharedInstance.deepLinkType != "" {
                 self.btnActionForAddContent()
@@ -706,7 +712,7 @@ class EmogoDetailViewController: UIViewController {
             }
         }
         self.prepareHeaderData()
-         self.viewStreamCollectionView.isHidden = false
+        self.viewStreamCollectionView.isHidden = false
         self.viewStreamCollectionView.reloadData()
         kRefreshCell = true
         self.viewStreamCollectionView.es.resetNoMoreData()
@@ -871,6 +877,7 @@ extension EmogoDetailViewController:UICollectionViewDelegate,UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       // self.hideStatusBar()
         ContentList.sharedInstance.arrayContent.removeAll()
         let profileContent = ContentDAO(contentData: [:])
         profileContent.coverImage = currentStream.CoverImage
@@ -890,18 +897,20 @@ extension EmogoDetailViewController:UICollectionViewDelegate,UICollectionViewDat
         objPreview.delegate = self
         objPreview.currentIndex = indexPath.row + 1
         objNavigation = UINavigationController(rootViewController: objPreview)
-        if let nav = objNavigation {
-            if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
-                
-                navigationImageView = imageCell.imgCover
-                nav.cc_setZoomTransition(originalView: navigationImageView!)
-                
-                nav.cc_swipeBackDisabled = true
-            }
-           
-           // self.hideStatusBar()
+       
            // self.perform(#selector(statusBar), with: nil, afterDelay: 0.1)
-            self.present(nav, animated: true, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                if let nav = self.objNavigation {
+                    if let imageCell = self.viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
+                        
+                        navigationImageView = imageCell.imgCover
+                        nav.cc_setZoomTransition(originalView: navigationImageView!)
+                        
+                        nav.cc_swipeBackDisabled = true
+                    }
+                    
+                self.present(nav, animated: true, completion: nil)
+            }
         }
         
     }
@@ -919,7 +928,7 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
     func currentPreview(content:ContentDAO,index:IndexPath){
         if let _ = objNavigation {
             
-            if let tempIndex =  self.objStream?.arrayContent.index(where: {$0.contentID.trim() == content.contentID.trim()}) {
+            if let tempIndex =  self.currentStream.arrayContent.index(where: {$0.contentID.trim() == content.contentID.trim()}) {
                 let indexPath = IndexPath(row: tempIndex, section: 0)
                 if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
                     self.viewStreamCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)

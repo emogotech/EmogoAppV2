@@ -70,15 +70,17 @@ class CreateNotesViewController: UIViewController {
     
     func configureNaviationBar(){
         //0,122,255
+    
         self.title = nil
         self.navigationItem.hidesBackButton = true
-        let imgP = UIImage(named: "back_icon_stream")
+       // let imgP = UIImage(named: "back_icon_stream")
+        let imgP = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.backButtonAction))
         self.navigationItem.leftBarButtonItem = btnback
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
         self.navigationController?.navigationBar.barTintColor = UIColor.white
-        let rightButon = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.doneButtonAction))
+        let rightButon = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneButtonAction))
          navigationItem.rightBarButtonItem  = rightButon
     }
     
@@ -93,6 +95,7 @@ class CreateNotesViewController: UIViewController {
         editorView.delegate = self
         // editorView.inputAccessoryView = toolbar
         editorView.placeholder = ""
+        editorView.setFontFamily("Hiragino Maru Gothic ProN")
         
         editorView.inputAccessoryView = toolbar
         toolbar.delegate = self
@@ -135,7 +138,7 @@ class CreateNotesViewController: UIViewController {
         }
         options.append(blank)
 
-        let itemText = RichEditorOptionItem(image: #imageLiteral(resourceName: "icon_sentence"), title: "") { (toolbar) in
+    let itemText = RichEditorOptionItem(image: #imageLiteral(resourceName: "icon_sentence"), title: "") { (toolbar) in
           
             self.view.endEditing(true)
             let textView = TextEditorView.instanceFromNib()
@@ -145,21 +148,21 @@ class CreateNotesViewController: UIViewController {
         }
         options.append(itemText)
         
-        let itemOrder = RichEditorOptionItem(image: #imageLiteral(resourceName: "numberBullet-icon"), title: "") { (toolbar) in
+     let itemOrder = RichEditorOptionItem(image: #imageLiteral(resourceName: "numberBullet-icon"), title: "") { (toolbar) in
             
             toolbar.editor?.orderedList()
         }
         
         options.append(itemOrder)
 
-        let itemBullet = RichEditorOptionItem(image: #imageLiteral(resourceName: "icon_list"), title: "") { (toolbar) in
+     let itemBullet = RichEditorOptionItem(image: #imageLiteral(resourceName: "icon_list"), title: "") { (toolbar) in
            
             toolbar.editor?.unorderedList()
         }
         options.append(itemBullet)
 
         
-        let itemHorizontal = RichEditorOptionItem(image: #imageLiteral(resourceName: "horizontal"), title: "") { (toolbar) in
+    let itemHorizontal = RichEditorOptionItem(image: #imageLiteral(resourceName: "horizontal"), title: "") { (toolbar) in
             let  value = toolbar.editor?.contentHTML
            // editorView.html = value + "<div>nbsp<hr/></div>"
             toolbar.editor?.placeholder = ""
@@ -169,20 +172,20 @@ class CreateNotesViewController: UIViewController {
         options.append(itemHorizontal)
 
         
-        let itemPhoto = RichEditorOptionItem(image: #imageLiteral(resourceName: "photo_video"), title: "") { (toolbar) in
+    let itemPhoto = RichEditorOptionItem(image: #imageLiteral(resourceName: "photo_video"), title: "") { (toolbar) in
             self.actionForUploadPhoto()
            // self.openCamera()
         }
         options.append(itemPhoto)
 
-        let itemLink = RichEditorOptionItem(image: #imageLiteral(resourceName: "link_block"), title: "") { (toolbar) in
+     let itemLink = RichEditorOptionItem(image: #imageLiteral(resourceName: "link_block"), title: "") { (toolbar) in
             self.isLinkSelected = true
             self.view.endEditing(true)
             self.showLinkView()
         }
         options.append(itemLink)
 
-        let itemColor = RichEditorOptionItem(image: #imageLiteral(resourceName: "color_box"), title: "") { (toolbar) in
+      let itemColor = RichEditorOptionItem(image: #imageLiteral(resourceName: "color_box"), title: "") { (toolbar) in
            
             self.view.endEditing(true)
             let colorPicker = ColorPickerView.instanceFromNib()
@@ -213,6 +216,7 @@ class CreateNotesViewController: UIViewController {
                 self.showAlertOnBack()
             }
         }else{
+            //self.navigationController?.popNormal()
             self.navigationController?.pop()
         }
     }

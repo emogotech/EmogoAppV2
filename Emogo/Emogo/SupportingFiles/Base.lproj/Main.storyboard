@@ -829,6 +829,7 @@
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dNC-Jb-RUM">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <userDefinedRuntimeAttributes>
@@ -3040,7 +3041,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="add cover Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuT-8V-Thc">
-                                                    <rect key="frame" x="137" y="85" width="101" height="17"/>
+                                                    <rect key="frame" x="137.5" y="85" width="101" height="17"/>
                                                     <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -6419,7 +6420,7 @@
         <image name="add_galery" width="23" height="23"/>
         <image name="add_icon_home-3" width="121" height="121"/>
         <image name="add_to_stream" width="31" height="31"/>
-        <image name="add_user_group_icon" width="19" height="15"/>
+        <image name="add_user_group_icon" width="25" height="21"/>
         <image name="back icon" width="11" height="21"/>
         <image name="background-iPhone" width="375" height="665"/>
         <image name="box_stream" width="375" height="208"/>

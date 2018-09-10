@@ -65,7 +65,7 @@ class PreviewController: UIViewController {
         if self.isEditingContent{
             self.preparePreview(index: selectedIndex)
         }
-      
+       
         self.previewCollection.reloadData()
         self.prepareNavBarButtons()
         
@@ -88,6 +88,7 @@ class PreviewController: UIViewController {
         self.btnShareAction.addShadow()
         self.viewLinkPreview.layer.borderWidth = 1.0
     }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
