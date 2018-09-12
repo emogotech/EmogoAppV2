@@ -502,13 +502,17 @@ class PreviewController: UIViewController {
             let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
             self.navigationController?.popToViewController(vc: controller)
         }else {
-            self.navigationController?.popNormal()
+           
+           self.navigationController?.popNormal()
         }
         return
     }
         if self.strPresented == nil {
             self.imgPreview.image = nil
+       
+            self.addLeftTransitionView(subtype: kCATransitionFromLeft)
             self.navigationController?.popNormal()
+            
         }else {
             self.dismiss(animated: true, completion: nil)
         }

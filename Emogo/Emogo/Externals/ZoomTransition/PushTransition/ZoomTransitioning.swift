@@ -18,7 +18,6 @@ public final class ZoomTransitioning: NSObject {
         self.source = source
         self.destination = destination
         self.forward = forward
-
         super.init()
     }
 }

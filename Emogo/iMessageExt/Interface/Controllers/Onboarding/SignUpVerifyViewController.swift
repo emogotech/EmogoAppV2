@@ -370,5 +370,11 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         self.txtVeryficationCode = otpString
         print("OTPString: \(otpString)")
     }
+    
+    func currentEditing(otpString: String){
+        print("OTPString: \(otpString)")
+        self.txtVeryficationCode = otpString
+    }
+    
   }
 

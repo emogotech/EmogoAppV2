@@ -73,13 +73,13 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
             let imagev = transitview as! UIImageView
             transitimage = imagev.image
         } else {
-            transitimage = self.snapshotView(view: transitview)
+            transitimage = self.snapshotViewpush(view: transitview)
         }
         
         if (self.isPresentation)
         {
             let tranimage : UIImage = {
-                if let image  = self.snapshotView(view: toView) {
+                if let image  = self.snapshotViewpush(view: toView) {
                     return image
                 } else {
                     return self.imageWithColor(color: UIColor.init(white: 0.3, alpha: 0.3)) ?? UIImage()
@@ -166,7 +166,7 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
             shadow.clipsToBounds = true
             
             let fromvshadow : UIImageView = {
-                let imageview = UIImageView.init(image: self.snapshotView(view: fromView))
+                let imageview = UIImageView.init(image: self.snapshotViewpop(view: fromView))
                 imageview.contentMode = .scaleToFill
                 imageview.frame = shadow.bounds
                 return imageview
@@ -222,16 +222,26 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
 //supper func
 extension CCZoomAnimatedTransitioning {
     
-    func snapshotView(view : UIView) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
-        if let context = UIGraphicsGetCurrentContext() {
-            view.layer.render(in: context)
-            let retImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return retImage
-        }
+    func snapshotViewpush(view : UIView) -> UIImage? {
         
-        return nil
+                UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
+                if let context = UIGraphicsGetCurrentContext() {
+                    view.layer.render(in: context)
+                    let retImage = UIGraphicsGetImageFromCurrentImageContext()
+                    UIGraphicsEndImageContext()
+                    return retImage
+                }
+        
+              return nil
+    }
+    func snapshotViewpop(view : UIView) -> UIImage? {
+        
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
+        view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
+        let snapshotImageFromMyView = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return snapshotImageFromMyView
+
     }
     
     func imageWithColor(color : UIColor) -> UIImage? {

@@ -18,19 +18,21 @@
 
 html {
     height: 100%;
+    margin: 1;
 }
 
 body {
     min-height: 100%;
     overflow: auto;
+    bottom: 1px;
 }
 
 body, h1, p {
-    margin: 0;
+    margin: 1px;
 }
 
 div {
-    display: block;
+    display: block;asas
     position: static;
 }
 

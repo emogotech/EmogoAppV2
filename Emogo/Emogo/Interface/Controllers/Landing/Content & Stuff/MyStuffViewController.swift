@@ -86,7 +86,7 @@ class MyStuffViewController: UIViewController {
         self.stuffCollectionView.addGestureRecognizer(swipeLeft)
         // Segment control Configure
         
-        segmentControl.sectionTitles = ["ALL", "PHOTOS", "VIDEOS", "LINKS", "NOTES","GIFS"]
+        segmentControl.sectionTitles = ["All", "Photos", "Videos", "Links", "Notes","Gifs"]
         segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
             print("Selected index \(index) (via block)")
             self.updateStuffList(index: index)
@@ -95,7 +95,7 @@ class MyStuffViewController: UIViewController {
         segmentControl.selectionIndicatorHeight = 1.0
      //   segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         segmentControl.backgroundColor = UIColor.white
-        segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
+        segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 13.0)]
         segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         segmentControl.selectionStyle = .textWidthStripe
         segmentControl.selectedSegmentIndex = 0

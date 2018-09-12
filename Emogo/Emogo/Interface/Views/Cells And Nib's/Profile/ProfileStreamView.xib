@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uk0-Pj-VVK">
-                    <rect key="frame" x="12" y="3" width="296" height="210"/>
+                    <rect key="frame" x="12" y="3" width="296" height="207"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ANb-Ix-v28">
                     <rect key="frame" x="276" y="16" width="21" height="22"/>
@@ -40,7 +40,7 @@
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6PO-hz-kZt">
-                    <rect key="frame" x="12" y="169" width="296" height="44"/>
+                    <rect key="frame" x="12" y="169" width="296" height="41"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MG3-Ew-L6g">
                             <rect key="frame" x="13" y="3" width="275" height="27"/>
@@ -51,20 +51,20 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="44" id="RBv-9L-ze1"/>
-                        <constraint firstAttribute="bottom" secondItem="MG3-Ew-L6g" secondAttribute="bottom" constant="14" id="arf-1X-bZl"/>
+                        <constraint firstAttribute="height" constant="41" id="RBv-9L-ze1"/>
+                        <constraint firstAttribute="bottom" secondItem="MG3-Ew-L6g" secondAttribute="bottom" constant="11" id="arf-1X-bZl"/>
                         <constraint firstAttribute="trailing" secondItem="MG3-Ew-L6g" secondAttribute="trailing" constant="8" id="nPK-bE-k9e"/>
                         <constraint firstItem="MG3-Ew-L6g" firstAttribute="leading" secondItem="6PO-hz-kZt" secondAttribute="leading" constant="13" id="whi-Sy-DK1"/>
                     </constraints>
                 </view>
             </subviews>
             <constraints>
-                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="6PO-hz-kZt" secondAttribute="bottom" id="0te-kd-Pmw"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="6PO-hz-kZt" secondAttribute="bottom" constant="3" id="0te-kd-Pmw"/>
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="uk0-Pj-VVK" secondAttribute="trailing" constant="12" id="52B-3f-rAO"/>
                 <constraint firstItem="uk0-Pj-VVK" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="12" id="AzI-a0-L1M"/>
                 <constraint firstItem="dlc-mY-dtk" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" constant="4" id="N0R-uE-Lbg"/>
                 <constraint firstItem="dlc-mY-dtk" firstAttribute="centerX" secondItem="U6b-Vx-4bR" secondAttribute="centerX" id="TVa-Wt-Ybx"/>
-                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="uk0-Pj-VVK" secondAttribute="bottom" id="XjV-oO-zeS"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="uk0-Pj-VVK" secondAttribute="bottom" constant="3" id="XjV-oO-zeS"/>
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="6PO-hz-kZt" secondAttribute="trailing" constant="12" id="Yag-3C-aUh"/>
                 <constraint firstItem="uk0-Pj-VVK" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" constant="3" id="YkL-GW-Sa9"/>
                 <constraint firstItem="ANb-Ix-v28" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" constant="16" id="gbL-7M-sMK"/>

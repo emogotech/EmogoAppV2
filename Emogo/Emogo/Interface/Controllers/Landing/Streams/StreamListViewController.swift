@@ -155,7 +155,7 @@ class StreamListViewController: UIViewController {
         menuView.isHidden = true
         self.viewSearchMain.backgroundColor = .white
         self.navigationController?.navigationBar.barTintColor = .white
-      self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.isTranslucent = false
         kShowOnlyMyStream = ""
         self.viewMenu.isHidden = false
         DispatchQueue.main.async {
@@ -584,10 +584,11 @@ class StreamListViewController: UIViewController {
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+      
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
-                
+                self.navigationController?.navigationBar.isTranslucent = true
                 if currentStreamType == .Public && isSearch == false {
                     currentStreamType = .Private
                     if self.segmentheader != nil {
@@ -853,6 +854,7 @@ class StreamListViewController: UIViewController {
     }
     
     override func btnMyProfileAction() {
+        self.navigationController?.navigationBar.isTranslucent = false
         isUpdateList = true
         self.view.endEditing(true)
         let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
@@ -1575,7 +1577,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
 
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-         self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.isTranslucent = true
         if self.isSearch == false {
             if currentStreamType == .People {
                 let people = self.arrayToShow[indexPath.row]
@@ -1666,7 +1668,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             }) { (_) in
                 
             }
-            Animation.viewSlideInFromBottomToTop(views: self.viewMenu,duration:0.5)
+            Animation.viewSlideInFromBottomToTop(views: self.viewMenu,duration:0.2)
             
             
         } else {

@@ -48,6 +48,9 @@ protocol VPMOTPViewDelegate: class {
     /// - Parameter hasEntered: `hasEntered` will be `true` if all the OTP fields have been filled.
     /// - Returns: return if OTP entered is valid or not. If false and all otp has been entered, then error
     func hasEnteredAllOTP(hasEntered: Bool) -> Bool
+    
+    func currentEditing(otpString: String)
+
 }
 
 class VPMOTPView: UIView {
@@ -271,6 +274,7 @@ class VPMOTPView: UIView {
                     }
                 }
             }
+            delegate?.currentEditing(otpString: enteredOTPString)
         }
     }
 }

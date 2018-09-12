@@ -57,7 +57,7 @@ class SettingViewController: UIViewController {
            switchHaptic.isHidden = false
            lblSeprator.isHidden = false
            lblTitleHaptic.isHidden = false
-           cons_top_logout.constant = 76
+           cons_top_logout.constant = 99
             
         }
         if kDefault?.bool(forKey: kHapticFeedback) == true{

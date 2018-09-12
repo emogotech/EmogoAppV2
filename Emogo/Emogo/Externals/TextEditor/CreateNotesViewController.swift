@@ -36,7 +36,7 @@ class CreateNotesViewController: UIViewController {
     var isFromSave:Bool! =  false
     
     lazy var toolbar: RichEditorToolbar = {
-        let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
+        let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 44))
         
         return toolbar
     }()
@@ -81,6 +81,7 @@ class CreateNotesViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         let rightButon = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneButtonAction))
+         rightButon.tintColor = UIColor.lightGray
          navigationItem.rightBarButtonItem  = rightButon
     }
     
@@ -134,9 +135,9 @@ class CreateNotesViewController: UIViewController {
     func prepareToolBar(){
         var options = toolbar.options
 
-        let blank = RichEditorOptionItem(image: nil, title: "") { (toolbar) in
-        }
-        options.append(blank)
+//        let blank = RichEditorOptionItem(image: nil, title: "") { (toolbar) in
+//        }
+//        options.append(blank)
 
     let itemText = RichEditorOptionItem(image: #imageLiteral(resourceName: "icon_sentence"), title: "") { (toolbar) in
           

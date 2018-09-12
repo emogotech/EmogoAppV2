@@ -28,35 +28,41 @@ class EmogoDetailViewController: UIViewController {
     var isFromCreateStream:String?
     var viewStream:String?
     var isUpload:Bool! = false
+   // var objStream:StreamViewDAO?
     var streamType:String!
     var delegate:EmogoDetailViewControllerDelegate?
     // StreamList.sharedInstance.arrayViewStream
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       // self.edgesForExtendedLayout = []
+    
         // Do any additional setup after loading the view.
         prepareLayouts()
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+         self.showStatusBar()
+        isSwipeEnable = true
+    }
+        
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.stretchyHeader.imgCover.isHidden = false
-
-        // self.showStatusBar()
-        
+    }
+  
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        isSwipeEnable  = false
     }
 
-   
-//    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation{
-//        return .fade
-//    }
-    
-    
     func prepareLayouts(){
        // self.configureNavigationTite()
         self.currentStream = StreamList.sharedInstance.arrayViewStream[currentIndex]
@@ -106,10 +112,10 @@ class EmogoDetailViewController: UIViewController {
         stretchyHeader.streamDelegate = self
         stretchyHeader.viewViewCount.isHidden = true
         stretchyHeader.viewLike.isHidden = true
-        stretchyHeader.btnLike.delegate = self
-        stretchyHeader.btnLikeOtherUser.delegate = self
         stretchyHeader.maximumContentHeight = 250
         stretchyHeader.swipeToDown(height: 250)
+        self.stretchyHeader.btnLikeOtherUser.tag = 111
+        self.stretchyHeader.btnLike.tag = 222
         self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
@@ -117,7 +123,13 @@ class EmogoDetailViewController: UIViewController {
         self.stretchyHeader.imgCover.image = selectedImageView?.image
         self.stretchyHeader.imgCover.backgroundColor = selectedImageView?.backgroundColor
         stretchyHeader.btnCollab.isUserInteractionEnabled = true
-        
+       
+        if self.currentStream?.likeStatus == "0" {
+            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+        }else{
+            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+            
+        }
          stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
         stretchyHeader.btnLikeOtherUser.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnLike.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
@@ -127,12 +139,12 @@ class EmogoDetailViewController: UIViewController {
     
     
     func prepareHeaderData(){
-        stretchyHeader.prepareLayout(stream: currentStream)
+        DispatchQueue.main.async {
+            self.stretchyHeader.prepareLayout(stream: self.currentStream)
+        }
+        
     }
-//    override var prefersStatusBarHidden: Bool {
-//        return false
-//    }
-    
+
     func configureNavigation(){
         if self.navigationController?.isNavigationBarHidden == true {
             self.navigationController?.isNavigationBarHidden = false
@@ -201,13 +213,16 @@ class EmogoDetailViewController: UIViewController {
             stretchyHeader.btnLikeOtherUser.isHidden = false
             
         }
+
         self.navigationItem.rightBarButtonItems = arrayButtons
         if self.currentStream.likeStatus == "0" {
             self.stretchyHeader.btnLikeOtherUser.isSelected = false
             self.stretchyHeader.btnLike.isSelected = false
+                self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         }else{
             self.stretchyHeader.btnLikeOtherUser.isSelected = true
             self.stretchyHeader.btnLike.isSelected = true
+             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
         }
         self.stretchyHeader.btnLike.isHidden = false
     }
@@ -320,8 +335,48 @@ class EmogoDetailViewController: UIViewController {
         }
     }
     
-    @objc func likeStreamAction(sender:FaveButton){
+    @objc func likeStreamAction(sender:UIButton){
         // print("Like Action")
+        print(sender.tag)
+        /*
+        let pulsator = Pulsator()
+        pulsator.radius = 50.0
+        pulsator.numPulse = 2
+        pulsator.backgroundColor = UIColor(red: 0, green: 0.455, blue: 0.756, alpha: 1).cgColor
+        if sender.tag == 111 {
+        pulsator.position =  self.stretchyHeader.btnLikeOtherUser.center
+        self.stretchyHeader.layer.addSublayer(pulsator)
+            pulsator.start()
+        }else if sender.tag  == 222{
+            pulsator.position =  self.stretchyHeader.btnLike.center
+            self.stretchyHeader.btnLike.superview?.layer.addSublayer(pulsator)
+            pulsator.start()
+        }
+ */
+        if sender.tag == 111 {
+            
+            UIView.transition(with: self.stretchyHeader.btnLikeOtherUser,
+                              duration:0.5,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                                self.stretchyHeader.btnLikeOtherUser.isSelected = !self.stretchyHeader.btnLikeOtherUser.isSelected
+            },
+                              completion: nil)
+        }else if sender.tag == 222 {
+            UIView.transition(with: self.stretchyHeader.btnLike,
+                              duration:0.5,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                                self.stretchyHeader.btnLike.isSelected = !self.stretchyHeader.btnLike.isSelected
+            },
+                              completion: nil)
+        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            pulsator.removeFromSuperlayer()
+//        }
+//
+//
+
         if self.currentStream != nil {
             if  kDefault?.bool(forKey: kHapticFeedback) == true {
                 self.stretchyHeader.btnLike.isHaptic = true
@@ -335,10 +390,12 @@ class EmogoDetailViewController: UIViewController {
             // sender.isSelected = !sender.isSelected
             if self.currentStream.likeStatus == "0" {
                 self.currentStream.likeStatus = "1"
+                self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
                 //   self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                 //  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             }else{
                 self.currentStream.likeStatus = "0"
+                self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                 //    self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .selected)
                 //   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .selected)
             }
@@ -563,7 +620,7 @@ class EmogoDetailViewController: UIViewController {
     }
     
     func actionForCamera(){
-        ContentList.sharedInstance.objStream = self.currentStream.ID
+        ContentList.sharedInstance.objStream = self.currentStream?.ID
         let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         ContentList.sharedInstance.arrayContent.removeAll()
         self.navigationController?.pushNormal(viewController: obj)
@@ -571,25 +628,25 @@ class EmogoDetailViewController: UIViewController {
     
     func btnActionForLink(){
         
-        ContentList.sharedInstance.objStream = self.currentStream.ID
+        ContentList.sharedInstance.objStream = self.currentStream?.ID
         let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LinkView)
         self.navigationController?.push(viewController: controller)
     }
     
     func btnActionForGiphy(){
-        ContentList.sharedInstance.objStream = self.currentStream.ID
+        ContentList.sharedInstance.objStream = self.currentStream?.ID
         let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_GiphyView)
         self.navigationController?.push(viewController: controller)
     }
     
     
     func btnActionForMyStuff(){
-        ContentList.sharedInstance.objStream = self.currentStream.ID
+        ContentList.sharedInstance.objStream = self.currentStream?.ID
         let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
         self.navigationController?.push(viewController: controller)
     }
     func btnActionForNotes(){
-        ContentList.sharedInstance.objStream = self.currentStream.ID
+        ContentList.sharedInstance.objStream = self.currentStream?.ID
         let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
         controller.isOpenFrom = "StreamView"
         self.navigationController?.push(viewController: controller)
@@ -624,12 +681,12 @@ class EmogoDetailViewController: UIViewController {
         self.viewStreamCollectionView.isHidden = true
         self.lblNoContent.isHidden = true
         self.btnAddContent.isHidden = true
-        stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
+     //   stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
         if(currentIndex < StreamList.sharedInstance.arrayViewStream.count-1) {
             currentIndex = currentIndex + 1
         }
         Animation.addRightTransition(collection: self.viewStreamCollectionView)
-        self.viewStreamCollectionView.reloadData()
+        //self.viewStreamCollectionView.reloadData()
       
         self.updateLayOut()
      
@@ -644,14 +701,14 @@ class EmogoDetailViewController: UIViewController {
         self.viewStreamCollectionView.isHidden = true
         //   self.objStream = nil
         self.btnAddContent.isHidden = true
-        stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
+     //   stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
         
         self.lblNoContent.isHidden = true
         if currentIndex != 0{
             currentIndex =  currentIndex - 1
         }
         Animation.addLeftTransition(collection: self.viewStreamCollectionView)
-        self.viewStreamCollectionView.reloadData()
+  //      self.viewStreamCollectionView.reloadData()
       
         self.updateLayOut()
         
@@ -682,7 +739,6 @@ class EmogoDetailViewController: UIViewController {
                     self.currentStream = stream
                     //self.getStream(currentStream:nil,streamID:streamID)
                 }
-                 self.currentStream = stream
             }
             if SharedData.sharedInstance.deepLinkType != "" {
                 self.btnActionForAddContent()
@@ -701,6 +757,7 @@ class EmogoDetailViewController: UIViewController {
                 }
             }
             if StreamList.sharedInstance.selectedStream != nil {
+                  self.currentStream = nil
                 self.currentStream = StreamList.sharedInstance.selectedStream
                 
                 //self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
@@ -711,13 +768,14 @@ class EmogoDetailViewController: UIViewController {
                 SharedData.sharedInstance.deepLinkType = ""
             }
         }
-        self.prepareHeaderData()
+        print( self.currentStream.Title)
         self.viewStreamCollectionView.isHidden = false
         self.viewStreamCollectionView.reloadData()
         kRefreshCell = true
         self.viewStreamCollectionView.es.resetNoMoreData()
-        
-      
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.prepareHeaderData()
+        }
     }
     
     func likeDislikeStream(){
@@ -729,12 +787,14 @@ class EmogoDetailViewController: UIViewController {
                 //  self.currentStream.arrayLikedUsers = results!
                 if status == "0" {
                     self.stretchyHeader.lblLikeCount.text = "\(self.currentStream.totalLiked.trim())"
+                    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                     //                    self.stretchyHeader.btnLikeOtherUser.isSelected = false
                     //                    self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                     //                    self.stretchyHeader.btnLike.isSelected = false
                     //                   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                 }else{
                     self.stretchyHeader.lblLikeCount.text = "\(self.currentStream.totalLiked.trim())"
+                      self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                     //                    self.stretchyHeader.btnLike.isSelected = true
                     //                    self.stretchyHeader.btnLikeOtherUser.isSelected = true
                     //                    self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)

@@ -25,10 +25,7 @@ class VerificationViewController: UIViewController {
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         prepareLayouts()
-    
-       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,11 +82,11 @@ class VerificationViewController: UIViewController {
     
     // MARK: -  Action Methods And Selector
     @IBAction func btnGoToLandingScreen(_ sender: Any) {
-      print(self.otpView.text)
+      print(self.txtOtP)
         if (self.txtOtP.trim().isEmpty) {
-          //  self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
+            self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
         }else if (txtOtP.trim().count) != 5 {
-          //  self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
+            self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
         }else {
             self.view.endEditing(true)
             if self.isForLogin == nil {
@@ -187,7 +184,9 @@ extension VerificationViewController: VPMOTPViewDelegate {
     
     func hasEnteredAllOTP(hasEntered: Bool) -> Bool {
         print("Has entered all OTP? \(hasEntered)")
-        
+        if !hasEntered {
+            txtOtP = ""
+        }
         return true
     }
     
@@ -197,6 +196,9 @@ extension VerificationViewController: VPMOTPViewDelegate {
     
     func enteredOTP(otpString: String) {
         txtOtP = otpString
+    }
+    func currentEditing(otpString: String){
         print("OTPString: \(otpString)")
+        txtOtP = otpString
     }
 }

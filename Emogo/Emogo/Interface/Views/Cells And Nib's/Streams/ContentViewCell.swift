@@ -31,9 +31,7 @@ class ContentViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        DispatchQueue.main.async {
-            self.roundCorners([.topLeft, .topRight], radius: 10)
-        }
+       
     }
     
     func prepareView(seletedImage:ContentDAO) {
@@ -44,10 +42,14 @@ class ContentViewCell: UICollectionViewCell {
         self.kCenterY.priority = .defaultHigh
         self.imgCover.image = nil
         self.imgCover.animatedImage = nil
+        imgCover.backgroundColor = UIColor.clear
+        viewCollection.backgroundColor = UIColor.clear
+        tempImageView.backgroundColor = UIColor.clear
         
         if !seletedImage.color.trim().isEmpty {
             imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
             viewCollection.backgroundColor = UIColor(hex: seletedImage.color.trim())
+            tempImageView.backgroundColor = UIColor(hex: seletedImage.color.trim())
         }
         self.lblTitleImage.text = ""
         self.lblImageDescription.text = ""
@@ -68,7 +70,10 @@ class ContentViewCell: UICollectionViewCell {
 //        if !seletedImage.color.trim().isEmpty {
 //            imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
 //        }
-        
+//        
+//        if !seletedImage.color.trim().isEmpty {
+//            tempImageView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+//        }
        
 //        var contentRect = CGRect.zero
 //        for view in scrollView.subviews {
@@ -87,7 +92,8 @@ class ContentViewCell: UICollectionViewCell {
         }else {
             if seletedImage.type == .image || seletedImage.type == .notes {
                 self.tempImageView.setForAnimatedImage(strImage: seletedImage.coverImage) { (img) in
-                    
+                    navigationImageView =  self.tempImageView
+
                 }
                 self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImage) { (img) in
                     if let img = img {
@@ -95,7 +101,9 @@ class ContentViewCell: UICollectionViewCell {
                         //    self.imgCover.backgroundColor = colors.primary
                           
                         })
+
                         if newHeight > frameHeight  {
+                            navigationImageView =  self.imgCover
                             if seletedImage.width <  seletedImage.height {
                                 self.scrollView.isScrollEnabled = true
                                 self.kCenterX.priority = .defaultLow
@@ -113,7 +121,7 @@ class ContentViewCell: UICollectionViewCell {
             }else   if seletedImage.type == .video {
                 self.scrollView.isScrollEnabled = false
                 self.tempImageView.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
-                    
+                    navigationImageView =  self.tempImageView
                 }
                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
                     if let img = img {
@@ -121,13 +129,15 @@ class ContentViewCell: UICollectionViewCell {
                         //    self.imgCover.backgroundColor = colors.primary
                         })
                     }
+                navigationImageView =  self.imgCover
+
                 }
                  self.btnPlayIcon.isHidden = false
 
             }else if seletedImage.type == .link {
                 
                 self.tempImageView.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
-                    
+                    navigationImageView =  self.tempImageView
                 }
                 
                 self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
@@ -135,6 +145,7 @@ class ContentViewCell: UICollectionViewCell {
                         img.getColors({ (colors) in
                         //    self.imgCover.backgroundColor = colors.primary
                         })
+
                         if newHeight > frameHeight  {
                             if seletedImage.width <  seletedImage.height {
                                 self.scrollView.isScrollEnabled = true
@@ -144,6 +155,7 @@ class ContentViewCell: UICollectionViewCell {
                                 self.kConsimgHeight.constant = img.resizeToScreenSize().size.height
                                 self.tempImageView.isHidden = true
                                 self.scrollView.isHidden = false
+                                navigationImageView =  self.imgCover
                             }
                         }
                         
@@ -152,20 +164,21 @@ class ContentViewCell: UICollectionViewCell {
             }else {
                 
                 self.tempImageView.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
-                    
+                    navigationImageView =  self.tempImageView
                 }
                 self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
                     if let img = img {
                         img.getColors({ (colors) in
                          //   self.imgCover.backgroundColor = colors.primary
                         })
+                        navigationImageView =  self.imgCover
+
                     }
                 }
             }
         }
         self.imgCover.contentMode = .scaleAspectFit
         self.tempImageView.contentMode = .scaleAspectFit
-        navigationImageView =  self.imgCover
         // disable Like Unlike and save icon
         self.lblTitleImage.addShadow()
         self.lblImageDescription.addShadow()

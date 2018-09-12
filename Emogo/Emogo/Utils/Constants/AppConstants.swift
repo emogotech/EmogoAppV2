@@ -36,6 +36,7 @@ let kaddCardBorderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
 //let ksearchBorderColor = UIColor(red: 102, green: 102, blue: 102, alpha: 0.1).c
 let kaddCardBorderWidth : CGFloat = 3
 var kRefreshCell : Bool = false
+var isSwipeEnable : Bool = false
 
 let kImageColor = ""
 

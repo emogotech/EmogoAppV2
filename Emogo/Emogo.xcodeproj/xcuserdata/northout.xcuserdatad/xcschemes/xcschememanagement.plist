@@ -7,7 +7,7 @@
 		<key>Emogo.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>37</integer>
+			<integer>35</integer>
 		</dict>
 		<key>ShareExt.xcscheme</key>
 		<dict>
@@ -17,7 +17,7 @@
 		<key>iMessageExt.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>35</integer>
+			<integer>37</integer>
 		</dict>
 	</dict>
 </dict>

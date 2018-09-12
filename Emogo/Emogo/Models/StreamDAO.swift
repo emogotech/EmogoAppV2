@@ -130,6 +130,7 @@ class StreamDAO {
         }
         if let obj =  streamData["liked"] {
             self.likeStatus = "\(obj)"
+            print( self.likeStatus)
         }
         if let obj  = streamData["total_collaborator"] {
             self.totalCollaborator = "\(obj)"

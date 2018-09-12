@@ -34,7 +34,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="310" height="250"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="top-gradient-2" translatesAutoresizingMaskIntoConstraints="NO" id="8Am-Sm-20R">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream-top-gradient" translatesAutoresizingMaskIntoConstraints="NO" id="8Am-Sm-20R">
                             <rect key="frame" x="0.0" y="0.0" width="310" height="83"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="83" id="ke6-2z-z9P"/>
@@ -209,7 +209,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hR-WH-JyQ">
                             <rect key="frame" x="0.0" y="202" width="310" height="48"/>
                             <subviews>
-                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gJ-DM-QZF" customClass="FaveButton" customModule="Emogo" customModuleProvider="target">
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gJ-DM-QZF">
                                     <rect key="frame" x="268" y="2" width="37" height="33"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="33" id="9VE-h4-sgd"/>
@@ -217,14 +217,6 @@
                                     </constraints>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="3" maxX="0.0" maxY="0.0"/>
                                     <state key="normal" image="Unlike_icon"/>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
-                                            <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                            <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="zdk-6b-txq">
                                     <rect key="frame" x="15" y="4" width="250" height="26"/>
@@ -259,7 +251,7 @@
                                 <constraint firstItem="zdk-6b-txq" firstAttribute="top" secondItem="7hR-WH-JyQ" secondAttribute="top" constant="4" id="yFN-qj-lRq"/>
                             </constraints>
                         </view>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OCT-rm-AGS" customClass="FaveButton" customModule="Emogo" customModuleProvider="target">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OCT-rm-AGS">
                             <rect key="frame" x="268" y="13" width="37" height="33"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="37" id="40G-4K-bR3"/>
@@ -267,14 +259,6 @@
                             </constraints>
                             <inset key="imageEdgeInsets" minX="0.0" minY="3" maxX="0.0" maxY="0.0"/>
                             <state key="normal" image="Unlike_icon"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="normalColor">
-                                    <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
-                                    <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -356,6 +340,6 @@
         <image name="number_of_likes_icon" width="33" height="33"/>
         <image name="number_of_views_icon" width="33" height="33"/>
         <image name="stream-card-placeholder" width="145" height="145"/>
-        <image name="top-gradient-2" width="169" height="50"/>
+        <image name="stream-top-gradient" width="375" height="70"/>
     </resources>
 </document>

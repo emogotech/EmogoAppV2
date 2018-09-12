@@ -526,9 +526,9 @@ extension UIViewController {
     
     func pageViewControllerLayout () -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
-        let itemSize  = self.navigationController!.isNavigationBarHidden ?
-            CGSize(width: kFrame.size.width, height: kFrame.size.height+20) : CGSize(width: kFrame.size.width, height: kFrame.size.height-64)
-        flowLayout.itemSize = itemSize
+    //    let itemSize  = self.navigationController!.isNavigationBarHidden ?
+            //CGSize(width: kFrame.size.width, height: kFrame.size.height+20) : CGSize(width: kFrame.size.width, height: kFrame.size.height-64)
+        flowLayout.itemSize = kFrame.size
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.scrollDirection = .horizontal
@@ -601,6 +601,7 @@ extension UIViewController {
      //   messageView.bounceAnimationOffset =
         messageView.titleLabel?.font = UIFont(name: kFontBold, size: 16.0)
         messageView.titleLabel?.textColor = UIColor.white
+        messageView.titleLabel?.numberOfLines = 0
         messageView.titleLabel?.textAlignment = .center
         messageView.iconImageView?.tintColor = UIColor.white
         messageView.button?.isHidden = true
@@ -861,7 +862,7 @@ extension UINavigationController {
      */
     func pop(transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.8) {
        // self.addTransition(transitionType: type, duration: duration)
-        self.popViewController(animated: false)
+        self.popViewController(animated: true)
     }
     
     /**

@@ -24,6 +24,7 @@ extension ZoomNavigationControllerDelegate: UINavigationControllerDelegate {
             //Changes by aarti
               // zoomPopGestureRecognizer.edges = .top
             zoomPopGestureRecognizer.edges = .left
+            
             navigationController.view.addGestureRecognizer(zoomPopGestureRecognizer)
             zoomInteractiveTransition.zoomPopGestureRecognizer = zoomPopGestureRecognizer
         }

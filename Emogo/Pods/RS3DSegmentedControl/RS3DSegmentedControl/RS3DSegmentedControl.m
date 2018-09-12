@@ -123,7 +123,7 @@
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 25)];
         label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor whiteColor];
+        label.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
         label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
         label.textAlignment = NSTextAlignmentCenter;
         label.tag = 1;

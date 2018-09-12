@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.initializeApplication()
         Fabric.with([Crashlytics.self,Branch.self])
         self.configureBranchSDK(launchOptions: launchOptions)
+        self.window?.backgroundColor = UIColor.white
         return true
     }
 

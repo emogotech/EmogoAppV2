@@ -286,4 +286,21 @@ class PresenterNew: NSObject {
         return customPresenter
     }()
     
+    
+    static let SettingPresenter: Presentr = {
+        let width = ModalSize.full
+        let height = ModalSize.customOrientation(sizePortrait: Float(180), sizeLandscape: Float(180))
+        let cennterY = kFrame.size.height - 180
+        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+        let customType = PresentationType.custom(width: width, height: height, center: center)
+        let customPresenter = Presentr(presentationType: customType)
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .coverVertical
+        customPresenter.roundCorners = true
+        customPresenter.cornerRadius = 15.0
+        customPresenter.backgroundOpacity = 0.85
+        customPresenter.dismissOnSwipe = false
+        customPresenter.blurBackground = false
+        return customPresenter
+    }()
 }

@@ -542,7 +542,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfz-6l-SyY">
-                                <rect key="frame" x="109" y="594.5" width="157" height="51.5"/>
+                                <rect key="frame" x="106.5" y="593" width="162" height="53"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="jfz-6l-SyY" secondAttribute="height" multiplier="137:45" id="nMI-fx-fsh"/>
                                 </constraints>
@@ -1321,7 +1321,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9yh-g8-GsU">
-                                                    <rect key="frame" x="109.5" y="26.5" width="157" height="47"/>
+                                                    <rect key="frame" x="108" y="23.5" width="160" height="53"/>
                                                     <state key="normal" image="done_button"/>
                                                     <connections>
                                                         <action selector="btnActionDone:" destination="d1T-Gm-eoY" eventType="touchUpInside" id="ZRq-KK-h6E"/>
@@ -6306,7 +6306,6 @@
                                                             <state key="normal" image="play_button"/>
                                                         </button>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="AOR-Ti-e4L" firstAttribute="leading" secondItem="oMV-O7-cIs" secondAttribute="leading" id="APH-ca-UeU"/>
                                                         <constraint firstItem="IYU-6y-Vbc" firstAttribute="centerY" secondItem="AOR-Ti-e4L" secondAttribute="centerY" id="Iqb-Bu-tn2"/>
@@ -7030,7 +7029,7 @@ AAAAAAAAAAAAIPk
         <image name="create-emogo-btn" width="375" height="80"/>
         <image name="create_new_emogo_button" width="360" height="60"/>
         <image name="demo_images" width="48" height="48"/>
-        <image name="done_button" width="157" height="47"/>
+        <image name="done_button" width="160" height="53"/>
         <image name="down-arrow" width="33" height="21"/>
         <image name="emogo_button_active" width="170" height="36"/>
         <image name="emogo_stream" width="182" height="53"/>

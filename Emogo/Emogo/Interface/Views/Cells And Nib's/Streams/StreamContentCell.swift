@@ -44,8 +44,9 @@ class StreamContentCell: UICollectionViewCell {
             }
             self.viewContent.isHidden = true
             self.btnPlay.isHidden = true
-            //self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
-              self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
+           // self.viewContent.layer.contents = UIImage(named: "content-card-gradient")?.cgImage
+            self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+            //  self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
             if content.type == .image {
                 self.btnPlay.isHidden = true
                 if !content.color.trim().isEmpty {

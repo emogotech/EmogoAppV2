@@ -78,6 +78,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isTranslucent = true
         self.hideStatusBar()
         lblRecordTimer.isHidden = true
         SharedData.sharedInstance.tempVC = self
@@ -459,6 +460,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionBack(_ sender: Any) {
+       
         if timer != nil {
             self.timer.invalidate()
         }
@@ -593,6 +595,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @objc  func btnBack() {
+        self.navigationController?.navigationBar.isTranslucent = false
         kDefault?.removeObject(forKey: kRetakeIndex)
         if timer != nil {
             self.timer.invalidate()
@@ -607,9 +610,10 @@ class CustomCameraViewController: SwiftyCamViewController {
             //            self.recordButtonTapped(isShow: false)
         }else {
             if kContainerNav.isEmpty {
-                //  addLeftTransitionView(subtype: kCATransitionFromLeft)
-                
-                self.navigationController?.popNormal()
+                self.addLeftTransitionView(subtype: kCATransitionFromLeft)
+              
+//                addLeftTransitionView(subtype: kCATransitionFromLeft)
+               self.navigationController?.popNormal()
             }else {
                 kContainerNav = "1"
                 self.prepareContainerToPresent()
@@ -789,7 +793,9 @@ class CustomCameraViewController: SwiftyCamViewController {
             }else {
                 objPreview.selectedIndex = 0
             }
-            self.navigationController?.pushNormal(viewController: objPreview)
+              self.addLeftTransitionView(subtype: kCATransitionFromRight)
+              self.navigationController?.pushViewController(objPreview, animated: false)
+           // self.navigationController?.pushNormal(viewController: objPreview)
         }
     }
     

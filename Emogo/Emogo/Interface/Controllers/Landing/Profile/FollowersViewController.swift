@@ -333,7 +333,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:FollowerCell = tableView.dequeueReusableCell(withIdentifier: kCell_FollowerCell, for: indexPath) as! FollowerCell
         if indexPath.section == 0 {
-            cell.viewMessage.isHidden = false
+           // cell.viewMessage.isHidden = false
             cell.ViewUser.isHidden = true
         }else {
             if isSearchEnable {

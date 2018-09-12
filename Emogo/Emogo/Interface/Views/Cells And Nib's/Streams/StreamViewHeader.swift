@@ -19,7 +19,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var imgCover: UIImageView!
-    @IBOutlet weak var btnLike:FaveButton!
+    @IBOutlet weak var btnLike:UIButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
     @IBOutlet weak var viewLike: UIView!
     @IBOutlet weak var viewViewCount: UIView!
@@ -33,7 +33,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var lblColabLabel: UILabel!
     @IBOutlet weak var kConstantImageWidth: NSLayoutConstraint!
     @IBOutlet weak var kConstantLikeWidth: NSLayoutConstraint!
-    @IBOutlet weak var btnLikeOtherUser:FaveButton!
+    @IBOutlet weak var btnLikeOtherUser:UIButton!
     @IBOutlet weak var kConsImgTop: NSLayoutConstraint!
     @IBOutlet weak var imgViewTopGradient: UIImageView!
 
@@ -43,7 +43,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+//          self.lblName.shadow()
+//          self.lblName.minimumScaleFactor = 1.0
       
         // Initialization code
         imgCover.isUserInteractionEnabled = true
@@ -61,18 +62,19 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
 
     }
     func prepareLayout(stream:StreamDAO?){
-        
+        self.lblName.text = nil
         imgCollabTwo.isHidden = true
         imgCollabOne.isHidden = true
      //   imgUser.isHidden = true
 
-        self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
-        // self.viewTop.layer.contents = UIImage(named: "top-gradient-1")?.cgImage
+        self.viewContainer.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
+      //  self.viewTop.layer.contents = UIImage(named: "stream-top-gradient")?.cgImage
         //top-gradient
         // self.viewTop.addBlurView(style: UIBlurEffectStyle.dark)
-        guard let objStream = stream  else {
-            return
-        }
+        let objStream = stream!
+//        guard let objStream = stream  else {
+//            return
+//        }
         imgCover.isHidden = false
         if !objStream.color.trim().isEmpty {
             imgCover.backgroundColor = UIColor(hex: objStream.color.trim())
@@ -87,12 +89,12 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             btnCollab.isHidden = false
             // btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
         }
-        
-        print("current Tile--->\(objStream.Title)")
-      
-        self.lblName.text = objStream.Title.trim()
-        self.lblName.shadow()
-        self.lblName.minimumScaleFactor = 1.0
+         let strname = objStream.Title.trim()
+       
+         //self.lblName.text  = ""
+        print("stream Name ---->\(objStream.Title.trim())")
+        self.lblName.text = strname
+   
         self.lblDescription.text = objStream.description.trim()
         self.lblDescription.shadow()
         self.lblDescription.numberOfLines = 0
@@ -103,9 +105,9 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.viewTop.fadeIn(0.1, delay: 0.4) { (_) in
             
         }
-        self.viewContainer.fadeIn(0.2, delay: 0.4) { (_) in
-            
-        }
+//        self.viewContainer.fadeIn(0.2, delay: 0.4) { (_) in
+//
+//        }
         self.imgViewTopGradient.fadeIn(0.1, delay: 0.4) { (_) in
             
         }
@@ -212,8 +214,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         imgCollabTwo.isHidden = false
         imgCollabOne.isHidden = false
       
-        self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
-       // self.viewTop.layer.contents = UIImage(named: "top-gradient-1")?.cgImage
+        self.viewContainer.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
+        self.viewTop.layer.contents = UIImage(named: "stream-top-gradient")?.cgImage
         //top-gradient
        // self.viewTop.addBlurView(style: UIBlurEffectStyle.dark)
         guard let objStream = stream  else {

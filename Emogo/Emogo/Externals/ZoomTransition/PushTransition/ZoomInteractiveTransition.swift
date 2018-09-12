@@ -19,6 +19,9 @@ public final class ZoomInteractiveTransition: UIPercentDrivenInteractiveTransiti
     }
 
     @objc func handle(recognizer: UIScreenEdgePanGestureRecognizer) {
+        if isSwipeEnable == false {
+            return
+        }
         switch recognizer.state {
         case .changed:
             guard let view = recognizer.view else { return }
@@ -56,6 +59,7 @@ public final class ZoomInteractiveTransition: UIPercentDrivenInteractiveTransiti
 
 extension ZoomInteractiveTransition: UIGestureRecognizerDelegate {
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if isSwipeEnable {
         let isDestinationController: Bool = navigationController?.viewControllers.last is ZoomTransitionDestinationDelegate
         if gestureRecognizer === navigationController?.interactivePopGestureRecognizer {
             return !isDestinationController
@@ -67,6 +71,7 @@ extension ZoomInteractiveTransition: UIGestureRecognizerDelegate {
                 }
                 return true
             }
+        }
         }
         return false
     }

@@ -84,7 +84,7 @@ import UIKit
     }
 
     /// The value we hold in order to be able to set the line height before the JS completely loads.
-   open var innerLineHeight: Int = 35
+   open var innerLineHeight: Int = 28
 
     /// The line height of the editor. Defaults to 28.
     open private(set) var lineHeight: Int {
@@ -92,6 +92,7 @@ import UIKit
             if isEditorLoaded, let lineHeight = Int(runJS("RE.getLineHeight();")) {
                 return lineHeight
             } else {
+                print(innerLineHeight)
                 return innerLineHeight
             }
         }

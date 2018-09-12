@@ -73,7 +73,7 @@ class ViewProfileViewController: UIViewController {
         self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
         self.imgSingleView.image = #imageLiteral(resourceName: "location_icon")
         let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
-        let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
+        let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share_profile"), style: .plain, target: self, action: #selector(self.profileShareAction))
         self.navigationItem.rightBarButtonItems = [btnFlag,btnShare]
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self

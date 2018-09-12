@@ -110,6 +110,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.lblNOResult.isHidden = true
+        self.navigationController?.navigationBar.isTranslucent = false
         self.configureProfileNavigation()
       
         self.prepareLayout(listUpdate: false)
@@ -228,7 +229,7 @@ class ProfileViewController: UIViewController {
         }else{
             
         }
-        segmentControl.sectionTitles = ["ALL", "PHOTOS", "VIDEOS", "LINKS", "NOTES","GIFS"]
+        segmentControl.sectionTitles = ["All", "Photos", "Videos", "Links", "Notes","Gifs"]
         
         segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
           
@@ -240,7 +241,7 @@ class ProfileViewController: UIViewController {
         segmentControl.backgroundColor =  .white
       //  segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
        // segmentControl.backgroundColor = UIColor.white
-        segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
+        segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 13.0)]
         
         segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         segmentControl.selectionStyle = .textWidthStripe
@@ -1065,7 +1066,8 @@ class ProfileViewController: UIViewController {
     @objc func btnSettingAction() {
         
         let settingVC = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_SettingView)
-        self.navigationController?.pushAsPresent(viewController: settingVC)
+        customPresentViewController(PresenterNew.SettingPresenter, viewController: settingVC, animated: true, completion: nil)
+       // self.navigationController?.pushAsPresent(viewController: settingVC)
         /*
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Logout, preferredStyle: .alert)
         let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
@@ -1152,7 +1154,6 @@ class ProfileViewController: UIViewController {
                     objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
                     objNavigation!.cc_swipeBackDisabled = true
                 }
-                self.hideStatusBar()
                 self.present(objNavigation!, animated: true, completion: nil)
                 
                 //  self.navigationController?.push(viewController: objPreview)
@@ -1698,7 +1699,12 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if   self.navigationController?.navigationBar.isTranslucent == false {
+            self.navigationController?.navigationBar.isTranslucent = true
+        }
+
         if currentMenu == .stuff {
+          
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             let content = array[indexPath.row]
             if content.isAdd {
@@ -1723,7 +1729,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     }
                     objNavigation?.isNavigationBarHidden = true
                     self.present(objNavigation!, animated: true, completion: nil)
-                    self.hideStatusBar()
+                   
                   //  self.navigationController?.push(viewController: objPreview)
                 }
             }
