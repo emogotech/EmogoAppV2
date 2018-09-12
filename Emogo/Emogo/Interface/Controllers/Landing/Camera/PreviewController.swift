@@ -496,7 +496,7 @@ class PreviewController: UIViewController {
             let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
             self.navigationController?.popToViewController(vc: controller)
         }else if isFromNotes == "StreamView" {
-            let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
+            let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView)
             self.navigationController?.popToViewController(vc: controller)
         }else if isFromNotes == "Profile" {
             let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
@@ -617,7 +617,7 @@ class PreviewController: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     // Back Screen
                     if kNavForProfile.isEmpty {
-                        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
+                        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView)
                         obj.title = currentStreamType.rawValue
                         //                    obj.streamType
                         self.navigationController?.popToViewController(vc: obj)

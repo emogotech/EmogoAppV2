@@ -149,6 +149,7 @@ class EmogoDetailViewController: UIViewController {
         if self.navigationController?.isNavigationBarHidden == true {
             self.navigationController?.isNavigationBarHidden = false
         }
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
         var arrayButtons = [UIBarButtonItem]()
         
         //  let imgP = UIImage(named: "back_icon_stream")
