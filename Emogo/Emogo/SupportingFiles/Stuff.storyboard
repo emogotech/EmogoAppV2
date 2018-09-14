@@ -2807,7 +2807,7 @@ Cg
                                                                 <constraint firstItem="Wnm-gp-5Xy" firstAttribute="leading" secondItem="RWO-p6-gfl" secondAttribute="trailing" constant="10" id="7YR-eg-u3e"/>
                                                                 <constraint firstItem="Wnm-gp-5Xy" firstAttribute="centerY" secondItem="Q6J-rC-k8n" secondAttribute="centerY" id="JjA-YG-tDe"/>
                                                                 <constraint firstAttribute="bottom" secondItem="Tox-Aq-w7a" secondAttribute="bottom" id="NDz-Z7-7r3"/>
-                                                                <constraint firstAttribute="height" constant="31" id="Pxd-wI-K8p"/>
+                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="31" id="Pxd-wI-K8p"/>
                                                                 <constraint firstAttribute="bottom" secondItem="IXL-2C-KdF" secondAttribute="bottom" constant="1" id="RRL-Ub-HB3"/>
                                                                 <constraint firstItem="Tox-Aq-w7a" firstAttribute="leading" secondItem="Q6J-rC-k8n" secondAttribute="leading" constant="7" id="Xtq-Tf-hor"/>
                                                                 <constraint firstItem="Tox-Aq-w7a" firstAttribute="top" secondItem="RWO-p6-gfl" secondAttribute="bottom" constant="1" id="dGN-08-udO"/>

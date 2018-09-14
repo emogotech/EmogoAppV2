@@ -1412,14 +1412,14 @@ extension FLAnimatedImageView {
     }
     
     
-//    func setForAnimatedImage(strImage:String){
-//        if strImage.isEmpty{
-//            return
-//        }
-//        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
-//
-//        self.setImageUrl(imgURL)
-//    }
+    func setForAnimatedImage(strImage:String){
+        if strImage.isEmpty{
+            return
+        }
+        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+
+        self.setImageUrl(imgURL)
+    }
     
     
     func setForAnimatedImage(strImage:String,isAddLoader:Bool? = nil, handler : @escaping ((_ result : UIImage?) -> Void)){

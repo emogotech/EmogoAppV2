@@ -42,6 +42,8 @@ class ContentViewCell: UICollectionViewCell {
         self.kCenterY.priority = .defaultHigh
         self.imgCover.image = nil
         self.imgCover.animatedImage = nil
+        self.tempImageView.image = nil
+        self.tempImageView.animatedImage = nil
         imgCover.backgroundColor = UIColor.clear
         viewCollection.backgroundColor = UIColor.clear
         tempImageView.backgroundColor = UIColor.clear
@@ -163,9 +165,13 @@ class ContentViewCell: UICollectionViewCell {
                 }
             }else {
                 
-                self.tempImageView.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
-                    navigationImageView =  self.tempImageView
-                }
+                self.tempImageView.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                navigationImageView =  self.tempImageView
+
+//                self.tempImageView.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
+//                    navigationImageView =  self.tempImageView
+//                }
+                /*
                 self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
                     if let img = img {
                         img.getColors({ (colors) in
@@ -175,6 +181,7 @@ class ContentViewCell: UICollectionViewCell {
 
                     }
                 }
+                */
             }
         }
         self.imgCover.contentMode = .scaleAspectFit

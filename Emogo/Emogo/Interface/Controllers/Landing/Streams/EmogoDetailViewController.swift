@@ -51,6 +51,11 @@ class EmogoDetailViewController: UIViewController {
         super.viewWillAppear(animated)
          self.showStatusBar()
         isSwipeEnable = true
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateData(notification:)), name: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil)
+        
     }
         
     override func viewDidAppear(_ animated: Bool) {
@@ -63,6 +68,11 @@ class EmogoDetailViewController: UIViewController {
         isSwipeEnable  = false
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
+    }
+    
     func prepareLayouts(){
        // self.configureNavigationTite()
         self.currentStream = StreamList.sharedInstance.arrayViewStream[currentIndex]
@@ -98,6 +108,8 @@ class EmogoDetailViewController: UIViewController {
           
             
         }
+        
+        
         kRefreshCell = true
         configureStrechyHeader()
         configureNavigation()
@@ -401,6 +413,10 @@ class EmogoDetailViewController: UIViewController {
                 //   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .selected)
             }
             
+                if let mainIndex =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == currentStream.ID.trim()  }) {
+                    StreamList.sharedInstance.arrayStream[mainIndex].likeStatus = self.currentStream.likeStatus
+               }
+            
             
             self.likeDislikeStream()
         }
@@ -652,6 +668,28 @@ class EmogoDetailViewController: UIViewController {
         controller.isOpenFrom = "StreamView"
         self.navigationController?.push(viewController: controller)
     }
+    @objc func updateData(notification:Notification){
+        if let dict = notification.userInfo {
+            if let data = (dict as! [String:Any])["data"] as? [String] {
+                print(data)
+//                for v in 0...StreamList.sharedInstance.arrayViewStream.count-1 {
+//                    let streams = StreamList.sharedInstance.arrayViewStream[v]
+//                    for dataIDs in data {
+//                        if streams.ID == dataIDs {
+//                            self.currentIndex = v
+//                            self.updateLayOut()
+//                            break
+//                        }
+//                    }
+//                    ContentList.sharedInstance.objStream = nil
+                
+                if self.currentStream != nil {
+                    self.getStream(currentStream: self.currentStream)
+                }
+                
+                }
+            }
+        }
     
     func composeMessage() -> MSMessage {
         let session = MSSession()

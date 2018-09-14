@@ -151,7 +151,9 @@ class StreamListViewController: UIViewController {
         super.viewWillAppear(animated)
        
         self.kMenuViewHeight.constant = 115.0
-        self.configureLandingNavigation()
+        if !self.isSearch {
+            self.configureLandingNavigation()
+        }
         menuView.isHidden = true
         self.viewSearchMain.backgroundColor = .white
         self.navigationController?.navigationBar.barTintColor = .white
@@ -728,7 +730,9 @@ class StreamListViewController: UIViewController {
             }
         }
        // configureSearchBarNavigation()
-        prepareSearchBar()
+        if !isSearch {
+            prepareSearchBar()
+        }
     }
     
     func prepareSearchBar(){
@@ -1670,12 +1674,13 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             }
             Animation.viewSlideInFromBottomToTop(views: self.viewMenu,duration:0.2)
             
-            
         } else {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
             self.showStatusBar()
             UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {
-                self.viewMenu.isHidden = false
+                if self.isSearch == false {
+                    self.viewMenu.isHidden = false
+                }
             }) { (_) in
                 
             }
@@ -1686,7 +1691,8 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if isMenuOpen {
+        
+        if isMenuOpen && !self.isSearch{
             self.menuView.isHidden = true
             self.viewMenu.isHidden = false
             Animation.viewSlideInFromTopToBottom(views: self.viewMenu)

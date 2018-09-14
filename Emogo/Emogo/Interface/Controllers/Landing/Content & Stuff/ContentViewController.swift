@@ -248,9 +248,7 @@ class ContentViewController: UIViewController {
         btnAddToEmogo.isHidden = true
         btnShare.isHidden = true
         btnSave.isHidden = true
-        if isDidload {
-            self.showButtons()
-        }
+       
        // self.btnMore.isHidden = true
     //    self.bottomToolBarView.isHidden = false
 //        self.btnEdit.isHidden = false
@@ -267,6 +265,9 @@ class ContentViewController: UIViewController {
 //            self.btnEdit.isHidden = false
 //        }
         
+        if isDidload {
+            self.showButtons()
+        }
         if isFromViewStream == false {
             
             if isViewCount != nil && seletedImage.fileName != "SreamCover"{
@@ -395,14 +396,22 @@ class ContentViewController: UIViewController {
     
     @IBAction func btnLikeDislikeAction(_ sender: Any) {
         
-        if seletedImage.likeStatus == 0{
-            seletedImage.likeStatus = 1
-            self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-        }else{
-            seletedImage.likeStatus = 0
-            self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-        }
+        UIView.transition(with: self.btnLikeDislike,
+                          duration:0.5,
+                          options: .transitionCrossDissolve,
+                          animations: {
+                            if self.seletedImage.likeStatus == 0{
+                                self.seletedImage.likeStatus = 1
+                                self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                            }else{
+                                self.seletedImage.likeStatus = 0
+                                self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                            }
+                            
+        },
+                          completion: nil)
         
+      
         self.likeDislikeContent()
     }
     
@@ -1081,15 +1090,15 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
             onceOnly = true
         }
         
-        let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
-        if let cell  = collectionView.cellForItem(at: indexPath)  as? ContentViewCell {
-            cell.imgCover.backgroundColor = UIColor(hex: content.color.trim())
-            cell.viewCollection.backgroundColor = UIColor(hex: content.color.trim())
-            cell.tempImageView.backgroundColor = UIColor(hex: content.color.trim())
-               bottomToolBarView.backgroundColor = .clear
-//            bottomToolBarView.backgroundColor = UIColor(hex: content.color.trim())
-            self.collectionView.backgroundColor = UIColor(hex: content.color.trim())
-        }
+//        let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
+//        if let cell  = collectionView.cellForItem(at: indexPath)  as? ContentViewCell {
+//            cell.imgCover.backgroundColor = UIColor(hex: content.color.trim())
+//            cell.viewCollection.backgroundColor = UIColor(hex: content.color.trim())
+//            cell.tempImageView.backgroundColor = UIColor(hex: content.color.trim())
+//               bottomToolBarView.backgroundColor = .clear
+////            bottomToolBarView.backgroundColor = UIColor(hex: content.color.trim())
+//            self.collectionView.backgroundColor = UIColor(hex: content.color.trim())
+//        }
 
     }
   

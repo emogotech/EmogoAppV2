@@ -46,9 +46,26 @@ class MyStuffViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureNavigationWithTitle()
-        
+     
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            for obj in ContentList.sharedInstance.arrayContent {
+                for (index,temp) in ContentList.sharedInstance.arrayStuff.enumerated() {
+                    if temp.contentID.trim() == obj.contentID.trim() {
+                        
+                        ContentList.sharedInstance.arrayStuff[index].isSelected = true
+                    }else {
+                        ContentList.sharedInstance.arrayStuff[index].isSelected = false
+                    }
+                }
+            }
+        }
+        DispatchQueue.main.async {
+            self.stuffCollectionView.reloadData()
+        }
+    }
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
@@ -513,6 +530,11 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         cell.btnSelect.tag = indexPath.row
         cell.btnSelect.addTarget(self, action: #selector(self.btnSelectAction(button:)), for: .touchUpInside)
         cell.prepareLayout(content:content)
+        if content.isSelected {
+            cell.imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+        }else {
+            cell.imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+        }
         return cell
     }
     
