@@ -45,12 +45,15 @@ class StreamFilter(django_filters.FilterSet):
     def filter_popular(self, qs, name, value):
         owner_qs = qs.filter(type='Public').order_by('-view_count')
         # Get streams user as collaborator
-        collaborator_permission = self.collaborator_qs
-        collaborator_permission = [x.stream for x in collaborator_permission if
-                                   str(x.phone_number) in str(
-                                       self.request.user.username) and x.stream.status == 'Active']
+        stream_ids = self.collaborator_qs.filter(phone_number=self.request.user.username, stream__status='Active').values_list(
+            'stream', flat=True)
+
+        # 2. Fetch stream Queryset objects.
+        collaborator_permission = qs.filter(id__in=stream_ids)
+
         # Merge result
-        result_list = list(chain(owner_qs, collaborator_permission))
+        result_list = owner_qs | collaborator_permission
+        result_list = list(result_list)
         return result_list
 
     def filter_global_search(self, qs, name, value):
