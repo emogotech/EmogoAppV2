@@ -181,7 +181,7 @@ class UserDetailSerializer(UserProfileSerializer):
             return self.context.user
 
     def get_profile_stream(self, obj):
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes', 'is_collaborator', 'have_some_update', 'color', 'stream_permission', 'collaborator_permission', 'total_collaborator',  'is_collaborator', 'stream_contents', 'any_one_can_edit', 'collaborators', 'user_image')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes', 'is_collaborator', 'have_some_update', 'color', 'stream_permission', 'collaborator_permission', 'total_collaborator',  'is_collaborator', 'stream_contents', 'any_one_can_edit', 'collaborators', 'user_image', 'description')
         if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
             setattr(obj.profile_stream, 'stream_collaborator', obj.profile_stream.profile_stream_collaborator_list)
             setattr(obj.profile_stream, 'content_list', obj.profile_stream.profile_stream_content_list)
@@ -453,7 +453,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     collaborator_qs = Collaborator.actives.all().select_related('stream')
 
     def use_fields(self):
-        fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width', 'have_some_update', 'color', 'stream_contents', 'stream_permission', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image')
+        fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width', 'have_some_update', 'color', 'stream_contents', 'stream_permission', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'description')
         return fields
 
     def get_serializer_context(self):
