@@ -72,7 +72,6 @@ class Command(BaseCommand):
                 print 'reading content image %s %s ', content.id, content.video_image
                 try:
                     colour = self.add_color(content.video_image)
-                    # import pdb; pdb.set_trace()
                     content.color = '#%s' % colour
                     content.save()
                 except Exception as e:
