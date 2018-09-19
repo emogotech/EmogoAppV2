@@ -531,7 +531,7 @@ extension CreateStreamController :UITextViewDelegate, UITextFieldDelegate {
     func textViewDidChange(_ textView: UITextView) {
         
      //   self.lblCaption.isHidden = textView.text.isEmpty
-        self.tfDescription.text = self.tfDescription.text.trim().replacingOccurrences(of: "\n", with: "")
+       // self.tfDescription.text = self.tfDescription.text.trim().replacingOccurrences(of: "\n", with: "")
         if self.tfDescription.contentSize.height > contentRowHeight {
             print(self.tfDescription.text)
             if self.tfDescription.text.trim().replacingOccurrences(of: "\n", with: "").isEmpty {

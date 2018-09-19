@@ -136,17 +136,17 @@ class ContentViewController: UIViewController {
 //        }
          self.navigationController?.isNavigationBarHidden = true
         if self.seletedImage.width < self.seletedImage.height {
-            bottomToolBarView.backgroundColor = UIColor.clear
+         //   bottomToolBarView.backgroundColor = UIColor.white
         }else{
             if !seletedImage.color.trim().isEmpty {
-                bottomToolBarView.backgroundColor = UIColor.clear
+               // bottomToolBarView.backgroundColor = UIColor.white
                 //bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
             }
         }
         //bottomToolBarView.backgroundColor = UIColor.clear
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
             if !seletedImage.color.trim().isEmpty {
-                bottomToolBarView.backgroundColor = UIColor.clear
+               // bottomToolBarView.backgroundColor = UIColor.white
                 //bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
             }
         }
@@ -221,8 +221,8 @@ class ContentViewController: UIViewController {
     }
     func updateContent(){
      //   btnOther.isHidden = false
-        bottomToolBarView.backgroundColor = UIColor.clear
-        self.collectionView.backgroundColor = UIColor.clear
+     //   bottomToolBarView.backgroundColor = UIColor.white
+        self.collectionView.backgroundColor = UIColor.white
         self.btnLikeDislike.isHidden = false
       //  btnOther.isHidden = false
         print(ContentList.sharedInstance.arrayContent)
@@ -239,9 +239,9 @@ class ContentViewController: UIViewController {
             return
         }
         if seletedImage.likeStatus == 0 {
-            self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                 self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon_content"), for: .normal)
         }else{
-            self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                 self.btnLikeDislike .setImage(#imageLiteral(resourceName: "active_like"), for: .normal)
         }
         self.collectionView.reloadData()
         
@@ -280,7 +280,8 @@ class ContentViewController: UIViewController {
             self.btnLikeDislike.isHidden = true
             btnOther.isHidden = true
         }
-         self.collectionView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+          self.collectionView.backgroundColor = UIColor.white
+       //  self.collectionView.backgroundColor = UIColor(hex: seletedImage.color.trim())
          if  SharedData.sharedInstance.deepLinkType == kDeepLinkShareEditContent {
              self.btnAddToEmogo.isHidden = false
              self.btnSave.isHidden = false
@@ -288,10 +289,11 @@ class ContentViewController: UIViewController {
         }
       //  bottomToolBarView.backgroundColor = UIColor.black
         if self.seletedImage.width < self.seletedImage.height {
-            bottomToolBarView.backgroundColor = UIColor.clear
+          //  bottomToolBarView.backgroundColor = UIColor.white
+           
         }else{
             if !seletedImage.color.trim().isEmpty {
-                bottomToolBarView.backgroundColor = UIColor.clear
+              //  bottomToolBarView.backgroundColor = UIColor.white
               //  bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
             }
         }
@@ -356,6 +358,11 @@ class ContentViewController: UIViewController {
         if isProfile != nil  {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
             ContentList.sharedInstance.arrayContent = array
+        }else {
+            if ContentList.sharedInstance.arrayLink.count != 0 {
+                let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
+                ContentList.sharedInstance.arrayContent = tempArray
+         }
         }
         
         if self.playerView?.superview != nil {
@@ -396,18 +403,21 @@ class ContentViewController: UIViewController {
     
     @IBAction func btnLikeDislikeAction(_ sender: Any) {
         
+        self.btnLikeDislike.isUserInteractionEnabled = false
+
         UIView.transition(with: self.btnLikeDislike,
                           duration:0.5,
                           options: .transitionCrossDissolve,
                           animations: {
                             if self.seletedImage.likeStatus == 0{
                                 self.seletedImage.likeStatus = 1
-                                self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                                self.btnLikeDislike .setImage(#imageLiteral(resourceName: "active_like"), for: .normal)
                             }else{
                                 self.seletedImage.likeStatus = 0
-                                self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                                     self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon_content"), for: .normal)
                             }
-                            
+                            self.btnLikeDislike.isUserInteractionEnabled = true
+
         },
                           completion: nil)
         
@@ -816,9 +826,9 @@ class ContentViewController: UIViewController {
          //   HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 if self.seletedImage.likeStatus == 0 {
-                  self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                  self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon_content"), for: .normal)
                 }else{
-                    self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                    self.btnLikeDislike .setImage(#imageLiteral(resourceName: "active_like"), for: .normal)
                 }
             }else{
              //   HUDManager.sharedInstance.hideHUD()
@@ -845,13 +855,13 @@ class ContentViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 if self.seletedImage.type == .image {
-                    self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image_MyStuff)
+                    self.showToast(type: AlertType.Info, strMSG: kAlert_Save_Image_MyStuff)
                 }else  if self.seletedImage.type == .video {
-                    self.showToast(type: AlertType.success, strMSG: kAlert_Save_Video_MyStuff)
+                    self.showToast(type: AlertType.Info, strMSG: kAlert_Save_Video_MyStuff)
                 }else  if self.seletedImage.type == .gif {
-                    self.showToast(type: AlertType.success, strMSG: kAlert_Save_GIF_MyStuff)
+                    self.showToast(type: AlertType.Info, strMSG: kAlert_Save_GIF_MyStuff)
                 }else  if self.seletedImage.type == .link{
-                    self.showToast(type: AlertType.success, strMSG: kAlert_Save_Link_MyStuff)
+                    self.showToast(type: AlertType.Info, strMSG: kAlert_Save_Link_MyStuff)
                 }
             }else{
                 HUDManager.sharedInstance.hideHUD()
@@ -878,8 +888,10 @@ class ContentViewController: UIViewController {
                             self.playerView?.frame = cell.playerContainerView.bounds
                             cell.playerContainerView.addSubview(self.playerView!)
                             cell.imgCover.isHidden = true
-                            self.collectionView.backgroundColor = .black
-                            cell.viewCollection.backgroundColor = .black
+                            self.collectionView.backgroundColor = .white
+                            cell.viewCollection.backgroundColor = .white
+//                            self.collectionView.backgroundColor = .black
+//                            cell.viewCollection.backgroundColor = .black
                             
                             self.preparePlayerView(strURL: self.seletedImage.coverImage)
                         }
@@ -1190,13 +1202,30 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
             self.btnOther.isHidden = false
             self.btnBack.isHidden = false
            
-        }else{
-          
+        }  else{
+            
             self.bottomToolBarView.isHidden = true
             self.btnEdit.isHidden = true
             self.btnOther.isHidden = true
             self.btnBack.isHidden = true
         }
+        
+        
+        if seletedImage.type == .link {
+            guard let url = URL(string: seletedImage.coverImage) else {
+                return //be safe
+            }
+            self.bottomToolBarView.isHidden = false
+            self.btnEdit.isHidden = false
+            self.btnOther.isHidden = false
+            self.btnBack.isHidden = false
+            
+            self.openURL(url: url)
+            return
+        }
+        
+        
+      
         
         
     }

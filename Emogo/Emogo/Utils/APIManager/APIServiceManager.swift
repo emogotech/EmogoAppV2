@@ -324,7 +324,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.patch(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-               // print(value)
+               print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -356,7 +356,30 @@ class APIServiceManager: NSObject {
                                 StreamList.sharedInstance.arrayStream[index] = stream
                             }
                            
+                            if StreamList.sharedInstance.arrayViewStream.count != 0 {
+                                if let index =  StreamList.sharedInstance.arrayViewStream.index(where: {$0.ID.trim() == stream.ID.trim()}) {
+                                    StreamList.sharedInstance.arrayViewStream[index] = stream
+                                }
+                            }
+                            
+                            if StreamList.sharedInstance.arrayProfileColabStream.count != 0 {
+                                if let index =  StreamList.sharedInstance.arrayProfileColabStream.index(where: {$0.ID.trim() == stream.ID.trim()}) {
+                                    StreamList.sharedInstance.arrayProfileColabStream[index] = stream
+                                }
+                            }
+                            
+                            
+                            if StreamList.sharedInstance.arrayProfileStream.count != 0 {
+                                if let index =  StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == stream.ID.trim()}) {
+                                    StreamList.sharedInstance.arrayProfileStream[index] = stream
+                                }
+                            }
+                            
                         }
+                        
+                       
+                        
+                        
                         completionHandler(true,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
@@ -688,7 +711,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1383,7 +1406,7 @@ class APIServiceManager: NSObject {
             case .success(let value):
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
-                   // print(value)
+                    print(value)
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]

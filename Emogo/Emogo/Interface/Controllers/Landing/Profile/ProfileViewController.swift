@@ -1065,7 +1065,8 @@ class ProfileViewController: UIViewController {
     }
     @objc func btnSettingAction() {
         
-        let settingVC = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_SettingView)
+        let settingVC:SettingViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_SettingView) as! SettingViewController
+        settingVC.objNavigation = self.navigationController as? PMNavigationController
         customPresentViewController(PresenterNew.SettingPresenter, viewController: settingVC, animated: true, completion: nil)
        // self.navigationController?.pushAsPresent(viewController: settingVC)
         /*
@@ -1224,6 +1225,31 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
+        }else {
+            
+            if  ContentList.sharedInstance.arrayContent.count != 0 {
+                var arrayIndex = [Int]()
+                for obj in ContentList.sharedInstance.arrayContent {
+                    for (index,temp) in ContentList.sharedInstance.arrayStuff.enumerated() {
+                        if temp.contentID.trim() == obj.contentID.trim() {
+                            arrayIndex.append(index)
+                        }
+                    }
+                }
+                for (index,_) in  ContentList.sharedInstance.arrayStuff.enumerated() {
+                    if arrayIndex.contains(index) {
+                        ContentList.sharedInstance.arrayStuff[index].isSelected = true
+                    }else {
+                        ContentList.sharedInstance.arrayStuff[index].isSelected = false
+                    }
+                }
+            }else {
+                for (index,_) in  ContentList.sharedInstance.arrayStuff.enumerated() {
+                        ContentList.sharedInstance.arrayStuff[index].isSelected = false
+                }
+            }
+            
+            self.profileCollectionView.reloadData()
         }
     }
     

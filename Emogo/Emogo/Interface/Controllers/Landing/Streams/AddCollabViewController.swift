@@ -44,7 +44,8 @@ class AddCollabViewController: UIViewController {
     var isSearchEnable: Bool! = false
     var delegate:AddCollabViewControllerDelegate?
     var arrayTempSelected = [CollaboratorDAO]()
-    var objStream:StreamViewDAO?
+     var objStream:StreamDAO!
+    var currentStream : StreamViewDAO!
     var kOriginalContants:CGFloat = 0.0
   // var consTopHeight = CGSize.zero
     
@@ -467,18 +468,31 @@ class AddCollabViewController: UIViewController {
     
     func updateColabs(){
         HUDManager.sharedInstance.showHUD()
-
-        APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: (self.objStream?.streamID)!,streamType: (self.objStream?.type)!, anyOneCanEdit: (self.objStream?.anyOneCanEdit)!, canAddContent: (self.objStream?.userCanAddContent)! , canAddPeople:(self.objStream?.userCanAddPeople)!, collaborator: arrayTempSelected) { (result, errorMSG) in
-            HUDManager.sharedInstance.hideHUD()
-            if (errorMSG?.isEmpty)! {
-                if self.delegate != nil {
-                    self.delegate?.selectedColabs(arrayColab: self.arrayTempSelected)
+        if self.objStream == nil {
+            APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: (self.currentStream?.streamID)!,streamType: (self.currentStream?.type)!, anyOneCanEdit: (self.currentStream?.anyOneCanEdit)!, canAddContent: (self.currentStream?.userCanAddContent)! , canAddPeople:(self.currentStream?.userCanAddPeople)!, collaborator: arrayTempSelected) { (result, errorMSG) in
+                
+                HUDManager.sharedInstance.hideHUD()
+                if (errorMSG?.isEmpty)! {
+                    if self.delegate != nil {
+                        self.delegate?.selectedColabs(arrayColab: self.arrayTempSelected)
+                    }
+                    self.dismiss(animated: true, completion: nil)
                 }
-                self.dismiss(animated: true, completion: nil)
             }
-        }
-    }
-    
+        }else{
+              APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: (self.objStream?.ID)!,streamType: (self.objStream?.streamType)!, anyOneCanEdit: (self.objStream?.anyOneCanEdit)!, canAddContent: (self.objStream?.userCanAddContent)! , canAddPeople:(self.objStream?.userCanAddPeople)!, collaborator: arrayTempSelected) { (result, errorMSG) in
+                
+                HUDManager.sharedInstance.hideHUD()
+                if (errorMSG?.isEmpty)! {
+                    if self.delegate != nil {
+                        self.delegate?.selectedColabs(arrayColab: self.arrayTempSelected)
+                    }
+                    self.dismiss(animated: true, completion: nil)
+                }
+         }
+      
+     }
+ }
    
 }
 extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {

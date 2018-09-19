@@ -44,14 +44,17 @@ class ContentViewCell: UICollectionViewCell {
         self.imgCover.animatedImage = nil
         self.tempImageView.image = nil
         self.tempImageView.animatedImage = nil
-        imgCover.backgroundColor = UIColor.clear
-        viewCollection.backgroundColor = UIColor.clear
-        tempImageView.backgroundColor = UIColor.clear
+        imgCover.backgroundColor = UIColor.white
+        viewCollection.backgroundColor = UIColor.white
+        tempImageView.backgroundColor = UIColor.white
         
         if !seletedImage.color.trim().isEmpty {
-            imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
-            viewCollection.backgroundColor = UIColor(hex: seletedImage.color.trim())
-            tempImageView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+            imgCover.backgroundColor =  UIColor.white
+            viewCollection.backgroundColor =  UIColor.white
+            tempImageView.backgroundColor =  UIColor.white
+//            imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
+//            viewCollection.backgroundColor = UIColor(hex: seletedImage.color.trim())
+//            tempImageView.backgroundColor = UIColor(hex: seletedImage.color.trim())
         }
         self.lblTitleImage.text = ""
         self.lblImageDescription.text = ""
@@ -187,8 +190,8 @@ class ContentViewCell: UICollectionViewCell {
         self.imgCover.contentMode = .scaleAspectFit
         self.tempImageView.contentMode = .scaleAspectFit
         // disable Like Unlike and save icon
-        self.lblTitleImage.addShadow()
-        self.lblImageDescription.addShadow()
+       // self.lblTitleImage.addShadow()
+      //  self.lblImageDescription.addShadow()
         self.lblImageDescription.isHidden = false
         self.lblTitleImage.isHidden = false
         if seletedImage.name.trim().isEmpty {

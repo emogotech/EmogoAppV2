@@ -277,7 +277,7 @@ class EditStreamController: UITableViewController {
         let actionVC : AddCollabViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddCollabView) as! AddCollabViewController
         actionVC.delegate = self
         actionVC.arraySelected = self.selectedCollaborators
-        actionVC.objStream = self.objStream
+        actionVC.currentStream = self.objStream
         let nav = UINavigationController(rootViewController: actionVC)
         customPresentViewController(PresenterNew.AddCollabPresenter, viewController: nav, animated: true, completion: nil)
         
@@ -303,13 +303,13 @@ class EditStreamController: UITableViewController {
            
             
            self.switchMakeEmogoGlobal.isOn = (self.objStream?.anyOneCanEdit)!
-           
+        
           //  self.switchMakeEmogoGlobal.animationSwitcherButton()
 
             if self.objStream?.type.lowercased() == "public"{
                 self.switchEmogoPrivate.isOn = false
                 self.switchEmogoPrivate.thumbTintColor =  UIColor.lightGray
-                self.switchMakeEmogoGlobal.thumbTintColor = UIColor.white
+               self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
                 //self.switchEmogoPrivate.animationSwitcherButton()
                 streamType = "Public"
 
@@ -335,6 +335,8 @@ class EditStreamController: UITableViewController {
                 if self.selectedCollaborators.count != 0 {
                     self.switchAddContent.isUserInteractionEnabled = true
                     self.switchAddPeople.isUserInteractionEnabled  = true
+                    self.switchAddPeople.thumbTintColor = UIColor.lightGray
+                    self.switchAddContent.thumbTintColor = UIColor.lightGray
                 }
             }else {
                 self.switchEmogoPrivate.isUserInteractionEnabled = false
@@ -415,15 +417,29 @@ class EditStreamController: UITableViewController {
     
         self.switchAddPeople.isOn = (self.objStream?.userCanAddPeople)!
         self.switchAddContent.isOn = (self.objStream?.userCanAddContent)!
-
+        
+        if self.switchAddPeople.isOn == true {
+            self.switchAddPeople.thumbTintColor =  UIColor.white
+        }else{
+            self.switchAddPeople.thumbTintColor =  UIColor.lightGray
+        }
+        
+        if self.switchAddContent.isOn == true {
+            self.switchAddContent.thumbTintColor =  UIColor.white
+        }else{
+            self.switchAddPeople.thumbTintColor =  UIColor.lightGray
+        }
+//
+//         self.switchAddContent.thumbTintColor =  UIColor.white
         if (self.objStream?.anyOneCanEdit)! {
             self.btnAddCollab.isUserInteractionEnabled = false
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isUserInteractionEnabled = false
             self.switchAddPeople.isOn = false
-            self.switchAddPeople.thumbTintColor =  UIColor.lightGray
+       //     self.switchAddPeople.thumbTintColor =  UIColor.lightGray
             self.switchAddContent.isOn = false
-            self.switchAddContent.thumbTintColor =  UIColor.lightGray
+         //   self.switchAddContent.thumbTintColor =  UIColor.lightGray
+            self.switchMakeEmogoGlobal.thumbTintColor =  UIColor.white
         }
         self.tableView.reloadData()
     }
@@ -519,6 +535,7 @@ class EditStreamController: UITableViewController {
         }
     }
     private func editStream(cover:String,width:Int,hieght:Int,color:String){
+        
         APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchMakeEmogoGlobal.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width,color:color) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{

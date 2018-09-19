@@ -18,6 +18,8 @@ class CollaboratorDAO {
     var canAddContent:Bool! = false
     var canAddPeople:Bool! = false
     var userID:String! = ""
+    var UserProfileID:String! = ""
+
     var addedByMe:Bool! = false
     var userImage:String! = ""
     var displayName:String! = ""
@@ -48,6 +50,9 @@ class CollaboratorDAO {
             self.canAddPeople = obj as! Bool
         }
         if let obj = colabData["user_profile_id"] {
+            self.UserProfileID = "\(obj)"
+        }
+        if let obj = colabData["user_id"] {
             self.userID = "\(obj)"
         }
         if let obj = colabData["added_by_me"] {

@@ -568,7 +568,7 @@ extension UIViewController {
     
     func showToast(type:AlertType = .success,strMSG:String) {
         if strMSG != "request failed" {
-            self.show(strMSG: strMSG)
+            self.show(strMSG: strMSG,type:type)
             /*
             AppDelegate.appDelegate.window?.makeToast(message: strMSG,
                                                       duration: TimeInterval(3.0),
@@ -591,7 +591,7 @@ extension UIViewController {
         }
         
     }
-    private func show(strMSG:String) {
+    private func show(strMSG:String,type:AlertType!) {
         
         let messageView: MessageView = MessageView.viewFromNib(layout: .centeredView)
         messageView.configureBackgroundView(width: kFrame.size.width - 95)
@@ -612,7 +612,12 @@ extension UIViewController {
         config.duration = .seconds(seconds: 3.0)
         config.dimMode = .color(color: UIColor.clear, interactive: true)
        // config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
-        config.presentationContext  = .window(windowLevel: UIWindowLevelStatusBar)
+        if type == .success {
+            config.presentationContext  = .window(windowLevel: UIWindowLevelStatusBar)
+
+        }else {
+            config.presentationContext  = .viewController(self)
+        }
         SwiftMessages.show(config: config, view: messageView)
     }
    

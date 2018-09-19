@@ -276,6 +276,7 @@ enum EditingFeature {
             self.canvasImageView.image = image
             let size = image.suitableSize(widthLimit: UIScreen.main.bounds.width)
             imageViewHeightConstraint.constant = (size?.height)!
+            canvasImageView.clipsToBounds = true
         }else {
             prepareGifView()
         }

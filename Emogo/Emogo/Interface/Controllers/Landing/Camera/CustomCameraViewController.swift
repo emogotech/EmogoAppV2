@@ -78,7 +78,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isTranslucent = true
+     
         self.hideStatusBar()
         lblRecordTimer.isHidden = true
         SharedData.sharedInstance.tempVC = self
@@ -105,6 +105,12 @@ class CustomCameraViewController: SwiftyCamViewController {
         prepareNavBarButtons()
         self.prepareContainerToPresent()
         self.previewCollection.reloadData()
+        if self.focusingOverlay != nil {
+            if self.focusingOverlay.superview != nil  {
+                self.focusingOverlay.removeFromSuperview()
+            }
+        }
+       
     }
     
     
@@ -168,6 +174,8 @@ class CustomCameraViewController: SwiftyCamViewController {
         self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
         // Preview Height
         kPreviewHeight.constant = 24.0
+        videoQuality = .photoPreset
+        videoGravity = .resizeAspectFill
         // Configure Sound For timer
         if let bUrl = Bundle.main.url(forResource: "beep", withExtension: "wav") {
             beepSound = Sound(url: bUrl)
@@ -202,9 +210,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             swipeDown.direction = .down
             self.previewCollection.addGestureRecognizer(swipeDown)
             self.perform(#selector(self.prepareForCameraMode), with: nil, afterDelay: 0.2)
-            
-            
-        
+         
             
         }
         
@@ -839,6 +845,9 @@ class CustomCameraViewController: SwiftyCamViewController {
     func showFocusOverlay(point:CGPoint? = nil){
         print("Show Preview")
         self.focusingOverlay = UIImageView(image: UIImage(named: "focus.png"))
+        if self.focusingOverlay.superview != nil  {
+            return
+        }
         self.focusingOverlay.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         if point != nil {
             focusingOverlay.center = point!
@@ -853,7 +862,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.focusingOverlay.alpha = 1.0
         })
         if point != nil {
-            self.perform(#selector(self.hideFocusOverlay), with: nil, afterDelay: 2.0)
+            self.perform(#selector(self.hideFocusOverlay), with: nil, afterDelay: 0.1)
         }
     }
     @objc func hideFocusOverlay(){

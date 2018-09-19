@@ -193,20 +193,40 @@ class StreamDAO {
                 self.arrayContent.append(conent)
             }
         }
+        
+        if let obj = streamData["user_image"]{
+            self.userImage = obj as! String
+        }
+        
+        if let obj  = streamData["total_likes"] {
+            self.totalLikeCount = "\(obj)"
+        }
+        if UserDAO.sharedInstance.user != nil {
+            if self.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                self.canAddPeople = true
+                self.canAddContent = true
+            }
+        }
+        
         if let obj  = streamData["collaborators"] {
             let objColab:[Any] = obj as! [Any]
             for value in objColab {
                 let colab = CollaboratorDAO(colabData: value as! [String : Any])
-              if UserDAO.sharedInstance.user != nil {
-                if colab.userID == UserDAO.sharedInstance.user.userProfileID.trim() {
-                    colab.isSelected = true
-                    self.userImage = colab.userImage
-                }else {
-                    colab.isSelected = colab.addedByMe
+                if UserDAO.sharedInstance.user != nil {
+                    
+                    if colab.userID.trim() == self.IDcreatedBy.trim() {
+                        if colab.userID == UserDAO.sharedInstance.user.userId.trim() {
+                            colab.isSelected = true
+                            self.userImage = colab.userImage
+                        }else {
+                            colab.isSelected = colab.addedByMe
+                            self.userImage = colab.userImage
+                        }
+                    }else {
+                        colab.isSelected = colab.addedByMe
+                    }
+                    self.arrayColab.append(colab)
                 }
-            
-                self.arrayColab.append(colab)
-             }
             }
             
             for colab in self.arrayColab {
@@ -229,20 +249,6 @@ class StreamDAO {
                         break
                     }
                 }
-            }
-        }
-        
-        if let obj = streamData["user_image"]{
-            self.userImage = obj as! String
-        }
-        
-        if let obj  = streamData["total_likes"] {
-            self.totalLikeCount = "\(obj)"
-        }
-        if UserDAO.sharedInstance.user != nil {
-            if self.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
-                self.canAddPeople = true
-                self.canAddContent = true
             }
         }
         

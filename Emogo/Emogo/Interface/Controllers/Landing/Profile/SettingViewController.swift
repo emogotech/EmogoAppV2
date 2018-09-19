@@ -17,12 +17,15 @@ class SettingViewController: UIViewController {
     @IBOutlet weak var lblTitleHaptic: UILabel!
     
     @IBOutlet weak var cons_top_logout: NSLayoutConstraint!
+    
+    var objNavigation:PMNavigationController?
     //Variables
     
     var isHapticFeedback:Bool! =  true
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = true
         prepareLayout()
       
     }
@@ -154,9 +157,11 @@ class SettingViewController: UIViewController {
     }
     
     private func logout(){
-        kDefault?.set(false, forKey: kUserLogggedIn)
-        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
-        self.navigationController?.reverseFlipPush(viewController: obj)
+        self.dismiss(animated: true) {
+            kDefault?.set(false, forKey: kUserLogggedIn)
+            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
+            self.objNavigation?.reverseFlipPush(viewController: obj)
+        }
     }
     /*
     //MARK:- share Profile Action

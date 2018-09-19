@@ -115,13 +115,14 @@ class PreviewController: UIViewController {
             selectedIndex = 0
         }
         viewLinkPreview.isHidden = true
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = UIColor.white
+        
         self.txtTitleImage.maxLength = 50
         txtDescription.delegate = self
         self.txtDescription.placeholder = "Description"
-        self.txtDescription.placeholderColor = .white
-        self.txtTitleImage.addShadow()
-        self.txtDescription.addShadow()
+        self.txtDescription.placeholderColor = UIColor.lightGray
+       // self.txtTitleImage.addShadow()
+       // self.txtDescription.addShadow()
         
         var seen = Set<String>()
         var unique = [ContentDAO]()
@@ -195,7 +196,7 @@ class PreviewController: UIViewController {
         kWidthOptions.constant = 63.0
         //            viewOptions.isHidden = false
         //        }
-        imgPreview.backgroundColor = .black
+        imgPreview.backgroundColor = .white
         
         self.imgPreview.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
@@ -275,7 +276,7 @@ class PreviewController: UIViewController {
 //        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
         let button = self.getShadowButton(Alignment: 0)
        // button.setBackgroundImage(#imageLiteral(resourceName: "back-circle-icon"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "back icon_shadow"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "back_icon"), for: .normal)
         button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
         let btnBack = UIBarButtonItem.init(customView: button)
         self.navigationItem.leftBarButtonItem = btnBack
@@ -293,7 +294,7 @@ class PreviewController: UIViewController {
 //        var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
         
         let buttonEdit = self.getShadowButton(Alignment: 2)
-        buttonEdit.setImage(#imageLiteral(resourceName: "edit icon_new"), for: .normal)
+        buttonEdit.setImage(#imageLiteral(resourceName: "edit_icon_content"), for: .normal)
       //  buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
         buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
         let btnEdit = UIBarButtonItem.init(customView: buttonEdit)
@@ -305,7 +306,7 @@ class PreviewController: UIViewController {
 
         let buttonDel = self.getShadowButton(Alignment: 2)
       //  buttonDel.setBackgroundImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
-        buttonDel.setImage(#imageLiteral(resourceName: "delete icon_new"), for: .normal)
+        buttonDel.setImage(#imageLiteral(resourceName: "trash_icon_content"), for: .normal)
         buttonDel.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
         let btnDelete = UIBarButtonItem.init(customView: buttonDel)
         
@@ -381,18 +382,18 @@ class PreviewController: UIViewController {
             self.imgPreview.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
              //   self.imgPreview.backgroundColor = .black
-                self.txtTitleImage.textColor = .white//colors.secondary
-                self.txtDescription.textColor = .white//colors.secondary
-                self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                self.txtTitleImage.textColor = UIColor.lightGray//colors.secondary
+                self.txtDescription.textColor = UIColor.lightGray//colors.secondary
+                self.txtTitleImage.placeholderColor(text:"Title",color: UIColor.lightGray)//colors.secondary
             })
         }else {
             if seletedImage.type == .image  || seletedImage.type == .notes {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     image?.getColors({ (colors) in
                  //       self.imgPreview.backgroundColor = .black
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                        self.txtTitleImage.textColor = UIColor.lightGray//colors.secondary
+                        self.txtDescription.textColor = UIColor.lightGray//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: UIColor.lightGray)//colors.secondary
                     })
                 })
                 
@@ -418,9 +419,9 @@ class PreviewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                     //    self.imgPreview.backgroundColor = colors.primary
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                        self.txtTitleImage.textColor = UIColor.lightGray//colors.secondary
+                        self.txtDescription.textColor = UIColor.lightGray//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: UIColor.lightGray)//colors.secondary
                     })
                 })
                 self.imgPreview.setForAnimatedImage(strImage: seletedImage.coverImageVideo.trim()) { (_) in

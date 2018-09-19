@@ -70,6 +70,9 @@ open class SwiftyCamViewController: UIViewController {
 
 		/// AVCaptureSessionPresetiFrame1280x720
 		case iframe1280x720
+        
+        case photoPreset
+
 	}
 
 	/**
@@ -260,6 +263,7 @@ open class SwiftyCamViewController: UIViewController {
 	override open func viewDidLoad() {
 		super.viewDidLoad()
         previewLayer = PreviewView(frame: view.frame, videoGravity: videoGravity)
+        previewLayer.center = view.center
         view.addSubview(previewLayer)
         view.sendSubview(toBack: previewLayer)
 
@@ -666,12 +670,12 @@ open class SwiftyCamViewController: UIViewController {
 	fileprivate func configureVideoPreset() {
 
 		if currentCamera == .front {
-			session.sessionPreset = videoInputPresetFromVideoQuality(quality: .high)
+			//session.sessionPreset = videoInputPresetFromVideoQuality(quality: .photoPreset)
 		} else {
 			if session.canSetSessionPreset(videoInputPresetFromVideoQuality(quality: videoQuality)) {
 				session.sessionPreset = videoInputPresetFromVideoQuality(quality: videoQuality)
 			} else {
-				session.sessionPreset = videoInputPresetFromVideoQuality(quality: .high)
+            session.sessionPreset = videoInputPresetFromVideoQuality(quality: .photoPreset)
 			}
 		}
 	}
@@ -696,6 +700,7 @@ open class SwiftyCamViewController: UIViewController {
 //                        device.isSmoothAutoFocusEnabled = true
 //                    }
 				}
+                //device.videoZoomFactor = 1.0
 
 				if device.isExposureModeSupported(.continuousAutoExposure) {
 					device.exposureMode = .continuousAutoExposure
@@ -938,6 +943,7 @@ open class SwiftyCamViewController: UIViewController {
 		case .resolution1920x1080: return AVCaptureSessionPreset1920x1080
 		case .iframe960x540: return AVCaptureSessionPresetiFrame960x540
 		case .iframe1280x720: return AVCaptureSessionPresetiFrame1280x720
+        case .photoPreset: return AVCaptureSessionPresetPhoto
 		case .resolution3840x2160:
 			if #available(iOS 9.0, *) {
 				return AVCaptureSessionPreset3840x2160
@@ -950,13 +956,42 @@ open class SwiftyCamViewController: UIViewController {
 	}
 
 	/// Get Devices
-
+/*
 	fileprivate class func deviceWithMediaType(_ mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
 		if let devices = AVCaptureDevice.devices(withMediaType: mediaType) as? [AVCaptureDevice] {
 			return devices.filter({ $0.position == position }).first
 		}
+        
 		return nil
 	}
+    */
+    fileprivate class func deviceWithMediaType(_ mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
+        
+        var deviceTypes: [AVCaptureDevice.DeviceType] = [AVCaptureDevice.DeviceType.builtInWideAngleCamera]
+        if #available(iOS 11.0, *) {
+            deviceTypes.append(.builtInDualCamera)
+        } else {
+            deviceTypes.append(.builtInDuoCamera)
+        }
+        
+        // prioritize duo camera systems before wide angle
+        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: deviceTypes, mediaType: mediaType, position: position)
+        for device in (discoverySession?.devices)! {
+            if #available(iOS 11.0, *) {
+                if (device.deviceType == AVCaptureDevice.DeviceType.builtInDualCamera) {
+                    return device
+                }
+            } else {
+                if (device.deviceType == AVCaptureDevice.DeviceType.builtInDuoCamera) {
+                    return device
+                }
+            }
+        }
+        return discoverySession?.devices.first
+        
+    }
+    
+    
 
 	/// Enable or disable flash for photo
 
@@ -1118,7 +1153,6 @@ extension SwiftyCamViewController {
 			try captureDevice?.lockForConfiguration()
 
 			zoomScale = min(maxZoomScale, max(1.0, min(beginZoomScale * pinch.scale,  captureDevice!.activeFormat.videoMaxZoomFactor)))
-
 			captureDevice?.videoZoomFactor = zoomScale
 
 			// Call Delegate function with current zoom scale

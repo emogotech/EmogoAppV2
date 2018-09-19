@@ -75,6 +75,7 @@ class VerificationViewController: UIViewController {
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         textField.inputAccessoryView = toolBar
+      
     }
     @objc func donePressed(){
         self.btnGoToLandingScreen(UIButton())
@@ -123,6 +124,7 @@ class VerificationViewController: UIViewController {
                 if isSuccess == true {
                     AppDelegate.appDelegate.removeOberserver()
                     let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+                
                     self.navigationController?.flipPush(viewController: obj)
                 }else {
                     self.showToast(type: .error, strMSG: errorMsg!)

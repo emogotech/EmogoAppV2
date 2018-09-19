@@ -63,9 +63,10 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     }
     func prepareLayout(stream:StreamDAO?){
         self.lblName.text = nil
-        imgCollabTwo.isHidden = true
-        imgCollabOne.isHidden = true
-     //   imgUser.isHidden = true
+        self.lblDescription.text = ""
+        imgCollabTwo.image = nil
+        imgCollabOne.image = nil
+        imgUser.image = nil
 
         self.viewContainer.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
       //  self.viewTop.layer.contents = UIImage(named: "stream-top-gradient")?.cgImage
@@ -94,9 +95,9 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
          //self.lblName.text  = ""
         print("stream Name ---->\(objStream.Title.trim())")
         self.lblName.text = strname
-   
+         print("stream Name ---->\(objStream.description.trim())")
         self.lblDescription.text = objStream.description.trim()
-        self.lblDescription.shadow()
+       // self.lblDescription.shadow()
         self.lblDescription.numberOfLines = 0
         //  self.lblDescription.minimumScaleFactor = 1.0
         
@@ -125,6 +126,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             // btnEdit.isHidden = false
         }
         btnCollab.isHidden = false
+        self.imgCollabOne.isHidden = true
+        self.imgCollabTwo.isHidden = true
         
         if !objStream.userImage.trim().isEmpty {
             self.imgUser.isHidden = false
@@ -142,34 +145,27 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             
             if  objStream.colabImageFirst.contains(kImageFormat) {
                 self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
-                
             }else {
                 self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.cyan, circular: true)
-                
             }
             
         }else if objStream.colabImageFirst.trim().isEmpty && !objStream.colabImageSecond.trim().isEmpty {
             self.imgCollabOne.isHidden = false
             if  objStream.colabImageSecond.contains(kImageFormat) {
                 self.imgCollabOne.setImageWithResizeURL(objStream.colabImageSecond.trim())
-                
             }else {
                 self.imgCollabOne.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.cyan, circular: true)
                 
             }
             self.imgCollabTwo.isHidden = true
         }else if !objStream.colabImageFirst.trim().isEmpty && !objStream.colabImageSecond.trim().isEmpty{
-            
             self.imgCollabOne.isHidden = false
             self.imgCollabTwo.isHidden = false
             if !objStream.colabImageSecond.trim().isEmpty {
-                
                 if  objStream.colabImageSecond.contains(kImageFormat) {
                     self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
-                    
                 }else {
                     self.imgCollabTwo.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.cyan, circular: true)
-                    
                 }
             }else{
                 self.imgCollabTwo.isHidden = true
@@ -179,9 +175,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
                 
                 if  objStream.colabImageFirst.contains(kImageFormat) {
                     self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
-                    
                 }else {
-                    
                     self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.brown, circular: true)
                 }
                 

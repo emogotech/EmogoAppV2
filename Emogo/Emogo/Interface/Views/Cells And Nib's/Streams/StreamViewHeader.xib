@@ -292,7 +292,7 @@
                     </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.90980392160000001" green="0.90980392160000001" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="HR2-Gh-htd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="2Hn-L7-aOX"/>
                 <constraint firstItem="HR2-Gh-htd" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="2W0-Sc-i2N"/>

@@ -17,10 +17,7 @@ class ViewController: UIViewController {
 
 
    var images = [UIImage]()
-    
- 
-    
-    
+  
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,8 +48,9 @@ class ViewController: UIViewController {
         images.append(UIImage(named: "image four")!)
         images.append(UIImage(named: "image five")!)
         images.append(UIImage(named: "image six")!)
-        
+    
         pageController.delegate = self
+        pageController.isUserInteractionEnabled = false
         pageController.setImageActiveState(#imageLiteral(resourceName: "selected slider circle"), inActiveState: #imageLiteral(resourceName: "unselected slider cirlce"))
         pageController.setNumberOfPages(images.count)
         pageController.setCurrentPage(1)

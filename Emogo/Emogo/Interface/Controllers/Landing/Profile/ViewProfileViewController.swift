@@ -56,6 +56,9 @@ class ViewProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.imgSingleView.isHidden = true
+        self.imgLocation.isHidden = true
+        self.imgLink.isHidden = true
         prepareLayouts()
     }
     
@@ -69,9 +72,11 @@ class ViewProfileViewController: UIViewController {
         self.title = objPeople.fullName
         self.lblNOResult.text = kAlert_No_Stream_found
         self.configureNavigationWithTitle()
-        self.imgLink.image =  #imageLiteral(resourceName: "link_icon")
-        self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
-        self.imgSingleView.image = #imageLiteral(resourceName: "location_icon")
+       
+        
+//        self.imgLink.image =  #imageLiteral(resourceName: "link_icon")
+//        self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
+//        self.imgSingleView.image = #imageLiteral(resourceName: "location_icon")
         let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
         let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share_profile"), style: .plain, target: self, action: #selector(self.profileShareAction))
         self.navigationItem.rightBarButtonItems = [btnFlag,btnShare]
@@ -163,8 +168,8 @@ class ViewProfileViewController: UIViewController {
                         //self.lblBirthday.text = people.birthday.trim()
                         self.title = people.fullName.trim()
                         self.lblBio.minimumScaleFactor = 1.0
-                        self.imgLink.isHidden = false
-                        self.imgLocation.isHidden = false
+                        self.imgLink.isHidden = true
+                        self.imgLocation.isHidden = true
                         self.imgSingleView.isHidden = true
                         
                         if people.website.trim().count > 20 {
@@ -402,6 +407,10 @@ class ViewProfileViewController: UIViewController {
                             
                         else{
                             self.viewSingle.isHidden = true
+                            self.imgLocation.isHidden = false
+                            self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
+                            self.imgLink.isHidden = false
+                            self.imgLink.image =  #imageLiteral(resourceName: "link_icon")
                             self.kHeaderHeight.constant = 253//220
                             self.topConstraintRange = (CGFloat(0)..<CGFloat(253))
                             
@@ -955,13 +964,20 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
 
 extension ViewProfileViewController : EmogoDetailViewControllerDelegate {
     
-    func nextItemScrolled(index: Int) {
-        let indexPath = IndexPath(row: index, section: 0)
-        if let cell = profileCollectionView.cellForItem(at: indexPath) {
-            selectedIndexPath = indexPath
-            self.selectedCell = cell as! ProfileStreamCell
-            selectedImageView = self.selectedCell.imgCover
+    func nextItemScrolled(index: Int?) {
+        if let index = index {
+            let indexPath = IndexPath(row: index, section: 0)
+            if let cell = profileCollectionView.cellForItem(at: indexPath) {
+                selectedIndexPath = indexPath
+                self.selectedCell = cell as! ProfileStreamCell
+                selectedImageView = self.selectedCell.imgCover
+            }
+        }else {
+            selectedIndexPath = nil
+            selectedImageView = nil
+            self.profileCollectionView.reloadData()
         }
+        
     }
     
 }

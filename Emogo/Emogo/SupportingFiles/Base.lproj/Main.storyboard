@@ -36,6 +36,9 @@
         <array key="SF-Pro-Text-Regular.otf">
             <string>SFProText-Regular</string>
         </array>
+        <array key="SF-Pro-Text-Semibold.otf">
+            <string>SFProText-Semibold</string>
+        </array>
         <array key="SF-UI-Display-Medium.otf">
             <string>SFUIDisplay-Medium</string>
         </array>
@@ -762,7 +765,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EXA-3R-zIr" customClass="HHPageView">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EXA-3R-zIr" customClass="HHPageView">
                                 <rect key="frame" x="87.5" y="506" width="200" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -827,9 +830,10 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="pIR-sH-nhU" customClass="PMNavigationController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dNC-Jb-RUM">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="dNC-Jb-RUM">
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <userDefinedRuntimeAttributes>
@@ -3041,7 +3045,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="add cover Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuT-8V-Thc">
-                                                    <rect key="frame" x="137.5" y="85" width="101" height="17"/>
+                                                    <rect key="frame" x="137" y="85" width="101" height="17"/>
                                                     <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -3391,7 +3395,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Oxa-lZ-wHX" customClass="FLAnimatedImageView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="299"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zdP-0X-o4c">
                                 <rect key="frame" x="261" y="30" width="106" height="60"/>
@@ -3414,8 +3418,8 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="UJK-qf-ALz"/>
                                         </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
+                                        <color key="textColor" red="0.58823529411764708" green="0.58823529411764708" blue="0.58823529411764708" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Semibold" family="SF Pro Text" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="next"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
@@ -3440,12 +3444,12 @@
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="fc5-Sw-0pc"/>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="140" id="qj0-gP-Uhz"/>
                                         </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
+                                        <color key="textColor" red="0.58823529409999997" green="0.58823529409999997" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Medium" family="SF Pro Text" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                                     </textView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="rSv-IR-6Up" secondAttribute="bottom" constant="2" id="FPb-iR-B1O"/>
                                     <constraint firstAttribute="trailing" secondItem="fof-IP-Iy3" secondAttribute="trailing" constant="10" id="Msb-qv-sz9"/>
@@ -3462,7 +3466,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e9t-Zw-G9a">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="24"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="q3Q-t9-cFM"/>
                                         </constraints>
@@ -3474,7 +3478,7 @@
                                     </button>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yYt-iR-zoN">
                                         <rect key="frame" x="0.0" y="24" width="305" height="105"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="aMi-mS-Oui">
                                             <size key="itemSize" width="53" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -3543,7 +3547,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="3st-MN-eaJ"/>
                                             <constraint firstItem="M5K-eI-Yug" firstAttribute="top" secondItem="DUc-4G-NEa" secondAttribute="top" constant="16" id="rR0-2s-5hg"/>
@@ -3551,7 +3555,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="e9t-Zw-G9a" firstAttribute="leading" secondItem="8o4-3k-8xV" secondAttribute="leading" id="4Vr-rh-sjf"/>
                                     <constraint firstItem="e9t-Zw-G9a" firstAttribute="top" secondItem="8o4-3k-8xV" secondAttribute="top" id="6bC-u7-Ekb"/>
@@ -3582,13 +3586,13 @@
                                 <rect key="frame" x="0.0" y="619" width="375" height="48"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eSw-FZ-idt" userLabel="Add to Stream">
-                                        <rect key="frame" x="122.5" y="9" width="130" height="30"/>
+                                        <rect key="frame" x="236.5" y="9" width="130" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="EJf-Ay-aDg"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="MD8-Ou-ZSO"/>
+                                            <constraint firstAttribute="height" constant="30" id="aDx-ak-ume"/>
+                                            <constraint firstAttribute="width" constant="130" id="k9o-vZ-K6c"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
-                                        <state key="normal" image="add to emogo btn">
+                                        <state key="normal" image="add_emogo_content">
                                             <color key="titleColor" red="0.14859640599999999" green="0.67967122790000001" blue="0.95202726130000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -3596,27 +3600,30 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="INr-Rl-8uQ" userLabel="Add to Stream">
-                                        <rect key="frame" x="295" y="6" width="80" height="30"/>
+                                        <rect key="frame" x="6" y="8" width="119" height="30"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="lYu-ZI-S16"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="nk4-3n-ZAg"/>
+                                            <constraint firstAttribute="width" constant="119" id="2ID-VA-A0l"/>
+                                            <constraint firstAttribute="height" constant="30" id="nqo-Ww-nBn"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
-                                        <state key="normal" title="  Save" image="Save"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Semibold" family="SF Pro Text" pointSize="14"/>
+                                        <inset key="titleEdgeInsets" minX="-18" minY="0.0" maxX="38" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="83" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Save Media" image="check_icon">
+                                            <color key="titleColor" red="0.63137254901960782" green="0.63137254901960782" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="btnDoneAction:" destination="JCt-KR-SyY" eventType="touchUpInside" id="Mf6-G7-yha"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="eSw-FZ-idt" firstAttribute="top" secondItem="gsN-bM-3J6" secondAttribute="top" constant="9" id="0f9-Uj-rWr"/>
-                                    <constraint firstItem="INr-Rl-8uQ" firstAttribute="top" secondItem="gsN-bM-3J6" secondAttribute="top" constant="6" id="BIG-Gn-tDU"/>
-                                    <constraint firstItem="eSw-FZ-idt" firstAttribute="centerX" secondItem="gsN-bM-3J6" secondAttribute="centerX" id="LaV-gy-aMK"/>
-                                    <constraint firstAttribute="trailing" secondItem="INr-Rl-8uQ" secondAttribute="trailing" id="OnZ-L8-pEX"/>
+                                    <constraint firstAttribute="trailing" secondItem="eSw-FZ-idt" secondAttribute="trailing" constant="8" id="0Dp-2s-rxT"/>
+                                    <constraint firstItem="INr-Rl-8uQ" firstAttribute="leading" secondItem="gsN-bM-3J6" secondAttribute="leading" constant="6" id="7JY-bO-3TS"/>
+                                    <constraint firstItem="eSw-FZ-idt" firstAttribute="top" secondItem="gsN-bM-3J6" secondAttribute="top" constant="9" id="aev-sB-KoM"/>
+                                    <constraint firstItem="INr-Rl-8uQ" firstAttribute="top" secondItem="gsN-bM-3J6" secondAttribute="top" constant="8" id="am6-b3-b7I"/>
                                     <constraint firstAttribute="height" constant="48" id="co0-fV-w9o"/>
-                                    <constraint firstItem="INr-Rl-8uQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gsN-bM-3J6" secondAttribute="leading" constant="20" symbolic="YES" id="xEv-4o-vgd"/>
                                 </constraints>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jbw-oF-FfB">
@@ -3767,7 +3774,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y3r-SB-3BG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4201" y="-251"/>
+            <point key="canvasLocation" x="4200.8000000000002" y="-251.42428785607197"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="AEI-Qy-KTz">
@@ -6337,6 +6344,7 @@
                                                 </imageView>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="oMV-O7-cIs" secondAttribute="bottom" id="0DA-Ym-MPR"/>
                                             <constraint firstItem="oMV-O7-cIs" firstAttribute="top" secondItem="72O-UZ-EfX" secondAttribute="top" id="3pO-e2-dzE"/>
@@ -6410,12 +6418,11 @@
     <resources>
         <image name="Add_cover_image_icon" width="50" height="35"/>
         <image name="Rectangle 2" width="522" height="66"/>
-        <image name="Save" width="17" height="23"/>
         <image name="Stream-change-cover" width="110" height="43"/>
-        <image name="add to emogo btn" width="114" height="30"/>
         <image name="add-stream-cover-image-placeholder" width="375" height="179"/>
         <image name="addCollab_uncheck" width="30" height="30"/>
         <image name="add_content_icon" width="147" height="147"/>
+        <image name="add_emogo_content" width="115" height="30"/>
         <image name="add_galery" width="23" height="23"/>
         <image name="add_icon_home-3" width="121" height="121"/>
         <image name="add_to_stream" width="31" height="31"/>
@@ -7023,6 +7030,7 @@ AAAAAAAAAAAAIPk
         <image name="camera_icon_cover_images" width="131" height="131"/>
         <image name="change_cover" width="104" height="44"/>
         <image name="check-box-empty" width="26" height="26"/>
+        <image name="check_icon" width="20" height="20"/>
         <image name="click_pick" width="63" height="63"/>
         <image name="close_icon_Action" width="24" height="24"/>
         <image name="code_image" width="133" height="133"/>

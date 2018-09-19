@@ -159,7 +159,7 @@ class StreamListViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = .white
         self.navigationController?.navigationBar.isTranslucent = false
         kShowOnlyMyStream = ""
-        self.viewMenu.isHidden = false
+        
         DispatchQueue.main.async {
             
             if self.isSearch == false {
@@ -692,6 +692,7 @@ class StreamListViewController: UIViewController {
     // MARK: - Prepare Layouts When View Appear
     
     func prepareLayoutForApper(){
+        self.viewMenu.isHidden = false
         self.viewMenu.layer.contents = UIImage(named: "home-gradient-1")?.cgImage
         menuView.isAddBackground = false
         menuView.isAddTitle = true
@@ -1847,13 +1848,20 @@ extension StreamListViewController : ActionSheetControllerHeaderActionDelegate {
 
 extension StreamListViewController : EmogoDetailViewControllerDelegate {
     
-    func nextItemScrolled(index: Int) {
-        let indexPath = IndexPath(row: index, section: 0)
-        if let cell = streamCollectionView.cellForItem(at: indexPath) {
-            selectedIndexPath = indexPath
-            self.selectedCell = cell as! StreamCell
-            selectedImageView = self.selectedCell.imgCover
+    func nextItemScrolled(index: Int?) {
+        if let index = index {
+            let indexPath = IndexPath(row: index, section: 0)
+            if let cell = streamCollectionView.cellForItem(at: indexPath) {
+                selectedIndexPath = indexPath
+                self.selectedCell = cell as! StreamCell
+                selectedImageView = self.selectedCell.imgCover
+            }
+        }else {
+            selectedIndexPath = nil
+            selectedImageView = nil
+            self.streamCollectionView.reloadData()
         }
+      
     }
     
 }

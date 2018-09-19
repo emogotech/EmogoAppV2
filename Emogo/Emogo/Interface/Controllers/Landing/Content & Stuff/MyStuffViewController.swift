@@ -51,17 +51,28 @@ class MyStuffViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if  ContentList.sharedInstance.arrayContent.count != 0 {
+            var arrayIndex = [Int]()
             for obj in ContentList.sharedInstance.arrayContent {
                 for (index,temp) in ContentList.sharedInstance.arrayStuff.enumerated() {
                     if temp.contentID.trim() == obj.contentID.trim() {
-                        
-                        ContentList.sharedInstance.arrayStuff[index].isSelected = true
-                    }else {
-                        ContentList.sharedInstance.arrayStuff[index].isSelected = false
+                        arrayIndex.append(index)
                     }
                 }
             }
+            
+            for (index,_) in  ContentList.sharedInstance.arrayStuff.enumerated() {
+                if arrayIndex.contains(index) {
+                     ContentList.sharedInstance.arrayStuff[index].isSelected = true
+                }else {
+                    ContentList.sharedInstance.arrayStuff[index].isSelected = false
+                }
+            }
+        }else {
+            for (index,_) in  ContentList.sharedInstance.arrayStuff.enumerated() {
+                ContentList.sharedInstance.arrayStuff[index].isSelected = false
+            }
         }
+                
         DispatchQueue.main.async {
             self.stuffCollectionView.reloadData()
         }
