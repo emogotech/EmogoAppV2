@@ -387,7 +387,7 @@ class ViewStreamSerializer(StreamSerializer):
     def get_stream_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
                   'full_name', 'user_image', 'liked')
-        instances = obj.content_list[0:2]
+        instances = obj.content_list[0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
 
