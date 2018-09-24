@@ -1437,7 +1437,6 @@
 				F02C6199204FEDB10041CEE4 /* PageController */,
 				C8FBD72F2015FE7C007C7C1B /* Text View PlaceHolder */,
 				F4539376200CDF3B00F7D029 /* VisualView */,
-				F423AEFD2008EF1600648A3E /* PhotoPicker */,
 				F42217A820074CB6002D4E4E /* PopupView */,
 				F4361D381FF226F100553E8E /* Slider */,
 				F44939BC1FEA549600AE2FCA /* Pull To Refresh */,
@@ -1598,6 +1597,7 @@
 		C8FBD72F2015FE7C007C7C1B /* Text View PlaceHolder */ = {
 			isa = PBXGroup;
 			children = (
+				F423AEFD2008EF1600648A3E /* PhotoPicker */,
 				C8FBD7302015FE7C007C7C1B /* UITextView+Placeholder.h */,
 				C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */,
 			);

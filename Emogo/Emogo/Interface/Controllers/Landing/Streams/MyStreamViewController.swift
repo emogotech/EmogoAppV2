@@ -476,7 +476,6 @@ class MyStreamViewController: UIViewController {
         createVC.exestingNavigation = self.navigationController
         createVC.isAddContent = true
         let nav = UINavigationController(rootViewController: createVC)
-       
         customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: nav, animated: true, completion: nil)
     }
     

@@ -345,12 +345,12 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="gradientFilterCell" id="mjo-3e-df8" customClass="GradientFilterCell" customModule="Emogo" customModuleProvider="target">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" reuseIdentifier="gradientFilterCell" id="mjo-3e-df8" customClass="GradientFilterCell" customModule="Emogo" customModuleProvider="target">
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czi-6j-Zm2">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czi-6j-Zm2">
                                                             <rect key="frame" x="0.0" y="7" width="157" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="157" id="d9E-pX-kJ3"/>
@@ -627,13 +627,15 @@
                                         <rect key="frame" x="0.0" y="64" width="375" height="48"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4r7-A4-U1g" userLabel="Add to Stream">
-                                                <rect key="frame" x="303" y="6" width="70" height="30"/>
+                                                <rect key="frame" x="280" y="6" width="93" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="70" id="Og4-1e-3TO"/>
+                                                    <constraint firstAttribute="width" constant="93" id="Og4-1e-3TO"/>
                                                     <constraint firstAttribute="height" constant="30" id="mV0-z7-c4n"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
-                                                <state key="normal" title=" Save" image="Save"/>
+                                                <inset key="titleEdgeInsets" minX="-42" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="60" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="Save" image="check_icon_edit"/>
                                                 <connections>
                                                     <action selector="saveEditedVideoButtonTapped:" destination="yNd-HX-RbZ" eventType="touchUpInside" id="ewL-w0-9vm"/>
                                                 </connections>
@@ -725,7 +727,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2AZ-Os-QOZ" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="902" y="-582"/>
+            <point key="canvasLocation" x="901.60000000000002" y="-582.45877061469275"/>
         </scene>
         <!--Create Notes View Controller-->
         <scene sceneID="01y-RQ-xew">
@@ -1081,11 +1083,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Save" width="17" height="23"/>
         <image name="UA" width="21" height="15"/>
         <image name="brigtness-effect-icon" width="41" height="41"/>
         <image name="check-box-empty" width="26" height="26"/>
         <image name="check-box-filled" width="26" height="26"/>
+        <image name="check_icon_edit" width="20" height="20"/>
         <image name="color_icon_inactive" width="41" height="41"/>
         <image name="effect_icon_inactive" width="41" height="41"/>
         <image name="image-effect-icon" width="29" height="29"/>

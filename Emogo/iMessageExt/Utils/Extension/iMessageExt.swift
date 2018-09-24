@@ -76,7 +76,7 @@ extension UIImageView {
         self.sd_setShowActivityIndicatorView(true)
         self.sd_setIndicatorStyle(.gray)
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
-        self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
+        self.sd_setImage(with: imgURL, placeholderImage: UIImage())
     }
     
 }

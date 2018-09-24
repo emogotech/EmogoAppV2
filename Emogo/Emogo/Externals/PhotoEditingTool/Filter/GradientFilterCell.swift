@@ -24,6 +24,7 @@ class GradientFilterCell: UICollectionViewCell {
         }else {
             self.imgPreview.image = filter.icon
         }
+        self.imgPreview.contentMode = .scaleAspectFit
     }
 }
 

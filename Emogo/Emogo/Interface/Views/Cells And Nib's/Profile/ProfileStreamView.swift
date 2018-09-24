@@ -59,7 +59,7 @@ class ProfileStreamView: UICollectionReusableView {
         self.imgCover.contentMode = .scaleAspectFill
         self.imgUser.layer.masksToBounds = true
         self.lblTitle.text = stream.Title.trim().capitalized
-        self.lblTitle.addShadow()
+      //  self.lblTitle.addShadow()
         self.btnEditHeader.isHidden = true
         if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             self.btnEditHeader.isHidden = false

@@ -33,6 +33,7 @@ enum DeviceType:String {
 
 
 class StreamDAO {
+    
     var ID:String! = ""
     var Author:String! = ""
     var Title:String! = ""
@@ -281,6 +282,38 @@ class StreamDAO {
     
 
     }
+    
+    func copy() -> StreamDAO {
+        let copy = StreamDAO(streamData: [:])
+        copy.Title = self.Title
+        copy.ID = self.ID
+        copy.TitleStream = self.TitleStream
+        copy.Author = self.Author
+        copy.CoverImage = self.CoverImage
+        copy.IDcreatedBy = self.IDcreatedBy
+        copy.streamType = self.streamType
+        copy.width = self.width
+        copy.hieght = self.hieght
+        copy.count = self.count
+        copy.anyOneCanEdit = self.anyOneCanEdit
+        copy.canAddContent = self.canAddContent
+        copy.color = self.color
+        copy.userCanAddPeople = self.userCanAddPeople
+        copy.likeStatus = self.likeStatus
+        copy.arrayContent = self.arrayContent
+        copy.arrayColab = self.arrayColab
+        copy.totalCollaborator = self.totalCollaborator
+        copy.totalLikeCount = self.totalLikeCount
+        copy.viewCount = self.viewCount
+        copy.description = self.description
+        copy.totalLiked = self.totalLiked
+        copy.colabImageFirst = self.colabImageFirst
+        copy.colabImageSecond = self.colabImageSecond
+        
+        return copy
+
+    }
+    
 }
 
 class StreamList{
@@ -460,19 +493,26 @@ class StreamViewDAO{
             let value  = "\(obj)"
             self.featured = value.toBool()
         }
+        
         if let obj  = streamData["collaborators"] {
             let objColab:[Any] = obj as! [Any]
             for value in objColab {
                 let colab = CollaboratorDAO(colabData: value as! [String : Any])
-                
-                if colab.userID == UserDAO.sharedInstance.user.userProfileID.trim() {
-                    colab.isSelected = true
-                    self.userImage = colab.userImage
-                }else {
-                    colab.isSelected = colab.addedByMe
+                if UserDAO.sharedInstance.user != nil {
+                    
+                    if colab.userID.trim() == self.idCreatedBy.trim() {
+                        if colab.userID == UserDAO.sharedInstance.user.userId.trim() {
+                            colab.isSelected = true
+                            self.userImage = colab.userImage
+                        }else {
+                            colab.isSelected = colab.addedByMe
+                            self.userImage = colab.userImage
+                        }
+                    }else {
+                        colab.isSelected = colab.addedByMe
+                    }
+                    self.arrayColab.append(colab)
                 }
-                
-                self.arrayColab.append(colab)
             }
             
             for colab in self.arrayColab {
@@ -496,9 +536,8 @@ class StreamViewDAO{
                     }
                 }
             }
-         }
+        }
         
-
        
         if let obj  = streamData["contents"] {
             let objContent:[Any] = obj as! [Any]

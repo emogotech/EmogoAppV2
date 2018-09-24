@@ -183,8 +183,14 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
         let obj =  ContentList.sharedInstance.arrayContent[indexPath.row]
         cell.layer.borderWidth = 1.0
-        cell.layer.borderColor = UIColor.white.withAlphaComponent(0.2).cgColor
-        cell.layer.cornerRadius = 3.0
+        
+        if indexPath.row == self.indexPath.row {
+            cell.layer.borderColor = UIColor(r: 102, g: 102, b: 102).cgColor
+        }else{
+            cell.layer.borderColor = UIColor.white.cgColor
+        }
+       
+        cell.layer.cornerRadius = 10.0
         cell.clipsToBounds = true
         cell.setupPreviewWithType(content:obj)
         cell.playIcon.tag = indexPath.row
@@ -194,17 +200,24 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         return CGSize(width: collectionView.frame.size.height - 40, height: collectionView.frame.size.height - 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.indexPath = indexPath
+        self.previewCollection.reloadData()
+        self.preparePreview(index: indexPath.row)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         self.preparePreview(index: indexPath.row)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
+        return 5
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
+        return 5
     }
     
 }
@@ -242,9 +255,20 @@ extension PreviewController:VideoEditorDelegate
 
 
 extension PreviewController:UITextFieldDelegate {
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == txtTitleImage {
             txtDescription.becomeFirstResponder()
+            
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+            if txtDescription.text.trim().isEmpty {
+                txtDescription.text = ""
+            }
         }else {
             textField.resignFirstResponder()
         }

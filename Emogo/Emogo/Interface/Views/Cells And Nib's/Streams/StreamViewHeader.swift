@@ -103,21 +103,21 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         
         self.lblLikeCount.text = objStream.totalLikeCount.trim()
         self.lblViewCount.text = objStream.viewCount.trim()
-        self.viewTop.fadeIn(0.1, delay: 0.4) { (_) in
-            
-        }
+//        self.viewTop.fadeIn(0.1, delay: 0.4) { (_) in
+//            
+//        }
 //        self.viewContainer.fadeIn(0.2, delay: 0.4) { (_) in
 //
 //        }
-        self.imgViewTopGradient.fadeIn(0.1, delay: 0.4) { (_) in
-            
-        }
+//        self.imgViewTopGradient.fadeIn(0.1, delay: 0.4) { (_) in
+//
+//        }
         if (stream?.color.trim().isEmpty)! {
             imgCover.backgroundColor = UIColor(hex: (stream?.color.trim())!)
         }
         
        
-        self.imgCover.setOriginalImage(strImage: objStream.CoverImage, placeholder: kPlaceholderImage)
+        self.imgCover.setOriginalImage(strImage: objStream.CoverImage, placeholder: "")
     
 //        if objStream.anyOneCanEdit == true {
 //            btnCollab.isHidden = true
@@ -240,7 +240,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         if (stream?.color.trim().isEmpty)! {
             imgCover.backgroundColor = UIColor(hex: (stream?.color.trim())!)
         }
-        self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: kPlaceholderImage)
+        self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: "")
         
 //        if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
 //            btnEdit.isHidden = false
@@ -382,9 +382,9 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         alpha = max(0, alpha)
         
      //   self.imgCover.alpha = blurAlpha
-        viewTop.alpha = alpha
-        viewContainer.alpha = alpha
-        btnLikeOtherUser.alpha = alpha
+//        viewTop.alpha = alpha
+//        viewContainer.alpha = alpha
+//        btnLikeOtherUser.alpha = alpha
 
     }
     

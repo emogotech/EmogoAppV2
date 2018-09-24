@@ -10,6 +10,7 @@ import UIKit
 import MessageUI
 import Messages
 import Lightbox
+import Haptica
 
 protocol EmogoDetailViewControllerDelegate {
     func nextItemScrolled(index:Int?)
@@ -65,11 +66,17 @@ class EmogoDetailViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotification_Update_Image_Cover)), object: self)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateLayOut), name: NSNotification.Name(rawValue: kNotification_Update_Image_Cover), object: nil)
         
+       
+        
     }
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.stretchyHeader.imgCover.isHidden = false
+        self.viewStreamCollectionView.reloadData()
+        if self.delegate != nil {
+            self.delegate?.nextItemScrolled(index: currentIndex)
+        }
     }
   
     override func viewDidDisappear(_ animated: Bool) {
@@ -84,6 +91,7 @@ class EmogoDetailViewController: UIViewController {
 
     }
     
+   
     func prepareLayouts(){
        // self.configureNavigationTite()
         self.currentStream = StreamList.sharedInstance.arrayViewStream[currentIndex]
@@ -268,12 +276,18 @@ class EmogoDetailViewController: UIViewController {
     func configureLoadmore(){
         
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
-
-        self.viewStreamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
+        let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
+        self.viewStreamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
             if self?.currentStream != nil {
-                self?.getStream(currentStream: self?.currentStream)
+                self?.getStream(currentStream: self?.currentStream, streamID: "YES", isLoadMore: false)
             }
         }
+        self.viewStreamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
+            if self?.currentStream != nil {
+                self?.getStream(currentStream: self?.currentStream, isLoadMore: false)
+            }
+        }
+       
     }
     
     @IBAction func btnActionForAddContent(_ sender:UIButton) {
@@ -391,35 +405,50 @@ class EmogoDetailViewController: UIViewController {
             pulsator.start()
         }
  */
+        
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            Haptic.impact(.heavy).generate()
+           self.stretchyHeader.btnLike.isHaptic = true
+            self.stretchyHeader.btnLike.hapticType = .impact(.heavy)
+        }else{
+          self.stretchyHeader.btnLike.isHaptic = false
+        }
         self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = false
         self.stretchyHeader.btnLike.isUserInteractionEnabled = false
 
         if sender.tag == 111 {
             
-            UIView.transition(with: self.stretchyHeader.btnLikeOtherUser,
-                              duration:0.5,
-                              options: .transitionCrossDissolve,
-                              animations: {
-                                self.stretchyHeader.btnLikeOtherUser.isSelected = !self.stretchyHeader.btnLikeOtherUser.isSelected
-                                
-                                self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = true
-                                self.stretchyHeader.btnLike.isUserInteractionEnabled = true
-                                
-            },
-                              completion: nil)
+            UIView.animate(withDuration: 0.1, animations: {() -> Void in
+                self.stretchyHeader.btnLikeOtherUser.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                
+            }, completion: {(_ finished: Bool) -> Void in
+                UIView.animate(withDuration: 0.1, animations: {() -> Void in
+                    self.stretchyHeader.btnLikeOtherUser.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    self.stretchyHeader.btnLikeOtherUser.isSelected = !self.stretchyHeader.btnLikeOtherUser.isSelected
+                    
+                    self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = true
+                    self.stretchyHeader.btnLike.isUserInteractionEnabled = true
+                
+                })
+            })
+            
         }else if sender.tag == 222 {
-            UIView.transition(with: self.stretchyHeader.btnLike,
-                              duration:0.5,
-                              options: .transitionCrossDissolve,
-                              animations: {
-                                self.stretchyHeader.btnLike.isSelected = !self.stretchyHeader.btnLike.isSelected
-                                
-                                self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = true
-                                self.stretchyHeader.btnLike.isUserInteractionEnabled = true
-                                
-            },
-                              completion: nil)
-        }
+            
+            
+            UIView.animate(withDuration: 0.1, animations: {() -> Void in
+                self.stretchyHeader.btnLike.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                
+            }, completion: {(_ finished: Bool) -> Void in
+                UIView.animate(withDuration: 0.1, animations: {() -> Void in
+                    self.stretchyHeader.btnLike.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    self.stretchyHeader.btnLike.isSelected = !self.stretchyHeader.btnLike.isSelected
+                    
+                    self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = true
+                    self.stretchyHeader.btnLike.isUserInteractionEnabled = true
+                    
+                })
+            })
+    }
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
 //            pulsator.removeFromSuperlayer()
 //        }
@@ -439,20 +468,25 @@ class EmogoDetailViewController: UIViewController {
             // sender.isSelected = !sender.isSelected
             if self.currentStream.likeStatus == "0" {
                 self.currentStream.likeStatus = "1"
-                self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
+            //    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
                 //   self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                 //  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             }else{
                 self.currentStream.likeStatus = "0"
-                self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+              //  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                 //    self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .selected)
                 //   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .selected)
             }
             
-                if let mainIndex =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == currentStream.ID.trim()  }) {
-                    StreamList.sharedInstance.arrayStream[mainIndex].likeStatus = self.currentStream.likeStatus
-               }
-            
+                if let mainIndex =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == currentStream.ID.trim() &&  $0.selectionType == .Liked}) {
+                    StreamList.sharedInstance.arrayStream.remove(at: mainIndex)
+                 //   StreamList.sharedInstance.arrayStream[mainIndex].likeStatus = self.currentStream.likeStatus
+                }else {
+                    let tempStream = StreamList.sharedInstance.arrayViewStream[currentIndex]
+                    tempStream.selectionType = .Liked
+                    print(self.currentStream.selectionType)
+                    StreamList.sharedInstance.arrayStream.insert(tempStream, at: 0)
+                }
             
             self.likeDislikeStream()
         }
@@ -592,6 +626,7 @@ class EmogoDetailViewController: UIViewController {
         ContentList.sharedInstance.objStream = currentStream.ID
         let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
         objPreview.isViewCount = "TRUE"
+        objPreview.streamIndex = currentIndex
         //   objPreview.delegate = self
         let indexPath = IndexPath(row: sender.tag, section: 0)
         objPreview.currentIndex = indexPath.row + 1
@@ -754,7 +789,7 @@ class EmogoDetailViewController: UIViewController {
 //                    ContentList.sharedInstance.objStream = nil
                 
                 if self.currentStream != nil {
-                    self.getStream(currentStream: self.currentStream)
+                    self.getStream(currentStream: self.currentStream,isLoadMore:false)
                 }
                 
                 }
@@ -995,18 +1030,24 @@ class EmogoDetailViewController: UIViewController {
         }
     }
     
-    func getStream(currentStream:StreamDAO?, streamID:String? = nil){
+    func getStream(currentStream:StreamDAO?, streamID:String? = nil,isLoadMore:Bool){
     
-        var id:String! = ""
-        if streamID != nil {
-            id = streamID
-        }else {
-            id = currentStream?.ID
-        }
-        APIServiceManager.sharedInstance.apiForViewStream(streamID:id) { (stream, errorMsg) in
+        let id = currentStream?.ID
+        APIServiceManager.sharedInstance.apiForViewStream(streamID:id!) { (stream, errorMsg) in
             if (errorMsg?.isEmpty)! {
+                if streamID != nil {
+                    self.viewStreamCollectionView.es.stopPullToRefresh()
+                }
                 self.viewStreamCollectionView.es.noticeNoMoreData()
                 self.currentStream.arrayContent = (stream?.arrayContent)!
+                self.currentStream.arrayColab = (stream?.arrayColab)!
+                self.currentStream.colabImageFirst = (stream?.colabImageFirst)!
+                self.currentStream.colabImageSecond = (stream?.colabImageSecond)!
+                self.currentStream.userImage = (stream?.userImage)!
+                self.currentStream.totalCollaborator = (stream?.totalCollaborator)!
+                if isLoadMore {
+                    self.updateLayOut()
+                }
                 self.viewStreamCollectionView.reloadData()
             }
             else {
@@ -1107,6 +1148,9 @@ extension EmogoDetailViewController:UICollectionViewDelegate,UICollectionViewDat
         objPreview.isViewCount = "TRUE"
         objPreview.delegate = self
         objPreview.currentIndex = indexPath.row + 1
+        objPreview.streamIndex = currentIndex
+
+        
         objNavigation = UINavigationController(rootViewController: objPreview)
        
            // self.perform(#selector(statusBar), with: nil, afterDelay: 0.1)
@@ -1202,6 +1246,8 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
             objPreview.isViewCount = "TRUE"
             objPreview.delegate = self
             objPreview.currentIndex = 0
+            objPreview.streamIndex = currentIndex
+
             
             objNavigation = UINavigationController(rootViewController: objPreview)
             if let nav = objNavigation {
@@ -1229,7 +1275,7 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
 
 extension EmogoDetailViewController :AddCollabViewControllerDelegate{
     func selectedColabs(arrayColab: [CollaboratorDAO]) {
-        self.updateLayOut()
+        self.getStream(currentStream: self.currentStream,isLoadMore:true)
     }
 }
 

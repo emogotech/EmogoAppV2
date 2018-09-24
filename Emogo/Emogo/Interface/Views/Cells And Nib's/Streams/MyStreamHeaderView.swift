@@ -38,6 +38,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         self.expansionMode = .topOnly
         // You can change the minimum and maximum content heights
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
+        self.contentExpands = false
         self.maximumContentHeight = 230
         self.stretchDelegate  = self
       
@@ -107,7 +108,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         
         self.lblName.text = content.name.trim()
         self.lblDescription.text = content.description.trim()
-        self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
+        self.viewContainer.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
         self.lblDescription.numberOfLines = 3
         //self.imgCover.backgroundColor = .black
         if content.type == .video {

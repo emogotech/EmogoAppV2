@@ -72,7 +72,7 @@ class GiphyCell: UICollectionViewCell {
     }
     
     func prepareLayout(content:GiphyDAO) {
-        self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+        self.viewContent.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
         lblName.text = content.name
         lblName.minimumScaleFactor = 1.0
         self.viewContent.isHidden = true

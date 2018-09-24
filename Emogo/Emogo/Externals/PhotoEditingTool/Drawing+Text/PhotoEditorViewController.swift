@@ -120,7 +120,10 @@ enum EditingFeature {
         prepareLeftMenu()
         self.txtDescription.text = ""
         self.txtDescription.placeholder = "Description"
-        self.txtDescription.placeholderColor = .white
+        self.txtDescription.placeholderColor = UIColor.white
+        
+        self.txtTitle.placeholderColor(text: "Title", color:UIColor.white)
+        
         txtDescription.delegate = self
         txtTitle.delegate = self
         if !seletedImage.description.isEmpty {
@@ -166,7 +169,7 @@ enum EditingFeature {
         self.viewDescription.addShadow()
         self.txtTitle.addShadow()
         self.txtDescription.addShadow()
-      //  self.viewDescription.addBlurView()
+        self.viewDescription.addBlurView()
     }
     
     func configureCollectionView() {
@@ -335,9 +338,12 @@ enum EditingFeature {
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.leftBarButtonItem = nil
         let btnCancel = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.btnCancelAction))
-        let btnSave = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(self.btnApplyFeatureAction))
+        btnCancel.tintColor = UIColor.white
+        let btnSave = UIBarButtonItem(title: "Save ", style: .plain, target: self, action: #selector(self.btnApplyFeatureAction))
+        btnSave.tintColor = UIColor.white
         self.navigationItem.leftBarButtonItem = btnCancel
         self.navigationItem.rightBarButtonItem = btnSave
+        
         navigationItem.hidesBackButton = true
     }
     
@@ -345,7 +351,7 @@ enum EditingFeature {
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.leftBarButtonItem = nil
         navigationItem.hidesBackButton = true
-        let btnback = UIBarButtonItem(image: #imageLiteral(resourceName: "back_new"), style: .plain, target: self, action: #selector(self.buttonBackAction))
+        let btnback = UIBarButtonItem(image: #imageLiteral(resourceName: "back icon_shadow"), style: .plain, target: self, action: #selector(self.buttonBackAction))
         if self.seletedImage.type == .link {
             let imgSave = UIImage(named: "change_cover")
             let btnSave = UIBarButtonItem(image: imgSave, style: .plain, target: self, action: #selector(self.btnChangeCoverAction(_:)))

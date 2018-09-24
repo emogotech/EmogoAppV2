@@ -153,14 +153,16 @@ class CreateStreamController: UITableViewController {
         
         buttonDone  = UIButton(type: .system)
         buttonDone.setTitle("Done", for: .normal)
-        buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
         buttonDone.frame = CGRect(x: 0, y: 0, width: 60, height: 40)
-       // buttonDone.setTitleColor(kNavigationColor, for: .normal)
         buttonDone.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
         buttonDone.addTarget(self, action: #selector(self.btnDoneAction(_:)), for: .touchUpInside)
         let btnDone = UIBarButtonItem(customView: buttonDone)
         self.navigationItem.rightBarButtonItem = btnDone
         self.title = "Create New Emogo"
+        
+        if tfEmogoTitle.text?.trim().isEmpty == true && self.imgCover.image == nil {
+            buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
+        }
         
     }
     //MARK:- action for buttons
@@ -222,6 +224,11 @@ class CreateStreamController: UITableViewController {
         self.viewAddCoverImage.isHidden = true
         self.lblAddCoverImage.isHidden = true
        // print(self.fileName)
+        if tfEmogoTitle.text?.trim().isEmpty == false && self.imgCover.image != nil {
+            buttonDone.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
+        }else{
+            buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
+        }
         self.tfEmogoTitle.becomeFirstResponder()
     }
     
@@ -273,7 +280,7 @@ class CreateStreamController: UITableViewController {
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: false , canAddPeople: false ,height:hieght,width:width,color:color) { (isSuccess, errorMsg,stream) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
-                self.showToast(type: .error, strMSG: kAlert_Stream_Added_Success)
+                self.showToast(type: .success, strMSG: kAlert_Stream_Added_Success)
                 DispatchQueue.main.async{
 //                    if self.switchForEmogoPrivate.on {
 //                        currentStreamType = StreamType.Private
@@ -297,18 +304,23 @@ class CreateStreamController: UITableViewController {
                         if self.isAddContent != nil {
                             self.associateContentToStream(id: (stream?.ID)!)
                         }else {
-                            self.dismiss(animated: true, completion: nil)
-                            let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-                            StreamList.sharedInstance.arrayViewStream = array
-//                            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-                            let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
-                            obj.currentIndex = 0
-                          
-                            obj.isFromCreateStream = "TRUE"
-                            obj.streamType = currentStreamType.rawValue
-                            ContentList.sharedInstance.objStream = nil
-                            self.navigationController?.pushNormal(viewController: obj)
-                            //self.exestingNavigation?.popToViewController(vc: obj)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                self.dismiss(animated: true, completion: {
+                                    let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                                    StreamList.sharedInstance.arrayViewStream = array
+                                    //                            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                                    let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+                                    obj.currentIndex = 0
+                                    
+                                    obj.isFromCreateStream = "TRUE"
+                                    obj.streamType = currentStreamType.rawValue
+                                    ContentList.sharedInstance.objStream = nil
+                                    self.exestingNavigation?.pushNormal(viewController: obj)
+                                    //self.exestingNavigation?.popToViewController(vc: obj)
+                                })
+                            }
+                            
                         }
                         
                         // self.navigationController?.popNormal()
@@ -352,37 +364,28 @@ class CreateStreamController: UITableViewController {
             })
             ContentList.sharedInstance.arrayToCreate.removeAll()
             ContentList.sharedInstance.arrayContent.removeAll()
-            let when = DispatchTime.now() + 1.5
+            let when = DispatchTime.now() + 0.2
             DispatchQueue.main.asyncAfter(deadline: when) {
                 // Back Screen
-                self.dismiss(animated: true, completion: nil)
-                
-//                if self.switchForEmogoPrivate.on {
-//                    currentStreamType = StreamType.Private
-//                }else {
-//                    currentStreamType = StreamType.Public
-//                }
-//
-                if self.switchForEmogoPrivate.isOn {
-                    currentStreamType = StreamType.Private
-                    self.switchForEmogoPrivate.thumbTintColor = UIColor.white
-                }else {
-                    currentStreamType = StreamType.Public
-                    self.switchForEmogoPrivate.thumbTintColor = UIColor.white
-                }
-                
-                let array  = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-                if array.count != 0 {
-                    StreamList.sharedInstance.arrayViewStream = array
-                    let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
-                   
-//                    let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-                    obj.streamType = currentStreamType.rawValue
-                    ContentList.sharedInstance.objStream = id
-                    self.navigationController?.pushNormal(viewController: obj)
-                   // self.exestingNavigation?.popToViewController(vc: obj)
-                }
-                
+                self.dismiss(animated: true, completion: {
+                    if self.switchForEmogoPrivate.isOn {
+                        currentStreamType = StreamType.Private
+                        self.switchForEmogoPrivate.thumbTintColor = UIColor.white
+                    }else {
+                        currentStreamType = StreamType.Public
+                        self.switchForEmogoPrivate.thumbTintColor = UIColor.white
+                    }
+                    
+                    let array  = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                    if array.count != 0 {
+                        StreamList.sharedInstance.arrayViewStream = array
+                        let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+                        obj.currentIndex = 0
+                        obj.streamType = currentStreamType.rawValue
+                        ContentList.sharedInstance.objStream = id
+                        self.exestingNavigation?.pushNormal(viewController: obj)
+                    }
+                })
             }
         }
     }
@@ -471,14 +474,23 @@ class CreateStreamController: UITableViewController {
             // your code here
             self.present(cropController, animated: true, completion: nil)
         }
+        
+      
     }
     
     @objc func textFieldDidChange(_ textField: SkyFloatingLabelTextField) {
-        buttonDone.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
+       
         if (tfEmogoTitle.text?.trim().isEmpty)! {
+            buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
             tfEmogoTitle.placeholder = "Emogo Title"
             tfEmogoTitle.title = nil
         }else {
+            if tfEmogoTitle.text?.trim().isEmpty == false && self.imgCover.image != nil {
+                buttonDone.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
+            }else{
+                buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
+            }
+          //  buttonDone.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
             tfEmogoTitle.placeholder = nil
             tfEmogoTitle.title = "Emogo Title"
         }

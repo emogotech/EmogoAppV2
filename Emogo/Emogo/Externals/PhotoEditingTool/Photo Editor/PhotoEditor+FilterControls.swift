@@ -27,6 +27,7 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
             cell.lblName.text = filter.iconName
             let value:String = filter.key
             cell.imgPreview.image = filter.icon
+            
             return cell
             
         }else {
@@ -47,8 +48,8 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
                     self.canvasImageView.image = filterImage?.resize(to: (self.imageToFilter?.size)!)
                 }
             } else {
-                let filterImage  = self.image?.createFilteredImage(filterName: value)
-                self.canvasImageView.image = filterImage?.resize(to: (self.imageToFilter?.size)!)
+                let filterImage  = self.imageOrientation(self.image!).createFilteredImage(filterName: value)
+                self.canvasImageView.image = filterImage.resize(to: (self.imageToFilter?.size)!)
             }
          
         }else {

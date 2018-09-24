@@ -31,12 +31,13 @@ class NotesPreviewViewController: UIViewController {
     func prepareLayout(){
         if let content = contentDAO {
             self.webView.loadHTMLString(content.description, baseURL: nil)
+            print(content.description)
             self.webView.scalesPageToFit = false
             self.webView.stringByEvaluatingJavaScript(from: "document. body.style.zoom = 8.0;")
            
         }
         self.navigationController?.isNavigationBarHidden = false
-        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back_new"), style: .plain, target: self, action: #selector(self.backButtonAction))
+        let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back_icon"), style: .plain, target: self, action: #selector(self.backButtonAction))
         self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         self.navigationItem.leftBarButtonItem = backButton

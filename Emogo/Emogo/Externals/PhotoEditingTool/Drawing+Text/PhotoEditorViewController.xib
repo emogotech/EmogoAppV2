@@ -13,8 +13,8 @@
         <array key="SF-Pro-Display-Regular.otf">
             <string>SFProDisplay-Regular</string>
         </array>
-        <array key="SF-Pro-Display-Semibold.otf">
-            <string>SFProDisplay-Semibold</string>
+        <array key="SF-Pro-Text-Semibold.otf">
+            <string>SFProText-Semibold</string>
         </array>
     </customFonts>
     <objects>
@@ -46,18 +46,21 @@
                     <subviews>
                         <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5rw-9v-ExQ">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="667" id="DdY-qb-dfp"/>
                             </constraints>
                         </imageView>
                         <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n3p-yR-4xc">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="igW-DH-ZJz">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="n3p-yR-4xc" firstAttribute="centerY" secondItem="5rw-9v-ExQ" secondAttribute="centerY" id="0QX-a7-mia"/>
                         <constraint firstItem="5rw-9v-ExQ" firstAttribute="centerX" secondItem="S1Y-ZS-dct" secondAttribute="centerX" id="2oa-57-UUp"/>
@@ -77,6 +80,7 @@
                 </view>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pak-OL-cDf" customClass="FLAnimatedImageView">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </imageView>
                 <view hidden="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cy8-ap-fH9" userLabel="Color Picker">
                     <rect key="frame" x="0.0" y="617" width="375" height="50"/>
@@ -93,7 +97,7 @@
                             <cells/>
                         </collectionView>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="GaQ-XR-asZ" secondAttribute="bottom" constant="5" id="8VE-JO-iRe"/>
                         <constraint firstAttribute="height" constant="50" id="KBh-Ry-wrN"/>
@@ -110,7 +114,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="Vga-VN-NeV"/>
                         <constraint firstAttribute="width" constant="50" id="ngq-vo-3ZS"/>
@@ -171,23 +175,25 @@
                             <rect key="frame" x="0.0" y="64" width="375" height="48"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdP-HU-qtT" userLabel="Add to Stream">
-                                    <rect key="frame" x="303" y="6" width="70" height="30"/>
+                                    <rect key="frame" x="253" y="11" width="114" height="20"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="HqX-dP-Gjr"/>
-                                        <constraint firstAttribute="width" constant="70" id="ZLs-R7-7vo"/>
+                                        <constraint firstAttribute="height" constant="20" id="HqX-dP-Gjr"/>
+                                        <constraint firstAttribute="width" constant="114" id="ZLs-R7-7vo"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
-                                    <state key="normal" title=" Save" image="Save"/>
+                                    <fontDescription key="fontDescription" name="SFProText-Semibold" family="SF Pro Text" pointSize="14"/>
+                                    <inset key="titleEdgeInsets" minX="-7" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="imageEdgeInsets" minX="92" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <state key="normal" title="Save" image="check_icon_edit"/>
                                     <connections>
                                         <action selector="saveEditedImageButtonTapped:" destination="-1" eventType="touchUpInside" id="q9C-Gb-ZhH"/>
                                     </connections>
                                 </button>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="pdP-HU-qtT" firstAttribute="top" secondItem="MuV-RG-GzI" secondAttribute="top" constant="6" id="8HV-zl-ZPQ"/>
+                                <constraint firstItem="pdP-HU-qtT" firstAttribute="top" secondItem="MuV-RG-GzI" secondAttribute="top" constant="11" id="8HV-zl-ZPQ"/>
                                 <constraint firstAttribute="height" constant="48" id="9Kk-by-Ea8"/>
-                                <constraint firstAttribute="trailing" secondItem="pdP-HU-qtT" secondAttribute="trailing" constant="2" id="m7F-Lk-peI"/>
+                                <constraint firstAttribute="trailing" secondItem="pdP-HU-qtT" secondAttribute="trailing" constant="8" id="m7F-Lk-peI"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -229,7 +235,7 @@
         </view>
     </objects>
     <resources>
-        <image name="Save" width="17" height="23"/>
+        <image name="check_icon_edit" width="20" height="20"/>
         <image name="trash_icon" width="52" height="52"/>
     </resources>
 </document>

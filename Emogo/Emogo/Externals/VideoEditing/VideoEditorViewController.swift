@@ -161,7 +161,7 @@ class VideoEditorViewController: UIViewController {
         btnTrim.addTarget(self, action: #selector(self.actionForRightMenu(sender:)), for: .touchUpInside)
         
         let btnAddText = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 52))
-        btnAddText.setImage(#imageLiteral(resourceName: "add_image_icon"), for: .normal)
+        btnAddText.setImage(#imageLiteral(resourceName: "add_stickers"), for: .normal)
         btnAddText.setBackgroundImage(#imageLiteral(resourceName: "rectangle_center"), for: .normal)
         btnAddText.tag = 102
         btnAddText.isExclusiveTouch = true

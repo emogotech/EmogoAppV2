@@ -109,12 +109,12 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let collaborator = self.arrayColab[indexPath.row]
-      //  print(collaborator.userID)
-      //  print(UserDAO.sharedInstance.user.userId)
-      //  print(UserDAO.sharedInstance.user.userProfileID)
+        print(collaborator.userID)
+        print(UserDAO.sharedInstance.user.userId)
+        print(UserDAO.sharedInstance.user.userProfileID)
 
         if collaborator.userID != "" {
-            if collaborator.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+            if collaborator.userID.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 ContentList.sharedInstance.mainStreamIndex = nil
                   let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
                // self.navigationController?.popToViewController(vc: obj)
@@ -123,8 +123,9 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
             }else {
                 let people = PeopleDAO(peopleData:[:])
                 people.fullName = collaborator.name
-                people.userProfileID = collaborator.userID
-                //  people.userProfileID =
+                people.userProfileID = collaborator.UserProfileID
+                print( people.userProfileID )
+                print(collaborator.userID)
                 let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                 obj.objPeople = people
                 self.navigationController?.push(viewController: obj)

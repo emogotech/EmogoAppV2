@@ -64,14 +64,17 @@
 - (void) layoutSubviews
 {
     [super layoutSubviews];
-    
+    [self setNeedsDisplay];
     
     NSAssert(self.heightConstraint != nil, @"Unable to find height auto-layout constraint. MBAutoGrowingTextView\
              needs a Auto-layout environment to function. Make sure you are using Auto Layout and that UITextView is enclosed in\
              a view with valid auto-layout constraints.");
     
     // calculate size needed for the text to be visible without scrolling
-    CGSize sizeThatFits = [self sizeThatFits:self.frame.size];
+    
+   
+    CGSize sizeThatFits = [self sizeThatFits: CGSizeMake([[UIScreen mainScreen] bounds].size.width - 20.0, self.frame.size.height)];
+    
     float newHeight = sizeThatFits.height;
 
     // if there is any minimal height constraint set, make sure we consider that

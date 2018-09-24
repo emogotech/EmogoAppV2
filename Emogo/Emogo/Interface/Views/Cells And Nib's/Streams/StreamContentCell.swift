@@ -11,7 +11,7 @@ import UIKit
 class StreamContentCell: UICollectionViewCell {
     
     @IBOutlet weak var lblName: UILabel!
-    @IBOutlet weak var imgCover: UIImageView!
+    @IBOutlet weak var imgCover: FLAnimatedImageView!
     @IBOutlet weak var btnPlay: UIButton!
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var viewCard: CardView!
@@ -52,35 +52,27 @@ class StreamContentCell: UICollectionViewCell {
                 if !content.color.trim().isEmpty {
                     imgCover.backgroundColor = UIColor(hex: content.color.trim())
                 }
-                self.imgCover.setImageWithURL(strImage: content.coverImage.trim()) { (result) in
-                    if result! {
+                self.imgCover.setForAnimatedImage(strImage: content.coverImage.trim()) { (result) in
                         self.viewContent.isHidden = (self.lblName.text?.trim().isEmpty)!
-                    }
                 }
             }else if content.type == .video  {
               
-                self.imgCover.setImageWithURL(strImage: content.coverImageVideo.trim()) { (result) in
-                    if result! {
+                self.imgCover.setForAnimatedImage(strImage: content.coverImageVideo.trim()) { (result) in
                         self.btnPlay.isHidden = false
                         self.viewContent.isHidden = (self.lblName.text?.trim().isEmpty)!
-                    }
                 }
   
             }else  if content.type == .link {
                 self.btnPlay.isHidden = true
 
-                self.imgCover.setImageWithURL(strImage: content.coverImageVideo.trim()) { (result) in
-                                        if result! {
+                self.imgCover.setForAnimatedImage(strImage: content.coverImageVideo.trim()) { (result) in
                                             self.viewContent.isHidden = (self.lblName.text?.trim().isEmpty)!
                                         }
-                                    }
 
             }else {
                 self.btnPlay.isHidden = true
-                self.imgCover.setImageWithURL(strImage: content.coverImage.trim()) { (result) in
-                                        if result! {
-                                            self.viewContent.isHidden = (self.lblName.text?.trim().isEmpty)!
-                                        }
+                self.imgCover.setForAnimatedImage(strImage: content.coverImage.trim()) { (result) in
+                    self.viewContent.isHidden = (self.lblName.text?.trim().isEmpty)!
                                     }
             }
         }

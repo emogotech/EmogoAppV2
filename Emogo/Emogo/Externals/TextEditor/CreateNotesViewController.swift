@@ -34,6 +34,7 @@ class CreateNotesViewController: UIViewController {
     var delegate:CreateNotesViewControllerDelegate?
     var isOpenFrom:String?
     var isFromSave:Bool! =  false
+    var rightButon = UIBarButtonItem()
     
     lazy var toolbar: RichEditorToolbar = {
         let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 44))
@@ -80,8 +81,8 @@ class CreateNotesViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
         self.navigationController?.navigationBar.barTintColor = UIColor.white
-        let rightButon = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneButtonAction))
-         rightButon.tintColor = UIColor.lightGray
+         rightButon = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneButtonAction))
+        rightButon.tintColor = UIColor.lightGray
          navigationItem.rightBarButtonItem  = rightButon
     }
     
@@ -536,7 +537,7 @@ class CreateNotesViewController: UIViewController {
     
     func uploadImage(image:UIImage){
         let name = NSUUID().uuidString + ".png"
-        AWSRequestManager.sharedInstance.imageUpload(image: image, name: name) { (fileURL, errorMSG) in
+        AWSRequestManager.sharedInstance.imageUpload(image: image.resize(to: CGSize(width: 200, height: 200)), name: name) { (fileURL, errorMSG) in
           
             DispatchQueue.main.async {
                 if let fileURL = fileURL {
@@ -604,8 +605,11 @@ class CreateNotesViewController: UIViewController {
 
 extension CreateNotesViewController:RichEditorDelegate {
     func richEditor(_ editor: RichEditorView, contentDidChange content: String) {
-        if content.isEmpty {
-        } else {
+        if content.trim() == "<br>" || content.trim().isEmpty {
+            rightButon.tintColor = UIColor.lightGray
+        }
+        else {
+            rightButon.tintColor = UIColor(r: 0, g: 122, b: 255)
         }
         print(content)
     }
@@ -737,7 +741,7 @@ extension CreateNotesViewController:UITextFieldDelegate,UITextViewDelegate {
         }
         return true
     }
-    
+
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
             txtURL.resignFirstResponder()

@@ -21,6 +21,7 @@ class PreviewCell: UICollectionViewCell {
             if let image = content.imgPreview {
                 print(self.previewImage)
                 self.previewImage.image = image
+               
             }
         }else {
             

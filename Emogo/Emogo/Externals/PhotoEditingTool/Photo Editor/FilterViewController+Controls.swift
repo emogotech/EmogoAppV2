@@ -41,7 +41,7 @@ extension FilterViewController {
         case 222:
             
             isGradientFilter = true
-            self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_active"), for: .normal)
+           self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_active"), for: .normal)
             filterOptionUpdated()
             break
         case 333:
@@ -118,9 +118,10 @@ extension FilterViewController {
             self.view.setNeedsUpdateConstraints()
             self.filterButton.isHidden = false
             self.gradientButton.isHidden = false
+            self.btnMLEffects.isHidden = false
             self.filterViewButton.isHidden = true
             self.gradientImageView.isHidden = true
-            self.btnMLEffects.isHidden = false
+            
             self.gradientView.isHidden = true
             self.setImageView(image: self.image!)
             self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
@@ -196,6 +197,7 @@ extension FilterViewController {
     @IBAction func btnFilterOkPressed(_ sender: UIButton) {
         self.filterView.isHidden = true
         self.gradientButton.isHidden = false
+        self.btnMLEffects.isHidden = false
         self.bottomGradient.isHidden = false
         Animation.viewSlideInFromTopToBottom(views:self.filterSliderView)
         self.filterViewButton.isHidden = true

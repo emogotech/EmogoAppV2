@@ -30,7 +30,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HR2-Gh-htd" customClass="CardView" customModule="Emogo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="310" height="250"/>
                     <subviews>
-                        <imageView hidden="YES" autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream-card-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="i1b-sa-qbQ">
+                        <imageView hidden="YES" autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="i1b-sa-qbQ">
                             <rect key="frame" x="0.0" y="0.0" width="310" height="250"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </imageView>
@@ -209,15 +209,6 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hR-WH-JyQ">
                             <rect key="frame" x="0.0" y="202" width="310" height="48"/>
                             <subviews>
-                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gJ-DM-QZF">
-                                    <rect key="frame" x="268" y="2" width="37" height="33"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="33" id="9VE-h4-sgd"/>
-                                        <constraint firstAttribute="width" constant="37" id="N1Z-In-Jsq"/>
-                                    </constraints>
-                                    <inset key="imageEdgeInsets" minX="0.0" minY="3" maxX="0.0" maxY="0.0"/>
-                                    <state key="normal" image="Unlike_icon"/>
-                                </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="zdk-6b-txq">
                                     <rect key="frame" x="15" y="4" width="250" height="26"/>
                                     <constraints>
@@ -236,6 +227,15 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gJ-DM-QZF">
+                                    <rect key="frame" x="268" y="2" width="37" height="33"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="33" id="9VE-h4-sgd"/>
+                                        <constraint firstAttribute="width" constant="37" id="N1Z-In-Jsq"/>
+                                    </constraints>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="3" maxX="0.0" maxY="0.0"/>
+                                    <state key="normal" image="Unlike_icon"/>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -339,7 +339,6 @@
         <image name="Unlike_icon" width="41" height="36"/>
         <image name="number_of_likes_icon" width="33" height="33"/>
         <image name="number_of_views_icon" width="33" height="33"/>
-        <image name="stream-card-placeholder" width="145" height="145"/>
         <image name="stream-top-gradient" width="375" height="70"/>
     </resources>
 </document>

@@ -205,7 +205,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     SharedData.sharedInstance.contentList.arrayContent.append(camera)
                     kDefault?.removeObject(forKey: "totalItems")
                     kDefault?.removeObject(forKey: "imageObj" + "\(i)")
-                    print(image)
                 }
             }
             

@@ -59,6 +59,8 @@ class ViewProfileViewController: UIViewController {
         self.imgSingleView.isHidden = true
         self.imgLocation.isHidden = true
         self.imgLink.isHidden = true
+        self.segmentMain.isHidden =  true
+         self.btnContainer.isHidden = true
         prepareLayouts()
     }
     
@@ -113,23 +115,27 @@ class ViewProfileViewController: UIViewController {
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         self.profileCollectionView.addGestureRecognizer(swipeLeft)
         
-        segmentMain.sectionTitles = ["EMOGOS", "COLLABS"]
+        segmentMain.sectionTitles = ["Emogos", "Collabs"]
         
         segmentMain.indexChangeBlock = {(_ index: Int) -> Void in
             
             print("Selected index \(index) (via block)")
             self.updateSegment(selected: index)
         }
-        segmentMain.selectionIndicatorHeight = 3.0
+        segmentMain.selectionIndicatorHeight = 1.0
         segmentMain.backgroundColor = UIColor.white
-        segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
-       // segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
-        segmentMain.selectionIndicatorColor = kCardViewBordorColor
+        segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        segmentMain.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+       // segmentMain.selectionIndicatorColor = kCardViewBordorColor
         segmentMain.selectionStyle = .textWidthStripe
         segmentMain.selectedSegmentIndex = 0
         segmentMain.selectionIndicatorLocation = .down
         segmentMain.shouldAnimateUserSelection = false
+       
+        //         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
         
+     
     }
     
     func configureLoadMoreAndRefresh(){
@@ -159,6 +165,7 @@ class ViewProfileViewController: UIViewController {
                     if let people = people {
                         self.objPeople = people
                         self.lblFullName.text =  people.displayName.trim().capitalized
+                    
                         self.lblFullName.minimumScaleFactor = 1.0
                        // self.lblWebsite.text = people.website.trim()
                         self.lblWebsite.minimumScaleFactor = 1.0
@@ -171,12 +178,14 @@ class ViewProfileViewController: UIViewController {
                         self.imgLink.isHidden = true
                         self.imgLocation.isHidden = true
                         self.imgSingleView.isHidden = true
-                        
+                        self.lblWebsite.isUserInteractionEnabled = true
                         if people.website.trim().count > 20 {
                             self.lblWebsite.text = "\(people.website.trim(count: 20))...".trim()
                         }else{
                             self.lblWebsite.text = people.website.trim()
                         }
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                        self.lblWebsite.addGestureRecognizer(tap)
                         if people.location.trim().count > 15 {
                             self.lblLocation.text = "\(people.location.trim(count: 15))...".trim()
                         }else{
@@ -191,12 +200,12 @@ class ViewProfileViewController: UIViewController {
                         }else {
                             self.btnFollow.setImage(#imageLiteral(resourceName: "followNew"), for: .normal)
                         }
-                        if people.location.trim().isEmpty {
-                            self.imgLocation.isHidden = true
-                        }
-                        if people.website.trim().isEmpty {
-                            self.imgLink.isHidden = true
-                        }
+//                        if people.location.trim().isEmpty {
+//                            self.imgLocation.isHidden = true
+//                        }
+//                        if people.website.trim().isEmpty {
+//                            self.imgLink.isHidden = true
+//                        }
                    
                         //   self.imgUser.borderWidth = 1.0
                         // self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
@@ -230,8 +239,8 @@ class ViewProfileViewController: UIViewController {
                             let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
                             self.lblLocation.addGestureRecognizer(tap)
                             self.lblLocation.isUserInteractionEnabled = true
-                            self.kHeaderHeight.constant = 211//178
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
+                            self.kHeaderHeight.constant = 214//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(214))
                         }
                             
                         else if !people.displayName.trim().isEmpty &&  people.location.trim().isEmpty && !people.website.trim().isEmpty && people.biography.trim().isEmpty {
@@ -253,8 +262,8 @@ class ViewProfileViewController: UIViewController {
                             let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
                             self.lblSingleView.addGestureRecognizer(tap)
                             self.lblSingleView.isUserInteractionEnabled = true
-                            self.kHeaderHeight.constant = 211//178
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
+                            self.kHeaderHeight.constant = 214//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(214))
                         }
                         else if people.displayName.trim().isEmpty &&  people.location.trim().isEmpty && !people.website.trim().isEmpty && !people.biography.trim().isEmpty {
                             
@@ -276,8 +285,8 @@ class ViewProfileViewController: UIViewController {
                             let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
                             self.lblSingleView.addGestureRecognizer(tap)
                             self.lblSingleView.isUserInteractionEnabled = true
-                            self.kHeaderHeight.constant = 223
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(223))
+                            self.kHeaderHeight.constant = 225
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(225))
                         }
                             
                         else if !people.location.trim().isEmpty && people.website.trim().isEmpty && people.biography.trim().isEmpty && people.displayName.trim().isEmpty  {
@@ -298,8 +307,8 @@ class ViewProfileViewController: UIViewController {
                             self.lblLocation.isHidden = true
                             self.imgSingleView.isHidden = false
                             self.imgSingleView.image = #imageLiteral(resourceName: "location_icon")
-                            self.kHeaderHeight.constant = 211//178
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
+                            self.kHeaderHeight.constant = 214//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(214))
                         }
                         else if !people.location.trim().isEmpty && people.website.trim().isEmpty && !people.biography.trim().isEmpty && !people.displayName.trim().isEmpty {
                            // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
@@ -316,8 +325,8 @@ class ViewProfileViewController: UIViewController {
                             self.imgLocation.isHidden = true
                             self.imgSingleView.isHidden = false
                             self.imgSingleView.image = #imageLiteral(resourceName: "location_icon")
-                            self.kHeaderHeight.constant = 253//178
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(253))
+                            self.kHeaderHeight.constant = 255//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(255))
                         }
                      
                         else if people.location.trim().isEmpty && people.website.trim().isEmpty && !people.biography.trim().isEmpty {
@@ -331,8 +340,8 @@ class ViewProfileViewController: UIViewController {
                             
                             self.lblBio.isHidden = false
                             self.kHeightViewLocation.constant = 0
-                            self.kHeaderHeight.constant = 221
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(221))
+                            self.kHeaderHeight.constant = 224
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(224))
                             
                         }
                         else  if  people.location.trim().isEmpty && people.website.trim().isEmpty && people.biography.trim().isEmpty && !people.displayName.trim().isEmpty{
@@ -345,8 +354,8 @@ class ViewProfileViewController: UIViewController {
                             self.imgSingleView.isHidden = true
                             self.lblBio.isHidden = true
                             self.viewSingle.isHidden = true
-                            self.kHeaderHeight.constant = 172
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(172))
+                            self.kHeaderHeight.constant = 174
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(174))
                             
                         }else if people.displayName.trim().isEmpty && people.location.trim().isEmpty && people.website.trim().isEmpty && people.biography.trim().isEmpty {
                             
@@ -359,8 +368,8 @@ class ViewProfileViewController: UIViewController {
                             self.lblBio.isHidden = true
                             self.viewSingle.isHidden = true
                             self.kHeightlblName.constant = 0
-                            self.kHeaderHeight.constant = 147
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(147))
+                            self.kHeaderHeight.constant = 152
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(152))
                         }
                         else if people.displayName.trim().isEmpty && !people.location.trim().isEmpty && !people.website.trim().isEmpty && !people.biography.trim().isEmpty {
                             
@@ -382,9 +391,11 @@ class ViewProfileViewController: UIViewController {
                             }else{
                                 self.lblSingleView.text = people.location.trim()
                             }
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                            self.lblSingleView.addGestureRecognizer(tap)
                             self.kHeightlblBio.constant = 0
-                            self.kHeaderHeight.constant = 211//178
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
+                            self.kHeaderHeight.constant = 214//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(214))
                             
                         }else if people.location.trim().isEmpty && !people.displayName.trim().isEmpty && people.biography.trim().isEmpty && !people.website.trim().isEmpty {
                             
@@ -393,16 +404,38 @@ class ViewProfileViewController: UIViewController {
                             self.imgLocation.isHidden = true
                             self.lblLocation.isHidden = true
                             self.imgSingleView.isHidden = false
-                            self.imgSingleView.image = self.imgLink.image
+                             self.imgSingleView.image = #imageLiteral(resourceName: "link_icon")
                             if people.website.trim().count > 20 {
                                 self.lblSingleView.text = people.website.trim()
                             }else{
                                 self.lblSingleView.text = people.website.trim()
                             }
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                            self.lblSingleView.addGestureRecognizer(tap)
                             self.kHeightlblBio.constant = 0
-                            self.kHeaderHeight.constant = 211//178
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
+                            self.kHeaderHeight.constant = 214//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(214))
                             
+                        }else if  people.location.trim().isEmpty && !people.displayName.trim().isEmpty && !people.biography.trim().isEmpty && !people.website.trim().isEmpty {
+                            
+                            self.viewSingle.isHidden = false
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = true
+                            self.lblLocation.isHidden = true
+                            self.lblWebsite.isHidden = true
+                            self.imgSingleView.isHidden = false
+                            self.imgSingleView.image = #imageLiteral(resourceName: "link_icon")
+                         
+                            if people.website.trim().count > 20 {
+                                self.lblSingleView.text = people.website.trim()
+                            }else{
+                                self.lblSingleView.text = people.website.trim()
+                            }
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                            self.lblSingleView.addGestureRecognizer(tap)
+                         
+                            self.kHeaderHeight.constant = 255//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(255))
                         }
                             
                         else{
@@ -411,8 +444,9 @@ class ViewProfileViewController: UIViewController {
                             self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
                             self.imgLink.isHidden = false
                             self.imgLink.image =  #imageLiteral(resourceName: "link_icon")
-                            self.kHeaderHeight.constant = 253//220
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(253))
+                       
+                            self.kHeaderHeight.constant = 255//220
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(255))
                             
                         }
                         self.profileStreamShow()
@@ -435,7 +469,7 @@ class ViewProfileViewController: UIViewController {
                 self.getStreamList(type:.start,streamType: streamType)
             }
         }
-        
+      
     }
     
  
@@ -752,6 +786,8 @@ class ViewProfileViewController: UIViewController {
                 self.arrayColabStream = StreamList.sharedInstance.arrayMyStream
                 self.isCalledColabStream = false
             }
+            self.segmentMain.isHidden =  false
+            self.btnContainer.isHidden = false
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -971,6 +1007,7 @@ extension ViewProfileViewController : EmogoDetailViewControllerDelegate {
                 selectedIndexPath = indexPath
                 self.selectedCell = cell as! ProfileStreamCell
                 selectedImageView = self.selectedCell.imgCover
+                print("Callled In View  Profile")
             }
         }else {
             selectedIndexPath = nil

@@ -131,7 +131,7 @@ extension UIView {
         
     }
     
-    func addShadow(shadowColor: CGColor = UIColor.darkGray.cgColor,shadowOffset: CGSize = CGSize(width: 1.0, height: 2.0),shadowOpacity: Float = 0.6, shadowRadius: CGFloat = 3.0) {
+    func addShadow(shadowColor: CGColor = UIColor.darkGray.cgColor,shadowOffset: CGSize = CGSize(width: 1.0, height: 2.0),shadowOpacity: Float = 0.7, shadowRadius: CGFloat = 3.0) {
         layer.shadowColor = shadowColor
         layer.shadowOffset = shadowOffset
         layer.shadowOpacity = shadowOpacity
@@ -274,7 +274,29 @@ extension UILabel {
 }
 
 // MARK: - String
+
+extension Data {
+    var html2AttributedString: NSAttributedString? {
+        do {
+            return try NSAttributedString(data: self, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch {
+            print("error:", error)
+            return  nil
+        }
+    }
+    var html2String: String {
+        return html2AttributedString?.string ?? ""
+    }
+}
+
 extension String {
+    
+    var html2AttributedString: NSAttributedString? {
+        return Data(utf8).html2AttributedString
+    }
+    var html2String: String {
+        return html2AttributedString?.string ?? ""
+    }
     
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
@@ -594,19 +616,28 @@ extension UIViewController {
     private func show(strMSG:String,type:AlertType!) {
         
         let messageView: MessageView = MessageView.viewFromNib(layout: .centeredView)
-        messageView.configureBackgroundView(width: kFrame.size.width - 95)
+        messageView.configureBackgroundView(width: kFrame.size.width - 15)
+       // messageView.configureBackgroundView(width: kFrame.size.width - 95)
         messageView.configureContent(title: strMSG, body: nil, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
             SwiftMessages.hide()
         }
      //   messageView.bounceAnimationOffset =
-        messageView.titleLabel?.font = UIFont(name: kFontBold, size: 16.0)
-        messageView.titleLabel?.textColor = UIColor.white
+        messageView.titleLabel?.font = UIFont(name: kFontTextRegular, size: 8.0)
+        messageView.titleLabel?.textColor = UIColor.black
+        messageView.backgroundView.backgroundColor = UIColor(r: 255, g: 255, b: 255)
+        messageView.backgroundView.addShadow()
+        messageView.bodyLabel?.isHidden = true
+        messageView.backgroundView.layer.cornerRadius = 8
+        messageView.iconImageView?.tintColor = UIColor(r: 74, g: 74, b: 74)
+      //  messageView.titleLabel?.font = UIFont(name: kFontBold, size: 16.0)
+       // messageView.titleLabel?.textColor = UIColor.white
+        messageView.bodyLabel?.isHidden = true
         messageView.titleLabel?.numberOfLines = 0
         messageView.titleLabel?.textAlignment = .center
-        messageView.iconImageView?.tintColor = UIColor.white
+        //messageView.iconImageView?.tintColor = UIColor.white
         messageView.button?.isHidden = true
-        messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
-        messageView.backgroundView.layer.cornerRadius = 35
+        //messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
+       // messageView.backgroundView.layer.cornerRadius = 35
         var config = SwiftMessages.defaultConfig
         config.presentationStyle = .top
         config.duration = .seconds(seconds: 3.0)
@@ -1282,19 +1313,29 @@ extension UITableViewController {
     private func show(strMSG:String) {
         //  MarginAdjustable+Animation.swift
         let messageView: MessageView = MessageView.viewFromNib(layout: .centeredView)
-        messageView.configureBackgroundView(width: kFrame.size.width - 95)
-        messageView.configureContent(title: nil, body: strMSG, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
+        messageView.configureBackgroundView(width: kFrame.size.width - 15)
+        messageView.configureContent(title: strMSG, body: nil, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: "No") { _ in
             SwiftMessages.hide()
         }
         //   messageView.bounceAnimationOffset =
-        messageView.bodyLabel?.font = UIFont(name: kFontBold, size: 16.0)
-        messageView.bodyLabel?.textColor = UIColor.white
-        messageView.iconImageView?.tintColor = UIColor.white
+        
+        messageView.titleLabel?.font = UIFont(name: kFontTextRegular, size: 8.0)
+        messageView.titleLabel?.textColor = UIColor.black
+        messageView.backgroundView.backgroundColor = UIColor(r: 255, g: 255, b: 255)
+        messageView.backgroundView.addShadow()
+        messageView.backgroundView.layer.cornerRadius = 8
+        messageView.iconImageView?.tintColor = UIColor(r: 74, g: 74, b: 74)
+        messageView.bodyLabel?.isHidden = true
+        messageView.titleLabel?.numberOfLines = 0
+
+      //  messageView.bodyLabel?.font = UIFont(name: kFontBold, size: 16.0)
+     //   messageView.bodyLabel?.textColor = UIColor.white
+     //   messageView.iconImageView?.tintColor = UIColor.white
         messageView.bodyLabel?.textAlignment = .center
         messageView.titleLabel?.textAlignment = .center
         messageView.button?.isHidden = true
-        messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
-        messageView.backgroundView.layer.cornerRadius = 35
+   //     messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
+     //   messageView.backgroundView.layer.cornerRadius = 35
         var config = SwiftMessages.defaultConfig
         config.presentationStyle = .top
         config.duration = .seconds(seconds: 3.0)

@@ -257,7 +257,8 @@ class AddCollabViewController: UIViewController {
                 let people = PeopleDAO(peopleData:[:])
                 people.fullName = collaborator.name
                 people.userProfileID = collaborator.userID
-                //  people.userProfileID =
+               print(people.userProfileID)
+               print(collaborator.userID)
                 let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                 obj.objPeople = people
                 self.navigationController?.push(viewController: obj)

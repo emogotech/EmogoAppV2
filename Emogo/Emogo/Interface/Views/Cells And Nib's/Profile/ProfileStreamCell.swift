@@ -44,7 +44,7 @@ class ProfileStreamCell: UICollectionViewCell {
             self.accessibilityLabel =   stream.Title.trim()
           //  self.lblName.text =  "by \(stream.Author.trim())"
              self.lblName.text =  "\(stream.Author.trim())"
-            self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+            self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
             
            
             

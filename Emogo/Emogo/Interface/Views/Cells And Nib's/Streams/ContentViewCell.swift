@@ -8,22 +8,233 @@
 
 import UIKit
 
+protocol ContentDetailViewCellDelegate {
+    func actionForDidSelect(indexPath:IndexPath?)
+}
+
+class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate {
+    @IBOutlet weak var viewTableContainer: UIView!
+    @IBOutlet weak var viewPlayer: UIView!
+    @IBOutlet weak var btnPlayIcon: UIButton!
+    @IBOutlet weak var playerContainerView: UIView!
+    @IBOutlet weak var tblView: UITableView!
+    @IBOutlet weak var imgCover: FLAnimatedImageView!
+
+    let cellIdentifier = "contentDetailTableViewCell"
+    let kImageHeight:CGFloat = 0.0
+    var seletedImage:ContentDAO!
+    private var lastContentOffset: CGFloat = 0
+    var delegate:ContentDetailViewCellDelegate?
+    var isSwipeDissmiss:Bool! = false
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        tblView.delegate = self
+        tblView.dataSource = self
+        tblView.estimatedRowHeight = 80.0
+        tblView.rowHeight = UITableViewAutomaticDimension
+        self.tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:  0, right: 0)
+    }
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+       // updateTableViewContentInset()
+    }
+    func updateTableViewContentInset() {
+        let viewHeight: CGFloat = self.frame.size.height
+        let tableViewContentHeight: CGFloat = tblView.contentSize.height
+        let marginHeight: CGFloat = (viewHeight - tableViewContentHeight) / 2.0
+        
+        self.tblView.contentInset = UIEdgeInsets(top: marginHeight, left: 0, bottom:  -marginHeight, right: 0)
+    }
+    
+    func prepareView(seletedImage:ContentDAO) {
+        self.tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:  0, right: 0)
+        if !seletedImage.description.trim().isEmpty  || !seletedImage.name.trim().isEmpty {
+            self.tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:  51, right: 0)
+        }
+        self.seletedImage = seletedImage
+        self.tblView.reloadData()
+        let value = kFrame.size.width / CGFloat(seletedImage.width)
+        let expectedHeight = CGFloat(seletedImage.height) * value
+        var tempHeight:CGFloat = 0.0
+        
+        if !seletedImage.description.trim().isEmpty  {
+            
+            let check = expectedHeight + seletedImage.description.trim().height(withConstrainedWidth: self.frame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
+
+            tempHeight = tblView.bounds.size.height - expectedHeight
+            if   tblView.bounds.size.height > check {
+                tempHeight = tblView.bounds.size.height - check
+            }
+        }else {
+            tempHeight = tblView.bounds.size.height - expectedHeight
+        }
+        if tempHeight > 10 {
+            let marginHeight: CGFloat = tempHeight / 2.0
+            if !seletedImage.description.trim().isEmpty  || !seletedImage.name.trim().isEmpty {
+                self.tblView.contentInset = UIEdgeInsets(top: marginHeight, left: 0, bottom:  51, right: 0)
+            }else {
+                self.tblView.contentInset = UIEdgeInsets(top: marginHeight, left: 0, bottom:  0, right: 0)
+            }
+        }
+        if tempHeight < 30.0 {
+            tblView.setContentOffset(.zero, animated: false)
+        }
+        
+        if self.seletedImage.type == .video {
+            self.viewPlayer.isHidden =  false
+            self.viewTableContainer.isHidden =  true
+            self.playerContainerView.isHidden = true
+            self.imgCover.isHidden = false
+            self.btnPlayIcon.isHidden = false
+            self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo)
+            navigationImageView =  self.imgCover
+        }else {
+            self.viewPlayer.isHidden =  true
+            self.viewTableContainer.isHidden =  false
+        }
+
+}
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:ContentDetailTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ContentDetailTableViewCell
+        cell.prepareView(seletedImage: seletedImage)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if self.delegate != nil {
+            self.delegate?.actionForDidSelect(indexPath: indexPath)
+    }
+    }
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        isSwipeDissmiss = true
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !isSwipeDissmiss {
+            return
+        }
+        if (self.lastContentOffset > scrollView.contentOffset.y) {
+            // move up
+            print("up\(self.lastContentOffset)")
+            if self.lastContentOffset < -170.0 {
+                if self.delegate != nil {
+                    self.delegate?.actionForDidSelect(indexPath: nil)
+                }
+            }
+        }
+        // update the new position acquired
+        self.lastContentOffset = scrollView.contentOffset.y
+    }
+    
+    
+}
+
+class ContentDetailTableViewCell:UITableViewCell {
+    @IBOutlet weak var imgCover: FLAnimatedImageView!
+    @IBOutlet weak var lblTitleImage: UILabel!
+    @IBOutlet weak var lblImageDescription: UILabel!
+    @IBOutlet weak var kLinkIogoWidth: NSLayoutConstraint!
+    @IBOutlet weak var linkLogo: UIImageView!
+    @IBOutlet weak var kConstantImageHeight: NSLayoutConstraint!
+    @IBOutlet weak var viewDescription: UIView!
+
+    
+    func prepareView(seletedImage:ContentDAO) {
+
+        self.imgCover.image = nil
+        self.imgCover.animatedImage = nil
+        imgCover.backgroundColor = UIColor.white
+        
+        if !seletedImage.color.trim().isEmpty {
+            imgCover.backgroundColor =  UIColor.white
+        }
+        self.lblTitleImage.text = ""
+        self.lblImageDescription.text = ""
+        if  seletedImage.imgPreview != nil {
+            self.imgCover.image = seletedImage.imgPreview
+            
+        }
+        if seletedImage.type == .link {
+            linkLogo.isHidden = false
+            kLinkIogoWidth.constant = 30.0
+            
+        }else {
+            kLinkIogoWidth.constant = 0.0
+            linkLogo.isHidden = true
+        }
+        self.imgCover.isHidden = false
+        
+        self.lblImageDescription.isHidden = false
+        self.lblTitleImage.isHidden = false
+        if seletedImage.name.trim().isEmpty {
+            self.lblTitleImage.isHidden = true
+        }else {
+            self.lblTitleImage.numberOfLines = 2
+            self.lblTitleImage.text = seletedImage.name.trim()
+        }
+        self.lblImageDescription.text = seletedImage.description.trim()
+        
+        if seletedImage.description.trim().isEmpty {
+            self.lblImageDescription.isHidden = true
+        }
+        if seletedImage.type == .notes {
+            self.lblImageDescription.text = ""
+        }
+        
+        let value = kFrame.size.width / CGFloat(seletedImage.width)
+        let expectedHeight = CGFloat(seletedImage.height) * value
+        self.kConstantImageHeight.constant = expectedHeight
+        
+        if seletedImage.imgPreview != nil {
+            self.imgCover.image = seletedImage.imgPreview
+        }else {
+            if seletedImage.type == .image || seletedImage.type == .notes {
+                
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImage)
+            }else   if seletedImage.type == .video {
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo)
+            }else if seletedImage.type == .link {
+                
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo)
+            }else {
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo)
+            }
+        }
+        self.imgCover.contentMode = .scaleAspectFit
+        navigationImageView =  self.imgCover
+
+    }
+}
+
 class ContentViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imgCover: FLAnimatedImageView!
-    @IBOutlet weak var btnMore: UIButton!
+    //@IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var lblTitleImage: UILabel!
-    @IBOutlet weak var lblImageDescription: MBAutoGrowingTextView!
+    @IBOutlet weak var lblImageDescription: UILabel!
     @IBOutlet weak var btnPlayIcon: UIButton!
     @IBOutlet weak var kLinkIogoWidth: NSLayoutConstraint!
     @IBOutlet weak var linkLogo: UIImageView!
     @IBOutlet weak var playerContainerView: UIView!
     @IBOutlet weak var scrollView: PMScrollView!
-    @IBOutlet weak var kConsimgHeight: NSLayoutConstraint!
+    @IBOutlet weak var kConstantImageHeight: NSLayoutConstraint!
+    @IBOutlet weak var kConstantsConatinerHeight: NSLayoutConstraint!
+    @IBOutlet weak var kTopConstarintPriority: NSLayoutConstraint!
+    @IBOutlet weak var kBottomConstarintPriority: NSLayoutConstraint!
+
     @IBOutlet weak var viewDescription: UIView!
-    @IBOutlet weak var kCenterX: NSLayoutConstraint!
-    @IBOutlet weak var kCenterY: NSLayoutConstraint!
-    @IBOutlet weak var tempImageView: FLAnimatedImageView!
     @IBOutlet weak var viewCollection: UIView!
     
     var isReadMore:Bool! = false
@@ -31,34 +242,27 @@ class ContentViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-       
+//        self.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
     }
+    
     
     func prepareView(seletedImage:ContentDAO) {
        // self.imgCover.backgroundColor  = .black
-        self.scrollView.isHidden = true
-        self.tempImageView.isHidden = false
-        self.kCenterX.priority = .defaultHigh
-        self.kCenterY.priority = .defaultHigh
+        self.scrollView.isHidden = false
         self.imgCover.image = nil
         self.imgCover.animatedImage = nil
-        self.tempImageView.image = nil
-        self.tempImageView.animatedImage = nil
         imgCover.backgroundColor = UIColor.white
         viewCollection.backgroundColor = UIColor.white
-        tempImageView.backgroundColor = UIColor.white
         
         if !seletedImage.color.trim().isEmpty {
             imgCover.backgroundColor =  UIColor.white
             viewCollection.backgroundColor =  UIColor.white
-            tempImageView.backgroundColor =  UIColor.white
 //            imgCover.backgroundColor = UIColor(hex: seletedImage.color.trim())
 //            viewCollection.backgroundColor = UIColor(hex: seletedImage.color.trim())
 //            tempImageView.backgroundColor = UIColor(hex: seletedImage.color.trim())
         }
         self.lblTitleImage.text = ""
         self.lblImageDescription.text = ""
-         self.scrollView.isScrollEnabled = false
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
             
@@ -89,137 +293,78 @@ class ContentViewCell: UICollectionViewCell {
         self.btnPlayIcon.isHidden = true
         self.imgCover.isHidden = false
         self.playerContainerView.isHidden = true
-        let scale = Int(kFrame.size.width) / seletedImage.width
-        let newHeight = seletedImage.height * scale
-        let frameHeight = Int(kFrame.size.height)
-        if seletedImage.imgPreview != nil {
-            self.imgCover.image = seletedImage.imgPreview
-        }else {
-            if seletedImage.type == .image || seletedImage.type == .notes {
-                self.tempImageView.setForAnimatedImage(strImage: seletedImage.coverImage) { (img) in
-                    navigationImageView =  self.tempImageView
 
-                }
-                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImage) { (img) in
-                    if let img = img {
-                        img.getColors({ (colors) in
-                        //    self.imgCover.backgroundColor = colors.primary
-                          
-                        })
-
-                        if newHeight > frameHeight  {
-                            navigationImageView =  self.imgCover
-                            if seletedImage.width <  seletedImage.height {
-                                self.scrollView.isScrollEnabled = true
-                                self.kCenterX.priority = .defaultLow
-                                self.kCenterY.priority = .defaultLow
-                                self.imgCover.image =  img.resizeToScreenSize()
-                                self.kConsimgHeight.constant = img.resizeToScreenSize().size.height
-                                self.tempImageView.isHidden = true
-                                self.scrollView.isHidden = false
-                          }
-                        }
-                    }
-                }
-                
-                //self.btnPlayIcon.isHidden = true
-            }else   if seletedImage.type == .video {
-                self.scrollView.isScrollEnabled = false
-                self.tempImageView.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
-                    navigationImageView =  self.tempImageView
-                }
-               self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
-                    if let img = img {
-                        img.getColors({ (colors) in
-                        //    self.imgCover.backgroundColor = colors.primary
-                        })
-                    }
-                navigationImageView =  self.imgCover
-
-                }
-                 self.btnPlayIcon.isHidden = false
-
-            }else if seletedImage.type == .link {
-                
-                self.tempImageView.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
-                    navigationImageView =  self.tempImageView
-                }
-                
-                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
-                    if let img = img {
-                        img.getColors({ (colors) in
-                        //    self.imgCover.backgroundColor = colors.primary
-                        })
-
-                        if newHeight > frameHeight  {
-                            if seletedImage.width <  seletedImage.height {
-                                self.scrollView.isScrollEnabled = true
-                                self.kCenterX.priority = .defaultLow
-                                self.kCenterY.priority = .defaultLow
-                                self.imgCover.image =  img.resizeToScreenSize()
-                                self.kConsimgHeight.constant = img.resizeToScreenSize().size.height
-                                self.tempImageView.isHidden = true
-                                self.scrollView.isHidden = false
-                                navigationImageView =  self.imgCover
-                            }
-                        }
-                        
-                    }
-                }
-            }else {
-                
-                self.tempImageView.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
-                navigationImageView =  self.tempImageView
-
-//                self.tempImageView.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
-//                    navigationImageView =  self.tempImageView
-//                }
-                /*
-                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo) { (img) in
-                    if let img = img {
-                        img.getColors({ (colors) in
-                         //   self.imgCover.backgroundColor = colors.primary
-                        })
-                        navigationImageView =  self.imgCover
-
-                    }
-                }
-                */
-            }
-        }
-        self.imgCover.contentMode = .scaleAspectFit
-        self.tempImageView.contentMode = .scaleAspectFit
-        // disable Like Unlike and save icon
-       // self.lblTitleImage.addShadow()
-      //  self.lblImageDescription.addShadow()
         self.lblImageDescription.isHidden = false
         self.lblTitleImage.isHidden = false
         if seletedImage.name.trim().isEmpty {
             self.lblTitleImage.isHidden = true
-            self.btnMore.isHidden = true
         }else {
             self.lblTitleImage.numberOfLines = 2
             self.lblTitleImage.text = seletedImage.name.trim()
         }
         strDescription = seletedImage.description.trim()
+        self.lblImageDescription.text = seletedImage.description.trim()
+
         if seletedImage.description.trim().isEmpty {
             self.lblImageDescription.isHidden = true
-            self.btnMore.isHidden = true
-        }else {
+        }/*
+        else {
             if seletedImage.description.trim().count <  100 {
                 self.btnMore.isHidden = true
                 self.lblImageDescription.text = seletedImage.description.trim()
             }else {
                 self.btnMore.isHidden = false
-                 self.lblImageDescription.text = seletedImage.description.trim().trim(count: 100)
+                self.lblImageDescription.text = seletedImage.description.trim().trim(count: 100)
             }
-          
+            
         }
-        
+ */
         if seletedImage.type == .notes {
             self.lblImageDescription.text = ""
         }
-        self.scrollView.contentOffset = CGPoint(x: 0, y: 0)
+        
+        self.scrollView.isScrollEnabled = true
+        let value = kFrame.size.width / CGFloat(seletedImage.width)
+        let expectedHeight = CGFloat(seletedImage.height) * value
+        var size:CGFloat = 0.0
+        if (self.lblImageDescription.text?.trim().isEmpty)! {
+            size  = expectedHeight + 31.0
+           self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+
+        }else {
+            size  = expectedHeight + (self.lblImageDescription!.text?.height(withConstrainedWidth: self.lblImageDescription.frame.size.width, font: UIFont.boldSystemFont(ofSize: 14.0)))! + 160.0
+            self.scrollView.contentInset = UIEdgeInsetsMake(160.0, 0, 0, 0)
+        }
+//        if expectedHeight < kFrame.size.height {
+//            self.kTopConstarintPriority.priority = .required
+//            self.kTopConstarintPriority.priority = .required
+//        }else {
+//            self.kTopConstarintPriority.priority = .defaultLow
+//            self.kTopConstarintPriority.priority = .defaultLow
+//        }
+        self.kConstantImageHeight.constant = expectedHeight
+        self.kConstantsConatinerHeight.constant = size
+        self.scrollView.contentSize = CGSize(width: kFrame.size.width, height: size)
+        if seletedImage.imgPreview != nil {
+            self.imgCover.image = seletedImage.imgPreview
+        }else {
+            if seletedImage.type == .image || seletedImage.type == .notes {
+            
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImage)
+            }else   if seletedImage.type == .video {
+                self.scrollView.isScrollEnabled = false
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo)
+                 self.btnPlayIcon.isHidden = false
+            }else if seletedImage.type == .link {
+                
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo)
+            }else {
+                self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo)
+            }
+        }
+        self.imgCover.contentMode = .scaleAspectFit
+        navigationImageView =  self.imgCover
+
     }
     
  

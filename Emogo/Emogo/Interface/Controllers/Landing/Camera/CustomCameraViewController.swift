@@ -127,8 +127,8 @@ class CustomCameraViewController: SwiftyCamViewController {
         
         //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("StopRec"), object: nil)
         if isSelected == false {
-            self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-            self.navigationController?.navigationBar.shadowImage = nil
+//            self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+//            self.navigationController?.navigationBar.shadowImage = nil
         }
         self.showStatusBar()
     }
@@ -285,13 +285,12 @@ class CustomCameraViewController: SwiftyCamViewController {
     func prepareNavBarButtons(){
         if self.navigationController?.isNavigationBarHidden == true {
             self.navigationController?.isNavigationBarHidden = false
-           
             navigationItem.hidesBackButton = true
         }
-
+        
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.tintColor = .white
+      //  self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.barTintColor = .clear
         let button   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
         button.contentHorizontalAlignment  = .left
@@ -309,8 +308,13 @@ class CustomCameraViewController: SwiftyCamViewController {
             let buttonNext   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
             buttonNext.setImage(#imageLiteral(resourceName: "share_button"), for: .normal)
             buttonNext.addTarget(self, action: #selector(self.previewScreenNavigated), for: .touchUpInside)
+            buttonNext.showsTouchWhenHighlighted = false
+            buttonNext.adjustsImageWhenHighlighted = false
+
+            buttonNext.isHighlighted = false
             buttonNext.contentHorizontalAlignment  = .right
             buttonNext.contentVerticalAlignment = .bottom
+            buttonNext.adjustsImageWhenHighlighted = false
             let btnNext = UIBarButtonItem(customView: buttonNext)
             self.navigationItem.rightBarButtonItem = btnNext
         }else {
@@ -333,6 +337,9 @@ class CustomCameraViewController: SwiftyCamViewController {
             let buttonNext   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
             buttonNext.setImage(#imageLiteral(resourceName: "share_button"), for: .normal)
             buttonNext.addTarget(self, action: #selector(self.previewScreenNavigated), for: .touchUpInside)
+            buttonNext.showsTouchWhenHighlighted = false
+            buttonNext.isHighlighted = false
+            buttonNext.adjustsImageWhenHighlighted = false
             buttonNext.contentHorizontalAlignment  = .right
             buttonNext.contentVerticalAlignment = .bottom
             let btnNext = UIBarButtonItem(customView: buttonNext)

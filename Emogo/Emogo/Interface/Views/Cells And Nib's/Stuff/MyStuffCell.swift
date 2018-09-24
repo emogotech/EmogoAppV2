@@ -27,7 +27,7 @@ class MyStuffCell: UICollectionViewCell {
         if (self.lblTitle.text?.trim().isEmpty)! && (self.lblDescription.text?.trim().isEmpty)!{
             self.viewContent.layer.contents = nil
            }else {
-            self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+            self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
         }
         self.viewContent.isHidden = true
         self.btnPlay.isHidden = true

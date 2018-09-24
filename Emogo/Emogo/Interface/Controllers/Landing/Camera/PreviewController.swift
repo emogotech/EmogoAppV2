@@ -51,7 +51,8 @@ class PreviewController: UIViewController {
     var isEditingContent:Bool! = false
     var isShowRetake:Bool?
     var isFromNotes:String?
-
+    var indexPath:IndexPath! = IndexPath(row: 0, section: 0)
+    var btnEdit = UIBarButtonItem()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,14 +62,14 @@ class PreviewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.hideStatusBar()
+        self.showStatusBar()
         if self.isEditingContent{
             self.preparePreview(index: selectedIndex)
         }
        
         self.previewCollection.reloadData()
         self.prepareNavBarButtons()
-        
+ 
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
           
             self.actionContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -93,8 +94,9 @@ class PreviewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.showStatusBar()
-        self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = nil
+//        self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+//        self.navigationController?.navigationBar.shadowImage = nil
+
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -114,13 +116,17 @@ class PreviewController: UIViewController {
         if selectedIndex == nil {
             selectedIndex = 0
         }
+        automaticallyAdjustsScrollViewInsets = false
         viewLinkPreview.isHidden = true
         self.view.backgroundColor = UIColor.white
-        
+        self.navigationController?.navigationBar.barTintColor = .white
+      
         self.txtTitleImage.maxLength = 50
         txtDescription.delegate = self
         self.txtDescription.placeholder = "Description"
         self.txtDescription.placeholderColor = UIColor.lightGray
+        self.navigationController?.navigationBar.isTranslucent = false
+      
        // self.txtTitleImage.addShadow()
        // self.txtDescription.addShadow()
         
@@ -243,6 +249,7 @@ class PreviewController: UIViewController {
     
     
     func prepareNavBarButtons(){
+        self.configureNavigationTite(color:UIColor.white)
         btnDone.isUserInteractionEnabled = true
         btnAddStream.isUserInteractionEnabled = true
         if self.navigationController?.isNavigationBarHidden == true {
@@ -254,15 +261,15 @@ class PreviewController: UIViewController {
             //        self.navigationController?.navigationBar.isTranslucent = true
             //        self.navigationController?.navigationBar.tintColor = .white
             
-            self.navigationController?.navigationBar.isTranslucent = true
+           // self.navigationController?.navigationBar.isTranslucent = true
            
         }
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.barTintColor = .clear
+      //  self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        //self.navigationController?.navigationBar.shadowImage = UIImage()
+     //   self.navigationController?.navigationBar.barTintColor = .clear
       //  self.navigationController?.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         self.navigationController?.navigationBar.tintColor = .white //.clear
-        
+        self.title = "Add Media"
 //        UIButton *useButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        useButton.frame = CGRectMake(100, 430, 100, 40);
 //        useButton.layer.masksToBounds = NO;
@@ -274,11 +281,15 @@ class PreviewController: UIViewController {
 //        useButton.backgroundColor = [UIColor redColor];
         
 //        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
-        let button = self.getShadowButton(Alignment: 0)
+     //   let button = self.getShadowButton(Alignment: 0)
        // button.setBackgroundImage(#imageLiteral(resourceName: "back-circle-icon"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "back_icon"), for: .normal)
-        button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
-        let btnBack = UIBarButtonItem.init(customView: button)
+//        let button = UIButton()
+//        button.setImage(#imageLiteral(resourceName: "back_icon"), for: .normal)
+//        button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
+//        let btnBack = UIBarButtonItem.init(customView: button)
+        
+        let imgBack = UIImage(named: "back_icon")
+        let btnBack:UIBarButtonItem = UIBarButtonItem(image: imgBack, style: .plain, target: self, action: #selector(self.btnBack))
         self.navigationItem.leftBarButtonItem = btnBack
     }
     
@@ -293,29 +304,44 @@ class PreviewController: UIViewController {
 //        var imgEdit = #imageLiteral(resourceName: "edit_icon")
 //        var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
         
-        let buttonEdit = self.getShadowButton(Alignment: 2)
-        buttonEdit.setImage(#imageLiteral(resourceName: "edit_icon_content"), for: .normal)
+    //    let buttonEdit = self.getShadowButton(Alignment: 2)
+    //    let buttonEdit = UIButton()
+     //   buttonEdit.setImage(#imageLiteral(resourceName: "edit_icon_content"), for: .normal)
       //  buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
-        buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
-        let btnEdit = UIBarButtonItem.init(customView: buttonEdit)
-        
-        
+      //  buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
+     //   let btnEdit = UIBarButtonItem.init(customView: buttonEdit)
         
 //        let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
 //        let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
 
-        let buttonDel = self.getShadowButton(Alignment: 2)
+      // let buttonDel = self.getShadowButton(Alignment: 2)
       //  buttonDel.setBackgroundImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
-        buttonDel.setImage(#imageLiteral(resourceName: "trash_icon_content"), for: .normal)
-        buttonDel.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
-        let btnDelete = UIBarButtonItem.init(customView: buttonDel)
-        
-        
-        
-        if selected.isUploaded == false {
-            arrButtons.append(btnEdit)
-            arrButtons.append(btnDelete)
+      //   let buttonDel = UIButton()
+      //  buttonDel.setImage(#imageLiteral(resourceName: "trash_icon_content"), for: .normal)
+     //   buttonDel.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
+      //  let btnDelete = UIBarButtonItem.init(customView: buttonDel)
+        let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
+        if conten.type == .gif {
+            self.navigationItem.rightBarButtonItem = nil
+            self.navigationItem.rightBarButtonItem = self.btnEdit
         }else{
+    
+        let imgEdit = UIImage(named: "edit_icon_content")
+         btnEdit =  UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+      }
+        
+        let imgDelete = UIImage(named: "trash_icon_content")
+        let btnDelete:UIBarButtonItem = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
+      
+        if selected.isUploaded == false {
+            arrButtons.append(btnDelete)
+            arrButtons.append(btnEdit)
+         
+        }else{
+            
+            if selected.isDelete == true {
+                arrButtons.append(btnDelete)
+            }
             if selected.isEdit == true {
                     arrButtons.append(btnEdit)
 //                if selected.type == .link {
@@ -327,15 +353,17 @@ class PreviewController: UIViewController {
 //                    arrButtons.append(btnEdit)
 //                }
                 
-                if selected.isDelete == true {
-                    arrButtons.append(btnDelete)
-                }
+               
                 self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
             }else{
                 var arrButtons = [UIBarButtonItem]()
                 arrButtons.append(btnDelete)
             }
         }
+        
+ 
+        
+        
         self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
     }
     
@@ -382,8 +410,8 @@ class PreviewController: UIViewController {
             self.imgPreview.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
              //   self.imgPreview.backgroundColor = .black
-                self.txtTitleImage.textColor = UIColor.lightGray//colors.secondary
-                self.txtDescription.textColor = UIColor.lightGray//colors.secondary
+                self.txtTitleImage.textColor = .black//colors.secondary
+                self.txtDescription.textColor = .black//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: UIColor.lightGray)//colors.secondary
             })
         }else {
@@ -391,8 +419,8 @@ class PreviewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     image?.getColors({ (colors) in
                  //       self.imgPreview.backgroundColor = .black
-                        self.txtTitleImage.textColor = UIColor.lightGray//colors.secondary
-                        self.txtDescription.textColor = UIColor.lightGray//colors.secondary
+                        self.txtTitleImage.textColor = .black//colors.secondary
+                        self.txtDescription.textColor = .black//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: UIColor.lightGray)//colors.secondary
                     })
                 })
@@ -419,8 +447,8 @@ class PreviewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                     //    self.imgPreview.backgroundColor = colors.primary
-                        self.txtTitleImage.textColor = UIColor.lightGray//colors.secondary
-                        self.txtDescription.textColor = UIColor.lightGray//colors.secondary
+                        self.txtTitleImage.textColor = .black//colors.secondary
+                        self.txtDescription.textColor = .black//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: UIColor.lightGray)//colors.secondary
                     })
                 })
@@ -506,11 +534,12 @@ class PreviewController: UIViewController {
            
            self.navigationController?.popNormal()
         }
+       
         return
     }
         if self.strPresented == nil {
             self.imgPreview.image = nil
-       
+            self.navigationController?.navigationBar.isTranslucent = true
             self.addLeftTransitionView(subtype: kCATransitionFromLeft)
             self.navigationController?.popNormal()
             
@@ -536,13 +565,14 @@ class PreviewController: UIViewController {
         }
     }
     @IBAction func btnAddMoreAction(_ sender: Any) {
-        
+         self.navigationController?.navigationBar.isTranslucent = true
         kDefault?.removeObject(forKey: kRetakeIndex)
         let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         self.navigationController?.popToViewController(vc: obj)
       
     }
     @IBAction func btnEditAction(_ sender: Any) {
+         self.navigationController?.navigationBar.isTranslucent = true
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             if seletedImage.type == .image {
                 if self.seletedImage.imgPreview == nil {
@@ -596,6 +626,7 @@ class PreviewController: UIViewController {
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         self.view.endEditing(true)
+        self.navigationController?.navigationBar.isTranslucent = true
         btnDone.isUserInteractionEnabled = false
         if ContentList.sharedInstance.arrayContent.count > 10 {
             self.alertForLimit()

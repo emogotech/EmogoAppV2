@@ -41,13 +41,14 @@ class VerificationViewController: UIViewController {
     func prepareLayouts(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
+         UITextField.appearance().keyboardAppearance = .dark
         self.setOTPView()
-      //  addToolBar(textField: txtOtP)
+       // addToolBar(textField: txtOtP)
        // txtOtP.formatter.setDefaultOutputPattern("#####")
     }
     
     func setOTPView() {
-        
+       
         otpView.otpFieldsCount = 5
         otpView.otpFieldDefaultBorderColor = UIColor.gray
         otpView.otpFieldDisplayType = .square
@@ -56,6 +57,7 @@ class VerificationViewController: UIViewController {
         otpView.cursorColor = UIColor.gray
         otpView.delegate = self
         otpView.shouldAllowIntermediateEditing = false
+    
         
         // Create the UI
         otpView.initializeUI()
@@ -75,6 +77,7 @@ class VerificationViewController: UIViewController {
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         textField.inputAccessoryView = toolBar
+        textField.keyboardAppearance = .dark
       
     }
     @objc func donePressed(){

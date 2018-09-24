@@ -956,7 +956,7 @@ open class SwiftyCamViewController: UIViewController {
 	}
 
 	/// Get Devices
-/*
+
 	fileprivate class func deviceWithMediaType(_ mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
 		if let devices = AVCaptureDevice.devices(withMediaType: mediaType) as? [AVCaptureDevice] {
 			return devices.filter({ $0.position == position }).first
@@ -964,7 +964,8 @@ open class SwiftyCamViewController: UIViewController {
         
 		return nil
 	}
-    */
+
+    /*
     fileprivate class func deviceWithMediaType(_ mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
         
         var deviceTypes: [AVCaptureDevice.DeviceType] = [AVCaptureDevice.DeviceType.builtInWideAngleCamera]
@@ -991,7 +992,7 @@ open class SwiftyCamViewController: UIViewController {
         
     }
     
-    
+    */
 
 	/// Enable or disable flash for photo
 

@@ -113,9 +113,11 @@ extension VideoEditorViewController {
         configureNavigationForEditing()
     }
     @objc func btnClearAction(){
-        self.configureNavigationButtons()
-        self.updatePlayerAsset(videURl:self.originalFileURl!)
-        self.editedFileURL = self.originalFileURl!
+        if let url = originalFileURl {
+            self.configureNavigationButtons()
+            self.updatePlayerAsset(videURl:url)
+            self.editedFileURL = self.originalFileURl!
+        }
     }
     
     @objc func btnCancelAction(){

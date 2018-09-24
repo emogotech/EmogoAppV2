@@ -1766,6 +1766,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             if let cell = collectionView.cellForItem(at: indexPath) as? ProfileStreamCell {
                 selectedImageView = cell.imgCover
                let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+                    obj.delegate = self
                 if currentMenu == .stream {
                     let tempStream = self.arrayMyStreams[indexPath.row]
                     let tempIndex = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
@@ -1860,6 +1861,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
         obj.currentIndex = profileStreamIndex
         obj.viewStream = "fromProfile"
+        obj.delegate = self
         ContentList.sharedInstance.objStream = nil
         obj.image =  selectedImageView?.image
         self.navigationController?.pushViewController(obj, animated: true)
@@ -1886,4 +1888,23 @@ extension ProfileViewController : ContentViewControllerDelegate {
     }
     
    
+}
+
+extension ProfileViewController : EmogoDetailViewControllerDelegate {
+    
+    func nextItemScrolled(index: Int?) {
+        if let index = index {
+            let indexPath = IndexPath(row: index, section: 0)
+            if let cell = profileCollectionView.cellForItem(at: indexPath) {
+                let selectedCell = cell as! ProfileStreamCell
+                selectedImageView = selectedCell.imgCover
+                print("Callled In User  Profile")
+            }
+        }else {
+            selectedImageView = nil
+            self.profileCollectionView.reloadData()
+        }
+        
+    }
+    
 }

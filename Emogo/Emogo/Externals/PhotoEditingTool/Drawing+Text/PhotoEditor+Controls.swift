@@ -122,7 +122,7 @@ extension PhotoEditorViewController {
     @objc func buttonBackAction(){
         if  self.selectedFeature == .sticker {
             self.removeStickersView()
-            return
+           // return
         }
         self.navigationController?.popViewAsDismiss()
         if self.initContent.isUploaded {
@@ -151,6 +151,7 @@ extension PhotoEditorViewController {
         if self.selectedFeature == .drawing {
             self.canvasImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
             self.canvasImageView.image = self.image
+              isDrawing = false
         }else if self.selectedFeature == .sticker {
             if isStriker {
                 isStriker = false

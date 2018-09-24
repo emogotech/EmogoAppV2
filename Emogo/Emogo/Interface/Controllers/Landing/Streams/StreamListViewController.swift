@@ -258,7 +258,11 @@ class StreamListViewController: UIViewController {
             self.timer?.invalidate()
             self.timer = nil
         }
+        if (self.txtSearch.text?.trim().isEmpty)! {
+            btnSearchCancelAction()
+        }
     }
+    
     func checkDeepLinkURL() {
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
            self.getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: "")
@@ -861,6 +865,7 @@ class StreamListViewController: UIViewController {
     override func btnMyProfileAction() {
         self.navigationController?.navigationBar.isTranslucent = false
         isUpdateList = true
+       
         self.view.endEditing(true)
         let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
         self.addLeftTransitionView(subtype: kCATransitionFromLeft)
@@ -1615,9 +1620,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                      obj.streamType = currentStreamType.rawValue
                      obj.image =  self.selectedCell.imgCover.image
                     self.navigationController?.pushViewController(obj, animated: true)
- 
                }
-                
             }
         }else {
             if isSearch && isTapPeople {
@@ -1855,6 +1858,9 @@ extension StreamListViewController : EmogoDetailViewControllerDelegate {
                 selectedIndexPath = indexPath
                 self.selectedCell = cell as! StreamCell
                 selectedImageView = self.selectedCell.imgCover
+                print("Callled In Stream List")
+
+             //   self.streamCollectionView.reloadData()
             }
         }else {
             selectedIndexPath = nil

@@ -72,6 +72,7 @@ class FilterViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.hideStatusBar()
+        self.navigationController?.navigationBar.isTranslucent = false
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -199,12 +200,14 @@ class FilterViewController: UIViewController {
         self.view.setNeedsUpdateConstraints()
         self.filterButton.isHidden = false
         self.gradientButton.isHidden = false
+        self.btnMLEffects.isHidden = false
         self.filterViewButton.isHidden = true
         self.gradientImageView.isHidden = true
         self.gradientView.isHidden = true
         self.setImageView(image: self.image!)
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
+        self.btnMLEffects.setImage(#imageLiteral(resourceName: "effect_icon_inactive"), for: .normal)
         self.imageGradientFilter = nil
         self.prepareDummyDataForFilter()
     }
@@ -221,6 +224,7 @@ class FilterViewController: UIViewController {
         self.setImageView(image: self.image!)
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
+        self.btnMLEffects.setImage(#imageLiteral(resourceName: "effect_icon_inactive"), for: .normal)
         self.imageGradientFilter = nil
         //        DispatchQueue.global(qos: .background).async {
         //            self.prepareGradientImages(image: self.image!)
@@ -241,7 +245,7 @@ class FilterViewController: UIViewController {
                                         filter.icon = filterImage
                                     }
                                 } else {
-                                    let filterImage  = self.image?.createFilteredImage(filterName: value)
+                                    let filterImage  = self.imageOrientation(self.image!).createFilteredImage(filterName: value)
                                     filter.icon = filterImage
                                 }
                                 
