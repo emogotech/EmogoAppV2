@@ -1,7 +1,9 @@
 import struct
 import numpy as np
 import scipy
-import urllib, cStringIO
+import urllib2
+
+import cStringIO
 
 from PIL import Image
 from django.core.management.base import BaseCommand
@@ -16,7 +18,7 @@ class Command(BaseCommand):
         import scipy.cluster
         NUM_CLUSTERS = 5
 
-        file = cStringIO.StringIO(urllib.urlopen(image).read())
+        file = cStringIO.StringIO(urllib2.urlopen(image).read())
         im = Image.open(file)
         im = im.resize((150, 150))      # optional, to reduce time
         ar = np.asarray(im)
