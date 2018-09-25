@@ -17,7 +17,6 @@ class Command(BaseCommand):
         import scipy.misc
         import scipy.cluster
         NUM_CLUSTERS = 5
-
         file = cStringIO.StringIO(urllib2.urlopen(image).read())
         im = Image.open(file)
         im = im.resize((150, 150))      # optional, to reduce time
@@ -69,11 +68,11 @@ class Command(BaseCommand):
 
         for content in contents:
             if content.color == None :
-
                 print 'content count is %s ', content_count
                 print 'reading content image %s %s ', content.id, content.video_image
                 try:
-                    colour = self.add_color(content.video_image)
+                    image_type = content.url if content.type == 'Picture' else content.video_image
+                    colour = self.add_color(image_type)
                     content.color = '#%s' % colour
                     content.save()
                 except Exception as e:
