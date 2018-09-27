@@ -150,7 +150,7 @@ class UserStreamFilter(django_filters.FilterSet):
         return qs
 
     def filter_following_stream(self, qs, name, value):
-        following_ids = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True).order_by('-follow_time')
+        following_ids = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
         # 1. Get user as collaborator in streams created by following's
         stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active',
                                                  stream__type='Private', created_by_id__in=following_ids).values_list(
@@ -160,11 +160,11 @@ class UserStreamFilter(django_filters.FilterSet):
         stream_as_collabs = qs.filter(id__in=stream_ids)
 
         # 3. Get main stream created by requested user and stream type is Public.
-        main_qs = qs.filter(created_by__in=following_ids, type='Public').order_by('-upd')
+        main_qs = qs.filter(created_by__in=following_ids, type='Public')
         qs = main_qs | stream_as_collabs
-        qs = list(qs)
-        stream_ids_list = list(following_ids)
-        qs.sort(key=lambda t: stream_ids_list.index(t.created_by_id))
+        qs = list(qs.order_by('-upd'))
+        # stream_ids_list = list(following_ids)
+        # qs.sort(key=lambda t: stream_ids_list.index(t.created_by_id))
         return qs
 
     def filter_follower_stream(self, qs, name, value):

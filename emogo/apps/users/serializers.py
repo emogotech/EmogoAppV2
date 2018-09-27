@@ -512,10 +512,10 @@ class GetTopStreamSerializer(serializers.Serializer):
         stream_as_collabs = self.qs.filter(id__in=stream_ids)
 
         # 3. Get main stream created by requested user and stream type is Public.
-        main_qs = self.qs.filter(created_by__in=UserFollow.objects.filter(follower=self.context.user).values_list('following_id', flat=True), type='Public').order_by('-upd')
+        main_qs = self.qs.filter(created_by__in=UserFollow.objects.filter(follower=self.context.user).values_list('following_id', flat=True), type='Public')
         result_list = main_qs | stream_as_collabs
         total = result_list.count()
-        result_list = result_list[0:10]
+        result_list = result_list.order_by('-upd')[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.get_serializer_context()).data }
     
     ## Added Private stream 
