@@ -13,8 +13,7 @@ import UIKit
 class PMNavigationController:UINavigationController {
     
     public let zoomNavigationControllerDelegate = ZoomNavigationControllerDelegate()
-
-
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = zoomNavigationControllerDelegate
@@ -22,17 +21,17 @@ class PMNavigationController:UINavigationController {
     
 }
 
-@IBDesignable extension UINavigationController {
-    @IBInspectable var barTintColor: UIColor? {
-        set {
-            guard let uiColor = newValue else { return }
-            self.navigationController?.navigationBar.barTintColor = UIColor.white
-          //  navigationBar.barTintColor = uiColor
-           
-        }
-        get {
-            guard let color = navigationBar.barTintColor else { return nil }
-            return color
-        }
-    }
-}
+//@IBDesignable extension UINavigationController {
+//    @IBInspectable var barTintColor: UIColor? {
+//        set {
+//            guard let uiColor = newValue else { return }
+//            self.navigationController?.navigationBar.barTintColor = UIColor.white
+//          //  navigationBar.barTintColor = uiColor
+//
+//        }
+//        get {
+//            guard let color = navigationBar.barTintColor else { return nil }
+//            return color
+//        }
+//    }
+//}

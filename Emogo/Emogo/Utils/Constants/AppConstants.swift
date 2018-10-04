@@ -37,6 +37,10 @@ let kaddCardBorderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
 let kaddCardBorderWidth : CGFloat = 3
 var kRefreshCell : Bool = false
 var isSwipeEnable : Bool = false
+var kImageHeight                  : CGFloat! = 0.0
+var kImageMargin                  : CGFloat! = 0.0
+
+var isOpenContent : Bool = false
 
 let kImageColor = ""
 
@@ -259,7 +263,7 @@ let kAlertSheet_Spam = "It's Spam"
 let kAlertDelete_Content = "Delete"
 let kAlertSheet_Inappropiate = "It's inappropriate"
 let kAlertSheet_SaveToGallery = "Save to gallery"
-let kAlertSheet_SaveToMyStuff = "Save to stuff"
+let kAlertSheet_SaveToMyStuff = "Save to media"
 let kAlertSheet_TakePhoto = "Take photo"
 let kAlertSheet_SelectFromCameraRoll = "Select from camera roll"
 let kAlertSheet_Save = "Save"

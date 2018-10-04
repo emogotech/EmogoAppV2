@@ -86,9 +86,14 @@
     if (self.minHeightConstraint) {
         newHeight = MAX(newHeight, self.minHeightConstraint.constant);
     }
-    
+    NSString *trimmed = [self.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
     // update the height constraint
-    self.heightConstraint.constant = newHeight;
+    if ([trimmed isEqualToString:@""]) {
+        self.heightConstraint.constant = 30.0;
+    }else {
+        self.heightConstraint.constant = newHeight;
+    }
 }
 
 

@@ -132,6 +132,8 @@ class CreateStreamController: UITableViewController {
        
         self.switchForEmogoPrivate.thumbTintColor = UIColor.lightGray
         
+        self.tfEmogoTitle.keyboardDistanceFromTextField = 20.0
+        self.tfDescription.keyboardDistanceFromTextField = 30.0
       
 //        switchForEmogoPrivate.delegate = self
 //        switchForEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))

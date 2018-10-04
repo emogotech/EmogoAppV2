@@ -94,9 +94,8 @@ extension PhotoEditorViewController: UITextViewDelegate {
                 //            self.endDone()
                 return false
             }
-            return true
+            return textView.text.length + (text.length - range.length) <= 70
         }
-        
     }
     
 }

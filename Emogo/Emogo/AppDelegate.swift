@@ -258,11 +258,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
             self.window = UIWindow(frame:  UIScreen.main.bounds)
+            self.window?.backgroundColor = UIColor.white
             let navigation = PMNavigationController(rootViewController: objHome)
            //  navigation.barTintColor = UIColor.white
-            
-    
-            self.window?.rootViewController = navigation
+                self.window?.rootViewController = navigation
             self.window?.makeKeyAndVisible()
         }
     }
@@ -313,14 +312,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-   fileprivate func openLandingScreen(){
+    func openLandingScreen(isAddAnimation:Bool! = nil){
         self.window = UIWindow(frame:  UIScreen.main.bounds)
+        self.window?.backgroundColor = UIColor.white
         let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
         let navigation = PMNavigationController(rootViewController: objHome)
-        navigation.barTintColor = .white
-    
+        if isAddAnimation != nil {
+            Animation.addFlipTransition(VC: navigation)
+        }
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
+    
     }
     
     func keyboardToolBar(disable:Bool){

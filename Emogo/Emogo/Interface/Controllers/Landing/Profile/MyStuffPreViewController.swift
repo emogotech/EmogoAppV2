@@ -198,17 +198,27 @@ extension MyStuffPreViewController:UICollectionViewDelegate,UICollectionViewData
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
                 ContentList.sharedInstance.arrayContent = array
             if ContentList.sharedInstance.arrayContent.count != 0 {
+                let content = array[indexPath.row]
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 objPreview.currentIndex = indexPath.row
                 objPreview.isFromAll = "YES"
                 let nav = UINavigationController(rootViewController: objPreview)
                 let indexPath = IndexPath(row: indexPath.row, section: 0)
                 if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentCell {
+                    navigationImageView = nil
+                    let value = kFrame.size.width / CGFloat(content.width)
+                    kImageHeight  = CGFloat(content.height) * value
+                    if !content.description.trim().isEmpty  {
+                        kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
+                    }
+                    if kImageHeight < self.profileCollectionView.bounds.size.height {
+                        kImageHeight = self.profileCollectionView.bounds.size.height
+                    }
                     navigationImageView = imageCell.imgCover
                     nav.cc_setZoomTransition(originalView: navigationImageView!)
-                    nav.cc_swipeBackDisabled = true
+                    nav.cc_swipeBackDisabled = false
+                    self.present(nav, animated: true, completion: nil)
                 }
-                   self.hideStatusBar()
             }
     }
     

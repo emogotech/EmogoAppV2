@@ -2551,7 +2551,6 @@
 				335B1A511FBB23FE006DA9D9 /* Embed App Extensions */,
 				C173F5211AF5667D4A90FF7B /* [CP] Embed Pods Frameworks */,
 				F45133991FD1801D00941755 /* ShellScript */,
-				915876DA0908FFC277CBDDCE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2573,7 +2572,6 @@
 				335B1A1F1FBB238A006DA9D9 /* Frameworks */,
 				335B1A201FBB238A006DA9D9 /* Resources */,
 				3D35FD3244544ECEE59095FA /* [CP] Embed Pods Frameworks */,
-				1A4AB98A715CB72A3B41FBA6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2594,7 +2592,6 @@
 				335B1A2A1FBB238B006DA9D9 /* Frameworks */,
 				335B1A2B1FBB238B006DA9D9 /* Resources */,
 				4221665022DB283B717FA017 /* [CP] Embed Pods Frameworks */,
-				A48137EA3F4D5C1703399429 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2614,7 +2611,6 @@
 				335B1A3F1FBB23FE006DA9D9 /* Sources */,
 				335B1A401FBB23FE006DA9D9 /* Frameworks */,
 				335B1A411FBB23FE006DA9D9 /* Resources */,
-				704DEF93371C69CA7B2A9EE9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2633,7 +2629,6 @@
 				335B1A521FBB2413006DA9D9 /* Sources */,
 				335B1A531FBB2413006DA9D9 /* Frameworks */,
 				335B1A541FBB2413006DA9D9 /* Resources */,
-				BAD4CB8BA65035EE219598E4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2852,21 +2847,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1A4AB98A715CB72A3B41FBA6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		24E5B8FD9D7FDC61532EBB4C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2991,21 +2971,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoUITests/Pods-EmogoUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		704DEF93371C69CA7B2A9EE9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ShareExt/Pods-ShareExt-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7DC7DD69B9FB2A05FF180134 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3024,36 +2989,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		915876DA0908FFC277CBDDCE /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Emogo/Pods-Emogo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A48137EA3F4D5C1703399429 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoUITests/Pods-EmogoUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AFC226E0A45A038A8B181A5C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3070,21 +3005,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BAD4CB8BA65035EE219598E4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C173F5211AF5667D4A90FF7B /* [CP] Embed Pods Frameworks */ = {
@@ -3122,6 +3042,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/VIMediaCache/VIMediaCache.framework",
 				"${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework",
 				"${BUILT_PRODUCTS_DIR}/iCarousel/iCarousel.framework",
 			);
@@ -3155,6 +3076,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VIMediaCache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLActionController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iCarousel.framework",
 			);

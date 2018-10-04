@@ -374,11 +374,7 @@ class APIServiceManager: NSObject {
                                     StreamList.sharedInstance.arrayProfileStream[index] = stream
                                 }
                             }
-                            
                         }
-                        
-                       
-                        
                         
                         completionHandler(true,"")
                     }else {
@@ -410,13 +406,13 @@ class APIServiceManager: NSObject {
                 "can_add_people": canAddPeople]
         ] as [String : Any]
         
-       // print(params)
+       print(params)
         let url = kStreamViewAPI + "\(streamID)/"
        // print(url)
         APIManager.sharedInstance.patch(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-              //  print(value)
+             print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -430,6 +426,37 @@ class APIServiceManager: NSObject {
                                     StreamList.sharedInstance.arrayStream[i] = stream
                                 }
                             }
+                            
+                            if StreamList.sharedInstance.arrayProfileColabStream.count != 0 {
+                                if let index =  StreamList.sharedInstance.arrayProfileColabStream.index(where: {$0.ID.trim() == stream.ID.trim()}) {
+                                    
+                                    if stream.arrayColab.count >  0 {
+                                        StreamList.sharedInstance.arrayProfileColabStream[index] = stream
+                                    }else {
+                                        StreamList.sharedInstance.arrayProfileColabStream.remove(at: index)
+                                    }
+                                }else {
+                                    if stream.arrayColab.count >  0 {
+                                        StreamList.sharedInstance.arrayProfileColabStream.insert(stream, at: 0)
+                                    }
+                                }
+                            }
+                            
+                            
+                            if StreamList.sharedInstance.arrayProfileStream.count != 0 {
+                                if let index =  StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == stream.ID.trim()}) {
+                                    if stream.arrayColab.count ==  0 {
+                                        StreamList.sharedInstance.arrayProfileStream[index] = stream
+                                    }else {
+                                        StreamList.sharedInstance.arrayProfileStream.remove(at: index)
+                                    }
+                                }else {
+                                    if stream.arrayColab.count ==  0 {
+                                        StreamList.sharedInstance.arrayProfileStream.insert(stream, at: 0)
+                                    }
+                                }
+                            }
+                            
                         }
                         completionHandler(nil,"")
                     }else {
@@ -1204,6 +1231,7 @@ class APIServiceManager: NSObject {
             
             switch(result){
             case .success(let value):
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {

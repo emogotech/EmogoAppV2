@@ -18,6 +18,7 @@ class PeopleListViewController: UIViewController {
     var streamID:String!
     var streamNavigate:String!
     var currentIndex:Int!
+    var objNavigationController:PMNavigationController?
     // MARK: - Override Functions
 
     override func viewDidLoad() {
@@ -118,7 +119,8 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
                 ContentList.sharedInstance.mainStreamIndex = nil
                   let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
                // self.navigationController?.popToViewController(vc: obj)
-                self.navigationController?.push(viewController: obj)
+                //self.objNavigationController?.popToViewController(vc: obj)
+              self.navigationController?.push(viewController: obj)
 
             }else {
                 let people = PeopleDAO(peopleData:[:])
@@ -128,7 +130,8 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
                 print(collaborator.userID)
                 let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                 obj.objPeople = people
-                self.navigationController?.push(viewController: obj)
+              //  self.objNavigationController?.popToViewController(vc: obj)
+               self.navigationController?.push(viewController: obj)
             }
            
         }else{

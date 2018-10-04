@@ -49,7 +49,7 @@ class EditStreamController: UITableViewController {
     var minimumSize: CGSize = CGSize.zero
     var isfromProfile:String?
     var contentRowHeight : CGFloat = 30.0
-    
+    var objNavigationController:PMNavigationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -276,10 +276,14 @@ class EditStreamController: UITableViewController {
         
         let actionVC : AddCollabViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddCollabView) as! AddCollabViewController
         actionVC.delegate = self
+        actionVC.strEdit = "EDIT"
         actionVC.arraySelected = self.selectedCollaborators
         actionVC.currentStream = self.objStream
+        actionVC.objNavigationController = self.navigationController as? PMNavigationController
         let nav = UINavigationController(rootViewController: actionVC)
         customPresentViewController(PresenterNew.AddCollabPresenter, viewController: nav, animated: true, completion: nil)
+        
+       
         
     }
    
@@ -804,9 +808,25 @@ extension EditStreamController :PMSwitcherChangeValueDelegate{
 }*/
 
 extension EditStreamController :AddCollabViewControllerDelegate{
+    
+    func dismissSuperView(objPeople: PeopleDAO?) {
+        self.dismiss(animated: false) {
+            if objPeople == nil {
+                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.objNavigationController?.popToViewController(vc: obj)
+            }else {
+                let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                obj.objPeople = objPeople
+                self.objNavigationController?.popToViewController(vc: obj)
+            }
+        }
+    }
+    
+
     func selectedColabs(arrayColab: [CollaboratorDAO]) {
         self.selectedCollaborators = arrayColab
         self.switchAddPeople.isUserInteractionEnabled = true
         self.switchAddContent.isUserInteractionEnabled = true
     }
+  
 }

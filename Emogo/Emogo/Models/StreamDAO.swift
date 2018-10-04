@@ -62,10 +62,10 @@ class StreamDAO {
     var totalLikeCount:String! = ""
     var viewCount:String! = ""
     var description:String! = ""
-    var totalLiked:String! = ""
+    var totalLiked:String! = "0"
     var colabImageFirst:String! = ""
     var colabImageSecond:String! = ""
-    
+     var arrayLikedUsers = [LikedUser]()
     
     // People
 
@@ -229,7 +229,15 @@ class StreamDAO {
                     self.arrayColab.append(colab)
                 }
             }
-            
+            if let obj = streamData["user_liked"] {
+                if obj is [Any] {
+                    let array:[Any] = obj  as! [Any]
+                    for value in array {
+                        let user = LikedUser(dictUser: (value as!  NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                        self.arrayLikedUsers.append(user)
+                    }
+                }
+            }
             for colab in self.arrayColab {
                 if colab.userID.trim() != self.IDcreatedBy.trim() {
                     if colabImageFirst.trim().isEmpty {
@@ -432,7 +440,11 @@ class StreamViewDAO{
             self.viewCount = "\(obj)"
         }
         if let obj = streamData["total_liked"] {
+            
             self.totalLiked = "\(obj)"
+            if self.totalLiked.trim().isEmpty {
+                 self.totalLiked = "0"
+            }
         }
         if let obj  = streamData["category"] {
             self.category = obj as! String

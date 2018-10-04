@@ -244,9 +244,9 @@ class ProfileViewController: UIViewController {
 
                 self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
                 self.lblFullName.minimumScaleFactor = 1.0
-               // self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
+                self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
                 self.lblWebsite.minimumScaleFactor = 1.0
-               // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+               self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
                 self.lblLocation.minimumScaleFactor = 1.0
                 self.lblBio.text = UserDAO.sharedInstance.user.biography.trim()
                 
@@ -285,7 +285,8 @@ class ProfileViewController: UIViewController {
                 let tapFollowing = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
                
                 if UserDAO.sharedInstance.user.followers.trim().isEmpty && !UserDAO.sharedInstance.user.following.trim().isEmpty  {
-                    self.lblFollowers.text = UserDAO.sharedInstance.user.following.trim()
+                
+                    self.lblFollowers.text = "\(UserDAO.sharedInstance.user.following.trim())  FOLLOWING"
                     self.lblFollowing.text = ""
                     self.lblFollowers.isHidden = false
                     self.lblFollowers.tag = 0
@@ -295,7 +296,7 @@ class ProfileViewController: UIViewController {
                 }
                 
                 if UserDAO.sharedInstance.user.following.trim().isEmpty && !UserDAO.sharedInstance.user.followers.trim().isEmpty  {
-                    self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
+                    self.lblFollowers.text = "\(UserDAO.sharedInstance.user.followers.trim())  FOLLOWERS"
                     self.lblFollowers.isHidden = false
                     self.lblFollowers.tag = 111
                     self.lblFollowers.isUserInteractionEnabled = true
@@ -310,10 +311,10 @@ class ProfileViewController: UIViewController {
                     self.lblFollowing.isHidden = false
                     self.lblFollowers.tag = 111
                     self.lblFollowing.tag = 0
-                    self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
+                    self.lblFollowers.text = "\(UserDAO.sharedInstance.user.followers.trim())  FOLLOWERS"
                     self.lblFollowers.isUserInteractionEnabled = true
                     self.lblFollowers.addGestureRecognizer(tapFollow)
-                    self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
+                    self.lblFollowing.text = "\(UserDAO.sharedInstance.user.following.trim())  FOLLOWING"
                     self.lblFollowing.isUserInteractionEnabled = true
                     self.lblFollowing.addGestureRecognizer(tapFollowing)
                 }
@@ -688,7 +689,7 @@ class ProfileViewController: UIViewController {
         self.lblNOResult.isHidden = true
         if array.count == 0  {
             self.lblNOResult.isHidden = false
-            self.lblNOResult.text = "No Stuff Found"
+            self.lblNOResult.text = "No Media Found"
         }
         self.profileCollectionView.reloadData()
     }
@@ -1105,7 +1106,7 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.isHidden = true
                 if array.count == 0  {
                     self.lblNOResult.isHidden = false
-                    self.lblNOResult.text = "No Stuff Found"
+                    self.lblNOResult.text = "No Media Found"
                 }
             }
             self.layout.headerHeight = 0.0
@@ -1229,7 +1230,7 @@ class ProfileViewController: UIViewController {
                
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 if array.count == 0 {
-                    self.lblNOResult.text  = "No Stuff Found"
+                    self.lblNOResult.text  = "No Media Found"
                     self.lblNOResult.minimumScaleFactor = 1.0
                     self.lblNOResult.isHidden = false
                 }
@@ -1272,7 +1273,7 @@ class ProfileViewController: UIViewController {
            
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             if array.count == 0 {
-                self.lblNOResult.text  = "No Stuff Found"
+                self.lblNOResult.text  = "No Media Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
@@ -1591,6 +1592,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 content.type = .image
                 content.fileName = "SreamCover"
                 content.name = objStream?.title
+                content.isEdit = false
                 content.description = objStream?.description
                
                 let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController

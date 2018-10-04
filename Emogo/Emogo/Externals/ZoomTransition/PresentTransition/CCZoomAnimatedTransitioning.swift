@@ -10,6 +10,11 @@ import UIKit
 
 //AnimatedTransitioning,Looks like to open the APP system effect
 
+let navigationHeight : CGFloat = 44.0
+let statubarHeight : CGFloat = 20.0
+let navigationHeaderAndStatusbarHeight : CGFloat = navigationHeight + statubarHeight
+var animationScale:CGFloat = 0.0
+
 class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioning {
     
     //which view being touch in fromeVC， Need to get this view to running the animation
@@ -18,7 +23,7 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
     var isPresentation : Bool = true
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3
+        return 0.45
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -46,7 +51,9 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
         
         let fromView = fromVC.view!
         let toView = toVC.view!
-        
+//        if toVC is UINavigationController {
+//            toView = ((toVC as! UINavigationController).viewControllers.first?.view)!
+//        }
         let containerView = transitionContext.containerView
         let toFrame : CGRect = {
             var frame = transitionContext.finalFrame(for:toVC)
@@ -73,18 +80,24 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
             let imagev = transitview as! UIImageView
             transitimage = imagev.image
         } else {
-            transitimage = self.snapshotViewpush(view: transitview)
+            transitimage = self.snapshotView(view: transitview)
         }
         
         if (self.isPresentation)
         {
             let tranimage : UIImage = {
-                if let image  = self.snapshotViewpush(view: toView) {
+//                if navigationImageView?.image != nil {
+//                    return (navigationImageView?.image)!
+//                }
+                if let image  = self.snapshotView(view: toView) {
                     return image
                 } else {
                     return self.imageWithColor(color: UIColor.init(white: 0.3, alpha: 0.3)) ?? UIImage()
                 }
             }()
+            
+            let offsetY : CGFloat =  navigationHeaderAndStatusbarHeight
+         //   let _ : CGFloat = statubarHeight;
             
             let savetoViewalpha = toView.alpha
             toView.alpha = 0;
@@ -115,7 +128,9 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
                                     animations: {
                                         //shadow
                                         UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
-                                            shadow.frame = containerView.bounds;
+                                            
+                                            shadow.frame = CGRect(x: 0, y: offsetY, width: containerView.bounds.size.width, height: containerView.bounds.size.height)
+                                            //   shadow.frame = containerView.bounds;
                                             blurshadow.frame = shadow.bounds;
                                             transitvshadow.frame = shadow.bounds;
                                         })
@@ -166,7 +181,7 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
             shadow.clipsToBounds = true
             
             let fromvshadow : UIImageView = {
-                let imageview = UIImageView.init(image: self.snapshotViewpop(view: fromView))
+                let imageview = UIImageView.init(image: self.snapshotView(view: fromView))
                 imageview.contentMode = .scaleToFill
                 imageview.frame = shadow.bounds
                 return imageview
@@ -216,32 +231,22 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
             })
         }
     }
-
+    
 }
 
 //supper func
 extension CCZoomAnimatedTransitioning {
     
-    func snapshotViewpush(view : UIView) -> UIImage? {
-        
-                UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
-                if let context = UIGraphicsGetCurrentContext() {
-                    view.layer.render(in: context)
-                    let retImage = UIGraphicsGetImageFromCurrentImageContext()
-                    UIGraphicsEndImageContext()
-                    return retImage
-                }
-        
-              return nil
-    }
-    func snapshotViewpop(view : UIView) -> UIImage? {
-        
+    func snapshotView(view : UIView) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
-        view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
-        let snapshotImageFromMyView = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return snapshotImageFromMyView
-
+        if let context = UIGraphicsGetCurrentContext() {
+            view.layer.render(in: context)
+            let retImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return retImage
+        }
+        
+        return nil
     }
     
     func imageWithColor(color : UIColor) -> UIImage? {
@@ -257,3 +262,4 @@ extension CCZoomAnimatedTransitioning {
     }
     
 }
+

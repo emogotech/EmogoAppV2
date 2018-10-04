@@ -144,13 +144,6 @@ open class BMPlayerLayerView: UIView {
     }
     
     
-  open  func videoContentFrame() -> CGRect {
-        let avLayer = self.playerLayer
-        // AVPlayerLayerContentLayer
-        let layer = avLayer?.sublayers?[0] as? CALayer
-    let transformedBounds: CGRect = (layer?.bounds.applying(CATransform3DGetAffineTransform((layer?.sublayerTransform)!)))!
-        return transformedBounds
-    }
     open func play() {
         if let player = player {
             player.play()

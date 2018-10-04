@@ -18,9 +18,10 @@ class LikeListViewController: UIViewController {
     var listType:FollowerType!
     var arraySearch = [FollowerDAO]()
     var arraylikeUser = [LikedUser]()
-    var objStream : StreamViewDAO?
+   // var objStream : StreamViewDAO?
     var isSearchEnable:Bool! = false
     var isEditingEnable:Bool! = true
+    var objStream:StreamDAO!
     
     override func viewDidLoad() {
         super.viewDidLoad()

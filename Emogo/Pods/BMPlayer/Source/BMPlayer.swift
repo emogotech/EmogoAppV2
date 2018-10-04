@@ -52,19 +52,19 @@ open class BMPlayer: UIView {
         }
     }
     
-    open var isShowControl: Bool! = true
-       
-    
     //Closure fired when play time changed
     open var playTimeDidChange:((TimeInterval, TimeInterval) -> Void)?
     
     //Closure fired when play state chaged
     open var playStateDidChange:((Bool) -> Void)?
-    
+    open var tapActionHandler:((Bool) -> Void)?
+
     open var avPlayer: AVPlayer? {
         return playerLayer?.player
     }
-    
+
+    open var isPanControlsEnable: Bool! = true
+
     open var playerLayer: BMPlayerLayerView?
     
     fileprivate var resource: BMPlayerResource!
@@ -92,7 +92,7 @@ open class BMPlayer: UIView {
     /// 用来保存时间状态
     fileprivate var sumTime         : TimeInterval = 0
     fileprivate var totalDuration   : TimeInterval = 0
-    var currentPosition : TimeInterval = 0
+    fileprivate var currentPosition : TimeInterval = 0
     fileprivate var shouldSeekTo    : TimeInterval = 0
     
     fileprivate var isURLSet        = false
@@ -127,13 +127,26 @@ open class BMPlayer: UIView {
         if BMPlayerConf.shouldAutoPlay {
             isURLSet = true
             let asset = resource.definitions[definitionIndex]
-            playerLayer?.playAsset(asset: asset.avURLAsset)
+            
+            if self.verifyUrl(urlString: asset.url) {
+                playerLayer?.playAsset(asset: asset.avURLAsset)
+            }else {
+                playerLayer?.playURL(url:  asset.url)
+            }
+
         } else {
             controlView.showCover(url: resource.cover)
             controlView.hideLoader()
         }
     }
     
+    func verifyUrl (urlString: URL?) -> Bool {
+        if (urlString?.absoluteString.contains("http"))! {
+            return true
+        }else {
+            return false
+        }
+    }
     /**
      auto start playing, call at viewWillAppear, See more at pause
      */
@@ -154,11 +167,12 @@ open class BMPlayer: UIView {
             let asset = resource.definitions[currentDefinition]
             playerLayer?.playAsset(asset: asset.avURLAsset)
             controlView.hideCoverImageView()
-            controlView.hidePlayToTheEndView()
             isURLSet                = true
         }
         
-        panGesture.isEnabled = true
+        if isPanControlsEnable {
+            panGesture.isEnabled = true
+        }
         playerLayer?.play()
         isPauseByUser = false
     }
@@ -171,7 +185,6 @@ open class BMPlayer: UIView {
     open func pause(allowAutoPlay allow: Bool = false) {
         playerLayer?.pause()
         isPauseByUser = !allow
-        controlView.hidePlayToTheEndView()
     }
     
     /**
@@ -229,7 +242,7 @@ open class BMPlayer: UIView {
     // MARK: - Action Response
     
     @objc fileprivate func panDirection(_ pan: UIPanGestureRecognizer) {
-        if !isShowControl {
+        if !self.isPanControlsEnable {
             return
         }
         // 根据在view上Pan的位置，确定是调音量还是亮度
@@ -388,20 +401,20 @@ open class BMPlayer: UIView {
         } else {
             controlView =  BMPlayerControlView()
         }
-        if isShowControl {
-            addSubview(controlView)
-        }
+        
+        addSubview(controlView)
         controlView.updateUI(isFullScreen)
         controlView.delegate = self
         controlView.player   = self
         controlView.snp.makeConstraints { (make) in
             make.edges.equalTo(self)
         }
-       
-        panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.panDirection(_:)))
-        self.addGestureRecognizer(panGesture)
+        if self.isPanControlsEnable {
+            panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.panDirection(_:)))
+            panGesture.delegate = self
+            self.addGestureRecognizer(panGesture)
+        }
     }
-    
     
     fileprivate func initUIData() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.onOrientationChanged), name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation, object: nil)
@@ -472,7 +485,9 @@ extension BMPlayer: BMPlayerLayerViewDelegate {
         default:
             break
         }
-        panGesture.isEnabled = state != .playedToTheEnd
+        if isPanControlsEnable {
+            panGesture.isEnabled = state != .playedToTheEnd
+        }
         delegate?.bmPlayer(player: self, playerStateDidChange: state)
     }
     
@@ -522,10 +537,10 @@ extension BMPlayer: BMPlayerControlViewDelegate {
                         seek(0, completion: {
                             self.play()
                         })
-                        controlView.hidePlayToTheEndView()
                         isPlayToTheEnd = false
                     }
                     play()
+                    controlView.hidePlayToTheEndView()
                 }
                 
             case .replay:
@@ -577,4 +592,15 @@ extension BMPlayer: BMPlayerControlViewDelegate {
     open func controlView(controlView: BMPlayerControlView, didChangeVideoPlaybackRate rate: Float) {
         self.playerLayer?.player?.rate = rate
     }
+    public func controlView(controlView: BMPlayerControlView,isTapped:Bool) {
+        self.tapActionHandler?(isTapped)
+    }
+
+}
+
+extension BMPlayer: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
 }

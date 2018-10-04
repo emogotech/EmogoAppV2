@@ -84,7 +84,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = nil
-     
+   
       self.getStream()
         
     }
@@ -196,9 +196,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         stretchyHeader.streamDelegate = self
         stretchyHeader.maximumContentHeight = 306
         stretchyHeader.swipeToDown(height: 300)
-    
-        
-        
+        stretchyHeader.btnLike.isHidden = false
         if self.objStream?.likeStatus == "0" {
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         }else{
@@ -937,6 +935,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         content.type = .image
         content.fileName = "SreamCover"
         content.name = objStream?.title
+        content.isEdit = false
         content.description = objStream?.description
         var array = objStream?.arrayContent.filter { $0.isAdd == false }
         array?.insert(content, at: 0)

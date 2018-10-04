@@ -7,18 +7,19 @@
 //
 
 import UIKit
+import BMPlayer
 
 protocol ContentDetailViewCellDelegate {
     func actionForDidSelect(indexPath:IndexPath?)
+    func actionForPlayerSelect(indexPath:IndexPath)
+    func dismissView()
+    func tapActionHandler(isShow:Bool)
+
 }
 
 class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate {
     @IBOutlet weak var viewTableContainer: UIView!
-    @IBOutlet weak var viewPlayer: UIView!
-    @IBOutlet weak var btnPlayIcon: UIButton!
-    @IBOutlet weak var playerContainerView: UIView!
     @IBOutlet weak var tblView: UITableView!
-    @IBOutlet weak var imgCover: FLAnimatedImageView!
 
     let cellIdentifier = "contentDetailTableViewCell"
     let kImageHeight:CGFloat = 0.0
@@ -26,90 +27,114 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
     private var lastContentOffset: CGFloat = 0
     var delegate:ContentDetailViewCellDelegate?
     var isSwipeDissmiss:Bool! = false
+    var isFromAwake:Bool! = true
+    var indexPath:IndexPath!
+    
+    var playerView:BMPlayer? = {
+        let player = BMPlayer()
+        player.isPanControlsEnable = false
+        BMPlayerConf.enablePlaytimeGestures = false
+        BMPlayerConf.enableBrightnessGestures = false
+        BMPlayerConf.enableVolumeGestures = false
+        return player
+    }()
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        isFromAwake = true
         tblView.delegate = self
         tblView.dataSource = self
-        tblView.estimatedRowHeight = 80.0
+        tblView.estimatedRowHeight = 300
         tblView.rowHeight = UITableViewAutomaticDimension
-        self.tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:  0, right: 0)
+        let swipGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGesture(gesture:)))
+        swipGesture.direction = .down
+        self.isUserInteractionEnabled = true
+        self.addGestureRecognizer(swipGesture)
+      //  self.tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:  0, right: 0)
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-       // updateTableViewContentInset()
-    }
-    func updateTableViewContentInset() {
-        let viewHeight: CGFloat = self.frame.size.height
-        let tableViewContentHeight: CGFloat = tblView.contentSize.height
-        let marginHeight: CGFloat = (viewHeight - tableViewContentHeight) / 2.0
-        
-        self.tblView.contentInset = UIEdgeInsets(top: marginHeight, left: 0, bottom:  -marginHeight, right: 0)
+        if self.playerView?.superview == nil {
+            self.tblView.reloadData()
+        }
     }
     
-    func prepareView(seletedImage:ContentDAO) {
-        self.tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:  0, right: 0)
-        if !seletedImage.description.trim().isEmpty  || !seletedImage.name.trim().isEmpty {
-            self.tblView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:  51, right: 0)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        print("reuse called")
+        if self.playerView?.superview != nil {
+            if  (self.playerView?.isPlaying)! {
+                self.playerView?.pause()
+            }
+            self.playerView?.removeFromSuperview()
+        }else {
+            if  (self.playerView?.isPlaying)! {
+                self.playerView?.pause()
+            }
         }
+    }
+
+   
+    
+    func prepareView(seletedImage:ContentDAO,indexPath:IndexPath) {
         self.seletedImage = seletedImage
         self.tblView.reloadData()
-        let value = kFrame.size.width / CGFloat(seletedImage.width)
-        let expectedHeight = CGFloat(seletedImage.height) * value
-        var tempHeight:CGFloat = 0.0
-        
-        if !seletedImage.description.trim().isEmpty  {
-            
-            let check = expectedHeight + seletedImage.description.trim().height(withConstrainedWidth: self.frame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
-
-            tempHeight = tblView.bounds.size.height - expectedHeight
-            if   tblView.bounds.size.height > check {
-                tempHeight = tblView.bounds.size.height - check
-            }
-        }else {
-            tempHeight = tblView.bounds.size.height - expectedHeight
+        tblView.setContentOffset(.zero, animated: false)
+        if !seletedImage.description.trim().isEmpty  || !seletedImage.name.trim().isEmpty {
+            self.tblView.contentInset = UIEdgeInsets(top:0, left: 0, bottom:  51, right: 0)
         }
-        if tempHeight > 10 {
-            let marginHeight: CGFloat = tempHeight / 2.0
-            if !seletedImage.description.trim().isEmpty  || !seletedImage.name.trim().isEmpty {
-                self.tblView.contentInset = UIEdgeInsets(top: marginHeight, left: 0, bottom:  51, right: 0)
-            }else {
-                self.tblView.contentInset = UIEdgeInsets(top: marginHeight, left: 0, bottom:  0, right: 0)
-            }
-        }
-        if tempHeight < 30.0 {
-            tblView.setContentOffset(.zero, animated: false)
-        }
-        
-        if self.seletedImage.type == .video {
-            self.viewPlayer.isHidden =  false
-            self.viewTableContainer.isHidden =  true
-            self.playerContainerView.isHidden = true
-            self.imgCover.isHidden = false
-            self.btnPlayIcon.isHidden = false
-            self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo)
-            navigationImageView =  self.imgCover
-        }else {
-            self.viewPlayer.isHidden =  true
-            self.viewTableContainer.isHidden =  false
-        }
+        self.tblView.reloadData()
 
 }
+    
+    func reloadAllInputs(){
+        if self.playerView?.superview != nil {
+            if  (self.playerView?.isPlaying)! {
+                self.playerView?.pause()
+            }
+            self.playerView?.removeFromSuperview()
+        }else {
+            if  (self.playerView?.isPlaying)! {
+                self.playerView?.pause()
+            }
+        }
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if self.seletedImage == nil {
+            return 0
+        }else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:ContentDetailTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ContentDetailTableViewCell
+        cell.btnPlayIcon.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
         cell.prepareView(seletedImage: seletedImage)
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        
+        let value = kFrame.size.width / CGFloat(seletedImage.width)
+        let expectedHeight = CGFloat(seletedImage.height) * value
+        var tempHeight:CGFloat = 0.0
+        if !seletedImage.name.trim().isEmpty  {
+            tempHeight = seletedImage.name.trim().height(withConstrainedWidth: self.frame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0))
+        }
+        if !seletedImage.description.trim().isEmpty  {
+            tempHeight = tempHeight + seletedImage.description.trim().height(withConstrainedWidth: self.frame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0))
+        }
+        let actualHeight = tempHeight + expectedHeight
+        if actualHeight > self.frame.size.height {
+            return actualHeight
+        }else {
+            return  kFrame.size.height - 64.0
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -120,6 +145,10 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isSwipeDissmiss = true
     }
+    
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return
+//    }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !isSwipeDissmiss {
@@ -127,8 +156,7 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
         }
         if (self.lastContentOffset > scrollView.contentOffset.y) {
             // move up
-            print("up\(self.lastContentOffset)")
-            if self.lastContentOffset < -170.0 {
+            if self.lastContentOffset < -100.0 {
                 if self.delegate != nil {
                     self.delegate?.actionForDidSelect(indexPath: nil)
                 }
@@ -137,9 +165,92 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
         // update the new position acquired
         self.lastContentOffset = scrollView.contentOffset.y
     }
+    @objc func btnPlayAction(sender:UIButton){
+        let index = IndexPath(row: 0, section: 0)
+        self.playButtonTapped(sender: index)
+    }
+    @objc func swipeGesture(gesture:UISwipeGestureRecognizer){
+        if self.delegate != nil {
+            self.delegate?.dismissView()
+        }
+    }
+    
+    
+    @objc func playButtonTapped(sender:IndexPath) {
+        if let cell = tblView.cellForRow(at: sender) as? ContentDetailTableViewCell {
+            if self.playerView?.superview != nil {
+                self.playerView?.removeFromSuperview()
+            }
+            if seletedImage.type == .video {
+                DispatchQueue.main.async {
+                    if let player = self.playerView {
+                        if player.superview == nil {
+                            cell.playerContainerView.isHidden = false
+                            cell.imgCover.isHidden = true
+                            cell.btnPlayIcon.isHidden = true
+                            self.playerView?.frame = cell.playerContainerView.bounds
+                            cell.playerContainerView.addSubview(self.playerView!)
+                            //                            self.collectionView.backgroundColor = .black
+                            //                            cell.viewCollection.backgroundColor = .black
+                            
+                            self.preparePlayerView(strURL: self.seletedImage.coverImage)
+                        }
+                    }
+                    
+                }
+            }
+            
+        }
+    }
+    
+    func preparePlayerView(strURL:String){
+        
+        guard let videoUrl =  URL(string: strURL) else {
+            return
+        }
+        let asset = BMPlayerResource(url: videoUrl)
+        playerView?.setVideo(resource: asset)
+        // Back button event
+        playerView?.tapActionHandler = {  (isTapped) in
+                print("taopppppeddde\(isTapped)")
+           
+            if self.delegate != nil {
+                self.delegate?.tapActionHandler(isShow: isTapped)
+            }
+    }
+        
+
+        playerView?.playStateDidChange = { (isPlaying: Bool) in
+            print("playStateDidChange \(isPlaying)")
+//            if isPlaying == false {
+//                if self.playerView?.superview != nil {
+//                    self.playerView?.isUserInteractionEnabled = false
+//                }
+//            }else {
+//                if self.playerView?.superview != nil {
+//                    self.playerView?.isUserInteractionEnabled = true
+//                }
+//            }
+        
+        }
+        
+        //Listen to when the play time changes
+        playerView?.playTimeDidChange = { (currentTime: TimeInterval, totalTime: TimeInterval) in
+            print("playTimeDidChange currentTime: \(currentTime) totalTime: \(totalTime)")
+            if currentTime == totalTime {
+              
+            }
+            if self.playerView?.superview == nil {
+                if (self.playerView?.isPlaying)! {
+                    self.playerView?.pause()
+                }
+            }
+        }
+    }
     
     
 }
+
 
 class ContentDetailTableViewCell:UITableViewCell {
     @IBOutlet weak var imgCover: FLAnimatedImageView!
@@ -149,6 +260,8 @@ class ContentDetailTableViewCell:UITableViewCell {
     @IBOutlet weak var linkLogo: UIImageView!
     @IBOutlet weak var kConstantImageHeight: NSLayoutConstraint!
     @IBOutlet weak var viewDescription: UIView!
+    @IBOutlet weak var btnPlayIcon: UIButton!
+    @IBOutlet weak var playerContainerView: UIView!
 
     
     func prepareView(seletedImage:ContentDAO) {
@@ -156,7 +269,6 @@ class ContentDetailTableViewCell:UITableViewCell {
         self.imgCover.image = nil
         self.imgCover.animatedImage = nil
         imgCover.backgroundColor = UIColor.white
-        
         if !seletedImage.color.trim().isEmpty {
             imgCover.backgroundColor =  UIColor.white
         }
@@ -175,7 +287,7 @@ class ContentDetailTableViewCell:UITableViewCell {
             linkLogo.isHidden = true
         }
         self.imgCover.isHidden = false
-        
+        self.playerContainerView.isHidden = true
         self.lblImageDescription.isHidden = false
         self.lblTitleImage.isHidden = false
         if seletedImage.name.trim().isEmpty {
@@ -196,7 +308,7 @@ class ContentDetailTableViewCell:UITableViewCell {
         let value = kFrame.size.width / CGFloat(seletedImage.width)
         let expectedHeight = CGFloat(seletedImage.height) * value
         self.kConstantImageHeight.constant = expectedHeight
-        
+        self.btnPlayIcon.isHidden = true
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
         }else {
@@ -204,6 +316,7 @@ class ContentDetailTableViewCell:UITableViewCell {
                 
                 self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImage)
             }else   if seletedImage.type == .video {
+                self.btnPlayIcon.isHidden = false
                 self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo)
             }else if seletedImage.type == .link {
                 
@@ -212,11 +325,14 @@ class ContentDetailTableViewCell:UITableViewCell {
                 self.imgCover.setForAnimatedImage(strImage: seletedImage.coverImageVideo)
             }
         }
-        self.imgCover.contentMode = .scaleAspectFit
         navigationImageView =  self.imgCover
-
+        viewDescription.backgroundColor = .clear
+        viewDescription.addBlurView(style:.light)
+        self.imgCover.contentMode = .scaleAspectFill
     }
 }
+
+/*
 
 class ContentViewCell: UICollectionViewCell {
     
@@ -533,7 +649,7 @@ class ContentViewCell: UICollectionViewCell {
     */
 }
 
-
+*/
 extension UIView {
     
     @discardableResult func addGradientLayer(_ colors: [UIColor]) -> CAGradientLayer {

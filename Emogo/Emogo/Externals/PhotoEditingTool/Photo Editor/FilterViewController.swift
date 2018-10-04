@@ -123,6 +123,7 @@ class FilterViewController: UIViewController {
         }else {
             let back = UIBarButtonItem(image: #imageLiteral(resourceName: "photo-edit-back"), style: .plain, target: self, action: #selector(self.actionforCancel))
             self.navigationItem.leftBarButtonItem = back
+            self.navigationController?.navigationBar.tintColor = .white
             let save = UIBarButtonItem(image:#imageLiteral(resourceName: "crrop_icon") , style: .plain, target: self, action: #selector(self.actionForCropButton))
             self.navigationItem.rightBarButtonItem = save
             
@@ -218,6 +219,7 @@ class FilterViewController: UIViewController {
         self.view.setNeedsUpdateConstraints()
         self.filterButton.isHidden = false
         self.gradientButton.isHidden = false
+        self.btnMLEffects.isHidden = false
         self.filterViewButton.isHidden = true
         self.gradientImageView.isHidden = true
         self.gradientView.isHidden = true

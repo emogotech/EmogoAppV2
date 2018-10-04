@@ -144,7 +144,6 @@ class StreamListViewController: UIViewController {
         self.segmentContainerView.isHidden = true
         self.kSegmentHeight.constant = 0.0
         
-    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -248,7 +247,12 @@ class StreamListViewController: UIViewController {
         self.prepareLayoutForApper()
         if kRefreshCell == true {
             if let index = self.selectedIndexPath {
-                self.streamCollectionView.reloadItems(at: [index])
+                let isAvilable = self.arrayToShow.indices.contains(index.row)
+                if isAvilable {
+                    self.streamCollectionView.reloadItems(at: [index])
+                }else {
+                    self.streamCollectionView.reloadData()
+                }
             }
         }
     }
@@ -677,7 +681,8 @@ class StreamListViewController: UIViewController {
             case UISwipeGestureRecognizerDirection.up:
                 self.menuView.isHidden = false
                 self.viewMenu.isHidden = true
-                Animation.viewSlideInFromTopToBottom(views: self.menuView)
+                 Animation.viewSlideInFromBottomToTop(views: self.viewMenu)
+                //Animation.viewSlideInFromTopToBottom(views: self.menuView)
                 isMenuOpen = true
                 break
                 
@@ -847,6 +852,7 @@ class StreamListViewController: UIViewController {
            
         }
         self.streamCollectionView.expiredTimeInterval = 15.0
+       
     }
     
 
@@ -905,7 +911,8 @@ class StreamListViewController: UIViewController {
         self.viewMenu.isHidden = true
         isMenuOpen = true
         self.menuView.isHidden = false
-        Animation.viewSlideInFromTopToBottom(views: self.menuView)
+         Animation.viewSlideInFromBottomToTop(views: self.viewMenu)
+        //Animation.viewSlideInFromTopToBottom(views: self.menuView)
         //  Animation.viewSlideInFromBottomToTop(views:self.menuView)
     }
     
@@ -1121,6 +1128,9 @@ class StreamListViewController: UIViewController {
                 self.streamCollectionView.reloadData()
             }
             self.streamCollectionView.reloadData()
+            if   self.viewMenu.isHidden == true {
+                self.viewMenu.isHidden = false
+            }
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -1571,17 +1581,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             }
         }
         
-        /*
-         
-         else if isPeopleList {
-         let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
-         return CGSize(width: itemWidth, height: 100)
-         }
-         else {
-         let itemWidth = collectionView.bounds.size.width/2.0
-         return CGSize(width: itemWidth, height: itemWidth - 40)
-         }
-         */
+
     }
    
 
@@ -1671,24 +1671,23 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             self.navigationController?.setNavigationBarHidden(true, animated: true)
             self.hideStatusBar()
           
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
-                self.viewMenu.isHidden = true
-            }) { (_) in
-                
-            }
-            Animation.viewSlideInFromBottomToTop(views: self.viewMenu,duration:0.2)
+//            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+//                self.viewMenu.isHidden = true
+//            }) { (_) in
+//
+//            }
+//            Animation.viewSlideInFromBottomToTop(views: self.viewMenu,duration:0.2)
             
         } else {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
             self.showStatusBar()
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {
-                if self.isSearch == false {
-                    self.viewMenu.isHidden = false
-                }
-            }) { (_) in
-                
-            }
-           
+//            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {
+//                if self.isSearch == false {
+//                    self.viewMenu.isHidden = false
+//                }
+//            }) { (_) in
+//
+//            }
          
            
         }
@@ -1697,10 +1696,21 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if isMenuOpen && !self.isSearch{
+            print("hide view ")
             self.menuView.isHidden = true
-            self.viewMenu.isHidden = false
-            Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+            if self.viewMenu.isHidden == true {
+                self.viewMenu.isHidden = false
+                //  Animation.viewSlideInFromBottomToTop(views: self.viewMenu)
+           //   Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+            }
             isMenuOpen = false
+        }
+        if !self.isSearch {
+            if self.viewMenu.isHidden == false {
+               self.viewMenu.isHidden = true
+           //  Animation.viewSlideInFromBottomToTop(views: self.viewMenu)
+            //   Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+            }
         }
         /*
         
@@ -1729,8 +1739,25 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         self.lastContentOffset = scrollView.contentOffset.y
  */
     }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if self.isSearch == false {
+            if self.viewMenu.isHidden == true  {
+                self.viewMenu.isHidden = false
+                Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+            }
+        }
+    }
    
-   
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            if self.isSearch == false {
+                if self.viewMenu.isHidden == true  {
+                    self.viewMenu.isHidden = false
+                    Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+                }
+            }
+        }
+    }
 }
 
 extension StreamListViewController : UITextFieldDelegate,UISearchBarDelegate {

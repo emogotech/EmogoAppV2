@@ -10,6 +10,7 @@ import UIKit
 import BMPlayer
 import PryntTrimmerView
 import AVFoundation
+import IQKeyboardManagerSwift
 
 enum VideoEditorFeature {
     case trimer
@@ -103,6 +104,8 @@ class VideoEditorViewController: UIViewController {
     }
     
     func prepareLayout(){
+        self.txtTitleImage.keyboardDistanceFromTextField = 20.0
+        self.txtDescription.keyboardDistanceFromTextField = 30.0
         self.stickers = self.shapes.shapes
      stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
         configureCollectionView()
@@ -206,9 +209,13 @@ class VideoEditorViewController: UIViewController {
             let strvideo = self.seletedImage.coverImage.trim()
             self.getLocalPath(strURl: strvideo) { (filePath,fileURL) in
             if  let fileURL = fileURL {
+                 let check = Document.checkImage(name: fileURL.absoluteString.getName())
+                if check {
                     self.localFileURl = fileURL
                     self.originalFileURl = fileURL
                     self.openPlayer(videoUrl: fileURL)
+                }
+                
                 }
                 self.activity.stopAnimating()
                 self.activity.isHidden = true
@@ -320,7 +327,7 @@ class VideoEditorViewController: UIViewController {
     
     func openPlayer(videoUrl:URL){
         player = BMPlayer()
-        let asset = BMPlayerResource(url: videoUrl)
+        let asset = BMPlayerResource(url:videoUrl)
         player.setVideo(resource: asset)
         playerContainerView.addSubview(player)
         player.snp.makeConstraints { (maker) in
@@ -333,6 +340,8 @@ class VideoEditorViewController: UIViewController {
         player.backBlock = {  (isFullScreen) in
             if isFullScreen == true { return }
             //let _ = self.navigationController?.popViewController(animated: true)
+        }
+        player.tapActionHandler = {  (_) in
         }
         player.playStateDidChange = { (isPlaying: Bool) in
             print("playStateDidChange \(isPlaying)")

@@ -22,6 +22,7 @@ class FollowersViewController: UIViewController {
     var isEditingEnable:Bool! = true
     var delegate:AddCollabViewControllerDelegate?
     var objStream:StreamViewDAO?
+    var objNavigationController:PMNavigationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -403,7 +404,8 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
             objPeople.phoneNumber = people.phone
             let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
             obj.objPeople = objPeople
-            self.navigationController?.push(viewController: obj)
+            self.objNavigationController?.popToViewController(vc: obj)
+           // self.navigationController?.push(viewController: obj)
         }
     }
     

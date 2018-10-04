@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Hue
 class StreamContentCell: UICollectionViewCell {
     
     @IBOutlet weak var lblName: UILabel!
@@ -26,7 +26,7 @@ class StreamContentCell: UICollectionViewCell {
     
     func prepareLayout(content:ContentDAO){
          self.imgCover.contentMode = .scaleAspectFill
-     
+        imgCover.backgroundColor = UIColor.white
         if content.isAdd == true {
             imgAdd.isHidden = false
             viewCard.isHidden = true

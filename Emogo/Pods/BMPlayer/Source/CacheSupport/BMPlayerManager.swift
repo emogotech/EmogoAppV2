@@ -7,7 +7,9 @@
 //
 
 import UIKit
+import VIMediaCache
 import AVFoundation
+
 import NVActivityIndicatorView
 
 public let BMPlayerConf = BMPlayerManager.shared
@@ -42,11 +44,14 @@ open class BMPlayerManager {
     open var enableBrightnessGestures = true
     open var enableVolumeGestures = true
     open var enablePlaytimeGestures = true
-    
     open var enableChooseDefinition = true
+
+    open var cacheManeger = VIResourceLoaderManager()
+    
     
     internal static func asset(for resouce: BMPlayerResourceDefinition) -> AVURLAsset {
-        return AVURLAsset(url: resouce.url, options: resouce.options)
+        let asset = BMPlayerManager.shared.cacheManeger.playerItem(with: resouce.url)
+        return asset!.asset as! AVURLAsset
     }
     
     /**

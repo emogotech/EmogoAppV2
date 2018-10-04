@@ -309,15 +309,25 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
         if ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
             objPreview.currentIndex = indexPath.row
+            let content = ContentList.sharedInstance.arrayLink[indexPath.row]
             let nav = UINavigationController(rootViewController: objPreview)
             let indexPath = IndexPath(row: indexPath.row, section: 0)
+            
             if let imageCell = collectionView.cellForItem(at: indexPath) as? LinkListCell {
+                navigationImageView = nil
+                let value = kFrame.size.width / CGFloat(content.width)
+                kImageHeight  = CGFloat(content.height) * value
+                if !content.description.trim().isEmpty  {
+                    kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
+                }
+                if kImageHeight < collectionView.bounds.size.height {
+                    kImageHeight = collectionView.bounds.size.height
+                }
                 navigationImageView = imageCell.imgCover
                 nav.cc_setZoomTransition(originalView: navigationImageView!)
-                 nav.cc_swipeBackDisabled = true
+                nav.cc_swipeBackDisabled = false
             }
             self.present(nav, animated: true, completion: nil)
-            self.hideStatusBar()
         }
         
     }

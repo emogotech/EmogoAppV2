@@ -510,23 +510,24 @@ open class SwiftyCamViewController: UIViewController {
 
 				// Update the orientation on the movie file output video connection before starting recording.
 				let movieFileOutputConnection = self.movieFileOutput?.connection(withMediaType: AVMediaTypeVideo)
-
-
+                if (movieFileOutputConnection?.isActive)! {
+                    if self.currentCamera == .front {
+                        movieFileOutputConnection?.isVideoMirrored = true
+                    }
+                    
+                    movieFileOutputConnection?.videoOrientation = self.getVideoOrientation()
+                    
+                    // Start recording to a temporary file.
+                    let outputFileName = UUID().uuidString
+                    let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
+                    movieFileOutput.startRecording(toOutputFileURL: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
+                    self.isVideoRecording = true
+                    DispatchQueue.main.async {
+                        self.cameraDelegate?.swiftyCam(self, didBeginRecordingVideo: self.currentCamera)
+                    }
+                }
 				//flip video output if front facing camera is selected
-				if self.currentCamera == .front {
-					movieFileOutputConnection?.isVideoMirrored = true
-				}
-
-				movieFileOutputConnection?.videoOrientation = self.getVideoOrientation()
-
-				// Start recording to a temporary file.
-				let outputFileName = UUID().uuidString
-				let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
-				movieFileOutput.startRecording(toOutputFileURL: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
-				self.isVideoRecording = true
-				DispatchQueue.main.async {
-					self.cameraDelegate?.swiftyCam(self, didBeginRecordingVideo: self.currentCamera)
-				}
+				
 			}
 			else {
 				movieFileOutput.stopRecording()
@@ -670,12 +671,12 @@ open class SwiftyCamViewController: UIViewController {
 	fileprivate func configureVideoPreset() {
 
 		if currentCamera == .front {
-			//session.sessionPreset = videoInputPresetFromVideoQuality(quality: .photoPreset)
+			session.sessionPreset = videoInputPresetFromVideoQuality(quality:videoQuality)
 		} else {
 			if session.canSetSessionPreset(videoInputPresetFromVideoQuality(quality: videoQuality)) {
 				session.sessionPreset = videoInputPresetFromVideoQuality(quality: videoQuality)
 			} else {
-            session.sessionPreset = videoInputPresetFromVideoQuality(quality: .photoPreset)
+            session.sessionPreset = videoInputPresetFromVideoQuality(quality:videoQuality)
 			}
 		}
 	}

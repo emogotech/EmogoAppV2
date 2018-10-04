@@ -36,11 +36,12 @@ target 'Emogo' do
     pod ‘RS3DSegmentedControl’
     pod 'Branch'
     pod 'PryntTrimmerView'
-    pod 'BMPlayer'
     pod "Haptica"
     pod "RichEditorView"
     pod 'DropDown'
 pod 'SwiftMessages'
+  pod 'BMPlayer/CacheSupport','~> 1.0.0'
+
 
     target 'EmogoTests' do
         inherit! :search_paths

@@ -121,4 +121,14 @@ class Animation: NSObject {
         collection.layer.add(transition, forKey: kCATransition)
     }
     
+    class func addFlipTransition(VC:UIViewController,transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
+        let transition = CATransition()
+        transition.duration = duration
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = type
+        transition.subtype = kCATransitionFromRight
+        VC.view.layer.add(transition, forKey: nil)
+    }
+    
+    
 }

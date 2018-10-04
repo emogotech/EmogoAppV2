@@ -340,6 +340,7 @@ class MyStreamViewController: UIViewController {
                 self.lblNoResult.text = "No Emogo Found"
                 self.btnDone.isHidden =  true
             }
+            self.btnDone.isHidden = false
              StreamList.sharedInstance.arrayMyStream = array
             self.myStreamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
@@ -374,9 +375,10 @@ class MyStreamViewController: UIViewController {
             
             self.btnDone.isUserInteractionEnabled = true
             if StreamList.sharedInstance.arrayMyStream.count == 0 {
-                
+                self.btnDone.isHidden = true
                 self.btnDone.isUserInteractionEnabled = false
             }
+            self.btnDone.isHidden = false
             self.currentType = refreshType
             if self.streamID != nil {
                 if let index =   StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.streamID?.trim()}) {
@@ -528,7 +530,7 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
-        if stream.isAdd {
+        if stream.isAdd  {
             actionForAddStream()
         }else {
             if isAssignProfile == nil {
@@ -538,8 +540,10 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
                     StreamList.sharedInstance.arrayMyStream[indexPath.row] = stream
                     if stream.isSelected {
                         (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+                       
                     }else {
                         (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+                        
                     }
                     if  let index = self.arraySelected.index(where: {$0.ID.trim() == stream.ID.trim()}) {
                         self.arraySelected.remove(at: index)

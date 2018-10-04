@@ -82,18 +82,24 @@ extension PhotoEditorViewController {
         edgeMenu.close()
         switch sender.tag {
         case 101:
+        txtTitle.resignFirstResponder()
+        txtDescription.resignFirstResponder()
         self.selectedFeature = .text
         isDrawing = false
         self.hideToolbar(hide: false)
         self.textButtonTapped()
             break
         case 102:
+        txtTitle.resignFirstResponder()
+        txtDescription.resignFirstResponder()
         self.selectedFeature = .drawing
         isDrawing = true
         self.hideToolbar(hide: true)
         drawButtonTapped()
             break
         case 103:
+            txtTitle.resignFirstResponder()
+            txtDescription.resignFirstResponder()
             isDrawing = false
             
         self.selectedFeature = .sticker

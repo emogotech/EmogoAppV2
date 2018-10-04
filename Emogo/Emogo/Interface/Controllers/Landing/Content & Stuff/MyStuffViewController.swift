@@ -52,7 +52,9 @@ class MyStuffViewController: UIViewController {
         super.viewDidAppear(animated)
         if  ContentList.sharedInstance.arrayContent.count != 0 {
             var arrayIndex = [Int]()
-            for obj in ContentList.sharedInstance.arrayContent {
+            let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
+            ContentList.sharedInstance.arrayContent = tempArray
+            for obj in tempArray {
                 for (index,temp) in ContentList.sharedInstance.arrayStuff.enumerated() {
                     if temp.contentID.trim() == obj.contentID.trim() {
                         arrayIndex.append(index)
@@ -186,12 +188,13 @@ class MyStuffViewController: UIViewController {
             }
         }
     }
-    
-    
-    
+  
     
     @IBAction func btnActionNext(_ sender: Any) {
+        let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
+        ContentList.sharedInstance.arrayContent = tempArray
         if  ContentList.sharedInstance.arrayContent.count != 0 {
+            
             let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
             self.navigationController?.push(viewController: objPreview)
         }else {
@@ -236,12 +239,20 @@ class MyStuffViewController: UIViewController {
                 let nav = UINavigationController(rootViewController: objPreview)
                 let indexPath = IndexPath(row: sender.tag, section: 0)
                 if let imageCell = stuffCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
+                    navigationImageView = nil
+                    let value = kFrame.size.width / CGFloat(content.width)
+                    kImageHeight  = CGFloat(content.height) * value
+                    if !content.description.trim().isEmpty  {
+                        kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
+                    }
+                    if kImageHeight < self.stuffCollectionView.bounds.size.height {
+                        kImageHeight = self.stuffCollectionView.bounds.size.height
+                    }
                     navigationImageView = imageCell.imgCover
                     nav.cc_setZoomTransition(originalView: navigationImageView!)
-                    nav.cc_swipeBackDisabled = true
+                    nav.cc_swipeBackDisabled = false
                 }
                 self.present(nav, animated: true, completion: nil)
-                self.hideStatusBar()
                 //  self.navigationController?.push(viewController: objPreview)
             }
         }
@@ -417,7 +428,7 @@ class MyStuffViewController: UIViewController {
             self.btnNext.isHidden = true
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             if array.count == 0 {
-                self.lblNoResult.text  = "No Stuff Found"
+                self.lblNoResult.text  = "No Media Found"
                 self.lblNoResult.minimumScaleFactor = 1.0
                 self.lblNoResult.isHidden = false
             }
@@ -473,7 +484,7 @@ class MyStuffViewController: UIViewController {
         }
         if array.count == 0  {
             self.lblNoResult.isHidden = false
-            self.lblNoResult.text = "No Stuff Found"
+            self.lblNoResult.text = "No Media Found"
         }
         self.stuffCollectionView.reloadData()
     }
@@ -487,7 +498,7 @@ class MyStuffViewController: UIViewController {
                 
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 if array.count == 0 {
-                    self.lblNoResult.text  = "No Stuff Found"
+                    self.lblNoResult.text  = "No Media Found"
                     self.lblNoResult.minimumScaleFactor = 1.0
                     self.lblNoResult.isHidden = false
                     self.btnNext.isHidden = true
@@ -562,15 +573,24 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if ContentList.sharedInstance.arrayContent.count != 0 {
         let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
         objPreview.currentIndex = indexPath.row
-            let nav = UINavigationController(rootViewController: objPreview)
+        let content = array[indexPath.row]
+        let nav = UINavigationController(rootViewController: objPreview)
         let indexPath = IndexPath(row: indexPath.row, section: 0)
         if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
+            navigationImageView = nil
+            let value = kFrame.size.width / CGFloat(content.width)
+            kImageHeight  = CGFloat(content.height) * value
+            if !content.description.trim().isEmpty  {
+                kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
+            }
+            if kImageHeight < self.stuffCollectionView.bounds.size.height {
+                kImageHeight = self.stuffCollectionView.bounds.size.height
+            }
             navigationImageView = imageCell.imgCover
             nav.cc_setZoomTransition(originalView: navigationImageView!)
-            nav.cc_swipeBackDisabled = true
+            nav.cc_swipeBackDisabled = false
             }
             self.present(nav, animated: true, completion: nil)
-            self.hideStatusBar()
         }
 
         /*

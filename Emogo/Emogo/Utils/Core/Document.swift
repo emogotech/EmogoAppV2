@@ -40,6 +40,8 @@ class Document: NSObject {
         }
     }
     
+    
+    
 
     static func checkFile(name:String) -> URL?{
         let fileManager = FileManager.default

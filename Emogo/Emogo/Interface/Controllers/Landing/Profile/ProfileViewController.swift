@@ -62,6 +62,8 @@ class ProfileViewController: UIViewController {
     var arrayMyStreams = [StreamDAO]()
     var strFollowing = String()
     var strFollowers = String()
+    var stream:StreamViewDAO?
+    var obj:ContentDAO?
     
     var currentMenu: ProfileMenu = .stream {
         
@@ -110,7 +112,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.lblNOResult.isHidden = true
-        self.navigationController?.navigationBar.isTranslucent = false
+       // self.navigationController?.navigationBar.isTranslucent = false
         self.configureProfileNavigation()
       
         self.prepareLayout(listUpdate: false)
@@ -133,8 +135,20 @@ class ProfileViewController: UIViewController {
         }else if SharedData.sharedInstance.deepLinkType == kDeeplinkOpenUserProfile {
             
         }else {
-            
+            let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
+        
+            if contains {
+              
+                btnNext.isHidden = false
+                self.btnAdd.isHidden = true
+            }else {
+             
+                btnNext.isHidden = true
+                self.btnAdd.isHidden = false
+            }
+     
         }
+        self.profileCollectionView.reloadData()
         
 }
     override func didReceiveMemoryWarning() {
@@ -249,7 +263,7 @@ class ProfileViewController: UIViewController {
         segmentControl.selectionIndicatorLocation = .down
         segmentControl.shouldAnimateUserSelection = false
       
-        segmentMain.sectionTitles = ["Emogos", "Collabs", "My Stuff"]
+        segmentMain.sectionTitles = ["Emogos", "Collabs", "My Media"]
         
         segmentMain.indexChangeBlock = {(_ index: Int) -> Void in
             
@@ -649,8 +663,9 @@ class ProfileViewController: UIViewController {
         self.lblNOResult.isHidden = true
         if array.count == 0  {
             self.lblNOResult.isHidden = false
-            self.lblNOResult.text = "No Stuff Found"
+            self.lblNOResult.text = "No Media Found"
         }
+        selectedIndex = nil
         self.profileCollectionView.reloadData()
     }
     
@@ -1036,7 +1051,7 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.isHidden = true
                 if array.count == 0  {
                     self.lblNOResult.isHidden = false
-                    self.lblNOResult.text = "No Stuff Found"
+                    self.lblNOResult.text = "No Media Found"
                 }
             }
             self.layout.headerHeight = 0.0
@@ -1144,16 +1159,25 @@ class ProfileViewController: UIViewController {
             if ContentList.sharedInstance.arrayContent.count != 0 {
                 //
                 // let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                
+                ContentList.sharedInstance.objStream = nil
                 let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 objPreview.currentIndex = sender.tag
                 objPreview.isProfile = "TRUE"
                 objNavigation = UINavigationController(rootViewController: objPreview)
                 let indexPath = IndexPath(row: sender.tag, section: 0)
                 if let imageCell = profileCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
+                    navigationImageView = nil
+                    let value = kFrame.size.width / CGFloat(content.width)
+                    kImageHeight  = CGFloat(content.height) * value
+                    if !content.description.trim().isEmpty  {
+                        kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
+                    }
+                    if kImageHeight < self.profileCollectionView.bounds.size.height {
+                        kImageHeight = self.profileCollectionView.bounds.size.height
+                    }
                     navigationImageView = imageCell.imgCover
                     objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
-                    objNavigation!.cc_swipeBackDisabled = true
+                    objNavigation!.cc_swipeBackDisabled = false
                 }
                 self.present(objNavigation!, animated: true, completion: nil)
                 
@@ -1281,6 +1305,7 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
+         
             self.isCalledMyStream = false
             self.profileStreamShow()
             self.profileCollectionView.reloadData()
@@ -1300,7 +1325,7 @@ class ProfileViewController: UIViewController {
                 self.btnAdd.isHidden = false
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 if array.count == 0 {
-                    self.lblNOResult.text  = "No Stuff Found"
+                    self.lblNOResult.text  = "No Media Found"
                     self.lblNOResult.minimumScaleFactor = 1.0
                     self.lblNOResult.isHidden = false
                 }
@@ -1316,7 +1341,7 @@ class ProfileViewController: UIViewController {
     func getMyStuff(type:RefreshType){
         if type == .start || type == .up {
             self.lblNOResult.isHidden = true
-
+            selectedIndex = nil
             ContentList.sharedInstance.arrayContent.removeAll()
             for _ in  ContentList.sharedInstance.arrayStuff {
                 if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
@@ -1343,7 +1368,7 @@ class ProfileViewController: UIViewController {
             self.lblNOResult.isHidden = true
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             if array.count == 0 {
-                self.lblNOResult.text  = "No Stuff Found"
+                self.lblNOResult.text  = "No Media Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
@@ -1410,8 +1435,15 @@ class ProfileViewController: UIViewController {
     
     @IBAction func btnActionAdd(_ sender: Any) {
         
-        self.btnAdd.isHaptic = true
-        self.btnAdd.hapticType = .impact(.light)
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            Haptic.impact(.heavy).generate()
+            self.btnAdd.isHaptic = true
+            self.btnAdd.hapticType = .impact(.heavy)
+        }else{
+            self.btnAdd.isHaptic = false
+        }
+        
+     
         kDefault?.setValue(true, forKey: kBounceAnimation)
         if self.timer != nil {
             self.timer?.invalidate()
@@ -1728,7 +1760,6 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if   self.navigationController?.navigationBar.isTranslucent == false {
             self.navigationController?.navigationBar.isTranslucent = true
         }
-
         if currentMenu == .stuff {
           
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
@@ -1738,25 +1769,29 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }else {
                 ContentList.sharedInstance.arrayContent = array
                 if ContentList.sharedInstance.arrayContent.count != 0 {
-                    //
-                   // let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                    
+                    ContentList.sharedInstance.objStream = nil
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                       objPreview.currentIndex = indexPath.row
                       objPreview.isProfile = "TRUE"
                       objPreview.delegate = self
                       objNavigation = UINavigationController(rootViewController: objPreview)
                     if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
-
+                        navigationImageView = nil
+                        animationScale = collectionView.bounds.size.width / imageCell.bounds.width
+                        let value = kFrame.size.width / CGFloat(content.width)
+                        kImageHeight  = CGFloat(content.height) * value
+                        if !content.description.trim().isEmpty  {
+                            kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
+                        }
+                        if kImageHeight < self.profileCollectionView.bounds.size.height {
+                            kImageHeight = self.profileCollectionView.bounds.size.height
+                        }
                         navigationImageView = imageCell.imgCover
-                        navigationImageView?.contentMode = .scaleAspectFill
                         objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
                         objNavigation!.cc_swipeBackDisabled = false
                     }
-                    objNavigation?.isNavigationBarHidden = true
                     self.present(objNavigation!, animated: true, completion: nil)
                    
-                  //  self.navigationController?.push(viewController: objPreview)
                 }
             }
         }else {
@@ -1862,6 +1897,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         obj.currentIndex = profileStreamIndex
         obj.viewStream = "fromProfile"
         obj.delegate = self
+     
         ContentList.sharedInstance.objStream = nil
         obj.image =  selectedImageView?.image
         self.navigationController?.pushViewController(obj, animated: true)
@@ -1881,8 +1917,19 @@ extension ProfileViewController : ContentViewControllerDelegate {
             
             if let imageCell = profileCollectionView.cellForItem(at: index) as? MyStuffCell {
                 self.profileCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: false)
+                navigationImageView = nil
+                let value = kFrame.size.width / CGFloat(content.width)
+                kImageHeight  = CGFloat(content.height) * value
+                if !content.description.trim().isEmpty  {
+                    kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
+                }
+                if kImageHeight < self.profileCollectionView.bounds.size.height {
+                    kImageHeight = self.profileCollectionView.bounds.size.height
+                }
                 navigationImageView = imageCell.imgCover
                 objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
+                objNavigation!.cc_swipeBackDisabled = false
+                
             }
         }
     }

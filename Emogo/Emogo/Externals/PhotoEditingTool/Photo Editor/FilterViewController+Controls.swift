@@ -221,6 +221,7 @@ extension FilterViewController {
         self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
         self.filterView.isHidden = true
         self.gradientButton.isHidden = false
+        self.btnMLEffects.isHidden = false
         Animation.viewSlideInFromTopToBottom(views:self.filterSliderView)
         self.filterViewButton.isHidden = true
         self.filterSliderView.isHidden = true

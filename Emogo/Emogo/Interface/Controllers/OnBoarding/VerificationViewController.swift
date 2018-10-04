@@ -126,9 +126,10 @@ class VerificationViewController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
                     AppDelegate.appDelegate.removeOberserver()
-                    let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+                    AppDelegate.appDelegate.openLandingScreen(isAddAnimation:true)
+                   // let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
                 
-                    self.navigationController?.flipPush(viewController: obj)
+                    //self.navigationController?.flipPush(viewController: obj)
                 }else {
                     self.showToast(type: .error, strMSG: errorMsg!)
                 }
@@ -147,9 +148,11 @@ class VerificationViewController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
                     AppDelegate.appDelegate.removeOberserver()
-                    let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
-                    self.navigationController?.flipPush(viewController: obj)
-                }else {
+                  //  let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+                 //   self.navigationController?.flipPush(viewController: obj)
+                    
+                    AppDelegate.appDelegate.openLandingScreen(isAddAnimation:true)
+                    }else {
                     self.showToast(type: .error, strMSG: errorMsg!)
                 }
             }

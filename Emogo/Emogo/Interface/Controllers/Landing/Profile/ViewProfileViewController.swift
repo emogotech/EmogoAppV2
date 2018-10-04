@@ -164,8 +164,12 @@ class ViewProfileViewController: UIViewController {
                 DispatchQueue.main.async {
                     if let people = people {
                         self.objPeople = people
-                        self.lblFullName.text =  people.displayName.trim().capitalized
-                    
+                          if people.displayName.trim().count > 20 {
+                              self.lblFullName.text =  people.displayName.trim(count: 19).capitalized
+                          }else{
+                              self.lblFullName.text =  people.displayName.trim()
+                        }
+                        
                         self.lblFullName.minimumScaleFactor = 1.0
                        // self.lblWebsite.text = people.website.trim()
                         self.lblWebsite.minimumScaleFactor = 1.0
@@ -838,25 +842,37 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
    
     func actionForCover(imageView: UIImageView) {
         
-        let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
-        obj.currentIndex = 0
-        obj.delegate = self
-      
-//        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+          selectedImageView = imageView
+           let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
         
-        let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
-        if index != nil {
-            obj.currentIndex = index
+//                let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
+//                StreamList.sharedInstance.arrayViewStream = array
+       
+        let tempIndex = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
+  
+        if tempIndex != nil {
+            obj.currentIndex = tempIndex!
         }else {
-            StreamList.sharedInstance.arrayMyStream.insert(self.objPeople.stream!, at: 0)
             obj.currentIndex = 0
         }
-        obj.streamType = currentStreamType.rawValue
+        StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
+         obj.delegate = self
+        //obj.streamType = currentStreamType.rawValue
         obj.viewStream = "View"
-        selectedImageView = imageView
-        obj.image =  imageView.image
         ContentList.sharedInstance.objStream = nil
-        self.navigationController?.pushNormal(viewController: obj)
+        obj.image = selectedImageView?.image
+        self.navigationController?.pushViewController(obj, animated: true)
+    //    self.navigationController?.pushNormal(viewController: obj)
+   
+    }
+    
+    //        let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
+    //        if index != nil {
+    //            obj.currentIndex = index
+    //        }else {
+    //            StreamList.sharedInstance.arrayMyStream.insert(self.objPeople.stream!, at: 0)
+    //            obj.currentIndex = 0
+    //        }
         
 //        let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
 //        StreamList.sharedInstance.arrayViewStream = array
@@ -866,7 +882,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
 //        selectedImageView = imageView
 //        ContentList.sharedInstance.objStream = nil
 //        self.navigationController?.pushViewController(obj, animated: true)
-    }
+ //   }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

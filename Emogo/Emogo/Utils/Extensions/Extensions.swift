@@ -24,6 +24,7 @@ extension UIColor {
         self.init(red: r / 255.0 , green: g / 255.0 , blue: b / 255.0 , alpha: 1.0)
     }
     
+    
     var toHexString: String {
         var r: CGFloat = 0
         var g: CGFloat = 0
@@ -38,24 +39,27 @@ extension UIColor {
         )
     }
     
-    convenience init(hex: String) {
-        let scanner = Scanner(string: hex)
-        scanner.scanLocation = 0
-        
-        var rgbValue: UInt64 = 0
-        
-        scanner.scanHexInt64(&rgbValue)
-        
-        let r = (rgbValue & 0xff0000) >> 16
-        let g = (rgbValue & 0xff00) >> 8
-        let b = rgbValue & 0xff
+    convenience init(hex string: String) {
+        var hex = string.hasPrefix("#")
+            ? String(string.dropFirst())
+            : string
+        guard hex.count == 3 || hex.count == 6
+            else {
+                self.init(white: 1.0, alpha: 0.0)
+                return
+        }
+        if hex.count == 3 {
+            for (index, char) in hex.enumerated() {
+                hex.insert(char, at: hex.index(hex.startIndex, offsetBy: index * 2))
+            }
+        }
         
         self.init(
-            red: CGFloat(r) / 0xff,
-            green: CGFloat(g) / 0xff,
-            blue: CGFloat(b) / 0xff, alpha: 1
-        )
+            red:   CGFloat((Int(hex, radix: 16)! >> 16) & 0xFF) / 255.0,
+            green: CGFloat((Int(hex, radix: 16)! >> 8) & 0xFF) / 255.0,
+            blue:  CGFloat((Int(hex, radix: 16)!) & 0xFF) / 255.0, alpha: 1.0)
     }
+    
     
 }
 
@@ -548,12 +552,15 @@ extension UIViewController {
     
     func pageViewControllerLayout () -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
-    //    let itemSize  = self.navigationController!.isNavigationBarHidden ?
-            //CGSize(width: kFrame.size.width, height: kFrame.size.height+20) : CGSize(width: kFrame.size.width, height: kFrame.size.height-64)
-        flowLayout.itemSize = kFrame.size
+      //  let itemSize  = self.navigationController!.isNavigationBarHidden ?
+         //   CGSize(width: kFrame.size.width, height: kFrame.size.height+20) : CGSize(width: kFrame.size.width, height: kFrame.size.height-64)
+       // flowLayout.itemSize = kFrame.size
+        let itemSize = CGSize(width: kFrame.size.width, height: kFrame.size.height+20)
+        flowLayout.itemSize = itemSize
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.scrollDirection = .horizontal
+       // flowLayout.sectionInset = UIEdgeInsetsMake(200, 0, 0, 0)
         return flowLayout
     }
     
@@ -589,7 +596,7 @@ extension UIViewController {
     }
     
     func showToast(type:AlertType = .success,strMSG:String) {
-        if strMSG != "request failed" {
+        if strMSG != "request failed" && !strMSG.contains("401") {
             self.show(strMSG: strMSG,type:type)
             /*
             AppDelegate.appDelegate.window?.makeToast(message: strMSG,
@@ -1307,7 +1314,10 @@ extension UIImage {
 
 extension UITableViewController {
     func showToastOnWindow(strMSG:String) {
-        self.show(strMSG: strMSG)
+        
+        if strMSG != "request failed" && !strMSG.contains("401") {
+            self.show(strMSG: strMSG)
+        }
     }
     
     private func show(strMSG:String) {
@@ -1679,6 +1689,25 @@ extension UICollectionView {
 }
 
 
+ extension UIApplication {
+     class func safeAreaBottom() -> CGFloat {
+        let window = UIApplication.shared.keyWindow ?? UIApplication.shared.windows.first
+        if #available(iOS 11.0, *) {
+            return window?.safeAreaInsets.bottom ?? 0.0
+        } else {
+            return 0.0
+        }
+    }
+    
+    class func safeAreaTop() -> CGFloat {
+        let window = UIApplication.shared.keyWindow ?? UIApplication.shared.windows.first
+        if #available(iOS 11.0, *) {
+            return window?.safeAreaInsets.top ?? 0.0
+        } else {
+            return 0.0
+        }
+    }
+}
 
 
 

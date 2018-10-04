@@ -45,17 +45,17 @@ class ProfileStreamCell: UICollectionViewCell {
           //  self.lblName.text =  "by \(stream.Author.trim())"
              self.lblName.text =  "\(stream.Author.trim())"
             self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
-            
-           
-            
+            self.btnLock.isHidden = true
             btnEdit.isHidden = true
             if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 btnEdit.isHidden = false
             }
             if stream.streamType.lowercased() == "private" {
+                self.btnLock.isHidden = false
                 self.btnLock.setImage(#imageLiteral(resourceName: "lock_icon"), for: .normal)
             }else {
-                self.btnLock.setImage(#imageLiteral(resourceName: "unlock_icon"), for: .normal)
+                self.btnLock.isHidden = true
+            // self.btnLock.setImage("", for: .normal)
             }
             
 //            self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim()) { (_, imgSize) in

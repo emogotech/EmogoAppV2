@@ -145,7 +145,8 @@ enum EditingFeature {
         }else{
             self.txtTitle.text = ""
         }
-        
+        self.txtTitle.keyboardDistanceFromTextField = 20.0
+        self.txtDescription.keyboardDistanceFromTextField = 30.0
     }
     
     override func viewWillAppear(_ animated: Bool) {

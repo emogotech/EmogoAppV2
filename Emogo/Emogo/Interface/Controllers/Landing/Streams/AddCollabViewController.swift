@@ -11,10 +11,10 @@ import Contacts
 
 protocol AddCollabViewControllerDelegate {
     func selectedColabs(arrayColab:[CollaboratorDAO])
+    func dismissSuperView(objPeople:PeopleDAO?)
 }
 
 class AddCollabViewController: UIViewController {
-    
     
     //MARK:- IBOutlets Connection
     
@@ -44,12 +44,14 @@ class AddCollabViewController: UIViewController {
     var isSearchEnable: Bool! = false
     var delegate:AddCollabViewControllerDelegate?
     var arrayTempSelected = [CollaboratorDAO]()
-     var objStream:StreamDAO!
+    var objStream:StreamDAO!
     var currentStream : StreamViewDAO!
     var kOriginalContants:CGFloat = 0.0
-  // var consTopHeight = CGSize.zero
+    var objNavigationController:PMNavigationController?
+    var strEdit:String? = nil
+    // var consTopHeight = CGSize.zero
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tblAddCollab.delegate = self
@@ -62,8 +64,8 @@ class AddCollabViewController: UIViewController {
         // self.tblAddCollab.rowHeight = UITableViewAutomaticDimension
         //  self.tblAddCollab.estimatedRowHeight = 250
         self.prepareLayouts()
-      
-         self.navigationController?.isNavigationBarHidden = true
+        
+        self.navigationController?.isNavigationBarHidden = true
         
     }
     
@@ -77,18 +79,18 @@ class AddCollabViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+ 
     
     func prepareLayouts(){
-      //  self.btnAdd.isHidden = true
+        //  self.btnAdd.isHidden = true
         if self.arraySelected != nil {
             self.arrayCollaborators = self.arraySelected!
-         //   self.btnAdd.isHidden = false
+            //   self.btnAdd.isHidden = false
         }
         self.tblAddCollab.separatorStyle = .none
         self.getContacts()
         self.navigationController?.isNavigationBarHidden = false
-    
+        
         var button = UIButton(type: .system)
         button =  self.getShadowButton(Alignment: 0)
         button.frame = CGRect(x: 10, y: -12, width: 60, height: 40)
@@ -97,7 +99,7 @@ class AddCollabViewController: UIViewController {
         button.setTitleColor(UIColor(r: 74, g: 74, b: 74), for: .normal)
         button.addTarget(self, action: #selector(self.cancelButtonAction), for: .touchUpInside)
         self.viewAddCollab.addSubview(button)
-
+        
         var button1 = UIButton(type: .system)
         button1 =  self.getShadowButton(Alignment: 1)
         button1.frame = CGRect(x: viewAddCollab.frame.size.width - 80, y: -5, width: 60, height: 40)
@@ -107,14 +109,14 @@ class AddCollabViewController: UIViewController {
         button1.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
         button1.addTarget(self, action: #selector(self.inviteButtonAction), for: .touchUpInside)
         self.viewAddCollab.addSubview(button1)
-
+        
         self.title = "Add Collaborators"
-
+        
         tfSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
-
+        
     }
     
-
+    
     
     func prepareNavBarButtons(){
         
@@ -143,14 +145,14 @@ class AddCollabViewController: UIViewController {
         self.title = "Add Collaborators"
     }
     
-  
+    
     @IBAction func btnActionAdd(_ sender: Any) {
-            print(arrayTempSelected)
+        print(arrayTempSelected)
         if self.arrayTempSelected.isEmpty == true {
             self.showToast(strMSG: kAlertAddCollab)
             
         }else{
-           self.updateColabs()
+            self.updateColabs()
         }
         
     }
@@ -218,26 +220,26 @@ class AddCollabViewController: UIViewController {
         
         var tempColabArray  = [CollaboratorDAO]()
         if self.isSearchEnable {
-         for obj in self.arraySearch {
-            let array = (obj as! [String:Any])["value"] as! [CollaboratorDAO]
-            for colab in array {
-                tempColabArray.append(colab)
+            for obj in self.arraySearch {
+                let array = (obj as! [String:Any])["value"] as! [CollaboratorDAO]
+                for colab in array {
+                    tempColabArray.append(colab)
+                }
             }
-        }
         }else {
             tempColabArray = self.arrayCollaborators
         }
-       
+        
         self.updateList(arrayColabs: tempColabArray)
         print(self.arrayTempSelected)
-//        if self.arrayTempSelected.count == 0 {
-//            self.btnAdd.isHidden = true
-//        }else {
-//            self.btnAdd.isHidden = false
-//        }
+        //        if self.arrayTempSelected.count == 0 {
+        //            self.btnAdd.isHidden = true
+        //        }else {
+        //            self.btnAdd.isHidden = false
+        //        }
     }
     
-     func btnActionForUserProfile(indexPath:IndexPath) {
+    func btnActionForUserProfile(indexPath:IndexPath) {
         
         var collaborator:CollaboratorDAO!
         if self.isSearchEnable {
@@ -249,25 +251,46 @@ class AddCollabViewController: UIViewController {
         }
         
         if collaborator.userID.trim() != "" {
-            if collaborator.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
-                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                self.navigationController?.push(viewController: obj)
+            if collaborator.userID.trim() == UserDAO.sharedInstance.user.userId.trim() {
+             
+                if self.strEdit != nil {
+                    self.dismiss(animated: false) {
+                        if self.delegate != nil {
+                            self.delegate?.dismissSuperView(objPeople: nil)
+                        }
+                    }
+                   
+                }else {
+                       let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                    self.dismiss(animated: false) {
+                        self.objNavigationController?.popToViewController(vc: obj)
+                      }
+                }
                 
             }else {
                 let people = PeopleDAO(peopleData:[:])
                 people.fullName = collaborator.name
-                people.userProfileID = collaborator.userID
-               print(people.userProfileID)
-               print(collaborator.userID)
+                people.userProfileID = collaborator.UserProfileID
+                print(people.userProfileID)
+                print(collaborator.userID)
                 let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                 obj.objPeople = people
-                self.navigationController?.push(viewController: obj)
+       
+                self.dismiss(animated: false) {
+                    if self.strEdit != nil {
+                        if self.delegate != nil {
+                            self.delegate?.dismissSuperView(objPeople: people)
+                        }
+                    }else {
+                        self.objNavigationController?.popToViewController(vc: obj)
+                    }
+                }
             }
             
         }else{
             self.showToast(strMSG: "Seems user is not registered with Emogo yet!")
         }
-
+        
     }
     
     // MARK: - Class Methods
@@ -339,7 +362,7 @@ class AddCollabViewController: UIViewController {
                 }
                 self.arrayCollaborators.append(collaborator)
             }
-
+            
         }
         DispatchQueue.main.async {
             
@@ -353,11 +376,11 @@ class AddCollabViewController: UIViewController {
                 }
             }
             self.arrayCollaborators = unique
-//            for obj in self.arrayCollaborators {
-//                if obj.isSelected == true {
-//                    self.arrayTempSelected.append(obj)
-//                }
-//            }
+            //            for obj in self.arrayCollaborators {
+            //                if obj.isSelected == true {
+            //                    self.arrayTempSelected.append(obj)
+            //                }
+            //            }
             self.checkContact()
             //            self.arrayCollaborators.sort {
             //                $0.name.lowercased() < $1.name.lowercased()
@@ -394,12 +417,12 @@ class AddCollabViewController: UIViewController {
             arrayNumber.append(obj.phone)
         }
         APIServiceManager.sharedInstance.apiForValidate(contacts: arrayNumber) { (results, errorMSG) in
-           // print(results)
+             print(results)
             if (errorMSG?.isEmpty)! {
                 let arrayKey = results?.keys
-                for (index,obj) in (arrayKey?.enumerated())! {
+                for (_,obj) in (arrayKey?.enumerated())! {
                     let strPhone:String! = obj
-                    if let mainIndex =  self.arrayCollaborators.index(where: {$0.phone.trim() == strPhone.trim() }) {
+                    if let mainIndex =  self.arrayCollaborators.index(where: {$0.phone.trim().contains(strPhone)  || (strPhone.contains($0.phone.trim()))}) {
                         if let value = results![obj] {
                             if value is [String:Any] {
                                 let temp = self.arrayCollaborators[mainIndex]
@@ -415,8 +438,8 @@ class AddCollabViewController: UIViewController {
                                 if temp.isSelected == true {
                                     self.arrayTempSelected.append(collaborator)
                                 }
-                               // print("replaced Data")
-
+                                // print("replaced Data")
+                                
                             }else {
                                 let temp = self.arrayCollaborators[mainIndex]
                                 if temp.isSelected == true {
@@ -425,11 +448,11 @@ class AddCollabViewController: UIViewController {
                             }
                         }
                     }
-                   // print("iter \(index)")
+                    // print("iter \(index)")
                 }
-//                if self.arrayTempSelected.count != 0 {
-//                    self.btnAdd.isHidden = false
-//                }
+                //                if self.arrayTempSelected.count != 0 {
+                //                    self.btnAdd.isHidden = false
+                //                }
                 self.updateList(arrayColabs:self.arrayCollaborators)
             }
         }
@@ -454,15 +477,15 @@ class AddCollabViewController: UIViewController {
                 self.arrayToShow.append(dict)
             }
         }
-       
+        
         self.tblAddCollab.reloadData()
     }
-   
+    
     func performSearch(text:String) {
         
         let result = self.arrayCollaborators
             .filter { $0.name.lowercased().contains(text.lowercased()) }
-       // print(result)
+        // print(result)
         
         self.updateList(arrayColabs:result)
     }
@@ -481,7 +504,7 @@ class AddCollabViewController: UIViewController {
                 }
             }
         }else{
-              APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: (self.objStream?.ID)!,streamType: (self.objStream?.streamType)!, anyOneCanEdit: (self.objStream?.anyOneCanEdit)!, canAddContent: (self.objStream?.userCanAddContent)! , canAddPeople:(self.objStream?.userCanAddPeople)!, collaborator: arrayTempSelected) { (result, errorMSG) in
+            APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: (self.objStream?.ID)!,streamType: (self.objStream?.streamType)!, anyOneCanEdit: (self.objStream?.anyOneCanEdit)!, canAddContent: (self.objStream?.userCanAddContent)! , canAddPeople:(self.objStream?.userCanAddPeople)!, collaborator: arrayTempSelected) { (result, errorMSG) in
                 
                 HUDManager.sharedInstance.hideHUD()
                 if (errorMSG?.isEmpty)! {
@@ -490,11 +513,11 @@ class AddCollabViewController: UIViewController {
                     }
                     self.dismiss(animated: true, completion: nil)
                 }
-         }
-      
-     }
- }
-   
+            }
+            
+        }
+    }
+    
 }
 extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -545,7 +568,7 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
             cell.lblDisplayName.attributedText = attributedString1
         }
         
-       
+        
         
         // cell.imgProfile.image = UIImage(named: "demo_images")
         if dictColabContact.userImage.isEmpty {
@@ -556,18 +579,23 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
         cell.checkButton.tag = indexPath.row
         cell.selectionStyle = .none
         cell.checkButton .addTarget(self, action:#selector(btnCheckedClicked(sender:)) , for: .touchUpInside )
+        print(dictColabContact.name)
         if dictColabContact.isSelected {
             cell.checkButton.setImage(#imageLiteral(resourceName: "addCollab_check"), for: .normal)
         }else {
             cell.checkButton.setImage(#imageLiteral(resourceName: "addCollab_uncheck"), for: .normal)
         }
+        if UserDAO.sharedInstance.user.phoneNumber.trim().contains(dictColabContact.phone.trim()) || dictColabContact.phone.trim().contains(UserDAO.sharedInstance.user.phoneNumber.trim()) {            cell.checkButton.isUserInteractionEnabled = false
+        }else {
+            cell.checkButton.isUserInteractionEnabled = true
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if let cell = self.tblAddCollab.cellForRow(at: indexPath) {
-//            self.btnCheckedClicked(sender: (cell as! AddCollabCell).checkButton)
-//        }
+        //        if let cell = self.tblAddCollab.cellForRow(at: indexPath) {
+        //            self.btnCheckedClicked(sender: (cell as! AddCollabCell).checkButton)
+        //        }
         self.btnActionForUserProfile(indexPath: indexPath)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -584,21 +612,21 @@ extension AddCollabViewController: UITextFieldDelegate {
         self.isSearchEnable = true
         self.arraySearch.removeAll()
         self.tblAddCollab.reloadData()
-       
+        
         if (self.tfSearch.text?.trim().isEmpty)! {
-          //  self.navigationController?.isNavigationBarHidden = true
-//            self.viewAddCollab.isHidden = false
-//            self.kConsViewTop.constant = kOriginalContants //176
+            //  self.navigationController?.isNavigationBarHidden = true
+            //            self.viewAddCollab.isHidden = false
+            //            self.kConsViewTop.constant = kOriginalContants //176
             self.tblAddCollab.reloadData()
         }else{
             self.viewAddCollab.isHidden = true
             self.prepareNavBarButtons()
             self.kConsViewTop.constant = 0
             if deviceType.iPhoneX{
-               self.kConsViewTop.constant = -13
+                self.kConsViewTop.constant = -13
             }
         }
-         self.performSearch(text: (sender.text?.trim())!)
+        self.performSearch(text: (sender.text?.trim())!)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -614,14 +642,14 @@ extension AddCollabViewController: UITextFieldDelegate {
             self.prepareNavBarButtons()
             self.kConsViewTop.constant = 0
             if deviceType.iPhoneX{
-                 self.kConsViewTop.constant = -13
+                self.kConsViewTop.constant = -13
             }
             
         }
         return true
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
-         self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone")
+        self.imgSearchIcon.image = #imageLiteral(resourceName: "search_icon_iphone")
         if self.tfSearch.text == nil {
             self.viewAddCollab.isHidden = false
             self.kConsViewTop.constant =  kOriginalContants
@@ -634,7 +662,7 @@ extension AddCollabViewController: UITextFieldDelegate {
             }
         }
     }
-  
+    
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -654,5 +682,5 @@ extension AddCollabViewController: UITextFieldDelegate {
         
         return true
     }
-
+    
 }

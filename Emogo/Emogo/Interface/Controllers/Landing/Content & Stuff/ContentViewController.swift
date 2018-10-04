@@ -13,7 +13,6 @@ import Lightbox
 import Photos
 import IQKeyboardManagerSwift
 import Haptica
-import BMPlayer
 
 
  protocol ContentViewControllerDelegate {
@@ -60,32 +59,25 @@ class ContentViewController: UIViewController {
     var onceOnly = false
     var btnEdit = UIBarButtonItem()
     var streamIndex:Int?
+    var isFadeForLaunch:Bool? = false
+    var strTitle:String?
+    var strImage:String?
+    var isShowFullView:Bool! = false
+    var isStopPlaying:Bool! = false
 
-
-
-    var playerView:BMPlayer? = {
-        let player = BMPlayer()
-        player.isShowControl = false
-        player.isUserInteractionEnabled = false
-        return player
-    }()
-
-    
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-//        if let img = navigationImageView {
-//            tempImgView.image = img.image
-//            //tempImgView.contentMode = .scaleAspectFill
-//        }
 
-        
+        if self.navigationController?.isNavigationBarHidden == true {
+            self.navigationController?.isNavigationBarHidden = false
+        }
+      //  navigationController?.setNavigationBarHidden(false, animated: true)
         self.collectionView.collectionViewLayout = self.pageViewControllerLayout()
         self.collectionView.isPagingEnabled = true
-        self.navigationController?.navigationBar.barTintColor = .white
-        self.navigationController?.navigationBar.isTranslucent = false
         let indexPath = IndexPath(row: self.currentIndex, section: 0)
         collectionView.setToIndexPath(indexPath)
         collectionView.performBatchUpdates({collectionView.reloadData()}, completion: { finished in
@@ -116,62 +108,51 @@ class ContentViewController: UIViewController {
             self.updateContent()
         }
      
+        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+//            let window = UIApplication.shared.keyWindow
+//            let bottomPadding:CGFloat = (window?.safeAreaInsets.bottom)!
+//            let tempView = UIView(frame: CGRect(x: 0, y: kFrame.size.height - bottomPadding, width: kFrame.size.width, height: bottomPadding))
+//            tempView.addBlurView(style: .light)
+//            view.addSubview(tempView)
+        }
+        
        
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       
-        configureContentNavigation()
-
-            self.showStatusBar()
-//        }
-         self.navigationController?.isNavigationBarHidden = false
-        if self.seletedImage.width < self.seletedImage.height {
-         //   bottomToolBarView.backgroundColor = UIColor.white
-        }else{
-            if !seletedImage.color.trim().isEmpty {
-               // bottomToolBarView.backgroundColor = UIColor.white
-                //bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
-            }
-        }
-        //bottomToolBarView.backgroundColor = UIColor.clear
-        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
-            if !seletedImage.color.trim().isEmpty {
-               // bottomToolBarView.backgroundColor = UIColor.white
-                //bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
-            }
-        }
+      //  navigationController?.setNavigationBarHidden(true, animated: true)
+           configureContentNavigation()
+ 
     }
    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        //ContentList.sharedInstance.arrayContent.remove(at: 0)
-     //   self.collectionView.reloadData()
-//        if !self.isFromNotesEdit {
-//            self.updateCollectionView()
-//        }
+    
         self.isFromNotesEdit = false
         if !isDidload {
             isDidload = true
             self.bottomToolBarView.fadeIn(0.4, delay: 0.0) { (_) in
             }
-
-            self.showButtons()
+            self.showButtons(isShowNav: false)
         }
-        
+        isFadeForLaunch = true
         self.collectionView.reloadData()
-   
+
+//        UIView.transition(with: self.collectionView, duration: 0.3, options: .beginFromCurrentState, animations: {
+//            self.collectionView.reloadData()
+//        }, completion: { (_) in
+//            //self.navigationController?.setNavigationBarHidden(false, animated: true)
+//        })
+        
+        self.bottomToolBarView.addBlurView(style: .light)
+      
     }
     
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        if self.playerView?.superview != nil {
-            self.playerView?.removeFromSuperview()
-        }
     }
 
 
@@ -243,9 +224,7 @@ class ContentViewController: UIViewController {
              self.btnSave.isHidden = false
              self.btnShare.isHidden = false
         }
-      //  bottomToolBarView.backgroundColor = UIColor.black
         if self.seletedImage.width < self.seletedImage.height {
-          //  bottomToolBarView.backgroundColor = UIColor.white
            
         }else{
             if !seletedImage.color.trim().isEmpty {
@@ -254,13 +233,16 @@ class ContentViewController: UIViewController {
             }
         }
         prepareLeftItems()
+       
+        if !self.isShowFullView {
+           configureContentNavigation()
+        }
     }
     
     func deeplinkHandle(){
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
             ContentList.sharedInstance.arrayContent.removeAll()
             ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
-            ContentList.sharedInstance.objStream = nil
             SharedData.sharedInstance.contentList.objStream = nil
             let conten = ContentList.sharedInstance.arrayContent[0]
             
@@ -290,18 +272,25 @@ class ContentViewController: UIViewController {
     }
     
     func configureContentNavigation(){
-        
+        if self.navigationController?.isNavigationBarHidden == true {
+            self.navigationController?.isNavigationBarHidden = false
+        }
         var myAttribute2:[NSAttributedStringKey:Any]!
-        if let font = UIFont(name: kFontBold, size: 20.0) {
+        if let font = UIFont(name: kFontRegular, size: 15.0) {
             myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
         }else {
-            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 15.0)]
         }
         
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         self.navigationController?.navigationBar.tintColor = UIColor.darkGray
-        self.title = self.seletedImage.name
+        if self.strTitle != nil  {
+            self.title = strTitle
+        }else {
+            self.title = "Media"
+
+        }
         
         var arrButtons = [UIBarButtonItem]()
         self.navigationItem.setRightBarButtonItems([], animated: true)
@@ -318,13 +307,17 @@ class ContentViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.rightBarButtonItem = self.btnEdit
         
-           if seletedImage.isEdit {
+             arrButtons.append(btnClose)
+          if seletedImage.isEdit {
             let imgEdit = UIImage(named: "edit_icon_content")
             btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+            arrButtons.append(btnEdit)
         }
-        arrButtons.append(btnClose)
-        arrButtons.append(btnEdit)
-        arrButtons.append(btnReport)
+            arrButtons.append(btnReport)
+        
+        
+      
+       
      
         self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
     }
@@ -335,7 +328,13 @@ class ContentViewController: UIViewController {
        // let labelWidth = tempView.bounds.size.width - imageView.bounds.size.width
        // let label = UILabel(frame: CGRect(x: imageView.bounds.size.width + 2, y: 0, width: labelWidth - 2, height: 35))
       //  label.text = seletedImage.fullname
-        imageView.setImageWithResizeURL(seletedImage.createrImage)
+//        if seletedImage.fileName == "SreamCover" {
+//               imageView.setImageWithResizeURL(strImage)
+//        }else{
+                imageView.setImageWithResizeURL(seletedImage.createrImage)
+      //  }
+    
+     
         tempView.addSubview(imageView)
       //  tempView.addSubview(label)
         let leftView = UIBarButtonItem(customView: tempView)
@@ -364,7 +363,8 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnBackAction(_ sender: Any) {
-        ContentList.sharedInstance.objStream = nil
+        self.isStopPlaying = true
+        self.collectionView.reloadData()
         if isProfile != nil  {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
             ContentList.sharedInstance.arrayContent = array
@@ -374,25 +374,15 @@ class ContentViewController: UIViewController {
                 ContentList.sharedInstance.arrayContent = tempArray
          }
         }
-        
-        if self.playerView?.superview != nil {
-            self.playerView?.avPlayer?.pause()
-            self.playerView?.removeFromSuperview()
-            self.playerView = nil
-        }
-       
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-
-               self.showStatusBar()
-        }
-
-       
+    
         self.dismiss(animated: true, completion: nil)
     }
     
 
     
     @objc func btnEditAction(_ sender: Any) {
+        self.isStopPlaying = true
+        self.collectionView.reloadData()
         if self.seletedImage != nil {
             if isEdit != nil {
                 performEdit()
@@ -462,7 +452,33 @@ class ContentViewController: UIViewController {
                     }
                 }
             }
-        } else {
+        } else  if self.seletedImage.type == .video {
+            SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo) { (image) in
+                if let image = image {
+                      HUDManager.sharedInstance.showHUD()
+                    APIManager.sharedInstance.download(strFile:  self.seletedImage.coverImage, completionHandler: { (error, fileURl) in
+                          HUDManager.sharedInstance.hideHUD()
+                        if let fileURl = fileURl {
+                            self.seletedImage.fileUrl = fileURl
+                                DispatchQueue.main.async {
+                                    self.shareSticker(image: image)
+                            }
+                        }
+                      
+                    })
+                }
+            }
+        }else if self.seletedImage.type == .gif {
+            SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo) { (image) in
+                if let image = image {
+                    DispatchQueue.main.async {
+                        self.shareSticker(image: image)
+                    }
+                }
+            }
+        }
+
+        else {
             SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage) { (image) in
                 if let image = image {
                     DispatchQueue.main.async {
@@ -488,6 +504,9 @@ class ContentViewController: UIViewController {
         let session = MSSession()
         let message = MSMessage(session: session)
         let layout = MSMessageTemplateLayout()
+        if seletedImage.type == .video {
+            layout.mediaFileURL = self.seletedImage.fileUrl
+        }
         layout.caption = self.seletedImage.name!
         layout.image  = self.imageOrientation(image)
         layout.subcaption = self.seletedImage.description
@@ -510,12 +529,12 @@ class ContentViewController: UIViewController {
             switch swipeGesture.direction {
                 
             case UISwipeGestureRecognizerDirection.down:
-                ContentList.sharedInstance.objStream = nil
+                self.isStopPlaying = true
+                self.collectionView.reloadData()
                 if isProfile != nil  {
                     let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
                     ContentList.sharedInstance.arrayContent = array
                 }
-                self.showStatusBar()
                 self.dismiss(animated: true, completion: nil)
             break
                 
@@ -688,11 +707,7 @@ class ContentViewController: UIViewController {
     }
     
     func performEdit(){
-        if self.playerView != nil {
-            if (self.playerView?.isPlaying)! {
-                self.playerView?.pause()
-            }
-        }
+       
         if seletedImage.type == .image ||  seletedImage.type == .gif {
             if self.seletedImage.imgPreview == nil {
                 HUDManager.sharedInstance.showHUD()
@@ -913,33 +928,8 @@ class ContentViewController: UIViewController {
         }
     }
     
-    @objc func playButtonTapped(sender:UIButton) {
-        let indexPath = IndexPath(row: sender.tag, section: 0)
-        if let cell = collectionView.cellForItem(at: indexPath) as? ContentDetailViewCell {
-            
-            if self.playerView?.superview != nil {
-                self.playerView?.removeFromSuperview()
-            }
-            if seletedImage.type == .video {
-                DispatchQueue.main.async {
-                    if let player = self.playerView {
-                        if player.superview == nil {
-                            cell.playerContainerView.isHidden = false
-                            cell.imgCover.isHidden = true
-                            cell.btnPlayIcon.isHidden = true
-                            self.playerView?.frame = cell.playerContainerView.bounds
-                            cell.playerContainerView.addSubview(self.playerView!)
-//                            self.collectionView.backgroundColor = .black
-//                            cell.viewCollection.backgroundColor = .black
-                            
-                            self.preparePlayerView(strURL: self.seletedImage.coverImage)
-                        }
-                    }
-                   
-                }
-            }
-            
-        }
+    @objc func playButtonTapped(sender:IndexPath) {
+        
     }
     @objc func openFullView(){
         if self.seletedImage.type == .gif {
@@ -1069,49 +1059,15 @@ class ContentViewController: UIViewController {
         self.navigationController?.pushAsPresent(viewController: obj)
     }
     
-    func preparePlayerView(strURL:String){
-        
-        guard let videoUrl =  URL(string: strURL) else {
-            return
-        }
-        let asset = BMPlayerResource(url: videoUrl)
-        playerView?.setVideo(resource: asset)
-        
-        // Back button event
-        playerView?.backBlock = {  (isFullScreen) in
-            if isFullScreen == true { return }
-            //let _ = self.navigationController?.popViewController(animated: true)
-        }
-        playerView?.playStateDidChange = { (isPlaying: Bool) in
-            print("playStateDidChange \(isPlaying)")
-        }
-        
-        //Listen to when the play time changes
-        playerView?.playTimeDidChange = { (currentTime: TimeInterval, totalTime: TimeInterval) in
-            print("playTimeDidChange currentTime: \(currentTime) totalTime: \(totalTime)")
-            self.playerView?.isUserInteractionEnabled = false
-            if currentTime == totalTime {
-                self.playerView?.isUserInteractionEnabled = true
-                if self.playerView !== nil {
-                    if !self.playerView!.isPlaying {
-                        self.playerView!.play()
-                    }
-                }
+    
+    func showButtons(isShowNav:Bool? = nil) {
+        if !isShowFullView  {
+            self.bottomToolBarView.isHidden = false
+            if isShowNav == nil {
+                
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
             }
         }
-        
-    }
-    
-    func showButtons() {
-       
-     
-              self.bottomToolBarView.isHidden = false
-     
-        
-           self.navigationController?.setNavigationBarHidden(false, animated: true)
-       // self.navigationController?.isNavigationBarHidden = false
-   
-       
     }
    
 
@@ -1144,6 +1100,15 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
 
     }
   
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        print("Didplay did end")
+        if isStopPlaying {
+            if cell is ContentDetailViewCell {
+                (cell as! ContentDetailViewCell).reloadAllInputs()
+            }
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ContentDetailViewCell
    
@@ -1151,14 +1116,14 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if index {
         let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
         cell.delegate = self
-        cell.prepareView(seletedImage: content)
-        cell.btnPlayIcon.tag = indexPath.row
-        cell.btnPlayIcon.addTarget(self, action: #selector(self.playButtonTapped(sender:)), for: .touchUpInside)
-        if self.playerView?.superview != nil {
-            self.playerView?.removeFromSuperview()
-        }
+        cell.tblView.tag = indexPath.row
+        if isStopPlaying {
+                cell.reloadAllInputs()
+        }else {
+                cell.prepareView(seletedImage: content,indexPath:indexPath)
+            }
     }
-        
+
       //  cell.scrollView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
     
 //        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showFullView))
@@ -1179,6 +1144,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+     
         return collectionView.bounds.size
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -1208,7 +1174,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if (self.lastContentOffset > scrollView.contentOffset.y) {
             // move up
             print("up\(self.lastContentOffset)")
-            if self.lastContentOffset < -170.0 {
+            if self.lastContentOffset < -100.0 {
                 self.btnBackAction(scrollView)
             }
         }
@@ -1220,51 +1186,75 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
 
     
     @objc func showFullView() {
-      
-        if self.bottomToolBarView.isHidden == true {
-       
-            self.bottomToolBarView.isHidden = false
-         
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-
-        }  else{
-           
-                self.bottomToolBarView.isHidden = true
-            
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
-            }
-        
         
         if seletedImage.type == .link {
             guard let url = URL(string: seletedImage.coverImage) else {
                 return //be safe
             }
-          
-                self.bottomToolBarView.isHidden = false
-           
-//            self.btnEdit.isHidden = false
-//            self.btnOther.isHidden = false
-//            self.btnBack.isHidden = false
-            
+        
             self.openURL(url: url)
             return
         }
         
         
         if seletedImage.type == .notes {
-           self.notePreview()
+            self.notePreview()
+            return
         }
+        
+        isShowFullView = !isShowFullView
+        
+        if isShowFullView == true {
+            self.bottomToolBarView.isHidden = true
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+
+        }  else{
+            self.bottomToolBarView.isHidden = false
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
     
     }
 }
 
 extension ContentViewController:ContentDetailViewCellDelegate{
+    func actionForPlayerSelect(indexPath: IndexPath) {
+         self.viewIndex = indexPath.row
+        self.playButtonTapped(sender: indexPath)
+    }
+    
     func actionForDidSelect(indexPath: IndexPath?) {
         if let indexPath = indexPath {
             self.viewIndex = indexPath.row
             self.showFullView()
         }else {
             self.btnBackAction(self.view)
+        }
+    }
+    
+    func dismissView(){
+        if isProfile != nil  {
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
+            ContentList.sharedInstance.arrayContent = array
+        }else {
+            if ContentList.sharedInstance.arrayLink.count != 0 {
+                let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
+                ContentList.sharedInstance.arrayContent = tempArray
+            }
+        }
+        self.isStopPlaying = true
+        self.collectionView.reloadData()
+        self.dismiss(animated: true, completion: nil)
+    }
+    func tapActionHandler(isShow:Bool) {
+        isShowFullView = !isShow
+        if isShowFullView == true {
+            self.bottomToolBarView.isHidden = true
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+            
+        }  else{
+            self.bottomToolBarView.isHidden = false
+            
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
 }
@@ -1353,12 +1343,10 @@ extension ContentViewController:LightboxControllerPageDelegate,LightboxControlle
 //                self.currentIndex = index
 //                self.seletedImage = ContentList.sharedInstance.arrayContent[ self.currentIndex]
                 
-                ContentList.sharedInstance.objStream = nil
                 if isProfile != nil  {
                     let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
                     ContentList.sharedInstance.arrayContent = array
                 }
-                self.showStatusBar()
                 //self.view.alpha = 0.0
                 self.dismiss(animated: true, completion: nil)
             }

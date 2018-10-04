@@ -253,7 +253,6 @@
     [[self class] dismissPopupViewControllerAnimatedPassiveAction];
 }
 
-
 - (void)dismissPopupViewControllerAnimatedPassiveAction
 {
     [self dismissPopupViewControllerAnimated:YES];

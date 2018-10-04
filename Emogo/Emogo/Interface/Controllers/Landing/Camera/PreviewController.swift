@@ -10,6 +10,7 @@ import UIKit
 import MessageUI
 import Messages
 import SwiftLinkPreview
+import IQKeyboardManagerSwift
 
 class PreviewController: UIViewController {
     
@@ -38,7 +39,8 @@ class PreviewController: UIViewController {
     @IBOutlet weak var imgLogo: FLAnimatedImageView!
     @IBOutlet weak var kLinkLogoWidth: NSLayoutConstraint!
 
-    
+    @IBOutlet weak var descriptionView: UIView!
+
     // MARK: - Variables
     
     var isPreviewOpen:Bool! = false
@@ -62,25 +64,23 @@ class PreviewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.showStatusBar()
         if self.isEditingContent{
             self.preparePreview(index: selectedIndex)
         }
-       
         self.previewCollection.reloadData()
         self.prepareNavBarButtons()
  
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
           
-            self.actionContainerView.translatesAutoresizingMaskIntoConstraints = false
-
-            let guide = view.safeAreaLayoutGuide
-            
-            self.actionContainerView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
-            self.actionContainerView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
-            self.actionContainerView.topAnchor.constraint(equalTo: self.containerView.bottomAnchor).isActive = true
-            
-            guide.bottomAnchor.constraintEqualToSystemSpacingBelow(actionContainerView.bottomAnchor, multiplier: 1.0).isActive = false
+//            self.actionContainerView.translatesAutoresizingMaskIntoConstraints = false
+//
+//            let guide = view.safeAreaLayoutGuide
+//
+//            self.actionContainerView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
+//            self.actionContainerView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
+//            self.actionContainerView.topAnchor.constraint(equalTo: self.containerView.bottomAnchor).isActive = true
+//
+//            guide.bottomAnchor.constraintEqualToSystemSpacingBelow(actionContainerView.bottomAnchor, multiplier: 1.0).isActive = false
         }
     }
     
@@ -97,10 +97,6 @@ class PreviewController: UIViewController {
 //        self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
 //        self.navigationController?.navigationBar.shadowImage = nil
 
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
     }
     
     override func didReceiveMemoryWarning() {
@@ -132,7 +128,6 @@ class PreviewController: UIViewController {
         
         var seen = Set<String>()
         var unique = [ContentDAO]()
-        
       
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
             
@@ -242,8 +237,11 @@ class PreviewController: UIViewController {
             }
         }
          */
-
-      
+        
+        self.txtTitleImage.keyboardDistanceFromTextField = 20.0
+        self.txtDescription.keyboardDistanceFromTextField = 30.0
+        
+       
       
     }
     
@@ -373,8 +371,8 @@ class PreviewController: UIViewController {
             self.animateView()
         }
     }
-    
-    func preparePreview(index:Int) {
+  
+        func preparePreview(index:Int) {
         
         if ContentList.sharedInstance.objStream != nil {
             self.btnDone.isHidden = true

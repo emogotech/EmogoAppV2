@@ -67,6 +67,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         imgCollabTwo.image = nil
         imgCollabOne.image = nil
         imgUser.image = nil
+        imgCover.image = nil
 
         self.viewContainer.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
       //  self.viewTop.layer.contents = UIImage(named: "stream-top-gradient")?.cgImage

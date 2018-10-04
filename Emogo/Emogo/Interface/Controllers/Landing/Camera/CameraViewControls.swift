@@ -213,7 +213,9 @@ extension CustomCameraViewController {
                     image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
                 }
             }
-            arrayContents.append(image)
+            if image != nil {
+                arrayContents.append(image)
+            }
         }
         let controller = LightboxController(images: arrayContents, startIndex: index)
         controller.dynamicBackground = true
@@ -288,7 +290,7 @@ extension CustomCameraViewController:RS3DSegmentedControlDelegate {
         switch Int(segmentIndex) {
         case 0:
             self.cameraMode = .normal
-            
+
             UIView.animate(withDuration: 0.2, animations: {
                 self.btnGallery.alpha    =   1.0
                 self.btnTimer.alpha      =   1.0
@@ -300,7 +302,6 @@ extension CustomCameraViewController:RS3DSegmentedControlDelegate {
             break
         case 1:
             self.cameraMode = .handFree
-            
             UIView.animate(withDuration: 0.2, animations: {
                 self.btnGallery.alpha    =   0.0
                 self.btnTimer.alpha      =   0.0
@@ -312,7 +313,6 @@ extension CustomCameraViewController:RS3DSegmentedControlDelegate {
             break
         default:
             self.cameraMode = .normal
-            
             UIView.animate(withDuration: 0.2, animations: {
                 self.btnGallery.alpha    =   1.0
                 self.btnTimer.alpha      =   1.0

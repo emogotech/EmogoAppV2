@@ -43,6 +43,9 @@ import NVActivityIndicatorView
      - parameter rate:        playback rate
      */
     @objc optional func controlView(controlView: BMPlayerControlView, didChangeVideoPlaybackRate rate: Float)
+    
+    func controlView(controlView: BMPlayerControlView,isTapped:Bool)
+
 }
 
 open class BMPlayerControlView: UIView {
@@ -143,7 +146,6 @@ open class BMPlayerControlView: UIView {
     open func playerStateDidChange(state: BMPlayerState) {
         switch state {
         case .readyToPlay:
-            hidePlayToTheEndView()
             hideLoader()
             
         case .buffering:
@@ -229,6 +231,9 @@ open class BMPlayerControlView: UIView {
      - parameter isShow: is to show the controlview
      */
     open func controlViewAnimation(isShow: Bool) {
+        if self.delegate != nil {
+            self.delegate?.controlView(controlView: self, isTapped: isShow)
+        }
         let alpha: CGFloat = isShow ? 1.0 : 0.0
         self.isMaskShowing = isShow
         
@@ -394,10 +399,11 @@ open class BMPlayerControlView: UIView {
      - parameter gesture: tap gesture
      */
     @objc open func onTapGestureTapped(_ gesture: UITapGestureRecognizer) {
-        if playerLastState == .playedToTheEnd {
-            return
-        }
+//        if playerLastState == .playedToTheEnd {
+//            return
+//        }
         controlViewAnimation(isShow: !isMaskShowing)
+        
     }
     
     
@@ -505,7 +511,7 @@ open class BMPlayerControlView: UIView {
         backButton.tag = BMPlayerControlView.ButtonType.back.rawValue
         backButton.setImage(BMImageResourcePath("Pod_Asset_BMPlayer_back"), for: .normal)
         backButton.addTarget(self, action: #selector(onButtonPressed(_:)), for: .touchUpInside)
-        
+        backButton.isHidden = true
         titleLabel.textColor = UIColor.white
         titleLabel.text      = ""
         titleLabel.font      = UIFont.systemFont(ofSize: 16)
@@ -588,8 +594,6 @@ open class BMPlayerControlView: UIView {
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapGestureTapped(_:)))
         addGestureRecognizer(tapGesture)
-        backButton.isHidden = true
-        fullscreenButton.isHidden = true
     }
     
     func addSnapKitConstraint() {
@@ -662,13 +666,13 @@ open class BMPlayerControlView: UIView {
         }
         
         fullscreenButton.snp.makeConstraints { (make) in
-            make.width.equalTo(50)
-            make.height.equalTo(50)
+            make.width.equalTo(10)
+            make.height.equalTo(0)
             make.centerY.equalTo(currentTimeLabel)
             make.left.equalTo(totalTimeLabel.snp.right)
             make.right.equalTo(bottomMaskView.snp.right)
         }
-        
+        fullscreenButton.isHidden = true
         
         loadingIndector.snp.makeConstraints { (make) in
             make.centerX.equalTo(mainMaskView.snp.centerX).offset(0)

@@ -144,7 +144,7 @@ class NotesViewController: UIViewController {
             self.lblNoResult.isHidden = true
             self.btnNext.isHidden = true
             if ContentList.sharedInstance.arrayStuff.count == 0 {
-                self.lblNoResult.text  = "No Stuff Found"
+                self.lblNoResult.text  = "No Media Found"
                 self.lblNoResult.minimumScaleFactor = 1.0
                 self.lblNoResult.isHidden = false
                 self.btnNext.isHidden = true

@@ -174,7 +174,6 @@ class CustomCameraViewController: SwiftyCamViewController {
         self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
         // Preview Height
         kPreviewHeight.constant = 24.0
-        videoQuality = .photoPreset
         videoGravity = .resizeAspectFill
         // Configure Sound For timer
         if let bUrl = Bundle.main.url(forResource: "beep", withExtension: "wav") {
@@ -290,7 +289,9 @@ class CustomCameraViewController: SwiftyCamViewController {
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
-      //  self.navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.navigationBar.tintColor = .clear
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
         self.navigationController?.navigationBar.barTintColor = .clear
         let button   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
         button.contentHorizontalAlignment  = .left
@@ -591,6 +592,15 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.performCamera(action: .recording)
             self.cameraOption.isUserInteractionEnabled = false
             //            self.recordButtonTapped(isShow: true)
+            break
+        case.cancelled:
+            let button   = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
+            button.setImage(#imageLiteral(resourceName: "back icon_shadow"), for: .normal)
+            button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
+            button.contentHorizontalAlignment  = .left
+            button.contentVerticalAlignment = .bottom
+            let btnBack = UIBarButtonItem(customView: button)
+            self.navigationItem.leftBarButtonItem = btnBack
             break
         case .ended:
             if self.cameraMode == .normal {
@@ -1099,7 +1109,10 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         isSelected = true
-        self.openFullView(index: indexPath.row)
+        let obj =  ContentList.sharedInstance.arrayContent[indexPath.row]
+        if obj.type == .image || obj.type == .video {
+            self.openFullView(index: indexPath.row)
+        }
     }
 }
 
