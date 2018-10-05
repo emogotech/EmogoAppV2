@@ -146,7 +146,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             return self.list(request, *args, **kwargs)
 
     def get_qs_object(self):
-        qs = UserProfile.actives.filter(id=self.kwargs.get('pk')).select_related('user').select_related('profile_stream').prefetch_related(
+        qs = UserProfile.actives.filter(user_id=self.kwargs.get('pk')).select_related('user').select_related('profile_stream').prefetch_related(
             Prefetch(
                 "user__who_follows",
                 queryset=UserFollow.objects.all().order_by('-follow_time'),
