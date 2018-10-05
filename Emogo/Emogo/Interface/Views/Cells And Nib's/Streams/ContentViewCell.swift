@@ -27,9 +27,9 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
     private var lastContentOffset: CGFloat = 0
     var delegate:ContentDetailViewCellDelegate?
     var isSwipeDissmiss:Bool! = false
-    var isFromAwake:Bool! = true
     var indexPath:IndexPath!
-    
+    var isCanScroll:Bool! = false
+
     var playerView:BMPlayer? = {
         let player = BMPlayer()
         player.isPanControlsEnable = false
@@ -42,7 +42,6 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        isFromAwake = true
         tblView.delegate = self
         tblView.dataSource = self
         tblView.estimatedRowHeight = 300
@@ -75,19 +74,19 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
                 self.playerView?.pause()
             }
         }
+        isCanScroll = false
     }
-
-   
+    
+    
     
     func prepareView(seletedImage:ContentDAO,indexPath:IndexPath) {
         self.seletedImage = seletedImage
+     //   tblView.setContentOffset(.zero, animated: false)
         self.tblView.reloadData()
-        tblView.setContentOffset(.zero, animated: false)
         if !seletedImage.description.trim().isEmpty  || !seletedImage.name.trim().isEmpty {
             self.tblView.contentInset = UIEdgeInsets(top:0, left: 0, bottom:  51, right: 0)
         }
         self.tblView.reloadData()
-
 }
     
     func reloadAllInputs(){
@@ -110,7 +109,7 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
             return 1
         }
     }
-    
+  
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:ContentDetailTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ContentDetailTableViewCell
         cell.btnPlayIcon.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
@@ -129,11 +128,19 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
         if !seletedImage.description.trim().isEmpty  {
             tempHeight = tempHeight + seletedImage.description.trim().height(withConstrainedWidth: self.frame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0))
         }
+        var deviceHeight:CGFloat! = 0.0
         let actualHeight = tempHeight + expectedHeight
-        if actualHeight > self.frame.size.height {
+        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+            deviceHeight = kFrame.size.height -  84.0
+        }else {
+            deviceHeight = kFrame.size.height -  64.0
+        }
+        if actualHeight > deviceHeight {
+           // self.tblView.isScrollEnabled = true
             return actualHeight
         }else {
-            return  kFrame.size.height - 64.0
+           // self.tblView.isScrollEnabled = false
+            return  deviceHeight
         }
     }
     
@@ -164,7 +171,13 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
         }
         // update the new position acquired
         self.lastContentOffset = scrollView.contentOffset.y
+    
     }
+    
+   
+    
+   
+    
     @objc func btnPlayAction(sender:UIButton){
         let index = IndexPath(row: 0, section: 0)
         self.playButtonTapped(sender: index)
@@ -231,7 +244,6 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
 //                    self.playerView?.isUserInteractionEnabled = true
 //                }
 //            }
-        
         }
         
         //Listen to when the play time changes

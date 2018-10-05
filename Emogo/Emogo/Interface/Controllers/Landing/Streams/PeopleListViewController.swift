@@ -125,7 +125,7 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
             }else {
                 let people = PeopleDAO(peopleData:[:])
                 people.fullName = collaborator.name
-                people.userProfileID = collaborator.UserProfileID
+                people.userProfileID = collaborator.userID
                 print( people.userProfileID )
                 print(collaborator.userID)
                 let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController

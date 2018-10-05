@@ -84,7 +84,7 @@ class AddCollabViewController: UIViewController {
     func prepareLayouts(){
         //  self.btnAdd.isHidden = true
         if self.arraySelected != nil {
-            self.arrayCollaborators = self.arraySelected!
+            self.arrayCollaborators =  self.arraySelected!
             //   self.btnAdd.isHidden = false
         }
         self.tblAddCollab.separatorStyle = .none
@@ -270,9 +270,9 @@ class AddCollabViewController: UIViewController {
             }else {
                 let people = PeopleDAO(peopleData:[:])
                 people.fullName = collaborator.name
-                people.userProfileID = collaborator.UserProfileID
+               people.userProfileID = collaborator.userID
                 print(people.userProfileID)
-                print(collaborator.userID)
+                print(collaborator.UserProfileID)
                 let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                 obj.objPeople = people
        

@@ -33,6 +33,37 @@ class GiphyViewController: UIViewController {
         super.viewWillAppear(animated)
         self.configureNavigationWithTitle()
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            var arrayIndex = [Int]()
+            let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
+            ContentList.sharedInstance.arrayContent = tempArray
+            for obj in tempArray {
+                for (index,temp) in self.arrayGiphy.enumerated() {
+                    if temp.url.trim() == obj.coverImage.trim() {
+                        arrayIndex.append(index)
+                    }
+                }
+            }
+            
+            for (index,_) in  self.arrayGiphy.enumerated() {
+                if arrayIndex.contains(index) {
+                    self.arrayGiphy[index].isSelected = true
+                }else {
+                    self.arrayGiphy[index].isSelected = false
+                }
+            }
+        }else {
+            for (index,_) in  self.arrayGiphy.enumerated() {
+                self.arrayGiphy[index].isSelected = false
+                self.btnNext.isHidden = true
+            }
+        }
+        self.giphyCollectionView.reloadData()
+        
+    }
     
     func prepareLayout(){
         ContentList.sharedInstance.arrayContent.removeAll()

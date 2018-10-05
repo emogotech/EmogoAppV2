@@ -96,6 +96,11 @@ class EmogoDetailViewController: UIViewController {
    
     func prepareLayouts(){
        // self.configureNavigationTite()
+        
+        if #available(iOS 11.0, *) {
+            self.viewStreamCollectionView.contentInsetAdjustmentBehavior = .never
+        }
+        
         print(currentIndex)
         let contains = StreamList.sharedInstance.arrayViewStream.indices.contains(currentIndex)
         if contains{
@@ -664,11 +669,13 @@ class EmogoDetailViewController: UIViewController {
                     self.navigationController?.push(viewController: obj)
                     
                 }else if currentStream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-                    //                    let obj:ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                    //                    self.navigationController?.popToViewController(vc: obj)
+                    let obj:ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                        self.navigationController?.popToViewController(vc: obj)
                     
                 }
                 else {
+                    print(currentStream.IDcreatedBy.trim())
+                    print(UserDAO.sharedInstance.user.userId.trim())
                     let objPeople = PeopleDAO(peopleData: [:])
                     objPeople.fullName = self.currentStream.Author
                     objPeople.userProfileID = self.currentStream.IDcreatedBy
@@ -895,10 +902,14 @@ class EmogoDetailViewController: UIViewController {
                 
                 }
         }else {
-            self.currentStream = StreamList.sharedInstance.arrayViewStream[self.currentIndex]
-            if self.currentStream != nil {
-                self.getStream(currentStream: self.currentStream,isLoadMore:false)
+        let isExist = StreamList.sharedInstance.arrayViewStream.indices.contains(self.currentIndex)
+            if isExist {
+                self.currentStream = StreamList.sharedInstance.arrayViewStream[self.currentIndex]
+                if self.currentStream != nil {
+                    self.getStream(currentStream: self.currentStream,isLoadMore:false)
+                }
             }
+            
         }
         }
     

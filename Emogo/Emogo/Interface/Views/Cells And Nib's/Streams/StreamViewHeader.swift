@@ -52,7 +52,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         tap.numberOfTapsRequired = 1
         self.imgCover.isExclusiveTouch = true
         self.imgCover.addGestureRecognizer(tap)
-       
+        self.contentAnchor = .bottom
         self.expansionMode = .topOnly
         self.contentExpands = false
         // You can change the minimum and maximum content heights

@@ -54,10 +54,13 @@ extension VideoEditorViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 
-                if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == content?.contentID.trim()}) {
-                    self.seletedImage = content
-                    ContentList.sharedInstance.arrayContent[index] = content!
+                for (index,obj) in ContentList.sharedInstance.arrayContent.enumerated() {
+                    if obj.contentID ==  content?.contentID {
+                        self.seletedImage = content
+                        ContentList.sharedInstance.arrayContent[index] = content!
+                    }
                 }
+                
                 if self.delegate != nil {
                     self.delegate?.saveEditing(image: self.seletedImage)
                 }

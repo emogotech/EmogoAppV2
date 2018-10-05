@@ -1602,7 +1602,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     objPeople.userId = people.userId
                     objPeople.userImage = people.userImage
                     objPeople.phoneNumber = people.phoneNumber
-                    objPeople.userProfileID = people.userProfileId
+                    objPeople.userProfileID = people.userId
                     let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                     obj.objPeople = objPeople
                     self.navigationController?.push(viewController: obj)
@@ -1637,7 +1637,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     objPeople.userProfileID = people.userProfileId
                     objPeople.userImage = people.userImage
                     objPeople.phoneNumber = people.phoneNumber
-                    objPeople.userProfileID = people.userProfileId
+                    objPeople.userProfileID = people.userId
                     let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                     obj.objPeople = objPeople
                     self.navigationController?.push(viewController: obj)
@@ -1708,7 +1708,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         if !self.isSearch {
             if self.viewMenu.isHidden == false {
                self.viewMenu.isHidden = true
-           //  Animation.viewSlideInFromBottomToTop(views: self.viewMenu)
+            Animation.viewSlideInFromBottomToTop(views: self.viewMenu)
             //   Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
             }
         }

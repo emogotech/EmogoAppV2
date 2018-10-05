@@ -64,6 +64,7 @@ class ContentViewController: UIViewController {
     var strImage:String?
     var isShowFullView:Bool! = false
     var isStopPlaying:Bool! = false
+    var isEdited:Bool! = false
 
    
 
@@ -123,6 +124,7 @@ class ContentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
       //  navigationController?.setNavigationBarHidden(true, animated: true)
+           isStopPlaying = false
            configureContentNavigation()
  
     }
@@ -374,11 +376,13 @@ class ContentViewController: UIViewController {
                 ContentList.sharedInstance.arrayContent = tempArray
          }
         }
-    
+        if isEdited {
+            isEdited = false
+            NotificationCenter.default.post(name: (NSNotification.Name(rawValue: kNotification_Update_Stuff_List)), object: nil)
+        }
         self.dismiss(animated: true, completion: nil)
     }
     
-
     
     @objc func btnEditAction(_ sender: Any) {
         self.isStopPlaying = true
@@ -1102,6 +1106,8 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
   
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         print("Didplay did end")
+        
+        
         if isStopPlaying {
             if cell is ContentDetailViewCell {
                 (cell as! ContentDetailViewCell).reloadAllInputs()
@@ -1122,7 +1128,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
         }else {
                 cell.prepareView(seletedImage: content,indexPath:indexPath)
             }
-    }
+   }
 
       //  cell.scrollView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
     
@@ -1263,6 +1269,8 @@ extension ContentViewController:ContentDetailViewCellDelegate{
 extension ContentViewController:PhotoEditorDelegate
 {
     func doneEditing(image: ContentDAO) {
+        isStopPlaying = false
+        isEdited = true
         AppDelegate.appDelegate.keyboardResign(isActive: true)
         self.seletedImage = image
         if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
@@ -1277,6 +1285,8 @@ extension ContentViewController:PhotoEditorDelegate
     
     func canceledEditing() {
        // print("Canceled")
+        isStopPlaying = false
+        isEdited = true
         AppDelegate.appDelegate.keyboardResign(isActive: true)
     }
 }
@@ -1284,10 +1294,14 @@ extension ContentViewController:PhotoEditorDelegate
 extension ContentViewController:VideoEditorDelegate
 {
     func cancelEditing() {
+        isStopPlaying = false
+        isEdited = true
         AppDelegate.appDelegate.keyboardResign(isActive: true)
     }
     
     func saveEditing(image: ContentDAO) {
+        isStopPlaying = false
+        isEdited = true
         AppDelegate.appDelegate.keyboardResign(isActive: true)
         self.seletedImage = image
         if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
@@ -1305,6 +1319,8 @@ extension ContentViewController:CreateNotesViewControllerDelegate
 {
     
     func updatedNotes(content:ContentDAO) {
+        isStopPlaying = false
+        isEdited = true
         AppDelegate.appDelegate.keyboardResign(isActive: true)
         if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
             ContentList.sharedInstance.arrayContent [index] = seletedImage

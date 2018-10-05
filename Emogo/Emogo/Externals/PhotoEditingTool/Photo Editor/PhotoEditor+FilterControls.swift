@@ -50,6 +50,7 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
             } else {
                 let filterImage  = self.imageOrientation(self.image!).createFilteredImage(filterName: value)
                 self.canvasImageView.image = filterImage.resize(to: (self.imageToFilter?.size)!)
+                 self.imageGradientFilter =  self.canvasImageView.image
             }
          
         }else {

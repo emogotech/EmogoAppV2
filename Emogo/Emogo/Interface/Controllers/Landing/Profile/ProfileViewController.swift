@@ -286,6 +286,9 @@ class ProfileViewController: UIViewController {
          segmentMain.selectionIndicatorLocation = .down
          segmentMain.shouldAnimateUserSelection = false
        
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotification_Update_Stuff_List)), object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateData(notification:)), name: NSNotification.Name(rawValue: kNotification_Update_Stuff_List), object: nil)
+        
     
     }
     
@@ -294,7 +297,7 @@ class ProfileViewController: UIViewController {
        // lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
        // lblUserName.minimumScaleFactor = 1.0
      
-        APIServiceManager.sharedInstance.apiForGetUserInfo(userID: UserDAO.sharedInstance.user.userProfileID, isCurrentUser: true) { (_, _) in
+        APIServiceManager.sharedInstance.apiForGetUserInfo(userID: UserDAO.sharedInstance.user.userId, isCurrentUser: true) { (_, _) in
             
             DispatchQueue.main.async {
                //self.imgLink.image = #imageLiteral(resourceName: "link icon")
@@ -570,6 +573,11 @@ class ProfileViewController: UIViewController {
     }
     
  
+    @objc func updateData(notification:Notification) {
+        if self.currentMenu == .stuff {
+            self.getMyStuff(type: .start)
+        }
+    }
     
     
     func updateStuffList(index:Int){
@@ -1631,26 +1639,29 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         // Create the cell and return the cell
         if currentMenu == .stuff {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
-            
-            let content = array[indexPath.row]
+            let contains = array.indices.contains(indexPath.row)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStuffCell, for: indexPath) as! MyStuffCell
-            // for Add Content
-            cell.layer.cornerRadius = 11.0
-            cell.layer.masksToBounds = true
-            cell.isExclusiveTouch = true
-            cell.btnSelect.tag = indexPath.row
-            cell.btnSelect.addTarget(self, action: #selector(self.btnSelectAction(button:)), for: .touchUpInside)
-            cell.btnPlay.tag = indexPath.row
-            cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
-            cell.prepareLayout(content:content)
-            
-            if content.type == .notes {
-                cell.layer.borderColor =  UIColor(r: 225, g: 225, b: 225).cgColor
-                cell.layer.borderWidth = 1.0
-            }else {
-                cell.layer.borderWidth = 0.0
+            if contains {
+                let content = array[indexPath.row]
+                // for Add Content
+                cell.layer.cornerRadius = 11.0
+                cell.layer.masksToBounds = true
+                cell.isExclusiveTouch = true
+                cell.btnSelect.tag = indexPath.row
+                cell.btnSelect.addTarget(self, action: #selector(self.btnSelectAction(button:)), for: .touchUpInside)
+                cell.btnPlay.tag = indexPath.row
+                cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
+                cell.prepareLayout(content:content)
+                
+                if content.type == .notes {
+                    cell.layer.borderColor =  UIColor(r: 225, g: 225, b: 225).cgColor
+                    cell.layer.borderWidth = 1.0
+                }else {
+                    cell.layer.borderWidth = 0.0
+                }
+                
             }
-        
+           
             return cell
             
         }else if currentMenu == .stream{

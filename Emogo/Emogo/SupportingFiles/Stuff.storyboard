@@ -2246,7 +2246,7 @@ Cg
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unchecked_checkbox" translatesAutoresizingMaskIntoConstraints="NO" id="9o5-Wj-xTy">
-                                <rect key="frame" x="322" y="613" width="33" height="33"/>
+                                <rect key="frame" x="321" y="613" width="33" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="4o2-3x-A8a"/>
                                     <constraint firstAttribute="width" constant="33" id="qa0-CS-I7P"/>
@@ -2301,7 +2301,7 @@ Cg
                                 <rect key="frame" x="12" y="40" width="351" height="148"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Haptic Feedback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zeO-yI-4mv">
-                                        <rect key="frame" x="8" y="16" width="120.5" height="21"/>
+                                        <rect key="frame" x="8" y="16" width="130" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="bID-4l-kTd"/>
                                         </constraints>
@@ -2838,6 +2838,7 @@ Cg
                                                             </prototypes>
                                                         </tableView>
                                                     </subviews>
+                                                    <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="DHn-mL-aiW" firstAttribute="top" secondItem="eKn-YQ-uQ9" secondAttribute="top" id="6mS-mZ-aF6"/>
                                                         <constraint firstItem="DHn-mL-aiW" firstAttribute="leading" secondItem="eKn-YQ-uQ9" secondAttribute="leading" id="ZTh-W9-shQ"/>
@@ -3782,7 +3783,7 @@ Cg
                                         </cells>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="8K4-IB-vOP">
-                                        <rect key="frame" x="121" y="167" width="134" height="21"/>
+                                        <rect key="frame" x="115.5" y="167" width="145.5" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="fPy-J6-9ak"/>
                                         </constraints>
@@ -4933,7 +4934,7 @@ Cg
         <image name="lock_icon" width="8" height="10"/>
         <image name="messages_icon" width="43" height="37"/>
         <image name="play_button" width="30" height="30"/>
-        <image name="rounded-corner" width="1" height="1"/>
+        <image name="rounded-corner" width="375" height="35"/>
         <image name="save btn" width="186" height="77"/>
         <image name="search" width="20" height="20"/>
         <image name="search_bar_link_iphone" width="337" height="43"/>

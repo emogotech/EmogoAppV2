@@ -36,7 +36,38 @@ class LinkViewController: UIViewController {
         print("Items")
         self.configureNavigationWithTitle()
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+      
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            var arrayIndex = [Int]()
+            let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
+            ContentList.sharedInstance.arrayContent = tempArray
+            for obj in tempArray {
+                for (index,temp) in ContentList.sharedInstance.arrayLink.enumerated() {
+                    if temp.contentID.trim() == obj.contentID.trim() {
+                        arrayIndex.append(index)
+                    }
+                }
+            }
+            
+            for (index,_) in  ContentList.sharedInstance.arrayLink.enumerated() {
+                if arrayIndex.contains(index) {
+                    ContentList.sharedInstance.arrayLink[index].isSelected = true
+                }else {
+                    ContentList.sharedInstance.arrayLink[index].isSelected = false
+                }
+            }
+        }else {
+            for (index,_) in  ContentList.sharedInstance.arrayLink.enumerated() {
+                ContentList.sharedInstance.arrayLink[index].isSelected = false
+                
+            }
+        }
+        
+         self.linkCollectionView.reloadData()
+            
+    }
     // MARK: - Prepare Layouts
     
     func prepareLayouts(){
