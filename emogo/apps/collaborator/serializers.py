@@ -32,6 +32,7 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
     added_by_me = serializers.SerializerMethodField()
     user_image = serializers.SerializerMethodField()
     user_profile_id = serializers.SerializerMethodField()
+    user_id = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
 
     class Meta:
@@ -59,3 +60,7 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
 
     def get_name(self, obj):
         return obj.name
+
+    # Get User id 
+    def get_user_id(self, obj):
+        return obj.user_id

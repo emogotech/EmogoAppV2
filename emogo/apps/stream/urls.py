@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^stream/$', views.StreamAPI.as_view()),
     url('^stream', views.StreamAPI.as_view()),
     url('^like_dislike_stream', views.StreamLikeDislikeAPI.as_view()),
+    url(r'^like_stream/(?P<stream_id>[0-9]+)/$', views.StreamLikeAPI.as_view()),
     url('^like_dislike_content', views.ContentLikeDislikeAPI.as_view()),
     url('^increase_view_count', views.IncreaseStreamViewCount.as_view()),
     # The API is created because developer unable to get link type content
@@ -25,4 +26,5 @@ urlpatterns = [
     url(r'^ranjeet/$', views.TestUrlAPI.as_view()),
     url(r'^delete_stream_content/(?P<pk>[0-9]+)/$', views.DeleteStreamContentAPI.as_view()),
     url(r'^bulk_delete_stream_content/(?P<pk>[0-9]+)/$', views.DeleteStreamContentInBulkAPI.as_view()),
+    url(r'^bulk_contents', views.ContentInBulkAPI.as_view()),
 ]
