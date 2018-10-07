@@ -183,7 +183,7 @@ class UserDetailSerializer(UserProfileSerializer):
             return self.context.user
 
     def get_profile_stream(self, obj):
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes', 'is_collaborator', 'have_some_update', 'color', 'stream_permission', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'stream_contents', 'any_one_can_edit', 'collaborators', 'user_image')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked')
 
         if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
             setattr(obj.profile_stream, 'stream_collaborator', obj.profile_stream.profile_stream_collaborator_list)
@@ -456,7 +456,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     collaborator_qs = Collaborator.actives.all().select_related('stream')
 
     def use_fields(self):
-        fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width', 'have_some_update', 'color', 'stream_contents', 'stream_permission', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked')
         return fields
 
     def get_serializer_context(self):
@@ -517,12 +517,10 @@ class GetTopStreamSerializer(serializers.Serializer):
         stream_as_collabs = self.qs.filter(id__in=stream_ids)
 
         # 3. Get main stream created by requested user and stream type is Public.
-        main_qs = self.qs.filter(
-            created_by__in=UserFollow.objects.filter(follower=self.context.user).values_list('following_id', flat=True),
-            type='Public').order_by('-upd')
+        main_qs = self.qs.filter(created_by__in=UserFollow.objects.filter(follower=self.context.user).values_list('following_id', flat=True), type='Public')
         result_list = main_qs | stream_as_collabs
         total = result_list.count()
-        result_list = result_list[0:10]
+        result_list = result_list.order_by('-upd')[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.get_serializer_context()).data }
     
     ## Added Private stream 

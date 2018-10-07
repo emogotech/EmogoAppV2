@@ -45,25 +45,25 @@ class StreamFilter(django_filters.FilterSet):
     def filter_popular(self, qs, name, value):
         owner_qs = qs.filter(type='Public').order_by('-view_count')
         # Get streams user as collaborator
-        collaborator_permission = self.collaborator_qs
-        collaborator_permission = [x.stream for x in collaborator_permission if
-                                   str(x.phone_number) in str(
-                                       self.request.user.username) and x.stream.status == 'Active']
+        stream_ids = self.collaborator_qs.filter(phone_number=self.request.user.username, stream__status='Active').values_list(
+            'stream', flat=True)
+
+        # 2. Fetch stream Queryset objects.
+        collaborator_permission = qs.filter(id__in=stream_ids)
+
         # Merge result
-        result_list = list(chain(owner_qs, collaborator_permission))
+        result_list = owner_qs | collaborator_permission
+        result_list = list(result_list)
         return result_list
 
     def filter_global_search(self, qs, name, value):
-        public_stream = qs.filter(name__icontains=value)
         # Get streams user as collaborator
         collaborator_permission = self.collaborator_qs.filter(stream__name__icontains=value)
         collaborator_permission = [x.stream.id for x in collaborator_permission if
                                    str(x.phone_number) in str(
                                        self.request.user.username) and x.stream.status == 'Active']
-        # Filter collaborator streams in Stream table
-        collab_list = qs.filter(id__in =  collaborator_permission)
-        # Merge result
-        result_list = list(chain(public_stream, collab_list))
+        # Filter collaborator streams and all stream which is contain the value from Stream table
+        result_list = qs.filter(Q(name__icontains=value) | Q(id__in =  collaborator_permission))
         return result_list
 
 
@@ -147,7 +147,7 @@ class UserStreamFilter(django_filters.FilterSet):
         return qs
 
     def filter_following_stream(self, qs, name, value):
-        following_ids = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True).order_by('-follow_time')
+        following_ids = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
         # 1. Get user as collaborator in streams created by following's
         stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active',
                                                  stream__type='Private', created_by_id__in=following_ids).values_list(
@@ -157,11 +157,11 @@ class UserStreamFilter(django_filters.FilterSet):
         stream_as_collabs = qs.filter(id__in=stream_ids)
 
         # 3. Get main stream created by requested user and stream type is Public.
-        main_qs = qs.filter(created_by__in=following_ids, type='Public').order_by('-upd')
+        main_qs = qs.filter(created_by__in=following_ids, type='Public')
         qs = main_qs | stream_as_collabs
-        qs = list(qs)
-        stream_ids_list = list(following_ids)
-        qs.sort(key=lambda t: stream_ids_list.index(t.created_by_id))
+        qs = list(qs.order_by('-upd'))
+        # stream_ids_list = list(following_ids)
+        # qs.sort(key=lambda t: stream_ids_list.index(t.created_by_id))
         return qs
 
     def filter_follower_stream(self, qs, name, value):

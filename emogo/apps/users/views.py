@@ -129,6 +129,9 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
     permission_classes = (IsAuthenticated,)
     filter_class = UsersFilter
 
+    def get_serializer_context(self):
+        return {'request': self.request, 'context':self.request}
+
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
@@ -143,7 +146,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             return self.list(request, *args, **kwargs)
 
     def get_qs_object(self):
-        qs = UserProfile.actives.filter(id=self.kwargs.get('pk')).select_related('user').select_related('profile_stream').prefetch_related(
+        qs = UserProfile.actives.filter(user_id=self.kwargs.get('pk')).select_related('user').select_related('profile_stream').prefetch_related(
             Prefetch(
                 "user__who_follows",
                 queryset=UserFollow.objects.all().order_by('-follow_time'),
@@ -249,7 +252,8 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             # If requested user is logged in user
         if instance.user == self.request.user:
             fields = fields + ('token',)
-        serializer = UserDetailSerializer(self.get_qs_object(), fields=fields, context=self.request)
+
+        serializer = UserDetailSerializer(self.get_qs_object(), fields=fields, context=self.get_serializer_context())
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
@@ -302,7 +306,7 @@ class UserStearms(ListAPIView):
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit' ,'collaborators')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -453,10 +457,10 @@ class UserLikedSteams(ListAPIView):
                 ),
                 to_attr='total_like_dislike_data'
             )
-        )
+        ).order_by('-upd')
         queryset = list(queryset)
-        stream_ids_list = list(stream_ids_list)
-        queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
+        # stream_ids_list = list(stream_ids_list)
+        # queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
         return queryset
 
     def list(self, request, *args, **kwargs):
@@ -464,7 +468,7 @@ class UserLikedSteams(ListAPIView):
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'collaborators' )
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked')
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -513,7 +517,7 @@ class UserCollaborators(ListAPIView):
         queryset = self.queryset.filter(id__in=Collaborator.actives.filter(Q(phone_number= self.request.user.username )| Q(created_by_id=self.request.user.id) ).values_list('stream_id', flat=True)).select_related('created_by__user_data__user').prefetch_related(
         Prefetch(
             "stream_contents",
-            queryset=StreamContent.objects.all().select_related('content').order_by('order').prefetch_related(
+            queryset=StreamContent.objects.all().select_related('content').order_by('order' , '-attached_date').prefetch_related(
                 Prefetch(
                     "content__content_like_dislike_status",
                     queryset=LikeDislikeContent.objects.filter(status=1),
@@ -551,7 +555,7 @@ class UserCollaborators(ListAPIView):
         queryset =  self.get_queryset().filter(id__in=stream_ids).order_by('-upd')
 
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type','stream_permission', 'have_some_update', 'color','stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
