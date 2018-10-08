@@ -128,6 +128,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_class = UsersFilter
+    lookup_field= "user_id"
 
     def get_serializer_context(self):
         return {'request': self.request, 'context':self.request}
@@ -140,13 +141,13 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def get(self, request, *args, **kwargs):
-        if kwargs.get('pk') is not None:
+        if kwargs.get('user_id') is not None:
             return self.retrieve(self, request, *args, **kwargs)
         else:
             return self.list(request, *args, **kwargs)
 
     def get_qs_object(self):
-        qs = UserProfile.actives.filter(user_id=self.kwargs.get('pk')).select_related('user').select_related('profile_stream').prefetch_related(
+        qs = UserProfile.actives.filter(user_id=self.kwargs.get('user_id')).select_related('user').select_related('profile_stream').prefetch_related(
             Prefetch(
                 "user__who_follows",
                 queryset=UserFollow.objects.all().order_by('-follow_time'),
@@ -234,6 +235,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         """
         self.serializer_class = UserProfileSerializer
         partial = kwargs.pop('partial', False)
+
         instance = self.get_object()
         fields = (
         'user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number',
