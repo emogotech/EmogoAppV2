@@ -1908,7 +1908,6 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         obj.currentIndex = profileStreamIndex
         obj.viewStream = "fromProfile"
         obj.delegate = self
-     
         ContentList.sharedInstance.objStream = nil
         obj.image =  selectedImageView?.image
         self.navigationController?.pushViewController(obj, animated: true)

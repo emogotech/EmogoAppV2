@@ -11,11 +11,12 @@ import UIKit
 class GradientFilterCell: UICollectionViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var imgPreview: UIImageView!
-    var image:UIImage!? =  nil
+    
+    var image:UIImage? =  nil
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-  
     
     func setup(filter:Filter) {
             lblName.text = filter.iconName

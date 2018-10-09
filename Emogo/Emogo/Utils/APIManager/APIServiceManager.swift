@@ -663,7 +663,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+               // print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -694,7 +694,6 @@ class APIServiceManager: NSObject {
                                     StreamList.sharedInstance.arrayMyStream.append(stream)
                                     }
                                 }
-                               
                             }
                         }
                         if let obj = (value as! [String:Any])["next"]{
@@ -738,7 +737,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+               // print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1552,10 +1551,10 @@ class APIServiceManager: NSObject {
     // MARK: - User Profile Update
     func apiForUserProfileUpdate(name:String,location:String,website:String,biography:String,birthday:String,profilePic:String,displayName:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
 
-        let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userProfileID!)/"
+        let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userId!)/"
         let phone : String = UserDAO.sharedInstance.user.phoneNumber
         let params:[String:Any] = ["full_name":name,"user_image":profilePic , "phone_number" : phone,"location":location,"website":website,"biography":biography,"birthday":birthday,"display_name":displayName]
-       // print(params)
+        print(params)
         APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
@@ -1586,7 +1585,7 @@ class APIServiceManager: NSObject {
     
     func apiForAssignProfileStream(streamID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         
-        let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userProfileID!)/"
+        let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userId!)/"
         let params:[String:Any] = ["profile_stream":streamID]
        // print(params)
         APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in

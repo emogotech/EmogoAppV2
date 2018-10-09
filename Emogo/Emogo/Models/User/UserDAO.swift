@@ -116,6 +116,9 @@ class User {
         if let obj = userData["user_profile_id"] {
             self.userProfileID = "\(obj)"
         }
+//        if !self.userId.trim().isEmpty {
+//            self.userProfileID = self.userId
+//        }
         if let obj = userData["user_image"] {
             self.userImage = obj as! String
         }

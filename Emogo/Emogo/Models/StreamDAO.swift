@@ -369,10 +369,10 @@ class StreamList{
             PeopleList.sharedInstance.requestURl = kPeopleAPI
             break
         case .Public:
-            self.requestURl = "user_streams?public_stream=" + UserDAO.sharedInstance.user.userProfileID
+            self.requestURl = "user_streams?public_stream=" + UserDAO.sharedInstance.user.userId
             break
         case .Private:
-            self.requestURl = "user_streams?private_stream=" + UserDAO.sharedInstance.user.userProfileID
+            self.requestURl = "user_streams?private_stream=" + UserDAO.sharedInstance.user.userId
             break
         case .Liked:
             self.requestURl = "user_liked_streams/"
