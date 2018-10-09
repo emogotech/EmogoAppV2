@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1888607E4F2BE6542BE576EC /* Pods_EmogoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */; };
 		2B531A9B2018735A00D646DC /* shareExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B531A9A2018735A00D646DC /* shareExt.swift */; };
 		2B531A9E2018759D00D646DC /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
 		2B531A9F201875A900D646DC /* KDLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB751FC3F5CC00552260 /* KDLoadingView.swift */; };
@@ -55,8 +54,6 @@
 		332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431AB21FC7044D00311C9A /* ASToast.swift */; };
 		335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A111FBB238A006DA9D9 /* AppDelegate.swift */; };
 		335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A1A1FBB238A006DA9D9 /* LaunchScreen.storyboard */; };
-		335B1A271FBB238A006DA9D9 /* EmogoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A261FBB238A006DA9D9 /* EmogoTests.swift */; };
-		335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A311FBB238B006DA9D9 /* EmogoUITests.swift */; };
 		335B1A491FBB23FE006DA9D9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
 		335B1A4D1FBB23FE006DA9D9 /* EmogoShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 335B1A431FBB23FE006DA9D9 /* EmogoShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		335B1A591FBB2413006DA9D9 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 335B1A581FBB2413006DA9D9 /* Messages.framework */; };
@@ -101,7 +98,6 @@
 		33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F11FC6B9020053AC23 /* FSPageViewLayout.swift */; };
 		33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F21FC6B9020053AC23 /* FSPageViewTransformer.swift */; };
 		79B855EDB8E9D75B6D9DBBBE /* Pods_iMessageExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A23C5C260534D973245260 /* Pods_iMessageExt.framework */; };
-		7A4A69DED7A9E44818EE5AD4 /* Pods_EmogoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23521288AEC0D7BA54D1AC8F /* Pods_EmogoUITests.framework */; };
 		80F50F190DF0D0A635C56634 /* Pods_Emogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */; };
 		AB3C79932147F91700D2640D /* CCZoomAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3C798F2147F91300D2640D /* CCZoomAnimatedTransitioning.swift */; };
 		AB3C79942147F91700D2640D /* CCZoomTransitionVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3C79902147F91400D2640D /* CCZoomTransitionVCExtension.swift */; };
@@ -112,12 +108,7 @@
 		AB3C79992147F94400D2640D /* CCZoomTransitioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3C79912147F91500D2640D /* CCZoomTransitioner.swift */; };
 		AB3C799A2147F94400D2640D /* CCZoomTransitionVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3C79902147F91400D2640D /* CCZoomTransitionVCExtension.swift */; };
 		C71AEB264DE58044D1D8AEC5 /* Pods_ShareExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D8A6D18B2B24A50F79CC2C6 /* Pods_ShareExt.framework */; };
-		C86918A61FD7C7CD0072F302 /* EmogoLandingScreenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86918A51FD7C7CD0072F302 /* EmogoLandingScreenUITests.swift */; };
-		C8775EE91FD52D42004911FB /* EmogoCameraVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8775EE81FD52D42004911FB /* EmogoCameraVCUITests.swift */; };
-		C89578611FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89578601FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift */; };
-		C89ABA881FCBED0A00AFCB6A /* CameraViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ABA871FCBED0A00AFCB6A /* CameraViewControllerTests.swift */; };
 		C8B8AC35202895E70023ECD3 /* SwiftyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8AC34202895E70023ECD3 /* SwiftyRecordButton.swift */; };
-		C8DBBCC11FD7E761004D33F7 /* EmogoSignUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DBBCC01FD7E761004D33F7 /* EmogoSignUpUITests.swift */; };
 		C8FBD7322015FE7C007C7C1B /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */; };
 		F005121520DA331F00EA4E50 /* SegmentHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F005121320DA331F00EA4E50 /* SegmentHeaderViewCell.swift */; };
 		F005121620DA331F00EA4E50 /* SegmentHeaderViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F005121420DA331F00EA4E50 /* SegmentHeaderViewCell.xib */; };
@@ -450,7 +441,6 @@
 		F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA11FC4515D008F9534 /* Sound.swift */; };
 		F4A69BA41FC45181008F9534 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4A69BA31FC45180008F9534 /* beep.wav */; };
 		F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */; };
-		F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */; };
 		F4B4560E20B2C8EE007E4753 /* VideoEditor+PlayRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4560D20B2C8EE007E4753 /* VideoEditor+PlayRate.swift */; };
@@ -523,20 +513,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		335B1A231FBB238A006DA9D9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 335B1A061FBB238A006DA9D9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 335B1A0D1FBB238A006DA9D9;
-			remoteInfo = Emogo;
-		};
-		335B1A2E1FBB238B006DA9D9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 335B1A061FBB238A006DA9D9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 335B1A0D1FBB238A006DA9D9;
-			remoteInfo = Emogo;
-		};
 		335B1A4B1FBB23FE006DA9D9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 335B1A061FBB238A006DA9D9 /* Project object */;
@@ -592,10 +568,8 @@
 		335B1A161FBB238A006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		335B1A1B1FBB238A006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		335B1A1D1FBB238A006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		335B1A221FBB238A006DA9D9 /* EmogoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmogoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		335B1A261FBB238A006DA9D9 /* EmogoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmogoTests.swift; sourceTree = "<group>"; };
 		335B1A281FBB238A006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		335B1A2D1FBB238B006DA9D9 /* EmogoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmogoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		335B1A311FBB238B006DA9D9 /* EmogoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmogoUITests.swift; sourceTree = "<group>"; };
 		335B1A331FBB238B006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		335B1A431FBB23FE006DA9D9 /* EmogoShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EmogoShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1074,22 +1048,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		335B1A1F1FBB238A006DA9D9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1888607E4F2BE6542BE576EC /* Pods_EmogoTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		335B1A2A1FBB238B006DA9D9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7A4A69DED7A9E44818EE5AD4 /* Pods_EmogoUITests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		335B1A401FBB23FE006DA9D9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1179,8 +1137,6 @@
 			isa = PBXGroup;
 			children = (
 				335B1A0E1FBB238A006DA9D9 /* Emogo.app */,
-				335B1A221FBB238A006DA9D9 /* EmogoTests.xctest */,
-				335B1A2D1FBB238B006DA9D9 /* EmogoUITests.xctest */,
 				335B1A431FBB23FE006DA9D9 /* EmogoShare.appex */,
 				335B1A561FBB2413006DA9D9 /* Emogo.appex */,
 			);
@@ -2563,46 +2519,6 @@
 			productReference = 335B1A0E1FBB238A006DA9D9 /* Emogo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		335B1A211FBB238A006DA9D9 /* EmogoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 335B1A391FBB238B006DA9D9 /* Build configuration list for PBXNativeTarget "EmogoTests" */;
-			buildPhases = (
-				24E5B8FD9D7FDC61532EBB4C /* [CP] Check Pods Manifest.lock */,
-				335B1A1E1FBB238A006DA9D9 /* Sources */,
-				335B1A1F1FBB238A006DA9D9 /* Frameworks */,
-				335B1A201FBB238A006DA9D9 /* Resources */,
-				3D35FD3244544ECEE59095FA /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				335B1A241FBB238A006DA9D9 /* PBXTargetDependency */,
-			);
-			name = EmogoTests;
-			productName = EmogoTests;
-			productReference = 335B1A221FBB238A006DA9D9 /* EmogoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		335B1A2C1FBB238B006DA9D9 /* EmogoUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 335B1A3C1FBB238B006DA9D9 /* Build configuration list for PBXNativeTarget "EmogoUITests" */;
-			buildPhases = (
-				EA0601230A424FE453924D86 /* [CP] Check Pods Manifest.lock */,
-				335B1A291FBB238B006DA9D9 /* Sources */,
-				335B1A2A1FBB238B006DA9D9 /* Frameworks */,
-				335B1A2B1FBB238B006DA9D9 /* Resources */,
-				4221665022DB283B717FA017 /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				335B1A2F1FBB238B006DA9D9 /* PBXTargetDependency */,
-			);
-			name = EmogoUITests;
-			productName = EmogoUITests;
-			productReference = 335B1A2D1FBB238B006DA9D9 /* EmogoUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		335B1A421FBB23FE006DA9D9 /* ShareExt */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 335B1A4E1FBB23FE006DA9D9 /* Build configuration list for PBXNativeTarget "ShareExt" */;
@@ -2652,7 +2568,7 @@
 					335B1A0D1FBB238A006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
 						LastSwiftMigration = 0910;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -2665,19 +2581,9 @@
 							};
 						};
 					};
-					335B1A211FBB238A006DA9D9 = {
-						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 335B1A0D1FBB238A006DA9D9;
-					};
-					335B1A2C1FBB238B006DA9D9 = {
-						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 335B1A0D1FBB238A006DA9D9;
-					};
 					335B1A421FBB23FE006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -2687,7 +2593,7 @@
 					335B1A551FBB2413006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
 						LastSwiftMigration = 0910;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -2712,8 +2618,6 @@
 			projectRoot = "";
 			targets = (
 				335B1A0D1FBB238A006DA9D9 /* Emogo */,
-				335B1A211FBB238A006DA9D9 /* EmogoTests */,
-				335B1A2C1FBB238B006DA9D9 /* EmogoUITests */,
 				335B1A421FBB23FE006DA9D9 /* ShareExt */,
 				335B1A551FBB2413006DA9D9 /* iMessageExt */,
 			);
@@ -2796,20 +2700,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		335B1A201FBB238A006DA9D9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		335B1A2B1FBB238B006DA9D9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		335B1A411FBB23FE006DA9D9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2847,24 +2737,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		24E5B8FD9D7FDC61532EBB4C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EmogoTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2501A289AFFC105F2E7FAC95 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2881,94 +2753,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3D35FD3244544ECEE59095FA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
-				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/BPCircleActivityIndicator/BPCircleActivityIndicator.framework",
-				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
-				"${BUILT_PRODUCTS_DIR}/GSKStretchyHeaderView/GSKStretchyHeaderView.framework",
-				"${BUILT_PRODUCTS_DIR}/Haptica/Haptica.framework",
-				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
-				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
-				"${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework",
-				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BPCircleActivityIndicator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSKStretchyHeaderView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Haptica.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lightbox.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkeletonView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4221665022DB283B717FA017 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EmogoUITests/Pods-EmogoUITests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
-				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/BPCircleActivityIndicator/BPCircleActivityIndicator.framework",
-				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
-				"${BUILT_PRODUCTS_DIR}/GSKStretchyHeaderView/GSKStretchyHeaderView.framework",
-				"${BUILT_PRODUCTS_DIR}/Haptica/Haptica.framework",
-				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
-				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
-				"${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework",
-				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BPCircleActivityIndicator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSKStretchyHeaderView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Haptica.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lightbox.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkeletonView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoUITests/Pods-EmogoUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7DC7DD69B9FB2A05FF180134 /* [CP] Check Pods Manifest.lock */ = {
@@ -3083,24 +2867,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Emogo/Pods-Emogo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EA0601230A424FE453924D86 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EmogoUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F45133991FD1801D00941755 /* ShellScript */ = {
@@ -3426,28 +3192,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		335B1A1E1FBB238A006DA9D9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */,
-				C89ABA881FCBED0A00AFCB6A /* CameraViewControllerTests.swift in Sources */,
-				335B1A271FBB238A006DA9D9 /* EmogoTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		335B1A291FBB238B006DA9D9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C8775EE91FD52D42004911FB /* EmogoCameraVCUITests.swift in Sources */,
-				C8DBBCC11FD7E761004D33F7 /* EmogoSignUpUITests.swift in Sources */,
-				C89578611FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift in Sources */,
-				335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */,
-				C86918A61FD7C7CD0072F302 /* EmogoLandingScreenUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		335B1A3F1FBB23FE006DA9D9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3574,16 +3318,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		335B1A241FBB238A006DA9D9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 335B1A0D1FBB238A006DA9D9 /* Emogo */;
-			targetProxy = 335B1A231FBB238A006DA9D9 /* PBXContainerItemProxy */;
-		};
-		335B1A2F1FBB238B006DA9D9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 335B1A0D1FBB238A006DA9D9 /* Emogo */;
-			targetProxy = 335B1A2E1FBB238B006DA9D9 /* PBXContainerItemProxy */;
-		};
 		335B1A4C1FBB23FE006DA9D9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 335B1A421FBB23FE006DA9D9 /* ShareExt */;
@@ -3765,9 +3499,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Emogo/Emogo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
@@ -3775,8 +3509,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "9d40cbe8-3519-4dbd-b796-2c994d5fb860";
+				PROVISIONING_PROFILE_SPECIFIER = "AppStore-Emogo";
 				SWIFT_OBJC_BRIDGING_HEADER = "Emogo/SupportingFiles/Emogo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -3792,9 +3526,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Emogo/Emogo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
@@ -3802,101 +3536,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "9d40cbe8-3519-4dbd-b796-2c994d5fb860";
+				PROVISIONING_PROFILE_SPECIFIER = "AppStore-Emogo";
 				SWIFT_OBJC_BRIDGING_HEADER = "Emogo/SupportingFiles/Emogo-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
-		335B1A3A1FBB238B006DA9D9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 67136C81BBF4E1AE9E87F786 /* Pods-EmogoTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M35DBRABN7;
-				INFOPLIST_FILE = EmogoTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = northout.EmogoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Emogo.app/Emogo";
-			};
-			name = Debug;
-		};
-		335B1A3B1FBB238B006DA9D9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M35DBRABN7;
-				INFOPLIST_FILE = EmogoTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = northout.EmogoTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Emogo.app/Emogo";
-			};
-			name = Release;
-		};
-		335B1A3D1FBB238B006DA9D9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F56BDE7717668D15C7179BE /* Pods-EmogoUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M35DBRABN7;
-				INFOPLIST_FILE = EmogoUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.uitest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Emogo;
-			};
-			name = Debug;
-		};
-		335B1A3E1FBB238B006DA9D9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 512AC7A67B1967277A47AEDD /* Pods-EmogoUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M35DBRABN7;
-				INFOPLIST_FILE = EmogoUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.uitest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Emogo;
 			};
 			name = Release;
 		};
@@ -3906,17 +3550,17 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_ENTITLEMENTS = ShareExt/EmogoShare.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = ShareExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.shareext;
 				PRODUCT_NAME = EmogoShare;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "0262571b-9365-4b08-a599-cd907daca289";
+				PROVISIONING_PROFILE_SPECIFIER = Emogo_Appstore_ShareExt;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -3929,17 +3573,17 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CODE_SIGN_ENTITLEMENTS = ShareExt/EmogoShare.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = ShareExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.shareext;
 				PRODUCT_NAME = EmogoShare;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "0262571b-9365-4b08-a599-cd907daca289";
+				PROVISIONING_PROFILE_SPECIFIER = Emogo_Appstore_ShareExt;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -3954,17 +3598,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Emogo/Emogo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = iMessageExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.iMessageExt;
 				PRODUCT_NAME = Emogo;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "e7cd974a-5155-48de-818e-3507bd34012b";
+				PROVISIONING_PROFILE_SPECIFIER = AppStore_iMessage_Emogo;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "iMessageExt/iMessageExt-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -3981,17 +3625,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Emogo/Emogo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = iMessageExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.iMessageExt;
 				PRODUCT_NAME = Emogo;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "e7cd974a-5155-48de-818e-3507bd34012b";
+				PROVISIONING_PROFILE_SPECIFIER = AppStore_iMessage_Emogo;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "iMessageExt/iMessageExt-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -4016,24 +3660,6 @@
 			buildConfigurations = (
 				335B1A371FBB238B006DA9D9 /* Debug */,
 				335B1A381FBB238B006DA9D9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		335B1A391FBB238B006DA9D9 /* Build configuration list for PBXNativeTarget "EmogoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				335B1A3A1FBB238B006DA9D9 /* Debug */,
-				335B1A3B1FBB238B006DA9D9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		335B1A3C1FBB238B006DA9D9 /* Build configuration list for PBXNativeTarget "EmogoUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				335B1A3D1FBB238B006DA9D9 /* Debug */,
-				335B1A3E1FBB238B006DA9D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

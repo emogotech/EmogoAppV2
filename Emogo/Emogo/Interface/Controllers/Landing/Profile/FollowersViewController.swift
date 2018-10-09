@@ -399,12 +399,12 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
             let objPeople = PeopleDAO(peopleData: [:])
             objPeople.fullName = people.fullName
             objPeople.userId = people.userId
-            objPeople.userProfileID = people.userProfileID
+            objPeople.userProfileID = people.userId
             objPeople.userImage = people.userImage
             objPeople.phoneNumber = people.phone
             let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
             obj.objPeople = objPeople
-            self.objNavigationController?.popToViewController(vc: obj)
+            self.navigationController?.popToViewController(vc: obj)
            // self.navigationController?.push(viewController: obj)
         }
     }

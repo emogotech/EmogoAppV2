@@ -84,7 +84,7 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
      //   tblView.setContentOffset(.zero, animated: false)
         self.tblView.reloadData()
         if !seletedImage.description.trim().isEmpty  || !seletedImage.name.trim().isEmpty {
-            self.tblView.contentInset = UIEdgeInsets(top:0, left: 0, bottom:  51, right: 0)
+            self.tblView.contentInset = UIEdgeInsets(top:0, left: 0, bottom:  75, right: 0)
         }
         self.tblView.reloadData()
 }
@@ -201,7 +201,27 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
                             cell.playerContainerView.isHidden = false
                             cell.imgCover.isHidden = true
                             cell.btnPlayIcon.isHidden = true
-                            self.playerView?.frame = cell.playerContainerView.bounds
+                        
+                            if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+                                if cell.playerContainerView.bounds.size.height > (kFrame.size.height - 84.0){
+                                    
+                                    self.playerView?.frame = CGRect(x: 0, y: 0, width: cell.playerContainerView.bounds.size.width, height: (kFrame.size.height - 100.0))
+                                   //  self.playerView?.center = cell.playerContainerView.center
+                                }else {
+                                    self.playerView?.frame = cell.playerContainerView.bounds
+                                }
+                            }else {
+                                
+                                if cell.playerContainerView.bounds.size.height > (kFrame.size.height - 64.0){
+                                    self.playerView?.frame = CGRect(x: 0, y: 0, width: cell.playerContainerView.bounds.size.width, height: (kFrame.size.height - 80.0))
+                                 //   self.playerView?.center = cell.playerContainerView.center
+
+                                }else {
+                                    self.playerView?.frame = cell.playerContainerView.bounds
+                                }
+                            }
+                            
+                            
                             cell.playerContainerView.addSubview(self.playerView!)
                             //                            self.collectionView.backgroundColor = .black
                             //                            cell.viewCollection.backgroundColor = .black

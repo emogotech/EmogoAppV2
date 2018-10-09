@@ -326,16 +326,19 @@ class ContentViewController: UIViewController {
     func prepareLeftItems(){
         self.navigationItem.leftBarButtonItem = nil
         let tempView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        
         let imageView = NZCircularImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        
+        if !seletedImage.createrImage.trim().isEmpty {
+            imageView.setImageWithResizeURL(seletedImage.createrImage.trim())
+        }else {
+        imageView.setImage(string:seletedImage.fullname, color: UIColor.colorHash(name:seletedImage.fullname ), circular: true)
+        }
+        
        // let labelWidth = tempView.bounds.size.width - imageView.bounds.size.width
        // let label = UILabel(frame: CGRect(x: imageView.bounds.size.width + 2, y: 0, width: labelWidth - 2, height: 35))
       //  label.text = seletedImage.fullname
-//        if seletedImage.fileName == "SreamCover" {
-//               imageView.setImageWithResizeURL(strImage)
-//        }else{
-                imageView.setImageWithResizeURL(seletedImage.createrImage)
-      //  }
-    
+//
      
         tempView.addSubview(imageView)
       //  tempView.addSubview(label)

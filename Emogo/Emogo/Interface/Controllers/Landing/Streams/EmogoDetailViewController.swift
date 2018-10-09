@@ -1231,6 +1231,33 @@ class EmogoDetailViewController: UIViewController {
                 self.currentStream.colabImageSecond = (stream?.colabImageSecond)!
                 self.currentStream.userImage = (stream?.userImage)!
                 self.currentStream.totalCollaborator = (stream?.totalCollaborator)!
+                
+                
+                for obj in StreamList.sharedInstance.arrayStream {
+                    if obj.ID == self.currentStream.ID.trim() {
+                        if let index =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == self.currentStream.ID.trim()}) {
+                            StreamList.sharedInstance.arrayStream[index] =  self.currentStream
+                        }
+                    }
+                }
+                
+                for obj in StreamList.sharedInstance.arrayProfileStream {
+                    if obj.ID == self.currentStream.ID.trim() {
+                        if let index =  StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == self.currentStream.ID.trim()}) {
+                            StreamList.sharedInstance.arrayProfileStream[index] =  self.currentStream
+                        }
+                    }
+                }
+                
+                for obj in StreamList.sharedInstance.arrayProfileColabStream {
+                    if obj.ID == self.currentStream.ID.trim() {
+                        if let index =  StreamList.sharedInstance.arrayProfileColabStream.index(where: {$0.ID.trim() == self.currentStream.ID.trim()}) {
+                            StreamList.sharedInstance.arrayProfileColabStream[index] =  self.currentStream
+                        }
+                    }
+                }
+                
+                
                 if isLoadMore! {
                     self.updateLayOut()
                 }

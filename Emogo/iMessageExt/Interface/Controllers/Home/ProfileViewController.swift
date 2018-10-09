@@ -232,7 +232,7 @@ class ProfileViewController: UIViewController {
     func prepareLayout() {
        // lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
        // lblUserName.minimumScaleFactor = 1.0
-        APIServiceManager.sharedInstance.apiForGetUserInfo(userID: UserDAO.sharedInstance.user.userProfileID, isCurrentUser: true) { (_, _) in
+        APIServiceManager.sharedInstance.apiForGetUserInfo(userID: UserDAO.sharedInstance.user.userId, isCurrentUser: true) { (_, _) in
             
             DispatchQueue.main.async {
                 self.imgLink.image = #imageLiteral(resourceName: "link icon")

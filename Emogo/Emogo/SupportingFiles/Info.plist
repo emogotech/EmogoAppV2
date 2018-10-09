@@ -41,7 +41,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.5</string>
+	<string>1.0.6</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -58,7 +58,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -81,17 +81,17 @@
 		<true/>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
-	<string></string>
+	<string>Allow access to your camera so you can upload photos</string>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>Allow access to your camera so you can upload photos</string>
 	<key>NSContactsUsageDescription</key>
-	<string></string>
+	<string>Allow access to your contacts so you can share Emogos with your friends and add them as collaborators.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
+	<string>Allow access to your microphone so you can create and share videos.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string></string>
+	<string>Allow access to your camera so you can upload photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>Allow access to your camera so you can upload photos.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SF-Pro-Display-Black.otf</string>

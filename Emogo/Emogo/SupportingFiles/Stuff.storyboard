@@ -2301,7 +2301,7 @@ Cg
                                 <rect key="frame" x="12" y="40" width="351" height="148"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Haptic Feedback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zeO-yI-4mv">
-                                        <rect key="frame" x="8" y="16" width="130" height="21"/>
+                                        <rect key="frame" x="8" y="16" width="120.5" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="bID-4l-kTd"/>
                                         </constraints>
@@ -3783,7 +3783,7 @@ Cg
                                         </cells>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="8K4-IB-vOP">
-                                        <rect key="frame" x="115.5" y="167" width="145.5" height="21"/>
+                                        <rect key="frame" x="121.5" y="167" width="134" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="fPy-J6-9ak"/>
                                         </constraints>
@@ -4925,7 +4925,7 @@ Cg
         <image name="edit_icon_profile" width="22" height="23"/>
         <image name="followNew" width="199" height="26"/>
         <image name="following_button" width="100" height="28"/>
-        <image name="icons8-paper_plane" width="34" height="36"/>
+        <image name="icons8-paper_plane" width="25" height="26"/>
         <image name="like_icon_content" width="26" height="23"/>
         <image name="link icon" width="15" height="15"/>
         <image name="link_icon" width="13" height="13"/>
@@ -4934,7 +4934,7 @@ Cg
         <image name="lock_icon" width="8" height="10"/>
         <image name="messages_icon" width="43" height="37"/>
         <image name="play_button" width="30" height="30"/>
-        <image name="rounded-corner" width="375" height="35"/>
+        <image name="rounded-corner" width="1" height="1"/>
         <image name="save btn" width="186" height="77"/>
         <image name="search" width="20" height="20"/>
         <image name="search_bar_link_iphone" width="337" height="43"/>

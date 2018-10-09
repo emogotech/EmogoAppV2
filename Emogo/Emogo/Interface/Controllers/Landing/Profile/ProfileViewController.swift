@@ -307,6 +307,8 @@ class ProfileViewController: UIViewController {
                 self.lblLocation.isHidden = false
                 self.lblWebsite.isHidden = false
                 self.lblBio.isHidden =  false
+                self.lblFollowers.text = ""
+                self.lblFollowing.text = ""
                 self.lblFollowers.isHidden = true
                 self.lblFollowing.isHidden = true
                 self.lblName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized

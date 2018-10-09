@@ -176,14 +176,14 @@ class StreamDAO {
                     conent.isShowAddStream = true
                 }
                  if UserDAO.sharedInstance.user != nil {
-                    if self.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                    if self.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     conent.isDelete = true
                     self.canAddContent = true
                     self.canAddPeople = true
                   }
                 }
                  if UserDAO.sharedInstance.user != nil {
-                   if conent.createdBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                   if conent.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     conent.isEdit = true
                     conent.isDelete = true
                  }
@@ -203,7 +203,7 @@ class StreamDAO {
             self.totalLikeCount = "\(obj)"
         }
         if UserDAO.sharedInstance.user != nil {
-            if self.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+            if self.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 self.canAddPeople = true
                 self.canAddContent = true
             }
@@ -369,10 +369,10 @@ class StreamList{
             PeopleList.sharedInstance.requestURl = kPeopleAPI
             break
         case .Public:
-            self.requestURl = "user_streams?public_stream=" + UserDAO.sharedInstance.user.userId
+            self.requestURl = "user_streams?public_stream=" + UserDAO.sharedInstance.user.userProfileID
             break
         case .Private:
-            self.requestURl = "user_streams?private_stream=" + UserDAO.sharedInstance.user.userId
+            self.requestURl = "user_streams?private_stream=" + UserDAO.sharedInstance.user.userProfileID
             break
         case .Liked:
             self.requestURl = "user_liked_streams/"

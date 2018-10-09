@@ -214,7 +214,7 @@ class ContentDAO{
             }
         }
          if UserDAO.sharedInstance.user != nil {
-           if self.createdBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+           if self.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             self.isEdit = true
             self.isDelete = true
             }
