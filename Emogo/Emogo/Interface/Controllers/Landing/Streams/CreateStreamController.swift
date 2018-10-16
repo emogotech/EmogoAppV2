@@ -12,21 +12,24 @@ import PhotosUI
 import AVFoundation
 import Lightbox
 import Contacts
-import XLActionController
 import CropViewController
+
+//MARK: ⬇︎⬇︎⬇︎ PROTOCOLS ⬇︎⬇︎⬇︎
+
 
 protocol CreateStreamControllerDelegate {
     func streamCreatedWith(stream:StreamDAO)
 }
+
+
 class CreateStreamController: UITableViewController {
     
     
-    //MARK:- IBOutlet Connections
-    
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+
     @IBOutlet weak var viewAddCoverImage: UIView!
     @IBOutlet weak var tfEmogoTitle: SkyFloatingLabelTextField!
     @IBOutlet weak var tfDescription: MBAutoGrowingTextView!
-   // @IBOutlet weak var switchForEmogoPrivate: PMAnimatedSwitch!
     @IBOutlet weak var switchForEmogoPrivate: UISwitch!
     @IBOutlet weak var lblCaption: UILabel!
     @IBOutlet weak var imgCover: UIImageView!
@@ -56,43 +59,41 @@ class CreateStreamController: UITableViewController {
     var buttonDone = UIButton(type: .system)
     var contentRowHeight : CGFloat = 30.0
     var exestingNavigation:UINavigationController?
-    //var delegate:CreateStreamControllerDelegate?
-    
+  
 
+    
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.prepareLayouts()
     }
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-      //  self.navigationController?.isNavigationBarHidden = true
+   
         prepareNavigationbarButtons()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-       // self.viewTitle.layer.contents = UIImage(named: "gradient")?.cgImage
+    
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    /*
-    @objc func doneClicked() {
-        view.endEditing(true)
-    }*/
+
     
-    // MARK: - Prepare Layouts
-    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
     private func prepareLayouts(){
-          tfEmogoTitle.becomeFirstResponder()
-       
-//        tfEmogoTitle.inputAccessoryView = toolBar
-//        textFieldNext.inputAccessoryView = toolBar
-//        tfDescription.inputAccessoryView = toolBar
+        tfEmogoTitle.becomeFirstResponder()
         tfEmogoTitle.placeholder = "Emogo Title"
         tfEmogoTitle.title = "Emogo Title"
         tfDescription.placeholder = "Caption (Optional)"
@@ -115,18 +116,16 @@ class CreateStreamController: UITableViewController {
         
         self.imgCover.contentMode = .scaleAspectFill
         if self.streamID != nil {
-            //self.getStream()
+          
         }else {
             isPerform = true
-//           self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
-//            self.tableView.reloadData()
+
         }
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
-        // If Stream is public
-        //self.rowHieght.constant = 0.0
+   
         self.isExpandRow = false
         self.switchForEmogoPrivate.isOn = false
        
@@ -135,11 +134,9 @@ class CreateStreamController: UITableViewController {
         self.tfEmogoTitle.keyboardDistanceFromTextField = 20.0
         self.tfDescription.keyboardDistanceFromTextField = 30.0
       
-//        switchForEmogoPrivate.delegate = self
-//        switchForEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))
-//        switchForEmogoPrivate.layer.borderWidth = 1.0
-//        switchForEmogoPrivate.layer.borderColor = UIColor.black.cgColor
+
     }
+    
     
     func prepareNavigationbarButtons(){
         self.configureNavigationTite(color:UIColor.white)
@@ -167,8 +164,45 @@ class CreateStreamController: UITableViewController {
         }
         
     }
-    //MARK:- action for buttons
     
+    
+    func setCoverImage(image:UIImage) {
+        self.coverImage = image
+        self.imgCover.image = image
+        self.fileName =  NSUUID().uuidString + ".png"
+        self.strCoverImage = ""
+        self.imgCover.contentMode = .scaleAspectFit
+        
+        self.imgCover.backgroundColor = image.getColors().background
+        self.viewAddCoverImage.isHidden = true
+        self.lblAddCoverImage.isHidden = true
+        
+        if tfEmogoTitle.text?.trim().isEmpty == false && self.imgCover.image != nil {
+            buttonDone.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
+        }else{
+            buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
+        }
+        self.tfEmogoTitle.becomeFirstResponder()
+    }
+    
+    
+    func configureCollaboatorsRowExpandCollapse() {
+        self.reloadIndex(index: 2)
+    }
+    
+    func reloadIndex(index:Int) {
+        self.tableView.beginUpdates()
+        let index = IndexPath(row: index, section: 0)
+        self.tableView.reloadRows(at: [index], with: .automatic)
+        self.tableView.endUpdates()
+        self.tableView.reloadData()
+    }
+    
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+    
+
     @IBAction func switchActionForEmogoPrivate(_ sender: Any) {
         
         if self.switchForEmogoPrivate.isOn {
@@ -203,37 +237,24 @@ class CreateStreamController: UITableViewController {
     }
   
     
-    func configureCollaboatorsRowExpandCollapse() {
-        self.reloadIndex(index: 2)
-    }
-    func reloadIndex(index:Int) {
-        self.tableView.beginUpdates()
-        let index = IndexPath(row: index, section: 0)
-        self.tableView.reloadRows(at: [index], with: .automatic)
-        self.tableView.endUpdates()
-        self.tableView.reloadData()
-    }
-    // MARK: - Set Cover Image
-    
-    func setCoverImage(image:UIImage) {
-        self.coverImage = image
-        self.imgCover.image = image
-        self.fileName =  NSUUID().uuidString + ".png"
-        self.strCoverImage = ""
-        self.imgCover.contentMode = .scaleAspectFit
-       
-        self.imgCover.backgroundColor = image.getColors().background
-        self.viewAddCoverImage.isHidden = true
-        self.lblAddCoverImage.isHidden = true
-       // print(self.fileName)
-        if tfEmogoTitle.text?.trim().isEmpty == false && self.imgCover.image != nil {
-            buttonDone.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
-        }else{
+    @objc func textFieldDidChange(_ textField: SkyFloatingLabelTextField) {
+        
+        if (tfEmogoTitle.text?.trim().isEmpty)! {
             buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
+            tfEmogoTitle.placeholder = "Emogo Title"
+            tfEmogoTitle.title = nil
+        }else {
+            if tfEmogoTitle.text?.trim().isEmpty == false && self.imgCover.image != nil {
+                buttonDone.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
+            }else{
+                buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
+            }
+            
+            tfEmogoTitle.placeholder = nil
+            tfEmogoTitle.title = "Emogo Title"
         }
-        self.tfEmogoTitle.becomeFirstResponder()
     }
-    
+
     
     @objc func openFullView(){
         var image:LightboxImage!
@@ -259,147 +280,16 @@ class CreateStreamController: UITableViewController {
     }
     
     
-    private func uploadCoverImage(){
-        HUDManager.sharedInstance.showHUD()
-        let image = self.coverImage
-        let imageData = UIImageJPEGRepresentation(image!, 1.0)
-        let url = Document.saveFile(data: imageData!, name: self.fileName)
-        let fileUrl = URL(fileURLWithPath: url)
-        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
-            if error == nil {
-                DispatchQueue.main.async {
-                    if self.streamID == nil   {
-                        self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height), color: (image?.getColors().primary.toHexString)!)
-                    }
-                }
-            }else {
-                HUDManager.sharedInstance.hideHUD()
-            }
-        }
-    }
-    private func createStream(cover:String,width:Int,hieght:Int,color:String){
-        
-        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: false , canAddPeople: false ,height:hieght,width:width,color:color) { (isSuccess, errorMsg,stream) in
-            HUDManager.sharedInstance.hideHUD()
-            if isSuccess == true{
-                self.showToast(type: .success, strMSG: kAlert_Stream_Added_Success)
-                DispatchQueue.main.async{
-//                    if self.switchForEmogoPrivate.on {
-//                        currentStreamType = StreamType.Private
-//                    }else {
-//                        currentStreamType = StreamType.Public
-//                    }
-                    
-                    if self.switchForEmogoPrivate.isOn {
-                        currentStreamType = StreamType.Private
-                        self.switchForEmogoPrivate.thumbTintColor = UIColor.white
-                    }else {
-                        currentStreamType = StreamType.Public
-                        self.switchForEmogoPrivate.thumbTintColor = UIColor.lightGray
-                    }
-                    
-                    StreamList.sharedInstance.arrayStream.insert(stream!, at: 0)
-                    NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
-                    if isAssignProfile != nil {
-                        self.assignProfileStream(streamID: (stream?.ID)!)
-                    }else {
-                        if self.isAddContent != nil {
-                            self.associateContentToStream(id: (stream?.ID)!)
-                        }else {
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                self.dismiss(animated: true, completion: {
-                                    let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-                                    StreamList.sharedInstance.arrayViewStream = array
-                                    //                            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-                                    let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
-                                    obj.currentIndex = 0
-                                    
-                                    obj.isFromCreateStream = "TRUE"
-                                    obj.streamType = currentStreamType.rawValue
-                                    ContentList.sharedInstance.objStream = nil
-                                    self.exestingNavigation?.pushNormal(viewController: obj)
-                                    //self.exestingNavigation?.popToViewController(vc: obj)
-                                })
-                            }
-                            
-                        }
-                        
-                        // self.navigationController?.popNormal()
-                        
-                        //                        if kNavForProfile.isEmpty {
-                        //                            self.navigationController?.popNormal()
-                        //                        }else {
-                        //                            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
-                        //                            self.navigationController?.popToViewController(vc: obj)
-                        //                        }
-                    }
-                }
-            }else {
-                self.showToastOnWindow(strMSG: errorMsg!)
-            }
-        }
-    }
-    
-    func assignProfileStream(streamID:String){
-        
-        APIServiceManager.sharedInstance.apiForAssignProfileStream(streamID: streamID) { (isUpdated, errorMSG) in
-            if (errorMSG?.isEmpty)! {
-                self.showToast(strMSG: kAlert_ProfileStreamAdded)
-                self.dismiss(animated: true, completion: nil)
-                isAssignProfile = nil
-                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                self.exestingNavigation?.popToViewController(vc: obj)
-            }else {
-                self.showToast(strMSG: errorMSG!)
-            }
-        }
-    }
-    func associateContentToStream(id:String){
-        if  ContentList.sharedInstance.arrayToCreate.count != 0 {
-            HUDManager.sharedInstance.showProgress()
-            let array = ContentList.sharedInstance.arrayToCreate
-            AWSRequestManager.sharedInstance.associateContentToStream(streamID: [id], contents: array!, completion: { (isScuccess, errorMSG) in
-                HUDManager.sharedInstance.hideProgress()
-                if (errorMSG?.isEmpty)! {
-                }
-            })
-            ContentList.sharedInstance.arrayToCreate.removeAll()
-            ContentList.sharedInstance.arrayContent.removeAll()
-            let when = DispatchTime.now() + 0.2
-            DispatchQueue.main.asyncAfter(deadline: when) {
-                // Back Screen
-                self.dismiss(animated: true, completion: {
-                    if self.switchForEmogoPrivate.isOn {
-                        currentStreamType = StreamType.Private
-                        self.switchForEmogoPrivate.thumbTintColor = UIColor.white
-                    }else {
-                        currentStreamType = StreamType.Public
-                        self.switchForEmogoPrivate.thumbTintColor = UIColor.white
-                    }
-                    
-                    let array  = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-                    if array.count != 0 {
-                        StreamList.sharedInstance.arrayViewStream = array
-                        let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
-                        obj.currentIndex = 0
-                        obj.streamType = currentStreamType.rawValue
-                        ContentList.sharedInstance.objStream = id
-                        self.exestingNavigation?.pushNormal(viewController: obj)
-                    }
-                })
-            }
-        }
-    }
-    
+    //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
+
     
     func selectedCollaborator(colabs:[CollaboratorDAO]){
-      //  print(self.selectedCollaborators)
+
         self.selectedCollaborators = colabs
     }
     func actionForUploadCover(){
         
-        //        let optionMenu = UIAlertController(title:nil, message:nil, preferredStyle: .actionSheet)
+    
         let optionMenu = UIAlertController()
         let takePhotoAction = UIAlertAction(title: kAlertSheet_TakePhoto, style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -480,24 +370,140 @@ class CreateStreamController: UITableViewController {
       
     }
     
-    @objc func textFieldDidChange(_ textField: SkyFloatingLabelTextField) {
-       
-        if (tfEmogoTitle.text?.trim().isEmpty)! {
-            buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
-            tfEmogoTitle.placeholder = "Emogo Title"
-            tfEmogoTitle.title = nil
-        }else {
-            if tfEmogoTitle.text?.trim().isEmpty == false && self.imgCover.image != nil {
-                buttonDone.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
-            }else{
-                buttonDone.setTitleColor(UIColor.lightGray, for: .normal)
+    
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+    
+    
+    private func uploadCoverImage(){
+        HUDManager.sharedInstance.showHUD()
+        let image = self.coverImage
+        let imageData = UIImageJPEGRepresentation(image!, 1.0)
+        let url = Document.saveFile(data: imageData!, name: self.fileName)
+        let fileUrl = URL(fileURLWithPath: url)
+        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                    if self.streamID == nil   {
+                        self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height), color: (image?.getColors().primary.toHexString)!)
+                    }
+                }
+            }else {
+                HUDManager.sharedInstance.hideHUD()
             }
-          //  buttonDone.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
-            tfEmogoTitle.placeholder = nil
-            tfEmogoTitle.title = "Emogo Title"
         }
     }
+    
+    
+    private func createStream(cover:String,width:Int,hieght:Int,color:String){
+        
+        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: false , canAddPeople: false ,height:hieght,width:width,color:color) { (isSuccess, errorMsg,stream) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true{
+                self.showToast(type: .success, strMSG: kAlert_Stream_Added_Success)
+                DispatchQueue.main.async{
+                    
+                    if self.switchForEmogoPrivate.isOn {
+                        currentStreamType = StreamType.Private
+                        self.switchForEmogoPrivate.thumbTintColor = UIColor.white
+                    }else {
+                        currentStreamType = StreamType.Public
+                        self.switchForEmogoPrivate.thumbTintColor = UIColor.lightGray
+                    }
+                    
+                    StreamList.sharedInstance.arrayStream.insert(stream!, at: 0)
+                    NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
+                    if isAssignProfile != nil {
+                        self.assignProfileStream(streamID: (stream?.ID)!)
+                    }else {
+                        if self.isAddContent != nil {
+                            self.associateContentToStream(id: (stream?.ID)!)
+                        }else {
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                self.dismiss(animated: true, completion: {
+                                    let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                                    StreamList.sharedInstance.arrayViewStream = array
+                                    let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+                                    obj.currentIndex = 0
+                                    
+                                    obj.isFromCreateStream = "TRUE"
+                                    obj.streamType = currentStreamType.rawValue
+                                    ContentList.sharedInstance.objStream = nil
+                                    self.exestingNavigation?.pushNormal(viewController: obj)
+                                    
+                                })
+                            }
+                            
+                        }
+                    }
+                }
+            }else {
+                self.showToastOnWindow(strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    func assignProfileStream(streamID:String){
+        
+        APIServiceManager.sharedInstance.apiForAssignProfileStream(streamID: streamID) { (isUpdated, errorMSG) in
+            if (errorMSG?.isEmpty)! {
+                self.showToast(strMSG: kAlert_ProfileStreamAdded)
+                self.dismiss(animated: true, completion: nil)
+                isAssignProfile = nil
+                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.exestingNavigation?.popToViewController(vc: obj)
+            }else {
+                self.showToast(strMSG: errorMSG!)
+            }
+        }
+    }
+    func associateContentToStream(id:String){
+        if  ContentList.sharedInstance.arrayToCreate.count != 0 {
+            HUDManager.sharedInstance.showProgress()
+            let array = ContentList.sharedInstance.arrayToCreate
+            AWSRequestManager.sharedInstance.associateContentToStream(streamID: [id], contents: array!, completion: { (isScuccess, errorMSG) in
+                HUDManager.sharedInstance.hideProgress()
+                if (errorMSG?.isEmpty)! {
+                }
+            })
+            ContentList.sharedInstance.arrayToCreate.removeAll()
+            ContentList.sharedInstance.arrayContent.removeAll()
+            let when = DispatchTime.now() + 0.2
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                // Back Screen
+                self.dismiss(animated: true, completion: {
+                    if self.switchForEmogoPrivate.isOn {
+                        currentStreamType = StreamType.Private
+                        self.switchForEmogoPrivate.thumbTintColor = UIColor.white
+                    }else {
+                        currentStreamType = StreamType.Public
+                        self.switchForEmogoPrivate.thumbTintColor = UIColor.white
+                    }
+                    
+                    let array  = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                    if array.count != 0 {
+                        StreamList.sharedInstance.arrayViewStream = array
+                        let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
+                        obj.currentIndex = 0
+                        obj.streamType = currentStreamType.rawValue
+                        ContentList.sharedInstance.objStream = id
+                        self.exestingNavigation?.pushNormal(viewController: obj)
+                    }
+                })
+            }
+        }
+    }
+    
+
+ 
 }
+
+
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
 
 extension CreateStreamController:CustomCameraViewControllerDelegate {
     func dismissWith(image: UIImage?) {
@@ -544,8 +550,7 @@ extension CreateStreamController :UITextViewDelegate, UITextFieldDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         
-     //   self.lblCaption.isHidden = textView.text.isEmpty
-       // self.tfDescription.text = self.tfDescription.text.trim().replacingOccurrences(of: "\n", with: "")
+   
         if self.tfDescription.contentSize.height > contentRowHeight {
             print(self.tfDescription.text)
             if self.tfDescription.text.trim().replacingOccurrences(of: "\n", with: "").isEmpty {
@@ -567,7 +572,7 @@ extension CreateStreamController :UITextViewDelegate, UITextFieldDelegate {
             if tfDescription.text.isEmpty {
                 tfDescription.placeholder = "Caption (Optional)"
             }
-            //textFieldNext.becomeFirstResponder()
+            
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250

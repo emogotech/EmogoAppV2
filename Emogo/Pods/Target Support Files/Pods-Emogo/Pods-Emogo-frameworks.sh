@@ -165,14 +165,12 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/RS3DSegmentedControl/RS3DSegmentedControl.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RichEditorView/RichEditorView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/VIMediaCache/VIMediaCache.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/iCarousel/iCarousel.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -198,14 +196,12 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/RS3DSegmentedControl/RS3DSegmentedControl.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RichEditorView/RichEditorView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/VIMediaCache/VIMediaCache.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/iCarousel/iCarousel.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

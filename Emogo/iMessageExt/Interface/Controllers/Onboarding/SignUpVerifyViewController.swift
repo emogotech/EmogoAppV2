@@ -63,9 +63,9 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
             self.viewExpand.isHidden = false
             viewCollapse.isHidden = true
             self.setExpandOTPView()
-//            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+
         }else{
-//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+
             self.viewExpand.center = self.view.center
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = true
@@ -115,29 +115,29 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         if SharedData.sharedInstance.isMessageWindowExpand {
          
             UIView.animate(withDuration: 0.2, animations: {
-//                self.imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+
                 self.viewExpand.isHidden = false
                 self.viewCollapse.isHidden = true
                 self.viewExpand.center = self.view.center
                 self.viewCollapse.center = self.view.center
                 self.setExpandOTPView()
-               // self.txtVeryficationCode.text = self.txtVeryficationCollapse.text
+               
             }, completion: { (finshed) in
-                //self.txtVeryficationCode.becomeFirstResponder()
+            
             })
         }else{
            
-//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+
             UIView.animate(withDuration: 0.1, animations: {
                 self.view.endEditing(true)
                  self.setCollapseOTPView()
-                //self.txtVeryficationCollapse.resignFirstResponder()
+           
             }, completion: { (finshed) in
                 self.viewExpand.isHidden = true
                 self.viewCollapse.isHidden = false
                 self.viewExpand.center = self.view.center
                 self.viewCollapse.center = self.view.center
-              //  self.txtVeryficationCollapse.text = self.txtVeryficationCode.text
+              
             })
         }
     }
@@ -176,7 +176,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.blackTranslucent
         toolBar.isTranslucent = true
-        //        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+        
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
         doneButton.tintColor = .white
         
@@ -196,7 +196,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     func checkValidation() {
         if !(Validator.isEmpty(text: self.txtVeryficationCode)) {
-            //txtVeryficationCode.shakeTextField()
+    
         }
         else if !(Validator.isMobileLength(text: self.txtVeryficationCode, lenght: kCharacter_Max_Length_Verification_Code)) {
             self.showToastIMsg(type: .error, strMSG: kAlert_Verification_Length_Msg)
@@ -278,7 +278,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
-        //self.txtVeryficationCode.resignFirstResponder()
+      
     }
     
     // MARK: - Delegate Methods of Segue

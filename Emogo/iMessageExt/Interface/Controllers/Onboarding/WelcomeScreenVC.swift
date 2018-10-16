@@ -39,13 +39,11 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         
         
         self.viewSplash.isHidden = false
-//       self.viewExpand.isHidden = true
-      // self.viewCollapse.isHidden = true
-        
+  
         pageController.delegate = self
         pageControllerClosed.delegate = self
         
-        // SharedData.sharedInstance.resetAllData()
+  
         setupLoader()
         prepareLayout()
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Expand), object: nil)
@@ -87,7 +85,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         if SharedData.sharedInstance.isMessageWindowExpand {
             
             UIView.animate(withDuration: 0.2, animations: {
-                //                self.imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+              
                 self.viewExpand.isHidden = false
                 self.viewCollapse.isHidden = true
                 self.viewExpand.center = self.view.center
@@ -95,7 +93,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
             }, completion: { (finshed) in
             })
         }else{
-            //            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+        
             UIView.animate(withDuration: 0.1, animations: {
                 self.view.endEditing(true)
                 self.viewExpand.isHidden = true
@@ -103,8 +101,8 @@ class WelcomeScreenVC: MSMessagesAppViewController {
                 self.viewExpand.center = self.view.center
                 self.viewCollapse.center = self.view.center
             }, completion: { (finshed) in
-                print("request For Full View")
-             //   self.perform(#selector(self.showFullView), with: nil, afterDelay: 1.0)
+              
+          
             })
         }
     }
@@ -148,10 +146,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
             images.append(UIImage(named: "imsg_onbr_4")!)
             images.append(UIImage(named: "imsg_onbr_5")!)
             images.append(UIImage(named: "imsg_onbr_6")!)
-//            images.append(UIImage(named: "tut_imsg_1")!)
-//            images.append(UIImage(named: "tut_imsg_2")!)
-//            images.append(UIImage(named: "tut_imsg_3")!)
-//            images.append(UIImage(named: "tut_imsg_4")!)
+
          
         }else{
             images.append(UIImage(named: "imsg_onbr_1")!)
@@ -196,41 +191,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         viewTutorialClosed.reloadData()
         pageControllerClosed.load()
   
-//        pageController.setCurrentPage(0)
-//        pageController.setNumberOfPages(images.count)
-//        pageController.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
-//        viewTutorial.datasource = self
-//        viewTutorial.delegate = self
-//        viewTutorial.delay = 1 // Delay between transitions
-//        viewTutorial.transitionDuration = 1.0 //0.5 // Transition duration
-//        viewTutorial.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
-//        viewTutorial.isRepeatAll = true
-//        viewTutorial.imagesContentMode = .scaleAspectFit // Choose a content mode for images to display
-//        viewTutorial.add(KASlideShowGestureType.all)
-//        viewTutorial.isExclusiveTouch = true
-//        viewTutorial.isIphone = true
-//        viewTutorial.reloadData()
-//        viewTutorial.start()
-//        pageController.load()
-//        pageController.updateState(forPageNumber: 0)
-        
-//        pageControllerClosed.setCurrentPage(0)
-//        pageControllerClosed.setNumberOfPages(images.count)
-//        pageControllerClosed.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
-//        viewTutorialClosed.datasource = self
-//        viewTutorialClosed.delegate = self
-//        viewTutorialClosed.delay = 1 // Delay between transitions
-//        viewTutorialClosed.transitionDuration =  1.0 // 0.5 // Transition duration
-//        viewTutorialClosed.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
-//        viewTutorialClosed.isRepeatAll = true
-//        viewTutorialClosed.imagesContentMode = .scaleAspectFit // Choose a content mode for images to display
-//        viewTutorialClosed.add(KASlideShowGestureType.all)
-//        viewTutorialClosed.isExclusiveTouch = true
-//        viewTutorialClosed.reloadData()
-//        viewTutorialClosed.start()
-//        pageControllerClosed.load()
-//        pageControllerClosed.updateState(forPageNumber: 0)
-       // self.perform(#selector(self.showFullView), with: nil, afterDelay: 1.0)
+
     }
     
     func prepareLoader(){
@@ -260,28 +221,21 @@ class WelcomeScreenVC: MSMessagesAppViewController {
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
                     self.present(vc, animated: true, completion: nil)
                 }
-               // self.viewSplash.isHidden = true
-                // edit by Pushpendra
-               // self.addChildViewController(vc)
-//                vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
-//                self.container.addSubview(vc.view)
-                // edit by Pushpendra
-               // vc.didMove(toParentViewController: self)
-//                self.container.isHidden = false
+           
             }
         }
         else {
             self.viewSplash.isHidden = true
             self.viewCollapse.isHidden = false
            
-//            self.container.isHidden = true
+
         }
     }
     
     // MARK: - PrepareLayout
     
     func prepareLayout()  {
-        //        imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+ 
         SharedData.sharedInstance.tempViewController = nil
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
@@ -453,16 +407,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
             if SharedData.sharedInstance.tempViewController == nil {
               SharedData.sharedInstance.iMessageNavigation = splitArr[0]
 
-//                let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-//                self.addChildViewController(vc)
-//                vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height)
-//                self.container.addSubview(vc.view)
-//                vc.didMove(toParentViewController: self)
-//                if hudView != nil {
-//                    hudView.stopLoaderWithAnimation()
-//                    self.hudView.removeFromSuperview()
-//                }
-//                self.container.isHidden = false
+
             }
             else {
                 
@@ -523,38 +468,20 @@ extension WelcomeScreenVC:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDe
     func slideShowImagesNumber(_ slideShow: KASlideShow!) -> Int {
         return images.count
     }
-  /*
-    // MARK: - KASlideShow delegate
-    func slideShowDidShowNext(_ slideShow: KASlideShow!) {
-        let tag = Int(slideShow.currentIndex)
-        print(tag)
-        print(pageController)
-        if pageController != nil {
-            pageController.updateState(forPageNumber: tag + 1)
-            pageControllerClosed.updateState(forPageNumber: tag + 1)
-            self.updateText(tag: tag)
-        }
-        }
-        
-    func slideShowDidShowPrevious(_ slideShow: KASlideShow!) {
-        let tag = Int(slideShow.currentIndex)
-        pageController.updateState(forPageNumber: tag + 1)
-        pageControllerClosed.updateState(forPageNumber: tag + 1)
-        self.updateText(tag: tag)
-    }*/
+  
     
     // MARK: - KASlideShow delegate
     func slideShowDidShowNext(_ slideShow: KASlideShow!) {
         let tag = Int(slideShow.currentIndex)
         pageController.updateState(forPageNumber: tag + 1)
         pageControllerClosed.updateState(forPageNumber: tag + 1)
-      // self.updateText(tag: tag)
+   
     }
     func slideShowDidShowPrevious(_ slideShow: KASlideShow!) {
         let tag = Int(slideShow.currentIndex)
         pageController.updateState(forPageNumber: tag + 1)
         pageControllerClosed.updateState(forPageNumber: tag + 1)
-       //self.updateText(tag: tag)
+
     }
     func slideShowDidEnded(_ slideShow: KASlideShow!) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -562,25 +489,7 @@ extension WelcomeScreenVC:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDe
         }
     }
     
-//    func updateText(tag:Int) {
-//        switch tag {
-//        case 0:
-//            lblWelcome.text = "Welcome to Emogo!"
-//            break
-//        case 1:
-//            lblWelcome.text = "Emogo are collections of photos,\nvideos,links & gifs"
-//            break
-//        case 2:
-//            lblWelcome.text = "Collaborate with friends on public or private emogos"
-//            break
-//        case 3:
-//            lblWelcome.text = "Share everything right from iMessage"
-//
-//            break
-//        default:
-//            lblWelcome.text = "Welcome to Emogo!"
-//        }
-//    }
+
     
     func signup(){
         let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController

@@ -31,24 +31,19 @@ class StreamCell: UICollectionViewCell {
         
          self.imgCover.contentMode = .scaleAspectFill
          self.imgCover.isHidden = false
-     //   self.imgCover.backgroundColor = .black
-        //kPlaceholderImage
-        self.viewContent.isHidden = true
+         self.viewContent.isHidden = true
         
         if !stream.color.trim().isEmpty {
             imgCover.backgroundColor = UIColor(hex: stream.color.trim())
         }
-       
-        
+     
         self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim()) { (result) in
             if result! {
                 self.viewContent.isHidden = false
             }
         }
-        // self.lblTitle.text = stream.Title.trim()
          self.lblTitle.minimumScaleFactor = 1.0
          self.accessibilityLabel =   stream.Title.trim()
-         //self.lblName.text =  "by \(stream.Author.trim().capitalized)"
          self.lblName.text =  "\(stream.Author.trim().capitalized)"
           if stream.Title.trim().count > 15 {
              self.lblTitle.text = "\(stream.Title.trim(count: 15))..."
@@ -56,7 +51,7 @@ class StreamCell: UICollectionViewCell {
              self.lblTitle.text = stream.Title.trim()
           }
            self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
-        // self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+       
     }
    
 }

@@ -58,9 +58,8 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
             viewCollapse.isHidden = true
             btnBack.isHidden = false
 
-//            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         }else{
-//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+
             self.viewExpand.center = self.view.center
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = true
@@ -96,7 +95,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
-//            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+
             self.viewExpand.isHidden = false
             self.viewExpand.center = self.view.center
             viewCollapse.isHidden = true
@@ -105,7 +104,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
             self.txtName.becomeFirstResponder()
             self.btnBack.isHidden = false
         }else{
-//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+
             UIView.animate(withDuration: 0.1, animations: {
                 self.view.endEditing(true)
                 self.txtNameCollapse.resignFirstResponder()

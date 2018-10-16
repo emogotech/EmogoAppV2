@@ -10,36 +10,46 @@ import UIKit
 
 class LikeListViewController: UIViewController {
     
-    //IBOutlet Connection
+    
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
     
     @IBOutlet weak var tblLikeList: UITableView!
     @IBOutlet weak var lblNoResult: UILabel!
     
+    //MARK: ⬇︎⬇︎⬇︎ Variables ⬇︎⬇︎⬇︎
+    
     var listType:FollowerType!
     var arraySearch = [FollowerDAO]()
     var arraylikeUser = [LikedUser]()
-   // var objStream : StreamViewDAO?
+    // var objStream : StreamViewDAO?
     var isSearchEnable:Bool! = false
     var isEditingEnable:Bool! = true
     var objStream:StreamDAO!
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tblLikeList.delegate = self
         self.tblLikeList.dataSource = self
         self.prepareLayout()
-     
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super .viewWillAppear(true)
         self.prepareNavigation()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-       
+        
     }
-    //MARK:- prepare Layout
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+    
     func prepareLayout() {
         
         self.tblLikeList.tableFooterView = UIView()
@@ -53,6 +63,7 @@ class LikeListViewController: UIViewController {
             self.lblNoResult.isHidden = true
         }
     }
+    
     
     //MARK:- prepare Navigation
     
@@ -75,7 +86,7 @@ class LikeListViewController: UIViewController {
         //self.title = "Like List"
     }
     
-    //MARK: button actions
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
     
     @objc func btnCloseAction(){
         self.navigationController?.popViewController(animated: true)
@@ -84,14 +95,17 @@ class LikeListViewController: UIViewController {
     //MARK:- Action for followUser
     
     @objc func actionForFollowUser(sender:UIButton) {
-       let obj  = objStream?.arrayLikedUsers[sender.tag]
+        let obj  = objStream?.arrayLikedUsers[sender.tag]
         if (obj?.isFollowing)! {
             self.unFollowUser(follow: obj!, index: sender.tag)
         }else {
             self.followUser(userID: (obj?.userID)!, index: sender.tag)
         }
-
+        
     }
+    
+    
+    
     func unFollowUser(follow:LikedUser,index:Int){
         var name = follow.name
         if !follow.userDisplayName.trim().isEmpty {
@@ -108,7 +122,9 @@ class LikeListViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-
+    
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+    
     
     func followUser(userID:String,index:Int){
         HUDManager.sharedInstance.showHUD()
@@ -124,6 +140,8 @@ class LikeListViewController: UIViewController {
             }
         }
     }
+    
+    
     func unFollowUser(userID:String,index:Int){
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUnFollowUser(userID: userID) { (isSuccess, errorMSG) in
@@ -140,38 +158,44 @@ class LikeListViewController: UIViewController {
         }
     }
     
+    
 }
 
 
-    extension LikeListViewController : UITableViewDelegate,UITableViewDataSource {
-        
-        func numberOfSections(in tableView: UITableView) -> Int {
-            return 1
-        }
-        
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-             if objStream != nil {
-                return (objStream?.arrayLikedUsers.count)!
-             }else{
-                return 0
-            }
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
+
+extension LikeListViewController : UITableViewDelegate,UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
-        
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-            let cell: LikeListCell = tableView.dequeueReusableCell(withIdentifier: kCell_likeListCell) as! LikeListCell
-            let dict = objStream!.arrayLikedUsers[indexPath.row]
-            cell.prepareLayout(like:dict)
-            cell.btnFollow.tag = indexPath.row
-            cell.btnFollow.addTarget(self, action: #selector(self.actionForFollowUser(sender:)), for: .touchUpInside)
-             cell.btnFollow.isHidden = false
-            if  dict.userProfileID.trim() == UserDAO.sharedInstance.user.userProfileID {
-                cell.lblDisplayname.text = "You"
-                cell.lblUserName.text = dict.name
-                cell.btnFollow.isHidden = true
-            }
-            return cell
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if objStream != nil {
+            return (objStream?.arrayLikedUsers.count)!
+        }else{
+            return 0
         }
     }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell: LikeListCell = tableView.dequeueReusableCell(withIdentifier: kCell_likeListCell) as! LikeListCell
+        let dict = objStream!.arrayLikedUsers[indexPath.row]
+        cell.prepareLayout(like:dict)
+        cell.btnFollow.tag = indexPath.row
+        cell.btnFollow.addTarget(self, action: #selector(self.actionForFollowUser(sender:)), for: .touchUpInside)
+        cell.btnFollow.isHidden = false
+        if  dict.userProfileID.trim() == UserDAO.sharedInstance.user.userProfileID {
+            cell.lblDisplayname.text = "You"
+            cell.lblUserName.text = dict.name
+            cell.btnFollow.isHidden = true
+        }
+        return cell
+    }
+}
+
 

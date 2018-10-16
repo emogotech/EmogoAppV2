@@ -38,8 +38,7 @@ class ProfileHeaderView: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDeleg
     }
     
     func prepareLayout() {
-        // lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
-        // lblUserName.minimumScaleFactor = 1.0
+
         lblFullName.text =  UserDAO.sharedInstance.user.fullName.trim().capitalized
         lblFullName.minimumScaleFactor = 1.0
         lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
@@ -57,7 +56,7 @@ class ProfileHeaderView: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDeleg
         if UserDAO.sharedInstance.user.website.trim().isEmpty {
             imgLink.isHidden = true
         }
-        //print(UserDAO.sharedInstance.user.userImage.trim())
+       
         self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
@@ -69,7 +68,6 @@ class ProfileHeaderView: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDeleg
             }
         }
 
-       // btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
     }
     
     

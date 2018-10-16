@@ -15,7 +15,6 @@ class MyStuffCell: UICollectionViewCell {
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var imgSelect: UIImageView!
     @IBOutlet weak var btnSelect: UIButton!
-
     @IBOutlet weak var btnPlay: UIButton!
     
    
@@ -29,9 +28,9 @@ class MyStuffCell: UICollectionViewCell {
         if (self.lblTitle.text?.trim().isEmpty)! && (self.lblDescription.text?.trim().isEmpty)!{
             self.viewContent.layer.contents = nil
            }else {
-            self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+            self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
         }
-      //  self.imgCover.backgroundColor = .black
+
         imgCover.contentMode = .scaleAspectFill
         if content.isSelected {
             imgSelect.image = #imageLiteral(resourceName: "select_active_icon")

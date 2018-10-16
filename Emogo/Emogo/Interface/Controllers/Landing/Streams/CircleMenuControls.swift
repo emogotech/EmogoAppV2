@@ -11,6 +11,7 @@ import UIKit
 import Haptica
 
 extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,StreamSegmentHeaderDelegate {
+    
     func ShowSegmentControl() {
         self.configureStreamHeader()
         self.StreamSegmentView()
@@ -119,19 +120,11 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
         menu  = self.menu.arrayMenu[sender]
         pagerView.lblCurrentType.text = menu.iconName
         
-        //        let when = DispatchTime.now() + 0.3
-        //        DispatchQueue.main.asyncAfter(deadline: when) {
-        //            self.navigateToSelectedItem(index:sender,isSelect:isSelect)
-        //        }
+       
     }
     
     func navigateToSelectedItem(index:Int, isSelect:Bool){
-        //        self.menuView.isHidden = true
-        //        self.viewMenu.isHidden = false
-        //       if isSelect == true {
-        //            Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
-        //        }
-        //        isMenuOpen = false
+   
         self.segmentContainerView.isHidden = true
         self.kSegmentHeight.constant = 0.0
         if self.segmentheader != nil {
@@ -157,10 +150,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
             break
         case 4:
             currentStreamType   =   StreamType.Liked
-            //  currentStreamType = StreamType.People
-            //  collectionLayout.columnCount = 3
-            //  self.lblNoResult.text = kAlert_No_User_Record_Found
-            //  self.actionForPeopleList()
+         
             break
             
         case 5:
@@ -181,8 +171,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
         collectionLayout.columnCount = 2
         self.lblNoResult.text = kAlert_No_Stream_found
         isPeopleList = false
-        //  HUDManager.sharedInstance.showHUD()
-        //  self.getStreamList(type:.start,filter: currentStreamType)
+      
         self.streamCollectionView.es.resetNoMoreData()
         DispatchQueue.main.async {
             self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
@@ -206,7 +195,6 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
         }
         self.segmentheader.segmentControl.selectionIndicatorHeight = 1.0
         self.segmentheader.segmentControl.backgroundColor = .white
-      //  self.segmentheader.segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         self.segmentheader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
        
          self.segmentheader.segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
@@ -235,8 +223,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
          createVC.exestingNavigation = self.navigationController
          let nav = UINavigationController(rootViewController: createVC)
          customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: nav, animated: true, completion: nil)
-//        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
-//        self.navigationController?.push(viewController: obj)
+
     }
     
     func actionForCamera(){
@@ -251,18 +238,6 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
 
 extension StreamListViewController {
     
-//    func actionForAddStream(){
-//        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
-//        self.navigationController?.push(viewController: obj)
-//    }
-//
-//    func actionForCamera(){
-//        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-//        ContentList.sharedInstance.arrayContent.removeAll()
-//        ContentList.sharedInstance.objStream = nil
-//        kContainerNav = ""
-//        self.navigationController?.pushNormal(viewController: obj)
-//    }
     
     func btnActionForLink(){
         ContentList.sharedInstance.objStream = nil
@@ -408,7 +383,7 @@ extension StreamListViewController {
             }
             self.streamCollectionView.reloadData()
         }
-     //   self.getStreamList(type: .start, filter: currentStreamType)
+    
     }
     
 }
@@ -480,32 +455,5 @@ extension ProfileViewController : ActionSheetViewControllerDelegate {
     }
 }
 
-/*
-extension ViewStreamController : ActionSheetViewControllerDelegate {
-    func didSelectAction(type:String) {
-        switch type {
-        case "1":
-            self.btnImportAction()
-            break
-        case "2":
-            self.actionForCamera()
-            break
-        case "3":
-            self.btnActionForLink()
-            break
-        case "4":
-            self.btnActionForNotes()
-            break
-        case "5":
-            self.btnActionForGiphy()
-            break
-        case "6":
-            self.btnActionForMyStuff()
-            break
-        default:
-            break
-        }
-    }
-   
-}*/
+
 

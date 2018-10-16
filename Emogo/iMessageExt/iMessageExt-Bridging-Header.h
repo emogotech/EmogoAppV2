@@ -7,9 +7,8 @@
 #import "FLAnimatedImageView+ImageURL.h"
 #import "FLAnimatedImageView.h"
 #import "FLAnimatedImage.h"
-#import "HHPageView.h"
 #import "KASlideShow.h"
 #import "NZCircularImageView.h"
 #import "HMSegmentedControl.h"
 #import "SHSPhoneTextField.h"
-
+#import "HHPageView.h"

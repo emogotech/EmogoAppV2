@@ -323,11 +323,5 @@ extension PreviewController:CreateNotesViewControllerDelegate
 }
 
 
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        if txtStreamCaption.text.trim() == "Stream Caption"{
-//            txtStreamCaption.text = nil
-//        }
-//    }
-
 
 

@@ -144,7 +144,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequest(strURL: kResendAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-              //  print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -180,13 +180,7 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                   //     if let data = (value as! [String:Any])["data"] {
-                          //  let dictUserData:NSDictionary = data as! NSDictionary
-                            //kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
-                          //  UserDAO.sharedInstance.parseUserInfo()
-                            //print(dictUserData)
-                          //  kDefault?.set(true, forKey: kUserLogggedIn)
-                      //  }
+                
                         completionHandler(true,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
@@ -330,20 +324,11 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let stream = StreamDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                            
-//                            for i in 0..<StreamList.sharedInstance.arrayStream.count {
-//                                let oldData = StreamList.sharedInstance.arrayStream[i]
-//                                  if oldData.ID == stream.ID {
-//                                    print(oldData.selectionType)
-//                                    stream.selectionType = oldData.selectionType
-//                                    StreamList.sharedInstance.arrayStream[i] = stream
-//                                }
-//                            }
+                        
                             
                             if let index =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == stream.ID.trim()}) {
                                 let oldData = StreamList.sharedInstance.arrayStream[index]
-                                //print("index found in main list")
-                               // print(oldData.selectionType)
+                             
                                 stream.haveSomeUpdate = false
                                 stream.selectionType = oldData.selectionType
                                 if stream.streamType.lowercased() == "public" {
@@ -408,7 +393,7 @@ class APIServiceManager: NSObject {
         
        print(params)
         let url = kStreamViewAPI + "\(streamID)/"
-       // print(url)
+   
         APIManager.sharedInstance.patch(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
@@ -421,7 +406,7 @@ class APIServiceManager: NSObject {
                             for i in 0..<StreamList.sharedInstance.arrayStream.count {
                                 let oldData = StreamList.sharedInstance.arrayStream[i]
                                 if oldData.ID == stream.ID {
-                                    //print(oldData.selectionType)
+                                  
                                     stream.selectionType = oldData.selectionType
                                     StreamList.sharedInstance.arrayStream[i] = stream
                                 }
@@ -658,7 +643,7 @@ class APIServiceManager: NSObject {
             completionHandler(.end,"")
             return
         }
-       // print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
+    
         
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
@@ -732,8 +717,7 @@ class APIServiceManager: NSObject {
             completionHandler(.end,"")
             return
         }
-     // print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
-        
+   
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
@@ -793,7 +777,7 @@ class APIServiceManager: NSObject {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            //print(data)
+                          
                             if data is NSDictionary {
                                 let stream = StreamViewDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 completionHandler(stream,"")
@@ -826,7 +810,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
             switch(result){
             case .success(let value):
-             // print(value)
+            
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1176,12 +1160,12 @@ class APIServiceManager: NSObject {
     
     func apiForGlobalSearchPeople(searchString:String,type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
         PeopleList.sharedInstance.requestURl = kGlobleSearchPeopleAPI+searchString.replacingOccurrences(of: " ", with: "%20")
-       // print(PeopleList.sharedInstance.requestURl)
+      
         
         APIManager.sharedInstance.GETRequestWithHeader(strURL: PeopleList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+              
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1316,7 +1300,7 @@ class APIServiceManager: NSObject {
     
     func apiForGlobalSearchPeople(searchString:String,completionHandler:@escaping (_ peopleList:[PeopleDAO]?, _ strError:String?)->Void){
         PeopleList.sharedInstance.requestURl = kGlobleSearchPeopleAPI+searchString.replacingOccurrences(of: " ", with: "%20")
-        //print(PeopleList.sharedInstance.requestURl)
+       
         APIManager.sharedInstance.GETRequestWithHeader(strURL: PeopleList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
@@ -1401,7 +1385,7 @@ class APIServiceManager: NSObject {
             switch(result){
                 
             case .success(let value):
-                //print(value)
+              
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1412,7 +1396,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+               
                 completionHandler(nil,error.localizedDescription)
             }
         }
@@ -1485,7 +1469,7 @@ class APIServiceManager: NSObject {
             completionHandler(.end,"")
             return
         }
-        //print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
+    
         
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
@@ -1495,7 +1479,7 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let array:[Any] = data as! [Any]
-                           // print(array)
+                         
                             for obj in array {
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
@@ -1535,7 +1519,7 @@ class APIServiceManager: NSObject {
         //print(param)
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kReportAPI, Param: param) { (result) in
             switch(result){
-            case .success(let value):
+            case .success(_):
                // print(value)
                 completionHandler(true,"success")
                 break
@@ -1558,7 +1542,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+              
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1576,7 +1560,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+            
                 completionHandler(false,error.localizedDescription)
             }
         }
@@ -1587,11 +1571,11 @@ class APIServiceManager: NSObject {
         
         let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userId!)/"
         let params:[String:Any] = ["profile_stream":streamID]
-       // print(params)
+      
         APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-               // print(value)
+            
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1610,7 +1594,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+               
                 completionHandler(false,error.localizedDescription)
             }
         }
@@ -1646,7 +1630,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+            
                 completionHandler(pepole,error.localizedDescription)
             }
         }
@@ -1656,13 +1640,11 @@ class APIServiceManager: NSObject {
     func apiForDeleteContentFromStream(streamID:String,contentID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let url = kDeleteStreamContentAPI + "\(streamID)/"
         let params:[String:Any] = ["content":[contentID]]
-       // print(url)
-       // print(params)
-        
+  
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+              
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.NoContent.rawValue{
@@ -1673,7 +1655,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+              
                 completionHandler(false,error.localizedDescription)
             }
         }
@@ -1689,9 +1671,9 @@ class APIServiceManager: NSObject {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            //print(data)
+                        
                             let result:[String:Any] = data as! [String:Any]
-                            //print(result)
+                           
                             completionHandler(result,"")
                         }
                         
@@ -1701,7 +1683,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+          
                 completionHandler(nil,error.localizedDescription)
             }
         }
@@ -1717,13 +1699,13 @@ class APIServiceManager: NSObject {
         }
         
         let param = ["content":arrayOrder,"stream":streamID] as [String : Any]
-        // print(param)
+ 
 
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kStreamReorderContentAPI, Param: param) { (result) in
             
             switch(result){
             case .success(let value):
-              //  print(value)
+           
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1734,7 +1716,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+          
                 completionHandler(false,error.localizedDescription)
             }
             
@@ -1753,13 +1735,13 @@ class APIServiceManager: NSObject {
         }
         
         let param = ["my_order":arrayOrder] as [String : Any]
-       //print(param)
+      
         
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kReorderContentAPI, Param: param) { (result) in
             
             switch(result){
             case .success(let value):
-               // print(value)
+              
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1770,7 +1752,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+              
                 completionHandler(false,error.localizedDescription)
             }
             
@@ -1788,8 +1770,7 @@ class APIServiceManager: NSObject {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                           // print(data)
-                            
+                          
                             if  let all = (data as! [String:Any])["all"] {
                                 
                                 let array:[Any] = all as! [Any]
@@ -1870,9 +1851,7 @@ class APIServiceManager: NSObject {
                                     ContentList.sharedInstance.arrayStuff.append(content)
                                 }
                             }
-                            
-                            
-                            //print(result)
+                       
                             completionHandler([],"")
                         }
                         
@@ -1882,7 +1861,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+             
                 completionHandler(nil,error.localizedDescription)
             }
         }
@@ -1898,8 +1877,8 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        if let data = (value as! [String:Any])["data"] {
-                           // print(data)
+                        if let _ = (value as! [String:Any])["data"] {
+                       
                         }
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
@@ -1907,7 +1886,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+             
                 completionHandler(nil,error.localizedDescription)
             }
         }
@@ -1926,7 +1905,7 @@ class APIServiceManager: NSObject {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            //print(data)
+                          
                             let result:[String:Any] = data as! [String : Any]
                             if let likestatus = result["status"] {
                                 statusLiked = "\(likestatus)"
@@ -1954,7 +1933,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+              
                 completionHandler(nil,nil,arrayLikedUsers,error.localizedDescription)
             }
         }
@@ -1968,8 +1947,8 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        if let data = (value as! [String:Any])["data"] {
-                            //print(data)
+                        if let _ = (value as! [String:Any])["data"] {
+                         
                         }
                         completionHandler(true,"")
                     }else {
@@ -1978,7 +1957,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+              
                 completionHandler(nil,error.localizedDescription)
             }
         }
@@ -1991,7 +1970,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.delete(strURL: url) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.NoContent.rawValue{
@@ -2002,7 +1981,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+            
                 completionHandler(false,error.localizedDescription)
             }
             
@@ -2025,13 +2004,13 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: FollowList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+              
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
-                            //print(result)
+                           
                             for obj in result {
                                 let follow = FollowerDAO(dictFollow: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 FollowList.sharedInstance.arrayFollowers.append(follow)
@@ -2052,7 +2031,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+               
                 completionHandler(nil,error.localizedDescription)
             }
         }
@@ -2071,13 +2050,13 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: FollowList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-              //  print(value)
+           
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
-                           // print(result)
+                          
                             for obj in result {
                                 let follow = FollowerDAO(dictFollow: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 FollowList.sharedInstance.arrayFollowers.append(follow)
@@ -2098,7 +2077,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+            
                 completionHandler(nil,error.localizedDescription)
             }
         }
@@ -2111,13 +2090,13 @@ class APIServiceManager: NSObject {
     APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
         switch(result){
         case .success(let value):
-            //print(value)
+           
             if let code = (value as! [String:Any])["status_code"] {
                 let status = "\(code)"
                 if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                     if let data = (value as! [String:Any])["data"] {
                         let result:[Any] = data as! [Any]
-                       // print(result)
+                     
                         for obj in result {
                             let follow = FollowerDAO(dictFollow: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                             arrayResults.append(follow)
@@ -2130,7 +2109,7 @@ class APIServiceManager: NSObject {
                 }
             }
         case .error(let error):
-           // print(error.localizedDescription)
+       
             completionHandler(nil,error.localizedDescription)
         }
     }
@@ -2142,13 +2121,13 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
             switch(result){
             case .success(let value):
-               // print(value)
+          
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
-                           // print(result)
+                   
                             for obj in result {
                                 let follow = FollowerDAO(dictFollow: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 arrayResults.append(follow)
@@ -2162,7 +2141,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+             
                 completionHandler(nil,error.localizedDescription)
             }
         }
@@ -2175,7 +2154,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kSaveStuffContentAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+               
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -2186,7 +2165,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+           
                 completionHandler(false,error.localizedDescription)
             }
         }
@@ -2200,7 +2179,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kLikeDislikeContentAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+              
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -2211,7 +2190,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+               
                 completionHandler(false,error.localizedDescription)
             }
         }
@@ -2228,12 +2207,12 @@ class APIServiceManager: NSObject {
             completionHandler(.end,"")
             return
         }
-       // print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
+     
         
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-               // print(value)
+             
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -2248,7 +2227,7 @@ class APIServiceManager: NSObject {
                                     StreamList.sharedInstance.arrayStream.append(stream)
                                 }else {
                                     if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
-                                        // it exists, do something
+                                      
                                     } else {
                                         StreamList.sharedInstance.arrayMyStream.append(stream)
                                     }
@@ -2274,7 +2253,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+               
                 completionHandler(nil,error.localizedDescription)
             }
             
@@ -2296,7 +2275,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: PeopleList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-               // print(value)
+        
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -2325,7 +2304,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+              
                 completionHandler(nil,error.localizedDescription)
             }
             
@@ -2338,8 +2317,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kAPIIncreaseViewCount, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                
-                //print(value)
+             
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     var strCount:String! = "0"
@@ -2356,7 +2334,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                //print(error.localizedDescription)
+               
                 completionHandler("",error.localizedDescription)
             }
         }
@@ -2372,7 +2350,7 @@ class APIServiceManager: NSObject {
             case .success(let value):
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
-                    //print(value)
+                   
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let dictValue = (value as! [String:Any])["data"] {
                             dictResult = dictValue as! [String : Any]
@@ -2384,7 +2362,7 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-               // print(error.localizedDescription)
+             
                 completionHandler(dictResult,error.localizedDescription)
             }
         }

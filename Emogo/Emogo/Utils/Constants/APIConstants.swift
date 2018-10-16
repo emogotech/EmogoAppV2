@@ -29,15 +29,22 @@ let kRegion = AWSRegionType.USEast1
 // MARK: -  API
 // base URL
 
-//DEV
-//let kBaseURL                                            = "http://54.196.89.61/api/"
-
-//Stage
-//let kBaseURL                                            = "http://35.153.168.16/api/"
 
 //Production
 
-let kBaseURL                                              = "http://prodapi.emogo.co/api/"
+let environment:environmentType = .production
+
+var kBaseURL:String { switch environment {
+case .development:
+    //DEV
+    let url                                                = "http://54.196.89.61/api/"
+    //Stage
+    //  let url                                            = "http://35.153.168.16/api/"
+    return url
+    case .production:
+        return "http://prodapi.emogo.co/api/"
+    }
+}
 
 let kGetCountryCode                                       = "http://freegeoip.net/json/"
 
@@ -99,4 +106,13 @@ enum APIStatus: String {
     case ServerError = "500"
     case NotFound = "404"
 }
+
+
+enum environmentType {
+    case development
+    case production
+}
+
+
+
 

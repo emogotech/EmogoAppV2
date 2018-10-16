@@ -129,7 +129,7 @@ class ShareViewController: UIViewController {
     func hideExtensionWithCompletionHandler(completion:@escaping (Bool) -> Void) {
         UIView.animate(withDuration: 0.20, animations: {
             if let nav = self.navigationController {
-                self.navigationController!.view.transform = CGAffineTransform(translationX: 0, y: self.navigationController!.view.frame.size.height)
+                nav.view.transform = CGAffineTransform(translationX: 0, y: self.navigationController!.view.frame.size.height)
             }else {
                 self.view.transform = CGAffineTransform(translationX: 0, y: self.view.frame.size.height)
             }

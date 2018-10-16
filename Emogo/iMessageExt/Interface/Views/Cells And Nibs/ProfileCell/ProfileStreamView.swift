@@ -27,7 +27,7 @@ class ProfileStreamView: UICollectionReusableView {
         imgCover.isUserInteractionEnabled = true
         
         DispatchQueue.main.async {
-            self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
+            self.viewContainer.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
             self.viewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 5)
         }
 

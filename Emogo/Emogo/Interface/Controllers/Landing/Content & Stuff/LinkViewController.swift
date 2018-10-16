@@ -11,34 +11,31 @@ import SwiftLinkPreview
 
 class LinkViewController: UIViewController {
     
-    // MARK: - UI Elements
+     //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
 
     @IBOutlet weak var txtLink: UITextField!
     @IBOutlet weak var linkCollectionView: UICollectionView!
     
-    // MARK: - Variables
+     //MARK: ⬇︎⬇︎⬇︎ Varibales ⬇︎⬇︎⬇︎
+    
     let layout = CHTCollectionViewWaterfallLayout()
     
-    // MARK: - Override Functions
+     //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.prepareLayouts()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("Items")
         self.configureNavigationWithTitle()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-      
+        
         if  ContentList.sharedInstance.arrayContent.count != 0 {
             var arrayIndex = [Int]()
             let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
@@ -65,10 +62,18 @@ class LinkViewController: UIViewController {
             }
         }
         
-         self.linkCollectionView.reloadData()
-            
+        self.linkCollectionView.reloadData()
+        
     }
-    // MARK: - Prepare Layouts
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+
+   
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
     
     func prepareLayouts(){
         // Attach datasource and delegate
@@ -95,7 +100,7 @@ class LinkViewController: UIViewController {
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
         self.linkCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-           // print("reload more called")
+          
             self?.getMyLinks(type:.down)
         }
         
@@ -107,7 +112,7 @@ class LinkViewController: UIViewController {
         self.linkCollectionView.expiredTimeInterval = 20.0
         
     }
-    
+     //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
     
     @IBAction func btnConfirmActiion(_ sender: Any) {
         self.view.endEditing(true)
@@ -132,7 +137,7 @@ class LinkViewController: UIViewController {
         }
         
     }
-    
+      //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
     
     func smartURLFetchData(){
         if let smartUrl = txtLink.text?.stringByAddingPercentEncodingForURLQueryParameter()?.trim().smartURL() {
@@ -163,7 +168,7 @@ class LinkViewController: UIViewController {
                                 }
                                 content.coverImage = smartUrl.absoluteString
                                 content.type = .link
-                                content.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
+                               content.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
                                 content.isUploaded = false
                                 var imgUrl:String! = ""
                             
@@ -195,7 +200,7 @@ class LinkViewController: UIViewController {
                                 if imgUrl.isEmpty {
                                     let imageUrl1 = result[SwiftLinkResponseKey.finalUrl]
                                     let url:String = (imageUrl1 as! URL).absoluteString.trim().slice(from: "?imgurl=", to: "&imgrefurl")!
-                                    //print(url)
+                                   
                                     imgUrl = url
                                 }
                                 
@@ -222,7 +227,7 @@ class LinkViewController: UIViewController {
                 })
                 
             }else{
-               // print("Invalid")
+             
                 self.showToast(strMSG: "Enter valid url.")
             }
         }else {
@@ -230,9 +235,7 @@ class LinkViewController: UIViewController {
         }
     }
     
-    // MARK: - Class Methods
-
-    
+  
     func createContentForExtractedData(content:ContentDAO){
         HUDManager.sharedInstance.hideHUD()
       if  ContentList.sharedInstance.arrayContent.count > 0 {
@@ -250,7 +253,7 @@ class LinkViewController: UIViewController {
         }
     }
     
-    // MARK: - API Methods
+   //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
     
     func getMyLinks(type:RefreshType){
         if type == .start  {
@@ -284,18 +287,12 @@ class LinkViewController: UIViewController {
         }
     }
 
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+  
 }
 
+ //MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+ //MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+ 
 extension LinkViewController:UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -326,8 +323,7 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-//        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-//        return CGSize(width: itemWidth, height: itemWidth )
+
         let itemWidth = collectionView.bounds.size.width/2.0
         return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
     
@@ -392,9 +388,7 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
             self.updateSelected(obj: content)
         }
     }
-    
-    
-    
+  
 }
 
 

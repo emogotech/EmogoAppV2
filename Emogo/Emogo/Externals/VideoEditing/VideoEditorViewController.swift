@@ -246,7 +246,7 @@ class VideoEditorViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.leftBarButtonItem = nil
         navigationItem.hidesBackButton = true
-        let btnback = UIBarButtonItem(image: #imageLiteral(resourceName: "back_new"), style: .plain, target: self, action: #selector(self.buttonBackAction))
+        let btnback = UIBarButtonItem(image:#imageLiteral(resourceName: "back icon_shadow"), style: .plain, target: self, action: #selector(self.buttonBackAction))
       //  let imgSave = UIImage(named: "icons8-download")
         let btnClear = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(self.btnClearAction))
       //  let btnSave = UIBarButtonItem(image: imgSave, style: .plain, target: self, action: #selector(self.btnSaveAction))

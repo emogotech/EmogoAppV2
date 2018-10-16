@@ -43,8 +43,6 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     
     override func awakeFromNib() {
         super.awakeFromNib()
-//          self.lblName.shadow()
-//          self.lblName.minimumScaleFactor = 1.0
       
         // Initialization code
         imgCover.isUserInteractionEnabled = true
@@ -61,6 +59,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.maximumContentHeight = 200
 
     }
+    
     func prepareLayout(stream:StreamDAO?){
         self.lblName.text = nil
         self.lblDescription.text = ""
@@ -70,49 +69,36 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         imgCover.image = nil
 
         self.viewContainer.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
-      //  self.viewTop.layer.contents = UIImage(named: "stream-top-gradient")?.cgImage
-        //top-gradient
-        // self.viewTop.addBlurView(style: UIBlurEffectStyle.dark)
         let objStream = stream!
-//        guard let objStream = stream  else {
-//            return
-//        }
+
         imgCover.isHidden = false
         if !objStream.color.trim().isEmpty {
             imgCover.backgroundColor = UIColor(hex: objStream.color.trim())
         }
         
         self.imgCover.contentMode = .scaleAspectFill
-        //   self.imgCover.backgroundColor = .black
+
         if objStream.totalCollaborator.isEmpty || objStream.totalCollaborator == "0"  {
             btnCollab.isHidden = false
         }else {
-            //   btnCollab.badgeString = objStream.totalCollaborator
+       
             btnCollab.isHidden = false
-            // btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
+
         }
          let strname = objStream.Title.trim()
        
-         //self.lblName.text  = ""
+  
         print("stream Name ---->\(objStream.Title.trim())")
         self.lblName.text = strname
          print("stream Name ---->\(objStream.description.trim())")
         self.lblDescription.text = objStream.description.trim()
-       // self.lblDescription.shadow()
+
         self.lblDescription.numberOfLines = 0
-        //  self.lblDescription.minimumScaleFactor = 1.0
+   
         
         self.lblLikeCount.text = objStream.totalLikeCount.trim()
         self.lblViewCount.text = objStream.viewCount.trim()
-//        self.viewTop.fadeIn(0.1, delay: 0.4) { (_) in
-//            
-//        }
-//        self.viewContainer.fadeIn(0.2, delay: 0.4) { (_) in
-//
-//        }
-//        self.imgViewTopGradient.fadeIn(0.1, delay: 0.4) { (_) in
-//
-//        }
+
         if (stream?.color.trim().isEmpty)! {
             imgCover.backgroundColor = UIColor(hex: (stream?.color.trim())!)
         }
@@ -120,9 +106,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
        
         self.imgCover.setOriginalImage(strImage: objStream.CoverImage, placeholder: "")
     
-//        if objStream.anyOneCanEdit == true {
-//            btnCollab.isHidden = true
-//        }
+
         if  objStream.canAddPeople == true {
             // btnEdit.isHidden = false
         }
@@ -211,21 +195,20 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
       
         self.viewContainer.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
         self.viewTop.layer.contents = UIImage(named: "stream-top-gradient")?.cgImage
-        //top-gradient
-       // self.viewTop.addBlurView(style: UIBlurEffectStyle.dark)
+
         guard let objStream = stream  else {
             return
         }
         imgCover.isHidden = false
 
         self.imgCover.contentMode = .scaleAspectFill
-        //   self.imgCover.backgroundColor = .black
+
         if objStream.totalCollaborator.isEmpty || objStream.totalCollaborator == "0"  {
             btnCollab.isHidden = false
         }else {
-         //   btnCollab.badgeString = objStream.totalCollaborator
+
             btnCollab.isHidden = false
-           // btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
+          
         }
         self.lblName.text = objStream.title.trim()
         self.lblName.shadow()
@@ -233,8 +216,6 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.lblDescription.text = objStream.description.trim()
         self.lblDescription.shadow()
         self.lblDescription.numberOfLines = 0
-      //  self.lblDescription.minimumScaleFactor = 1.0
-     
         self.lblLikeCount.text = objStream.totalLikeCount.trim()
         self.lblViewCount.text = objStream.viewCount.trim()
     
@@ -243,22 +224,12 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         }
         self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: "")
         
-//        if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-//            btnEdit.isHidden = false
-//            btnDelete.isHidden = false
-//            btnContainer.isHidden = false
-//            heightEdit.constant = 40
-//            heigtDelete.constant = 40
-//        }else{
-//            btnContainer.isHidden = true
-//            heightEdit.constant = 0
-//            heigtDelete.constant = 0
-//        }
+
         if objStream.anyOneCanEdit == true {
             btnCollab.isHidden = true
         }
         if  objStream.canAddPeople == true {
-           // btnEdit.isHidden = false
+
         }
          btnCollab.isHidden = false
     
@@ -373,19 +344,15 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     
     func stretchyHeaderView(_ headerView: GSKStretchyHeaderView, didChangeStretchFactor stretchFactor: CGFloat) {
         var alpha: CGFloat = 1
-     //   var blurAlpha: CGFloat = 1
+
         if stretchFactor > 1 {
             alpha = CGFloatTranslateRange(stretchFactor, 1, 1.12, 1, 0)
-         //   blurAlpha = alpha
+   
         } else if stretchFactor < 0.8 {
             alpha = CGFloatTranslateRange(stretchFactor, 0.2, 0.8, 0, 1)
         }
         alpha = max(0, alpha)
-        
-     //   self.imgCover.alpha = blurAlpha
-//        viewTop.alpha = alpha
-//        viewContainer.alpha = alpha
-//        btnLikeOtherUser.alpha = alpha
+  
 
     }
     

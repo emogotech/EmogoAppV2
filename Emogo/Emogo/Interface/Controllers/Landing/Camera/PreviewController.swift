@@ -14,7 +14,8 @@ import IQKeyboardManagerSwift
 
 class PreviewController: UIViewController {
     
-    // MARK: - UI Elements
+       //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
     @IBOutlet weak var containerView : UIView!
     @IBOutlet weak var actionContainerView : UIView!
     @IBOutlet weak var imgPreview: FLAnimatedImageView!
@@ -38,10 +39,9 @@ class PreviewController: UIViewController {
     @IBOutlet weak var lblLinkDescription: UILabel!
     @IBOutlet weak var imgLogo: FLAnimatedImageView!
     @IBOutlet weak var kLinkLogoWidth: NSLayoutConstraint!
-
     @IBOutlet weak var descriptionView: UIView!
 
-    // MARK: - Variables
+    //MARK: ⬇︎⬇︎⬇︎ Varibales ⬇︎⬇︎⬇︎
     
     var isPreviewOpen:Bool! = false
     var selectedIndex:Int!
@@ -55,6 +55,8 @@ class PreviewController: UIViewController {
     var isFromNotes:String?
     var indexPath:IndexPath! = IndexPath(row: 0, section: 0)
     var btnEdit = UIBarButtonItem()
+    
+     //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,7 +106,8 @@ class PreviewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - Prepare Layouts
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+    
     
     func prepareLayouts(){
         // Preview Height
@@ -252,39 +255,12 @@ class PreviewController: UIViewController {
         btnAddStream.isUserInteractionEnabled = true
         if self.navigationController?.isNavigationBarHidden == true {
             self.navigationController?.isNavigationBarHidden = false
-            
-            //        self.navigationController?.navigationBar.barTintColor = .clear
-            //        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.1)
-            //        self.navigationController?.navigationBar.shadowImage = UIImage()
-            //        self.navigationController?.navigationBar.isTranslucent = true
-            //        self.navigationController?.navigationBar.tintColor = .white
-            
-           // self.navigationController?.navigationBar.isTranslucent = true
-           
+        
         }
-      //  self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        //self.navigationController?.navigationBar.shadowImage = UIImage()
-     //   self.navigationController?.navigationBar.barTintColor = .clear
-      //  self.navigationController?.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+
         self.navigationController?.navigationBar.tintColor = .white //.clear
         self.title = "Add Media"
-//        UIButton *useButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        useButton.frame = CGRectMake(100, 430, 100, 40);
-//        useButton.layer.masksToBounds = NO;
-//        useButton.layer.cornerRadius = 10;
-//        useButton.layer.shadowOffset = CGSizeMake(1.5, 1.5);
-//        useButton.layer.shadowRadius = 0.5;
-//        useButton.layer.shadowOpacity = 1.0;
-//        useButton.layer.shadowColor = [UIColor blackColor].CGColor;
-//        useButton.backgroundColor = [UIColor redColor];
-        
-//        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
-     //   let button = self.getShadowButton(Alignment: 0)
-       // button.setBackgroundImage(#imageLiteral(resourceName: "back-circle-icon"), for: .normal)
-//        let button = UIButton()
-//        button.setImage(#imageLiteral(resourceName: "back_icon"), for: .normal)
-//        button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
-//        let btnBack = UIBarButtonItem.init(customView: button)
+
         
         let imgBack = UIImage(named: "back_icon")
         let btnBack:UIBarButtonItem = UIBarButtonItem(image: imgBack, style: .plain, target: self, action: #selector(self.btnBack))
@@ -299,25 +275,6 @@ class PreviewController: UIViewController {
 
         self.navigationItem.setRightBarButtonItems([], animated: true)
         
-//        var imgEdit = #imageLiteral(resourceName: "edit_icon")
-//        var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
-        
-    //    let buttonEdit = self.getShadowButton(Alignment: 2)
-    //    let buttonEdit = UIButton()
-     //   buttonEdit.setImage(#imageLiteral(resourceName: "edit_icon_content"), for: .normal)
-      //  buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
-      //  buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
-     //   let btnEdit = UIBarButtonItem.init(customView: buttonEdit)
-        
-//        let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
-//        let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
-
-      // let buttonDel = self.getShadowButton(Alignment: 2)
-      //  buttonDel.setBackgroundImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
-      //   let buttonDel = UIButton()
-      //  buttonDel.setImage(#imageLiteral(resourceName: "trash_icon_content"), for: .normal)
-     //   buttonDel.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
-      //  let btnDelete = UIBarButtonItem.init(customView: buttonDel)
         let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
         if conten.type == .gif {
             self.navigationItem.rightBarButtonItem = nil
@@ -342,16 +299,7 @@ class PreviewController: UIViewController {
             }
             if selected.isEdit == true {
                     arrButtons.append(btnEdit)
-//                if selected.type == .link {
-//
-//                    let buttonDel = self.getShadowButton(Alignment: 1)
-//                    buttonDel.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
-//                    buttonDel.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
-//                    let btnEdit = UIBarButtonItem.init(customView: buttonDel)
-//                    arrButtons.append(btnEdit)
-//                }
-                
-               
+
                 self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
             }else{
                 var arrButtons = [UIBarButtonItem]()
@@ -407,7 +355,7 @@ class PreviewController: UIViewController {
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
-             //   self.imgPreview.backgroundColor = .black
+           
                 self.txtTitleImage.textColor = .black//colors.secondary
                 self.txtDescription.textColor = .black//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: UIColor.lightGray)//colors.secondary
@@ -416,7 +364,7 @@ class PreviewController: UIViewController {
             if seletedImage.type == .image  || seletedImage.type == .notes {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     image?.getColors({ (colors) in
-                 //       self.imgPreview.backgroundColor = .black
+               
                         self.txtTitleImage.textColor = .black//colors.secondary
                         self.txtDescription.textColor = .black//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: UIColor.lightGray)//colors.secondary
@@ -424,27 +372,18 @@ class PreviewController: UIViewController {
                 })
                 
                 if seletedImage.name == "SharedImage_group.com.emogotechnologiesinc.thoughtstream" {
-//                   // print("image from Share - Extension")
-//                    let img = UIImage(data: (UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.value(forKey: "imageObj") as! Data))
-//                    self.imgPreview.image   =   img
-//                    seletedImage.imgPreview =   img
-//                    seletedImage.name       =   ""
-//                    self.txtTitleImage.text = ""
-//                    self.txtDescription.text    =   ""
-//
-//                    UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.set(nil, forKey: "imageObj")
-//                    UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.synchronize()
+
                 }else{
                     self.imgPreview.setForAnimatedImage(strImage: seletedImage.coverImage) { (_) in
                         
                     }
-                    //self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
+                   
                 }
                 
             }else {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                    //    self.imgPreview.backgroundColor = colors.primary
+                   
                         self.txtTitleImage.textColor = .black//colors.secondary
                         self.txtDescription.textColor = .black//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: UIColor.lightGray)//colors.secondary
@@ -452,7 +391,7 @@ class PreviewController: UIViewController {
                 })
                 self.imgPreview.setForAnimatedImage(strImage: seletedImage.coverImageVideo.trim()) { (_) in
                     
-                } //self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo.trim())
+                }
             }
         }
         self.txtTitleImage.isUserInteractionEnabled = true
@@ -515,7 +454,7 @@ class PreviewController: UIViewController {
         self.txtDescription.text = ""
     }
     
-    // MARK: -  Action Methods And Selector
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
     
    @objc func btnBack() {
     if self.isFromNotes != nil{
@@ -616,12 +555,14 @@ class PreviewController: UIViewController {
             self.showToast(type: .error, strMSG: kAlert_Edit_Image)
         }
     }
+    
     @IBAction func btnActionShare(_ sender: Any) {
         self.isEditingContent = true
            let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         kDefault?.set(self.selectedIndex, forKey: kRetakeIndex)
         self.navigationController?.popToViewController(vc: obj)
     }
+    
     @IBAction func btnActionAddStream(_ sender: Any) {
         self.view.endEditing(true)
         self.navigationController?.navigationBar.isTranslucent = true
@@ -665,6 +606,7 @@ class PreviewController: UIViewController {
         }
         
     }
+    
     @IBAction func btnDoneAction(_ sender: Any) {
         self.view.endEditing(true)
         btnAddStream.isUserInteractionEnabled = false
@@ -701,9 +643,11 @@ class PreviewController: UIViewController {
         }
         
     }
+    
     @IBAction func btnAnimateViewAction(_ sender: Any) {
         self.animateView()
     }
+    
     @IBAction func btnPlayAction(_ sender: Any) {
         self.openFullView()
     }
@@ -737,142 +681,9 @@ class PreviewController: UIViewController {
         self.preparePreview(index: sender.tag)
     }
     
-    // MARK: - Class Methods
+  
     
-    func deleteSelectedContent(){
-        
-        if self.seletedImage.isUploaded {
-            if let index =  arraySelectedContent?.index(where: {$0.contentID.trim() == seletedImage.contentID.trim()}) {
-                arraySelectedContent?.remove(at: index)
-            }
-            
-            if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == seletedImage.contentID.trim()}) {
-                ContentList.sharedInstance.arrayContent.remove(at: index)
-            }
-            
-        }else {
-            
-            if self.seletedImage.type == .gif {
-                
-                if let index =  arraySelectedContent?.index(where: {$0.coverImage.trim() == self.seletedImage.coverImage.trim()}) {
-                    arraySelectedContent?.remove(at: index)
-                }
-                
-                if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.coverImage.trim() == seletedImage.coverImage.trim()}) {
-                    ContentList.sharedInstance.arrayContent.remove(at: index)
-                }
-                
-            }else {
-                if let index =  arrayAssests?.index(where: {$0.name.lowercased().trim() == seletedImage.fileName.lowercased().trim()}) {
-                    arrayAssests?.remove(at: index)
-                }
-                
-                if let index =  arraySelectedContent?.index(where: {$0.fileName.trim() == self.seletedImage.fileName.trim()}) {
-                    arraySelectedContent?.remove(at: index)
-                }
-                
-                if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.fileName.trim() == seletedImage.fileName.trim()}) {
-                    ContentList.sharedInstance.arrayContent.remove(at: index)
-                }
-                
-            }
-        }
-        
-        if  ContentList.sharedInstance.arrayContent.count != 0 {
-            self.preparePreview(index: 0)
-        }else{
-            arrayAssests?.removeAll()
-            arraySelectedContent?.removeAll()
-            if self.strPresented == nil {
-                self.navigationController?.popNormal()
-            }else {
-                self.dismiss(animated: true, completion: nil)
-            }
-        }
-        self.previewCollection.reloadData()
-    }
-    @objc private func animateView(){
-        UIView.animate(withDuration: 0.5) {
-            self.isPreviewOpen = !self.isPreviewOpen
-            if self.isPreviewOpen == false {
-                // Down icon
-                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
-                self.kPreviewHeight.constant = 129.0
-                self.imgPreview.contentMode = .scaleAspectFit
-                //  kWidthOptions.constant = 0.0
-                self.viewOptions.isHidden = false
-                self.kWidthOptions.constant = 63.0
-                
-            }else {
-                // Up icon
-                self.kPreviewHeight.constant = 24.0
-                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
-                self.imgPreview.contentMode = .scaleAspectFit
-                self.kWidthOptions.constant = 0.0
-                self.viewOptions.isHidden = true
-                
-            }
-            self.view.updateConstraintsIfNeeded()
-            //   self.imgPreview.image =  GalleryDAO.sharedInstance.Images[self.selectedIndex].imgPreview.resizeImage(targetSize: CGSize(width: self.imgPreview.bounds.width * 2.0, height: self.imgPreview.bounds.height * 2.0))
-        }
-    }
-    
-    
-    private func openEditor(image:UIImage){
-        AppDelegate.appDelegate.keyboardResign(isActive: false)
-        photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
-        photoEditor.seletedImage = self.seletedImage
-        photoEditor.image = image
-        photoEditor.isForEditOnly = false
-        //PhotoEditorDelegate
-        photoEditor.photoEditorDelegate = self
-        photoEditor.hiddenControls = [.share]
-        photoEditor.stickers = shapes.shapes
-        photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
-        self.navigationController?.pushAsPresent(viewController: photoEditor)
-    }
-    
-    func setPreviewContent(title:String, description:String) {
-        if  ContentList.sharedInstance.arrayContent.count != 0 {
-            seletedImage.name = title
-            seletedImage.description = description
-            ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
-        }
-    }
-    
-    func shareSticker(){
-        if MFMessageComposeViewController.canSendAttachments(){
-            let composeVC = MFMessageComposeViewController()
-            composeVC.recipients = []
-            composeVC.message = composeMessage()
-            composeVC.messageComposeDelegate = self
-            self.present(composeVC, animated: true, completion: nil)
-        }
-    }
-    
-    func composeMessage() -> MSMessage {
-        let session = MSSession()
-        let message = MSMessage(session: session)
-        let layout = MSMessageTemplateLayout()
-        
-        layout.caption = txtTitleImage.text!
-        layout.image  = imgPreview.image?.fixOrientation()
-        layout.subcaption = txtDescription.text
-        let content = self.seletedImage
-        message.layout = layout
-        if ContentList.sharedInstance.objStream == nil {
-            let strURl = kNavigation_Content + "/" + (content?.contentID!)!
-            message.url = URL(string: strURl)
-        }else {
-            let strURl = kNavigation_Content + "/" + (content?.contentID!)! + "/" + ContentList.sharedInstance.objStream!
-            message.url = URL(string: strURl)
-        }
-        
-        return message
-    }
-    
-    
-    // MARK: - API Method
+   //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
     
     func uploadFile(){
         // Create a object array to upload file to AWS
@@ -971,19 +782,7 @@ class PreviewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func associateContent() {
-        
-        //        if ContentList.sharedInstance.objStream != nil && contents.count != 0{
-        //            AWSRequestManager.sharedInstance.associateContentToStream(streamID: (ContentList.sharedInstance.objStream?.streamID)!, contentID: contents, completion: { (isSuccess, errorMsg) in
-        //                if (errorMsg?.isEmpty)! {
-        //                self.showToast(strMSG: kAlert_Content_Associated_To_Stream)
-        //                }else {
-        //                self.showToast(strMSG: errorMsg!)
-        //                }
-        //            })
-        //        }
-        
-    }
+
     
     func smartURLFetchData(){
         let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: InMemoryCache.init())
@@ -1058,14 +857,140 @@ class PreviewController: UIViewController {
         })
         
     }
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+   
+    //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
+    
+    func deleteSelectedContent(){
+        
+        if self.seletedImage.isUploaded {
+            if let index =  arraySelectedContent?.index(where: {$0.contentID.trim() == seletedImage.contentID.trim()}) {
+                arraySelectedContent?.remove(at: index)
+            }
+            
+            if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == seletedImage.contentID.trim()}) {
+                ContentList.sharedInstance.arrayContent.remove(at: index)
+            }
+            
+        }else {
+            
+            if self.seletedImage.type == .gif {
+                
+                if let index =  arraySelectedContent?.index(where: {$0.coverImage.trim() == self.seletedImage.coverImage.trim()}) {
+                    arraySelectedContent?.remove(at: index)
+                }
+                
+                if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.coverImage.trim() == seletedImage.coverImage.trim()}) {
+                    ContentList.sharedInstance.arrayContent.remove(at: index)
+                }
+                
+            }else {
+                if let index =  arrayAssests?.index(where: {$0.name.lowercased().trim() == seletedImage.fileName.lowercased().trim()}) {
+                    arrayAssests?.remove(at: index)
+                }
+                
+                if let index =  arraySelectedContent?.index(where: {$0.fileName.trim() == self.seletedImage.fileName.trim()}) {
+                    arraySelectedContent?.remove(at: index)
+                }
+                
+                if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.fileName.trim() == seletedImage.fileName.trim()}) {
+                    ContentList.sharedInstance.arrayContent.remove(at: index)
+                }
+                
+            }
+        }
+        
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            self.preparePreview(index: 0)
+        }else{
+            arrayAssests?.removeAll()
+            arraySelectedContent?.removeAll()
+            if self.strPresented == nil {
+                self.navigationController?.popNormal()
+            }else {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        self.previewCollection.reloadData()
+    }
+    
+    @objc private func animateView(){
+        UIView.animate(withDuration: 0.5) {
+            self.isPreviewOpen = !self.isPreviewOpen
+            if self.isPreviewOpen == false {
+                // Down icon
+                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
+                self.kPreviewHeight.constant = 129.0
+                self.imgPreview.contentMode = .scaleAspectFit
+                //  kWidthOptions.constant = 0.0
+                self.viewOptions.isHidden = false
+                self.kWidthOptions.constant = 63.0
+                
+            }else {
+                // Up icon
+                self.kPreviewHeight.constant = 24.0
+                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
+                self.imgPreview.contentMode = .scaleAspectFit
+                self.kWidthOptions.constant = 0.0
+                self.viewOptions.isHidden = true
+                
+            }
+            self.view.updateConstraintsIfNeeded()
+            
+        }
+    }
+    
+    
+    private func openEditor(image:UIImage){
+        AppDelegate.appDelegate.keyboardResign(isActive: false)
+        photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
+        photoEditor.seletedImage = self.seletedImage
+        photoEditor.image = image
+        photoEditor.isForEditOnly = false
+        //PhotoEditorDelegate
+        photoEditor.photoEditorDelegate = self
+        photoEditor.hiddenControls = [.share]
+        photoEditor.stickers = shapes.shapes
+        photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
+        self.navigationController?.pushAsPresent(viewController: photoEditor)
+    }
+    
+    func setPreviewContent(title:String, description:String) {
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            seletedImage.name = title
+            seletedImage.description = description
+            ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
+        }
+    }
+    
+    func shareSticker(){
+        if MFMessageComposeViewController.canSendAttachments(){
+            let composeVC = MFMessageComposeViewController()
+            composeVC.recipients = []
+            composeVC.message = composeMessage()
+            composeVC.messageComposeDelegate = self
+            self.present(composeVC, animated: true, completion: nil)
+        }
+    }
+    
+    func composeMessage() -> MSMessage {
+        let session = MSSession()
+        let message = MSMessage(session: session)
+        let layout = MSMessageTemplateLayout()
+        
+        layout.caption = txtTitleImage.text!
+        layout.image  = imgPreview.image?.fixOrientation()
+        layout.subcaption = txtDescription.text
+        let content = self.seletedImage
+        message.layout = layout
+        if ContentList.sharedInstance.objStream == nil {
+            let strURl = kNavigation_Content + "/" + (content?.contentID!)!
+            message.url = URL(string: strURl)
+        }else {
+            let strURl = kNavigation_Content + "/" + (content?.contentID!)! + "/" + ContentList.sharedInstance.objStream!
+            message.url = URL(string: strURl)
+        }
+        
+        return message
+    }
     
 }

@@ -9,6 +9,9 @@
 import UIKit
 import Contacts
 
+//MARK: ⬇︎⬇︎⬇︎ PROTOCOLS ⬇︎⬇︎⬇︎
+
+
 protocol AddCollabViewControllerDelegate {
     func selectedColabs(arrayColab:[CollaboratorDAO])
     func dismissSuperView(objPeople:PeopleDAO?)
@@ -16,7 +19,9 @@ protocol AddCollabViewControllerDelegate {
 
 class AddCollabViewController: UIViewController {
     
-    //MARK:- IBOutlets Connection
+    
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+
     
     @IBOutlet weak var tblAddCollab: UITableView!
     @IBOutlet weak var btnAdd: UIButton!
@@ -29,6 +34,9 @@ class AddCollabViewController: UIViewController {
     
     @IBOutlet weak var kConsAddCollabBottom: NSLayoutConstraint!
     @IBOutlet weak var imgSearchIcon: UIImageView!
+    
+    //MARK: ⬇︎⬇︎⬇︎ Variables ⬇︎⬇︎⬇︎
+
     var arrIndexSection : [String] = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     var arrayToShow = [Any]()
     var arraySearch = [Any]()
@@ -51,6 +59,9 @@ class AddCollabViewController: UIViewController {
     var strEdit:String? = nil
     // var consTopHeight = CGSize.zero
     
+    
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +91,9 @@ class AddCollabViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
  
+    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
     
     func prepareLayouts(){
         //  self.btnAdd.isHidden = true
@@ -146,6 +160,9 @@ class AddCollabViewController: UIViewController {
     }
     
     
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+
+    
     @IBAction func btnActionAdd(_ sender: Any) {
         print(arrayTempSelected)
         if self.arrayTempSelected.isEmpty == true {
@@ -157,16 +174,18 @@ class AddCollabViewController: UIViewController {
         
     }
     
-    //MARK:- Selector Methods
-    @objc func cancelButtonAction(){
-        self.dismiss(animated: true, completion: nil)
-    }
+    
     @IBAction func btnCancelAction(_ sender: Any) {
         self.cancelButtonAction()
     }
     
     @IBAction func btnInviteAction(_ sender: Any) {
         self.inviteButtonAction()
+    }
+    
+    //MARK:- Selector Methods
+    @objc func cancelButtonAction(){
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func inviteButtonAction(){
@@ -293,123 +312,8 @@ class AddCollabViewController: UIViewController {
         
     }
     
-    // MARK: - Class Methods
     
-    func getContacts() {
-        let store = CNContactStore()
-        
-        switch CNContactStore.authorizationStatus(for: .contacts){
-        case .authorized:
-            self.fetchContactList(store: store)
-            break
-        case .denied, .restricted :
-            self.showPermissionAlert(strMessage: "contacts")
-            break
-        case .notDetermined:
-            store.requestAccess(for: .contacts){succeeded, err in
-                guard err == nil && succeeded else{
-                    return
-                }
-                self.fetchContactList(store: store)
-            }
-            break
-            
-        }
-    }
-    
-    
-    func fetchContactList(store:CNContactStore){
-        
-        let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey,CNContactImageDataKey, CNContactEmailAddressesKey] as [Any]
-        let request = CNContactFetchRequest(keysToFetch: keysToFetch as! [CNKeyDescriptor])
-        var cnContacts = [CNContact]()
-        do {
-            try store.enumerateContacts(with: request){
-                (contact, cursor) -> Void in
-                cnContacts.append(contact)
-            }
-        } catch let error {
-            NSLog("Fetch contact error: \(error)")
-        }
-        
-        for contact in cnContacts {
-            let fullName = CNContactFormatter.string(from: contact, style: .fullName) ?? "No Name"
-            let img:UIImage!
-            if let contactImageData = contact.imageData {
-                img = UIImage(data: contactImageData)
-            }
-            var phone:String! = ""
-            if contact.phoneNumbers.count != 0 {
-                let ContctNumVar = contact.phoneNumbers[0]
-                let FulMobNumVar  = ContctNumVar.value
-                let MccNamVar = FulMobNumVar.value(forKey: "countryCode") as? String
-                let MobNumVar = FulMobNumVar.value(forKey: "digits") as? String
-                phone = (MccNamVar?.trim())!  +  (MobNumVar?.trim())!
-                let allowedCharactersSet = NSMutableCharacterSet.decimalDigit()
-                allowedCharactersSet.addCharacters(in: "+")
-                phone = phone.components(separatedBy: allowedCharactersSet.inverted).joined(separator: "")
-            }
-            
-            if UserDAO.sharedInstance.user.phoneNumber.trim().contains(phone.trim()) || phone.trim().contains(UserDAO.sharedInstance.user.phoneNumber.trim()) {
-                //print("user number found")
-            }else {
-                let dict:[String:Any] = ["name":fullName,"phone_number":phone!]
-                let collaborator = CollaboratorDAO(colabData: dict)
-                if self.arraySelected != nil {
-                    if (self.arraySelected?.contains(where: { collaborator.phone.trim().contains($0.phone.trim())   && $0.addedByMe == true }))! {
-                        collaborator.isSelected = true
-                    }
-                }
-                self.arrayCollaborators.append(collaborator)
-            }
-            
-        }
-        DispatchQueue.main.async {
-            
-            var seen = Set<String>()
-            var unique = [CollaboratorDAO]()
-            for obj in  self.arrayCollaborators {
-                
-                if !seen.contains(obj.phone) {
-                    unique.append(obj)
-                    seen.insert(obj.phone)
-                }
-            }
-            self.arrayCollaborators = unique
-            //            for obj in self.arrayCollaborators {
-            //                if obj.isSelected == true {
-            //                    self.arrayTempSelected.append(obj)
-            //                }
-            //            }
-            self.checkContact()
-            //            self.arrayCollaborators.sort {
-            //                $0.name.lowercased() < $1.name.lowercased()
-            //            }
-        }
-        
-    }
-    
-    
-    
-    func showPermissionAlert(strMessage:String) {
-        
-        DispatchQueue.main.async(execute: { [unowned self] in
-            let message = NSLocalizedString("Emogo doesn't have permission to use the \(strMessage), please change privacy settings", comment: "Alert message when the user has denied access to the camera")
-            let alertController = UIAlertController(title: "Emogo", message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
-                } else {
-                    if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.shared.openURL(appSettings)
-                    }
-                }
-            }))
-            
-            AppDelegate.appDelegate.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-        })
-    }
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
     
     func checkContact(){
         var arrayNumber = [String]()
@@ -417,7 +321,7 @@ class AddCollabViewController: UIViewController {
             arrayNumber.append(obj.phone)
         }
         APIServiceManager.sharedInstance.apiForValidate(contacts: arrayNumber) { (results, errorMSG) in
-             print(results)
+            print(results ?? nil)
             if (errorMSG?.isEmpty)! {
                 let arrayKey = results?.keys
                 for (_,obj) in (arrayKey?.enumerated())! {
@@ -438,7 +342,7 @@ class AddCollabViewController: UIViewController {
                                 if temp.isSelected == true {
                                     self.arrayTempSelected.append(collaborator)
                                 }
-                                // print("replaced Data")
+                                
                                 
                             }else {
                                 let temp = self.arrayCollaborators[mainIndex]
@@ -448,47 +352,14 @@ class AddCollabViewController: UIViewController {
                             }
                         }
                     }
-                    // print("iter \(index)")
+                    
                 }
-                //                if self.arrayTempSelected.count != 0 {
-                //                    self.btnAdd.isHidden = false
-                //                }
+                
                 self.updateList(arrayColabs:self.arrayCollaborators)
             }
         }
     }
     
-    func updateList(arrayColabs:[CollaboratorDAO]){
-        if self.isSearchEnable {
-            self.arraySearch.removeAll()
-            for obj in self.arrIndexSection {
-                let result = arrayColabs
-                    .filter { $0.name.lowercased().hasPrefix(obj.lowercased()) }
-                let dict:[String:Any] = ["key":obj,"value":result]
-                self.arraySearch.append(dict)
-            }
-        }else {
-            self.arrayToShow.removeAll()
-            for obj in self.arrIndexSection {
-                let result = arrayColabs
-                    .filter { $0.name.lowercased().hasPrefix(obj.lowercased()) }
-                let dict:[String:Any] = ["key":obj,"value":result]
-                
-                self.arrayToShow.append(dict)
-            }
-        }
-        
-        self.tblAddCollab.reloadData()
-    }
-    
-    func performSearch(text:String) {
-        
-        let result = self.arrayCollaborators
-            .filter { $0.name.lowercased().contains(text.lowercased()) }
-        // print(result)
-        
-        self.updateList(arrayColabs:result)
-    }
     
     func updateColabs(){
         HUDManager.sharedInstance.showHUD()
@@ -518,7 +389,159 @@ class AddCollabViewController: UIViewController {
         }
     }
     
+    //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
+
+    func getContacts() {
+        let store = CNContactStore()
+        
+        switch CNContactStore.authorizationStatus(for: .contacts){
+        case .authorized:
+            self.fetchContactList(store: store)
+            break
+        case .denied, .restricted :
+            self.showPermissionAlert(strMessage: "contacts")
+            break
+        case .notDetermined:
+            store.requestAccess(for: .contacts){succeeded, err in
+                guard err == nil && succeeded else{
+                    return
+                }
+                self.fetchContactList(store: store)
+            }
+            break
+            
+        }
+    }
+    
+    
+    
+    func fetchContactList(store:CNContactStore){
+        
+        let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName), CNContactPhoneNumbersKey,CNContactImageDataKey, CNContactEmailAddressesKey] as [Any]
+        let request = CNContactFetchRequest(keysToFetch: keysToFetch as! [CNKeyDescriptor])
+        var cnContacts = [CNContact]()
+        do {
+            try store.enumerateContacts(with: request){
+                (contact, cursor) -> Void in
+                cnContacts.append(contact)
+            }
+        } catch let error {
+            NSLog("Fetch contact error: \(error)")
+        }
+        
+        for contact in cnContacts {
+            let fullName = CNContactFormatter.string(from: contact, style: .fullName) ?? "No Name"
+
+            var phone:String! = ""
+            if contact.phoneNumbers.count != 0 {
+                let ContctNumVar = contact.phoneNumbers[0]
+                let FulMobNumVar  = ContctNumVar.value
+                let MccNamVar = FulMobNumVar.value(forKey: "countryCode") as? String
+                let MobNumVar = FulMobNumVar.value(forKey: "digits") as? String
+                phone = (MccNamVar?.trim())!  +  (MobNumVar?.trim())!
+                let allowedCharactersSet = NSMutableCharacterSet.decimalDigit()
+                allowedCharactersSet.addCharacters(in: "+")
+                phone = phone.components(separatedBy: allowedCharactersSet.inverted).joined(separator: "")
+            }
+            
+            if UserDAO.sharedInstance.user.phoneNumber.trim().contains(phone.trim()) || phone.trim().contains(UserDAO.sharedInstance.user.phoneNumber.trim()) {
+             
+            }else {
+                let dict:[String:Any] = ["name":fullName,"phone_number":phone!]
+                let collaborator = CollaboratorDAO(colabData: dict)
+                if self.arraySelected != nil {
+                    if (self.arraySelected?.contains(where: { collaborator.phone.trim().contains($0.phone.trim())   && $0.addedByMe == true }))! {
+                        collaborator.isSelected = true
+                    }
+                }
+                self.arrayCollaborators.append(collaborator)
+            }
+            
+        }
+        DispatchQueue.main.async {
+            
+            var seen = Set<String>()
+            var unique = [CollaboratorDAO]()
+            for obj in  self.arrayCollaborators {
+                
+                if !seen.contains(obj.phone) {
+                    unique.append(obj)
+                    seen.insert(obj.phone)
+                }
+            }
+            self.arrayCollaborators = unique
+         
+            self.checkContact()
+          
+        }
+        
+    }
+    
+    
+    
+    func showPermissionAlert(strMessage:String) {
+        
+        DispatchQueue.main.async(execute: { [unowned self] in
+            let message = NSLocalizedString("Emogo doesn't have permission to use the \(strMessage), please change privacy settings", comment: "Alert message when the user has denied access to the camera")
+            let alertController = UIAlertController(title: "Emogo", message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+                } else {
+                    if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.shared.openURL(appSettings)
+                    }
+                }
+            }))
+            
+            AppDelegate.appDelegate.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+        })
+    }
+    
+    func updateList(arrayColabs:[CollaboratorDAO]){
+        if self.isSearchEnable {
+            self.arraySearch.removeAll()
+            for obj in self.arrIndexSection {
+                let result = arrayColabs
+                    .filter { $0.name.lowercased().hasPrefix(obj.lowercased()) }
+                let dict:[String:Any] = ["key":obj,"value":result]
+                self.arraySearch.append(dict)
+            }
+        }else {
+            self.arrayToShow.removeAll()
+            for obj in self.arrIndexSection {
+                let result = arrayColabs
+                    .filter { $0.name.lowercased().hasPrefix(obj.lowercased()) }
+                let dict:[String:Any] = ["key":obj,"value":result]
+                
+                self.arrayToShow.append(dict)
+            }
+        }
+        
+        self.tblAddCollab.reloadData()
+    }
+    
+    func performSearch(text:String) {
+        
+        let result = self.arrayCollaborators
+            .filter { $0.name.lowercased().contains(text.lowercased()) }
+        
+        
+        self.updateList(arrayColabs:result)
+    }
+    
+    
+  
+    
 }
+
+
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
+
 extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -567,10 +590,7 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
             let attributedString1 = NSMutableAttributedString(string:dictColabContact.name, attributes:attrs1)
             cell.lblDisplayName.attributedText = attributedString1
         }
-        
-        
-        
-        // cell.imgProfile.image = UIImage(named: "demo_images")
+     
         if dictColabContact.userImage.isEmpty {
             cell.imgProfile.setImage(string: dictColabContact.name,color:UIColor.colorHash(name: dictColabContact.name),circular: true)
         }else{
@@ -593,9 +613,7 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        if let cell = self.tblAddCollab.cellForRow(at: indexPath) {
-        //            self.btnCheckedClicked(sender: (cell as! AddCollabCell).checkButton)
-        //        }
+      
         self.btnActionForUserProfile(indexPath: indexPath)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -614,9 +632,7 @@ extension AddCollabViewController: UITextFieldDelegate {
         self.tblAddCollab.reloadData()
         
         if (self.tfSearch.text?.trim().isEmpty)! {
-            //  self.navigationController?.isNavigationBarHidden = true
-            //            self.viewAddCollab.isHidden = false
-            //            self.kConsViewTop.constant = kOriginalContants //176
+         
             self.tblAddCollab.reloadData()
         }else{
             self.viewAddCollab.isHidden = true

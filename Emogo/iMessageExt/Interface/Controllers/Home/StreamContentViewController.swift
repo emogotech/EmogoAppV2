@@ -438,11 +438,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.likeDislikeContent()
     }
     
-//    @IBAction func btnAddStreamContent(_ sender:UIButton){
-//        let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
-//        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
-//    }
-    
+
     @IBAction func btnAddToEmogo(_ sender: UIButton) {
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Add_Content , preferredStyle: .alert)
         let Continue = UIAlertAction(title:kAlert_Confirmation_Button_Title, style: .default) { (action) in
@@ -670,13 +666,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         if self.seletedImage?.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim(){
             self.showReport()
         }
-//        if self.seletedImage?.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim(){
-//            self.showReport()
-//        }else {
-//            if seletedImage.isDelete {
-//                self.showDelete()
-//            }
-//        }
+
     }
     
  
@@ -699,32 +689,7 @@ class StreamContentViewController: MSMessagesAppViewController {
             message.url = URL(string: strURl)
         }
          SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
-       // return message
-//        let session = MSSession()
-//        let message = MSMessage(session: session)
-//        let layout = MSMessageTemplateLayout()
-//        layout.caption = self.seletedImage.name
-//        if let url =  URL(string: self.seletedImage.coverImage) {
-//            layout.mediaFileURL = url
-//        }
-//        layout.subcaption = self.seletedImage.description
-//        message.layout = layout
-//
-//        let content = self.arrContentData[currentContentIndex]
-//        message.layout = layout
-//
-//        if ContentList.sharedInstance.objStream == nil {
-//            let strURl = kNavigation_Content + (content.contentID!)
-//            message.url = URL(string: strURl)
-//        }else {
-//           // let strURl = kNavigation_Content + (content.contentID!) + currentStreamID
-//           message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(content.coverImage)")
-//            //let strURl = kNavigation_Content + (content.contentID!) + ContentList.sharedInstance.objStream!
-//           // message.url = URL(string: strURl)
-//        }
-////        message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(currentStreamID!)")
-//        SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
-//        self.view.isUserInteractionEnabled = true
+ 
     }
     
 
@@ -963,35 +928,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     
-//    func deleteContentFromStream(){
-//
-//        APIServiceManager.sharedInstance.apiForDeleteContentFromStream(streamID: ContentList.sharedInstance.objStream!, contentID: seletedImage.contentID.trim()) { (isSuccess, errorMsg) in
-//
-//            if isSuccess == true {
-//                if self.isEdit == nil {
-//                    ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
-//                    if  ContentList.sharedInstance.arrayContent.count == 0 {
-//                        //self.navigationController?.pop()
-//                        return
-//                    }
-//                    self.currentContentIndex =  self.currentContentIndex - 1
-//                    self.updateCollectionView()
-//                }else {
-//                    if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
-//                        ContentList.sharedInstance.arrayContent.remove(at: index)
-//                       // self.navigationController?.pop()
-//                    }
-//                    if self.isForEditOnly != nil {
-//                       // self.navigationController?.pop()
-//                    }
-//
-//                }
-//
-//            }else {
-//                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
-//            }
-//        }
-//    }
+
     
     func deleteFileFromAWS(content:ContentDAO){
         if !content.coverImage.isEmpty {
@@ -1011,8 +948,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL:fileURL)
                 }) { completed, error in
                     if completed {
-                       // print("Video is saved!")
-                       // self.showToastIMsg(type: .success, strMSG: kAlert_Save_Video)
+                    
                         self.showToastIMsg(type: .success, strMSG:   kAlert_Save_Video)
                     }
                 }
@@ -1044,29 +980,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         super.didReceiveMemoryWarning()
     }
 }
-//extension StreamContentViewController:SFSafariViewControllerDelegate {
-//    func openURL(url:URL) {
-//
-//        if #available(iOS 9.0, *) {
-//            let safariController = SFSafariViewController(url: url as URL)
-//            safariController.delegate = self
-//
-//            let navigationController = UINavigationController(rootViewController: safariController)
-//            navigationController.setNavigationBarHidden(true, animated: false)
-//            self.present(navigationController, animated: true, completion: nil)
-//        } else {
-//            if UIApplication.shared.canOpenURL(url){
-//                UIApplication.shared.openURL(url)
-//            }
-//        }
-//
-//    }
-//    @available(iOS 9.0, *)
-//    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-//        controller.dismiss(animated: true, completion: nil)
-//    }
-//
-//}
+
 
 
 
@@ -1077,17 +991,11 @@ extension StreamContentViewController:UICollectionViewDelegate,UICollectionViewD
         
        return self.arrContentData.count
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        if let cell = collectionView.cellForItem(at: indexPath) {
-//            (cell as! StreamContentViewCell).imgCover.image = nil
-//        }
-//    }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContent, for: indexPath) as! StreamContentViewCell
         let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
-        //let content = self.arrContentData[indexPath.row]
+
         cell.prepareView(seletedImage: content)
         cell.btnPlayIcon.tag = indexPath.row
         cell.btnPlayIcon.addTarget(self, action: #selector(self.openFullView), for: .touchUpInside)
@@ -1113,18 +1021,5 @@ extension StreamContentViewController:UICollectionViewDelegate,UICollectionViewD
         self.updateContent()
         print(indexPath)
     }
-//
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        var visibleRect = CGRect()
-//
-//        visibleRect.origin = collectionView.contentOffset
-//        visibleRect.size = collectionView.bounds.size
-//
-//        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
-//
-//        guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
-//        self.currentContentIndex = indexPath.row
-//        self.updateContent()
-//        print(indexPath)
-//    }
+
 }

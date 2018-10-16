@@ -453,7 +453,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("Editing ended")
         if (txtSearch.text?.trim().isEmpty)! {
-           // self.configureLoadMoreAndRefresh()
+         
             self.isSearchEnable = false
             self.tblFollowers.reloadData()
         }

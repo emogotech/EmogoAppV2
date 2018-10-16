@@ -44,7 +44,7 @@ class CollaboratorViewController: MSMessagesAppViewController {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
                layout.itemSize = CGSize(width: self.collectionCollaborator.frame.size.width/3 - 12.0, height: self.collectionCollaborator.frame.size.width/3 )
-//        layout.itemSize = CGSize(width: self.collectionCollaborator.frame.size.width/3 - 1, height: 100)
+
         layout.minimumInteritemSpacing = 1
         layout.minimumLineSpacing = 10
         collectionCollaborator!.collectionViewLayout = layout
@@ -76,10 +76,7 @@ extension CollaboratorViewController : UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let collaborator = self.arrCollaborator[indexPath.row]
-        //  print(collaborator.userID)
-        //  print(UserDAO.sharedInstance.user.userId)
-        //  print(UserDAO.sharedInstance.user.userProfileID)
-        
+     
         if collaborator.userID != "" {
             if collaborator.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
                 let obj : ProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
@@ -90,7 +87,7 @@ extension CollaboratorViewController : UICollectionViewDelegate, UICollectionVie
                 let people = PeopleDAO(peopleData:[:])
                 people.fullName = collaborator.name
                 people.userProfileID = collaborator.userID
-                //  people.userProfileID =
+             
                 let obj:ViewProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                 obj.objPeople = people
                self.present(obj, animated: false, completion: nil)
@@ -101,35 +98,7 @@ extension CollaboratorViewController : UICollectionViewDelegate, UICollectionVie
         }
         
    
-//        let userInfo = self.arrCollaborator[indexPath.row]
-//        if userInfo.userID.isEmpty {
-//            self.showToastIMsg(type: AlertType.error, strMSG: "User not found.")
-//            return
-//        }else if userInfo.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
-//                let obj : ProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-//                self.present(obj, animated: false, completion: nil)
-//        }
-//
-//        else{
-//        let people = PeopleDAO(peopleData:[:])
-//        people.fullName = userInfo.name
-//        people.userProfileID = userInfo.userID
-//         let obj:ViewProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-//        obj.objPeople = people
-//        self.present(obj, animated: false, completion: nil)
-//        }
-     
-//        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_People , preferredStyle: .alert)
-//        let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
-//            let str = self.createURLWithComponents(userInfo: userInfo, urlString: "")
-//            SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: str!)
-//        }
-//        let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
-//            alert.dismiss(animated: true, completion: nil)
-//        }
-//        alert.addAction(yes)
-//        alert.addAction(no)
-//        present(alert, animated: true, completion: nil)
+
     }
     
     func createURLWithComponents(userInfo: CollaboratorDAO, urlString:String) -> String? {

@@ -41,7 +41,7 @@ class StreamContentCell: UICollectionViewCell {
             }else {
                 self.viewContent.isHidden = false
             }
-            self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+            self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
             if content.type == .image {
                 self.btnPlay.isHidden = true
                 self.imgCover.setForAnimatedImage(strImage:content.coverImage)

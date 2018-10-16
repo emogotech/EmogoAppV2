@@ -11,12 +11,9 @@ import UIKit
 class HomeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imgStream        : UIImageView!
-    
     @IBOutlet weak var lblStreamName    : UILabel!
     @IBOutlet weak var lblShortDesc     : UILabel!
-    
     @IBOutlet weak var viewShowHide     : UIView!
-    
     @IBOutlet weak var btnShare         : UIButton!
     @IBOutlet weak var btnView          : UIButton!
     
@@ -40,8 +37,8 @@ class HomeCollectionViewCell: UICollectionViewCell {
     func prepareLayouts(stream:StreamDAO){
         self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
         self.lblStreamName.text = stream.Title.trim()
-      
-        self.lblShortDesc.text = "by \(stream.Author!)"
+        self.lblShortDesc.text = "\(stream.Author!)"
+     //   self.lblShortDesc.text = "by \(stream.Author!)"
         self.lblStreamName.minimumScaleFactor = 1.0
         self.lblShortDesc.minimumScaleFactor = 1.0
     }

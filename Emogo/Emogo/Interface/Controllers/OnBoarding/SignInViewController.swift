@@ -11,9 +11,14 @@ import Presentr
 
 class SignInViewController: UIViewController {
     
-    // MARK: - UI Elements
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
+
     @IBOutlet weak var txtPhoneNumber                 : SHSPhoneTextField!
     @IBOutlet weak var btnCountryPicker               : UIButton!
+    @IBOutlet weak var btnCountryPickerCollaps        : UIButton!
+
+    //MARK: ⬇︎⬇︎⬇︎ Variables ⬇︎⬇︎⬇︎
 
     
     let customOrientationPresenter: Presentr = {
@@ -36,8 +41,8 @@ class SignInViewController: UIViewController {
     }()
     
     
-    // MARK: - Override Functions
-    @IBOutlet weak var btnCountryPickerCollaps: UIButton!
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareLayouts()
@@ -56,8 +61,8 @@ class SignInViewController: UIViewController {
     }
     
     
-    
-    // MARK: - Prepare Layouts
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
     func prepareLayouts(){
         AppDelegate.appDelegate.removeOberserver()
         AppDelegate.appDelegate.addOberserver()
@@ -78,7 +83,8 @@ class SignInViewController: UIViewController {
     }
     
   
-    // MARK: -  Action Methods And Selector
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+
     @IBAction func btnDoneAction(_ sender: Any) {
          self.disMissKeyboard()
         if (self.txtPhoneNumber.text?.trim().isEmpty)! {
@@ -104,12 +110,13 @@ class SignInViewController: UIViewController {
         customPresentViewController(customOrientationPresenter, viewController: nav, animated: true)
     }
     
-    // MARK: - Class Methods
+
     @objc func disMissKeyboard(){
         self.view.endEditing(true)
     }
     
-    // MARK: - API Methods
+    
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
 
     
     func userLogin(){
@@ -118,11 +125,7 @@ class SignInViewController: UIViewController {
             APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtPhoneNumber.text?.trim())!) { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
-                    /*
-                    let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
-                    self.navigationController?.flipPush(viewController: obj)
-                    */
-                    
+                
                     let obj:VerificationViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
                     obj.isForLogin = "errorMsg"
                     obj.phone = self.txtPhoneNumber.text?.trim()
@@ -141,13 +144,16 @@ class SignInViewController: UIViewController {
 
 }
 
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+// MARK: - DELEGATE METHODS
 
 extension SignInViewController: UITextFieldDelegate{
     func addToolBar(textField: UITextField){
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.blackTranslucent
         toolBar.isTranslucent = true
-//        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
         doneButton.tintColor = .white
         

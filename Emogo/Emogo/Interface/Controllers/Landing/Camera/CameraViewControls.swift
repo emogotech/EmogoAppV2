@@ -227,10 +227,10 @@ extension CustomCameraViewController {
             buttonNext.contentHorizontalAlignment  = .right
             buttonNext.contentVerticalAlignment = .bottom
             let btnNext = UIBarButtonItem(customView: buttonNext)
-            // let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
+          
             self.navigationItem.rightBarButtonItem = btnNext
         }
-    //    present(controller, animated: true, completion: nil)
+   
 }
 }
 

@@ -400,6 +400,17 @@ extension UILabel {
         self.layer.masksToBounds = false
         self.layer.shouldRasterize = true
     }
+    
+    func halfTextColorChange (fullText : String , changeText : String ) {
+        let strNumber: NSString = fullText as NSString
+        let range = (strNumber).range(of: changeText)
+        let attribute = NSMutableAttributedString.init(string: fullText)
+        let color = UIColor(r: 0, g: 122, b: 255)
+        attribute.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: range)
+        
+        attribute.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: 15.0), range: range)
+        self.attributedText = attribute
+    }
 }
 
 // MARK: - UIApplication

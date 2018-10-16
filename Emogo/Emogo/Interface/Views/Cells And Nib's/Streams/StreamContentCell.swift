@@ -16,14 +16,7 @@ class StreamContentCell: UICollectionViewCell {
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var viewCard: CardView!
     @IBOutlet weak var imgAdd: UIImageView!
-
-    
-    
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        imgCover.image = nil
-//    }
-    
+ 
     func prepareLayout(content:ContentDAO){
          self.imgCover.contentMode = .scaleAspectFill
         imgCover.backgroundColor = UIColor.white
@@ -44,9 +37,7 @@ class StreamContentCell: UICollectionViewCell {
             }
             self.viewContent.isHidden = true
             self.btnPlay.isHidden = true
-           // self.viewContent.layer.contents = UIImage(named: "content-card-gradient")?.cgImage
-            self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
-            //  self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
+            self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
             if content.type == .image {
                 self.btnPlay.isHidden = true
                 if !content.color.trim().isEmpty {
@@ -66,14 +57,14 @@ class StreamContentCell: UICollectionViewCell {
                 self.btnPlay.isHidden = true
 
                 self.imgCover.setForAnimatedImage(strImage: content.coverImageVideo.trim()) { (result) in
-                                            self.viewContent.isHidden = (self.lblName.text?.trim().isEmpty)!
-                                        }
+                        self.viewContent.isHidden = (self.lblName.text?.trim().isEmpty)!
+                        }
 
             }else {
                 self.btnPlay.isHidden = true
                 self.imgCover.setForAnimatedImage(strImage: content.coverImage.trim()) { (result) in
                     self.viewContent.isHidden = (self.lblName.text?.trim().isEmpty)!
-                                    }
+                    }
             }
         }
      

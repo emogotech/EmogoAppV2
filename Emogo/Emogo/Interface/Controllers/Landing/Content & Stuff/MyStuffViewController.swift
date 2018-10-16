@@ -12,23 +12,20 @@ import Lightbox
 class MyStuffViewController: UIViewController {
     
     
-    // MARK: - UI Elements
-    
+     //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+ 
     @IBOutlet weak var stuffCollectionView: UICollectionView!
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var segmentControl: HMSegmentedControl!
     @IBOutlet weak var lblNoResult: UILabel!
     
-   
-    
-    // MARK: - Variables
-    
-  //  var currentIndex:Int!
+      //MARK: ⬇︎⬇︎⬇︎ Varibales ⬇︎⬇︎⬇︎
+
     var seletedImage:ContentDAO!
     var selectedType:StuffType! = StuffType.All
     let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
     
-    // MARK: - Override Functions
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,17 +34,12 @@ class MyStuffViewController: UIViewController {
         self.prepareLayouts()
     }
     
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureNavigationWithTitle()
-     
+        
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if  ContentList.sharedInstance.arrayContent.count != 0 {
@@ -64,7 +56,7 @@ class MyStuffViewController: UIViewController {
             
             for (index,_) in  ContentList.sharedInstance.arrayStuff.enumerated() {
                 if arrayIndex.contains(index) {
-                     ContentList.sharedInstance.arrayStuff[index].isSelected = true
+                    ContentList.sharedInstance.arrayStuff[index].isSelected = true
                 }else {
                     ContentList.sharedInstance.arrayStuff[index].isSelected = false
                 }
@@ -74,16 +66,24 @@ class MyStuffViewController: UIViewController {
                 ContentList.sharedInstance.arrayStuff[index].isSelected = false
             }
         }
-                
+        
         DispatchQueue.main.async {
             self.stuffCollectionView.reloadData()
         }
     }
     
-    // MARK: - Prepare Layouts
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+ 
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+    
+    
     func prepareLayouts(){
         self.btnNext.isHidden = true
-        //  btnNext.isUserInteractionEnabled = false
+      
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.arrayStuff.removeAll()
         // Attach datasource and delegate
@@ -123,7 +123,6 @@ class MyStuffViewController: UIViewController {
         }
         
         segmentControl.selectionIndicatorHeight = 1.0
-     //   segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         segmentControl.backgroundColor = UIColor.white
         segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 13.0)]
         segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
@@ -142,7 +141,7 @@ class MyStuffViewController: UIViewController {
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
         self.stuffCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-           /// print("reload more called")
+
             self?.getMyStuff(type:.down)
         }
         
@@ -189,6 +188,7 @@ class MyStuffViewController: UIViewController {
         }
     }
   
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
     
     @IBAction func btnActionNext(_ sender: Any) {
         let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
@@ -200,26 +200,7 @@ class MyStuffViewController: UIViewController {
         }else {
             self.showToast(strMSG: kAlert_contentSelect)
         }
-        /*
-         if let parent = self.parent {
-         if arraySelectedContent?.count != 0 {
-         HUDManager.sharedInstance.showHUD()
-         (parent as! ContainerViewController).updateConatentForGallery(array: arrayAssests!, completed: { (result) in
-         HUDManager.sharedInstance.hideHUD()
-         ContentList.sharedInstance.arrayContent.removeAll()
-         let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-         ContentList.sharedInstance.arrayContent = arraySelectedContent
-         objPreview.strPresented = "TRUE"
-         let nav = UINavigationController(rootViewController: objPreview)
-         self.parent?.present(nav, animated: true, completion: nil)
-         })
-         //            arraySelectedContent?.removeAll()
-         //            arrayAssests?.removeAll()
-         }else {
-         self.showToast(strMSG: kAlert_contentSelect)
-         }
-         }
-         */
+      
     }
     
     @objc func btnPlayAction(sender:UIButton){
@@ -230,8 +211,7 @@ class MyStuffViewController: UIViewController {
         }else {
             ContentList.sharedInstance.arrayContent = array
             if ContentList.sharedInstance.arrayContent.count != 0 {
-                //
-                // let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+            
                 
                 let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 objPreview.currentIndex = sender.tag
@@ -253,59 +233,91 @@ class MyStuffViewController: UIViewController {
                     nav.cc_swipeBackDisabled = false
                 }
                 self.present(nav, animated: true, completion: nil)
-                //  self.navigationController?.push(viewController: objPreview)
+              
             }
         }
-      //  self.openFullView(index: sender.tag)
+
+    }
+    
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+    
+    func getMyStuff(type:RefreshType) {
+        if type == .start || type == .up {
+            for _ in  ContentList.sharedInstance.arrayStuff {
+                if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
+                    ContentList.sharedInstance.arrayStuff.remove(at: index)
+                    
+                }
+            }
+            ContentList.sharedInstance.arrayContent.removeAll()
+            
+            self.stuffCollectionView.reloadData()
+        }
+        
+        APIServiceManager.sharedInstance.apiForGetStuffList(type: type,contentType: selectedType) { (refreshType, errorMsg) in
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
+            if refreshType == .end {
+                self.stuffCollectionView.es.noticeNoMoreData()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.stuffCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                self.stuffCollectionView.es.stopLoadingMore()
+            }
+            
+            self.lblNoResult.isHidden = true
+            self.btnNext.isHidden = false
+            self.btnNext.isHidden = true
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+            if array.count == 0 {
+                self.lblNoResult.text  = "No Media Found"
+                self.lblNoResult.minimumScaleFactor = 1.0
+                self.lblNoResult.isHidden = false
+            }
+            if ContentList.sharedInstance.arrayContent.count != 0 {
+                self.btnNext.isHidden = false
+            }
+            self.stuffCollectionView.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
     }
     
     
     
-    // MARK: - Class Methods
-    func openFullView(index:Int){
-        /*
-        var arrayContents = [LightboxImage]()
-        self.currentIndex = index
-         self.seletedImage = ContentList.sharedInstance.arrayStuff[self.currentIndex]
-        
-        for obj in ContentList.sharedInstance.arrayStuff {
-            var image:LightboxImage!
-            let text = obj.name + "\n" +  obj.description
-            if obj.type == .image {
-                if obj.imgPreview != nil {
-                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
-                }else{
-                    let url = URL(string: obj.coverImage)
-                    if url != nil {
-                        image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: nil)
-                    }
-                }
-            }else if obj.type == .video {
-                if obj.imgPreview != nil {
-                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
-                }else {
-                    let url = URL(string: obj.coverImageVideo)
-                    let videoUrl = URL(string: obj.coverImage)
-                    image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
-                }
-            }
-            if image != nil {
-                arrayContents.append(image)
+    func getTopContents(){
+        APIServiceManager.sharedInstance.apiForGetTopContent { (_, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                self.lblNoResult.isHidden = true
+                self.btnNext.isHidden = true
                 
-                if obj.contentID == seletedImage.contentID {
-                    print(self.currentIndex)
+                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+                if array.count == 0 {
+                    self.lblNoResult.text  = "No Media Found"
+                    self.lblNoResult.minimumScaleFactor = 1.0
+                    self.lblNoResult.isHidden = false
+                    self.btnNext.isHidden = true
                 }
+                
+                self.stuffCollectionView.reloadData()
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
             }
-           
         }
-        print(self.currentIndex)
-        let controller = LightboxController(images: arrayContents, startIndex:   self.currentIndex)
-        controller.dynamicBackground = true
-        if arrayContents.count != 0 {
-            self.present(controller, animated: true, completion: nil)
-        }*/
-        
-        
+    }
+    
+    
+    
+     //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
+    
+   
+    func openFullView(index:Int){
+       
         var arrayContents = [LightboxImage]()
         //var index:Int! = 0
         var arrayTemp = [ContentDAO]()
@@ -354,94 +366,6 @@ class MyStuffViewController: UIViewController {
         }
     }
     
-    // MARK: - API Methods
-    /*
-     func getMyStuff(type:RefreshType){
-     
-     if type == .start || type == .up {
-     ContentList.sharedInstance.arrayStuff.removeAll()
-     self.stuffCollectionView.reloadData()
-     }
-     APIServiceManager.sharedInstance.apiForGetStuffList(type: type) { (refreshType, errorMsg) in
-     
-     if type == .start {
-     HUDManager.sharedInstance.hideHUD()
-     }
-     if refreshType == .end {
-     self.stuffCollectionView.es.noticeNoMoreData()
-     }
-     if type == .up {
-     UIApplication.shared.endIgnoringInteractionEvents()
-     self.stuffCollectionView.es.stopPullToRefresh()
-     }else if type == .down {
-     self.stuffCollectionView.es.stopLoadingMore()
-     }
-     
-     
-     let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
-     if array.count == 0 {
-     //if ContentList.sharedInstance.arrayStuff.count == 0 {
-     
-     let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
-     label.text = "No Contents Found!"
-     label.sizeToFit()
-     label.center = self.view.center
-     self.view.addSubview(label)
-     }
-     
-     self.stuffCollectionView.reloadData()
-     if !(errorMsg?.isEmpty)! {
-     self.showToast(type: .success, strMSG: errorMsg!)
-     }
-     }
-     }
-     */
-    func getMyStuff(type:RefreshType) {
-        if type == .start || type == .up {
-            for _ in  ContentList.sharedInstance.arrayStuff {
-                if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
-                    ContentList.sharedInstance.arrayStuff.remove(at: index)
-                   // print("Removed")
-                }
-            }
-            ContentList.sharedInstance.arrayContent.removeAll()
-
-            self.stuffCollectionView.reloadData()
-        }
-        
-        APIServiceManager.sharedInstance.apiForGetStuffList(type: type,contentType: selectedType) { (refreshType, errorMsg) in
-            if type == .start {
-                HUDManager.sharedInstance.hideHUD()
-            }
-            if refreshType == .end {
-                self.stuffCollectionView.es.noticeNoMoreData()
-            }
-            if type == .up {
-                UIApplication.shared.endIgnoringInteractionEvents()
-                self.stuffCollectionView.es.stopPullToRefresh()
-            }else if type == .down {
-                self.stuffCollectionView.es.stopLoadingMore()
-            }
-            
-            self.lblNoResult.isHidden = true
-            self.btnNext.isHidden = false
-            self.btnNext.isHidden = true
-            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
-            if array.count == 0 {
-                self.lblNoResult.text  = "No Media Found"
-                self.lblNoResult.minimumScaleFactor = 1.0
-                self.lblNoResult.isHidden = false
-            }
-            if ContentList.sharedInstance.arrayContent.count != 0 {
-                self.btnNext.isHidden = false
-            }
-            self.stuffCollectionView.reloadData()
-            if !(errorMsg?.isEmpty)! {
-                self.showToast(type: .success, strMSG: errorMsg!)
-            }
-        }
-    }
-    
     func updateStuffList(index:Int){
         switch index {
         case 0:
@@ -466,8 +390,8 @@ class MyStuffViewController: UIViewController {
             self.selectedType = .All
         }
         stuffCollectionView.es.resetNoMoreData()
-      
-         // For Unselect Previous selected
+        
+        // For Unselect Previous selected
         if  ContentList.sharedInstance.arrayContent.count == 0 {
             for i in 0..<ContentList.sharedInstance.arrayStuff.count {
                 let obj = ContentList.sharedInstance.arrayStuff[i]
@@ -478,7 +402,7 @@ class MyStuffViewController: UIViewController {
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
         self.lblNoResult.isHidden = true
         self.btnNext.isHidden = true
-
+        
         if ContentList.sharedInstance.arrayContent.count != 0 {
             self.btnNext.isHidden = false
         }
@@ -489,55 +413,24 @@ class MyStuffViewController: UIViewController {
         self.stuffCollectionView.reloadData()
     }
     
-    func getTopContents(){
-        APIServiceManager.sharedInstance.apiForGetTopContent { (_, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-            if (errorMsg?.isEmpty)! {
-                self.lblNoResult.isHidden = true
-                self.btnNext.isHidden = true
-                
-                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
-                if array.count == 0 {
-                    self.lblNoResult.text  = "No Media Found"
-                    self.lblNoResult.minimumScaleFactor = 1.0
-                    self.lblNoResult.isHidden = false
-                    self.btnNext.isHidden = true
-                }
-                
-                self.stuffCollectionView.reloadData()
-            }else {
-                self.showToast(type: .success, strMSG: errorMsg!)
-            }
-        }
-    }
-    
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+   
 }
 
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
 
 extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //return ContentList.sharedInstance.arrayStuff.count
+       
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
         return array.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // Create the cell and return the cell
-        //let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+       
         
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
         
@@ -593,41 +486,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             self.present(nav, animated: true, completion: nil)
         }
 
-        /*
-        let content = array[indexPath.row]
-        if content.type == .link{
-            guard let url = URL(string: content.coverImage) else {
-                return //be safe
-            }
-            self.openURL(url: url)
-        }else if content.type == .gif{
-            self.gifPreview(content: content)
-        }else if content.type == .video {
-            ContentList.sharedInstance.arrayContent = array
-            if ContentList.sharedInstance.arrayContent.count != 0 {
-                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                objPreview.currentIndex = indexPath.row
-                self.navigationController?.push(viewController: objPreview)
-            }
-        }
-        else{
-
-         
-            self.openFullView(index: index)
-        }
-        
-        //        if let cell = self.stuffCollectionView.cellForItem(at: indexPath) {
-        //            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
-        //            content.isSelected = !content.isSelected
-        //            ContentList.sharedInstance.arrayStuff[indexPath.row] = content
-        //            if content.isSelected {
-        //               (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
-        //            }else {
-        //                (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
-        //            }
-        //            self.updateSelected(obj: content)
-        //        }
- */
+     
     }
     
     @objc func btnSelectAction(button : UIButton)  {

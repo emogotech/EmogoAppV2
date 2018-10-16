@@ -56,7 +56,6 @@ var currentTag = 111
 
 var currentStreamType:StreamType! =  .featured  //.featured
 
-
 var arraySelectedContent:[ContentDAO]?
 var arrayAssests:[ImportDAO]?
 
@@ -66,7 +65,6 @@ let kFontMedium = "SFProDisplay-Medium"
 let kFontLight = "SFProDisplay-Light"
 let kFontBold = "SFProDisplay-Bold"
 let kFontTextRegular = "SFProText-Regular"
-
 let kPlaceholderImage = "stream-card-placeholder"
 
 
@@ -79,7 +77,6 @@ let kStoryboardID_WelcomeView = "welcomeView"
 let kStoryboardID_StreamListView = "streamListView"
 let kStoryboardID_CameraView = "cameraView"
 let kStoryboardID_PreView = "preView"
-let kStoryboardID_AddStreamView = "addStreamView"
 let kStoryboardID_AddCollaboratorsView = "addCollaboratorsView"
 let kStoryboardID_InitialView = "initialView"
 let kStoryboardID_PeopleListView = "peopleListView"
@@ -113,9 +110,6 @@ let kStoryboardID_CreateStreamView = "createStreamView"
 let kStoryboardID_EditStreamView = "editStreamView"
 let kStoryboardID_AddCollabView = "addCollabView"
 let kStoryboardID_MLFiltersView = "mlFiltersView"
-let kStoryboardID_TestDetailView = "testDetailView"
-
-
 
 
 let iMsgSegue_Root                              = "MessagesViewController"
@@ -128,15 +122,12 @@ let iMsgSegue_Home                              = "HomeViewController"
 let iMsgSegue_Stream                            = "StreamViewController"
 let iMsgSegue_StreamContent                     = "StreamContentViewController"
 let iMsgSegue_Collaborator                      = "CollaboratorViewController"
-
 let iMsgSegue_HomeCollection                    = "HomeCollectionViewCell"
 let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
 let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
 let iMgsSegue_CollaboratorCollectionCell        = "CollaboratorCollectionViewCell"
 let iMsgSegue_HomeCollectionPeople              = "PeopleSearchCollectionViewCells"
-
 let iMsgSegue_CollectionReusable_Footer         = "CustomFooterView"
-
 
 
 // MARK: - Cell's  and NIB's Identifier
@@ -168,7 +159,6 @@ let kCell_AddCollabView = "addCollabCell"
 let kCell_StreamContent = "streamContent"
 let kLikeStreamList_Cell = "likeStreamListCell"
 let kCell_ProfileStreamView = "profileStreamViewCell"
-
 
 // MARK: - UserDefault Identifier
 let kUserLogggedIn                      = "userloggedin"
@@ -211,7 +201,6 @@ enum AlertType: String {
     case Info = "3"
 }
 
-
 // MARK: -  Enums Alert
 enum TimerSet: String {
     case fiveSec = "5s"
@@ -253,7 +242,6 @@ enum checkKeyType: String {
 
 //PlaceHolder text
 let kPlaceHolder_Text_Mobile                   = "Your number here"
-//let kPlaceHolderText_Sign_Up_Name               = "Your text here"
 let kPlaceHolderText_Sign_Up_Name               = "USERNAME"
 let kPlaceHolderText_Sign_Up_Verify             = "Your code here"
 

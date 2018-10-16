@@ -10,7 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    // MARK: - UI Elements
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
+    
     @IBOutlet weak var viewTutorial                  : KASlideShow!
     @IBOutlet weak var pageController                : HHPageView!
     @IBOutlet weak var lblWelcome                    : UILabel!
@@ -18,7 +20,10 @@ class ViewController: UIViewController {
 
    var images = [UIImage]()
   
-    // MARK: - Override Functions
+    
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareLayouts()
@@ -38,8 +43,10 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
    
-   // MARK: - Prepare Layouts
     
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+    
+
     func prepareLayouts(){
         images.removeAll()
         images.append(UIImage(named: "image one")!)
@@ -66,14 +73,16 @@ class ViewController: UIViewController {
         viewTutorial.isExclusiveTouch = true
         viewTutorial.reloadData()
         pageController.load()
-       // pageController.updateState(forPageNumber: 1)
+       
         if SharedData.sharedInstance.countryCode.trim().isEmpty {
             self.getCountryCode()
         }
     }
 
     
-    // MARK: -  Action Methods And Selector
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+    
+    
     @IBAction func btnActionSignup(_ sender: Any) {
         let obj:UserNameViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
         self.navigationController?.push(viewController: obj)
@@ -84,9 +93,17 @@ class ViewController: UIViewController {
         self.navigationController?.push(viewController: obj)
     }
     
+    //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
     
-    // MARK: - Class Methods
+    func signup(){
+        let obj:UserNameViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
+        self.addLeftTransitionView(subtype: kCATransitionFromRight)
+        self.navigationController?.pushNormal(viewController: obj)
+    }
     
+    
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+
     func getCountryCode(){
         HUDManager.sharedInstance.showHUD()
         APIManager.sharedInstance.getCountryCode { (code) in
@@ -104,6 +121,8 @@ class ViewController: UIViewController {
 }
 
 
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
 
 extension ViewController:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDelegate {
     
@@ -160,12 +179,7 @@ extension ViewController:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDel
         }
     }
     
-    func signup(){
-        let obj:UserNameViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
-        self.addLeftTransitionView(subtype: kCATransitionFromRight)
-        self.navigationController?.pushNormal(viewController: obj)
-    }
-
+   
 }
 
 

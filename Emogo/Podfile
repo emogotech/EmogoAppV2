@@ -12,7 +12,6 @@ def common_pods_for_target
     pod 'Presentr'
     pod "GSKStretchyHeaderView"
     pod "Haptica"
-    pod "SkeletonView"
     pod "BPCircleActivityIndicator"
 
 end
@@ -30,7 +29,6 @@ target 'Emogo' do
     pod 'Crashlytics'
     pod 'IQKeyboardManagerSwift'
     pod 'GiphyCoreSDK'
-    pod 'XLActionController'
     pod 'CropViewController'
     pod 'SwiftLinkPreview'
     pod ‘RS3DSegmentedControl’
@@ -39,10 +37,10 @@ target 'Emogo' do
     pod "Haptica"
     pod "RichEditorView"
     pod 'DropDown'
-pod 'SwiftMessages'
-  pod 'BMPlayer/CacheSupport','~> 1.0.0'
-
-
+    pod 'SwiftMessages'
+    pod 'BMPlayer/CacheSupport','~> 1.0.0'
+    
+    
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target

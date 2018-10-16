@@ -10,17 +10,20 @@ import UIKit
 
 class PeopleListViewController: UIViewController {
 
-    // MARK: - UI Elements
-    @IBOutlet weak var peopleCollectionView: UICollectionView!
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
     
+    @IBOutlet weak var peopleCollectionView: UICollectionView!
     
     var arrayColab = [CollaboratorDAO]()
     var streamID:String!
     var streamNavigate:String!
     var currentIndex:Int!
     var objNavigationController:PMNavigationController?
-    // MARK: - Override Functions
+    
 
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,7 +41,9 @@ class PeopleListViewController: UIViewController {
         self.peopleCollectionView.reloadData()
     }
     
-    // MARK: - Prepare Layouts
+    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
     
     func prepareLayouts(){
         self.title = "Collaborator List"
@@ -49,11 +54,16 @@ class PeopleListViewController: UIViewController {
         }
         getColabListForStream()
     }
+    
+    
 
-    // MARK: -  Action Methods And Selector
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
 
-    // MARK: - Class Methods
+    
 
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+
+    
     func getColabListForStream(){
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForGetStreamColabList(streamID: self.streamID) { (arrayColab, errorMsg) in
@@ -83,6 +93,10 @@ class PeopleListViewController: UIViewController {
 }
 
 
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
 extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
     {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -110,27 +124,20 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let collaborator = self.arrayColab[indexPath.row]
-        print(collaborator.userID)
-        print(UserDAO.sharedInstance.user.userId)
-        print(UserDAO.sharedInstance.user.userProfileID)
-
-        if collaborator.userID != "" {
+      if collaborator.userID != "" {
             if collaborator.userID.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 ContentList.sharedInstance.mainStreamIndex = nil
                   let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-               // self.navigationController?.popToViewController(vc: obj)
-                //self.objNavigationController?.popToViewController(vc: obj)
+             
               self.navigationController?.push(viewController: obj)
 
             }else {
                 let people = PeopleDAO(peopleData:[:])
                 people.fullName = collaborator.name
                 people.userProfileID = collaborator.userID
-                print( people.userProfileID )
-                print(collaborator.userID)
+            
                 let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                 obj.objPeople = people
-              //  self.objNavigationController?.popToViewController(vc: obj)
                self.navigationController?.push(viewController: obj)
             }
            

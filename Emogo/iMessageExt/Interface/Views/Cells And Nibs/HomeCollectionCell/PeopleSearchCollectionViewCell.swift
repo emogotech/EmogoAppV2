@@ -23,12 +23,7 @@ class PeopleSearchCollectionViewCell: UICollectionViewCell {
         
     }
     
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        //hide or reset anything you want hereafter, for example
-//        label.isHidden = true
-//
-//    }
+
     func prepareData(people:StreamDAO){
         self.lblName.text = people.fullName!
         
@@ -38,14 +33,6 @@ class PeopleSearchCollectionViewCell: UICollectionViewCell {
             self.imgUser.setImageWithURL(strImage: people.userImage.trim(), placeholder: "")
         }
     }
-//    func prepareData(people:StreamDAO){
-//        self.lblName.text = people.fullName!
-//        lblName.minimumScaleFactor = 1.0
-//        if people.userImage.isEmpty {
-//            self.imgUser.setImage(string: people.fullName, color:#colorLiteral(red: 0, green: 0.6784313725, blue: 0.9529411765, alpha: 1), circular: true)
-//        }else {
-//            self.imgUser.setImageWithURL(strImage: people.userImage.trim(), placeholder: "")
-//        }
-//    }
+
     
 }

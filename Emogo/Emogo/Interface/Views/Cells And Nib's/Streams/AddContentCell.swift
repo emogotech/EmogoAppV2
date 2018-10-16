@@ -28,7 +28,6 @@ class LinkListCell: UICollectionViewCell {
         self.lblTitle.text = content.name.trim()
         self.lblDescription.text =  content.description.trim()
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
-        //  self.imgCover.backgroundColor = .black
         imgCover.contentMode = .scaleAspectFill
         if content.isSelected {
             imgSelect.image = #imageLiteral(resourceName: "select_active_icon")

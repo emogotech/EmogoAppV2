@@ -579,12 +579,12 @@ extension UIViewController {
     }
     
     func hideStatusBar(){
-        UIApplication.shared.isStatusBarHidden = true
+      UIApplication.shared.isStatusBarHidden = true
         
     }
     
     func showStatusBar(){
-        UIApplication.shared.isStatusBarHidden = false
+       UIApplication.shared.isStatusBarHidden = false
     }
     
     func showAlert(strMessage:String){
@@ -852,7 +852,6 @@ extension UIViewController {
         return img
     }
 }
-
 
 
 extension UIViewController:SFSafariViewControllerDelegate {
@@ -1650,6 +1649,20 @@ public extension UIDevice {
 
 var kIndexPathPointer = "kIndexPathPointer"
 
+extension UICollectionViewCell {
+    
+    func animateCell(){
+        self.layer.transform = CATransform3DMakeScale(0.1,0.1,1)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.layer.transform = CATransform3DMakeScale(1.05,1.05,1)
+        },completion: { finished in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.layer.transform = CATransform3DMakeScale(1,1,1)
+            })
+        })
+    }
+   
+}
 
 extension UICollectionView {
     func scrollToNextItem() {

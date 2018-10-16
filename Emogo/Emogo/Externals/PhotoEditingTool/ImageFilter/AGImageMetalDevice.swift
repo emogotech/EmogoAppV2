@@ -36,7 +36,7 @@ internal class AGImageMetalDevice: AGImageDevice {
         
         let memorySize = width * height * 4
         let memoryPool = UnsafeMutablePointer<UInt8>.allocate(capacity: memorySize)
-        defer { memoryPool.deallocate(capacity: memorySize) }
+        defer { memoryPool.deallocate() }
         memset(memoryPool, 0, memorySize)
         
         let bitmapContext = CGContext(

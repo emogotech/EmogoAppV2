@@ -12,10 +12,18 @@ import Messages
 import Lightbox
 import Haptica
 
+
+//MARK: ⬇︎⬇︎⬇︎ PROTOCOLS ⬇︎⬇︎⬇︎
+
 protocol EmogoDetailViewControllerDelegate {
     func nextItemScrolled(index:Int?)
 }
+
 class EmogoDetailViewController: UIViewController {
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+
     
     @IBOutlet weak var viewStreamCollectionView: UICollectionView!
     @IBOutlet weak var lblNoContent: UILabel!
@@ -32,23 +40,24 @@ class EmogoDetailViewController: UIViewController {
      var objStream:StreamViewDAO?
     var streamType:String!
     var delegate:EmogoDetailViewControllerDelegate?
-    // StreamList.sharedInstance.arrayViewStream
     var objNavigationController:PMNavigationController?
-    
     var longPressGesture:UILongPressGestureRecognizer!
     var selectedIndex:IndexPath?
     var nextIndexPath:IndexPath?
     
     
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // self.edgesForExtendedLayout = []
+     
     
         // Do any additional setup after loading the view.
         prepareLayouts()
         
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -93,9 +102,13 @@ class EmogoDetailViewController: UIViewController {
 
     }
     
-   
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
+    
     func prepareLayouts(){
-       // self.configureNavigationTite()
+ 
         
         if #available(iOS 11.0, *) {
             self.viewStreamCollectionView.contentInsetAdjustmentBehavior = .never
@@ -148,6 +161,27 @@ class EmogoDetailViewController: UIViewController {
         configureLoadmore()
     }
     
+    
+    func prepareHeaderData(){
+        DispatchQueue.main.async {
+            
+            self.stretchyHeader.prepareLayout(stream: self.currentStream)
+            
+            if self.currentStream.likeStatus == "0" {
+                self.stretchyHeader.btnLikeOtherUser.isSelected = false
+                self.stretchyHeader.btnLike.isSelected = false
+                
+            }else{
+                self.stretchyHeader.btnLikeOtherUser.isSelected = true
+                self.stretchyHeader.btnLike.isSelected = true
+                
+            }
+        }
+        
+    }
+    
+     //MARK: ⬇︎⬇︎⬇︎ Configure Custom Layouts ⬇︎⬇︎⬇︎
+    
     func configureStrechyHeader() {
         let nibViews = Bundle.main.loadNibNamed("StreamViewHeader", owner: self, options: nil)
         self.stretchyHeader = nibViews?.first as! StreamViewHeader
@@ -167,12 +201,7 @@ class EmogoDetailViewController: UIViewController {
         self.stretchyHeader.imgCover.image = selectedImageView?.image
         self.stretchyHeader.imgCover.backgroundColor = selectedImageView?.backgroundColor
         stretchyHeader.btnCollab.isUserInteractionEnabled = true
-//        if self.currentStream?.likeStatus == "0" {
-//            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-//        }else{
-//            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-//
-//        }
+
          stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
         stretchyHeader.btnLikeOtherUser.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnLike.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
@@ -181,24 +210,7 @@ class EmogoDetailViewController: UIViewController {
     }
     
     
-    func prepareHeaderData(){
-        DispatchQueue.main.async {
-           
-            self.stretchyHeader.prepareLayout(stream: self.currentStream)
-            
-            if self.currentStream.likeStatus == "0" {
-                self.stretchyHeader.btnLikeOtherUser.isSelected = false
-                self.stretchyHeader.btnLike.isSelected = false
-              //  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-            }else{
-                self.stretchyHeader.btnLikeOtherUser.isSelected = true
-                self.stretchyHeader.btnLike.isSelected = true
-               // self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
-            }
-        }
-        
-    }
-
+    
     func configureNavigation(){
         if self.navigationController?.isNavigationBarHidden == true {
             self.navigationController?.isNavigationBarHidden = false
@@ -206,12 +218,11 @@ class EmogoDetailViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         var arrayButtons = [UIBarButtonItem]()
         
-        //  let imgP = UIImage(named: "back_icon_stream")
         let imgP = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         
-       let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
+        let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
         arrayButtons.insert(btnRightBar, at: 0)
         
         
@@ -226,8 +237,7 @@ class EmogoDetailViewController: UIViewController {
             let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
             arrayButtons.append(rightEditBarButtonItem)
             
-           // let imgDownload = UIImage(named: "share_profile")
-             let imgDownload = UIImage(named: "share_profile")
+            let imgDownload = UIImage(named: "share_profile")
             let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.shareStreamAction(sender:)))
             arrayButtons.append(rightDownloadBarButtonItem)
             
@@ -269,36 +279,36 @@ class EmogoDetailViewController: UIViewController {
             stretchyHeader.btnLikeOtherUser.isHidden = false
             
         }
-
+        
         self.navigationItem.rightBarButtonItems = arrayButtons
         if self.currentStream.likeStatus == "0" {
             self.stretchyHeader.btnLikeOtherUser.isSelected = false
             self.stretchyHeader.btnLike.isSelected = false
-                //self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+            
         }else{
             self.stretchyHeader.btnLikeOtherUser.isSelected = true
             self.stretchyHeader.btnLike.isSelected = true
-            // self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
+            
         }
         self.stretchyHeader.btnLike.isHidden = false
     }
     
+    
     func configureLoadmore(){
         
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
-    //    let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
-//        self.viewStreamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
-//            if self?.currentStream != nil {
-//                self?.getStream(currentStream: self?.currentStream, streamID: "YES", isLoadMore: false)
-//            }
-//        }
+        
         self.viewStreamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             if self?.currentStream != nil {
                 self?.getStream(currentStream: self?.currentStream, isLoadMore: false)
             }
         }
-       
+        
     }
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+
     
     @IBAction func btnActionForAddContent(_ sender:UIButton) {
         if kDefault?.bool(forKey: kHapticFeedback) == true {
@@ -310,6 +320,7 @@ class EmogoDetailViewController: UIViewController {
         }
         btnActionForAddContent()
     }
+    
     @objc func showReportList(){
         if self.currentStream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             showDelete()
@@ -332,6 +343,445 @@ class EmogoDetailViewController: UIViewController {
         }
         
     }
+    
+    
+    @objc func deleteStreamAction(sender:UIButton){
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
+        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+            self.deleteStream()
+        }
+        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(yes)
+        alert.addAction(no)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func editStreamAction(sender:UIButton){
+        if self.currentStream != nil {
+            let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
+            editVC.streamID = self.currentStream.ID
+            editVC.objNavigationController = self.navigationController as? PMNavigationController
+            let nav = PMNavigationController(rootViewController: editVC)
+            customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func likeStreamAction(sender:UIButton){
+        
+        if sender.tag == 111 {
+            if kDefault?.bool(forKey: kHapticFeedback) == true {
+                Haptic.impact(.heavy).generate()
+                self.stretchyHeader.btnLikeOtherUser.isHaptic = true
+                self.stretchyHeader.btnLikeOtherUser.hapticType = .impact(.heavy)
+            }else{
+                self.stretchyHeader.btnLikeOtherUser.isHaptic = false
+            }
+        }else {
+            if kDefault?.bool(forKey: kHapticFeedback) == true {
+                Haptic.impact(.heavy).generate()
+                self.stretchyHeader.btnLike.isHaptic = true
+                self.stretchyHeader.btnLike.hapticType = .impact(.heavy)
+            }else{
+                self.stretchyHeader.btnLike.isHaptic = false
+            }
+        }
+        
+        self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = false
+        self.stretchyHeader.btnLike.isUserInteractionEnabled = false
+        
+        if sender.tag == 111 {
+            
+            UIView.animate(withDuration: 0.1, animations: {() -> Void in
+                self.stretchyHeader.btnLikeOtherUser.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                
+            }, completion: {(_ finished: Bool) -> Void in
+                UIView.animate(withDuration: 0.1, animations: {() -> Void in
+                    self.stretchyHeader.btnLikeOtherUser.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    self.stretchyHeader.btnLikeOtherUser.isSelected = !self.stretchyHeader.btnLikeOtherUser.isSelected
+                    
+                    self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = true
+                    self.stretchyHeader.btnLike.isUserInteractionEnabled = true
+                    
+                })
+            })
+            
+        }else if sender.tag == 222 {
+            
+            
+            UIView.animate(withDuration: 0.1, animations: {() -> Void in
+                self.stretchyHeader.btnLike.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                
+            }, completion: {(_ finished: Bool) -> Void in
+                UIView.animate(withDuration: 0.1, animations: {() -> Void in
+                    self.stretchyHeader.btnLike.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    self.stretchyHeader.btnLike.isSelected = !self.stretchyHeader.btnLike.isSelected
+                    
+                    self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = true
+                    self.stretchyHeader.btnLike.isUserInteractionEnabled = true
+                    
+                })
+            })
+        }
+        
+        
+        if self.currentStream != nil {
+            if  kDefault?.bool(forKey: kHapticFeedback) == true {
+                self.stretchyHeader.btnLike.isHaptic = true
+                self.stretchyHeader.btnLikeOtherUser.isHaptic = true
+                self.stretchyHeader.btnLike.hapticType = .impact(.light)
+                self.stretchyHeader.btnLikeOtherUser.hapticType = .impact(.light)
+            }else{
+                self.stretchyHeader.btnLike.isHaptic = false
+                self.stretchyHeader.btnLikeOtherUser.isHaptic = false
+            }
+            
+            if self.currentStream.likeStatus == "0" {
+                self.currentStream.likeStatus = "1"
+                
+            }else{
+                self.currentStream.likeStatus = "0"
+                
+            }
+            
+            
+            var currentAction:Bool! = false
+            
+            if let mainIndex =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == currentStream.ID.trim() &&  $0.selectionType == .Liked}) {
+                print("stream disliked")
+                currentAction = false
+                StreamList.sharedInstance.arrayStream.remove(at: mainIndex)
+                
+            }else {
+                currentAction = true
+                print("stream liked")
+                let tempStream = self.currentStream.copy()
+                tempStream.likeStatus  = "1"
+                let value =  Int(self.currentStream.totalLiked)! + 1
+                tempStream.totalLiked = "\(value)"
+                tempStream.selectionType = .Liked
+                print(tempStream.selectionType)
+                print(self.currentStream.selectionType)
+                StreamList.sharedInstance.arrayStream.insert(tempStream, at: 0)
+            }
+            
+            if StreamList.sharedInstance.arrayStream.count != 0 {
+                for (index,obj) in StreamList.sharedInstance.arrayStream.enumerated() {
+                    if obj.ID.trim() == currentStream.ID.trim() {
+                        if currentAction {
+                            StreamList.sharedInstance.arrayStream[index].likeStatus = "1"
+                        }else {
+                            StreamList.sharedInstance.arrayStream[index].likeStatus = "0"
+                        }
+                    }
+                }
+            }
+            
+            if StreamList.sharedInstance.arrayViewStream.count != 0 {
+                
+                for (index,obj) in StreamList.sharedInstance.arrayViewStream.enumerated() {
+                    if obj.ID.trim() == currentStream.ID.trim() {
+                        if currentAction {
+                            StreamList.sharedInstance.arrayViewStream[index].likeStatus = "1"
+                        }else {
+                            StreamList.sharedInstance.arrayViewStream[index].likeStatus = "0"
+                        }
+                    }
+                }
+                
+            }
+            if StreamList.sharedInstance.arrayProfileColabStream.count != 0 {
+                for (index,obj) in StreamList.sharedInstance.arrayProfileColabStream.enumerated() {
+                    if obj.ID.trim() == currentStream.ID.trim() {
+                        if currentAction {
+                            StreamList.sharedInstance.arrayProfileColabStream[index].likeStatus = "1"
+                        }else {
+                            StreamList.sharedInstance.arrayProfileColabStream[index].likeStatus = "0"
+                        }
+                    }
+                }
+            }
+            if StreamList.sharedInstance.arrayProfileStream.count != 0 {
+                for (index,obj) in StreamList.sharedInstance.arrayProfileStream.enumerated() {
+                    if obj.ID.trim() == currentStream.ID.trim() {
+                        if currentAction {
+                            StreamList.sharedInstance.arrayProfileStream[index].likeStatus = "1"
+                        }else {
+                            StreamList.sharedInstance.arrayProfileStream[index].likeStatus = "0"
+                        }
+                    }
+                }
+            }
+            self.likeDislikeStream()
+        }
+        
+    }
+    
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case .left:
+                if currentIndex !=  StreamList.sharedInstance.arrayViewStream.count-1 {
+                    self.next()
+                }
+                break
+            case .right:
+                if currentIndex != 0 {
+                    self.previous()
+                }
+                break
+                
+            default:
+                break
+            }
+        }
+    }
+    
+    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+        
+        if self.currentStream.IDcreatedBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
+            return
+        }
+        
+        switch(gesture.state) {
+            
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = self.viewStreamCollectionView.indexPathForItem(at: gesture.location(in: self.viewStreamCollectionView)) else {
+                break
+            }
+            selectedIndex = selectedIndexPath
+            viewStreamCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            
+            guard let nextIndex = self.viewStreamCollectionView.indexPathForItem(at: gesture.location(in: self.viewStreamCollectionView)) else {
+                break
+            }
+            nextIndexPath = nextIndex
+            print("location---->\(gesture.location(in: self.viewStreamCollectionView))")
+            viewStreamCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view))
+            
+            
+        case UIGestureRecognizerState.ended:
+            viewStreamCollectionView.endInteractiveMovement()
+            selectedIndex = nil
+        default:
+            viewStreamCollectionView.cancelInteractiveMovement()
+            selectedIndex = nil
+        }
+    }
+    
+    
+    @objc func shareStreamAction(sender:UIButton){
+        
+        if MFMessageComposeViewController.canSendAttachments(){
+            let composeVC = MFMessageComposeViewController()
+            composeVC.recipients = []
+            composeVC.message = composeMessage()
+            composeVC.messageComposeDelegate = self
+            self.present(composeVC, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func btnColabAction(){
+        
+        if self.currentStream != nil {
+            
+            let  colabcount = Int(currentStream.totalCollaborator.trim())
+            if colabcount! >= 1 {
+                let obj:PeopleListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView) as! PeopleListViewController
+                obj.streamID = self.currentStream.ID
+                obj.currentIndex = self.currentIndex
+                obj.streamNavigate = self.viewStream
+                self.navigationController?.push(viewController: obj)
+                
+            }else if currentStream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                let obj:ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.navigationController?.popToViewController(vc: obj)
+                
+            }
+            else {
+                print(currentStream.IDcreatedBy.trim())
+                print(UserDAO.sharedInstance.user.userId.trim())
+                let objPeople = PeopleDAO(peopleData: [:])
+                objPeople.fullName = self.currentStream.Author
+                objPeople.userProfileID = self.currentStream.IDcreatedBy
+                let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                obj.objPeople = objPeople
+                
+                self.navigationController?.push(viewController: obj)
+            }
+            
+        }
+    }
+    
+    
+    @objc func showLikeList(sender:UIButton){
+        
+        if self.currentStream != nil && self.currentStream?.arrayLikedUsers.count != 0{
+            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LikeListView) as! LikeListViewController
+            obj.objStream = self.currentStream
+            self.navigationController?.push(viewController: obj)
+        }
+    }
+    @objc  func btnCancelAction(){
+        self.navigationController?.navigationBar.isTranslucent = false
+        if viewStream == nil {
+            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+            self.navigationController?.popToViewController(vc: obj)
+        }else {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @objc func btnPlayAction(sender:UIButton){
+        ContentList.sharedInstance.arrayContent.removeAll()
+        let profileContent = ContentDAO(contentData: [:])
+        profileContent.coverImage = currentStream.CoverImage
+        profileContent.isUploaded = true
+        profileContent.type = .image
+        profileContent.fileName = "SreamCover"
+        profileContent.isEdit = false
+        profileContent.name = currentStream.Title
+        profileContent.createrImage = currentStream.userImage
+        profileContent.description = currentStream.description
+        var array = currentStream.arrayContent.filter { $0.isAdd == false }
+        array.insert(profileContent, at: 0)
+        ContentList.sharedInstance.arrayContent = array
+        ContentList.sharedInstance.objStream = currentStream.ID
+        let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+        objPreview.isViewCount = "TRUE"
+        objPreview.streamIndex = currentIndex
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        objPreview.currentIndex = indexPath.row + 1
+        let content = array[indexPath.row + 1]
+        objNavigation = UINavigationController(rootViewController: objPreview)
+        if let nav = objNavigation {
+            if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
+                
+                navigationImageView = nil
+                let value = kFrame.size.width / CGFloat(content.width)
+                kImageHeight  = CGFloat(content.height) * value
+                if !content.description.trim().isEmpty  {
+                    kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
+                }
+                if kImageHeight < viewStreamCollectionView.bounds.size.height {
+                    kImageHeight = viewStreamCollectionView.bounds.size.height
+                }
+                navigationImageView = imageCell.imgCover
+                nav.cc_setZoomTransition(originalView: navigationImageView!)
+                nav.cc_swipeBackDisabled = false
+            }
+            
+            self.present(nav, animated: true, completion: nil)
+            
+        }
+        
+    }
+    
+    @objc func previewScreenNavigated(){
+        if   ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            ContentList.sharedInstance.objStream = self.currentStream.ID
+            self.navigationController?.pushNormal(viewController: objPreview)
+        }
+    }
+    
+    @objc func updateData(notification:Notification){
+        if let dict = notification.userInfo {
+            if let data = (dict as! [String:Any])["data"] as? [String] {
+                print(data)
+                ContentList.sharedInstance.objStream = nil
+                if self.currentStream != nil {
+                    self.getStream(currentStream: self.currentStream,isLoadMore:false)
+                }
+                
+            }
+        }else {
+            let isExist = StreamList.sharedInstance.arrayViewStream.indices.contains(self.currentIndex)
+            if isExist {
+                self.currentStream = StreamList.sharedInstance.arrayViewStream[self.currentIndex]
+                if self.currentStream != nil {
+                    self.getStream(currentStream: self.currentStream,isLoadMore:false)
+                }
+            }
+            
+        }
+    }
+    
+    
+    @objc func updateLayOut(){
+        if self.stretchyHeader != nil  {
+            //       self.stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
+        }
+        
+        if ContentList.sharedInstance.objStream != nil {
+            
+            if self.isUpload {
+                self.isUpload = false
+                
+                let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
+                let streamID = stream.ID
+                if streamID != "" {
+                    self.currentStream = stream
+                    
+                }
+            }else{
+                let contains = StreamList.sharedInstance.arrayViewStream.indices.contains(currentIndex)
+                if contains {
+                    let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
+                    let streamID = stream.ID
+                    if streamID != "" {
+                        self.currentStream = stream
+                        
+                    }
+                }
+                
+            }
+            if SharedData.sharedInstance.deepLinkType != "" {
+                self.btnActionForAddContent()
+                SharedData.sharedInstance.deepLinkType = ""
+            }
+            ContentList.sharedInstance.objStream = nil
+        }
+        else {
+            if StreamList.sharedInstance.arrayViewStream.count != 0 {
+                if currentIndex != nil {
+                    let isIndexValid = StreamList.sharedInstance.arrayViewStream.indices.contains(currentIndex)
+                    if isIndexValid {
+                        let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
+                        StreamList.sharedInstance.selectedStream = stream
+                    }
+                }
+            }
+            if StreamList.sharedInstance.selectedStream != nil {
+                self.currentStream = nil
+                self.currentStream = StreamList.sharedInstance.selectedStream
+                
+            }
+            
+            if SharedData.sharedInstance.deepLinkType != "" {
+                self.btnActionForAddContent()
+                SharedData.sharedInstance.deepLinkType = ""
+            }
+        }
+        print( self.currentStream)
+        self.viewStreamCollectionView.isHidden = false
+        self.viewStreamCollectionView.reloadData()
+        kRefreshCell = true
+        self.viewStreamCollectionView.es.resetNoMoreData()
+        if self.currentStream.canAddContent == true {
+            self.btnAddContent.isHidden = false
+        }
+        configureNavigation()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            
+            self.prepareHeaderData()
+        }
+    }
+    
     
     func showReport(){
         let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
@@ -382,377 +832,8 @@ class EmogoDetailViewController: UIViewController {
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
     }
-    // MARK: -  Action Methods And Selector
-    @objc func deleteStreamAction(sender:UIButton){
-        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
-        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-            self.deleteStream()
-        }
-        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(yes)
-        alert.addAction(no)
-        present(alert, animated: true, completion: nil)
-    }
     
-    @objc func editStreamAction(sender:UIButton){
-        if self.currentStream != nil {
-            let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
-            editVC.streamID = self.currentStream.ID
-            editVC.objNavigationController = self.navigationController as? PMNavigationController
-            let nav = PMNavigationController(rootViewController: editVC)
-            customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
-        }
-    }
-    
-    @objc func likeStreamAction(sender:UIButton){
-        // print("Like Action")
-        print(sender.tag)
-        /*
-        let pulsator = Pulsator()
-        pulsator.radius = 50.0
-        pulsator.numPulse = 2
-        pulsator.backgroundColor = UIColor(red: 0, green: 0.455, blue: 0.756, alpha: 1).cgColor
-        if sender.tag == 111 {
-        pulsator.position =  self.stretchyHeader.btnLikeOtherUser.center
-        self.stretchyHeader.layer.addSublayer(pulsator)
-            pulsator.start()
-        }else if sender.tag  == 222{
-            pulsator.position =  self.stretchyHeader.btnLike.center
-            self.stretchyHeader.btnLike.superview?.layer.addSublayer(pulsator)
-            pulsator.start()
-        }
- */
-        if sender.tag == 111 {
-            if kDefault?.bool(forKey: kHapticFeedback) == true {
-                Haptic.impact(.heavy).generate()
-                self.stretchyHeader.btnLikeOtherUser.isHaptic = true
-                self.stretchyHeader.btnLikeOtherUser.hapticType = .impact(.heavy)
-            }else{
-                self.stretchyHeader.btnLikeOtherUser.isHaptic = false
-            }
-        }else {
-            if kDefault?.bool(forKey: kHapticFeedback) == true {
-                Haptic.impact(.heavy).generate()
-                self.stretchyHeader.btnLike.isHaptic = true
-                self.stretchyHeader.btnLike.hapticType = .impact(.heavy)
-            }else{
-                self.stretchyHeader.btnLike.isHaptic = false
-            }
-        }
-        
-        self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = false
-        self.stretchyHeader.btnLike.isUserInteractionEnabled = false
-
-        if sender.tag == 111 {
-            
-            UIView.animate(withDuration: 0.1, animations: {() -> Void in
-                self.stretchyHeader.btnLikeOtherUser.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-                
-            }, completion: {(_ finished: Bool) -> Void in
-                UIView.animate(withDuration: 0.1, animations: {() -> Void in
-                    self.stretchyHeader.btnLikeOtherUser.transform = CGAffineTransform(scaleX: 1, y: 1)
-                    self.stretchyHeader.btnLikeOtherUser.isSelected = !self.stretchyHeader.btnLikeOtherUser.isSelected
-                    
-                    self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = true
-                    self.stretchyHeader.btnLike.isUserInteractionEnabled = true
-                
-                })
-            })
-            
-        }else if sender.tag == 222 {
-            
-            
-            UIView.animate(withDuration: 0.1, animations: {() -> Void in
-                self.stretchyHeader.btnLike.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-                
-            }, completion: {(_ finished: Bool) -> Void in
-                UIView.animate(withDuration: 0.1, animations: {() -> Void in
-                    self.stretchyHeader.btnLike.transform = CGAffineTransform(scaleX: 1, y: 1)
-                    self.stretchyHeader.btnLike.isSelected = !self.stretchyHeader.btnLike.isSelected
-                    
-                    self.stretchyHeader.btnLikeOtherUser.isUserInteractionEnabled = true
-                    self.stretchyHeader.btnLike.isUserInteractionEnabled = true
-                    
-                })
-            })
-    }
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//            pulsator.removeFromSuperlayer()
-//        }
-//
-//
-
-        if self.currentStream != nil {
-            if  kDefault?.bool(forKey: kHapticFeedback) == true {
-                self.stretchyHeader.btnLike.isHaptic = true
-                self.stretchyHeader.btnLikeOtherUser.isHaptic = true
-                self.stretchyHeader.btnLike.hapticType = .impact(.light)
-                self.stretchyHeader.btnLikeOtherUser.hapticType = .impact(.light)
-            }else{
-                self.stretchyHeader.btnLike.isHaptic = false
-                self.stretchyHeader.btnLikeOtherUser.isHaptic = false
-            }
-            // sender.isSelected = !sender.isSelected
-            if self.currentStream.likeStatus == "0" {
-                self.currentStream.likeStatus = "1"
-            //    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
-                //   self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-                //  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-            }else{
-                self.currentStream.likeStatus = "0"
-              //  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-                //    self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .selected)
-                //   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .selected)
-            }
-            
-            
-            var currentAction:Bool! = false
-            
-                if let mainIndex =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == currentStream.ID.trim() &&  $0.selectionType == .Liked}) {
-                    print("stream disliked")
-                    currentAction = false
-                    StreamList.sharedInstance.arrayStream.remove(at: mainIndex)
-                 //   StreamList.sharedInstance.arrayStream[mainIndex].likeStatus = self.currentStream.likeStatus
-                }else {
-                    currentAction = true
-                    print("stream liked")
-                    let tempStream = self.currentStream.copy()
-                    tempStream.likeStatus  = "1"
-                    let value =  Int(self.currentStream.totalLiked)! + 1
-                    tempStream.totalLiked = "\(value)"
-                    tempStream.selectionType = .Liked
-                    print(tempStream.selectionType)
-                    print(self.currentStream.selectionType)
-                    StreamList.sharedInstance.arrayStream.insert(tempStream, at: 0)
-                }
-            
-                if StreamList.sharedInstance.arrayStream.count != 0 {
-                    for (index,obj) in StreamList.sharedInstance.arrayStream.enumerated() {
-                        if obj.ID.trim() == currentStream.ID.trim() {
-                            if currentAction {
-                                StreamList.sharedInstance.arrayStream[index].likeStatus = "1"
-                            }else {
-                                StreamList.sharedInstance.arrayStream[index].likeStatus = "0"
-                            }
-                        }
-                    }
-                }
-                
-                if StreamList.sharedInstance.arrayViewStream.count != 0 {
-                    
-                    for (index,obj) in StreamList.sharedInstance.arrayViewStream.enumerated() {
-                        if obj.ID.trim() == currentStream.ID.trim() {
-                            if currentAction {
-                                StreamList.sharedInstance.arrayViewStream[index].likeStatus = "1"
-                            }else {
-                                StreamList.sharedInstance.arrayViewStream[index].likeStatus = "0"
-                            }
-                        }
-                    }
-                    
-                }
-                if StreamList.sharedInstance.arrayProfileColabStream.count != 0 {
-                    for (index,obj) in StreamList.sharedInstance.arrayProfileColabStream.enumerated() {
-                        if obj.ID.trim() == currentStream.ID.trim() {
-                            if currentAction {
-                                StreamList.sharedInstance.arrayProfileColabStream[index].likeStatus = "1"
-                            }else {
-                                StreamList.sharedInstance.arrayProfileColabStream[index].likeStatus = "0"
-                            }
-                        }
-                    }
-                }
-                if StreamList.sharedInstance.arrayProfileStream.count != 0 {
-                    for (index,obj) in StreamList.sharedInstance.arrayProfileStream.enumerated() {
-                        if obj.ID.trim() == currentStream.ID.trim() {
-                            if currentAction {
-                                StreamList.sharedInstance.arrayProfileStream[index].likeStatus = "1"
-                            }else {
-                                StreamList.sharedInstance.arrayProfileStream[index].likeStatus = "0"
-                            }
-                        }
-                    }
-                }
-           self.likeDislikeStream()
-        }
-        
-    }
-    
-    
-    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            switch swipeGesture.direction {
-            case .left:
-                if currentIndex !=  StreamList.sharedInstance.arrayViewStream.count-1 {
-                    self.next()
-                }
-                break
-            case .right:
-                if currentIndex != 0 {
-                    self.previous()
-                }
-                break
-         
-            default:
-                break
-            }
-        }
-    }
-    
-    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
-        
-        if self.currentStream.IDcreatedBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
-            return
-        }
-        
-        switch(gesture.state) {
-            
-        case UIGestureRecognizerState.began:
-            guard let selectedIndexPath = self.viewStreamCollectionView.indexPathForItem(at: gesture.location(in: self.viewStreamCollectionView)) else {
-                break
-            }
-            selectedIndex = selectedIndexPath
-            viewStreamCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case UIGestureRecognizerState.changed:
-            
-            guard let nextIndex = self.viewStreamCollectionView.indexPathForItem(at: gesture.location(in: self.viewStreamCollectionView)) else {
-                break
-            }
-            nextIndexPath = nextIndex
-            print("location---->\(gesture.location(in: self.viewStreamCollectionView))")
-            viewStreamCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view))
-            
-            
-        case UIGestureRecognizerState.ended:
-            viewStreamCollectionView.endInteractiveMovement()
-            selectedIndex = nil
-        default:
-            viewStreamCollectionView.cancelInteractiveMovement()
-            selectedIndex = nil
-        }
-    }
-    
-    
-    @objc func shareStreamAction(sender:UIButton){
-        // print("Share Action")
-        
-        //        if  kDefault?.bool(forKey: kHapticFeedback) == true {
-        //            self.stretchyHeader.btnShare.isHaptic = true
-        //            self.stretchyHeader.btnShare.hapticType = .impact(.light)
-        //        }else{
-        //            self.stretchyHeader.btnShare.isHaptic = false
-        //        }
-        
-        
-        if MFMessageComposeViewController.canSendAttachments(){
-            let composeVC = MFMessageComposeViewController()
-            composeVC.recipients = []
-            composeVC.message = composeMessage()
-            composeVC.messageComposeDelegate = self
-            self.present(composeVC, animated: true, completion: nil)
-        }
-    }
-    
-    @objc func btnColabAction(){
-        
-        if self.currentStream != nil {
-          //  if currentStream.totalCollaborator.trim().isEmpty {
-                let  colabcount = Int(currentStream.totalCollaborator.trim())
-                if colabcount! >= 1 {
-                    let obj:PeopleListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView) as! PeopleListViewController
-                    obj.streamID = self.currentStream.ID
-                    obj.currentIndex = self.currentIndex
-                    obj.streamNavigate = self.viewStream
-                    self.navigationController?.push(viewController: obj)
-                    
-                }else if currentStream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-                    let obj:ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                        self.navigationController?.popToViewController(vc: obj)
-                    
-                }
-                else {
-                    print(currentStream.IDcreatedBy.trim())
-                    print(UserDAO.sharedInstance.user.userId.trim())
-                    let objPeople = PeopleDAO(peopleData: [:])
-                    objPeople.fullName = self.currentStream.Author
-                    objPeople.userProfileID = self.currentStream.IDcreatedBy
-                    let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-                    obj.objPeople = objPeople
-                 
-                   self.navigationController?.push(viewController: obj)
-                }
-           // }
-        }
-    }
-    
-    
-    @objc func showLikeList(sender:UIButton){
-        
-      if self.currentStream != nil && self.currentStream?.arrayLikedUsers.count != 0{
-            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LikeListView) as! LikeListViewController
-            obj.objStream = self.currentStream
-            self.navigationController?.push(viewController: obj)
-      }
-    }
-    @objc  func btnCancelAction(){
-        self.navigationController?.navigationBar.isTranslucent = false
-        if viewStream == nil {
-            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
-            self.navigationController?.popToViewController(vc: obj)
-        }else {
-            self.navigationController?.popViewController(animated: true)
-        }
-    }
-    
-    @objc func btnPlayAction(sender:UIButton){
-        ContentList.sharedInstance.arrayContent.removeAll()
-        let profileContent = ContentDAO(contentData: [:])
-        profileContent.coverImage = currentStream.CoverImage
-        profileContent.isUploaded = true
-        profileContent.type = .image
-        profileContent.fileName = "SreamCover"
-        profileContent.isEdit = false
-        profileContent.name = currentStream.Title
-        profileContent.createrImage = currentStream.userImage
-        profileContent.description = currentStream.description
-        var array = currentStream.arrayContent.filter { $0.isAdd == false }
-        array.insert(profileContent, at: 0)
-        ContentList.sharedInstance.arrayContent = array
-        ContentList.sharedInstance.objStream = currentStream.ID
-        let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-        objPreview.isViewCount = "TRUE"
-        objPreview.streamIndex = currentIndex
-        //   objPreview.delegate = self
-        let indexPath = IndexPath(row: sender.tag, section: 0)
-        objPreview.currentIndex = indexPath.row + 1
-        let content = array[indexPath.row + 1]
-        objNavigation = UINavigationController(rootViewController: objPreview)
-        if let nav = objNavigation {
-            if let imageCell = viewStreamCollectionView.cellForItem(at: indexPath) as? StreamContentCell {
-                
-                navigationImageView = nil
-                let value = kFrame.size.width / CGFloat(content.width)
-                kImageHeight  = CGFloat(content.height) * value
-                if !content.description.trim().isEmpty  {
-                    kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
-                }
-                if kImageHeight < viewStreamCollectionView.bounds.size.height {
-                    kImageHeight = viewStreamCollectionView.bounds.size.height
-                }
-                navigationImageView = imageCell.imgCover
-                nav.cc_setZoomTransition(originalView: navigationImageView!)
-                nav.cc_swipeBackDisabled = false
-            }
-            
-            self.present(nav, animated: true, completion: nil)
-            //self.hideStatusBar()
-        }
-        
-    }
-    
+   
     
     func btnActionForAddContent() {
        
@@ -841,13 +922,7 @@ class EmogoDetailViewController: UIViewController {
         ContentList.sharedInstance.arrayContent.insert(content, at: 0)
     }
     
-    @objc func previewScreenNavigated(){
-        if   ContentList.sharedInstance.arrayContent.count != 0 {
-            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-            ContentList.sharedInstance.objStream = self.currentStream.ID
-            self.navigationController?.pushNormal(viewController: objPreview)
-        }
-    }
+ 
     
     func actionForCamera(){
         ContentList.sharedInstance.objStream = self.currentStream?.ID
@@ -881,37 +956,7 @@ class EmogoDetailViewController: UIViewController {
         controller.isOpenFrom = "StreamView"
         self.navigationController?.push(viewController: controller)
     }
-    @objc func updateData(notification:Notification){
-        if let dict = notification.userInfo {
-            if let data = (dict as! [String:Any])["data"] as? [String] {
-                print(data)
-//                for v in 0...StreamList.sharedInstance.arrayViewStream.count-1 {
-//                    let streams = StreamList.sharedInstance.arrayViewStream[v]
-//                    for dataIDs in data {
-//                        if streams.ID == dataIDs {
-//                            self.currentIndex = v
-//                            self.updateLayOut()
-//                            break
-//                        }
-//                    }
-//
-                ContentList.sharedInstance.objStream = nil
-                if self.currentStream != nil {
-                    self.getStream(currentStream: self.currentStream,isLoadMore:false)
-                }
-                
-                }
-        }else {
-        let isExist = StreamList.sharedInstance.arrayViewStream.indices.contains(self.currentIndex)
-            if isExist {
-                self.currentStream = StreamList.sharedInstance.arrayViewStream[self.currentIndex]
-                if self.currentStream != nil {
-                    self.getStream(currentStream: self.currentStream,isLoadMore:false)
-                }
-            }
-            
-        }
-        }
+   
     
     func composeMessage() -> MSMessage {
         let session = MSSession()
@@ -924,7 +969,7 @@ class EmogoDetailViewController: UIViewController {
         layout.subcaption = stretchyHeader.lblDescription.text!
         
         message.layout = layout
-        //let selectedImage = StreamList.sharedInstance.arrayStream[currentIndex]
+  
         if StreamList.sharedInstance.objStream == nil {
             let strURl = String(format: "%@/%@", kNavigation_Stream,self.currentStream.ID)
             message.url = URL(string: strURl)
@@ -937,18 +982,16 @@ class EmogoDetailViewController: UIViewController {
     }
     
     func next() {
-        //   self.objStream = nil
-        // isDidLoad = true
+      
         self.viewStreamCollectionView.isHidden = true
         self.lblNoContent.isHidden = true
         self.btnAddContent.isHidden = true
        
-     //   stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
         if(currentIndex < StreamList.sharedInstance.arrayViewStream.count-1) {
             currentIndex = currentIndex + 1
         }
         Animation.addRightTransition(collection: self.viewStreamCollectionView)
-        //self.viewStreamCollectionView.reloadData()
+     
       
         self.updateLayOut()
      
@@ -958,19 +1001,18 @@ class EmogoDetailViewController: UIViewController {
     }
     
     func previous() {
-        //  isDidLoad = true
+     
         
         self.viewStreamCollectionView.isHidden = true
-        //   self.objStream = nil
+       
         self.btnAddContent.isHidden = true
-     //   stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
-        
+    
         self.lblNoContent.isHidden = true
         if currentIndex != 0{
             currentIndex =  currentIndex - 1
         }
         Animation.addLeftTransition(collection: self.viewStreamCollectionView)
-  //      self.viewStreamCollectionView.reloadData()
+ 
       
         self.updateLayOut()
         
@@ -978,76 +1020,72 @@ class EmogoDetailViewController: UIViewController {
             self.delegate?.nextItemScrolled(index: currentIndex)
         }
     }
+
     
-   @objc func updateLayOut(){
-        if self.stretchyHeader != nil  {
-     //       self.stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
-        }
     
-        if ContentList.sharedInstance.objStream != nil {
-            
-            if self.isUpload {
-                self.isUpload = false
-                
-                let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
-                let streamID = stream.ID
-                if streamID != "" {
-                    self.currentStream = stream
-                    //self.getStream(currentStream:nil,streamID:streamID)
-                }
-            }else{
-                let contains = StreamList.sharedInstance.arrayViewStream.indices.contains(currentIndex)
-               if contains {
-                    let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
-                    let streamID = stream.ID
-                    if streamID != "" {
-                        self.currentStream = stream
-                        //self.getStream(currentStream:nil,streamID:streamID)
-                    }
-                }
-               
-            }
-            if SharedData.sharedInstance.deepLinkType != "" {
-                self.btnActionForAddContent()
-                SharedData.sharedInstance.deepLinkType = ""
-            }
-            ContentList.sharedInstance.objStream = nil
-        }
-        else {
-            if StreamList.sharedInstance.arrayViewStream.count != 0 {
-                if currentIndex != nil {
-                    let isIndexValid = StreamList.sharedInstance.arrayViewStream.indices.contains(currentIndex)
-                    if isIndexValid {
-                        let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
-                        StreamList.sharedInstance.selectedStream = stream
-                    }
-                }
-            }
-            if StreamList.sharedInstance.selectedStream != nil {
-                  self.currentStream = nil
-                  self.currentStream = StreamList.sharedInstance.selectedStream
-                //  self.getStream(currentStream:self.currentStream , isLoadMore: true)
-            }
-            
-            if SharedData.sharedInstance.deepLinkType != "" {
-                self.btnActionForAddContent()
-                SharedData.sharedInstance.deepLinkType = ""
-            }
-        }
-        print( self.currentStream)
-        self.viewStreamCollectionView.isHidden = false
-        self.viewStreamCollectionView.reloadData()
-        kRefreshCell = true
-        self.viewStreamCollectionView.es.resetNoMoreData()
-        if self.currentStream.canAddContent == true {
-            self.btnAddContent.isHidden = false
-        }
-       configureNavigation()
-       DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+
+    func getStream(currentStream:StreamDAO?, streamID:String? = nil,isLoadMore:Bool? = nil){
         
-            self.prepareHeaderData()
+        let id = currentStream?.ID
+        APIServiceManager.sharedInstance.apiForViewStream(streamID:id!) { (stream, errorMsg) in
+            if (errorMsg?.isEmpty)! {
+                if streamID != nil {
+                    self.viewStreamCollectionView.es.stopPullToRefresh()
+                }
+                self.viewStreamCollectionView.es.noticeNoMoreData()
+                self.currentStream.arrayContent = (stream?.arrayContent)!
+                self.currentStream.arrayColab = (stream?.arrayColab)!
+                self.currentStream.colabImageFirst = (stream?.colabImageFirst)!
+                self.currentStream.colabImageSecond = (stream?.colabImageSecond)!
+                self.currentStream.userImage = (stream?.userImage)!
+                self.currentStream.totalCollaborator = (stream?.totalCollaborator)!
+                
+                
+                for obj in StreamList.sharedInstance.arrayStream {
+                    if obj.ID == self.currentStream.ID.trim() {
+                        if let index =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == self.currentStream.ID.trim()}) {
+                            StreamList.sharedInstance.arrayStream[index] =  self.currentStream
+                        }
+                    }
+                }
+                
+                for obj in StreamList.sharedInstance.arrayProfileStream {
+                    if obj.ID == self.currentStream.ID.trim() {
+                        if let index =  StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == self.currentStream.ID.trim()}) {
+                            StreamList.sharedInstance.arrayProfileStream[index] =  self.currentStream
+                        }
+                    }
+                }
+                
+                for obj in StreamList.sharedInstance.arrayProfileColabStream {
+                    if obj.ID == self.currentStream.ID.trim() {
+                        if let index =  StreamList.sharedInstance.arrayProfileColabStream.index(where: {$0.ID.trim() == self.currentStream.ID.trim()}) {
+                            StreamList.sharedInstance.arrayProfileColabStream[index] =  self.currentStream
+                        }
+                    }
+                }
+                
+                
+                if isLoadMore! {
+                    self.updateLayOut()
+                }
+                self.viewStreamCollectionView.reloadData()
+            }
+            else {
+                if errorMsg == "404" {
+                    self.showToast(type: .success, strMSG: kAlert_Stream_Deleted)
+                    let when = DispatchTime.now() + 1.5
+                    DispatchQueue.main.asyncAfter(deadline: when) {
+                        self.navigationController?.popNormal()
+                    }
+                }else {
+                    self.showToast(type: .success, strMSG: errorMsg!)
+                }
+            }
         }
     }
+    
     
     func likeDislikeStream(){
         
@@ -1055,21 +1093,13 @@ class EmogoDetailViewController: UIViewController {
             if (error?.isEmpty)! {
                 self.currentStream.likeStatus = status
                 self.currentStream.totalLiked = count
-                //  self.currentStream.arrayLikedUsers = results!
+             
                 if status == "0" {
                     self.stretchyHeader.lblLikeCount.text = "\(self.currentStream.totalLiked.trim())"
-                   // self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-                    //                    self.stretchyHeader.btnLikeOtherUser.isSelected = false
-                    //                    self.stretchyHeader.btnLikeOtherUser.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-                    //                    self.stretchyHeader.btnLike.isSelected = false
-                    //                   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                  
                 }else{
                     self.stretchyHeader.lblLikeCount.text = "\(self.currentStream.totalLiked.trim())"
-                   //   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-                    //                    self.stretchyHeader.btnLike.isSelected = true
-                    //                    self.stretchyHeader.btnLikeOtherUser.isSelected = true
-                    //                    self.stretchyHeader.btnLikeOtherUser .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
-                    //                  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .selected)
+                 
                 }
                 
                 
@@ -1216,66 +1246,7 @@ class EmogoDetailViewController: UIViewController {
         }
     }
     
-    func getStream(currentStream:StreamDAO?, streamID:String? = nil,isLoadMore:Bool? = nil){
-        
-        let id = currentStream?.ID
-        APIServiceManager.sharedInstance.apiForViewStream(streamID:id!) { (stream, errorMsg) in
-            if (errorMsg?.isEmpty)! {
-                if streamID != nil {
-                    self.viewStreamCollectionView.es.stopPullToRefresh()
-                }
-                self.viewStreamCollectionView.es.noticeNoMoreData()
-                self.currentStream.arrayContent = (stream?.arrayContent)!
-                self.currentStream.arrayColab = (stream?.arrayColab)!
-                self.currentStream.colabImageFirst = (stream?.colabImageFirst)!
-                self.currentStream.colabImageSecond = (stream?.colabImageSecond)!
-                self.currentStream.userImage = (stream?.userImage)!
-                self.currentStream.totalCollaborator = (stream?.totalCollaborator)!
-                
-                
-                for obj in StreamList.sharedInstance.arrayStream {
-                    if obj.ID == self.currentStream.ID.trim() {
-                        if let index =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == self.currentStream.ID.trim()}) {
-                            StreamList.sharedInstance.arrayStream[index] =  self.currentStream
-                        }
-                    }
-                }
-                
-                for obj in StreamList.sharedInstance.arrayProfileStream {
-                    if obj.ID == self.currentStream.ID.trim() {
-                        if let index =  StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == self.currentStream.ID.trim()}) {
-                            StreamList.sharedInstance.arrayProfileStream[index] =  self.currentStream
-                        }
-                    }
-                }
-                
-                for obj in StreamList.sharedInstance.arrayProfileColabStream {
-                    if obj.ID == self.currentStream.ID.trim() {
-                        if let index =  StreamList.sharedInstance.arrayProfileColabStream.index(where: {$0.ID.trim() == self.currentStream.ID.trim()}) {
-                            StreamList.sharedInstance.arrayProfileColabStream[index] =  self.currentStream
-                        }
-                    }
-                }
-                
-                
-                if isLoadMore! {
-                    self.updateLayOut()
-                }
-                self.viewStreamCollectionView.reloadData()
-            }
-            else {
-                if errorMsg == "404" {
-                    self.showToast(type: .success, strMSG: kAlert_Stream_Deleted)
-                    let when = DispatchTime.now() + 1.5
-                    DispatchQueue.main.asyncAfter(deadline: when) {
-                        self.navigationController?.popNormal()
-                    }
-                }else {
-                    self.showToast(type: .success, strMSG: errorMsg!)
-                }
-            }
-        }
-    }
+  
     func reorderContent(orderArray:[ContentDAO]) {
         
         APIServiceManager.sharedInstance.apiForReorderStreamContent(orderArray: orderArray, streamID: (self.currentStream?.ID)!) { (isSuccess,errorMSG)  in
@@ -1286,6 +1257,7 @@ class EmogoDetailViewController: UIViewController {
             }
         }
     }
+    
     
     
     /*
@@ -1299,6 +1271,11 @@ class EmogoDetailViewController: UIViewController {
      */
     
 }
+
+
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
 
 
 extension EmogoDetailViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
@@ -1321,6 +1298,9 @@ extension EmogoDetailViewController:UICollectionViewDelegate,UICollectionViewDat
        return currentStream.arrayContent.count
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cell.animateCell()
+    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
         
@@ -1497,6 +1477,7 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
             content.type = .image
             content.fileName = "SreamCover"
             content.name = currentStream.Title
+            content.fullname = currentStream.Author
             content.createrImage = currentStream.userImage
             content.description = currentStream.description
             content.height = currentStream.hieght
@@ -1528,14 +1509,12 @@ extension EmogoDetailViewController:StreamViewHeaderDelegate,UINavigationControl
                 navigationImageView = stretchyHeader.imgCover
                 nav.cc_setZoomTransition(originalView: navigationImageView!)
                 nav.cc_swipeBackDisabled = false
-                //self.present(nav, animated: true, completion: nil)
+              
                 self.present(nav, animated: true) {
                     self.stretchyHeader.imgCover.isUserInteractionEnabled = true
                 }
             }
-      // }
-       // self.present(nav, animated: true, completion: nil)
-        // self.openFullView(index: nil)
+    
     }
     
     
@@ -1597,9 +1576,3 @@ extension EmogoDetailViewController : ActionSheetViewControllerDelegate {
 }
 
 
-//extension EmogoDetailViewController:MFMessageComposeViewControllerDelegate {
-//    
-//    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-//        controller.dismiss(animated: true, completion: nil)
-//    }
-//}

@@ -415,12 +415,12 @@ class AWSRequestManager:NSObject {
     
     func showToast(strMSG:String){
         let messageView: MessageView = MessageView.viewFromNib(layout: .centeredView)
-       // messageView.layoutMargins = .init(top: 65, left: 0, bottom: 0, right: 0)
+      
         messageView.configureBackgroundView(width: kFrame.size.width - 15)
         messageView.configureContent(title: strMSG, body: nil, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: nil) { _ in
             SwiftMessages.hide()
         }
-        //   messageView.bounceAnimationOffset =
+      
         
         messageView.titleLabel?.font = UIFont(name: kFontTextRegular, size: 8.0)
         messageView.titleLabel?.textColor = UIColor.black
@@ -430,20 +430,13 @@ class AWSRequestManager:NSObject {
         messageView.iconImageView?.tintColor = UIColor(r: 74, g: 74, b: 74)
         messageView.bodyLabel?.isHidden = true
         messageView.titleLabel?.numberOfLines = 0
-
-       // messageView.bodyLabel?.font = UIFont(name: kFontBold, size: 16.0)
         messageView.bodyLabel?.textAlignment = .center
-     //   messageView.bodyLabel?.textColor = UIColor.white
         messageView.titleLabel?.textAlignment = .center
-      //  messageView.iconImageView?.tintColor = UIColor.white
         messageView.button?.isHidden = true
-    //    messageView.backgroundView.backgroundColor = UIColor(r: 15, g: 128, b: 255)
-     //   messageView.backgroundView.layer.cornerRadius = 35
         var config = SwiftMessages.defaultConfig
         config.presentationStyle = .top
         config.duration = .seconds(seconds: 3.0)
         config.dimMode = .color(color: UIColor.clear, interactive: true)
-        // config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.6), interactive: true)
         config.presentationContext  = .window(windowLevel: UIWindowLevelStatusBar)
         SwiftMessages.show(config: config, view: messageView)
     }

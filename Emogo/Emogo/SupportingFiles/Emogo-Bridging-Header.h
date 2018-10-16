@@ -14,10 +14,8 @@
 #import "FLAnimatedImageView+ImageURL.h"
 #import "FLAnimatedImageView.h"
 #import "FLAnimatedImage.h"
-#import "BIZPopupViewController.h"
 #import "UILabel+LineCounter.h"
 #import "UITextView+Placeholder.h"
-#import "HHPageView.h"
-#import "UIView+YGPulseView.h"
 #import "HMSegmentedControl.h"
+#import "HHPageView.h"
 

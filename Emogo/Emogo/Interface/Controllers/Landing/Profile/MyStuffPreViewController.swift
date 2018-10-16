@@ -11,11 +11,19 @@
 import UIKit
 
 class MyStuffPreViewController: UIViewController {
+    
+     //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
     @IBOutlet weak var profileCollectionView: UICollectionView!
+    
+      //MARK: ⬇︎⬇︎⬇︎ Varibales ⬇︎⬇︎⬇︎
+    
     var selectedType:StuffType!
     var selectedIndex:IndexPath?
 
 
+      //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,6 +41,8 @@ class MyStuffPreViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+     //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
     
     func prepareLayout(){
         configureNavigationWithTitle()
@@ -110,6 +120,7 @@ class MyStuffPreViewController: UIViewController {
         }
     }
     
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
     
     func getStuff(type:RefreshType){
         if type == .start || type == .up {
@@ -148,20 +159,12 @@ class MyStuffPreViewController: UIViewController {
         }
     }
     
-    
-   
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
 
 extension MyStuffPreViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
@@ -243,14 +246,5 @@ extension MyStuffPreViewController:UICollectionViewDelegate,UICollectionViewData
             return false
         }
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
-//
-//        if proposedIndexPath.item == 0 {
-//            return IndexPath(item: 1, section: 0)
-//        }else {
-//            return proposedIndexPath
-//        }
-//    }
 
 }

@@ -12,7 +12,7 @@ import QuartzCore
 
 let TipInCellAnimatorStartTransform:CATransform3D = {
     let rotationDegrees: CGFloat = -15.0
-    let rotationRadians: CGFloat = rotationDegrees * (CGFloat(M_PI)/180.0)
+    let rotationRadians: CGFloat = rotationDegrees * (CGFloat(Double.pi)/180.0)
     let offset =  CGPoint(x: -20, y: -20)
     var startTransform = CATransform3DIdentity
     startTransform = CATransform3DRotate(CATransform3DIdentity,

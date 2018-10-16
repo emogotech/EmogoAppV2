@@ -200,7 +200,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         if self.objStream?.likeStatus == "0" {
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         }else{
-            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+          self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             
         }
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
@@ -420,13 +420,11 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
      self.shareStreamAction()
     }
     func shareStreamAction(){
-        // print("Share Action")
-        
+     
         if  kDefault?.bool(forKey: kHapticFeedback) == true {
-            //            self.btnShare.isHaptic = true
-            //            self.btnShare.hapticType = .impact(.light)
+        
         }else{
-            //self.btnShare.isHaptic = false
+ 
         }
         if(SharedData.sharedInstance.isMessageWindowExpand){
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Compact), object: nil)
@@ -472,11 +470,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
             let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
             self.present(vc, animated: true, completion: nil)
         }
-            //        else if self.strStream == "viewStream"   {
-            //            self.dismiss(animated: true, completion: nil)
-            //            SharedData.sharedInstance.iMessageNavigation = "viewStream"
-            //
-            //        }
+        
         else {
             self.dismiss(animated: true, completion: nil)
             SharedData.sharedInstance.iMessageNavigation = ""
@@ -507,9 +501,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                 }
                 break
                 
-//            case .down:
-//             self.navigationController?.popViewAsDismiss()
-//            break
+
             default:
                 break
             }
@@ -518,11 +510,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     func nextImageLoad() {
      
         btnEdit.isHidden = true
-        // btnCollaborator.isHidden = true
-        
-        
-   
-        
+     
         if(currentStreamIndex < arrStream.count-1) {
             currentStreamIndex = currentStreamIndex + 1
         }
@@ -534,13 +522,11 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     func previousImageLoad() {
       
         btnEdit.isHidden = true
-        //btnCollaborator.isHidden = true
-       
+     
         if currentStreamIndex != 0{
             currentStreamIndex =  currentStreamIndex - 1
         }
-        // btnEnableDisable()
-      
+       
         getStream()
     }
     
@@ -586,7 +572,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         layout.subcaption = stretchyHeader.lblDescription.text!
         
         message.layout = layout
-        //let selectedImage = StreamList.sharedInstance.arrayStream[currentIndex]
+      
         if StreamList.sharedInstance.objStream == nil {
             let strURl = String(format: "%@/%@", kNavigation_Stream,self.objStream!.streamID)
             message.url = URL(string: strURl)
@@ -637,8 +623,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                 self.present(obj, animated: true, completion: nil)
              }
             else if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-//                let obj:ProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-//                 self.present(obj, animated: true, completion: nil)
+
              }
             else {
                 let objPeople = PeopleDAO(peopleData: [:])
@@ -828,8 +813,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
    
     
     func deleteStream() {
-        //        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
-        //        let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
+     
         let stream = self.arrStream[self.currentStreamIndex]
         APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (stream.ID)!) { (isSuccess, errorMsg) in
             if (errorMsg?.isEmpty)! {
@@ -880,8 +864,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     }
 
     func updateStreamViewCount(count: String) {
-        
-        //self.lbl_ViewCount.text = count
+    
         
     }
     
@@ -945,7 +928,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         obj.arrContentData = array!
         obj.isViewCount = "TRUE"
         obj.isViewStream =  true
-        //   self.addRippleTransition()
+      
         obj.currentStreamID = objStream?.streamID!
         obj.currentContentIndex  = indexPath.row + 1
         print(obj.currentContentIndex)
@@ -955,7 +938,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
             nav.cc_swipeBackDisabled = true
         }
         self.present(nav, animated: true, completion: nil)
-        // self.present(obj, animated: false, completion: nil)
+      
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {

@@ -86,7 +86,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         kWidthCancel.constant = 0.0
         self.viewSegment.isHidden = true
         self.kHeightViewSegment.constant = 0.0
-        
+        self.viewCollectionsMain.backgroundColor = .white
+        self.collectionStream.backgroundColor = .white
         SharedData.sharedInstance.tempViewController = self
         self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -120,8 +121,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         btnPeopleSearch.isUserInteractionEnabled = true
 
     }
-    
-
+ 
     
     @objc func reloadStreamData(){
         
@@ -129,15 +129,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                  self.changePager()
         }
       
-      
-//        }else if isSearch && !isStreamEnable{
-//            self.getStreamGlobleSearch(searchText: searchText.text!, type: .start)
-//        }else{
-//
-//        }
-            
 }
-            //self.getStreamList(type:.start,filter:self.streamType)
+           
         
 
     //MARK:- Configure Stream Header
@@ -179,7 +172,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             }
             self.collectionStream.reloadData()
         }
-          // self.getStreamList(type: .start, filter: currentStreamType)
+         
     }
     
 
@@ -321,8 +314,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             self.refresher?.addTarget(self, action: #selector(pullToDownAction), for: .valueChanged)
             self.collectionStream!.addSubview(refresher!)
             self.view.isUserInteractionEnabled = true
-           // viewCollections.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-          //  viewStream.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+         
         }
     }
     
@@ -335,14 +327,16 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                 layout.minimumInteritemSpacing = 8
                 layout.minimumLineSpacing = 8
                 collectionStream!.collectionViewLayout = layout
+
             }
 
            else {
-                
-                layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-                layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
+            
+               layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+               layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
                 layout.minimumInteritemSpacing = 8
-                layout.minimumLineSpacing = 8
+                layout.minimumLineSpacing = 8   
+
                 collectionStream!.collectionViewLayout = layout
                
                 
@@ -378,14 +372,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             layout.minimumLineSpacing = 8
             collectionStream!.collectionViewLayout = layout
         }
-            /*
-        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
-            layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-            layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 )
-            layout.minimumInteritemSpacing = 8
-            layout.minimumLineSpacing = 8
-            collectionStream!.collectionViewLayout = layout
-        }*/
+      
         else  {
             layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
             layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
@@ -451,16 +438,14 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         if  self.isSearch == true && isStreamEnable{
             self.collectionStream.isHidden = true
             DispatchQueue.main.async {
-//                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
-               // self.setupCollectionProperties()
+
                 self.collectionStream.isHidden = false
                 self.collectionStream.reloadData()
             }
             
         } else if  self.isSearch == true && !isStreamEnable{
             DispatchQueue.main.async {
-//                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.viewPeople.frame.size.width, height: self.viewPeople.frame.size.height-40)
-                //self.setupCollectionProperties()
+
                 self.collectionStream.isHidden = false
                 self.collectionStream.reloadData()
             }
@@ -475,14 +460,10 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         self.collectionStream.isUserInteractionEnabled = true
         self.view.isUserInteractionEnabled = true
         if self.isSearch == false {
-//            if currentStreamType == .People {
-//                self.view.isUserInteractionEnabled = false
-//                self.getUsersList(type: .up)
-//            }else {
+
                  self.view.isUserInteractionEnabled = true
                  self.getTopStreamList()
-                // self.getStreamList(type: .up, filter: currentStreamType)
-            //}
+            
         }
         else {
             if isSearch && !isStreamEnable {
@@ -534,16 +515,14 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         self.setupRefreshLoader()
         
         if (isSearch  && !isStreamEnable){
-           // PeopleList.sharedInstance.arrayPeople.removeAll()
-          //  StreamList.sharedInstance.requestURl = ""
-          //  PeopleList.sharedInstance.requestURl = ""
+          
             self.arrayToShow.removeAll()
             self.collectionStream.reloadData()
             self.hudView.startLoaderWithAnimation()
             self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
         }
         else if (isSearch  &&  isStreamEnable){
-           // PeopleList.sharedInstance.arrayPeople.removeAll()
+          
             self.arrayToShow.removeAll()
             self.collectionStream.reloadData()
             StreamList.sharedInstance.requestURl = ""
@@ -553,66 +532,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         }else {
             self.getTopStreamList()
         }
-        
-        
-//        //Shobhit
-//        DispatchQueue.main.async {
-//            self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-//            if self.arrayToShow.count == 0 {
-//                self.lblNoResult.isHidden = false
-//            }else {
-//                self.lblNoResult.isHidden = true
-//            }
-//            self.collectionStream.reloadData()
-//        }
-        
+   
     }
-    /*
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if !checkIsAvailableFilter() {
-            preparePagerFrame()
-        }
-     
-        collectionStream.translatesAutoresizingMaskIntoConstraints = false
-        SharedData.sharedInstance.tempViewController = self
-        btnFeature.setTitleColor(#colorLiteral(red: 0, green: 0.6784313725, blue: 0.9529411765, alpha: 1), for: UIControlState.normal)
-        
-        self.setupCollectionProperties()
-        self.setupRefreshLoader()
-        
-        if (isSearch  && !isStreamEnable){
-            PeopleList.sharedInstance.arrayPeople.removeAll()
-            StreamList.sharedInstance.requestURl = ""
-            PeopleList.sharedInstance.requestURl = ""
-            self.arrayToShow.removeAll()
-            self.collectionStream.reloadData()
-            self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
-        }
-        else if (isSearch  &&  isStreamEnable){
-            PeopleList.sharedInstance.arrayPeople.removeAll()
-            self.arrayToShow.removeAll()
-            self.collectionStream.reloadData()
-            StreamList.sharedInstance.requestURl = ""
-            PeopleList.sharedInstance.requestURl = ""
-            self.getStreamGlobleSearch(searchText: searchText.text!, type: .start)
-        }else {
-            self.getTopStreamList()
-        }
-        
-        
-        //Shobhit
-        DispatchQueue.main.async {
-            self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-            if self.arrayToShow.count == 0 {
-                self.lblNoResult.isHidden = false
-            }else {
-                self.lblNoResult.isHidden = true
-            }
-            self.collectionStream.reloadData()
-        }
-        
-    }*/
     
     func checkIsAvailableFilter() -> Bool {
         for subView in pagerContent.subviews {
@@ -632,11 +553,13 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             print("Selected index \(index) (via block)")
             self.updateStreamSegment(index: index)
         }
-        self.segmentHeader.segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+      //  self.segmentHeader.segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+         self.segmentHeader.segmentControl.backgroundColor = .white
         self.segmentHeader.segmentControl.selectionIndicatorHeight = 1.0
         self.segmentHeader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
         self.segmentHeader.segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         self.segmentHeader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        
         self.segmentHeader.segmentControl.selectionStyle = .textWidthStripe
         self.segmentHeader.segmentControl.selectedSegmentIndex = 0
         self.segmentHeader.segmentControl.selectionIndicatorLocation = .down
@@ -653,24 +576,9 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                 isSearch = true
                 self.hudView.startLoaderWithAnimation()
                 StreamList.sharedInstance.requestURl = ""
-//                if btnFeature.titleLabel?.text == "PEOPLE" {
-//                    isStreamEnable = false
-//                    self.btnStreamSearch.isUserInteractionEnabled = true
-//                    self.btnPeopleSearch.isUserInteractionEnabled = false
-//                    lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-//                    lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-//
-//                    PeopleList.sharedInstance.arrayPeople.removeAll()
-//                    collectionStream.reloadData()
-//                    self.collectionStream.isHidden = true
-//                    StreamList.sharedInstance.requestURl = ""
-//                    PeopleList.sharedInstance.requestURl = ""
-//                    SharedData.sharedInstance.isMoreContentAvailable = false
-//                    self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
-//                }else{
+
                     isStreamEnable = true
-                    //lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                  //  lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+                
                     self.btnStreamSearch.isUserInteractionEnabled = false
                     self.btnPeopleSearch.isUserInteractionEnabled = true
                     PeopleList.sharedInstance.arrayPeople.removeAll()
@@ -684,9 +592,9 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
               
             } else if searchText.text?.trim() != "" {
                 btnCancel.tag = 1
-                //   btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
+                
                 self.didTapActionSearch(searchString: (searchText.text?.trim())!)
-                //self.viewMenu.isHidden = true
+               
                 isSearch = true
             }
         }
@@ -704,19 +612,15 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             self.searchText.text = ""
             isSearch = false
             self.searchText.resignFirstResponder()
-           // self.viewCollections.isHidden = true
+          
             SharedData.sharedInstance.isMoreContentAvailable = false
             PeopleList.sharedInstance.requestURl = ""
             PeopleList.sharedInstance.arrayPeople.removeAll()
             collectionStream.reloadData()
-            //            if btnFeature.titleLabel?.text == "PEOPLE" {
-            ////                self.getUsersList(type: .start)
-            //            }else{
-            ////                self.getStreamList(type: .start, filter: streamType)
-            //            }
+          
             DispatchQueue.main.async {
                 self.collectionStream.isHidden = false
-//                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
+
                 self.setupCollectionProperties()
                 self.collectionStream.reloadData()
             }
@@ -1317,7 +1221,15 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         if !fectchingStreamData {
             return CGSize.zero
         }
-        return CGSize(width: collectionView.bounds.size.width, height: 50)
+    if currentStreamType == StreamType.People {
+        let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+        return CGSize(width: itemWidth, height: 100)
+      }else {
+        let itemWidth = collectionView.bounds.size.width/2.0
+    
+       return CGSize(width: itemWidth, height: itemWidth - 23*kScale)
+      //  return CGSize(width: collectionView.bounds.size.width, height: 50)
+    }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {

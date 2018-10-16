@@ -110,7 +110,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         self.lblDescription.text = content.description.trim()
         self.viewContainer.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
         self.lblDescription.numberOfLines = 3
-        //self.imgCover.backgroundColor = .black
+ 
         if content.type == .video {
             self.btnPlay.isHidden = false
         }else {
@@ -138,6 +138,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
     func slideShow(_ slideShow: KASlideShow!, objectAt index: Int) -> NSObject! {
         return arrayContent[index] as! NSObject
     }
+    
     // MARK: - KASlideShow delegate
     func slideShowDidShowNext(_ slideShow: KASlideShow!) {
         self.btnPlay.tag = Int(slideShow.currentIndex)
@@ -191,10 +192,9 @@ class MyStreamCell:UICollectionViewCell {
             self.imgCover.setImageWithURL(strImage:stream.CoverImage.trim(), placeholder: kPlaceholderImage)
             self.lblTitle.text = stream.Title.trim()
             self.lblTitle.minimumScaleFactor = 1.0
-           // self.lblName.text =  "by \(stream.Author.trim())"
             self.lblName.text =  "\(stream.Author.trim())"
             self.lblName.minimumScaleFactor = 1.0
-            self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+            self.viewContent.layer.contents = UIImage(named: "card-gradient")?.cgImage
             if stream.isSelected {
                 imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
             }else {

@@ -19,16 +19,10 @@ internal enum CircleLotationSet {
     
     var color: CGColor {
         switch self {
-//        case .leftUp: return #colorLiteral(red: 0.2431372549, green: 0.3098039216, blue: 0.7058823529, alpha: 0.7955907534).cgColor
-//        case .rightUp: return #colorLiteral(red: 0.2431372549, green: 0.3098039216, blue: 0.7058823529, alpha: 0.6039169521).cgColor
-//        case .rightDown: return #colorLiteral(red: 0.2431372549, green: 0.3098039216, blue: 0.7058823529, alpha: 0.395119863).cgColor
-//        case .leftDown: return #colorLiteral(red: 0.2431372549, green: 0.3098039216, blue: 0.7058823529, alpha: 0.2003424658).cgColor
-            
         case .leftUp: return #colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1).cgColor
         case .rightUp: return #colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1).cgColor
         case .rightDown: return #colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1).cgColor
         case .leftDown: return #colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1).cgColor
-            
         }
     }
     

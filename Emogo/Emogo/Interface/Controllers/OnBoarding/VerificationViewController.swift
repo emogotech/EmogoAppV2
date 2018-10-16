@@ -11,9 +11,7 @@ import UIKit
 
 class VerificationViewController: UIViewController {
     
-    // MARK: - UI Elements
-
-   // @IBOutlet weak var txtOtP                 : SHSPhoneTextField!
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
 
     @IBOutlet weak var otpView: VPMOTPView!
     
@@ -22,7 +20,8 @@ class VerificationViewController: UIViewController {
     var isForLogin:String!
     var txtOtP: String = ""
 
-    // MARK: - Override Functions
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareLayouts()
@@ -37,14 +36,14 @@ class VerificationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - Prepare Layouts
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+    
     func prepareLayouts(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
          UITextField.appearance().keyboardAppearance = .dark
         self.setOTPView()
-       // addToolBar(textField: txtOtP)
-       // txtOtP.formatter.setDefaultOutputPattern("#####")
+     
     }
     
     func setOTPView() {
@@ -67,7 +66,7 @@ class VerificationViewController: UIViewController {
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.blackTranslucent
         toolBar.isTranslucent = true
-        //        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+       
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
         doneButton.tintColor = .white
         
@@ -80,11 +79,11 @@ class VerificationViewController: UIViewController {
         textField.keyboardAppearance = .dark
       
     }
-    @objc func donePressed(){
-        self.btnGoToLandingScreen(UIButton())
-    }
     
-    // MARK: -  Action Methods And Selector
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+
+   
+    
     @IBAction func btnGoToLandingScreen(_ sender: Any) {
       print(self.txtOtP)
         if (self.txtOtP.trim().isEmpty) {
@@ -112,12 +111,16 @@ class VerificationViewController: UIViewController {
 
     }
 
-    // MARK: - Class Methods
+    
     @objc func disMissKeyboard(){
         self.view.endEditing(true)
     }
+    @objc func donePressed(){
+        self.btnGoToLandingScreen(UIButton())
+    }
     
-    // MARK: - API Methods
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+    
 
     func verifyOTP(){
         if Reachability.isNetworkAvailable() {
@@ -127,9 +130,7 @@ class VerificationViewController: UIViewController {
                 if isSuccess == true {
                     AppDelegate.appDelegate.removeOberserver()
                     AppDelegate.appDelegate.openLandingScreen(isAddAnimation:true)
-                   // let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
-                
-                    //self.navigationController?.flipPush(viewController: obj)
+                   
                 }else {
                     self.showToast(type: .error, strMSG: errorMsg!)
                 }
@@ -148,9 +149,6 @@ class VerificationViewController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
                     AppDelegate.appDelegate.removeOberserver()
-                  //  let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
-                 //   self.navigationController?.flipPush(viewController: obj)
-                    
                     AppDelegate.appDelegate.openLandingScreen(isAddAnimation:true)
                     }else {
                     self.showToast(type: .error, strMSG: errorMsg!)
@@ -187,6 +185,11 @@ class VerificationViewController: UIViewController {
     */
 
 }
+
+
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
 
 extension VerificationViewController: VPMOTPViewDelegate {
     

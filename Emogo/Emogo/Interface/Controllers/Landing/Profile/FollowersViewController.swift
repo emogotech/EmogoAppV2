@@ -11,9 +11,14 @@ import Presentr
 
 class FollowersViewController: UIViewController {
 
+    
+      //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
     @IBOutlet weak var tblFollowers: UITableView!
     @IBOutlet weak var txtSearch: UITextField!
     @IBOutlet weak var lblNOResult: UILabel!
+    
+     //MARK: ⬇︎⬇︎⬇︎ Varibales ⬇︎⬇︎⬇︎
 
     let kHeader = "FollowHeader"
     var listType:FollowerType!
@@ -24,11 +29,15 @@ class FollowersViewController: UIViewController {
     var objStream:StreamViewDAO?
     var objNavigationController:PMNavigationController?
     
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         prepareLayout()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         prepareTableview()
@@ -38,6 +47,8 @@ class FollowersViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
     
     func prepareLayout(){
             self.lblNOResult.isHidden = true
@@ -87,47 +98,8 @@ class FollowersViewController: UIViewController {
         }
     }
     
-    
-    
-   @objc func actionForFollowUser(sender:UIButton) {
-    var obj:FollowerDAO!
-    if self.isSearchEnable {
-        obj = self.arraySearch[sender.tag]
-    }else {
-        obj = FollowList.sharedInstance.arrayFollowers[sender.tag]
-    }
-    if obj != nil {
-        if listType == .Follower {
-            if obj.isFollowing {
-                self.unFollowUser(follow: obj, index: sender.tag)
-            }else {
-                self.followUser(userID: obj.userId, index: sender.tag)
-            }
-        }else {
-            self.unFollowUser(follow: obj, index: sender.tag)
-        }
-    }
    
-    }
-    
-   
-    @objc func textFieldEditingChange(sender:UITextField) {
-        if self.isSearchEnable == false {
-            self.tblFollowers.es.removeRefreshFooter()
-            self.tblFollowers.es.removeRefreshHeader()
-        }
-        self.isSearchEnable = true
-        self.arraySearch.removeAll()
-        self.tblFollowers.reloadData()
-        
-      
-        isEditingEnable = true
-        if listType == .Follower {
-            self.searchFollowerUser(text: (sender.text?.trim())!)
-        }else {
-            self.searchFollowingUser(text: (sender.text?.trim())!)
-        }
-    }
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
     
     func getFollowers(type:RefreshType){
         self.lblNOResult.isHidden = true
@@ -156,6 +128,7 @@ class FollowersViewController: UIViewController {
             
         }
     }
+    
     func getFollowing(type:RefreshType){
         self.lblNOResult.isHidden = true
 
@@ -208,6 +181,7 @@ class FollowersViewController: UIViewController {
             }
         }
     }
+    
     func unFollowUser(userID:String,index:Int){
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUnFollowUser(userID: userID) { (isSuccess, errorMSG) in
@@ -251,6 +225,7 @@ class FollowersViewController: UIViewController {
         }
     }
     
+    
     func searchFollowerUser(text:String) {
         self.lblNOResult.isHidden = true
         APIServiceManager.sharedInstance.apiForFollowerUserSearch(name: text) { (results, errorMSG) in
@@ -265,6 +240,8 @@ class FollowersViewController: UIViewController {
             }
         }
     }
+    
+    
     func searchFollowingUser(text:String) {
         self.lblNOResult.isHidden = true
         APIServiceManager.sharedInstance.apiForFollowingUserSearch(name: text) { (results, errorMSG) in
@@ -297,23 +274,55 @@ class FollowersViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @objc func actionForFollowUser(sender:UIButton) {
+        var obj:FollowerDAO!
+        if self.isSearchEnable {
+            obj = self.arraySearch[sender.tag]
+        }else {
+            obj = FollowList.sharedInstance.arrayFollowers[sender.tag]
+        }
+        if obj != nil {
+            if listType == .Follower {
+                if obj.isFollowing {
+                    self.unFollowUser(follow: obj, index: sender.tag)
+                }else {
+                    self.followUser(userID: obj.userId, index: sender.tag)
+                }
+            }else {
+                self.unFollowUser(follow: obj, index: sender.tag)
+            }
+        }
+        
     }
-    */
+    
+    
+    @objc func textFieldEditingChange(sender:UITextField) {
+        if self.isSearchEnable == false {
+            self.tblFollowers.es.removeRefreshFooter()
+            self.tblFollowers.es.removeRefreshHeader()
+        }
+        self.isSearchEnable = true
+        self.arraySearch.removeAll()
+        self.tblFollowers.reloadData()
+        
+        
+        isEditingEnable = true
+        if listType == .Follower {
+            self.searchFollowerUser(text: (sender.text?.trim())!)
+        }else {
+            self.searchFollowingUser(text: (sender.text?.trim())!)
+        }
+    }
+    
 
 }
 
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
 
 extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
-    
-    
+   
     func numberOfSections(in tableView: UITableView) -> Int  {
         return 2
     }
@@ -359,6 +368,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
             return 50
        
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let nibViews = Bundle.main.loadNibNamed(kHeader, owner: self, options: nil)
         let view:FollowHeader = nibViews?.first as! FollowHeader
@@ -370,9 +380,11 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
         }
         return view
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if UserDAO.sharedInstance.user.shareURL.isEmpty {
@@ -381,10 +393,9 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
             let url:URL = URL(string: UserDAO.sharedInstance.user.shareURL!)!
             
             let shareItem =  "Collaborate with me on emogo!"
-            // let shareItem = "Hey checkout the s profile,emogo"
+           
             let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url], applicationActivities:nil)
-            //  activityViewController.excludedActivityTypes = [.print, .copyToPasteboard, .assignToContact, .saveToCameraRoll, .airDrop]
-            
+           
             DispatchQueue.main.async {
                 self.present(activityViewController, animated: true, completion: nil);
             }
@@ -405,7 +416,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
             let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
             obj.objPeople = objPeople
             self.navigationController?.popToViewController(vc: obj)
-           // self.navigationController?.push(viewController: obj)
+         
         }
     }
     
@@ -413,6 +424,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
         print("Editing Begin")
         
     }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if !(txtSearch.text?.trim().isEmpty)! {
@@ -420,6 +432,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
         }
         return true
     }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("Editing ended")
         if (txtSearch.text?.trim().isEmpty)! {
@@ -428,9 +441,9 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
             self.tblFollowers.reloadData()
         }
     }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return isEditingEnable
     }
-   
     
 }

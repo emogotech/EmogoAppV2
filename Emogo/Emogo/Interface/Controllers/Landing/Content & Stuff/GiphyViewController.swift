@@ -11,28 +11,30 @@ import GiphyCoreSDK
 
 class GiphyViewController: UIViewController {
     
+      //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
     @IBOutlet weak var giphyCollectionView: UICollectionView!
     @IBOutlet weak var txtSearch: UITextField!
     @IBOutlet weak var btnNext: UIButton!
 
+    //MARK: ⬇︎⬇︎⬇︎ Varibales ⬇︎⬇︎⬇︎
+    
     var arrayGiphy = [GiphyDAO]()
     var filteredArray = [GiphyDAO]()
     var isEditingEnable:Bool! = true
 
-
+   //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.prepareLayout()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureNavigationWithTitle()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -64,6 +66,13 @@ class GiphyViewController: UIViewController {
         self.giphyCollectionView.reloadData()
         
     }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
     
     func prepareLayout(){
         ContentList.sharedInstance.arrayContent.removeAll()
@@ -86,13 +95,8 @@ class GiphyViewController: UIViewController {
         btnNext.isHidden = true
     }
     
-    @objc func textFieldDidChange(textfield:UITextField) {
-        if (textfield.text?.trim().length)! > 2 {
-            self.arrayGiphy.removeAll()
-            self.giphyCollectionView.reloadData()
-            self.searchGiphy(text: (textfield.text?.trim())!)
-        }
-    }
+  
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
     
     @IBAction func btnActionNext(_ sender: Any) {
         
@@ -103,27 +107,11 @@ class GiphyViewController: UIViewController {
             self.showToast(strMSG: kAlert_contentSelect)
         }
         
-        /*
-        if let parent = self.parent {
-            if arraySelectedContent?.count != 0 {
-                HUDManager.sharedInstance.showHUD()
-                (parent as! ContainerViewController).updateConatentForGallery(array: arrayAssests!, completed: { (result) in
-                    HUDManager.sharedInstance.hideHUD()
-                    ContentList.sharedInstance.arrayContent.removeAll()
-                    let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                    ContentList.sharedInstance.arrayContent = arraySelectedContent
-                    objPreview.strPresented = "TRUE"
-                    let nav = UINavigationController(rootViewController: objPreview)
-                    self.parent?.present(nav, animated: true, completion: nil)
-                })
-                //            arraySelectedContent?.removeAll()
-                //            arrayAssests?.removeAll()
-            }else {
-                self.showToast(strMSG: kAlert_contentSelect)
-            }
-        }
- */
+      
     }
+    
+    //MARK: ⬇︎⬇︎⬇︎API Methods ⬇︎⬇︎⬇︎
+    
     func getTrendingList(){
         let client = GPHClient(apiKey: kGiphyAPIKey)
         client.trending(.gif, offset: 0, limit: 40, rating: .ratedPG13) { (response, error) in
@@ -135,7 +123,7 @@ class GiphyViewController: UIViewController {
                 // Do what you want with the error
                 print(error.localizedDescription)
             }
-            //let pagination = response.pagination
+        
             if let response = response, let data = response.data {
                 self.arrayGiphy.removeAll()
                 for result in data {
@@ -172,10 +160,11 @@ class GiphyViewController: UIViewController {
                     self.giphyCollectionView.reloadData()
                 }
             } else {
-                //print("No Results Found")
+              
             }
         }
     }
+    
     func searchGiphy(text:String) {
         isEditingEnable = false
         let client = GPHClient(apiKey: kGiphyAPIKey)
@@ -187,7 +176,7 @@ class GiphyViewController: UIViewController {
                 // Do what you want with the error
                 print(error.localizedDescription)
             }
-            //let pagination = response.pagination
+           
             if let response = response, let data = response.data {
                 self.arrayGiphy.removeAll()
                 for result in data {
@@ -222,22 +211,25 @@ class GiphyViewController: UIViewController {
                     self.giphyCollectionView.reloadData()
                 }
             } else {
-               // print("No Results Found")
+              
             }
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+     //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
+    
+    @objc func textFieldDidChange(textfield:UITextField) {
+        if (textfield.text?.trim().length)! > 2 {
+            self.arrayGiphy.removeAll()
+            self.giphyCollectionView.reloadData()
+            self.searchGiphy(text: (textfield.text?.trim())!)
+        }
     }
-    */
 
 }
 
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
 
 extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     

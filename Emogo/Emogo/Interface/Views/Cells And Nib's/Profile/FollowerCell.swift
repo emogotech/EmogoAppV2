@@ -32,7 +32,7 @@ class FollowerCell: UITableViewCell {
             }else{
                 self.imgUser.setImage(string: follow.displayName, color: UIColor.colorHash(name: follow.displayName ), circular: true)
                 }
-           // self.imgUser.image = #imageLiteral(resourceName: "demo_images")
+           
         }else {
             self.imgUser.setImageWithResizeURL(follow.userImage.trim())
         }
@@ -54,7 +54,6 @@ class FollowerCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
 
 }

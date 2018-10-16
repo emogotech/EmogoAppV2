@@ -11,7 +11,8 @@ import Presentr
 
 class SignUpViewController: UIViewController {
     
-    // MARK: - UI Elements
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+
     @IBOutlet weak var txtPhoneNumber                 : SHSPhoneTextField!
     @IBOutlet weak var btnCountryPicker               : UIButton!
 
@@ -37,7 +38,9 @@ class SignUpViewController: UIViewController {
     }()
     
     
-    // MARK: - Override Functions
+    
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,7 +57,9 @@ class SignUpViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - Prepare Layouts
+    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
     func prepareLayouts(){
         self.addToolBar(textField: txtPhoneNumber)
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
@@ -70,7 +75,8 @@ class SignUpViewController: UIViewController {
         }
     }
     
-    // MARK: -  Action Methods And Selector
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+
     @IBAction func btnGetOTPAction(_ sender: Any) {
         self.disMissKeyboard()
         if (self.txtPhoneNumber.text?.trim().isEmpty)! {
@@ -95,12 +101,13 @@ class SignUpViewController: UIViewController {
         customPresentViewController(customOrientationPresenter, viewController: nav, animated: true)
     }
     
-    // MARK: - Class Methods
+
     @objc func disMissKeyboard(){
         self.view.endEditing(true)
     }
 
-    // MARK: - API Methods
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+
 
     private func sigupUser(){
         if Reachability.isNetworkAvailable() {
@@ -132,12 +139,16 @@ class SignUpViewController: UIViewController {
     */
 }
 
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
+
 extension SignUpViewController: UITextFieldDelegate{
     func addToolBar(textField: UITextField){
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.blackTranslucent
         toolBar.isTranslucent = true
-        //        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+      
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
         doneButton.tintColor = .white
         

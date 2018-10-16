@@ -24,6 +24,6 @@ extension ZoomTransitionSourceDelegate {
     func transitionSourceDidEnd() {}
     func transitionSourceDidCancel() {}
     func zoomAnimation(animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-        UIView.animate(withDuration: animationDuration, delay: 0, options: .curveEaseInOut, animations: animations, completion: completion)
+        UIView.animate(withDuration: animationDuration, delay: 0, options: .overrideInheritedCurve, animations: animations, completion: completion)
     }
 }

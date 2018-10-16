@@ -10,18 +10,22 @@ import UIKit
 
 class SettingViewController: UIViewController {
 
+       //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
     @IBOutlet weak var btnShareProfile: UIButton!
     @IBOutlet weak var btnLogout: UIButton!
     @IBOutlet weak var switchHaptic: UISwitch!
     @IBOutlet weak var lblSeprator: UILabel!
     @IBOutlet weak var lblTitleHaptic: UILabel!
-    
     @IBOutlet weak var cons_top_logout: NSLayoutConstraint!
     
-    var objNavigation:PMNavigationController?
-    //Variables
+     //MARK: ⬇︎⬇︎⬇︎ Varibales ⬇︎⬇︎⬇︎
     
+    var objNavigation:PMNavigationController?
     var isHapticFeedback:Bool! =  true
+    
+    
+     //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,19 +33,19 @@ class SettingViewController: UIViewController {
         prepareLayout()
       
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-  
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         prepareNavigation()
     }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
     
-    //MARK:- prepare Layout
+   //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
     
     func prepareLayout() {
         btnLogout.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
@@ -72,7 +76,7 @@ class SettingViewController: UIViewController {
         }
     }
     
-    //MARK:- prepare Navigation
+
     
     func prepareNavigation() {
         var myAttribute2:[NSAttributedStringKey:Any]!
@@ -92,16 +96,13 @@ class SettingViewController: UIViewController {
         
         self.title = "Settings"
     }
-    
- 
-    //MARK: button actions
+   
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
     
     @objc func btnCloseAction(){
         self.navigationController?.popViewAsDismiss()
     }
-    
-    //MARK:- button logout action
-    
+   
     @IBAction func btnLogoutAction(_ sender: Any) {
       
         self.btnLogoutAction()
@@ -122,13 +123,7 @@ class SettingViewController: UIViewController {
         }
         
     }
-    //MARK:- button share action
-    
-//    @IBAction func btnShareProfile(_ sender: Any) {
-//        self.profileShareAction()
-//
-//    }
-    //MARK:- logout Action
+
     
     override func btnLogoutAction() {
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Logout, preferredStyle: .alert)
@@ -163,23 +158,5 @@ class SettingViewController: UIViewController {
             self.objNavigation?.reverseFlipPush(viewController: obj)
         }
     }
-    /*
-    //MARK:- share Profile Action
-    
-     func profileShareAction(){
-        if UserDAO.sharedInstance.user.shareURL.isEmpty {
-            return
-        }
-        let url:URL = URL(string: UserDAO.sharedInstance.user.shareURL!)!
-        let shareItem =  "Hey checkout \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile!"
-        let text = "\n via Emogo"
-        
-        // let shareItem = "Hey checkout the s profile,emogo"
-        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url,text], applicationActivities:nil)
-        //  activityViewController.excludedActivityTypes = [.print, .copyToPasteboard, .assignToContact, .saveToCameraRoll, .airDrop]
-        
-        DispatchQueue.main.async {
-            self.present(activityViewController, animated: true, completion: nil);
-        }
-    }*/
+  
 }

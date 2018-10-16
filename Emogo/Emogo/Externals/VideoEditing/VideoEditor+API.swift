@@ -56,6 +56,7 @@ extension VideoEditorViewController {
                 
                 for (index,obj) in ContentList.sharedInstance.arrayContent.enumerated() {
                     if obj.contentID ==  content?.contentID {
+                        content?.isEdit = self.seletedImage.isEdit
                         self.seletedImage = content
                         ContentList.sharedInstance.arrayContent[index] = content!
                     }

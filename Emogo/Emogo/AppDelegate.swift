@@ -12,12 +12,14 @@ import IQKeyboardManagerSwift
 import Fabric
 import Crashlytics
 import Branch
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     static var appDelegate:AppDelegate!
+    private let pushHandler = PushHandler()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -269,6 +271,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Initialize
     fileprivate func initializeApplication(){
         // Keyboard Manager
+        registerForRemoteNotification()
         IQKeyboardManager.sharedManager().enable = true
         AppDelegate.appDelegate = self
         kDefault?.removeObject(forKey: kRetakeIndex)
@@ -352,6 +355,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+
+// MARK: - PUSH NOTIFICATION
+
+extension AppDelegate {
+
+
+ func registerForRemoteNotification() {
+       
+        if #available(iOS 10.0, *){
+            
+            UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .sound, .alert], completionHandler: {(granted, error) in
+                if (granted){
+                    UNUserNotificationCenter.current().delegate = self.pushHandler
+                    
+                    DispatchQueue.main.async {
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
+                }
+                else{
+                    //Not allowed
+                }
+            })
+        }
+        else{
+            let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
+            let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
+             UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
+             UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("device token------>\(token)")
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print(error)
+    }
+}
 /*
  private func composeMessage() -> MSMessage {
  var components = URLComponents()

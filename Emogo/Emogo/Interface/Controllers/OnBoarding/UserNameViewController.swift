@@ -10,14 +10,16 @@ import UIKit
 
 class UserNameViewController: UIViewController {
     
-    // MARK: - UI Elements
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
     @IBOutlet weak var txtUserName                 : UITextField!
     @IBOutlet weak var checkBox                    : UIButton!
     var isAccepted:Bool! = false
 
     
     
-    // MARK: - Override Functions
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,7 +37,9 @@ class UserNameViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - Prepare Layouts
+    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+    
     func prepareLayouts(){
         
         self.addToolBar(textField: self.txtUserName)
@@ -49,7 +53,8 @@ class UserNameViewController: UIViewController {
     }
     
     
-    // MARK: -  Action Methods And Selector
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+    
     @IBAction func btnActionNext(_ sender: Any) {
             disMissKeyboard()
         if (self.txtUserName.text?.trim().isEmpty)! {
@@ -87,14 +92,18 @@ class UserNameViewController: UIViewController {
     @IBAction func btnActionBack(_ sender: Any) {
         self.navigationController?.pop()
     }
-    // MARK: - Class Methods
     @objc func disMissKeyboard(){
         self.view.endEditing(true)
     }
     
+    
     @objc func circleBoxValueChanged(sender: Checkbox) {
         print("circle box value change: \(sender.isChecked)")
     }
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+
     
     func verifyUserName(){
         if Reachability.isNetworkAvailable() {
@@ -117,9 +126,11 @@ class UserNameViewController: UIViewController {
     
 }
 
-// MARK: -  EXTENSIONS
 
-// MARK: -  Delegate and Datasource
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
 extension UserNameViewController:UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -130,7 +141,7 @@ extension UserNameViewController:UITextFieldDelegate {
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.blackTranslucent
         toolBar.isTranslucent = true
-        //        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+       
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
         doneButton.tintColor = .white
         

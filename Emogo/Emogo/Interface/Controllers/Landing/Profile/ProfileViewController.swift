@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import XLActionController
 import Social
 import Haptica
 import Presentr
+
+//MARK: ⬇︎⬇︎⬇︎ ENUM ⬇︎⬇︎⬇︎
 
 enum ProfileMenu:String{
     case stream = "1"
@@ -22,7 +23,8 @@ enum ProfileMenu:String{
 class ProfileViewController: UIViewController {
     
     
-    // MARK: - UI Elements
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+
     
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
@@ -31,32 +33,28 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var lblFullName: UILabel!
     @IBOutlet weak var lblWebsite: UILabel!
     @IBOutlet weak var lblLocation: UILabel!
-   
     @IBOutlet weak var imgUser: NZCircularImageView!
-    @IBOutlet weak var btnStream: UIButton!
-    @IBOutlet weak var btnColab: UIButton!
-    @IBOutlet weak var btnStuff: UIButton!
     @IBOutlet weak var lblNOResult: UILabel!
     @IBOutlet weak var imgLocation: UIImageView!
     @IBOutlet weak var imgLink: UIImageView!
     @IBOutlet weak var btnContainer: UIView!
-    @IBOutlet weak var lblBirthday: UILabel!
     @IBOutlet weak var kStuffOptionsHeight: NSLayoutConstraint!
     @IBOutlet weak var kHeaderHeight: NSLayoutConstraint!
     @IBOutlet weak var segmentControl: HMSegmentedControl!
     @IBOutlet weak var lblFollowers: UILabel!
     @IBOutlet weak var lblFollowing: UILabel!
     @IBOutlet weak var btnNext: UIButton!
-    @IBOutlet weak var btnNextStuff: UIButton!
     @IBOutlet weak var btnAdd: UIButton!
     @IBOutlet weak var imgRoundedCorner: UIImageView!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var heightviewBio: NSLayoutConstraint!
     @IBOutlet weak var kViewLocWebHeight: NSLayoutConstraint!
     @IBOutlet weak var segmentMain: HMSegmentedControl!
-    @IBOutlet weak var btnShare: UIButton!
-    @IBOutlet weak var btnSetting: UIButton!
-    @IBOutlet weak var btnClose: UIButton!
+  
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Variables ⬇︎⬇︎⬇︎
+
     
     var arrayTopContent = [TopContent]()
     var arrayMyStreams = [StreamDAO]()
@@ -102,7 +100,9 @@ class ProfileViewController: UIViewController {
     let layout = CHTCollectionViewWaterfallLayout()
     var objNavigation:UINavigationController?
     
-    // MARK: - Override Functions
+    
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,7 +112,6 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.lblNOResult.isHidden = true
-       // self.navigationController?.navigationBar.isTranslucent = false
         self.configureProfileNavigation()
       
         self.prepareLayout(listUpdate: false)
@@ -158,11 +157,10 @@ class ProfileViewController: UIViewController {
 
     
     
-    // MARK: - Prepare Layouts
-    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
     func prepareLayouts(){
-        
-        //self.title = "Profile"
+     
         self.btnNext.isHidden = true
         self.btnAdd.isHidden = false
         self.lblNOResult.isHidden = true
@@ -186,6 +184,7 @@ class ProfileViewController: UIViewController {
         // Collection view attributes
         self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         self.profileCollectionView.alwaysBounceVertical = true
+        
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kProfileUpdateIdentifier)), object: nil)
@@ -213,24 +212,7 @@ class ProfileViewController: UIViewController {
         let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
         edgePan.edges = .right
         view.addGestureRecognizer(edgePan)
-        
-//        let tapFollow = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
-//        self.lblFollowers.isUserInteractionEnabled = true
-//        self.lblFollowers.addGestureRecognizer(tapFollow)
-//
-//        let tapFollowing = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
-//        self.lblFollowing.isUserInteractionEnabled = true
-//        self.lblFollowing.addGestureRecognizer(tapFollowing)
-        
-       /*
-        self.btnStream.setTitleColor(colorSelected, for: .normal)
-        self.btnStream.titleLabel?.font = fontSelected
-        self.btnColab.setTitleColor(color, for: .normal)
-        self.btnColab.titleLabel?.font = font
-        self.btnStuff.setTitleColor(color, for: .normal)
-        self.btnStuff.titleLabel?.font = font
-         */
-        
+     
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
         self.lblWebsite.addGestureRecognizer(tap)
         self.lblWebsite.isUserInteractionEnabled = true
@@ -253,8 +235,6 @@ class ProfileViewController: UIViewController {
         }
         segmentControl.selectionIndicatorHeight = 1.0
         segmentControl.backgroundColor =  .white
-      //  segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
-       // segmentControl.backgroundColor = UIColor.white
         segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 13.0)]
         
         segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
@@ -274,13 +254,9 @@ class ProfileViewController: UIViewController {
          segmentMain.selectionIndicatorHeight = 1.0
          segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
          segmentMain.backgroundColor = UIColor.white
-//         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
-        
         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
         segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         segmentMain.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
-        // segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
-       //  segmentMain.selectionIndicatorColor =  kCardViewBordorColor
          segmentMain.selectionStyle = .textWidthStripe
          segmentMain.selectedSegmentIndex = 0
          segmentMain.selectionIndicatorLocation = .down
@@ -294,14 +270,11 @@ class ProfileViewController: UIViewController {
     
    
     func prepareLayout(listUpdate:Bool) {
-       // lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
-       // lblUserName.minimumScaleFactor = 1.0
-     
+    
         APIServiceManager.sharedInstance.apiForGetUserInfo(userID: UserDAO.sharedInstance.user.userId, isCurrentUser: true) { (_, _) in
             
             DispatchQueue.main.async {
-               //self.imgLink.image = #imageLiteral(resourceName: "link icon")
-               // self.imgLocation.image = #imageLiteral(resourceName: "location icon")
+
                 self.imgLink.image =  #imageLiteral(resourceName: "link_icon")
                 self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
                 self.lblLocation.isHidden = false
@@ -317,8 +290,7 @@ class ProfileViewController: UIViewController {
                       self.lblName.text =  UserDAO.sharedInstance.user.fullName.trim().capitalized
                       self.lblFullName.text = ""
                 }
-//                self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
-                
+
                 self.lblFullName.text = "\(UserDAO.sharedInstance.user.fullName.trim())"
                 self.lblFullName.minimumScaleFactor = 1.0
                 self.lblWebsite.minimumScaleFactor = 1.0
@@ -357,7 +329,6 @@ class ProfileViewController: UIViewController {
                 if UserDAO.sharedInstance.user.followers.trim().isEmpty && !UserDAO.sharedInstance.user.following.trim().isEmpty  {
                     self.strFollowing = "\(UserDAO.sharedInstance.user.following.trim())  FOLLOWING"
                     self.lblFollowers.halfTextColorChange(fullText:self.strFollowing.trim() , changeText: UserDAO.sharedInstance.user.following.trim())
-                   // self.lblFollowers.text = UserDAO.sharedInstance.user.following.trim()
                     self.lblFollowing.text = ""
                     self.lblFollowers.isHidden = false
                     self.lblFollowers.tag = 0
@@ -369,8 +340,6 @@ class ProfileViewController: UIViewController {
                 if UserDAO.sharedInstance.user.following.trim().isEmpty && !UserDAO.sharedInstance.user.followers.trim().isEmpty  {
                     self.strFollowers = "\(UserDAO.sharedInstance.user.followers.trim())  FOLLOWERS"
                     self.lblFollowers.halfTextColorChange(fullText:self.strFollowers.trim() , changeText: UserDAO.sharedInstance.user.followers.trim())
-                    
-                    //self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
                     self.lblFollowers.isHidden = false
                     self.lblFollowers.tag = 111
                     self.lblFollowers.isUserInteractionEnabled = true
@@ -388,12 +357,10 @@ class ProfileViewController: UIViewController {
              
                     self.strFollowers = " \(UserDAO.sharedInstance.user.followers.trim())  FOLLOWERS"
                     self.lblFollowers.halfTextColorChange(fullText:self.strFollowers.trim() , changeText: UserDAO.sharedInstance.user.followers.trim())
-                   // self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
                     self.lblFollowers.isUserInteractionEnabled = true
                     self.lblFollowers.addGestureRecognizer(tapFollow)
                     self.strFollowing = " \(UserDAO.sharedInstance.user.following.trim())  FOLLOWING"
                     self.lblFollowing.halfTextColorChange(fullText:self.strFollowing.trim() , changeText: UserDAO.sharedInstance.user.following.trim())
-                   // self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
                     self.lblFollowing.isUserInteractionEnabled = true
                     self.lblFollowing.addGestureRecognizer(tapFollowing)
                 }
@@ -407,9 +374,7 @@ class ProfileViewController: UIViewController {
                         self.imgUser.setImage(string:UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.displayName ), circular: true)
                     }
                 }
-                // self.imgUser.borderWidth = 1.0
-                // self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
-                
+              
                 if !UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
                    
                     self.lblLocation.isHidden = false
@@ -530,13 +495,9 @@ class ProfileViewController: UIViewController {
                     self.updateList(hud: false)
                 }
             }
-          //  self.btnContainer.addShadow()
-          //  self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
+          
         }
       
-      //btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
-        
-        
         if  self.currentMenu == .stuff {
             kStuffOptionsHeight.constant = 28.0
         }else {
@@ -553,13 +514,6 @@ class ProfileViewController: UIViewController {
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 ContentList.sharedInstance.arrayContent = array.filter { $0.isSelected == true }
                 self.profileCollectionView.reloadData()
-//
-//                for i in 0..<ContentList.sharedInstance.arrayStuff.count {
-//                    let obj = ContentList.sharedInstance.arrayStuff[i]
-//                    obj.isSelected = false
-//                    ContentList.sharedInstance.arrayStuff[i] = obj
-//                }
-               // self.getMyStuff(type: .start)
             }else if self.currentMenu == .stream{
                 if hud{
                     HUDManager.sharedInstance.showHUD()
@@ -575,12 +529,6 @@ class ProfileViewController: UIViewController {
     }
     
  
-    @objc func updateData(notification:Notification) {
-        if self.currentMenu == .stuff {
-            self.getMyStuff(type: .start)
-        }
-    }
-    
     
     func updateStuffList(index:Int){
         switch index {
@@ -679,6 +627,9 @@ class ProfileViewController: UIViewController {
         self.profileCollectionView.reloadData()
     }
     
+    //MARK: ⬇︎⬇︎⬇︎ Configure Custom Layouts ⬇︎⬇︎⬇︎
+
+    
     func configureLoadMoreAndRefresh(){
         let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
@@ -704,6 +655,7 @@ class ProfileViewController: UIViewController {
         }
         self.profileCollectionView.expiredTimeInterval = 20.0
     }
+    
     func configureProfileNavigation(){
         
         var myAttribute2:[NSAttributedStringKey:Any]!
@@ -714,8 +666,6 @@ class ProfileViewController: UIViewController {
         }
         
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
-    //    self.navigationController?.navigationBar.isTranslucent = false
-    //    self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         self.navigationController?.navigationBar.tintColor = UIColor.darkGray
         let img = UIImage(named: "forward_black")
@@ -729,16 +679,131 @@ class ProfileViewController: UIViewController {
         
     }
     
-   
-    // MARK: -  Action Methods And Selector
+    
+    private func updateConatiner(){
+        self.profileCollectionView.es.resetNoMoreData()
+        switch currentMenu {
+        case .stuff:
+            kStuffOptionsHeight.constant = 28.0
+            if ContentList.sharedInstance.arrayStuff.count == 0  && self.isStuffUpdated {
+                HUDManager.sharedInstance.showHUD()
+                self.getTopContents()
+                
+            }else {
+                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+                var arrayTemp  = [ContentDAO]()
+                for obj in ContentList.sharedInstance.arrayStuff {
+                    obj.isSelected = false
+                    arrayTemp.append(obj)
+                }
+                ContentList.sharedInstance.arrayStuff = arrayTemp
+                self.lblNOResult.isHidden = true
+                if array.count == 0  {
+                    self.lblNOResult.isHidden = false
+                    self.lblNOResult.text = "No Media Found"
+                }
+            }
+            self.layout.headerHeight = 0.0
+            self.profileCollectionView.reloadData()
+            break
+        case .stream:
+            kStuffOptionsHeight.constant = 0.0
+            if StreamList.sharedInstance.arrayProfileStream.count == 0  &&  self.isCalledMyStream {
+                HUDManager.sharedInstance.showHUD()
+                self.getStreamList(type:.start,filter: .myStream)
+            }
+            self.profileStreamShow()
+            
+            break
+        case .colabs:
+            kStuffOptionsHeight.constant = 0.0
+            if StreamList.sharedInstance.arrayProfileColabStream.count == 0 && isCalledColabStream {
+                HUDManager.sharedInstance.showHUD()
+                self.getColabs(type: .start)
+            }
+            self.layout.headerHeight = 0.0
+            self.profileStreamShow()
+            self.profileCollectionView.reloadData()
+            break
+        }
+    }
+    
+    
+    @objc func startAnimation(){
+        
+        
+        UIView.animate(withDuration: 0.3 / 1.5, animations: {() -> Void in
+            
+            self.btnAdd.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+            
+            
+        }, completion: {(_ finished: Bool) -> Void in
+            UIView.animate(withDuration: TimeInterval(0.3 / 2), animations: {() -> Void in
+                self.btnAdd.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
+                
+                
+            }, completion: {(_ finished: Bool) -> Void in
+                UIView.animate(withDuration: TimeInterval(0.3 / 2), animations: {() -> Void in
+                    self.btnAdd.transform = .identity
+                    
+                })
+            })
+        })
+        
+    }
+    
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+    
+    
+    @IBAction func btnActionAdd(_ sender: Any) {
+        
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            Haptic.impact(.heavy).generate()
+            self.btnAdd.isHaptic = true
+            self.btnAdd.hapticType = .impact(.heavy)
+        }else{
+            self.btnAdd.isHaptic = false
+        }
+        
+        
+        kDefault?.setValue(true, forKey: kBounceAnimation)
+        if self.timer != nil {
+            self.timer?.invalidate()
+        }
+        ContentList.sharedInstance.arrayContent.removeAll()
+        ContentList.sharedInstance.objStream = nil
+        let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
+        actionVC.delegate = self
+        customPresentViewController(PresenterNew.ActionSheetPresenter, viewController: actionVC, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func btnActionMenuSelected(_ sender: UIButton) {
+        self.updateSegment(selected: sender.tag)
+    }
+    
+    @IBAction func btnActionProfileUpdate(_ sender: UIButton) {
+        let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView)
+        self.navigationController?.pushAsPresent(viewController: obj)
+    }
+    
+    @IBAction func btnActionNext(_ sender: Any) {
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
+            self.navigationController?.push(viewController: objPreview)
+        }else {
+            self.showToast(strMSG: kAlert_contentSelect)
+        }
+    }
+    
     
     @objc func profileBackAction(){
         
         self.addLeftTransitionView(subtype: kCATransitionFromRight)
-
+        
         self.navigationController?.popNormal()
     }
-
+    
     @objc func profileShareAction(){
         if UserDAO.sharedInstance.user.shareURL.isEmpty {
             return
@@ -746,25 +811,22 @@ class ProfileViewController: UIViewController {
         let url:URL = URL(string: UserDAO.sharedInstance.user.shareURL!)!
         let shareItem =  "Hey checkout \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile!"
         let text = "\n via Emogo"
-
-       // let shareItem = "Hey checkout the s profile,emogo"
-        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url,text], applicationActivities:nil)
-      //  activityViewController.excludedActivityTypes = [.print, .copyToPasteboard, .assignToContact, .saveToCameraRoll, .airDrop]
         
+        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url,text], applicationActivities:nil)
         DispatchQueue.main.async {
             self.present(activityViewController, animated: true, completion: nil);
         }
     }
-   
+    
     
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             self.lblNOResult.isHidden = true
             switch swipeGesture.direction {
-            
+                
             case UISwipeGestureRecognizerDirection.left:
-               // print("Swie Left")
+                
                 if kDefault?.bool(forKey: kHapticFeedback) == true{
                     Haptic.impact(.light).generate()
                 }else{
@@ -773,12 +835,12 @@ class ProfileViewController: UIViewController {
                 if currentMenu == .stream {
                     Animation.addRightTransition(collection: self.profileCollectionView)
                     self.updateSegment(selected: 1)
-                    //self.updateSegment(selected: 102)
+                    
                 }else if currentMenu == .colabs {
                     self.lblNOResult.isHidden = true
                     Animation.addRightTransition(collection: self.profileCollectionView)
                     self.updateSegment(selected: 2)
-                    //self.updateSegment(selected: 103)
+                    
                 }else {
                     if self.selectedType != StuffType.Giphy {
                         Animation.addRightTransition(collection: self.profileCollectionView)
@@ -788,11 +850,11 @@ class ProfileViewController: UIViewController {
                     }else {
                         self.profileBackAction()
                     }
-                    }
+                }
                 break
                 
             case UISwipeGestureRecognizerDirection.right:
-               // print("Swie Right")
+                
                 if kDefault?.bool(forKey: kHapticFeedback) == true{
                     Haptic.impact(.light).generate()
                 }else{
@@ -802,13 +864,13 @@ class ProfileViewController: UIViewController {
                     self.lblNOResult.isHidden = true
                     Animation.addLeftTransition(collection: self.profileCollectionView)
                     self.updateSegment(selected: 0)
-                   // self.updateSegment(selected: 101)
+                    
                     
                 }else if currentMenu == .stuff {
                     if  self.selectedType == StuffType.All {
                         Animation.addLeftTransition(collection: self.profileCollectionView)
                         self.updateSegment(selected: 1)
-                       // self.updateSegment(selected: 102)
+                        
                     }else {
                         Animation.addLeftTransition(collection: self.profileCollectionView)
                         let index = self.selectedType.hashValue - 1
@@ -827,25 +889,25 @@ class ProfileViewController: UIViewController {
     @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
         
         if self.selectedType == .All && self.currentMenu == .stuff {
-
-        switch(gesture.state) {
             
-        case UIGestureRecognizerState.began:
-            guard let selectedIndexPath = self.profileCollectionView.indexPathForItem(at: gesture.location(in: self.profileCollectionView)) else {
-                break
+            switch(gesture.state) {
+                
+            case UIGestureRecognizerState.began:
+                guard let selectedIndexPath = self.profileCollectionView.indexPathForItem(at: gesture.location(in: self.profileCollectionView)) else {
+                    break
+                }
+                selectedIndex = selectedIndexPath
+                profileCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+            case UIGestureRecognizerState.changed:
+                profileCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: self.profileCollectionView))
+                
+            case UIGestureRecognizerState.ended:
+                profileCollectionView.endInteractiveMovement()
+                selectedIndex = nil
+            default:
+                profileCollectionView.cancelInteractiveMovement()
+                selectedIndex = nil
             }
-            selectedIndex = selectedIndexPath
-            profileCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case UIGestureRecognizerState.changed:
-            profileCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: self.profileCollectionView))
-            
-        case UIGestureRecognizerState.ended:
-            profileCollectionView.endInteractiveMovement()
-            selectedIndex = nil
-        default:
-            profileCollectionView.cancelInteractiveMovement()
-            selectedIndex = nil
-        }
         }
     }
     
@@ -868,8 +930,8 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func actionForWebsite(){
-
-    guard let url = URL(string: UserDAO.sharedInstance.user.website.stringByAddingPercentEncodingForURLQueryParameter()!) else {
+        
+        guard let url = URL(string: UserDAO.sharedInstance.user.website.stringByAddingPercentEncodingForURLQueryParameter()!) else {
             self.showToast(strMSG: kAlert_ValidWebsite)
             return
         }
@@ -881,23 +943,10 @@ class ProfileViewController: UIViewController {
             self.openURL(url: url)
         }
     }
-   
     
-    @IBAction func btnActionMenuSelected(_ sender: UIButton) {
-        self.updateSegment(selected: sender.tag)
-    }
-    
-    @IBAction func btnActionProfileUpdate(_ sender: UIButton) {
-        let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView)
-        self.navigationController?.pushAsPresent(viewController: obj)
-    }
-    
-    @IBAction func btnActionNext(_ sender: Any) {
-        if  ContentList.sharedInstance.arrayContent.count != 0 {
-            let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
-            self.navigationController?.push(viewController: objPreview)
-        }else {
-            self.showToast(strMSG: kAlert_contentSelect)
+    @objc func updateData(notification:Notification) {
+        if self.currentMenu == .stuff {
+            self.getMyStuff(type: .start)
         }
     }
   
@@ -914,10 +963,7 @@ class ProfileViewController: UIViewController {
                     ContentList.sharedInstance.arrayStuff[index] = obj
                 }
             }
-            
-//            if let mainIndex =  ContentList.sharedInstance.arrayStuff.index(where: {$0.contentID.trim() == content.contentID.trim() && $0.stuffType == self.selectedType }) {
-//                ContentList.sharedInstance.arrayStuff[mainIndex] = content
-//            }
+        
             if content.isSelected {
                 (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
             }else {
@@ -925,6 +971,15 @@ class ProfileViewController: UIViewController {
             }
             self.updateSelected(obj: content)
         }
+    }
+    
+    
+    @objc func btnSettingAction() {
+        
+        let settingVC:SettingViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_SettingView) as! SettingViewController
+        settingVC.objNavigation = self.navigationController as? PMNavigationController
+        customPresentViewController(PresenterNew.SettingPresenter, viewController: settingVC, animated: true, completion: nil)
+        
     }
     
     
@@ -953,6 +1008,69 @@ class ProfileViewController: UIViewController {
         
     }
    
+    @objc func btnActionForEdit(sender:UIButton) {
+        let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
+        if self.currentMenu == .stream {
+            let stream = self.arrayMyStreams[sender.tag]
+            editVC.streamID = stream.ID
+        }else if self.currentMenu == .colabs {
+            let stream = StreamList.sharedInstance.arrayProfileColabStream[sender.tag]
+            editVC.streamID = stream.ID
+        }
+        editVC.isfromProfile = "fromProfile"
+        let nav = UINavigationController(rootViewController: editVC)
+        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
+        
+    }
+    
+    @objc func btnActionForHeaderEdit(sender:UIButton) {
+        let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
+        editVC.streamID = UserDAO.sharedInstance.user.stream?.ID
+        editVC.isfromProfile = "fromProfile"
+        let nav = UINavigationController(rootViewController: editVC)
+        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
+    }
+    
+    
+    
+    @objc func btnPlayAction(sender:UIButton){
+        
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        let content = array[sender.tag]
+        if content.isAdd {
+            //   btnActionForAddContent()
+        }else {
+            ContentList.sharedInstance.arrayContent = array
+            if ContentList.sharedInstance.arrayContent.count != 0 {
+                
+                ContentList.sharedInstance.objStream = nil
+                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                objPreview.currentIndex = sender.tag
+                objPreview.isProfile = "TRUE"
+                objNavigation = UINavigationController(rootViewController: objPreview)
+                let indexPath = IndexPath(row: sender.tag, section: 0)
+                if let imageCell = profileCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
+                    navigationImageView = nil
+                    let value = kFrame.size.width / CGFloat(content.width)
+                    kImageHeight  = CGFloat(content.height) * value
+                    if !content.description.trim().isEmpty  {
+                        kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
+                    }
+                    if kImageHeight < self.profileCollectionView.bounds.size.height {
+                        kImageHeight = self.profileCollectionView.bounds.size.height
+                    }
+                    navigationImageView = imageCell.imgCover
+                    objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
+                    objNavigation!.cc_swipeBackDisabled = false
+                }
+                self.present(objNavigation!, animated: true, completion: nil)
+                
+                //  self.navigationController?.push(viewController: objPreview)
+            }
+        }
+        
+    }
+    
     func updateSegment(selected:Int){
         ContentList.sharedInstance.arrayContent.removeAll()
         switch selected {
@@ -1003,121 +1121,9 @@ class ProfileViewController: UIViewController {
             break
         }
     }
-  /*
-    private func updateSegment(selected:Int){
-        ContentList.sharedInstance.arrayContent.removeAll()
-        switch selected {
-        case 101:
-            self.lblNOResult.isHidden = true
-            self.btnStream.setImage(#imageLiteral(resourceName: "strems_active_icon"), for: .normal)
-            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
-            self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
-            self.currentMenu = .stream
-            self.btnNext.isHidden = true
-            self.btnAdd.isHidden = false
-
-            break
-        case 102:
-            self.lblNOResult.isHidden = true
-            self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
-            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_active_icon"), for: .normal)
-            self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
-            self.currentMenu = .colabs
-            self.btnNext.isHidden = true
-            self.btnAdd.isHidden = false
-
-            break
-        case 103:
-            self.lblNOResult.isHidden = true
-            self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
-            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
-            self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_active_icon"), for: .normal)
-            self.currentMenu = .stuff
-            self.btnNext.isHidden = true
-            self.btnAdd.isHidden = false
-            break
-        default:
-            break
-        }
-    }*/
+   
     
-    private func updateConatiner(){
-        self.profileCollectionView.es.resetNoMoreData()
-        switch currentMenu {
-        case .stuff:
-            kStuffOptionsHeight.constant = 28.0
-            if ContentList.sharedInstance.arrayStuff.count == 0  && self.isStuffUpdated {
-                HUDManager.sharedInstance.showHUD()
-                self.getTopContents()
-              //  self.getMyStuff(type: .start)
-            }else {
-                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
-                var arrayTemp  = [ContentDAO]()
-                for obj in ContentList.sharedInstance.arrayStuff {
-                    obj.isSelected = false
-                    arrayTemp.append(obj)
-                }
-                ContentList.sharedInstance.arrayStuff = arrayTemp
-                self.lblNOResult.isHidden = true
-                if array.count == 0  {
-                    self.lblNOResult.isHidden = false
-                    self.lblNOResult.text = "No Media Found"
-                }
-            }
-            self.layout.headerHeight = 0.0
-            self.profileCollectionView.reloadData()
-            break
-        case .stream:
-            kStuffOptionsHeight.constant = 0.0
-            if StreamList.sharedInstance.arrayProfileStream.count == 0  &&  self.isCalledMyStream {
-                HUDManager.sharedInstance.showHUD()
-                self.getStreamList(type:.start,filter: .myStream)
-            }
-            self.profileStreamShow()
-          
-            break
-        case .colabs:
-            kStuffOptionsHeight.constant = 0.0
-            if StreamList.sharedInstance.arrayProfileColabStream.count == 0 && isCalledColabStream {
-                HUDManager.sharedInstance.showHUD()
-                self.getColabs(type: .start)
-            }
-            self.layout.headerHeight = 0.0
-            self.profileStreamShow()
-            self.profileCollectionView.reloadData()
-         break
-        }
-    }
-    @objc func btnSettingAction() {
-        
-        let settingVC:SettingViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_SettingView) as! SettingViewController
-        settingVC.objNavigation = self.navigationController as? PMNavigationController
-        customPresentViewController(PresenterNew.SettingPresenter, viewController: settingVC, animated: true, completion: nil)
-       // self.navigationController?.pushAsPresent(viewController: settingVC)
-        /*
-        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Logout, preferredStyle: .alert)
-        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
-            HUDManager.sharedInstance.showHUD()
-            APIServiceManager.sharedInstance.apiForLogoutUser { (isSuccess, errorMsg) in
-                HUDManager.sharedInstance.hideHUD()
-                if (errorMsg?.isEmpty)! {
-                    self.logout()
-                }else {
-                    self.showToast(strMSG: errorMsg!)
-                }
-            }
-            
-            alert.dismiss(animated: true, completion: nil)
-            
-        }
-        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(yes)
-        alert.addAction(no)
-        present(alert, animated: true, completion: nil)
-        */
-    }
+  
     
     private func logout(){
         kDefault?.set(false, forKey: kUserLogggedIn)
@@ -1126,96 +1132,6 @@ class ProfileViewController: UIViewController {
     }
     
     
-    @objc func btnActionForEdit(sender:UIButton) {
-        let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
-        if self.currentMenu == .stream {
-            let stream = self.arrayMyStreams[sender.tag]
-            editVC.streamID = stream.ID
-        }else if self.currentMenu == .colabs {
-            let stream = StreamList.sharedInstance.arrayProfileColabStream[sender.tag]
-            editVC.streamID = stream.ID
-        }
-        editVC.isfromProfile = "fromProfile"
-        let nav = UINavigationController(rootViewController: editVC)
-        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
-      
-//        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-//            let stream = self.arrayMyStreams[sender.tag]
-//            obj.streamID = stream.ID
-//            self.navigationController?.push(viewController: obj)
-    }
-    
-    @objc func btnActionForHeaderEdit(sender:UIButton) {
-        let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
-         editVC.streamID = UserDAO.sharedInstance.user.stream?.ID
-        editVC.isfromProfile = "fromProfile"
-        let nav = UINavigationController(rootViewController: editVC)
-        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
-//        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-//            obj.streamID = UserDAO.sharedInstance.user.stream?.ID
-//            self.navigationController?.push(viewController: obj)
-    }
-    
-
-    
-    @objc func btnPlayAction(sender:UIButton){
-        
-        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
-        let content = array[sender.tag]
-        if content.isAdd {
-            //   btnActionForAddContent()
-        }else {
-            ContentList.sharedInstance.arrayContent = array
-            if ContentList.sharedInstance.arrayContent.count != 0 {
-                //
-                // let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                ContentList.sharedInstance.objStream = nil
-                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                objPreview.currentIndex = sender.tag
-                objPreview.isProfile = "TRUE"
-                objNavigation = UINavigationController(rootViewController: objPreview)
-                let indexPath = IndexPath(row: sender.tag, section: 0)
-                if let imageCell = profileCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
-                    navigationImageView = nil
-                    let value = kFrame.size.width / CGFloat(content.width)
-                    kImageHeight  = CGFloat(content.height) * value
-                    if !content.description.trim().isEmpty  {
-                        kImageHeight = kImageHeight + content.description.trim().height(withConstrainedWidth: kFrame.size.width - 10, font: UIFont.boldSystemFont(ofSize: 13.0)) + 25.0
-                    }
-                    if kImageHeight < self.profileCollectionView.bounds.size.height {
-                        kImageHeight = self.profileCollectionView.bounds.size.height
-                    }
-                    navigationImageView = imageCell.imgCover
-                    objNavigation!.cc_setZoomTransition(originalView: navigationImageView!)
-                    objNavigation!.cc_swipeBackDisabled = false
-                }
-                self.present(objNavigation!, animated: true, completion: nil)
-                
-                //  self.navigationController?.push(viewController: objPreview)
-            }
-        }
-        /*
-        let content = ContentList.sharedInstance.arrayStuff[sender.tag]
-        if content.isAdd {
-        //    btnActionForAddContent()
-        }else {
-            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
-            ContentList.sharedInstance.arrayContent = array
-            if ContentList.sharedInstance.arrayContent.count != 0 {
-                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                objPreview.currentIndex = sender.tag
-                let nav = UINavigationController(rootViewController: objPreview)
-                let indexPath = IndexPath(row: sender.tag, section: 0)
-                if let imageCell = profileCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
-                    nav.cc_setZoomTransition(originalView: imageCell.imgCover)
-                    nav.cc_swipeBackDisabled = true
-                }
-           self.present(nav, animated: true, completion: nil)
-//                let nav = UINavigationController(rootViewController: objPreview)
-//            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
-            }
-        }*/
-    }
     
     
     func profileStreamShow(){
@@ -1255,7 +1171,7 @@ class ProfileViewController: UIViewController {
         }else if self.currentMenu == .colabs {
             self.lblNOResult.isHidden = true
             if StreamList.sharedInstance.arrayProfileColabStream.count == 0 {
-               // self.lblNOResult.text  = "No Emogo Found"
+        
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
@@ -1287,7 +1203,9 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    // MARK: - API
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
 
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
@@ -1315,7 +1233,7 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
-         
+            
             self.isCalledMyStream = false
             self.profileStreamShow()
             self.profileCollectionView.reloadData()
@@ -1340,7 +1258,7 @@ class ProfileViewController: UIViewController {
                     self.lblNOResult.isHidden = false
                 }
                 self.isStuffUpdated = false
-
+                
                 self.layout.headerHeight = 0.0
                 self.profileCollectionView.reloadData()
             }else {
@@ -1355,8 +1273,8 @@ class ProfileViewController: UIViewController {
             ContentList.sharedInstance.arrayContent.removeAll()
             for _ in  ContentList.sharedInstance.arrayStuff {
                 if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
-                     ContentList.sharedInstance.arrayStuff.remove(at: index)
-                   // print("Removed")
+                    ContentList.sharedInstance.arrayStuff.remove(at: index)
+                    
                 }
             }
             self.profileCollectionView.reloadData()
@@ -1384,7 +1302,7 @@ class ProfileViewController: UIViewController {
             }
             self.layout.headerHeight = 0.0
             self.profileCollectionView.reloadData()
-             self.btnAdd.isHidden = true
+            self.btnAdd.isHidden = true
             if ContentList.sharedInstance.arrayContent.count == 0 {
                 self.btnNext.isHidden = true
                 self.btnAdd.isHidden = false
@@ -1443,30 +1361,8 @@ class ProfileViewController: UIViewController {
     
     
     
-    @IBAction func btnActionAdd(_ sender: Any) {
-        
-        if kDefault?.bool(forKey: kHapticFeedback) == true {
-            Haptic.impact(.heavy).generate()
-            self.btnAdd.isHaptic = true
-            self.btnAdd.hapticType = .impact(.heavy)
-        }else{
-            self.btnAdd.isHaptic = false
-        }
-        
-     
-        kDefault?.setValue(true, forKey: kBounceAnimation)
-        if self.timer != nil {
-            self.timer?.invalidate()
-        }
-        ContentList.sharedInstance.arrayContent.removeAll()
-        ContentList.sharedInstance.objStream = nil
-        let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
-        actionVC.delegate = self
-        customPresentViewController(PresenterNew.ActionSheetPresenter, viewController: actionVC, animated: true, completion: nil)
-    }
-    
-    
-    
+    //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
+
     func actionForCamera(){
         let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         self.navigationController?.pushNormal(viewController: obj)
@@ -1493,8 +1389,7 @@ class ProfileViewController: UIViewController {
         createVC.exestingNavigation = self.navigationController
         let nav = UINavigationController(rootViewController: createVC)
         customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: nav, animated: true, completion: nil)
-//        let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
-//        self.navigationController?.push(viewController: controller)
+        
     }
     
     func btnImportAction(){
@@ -1586,28 +1481,7 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    @objc func startAnimation(){
-       // print("Called")
-        
-        UIView.animate(withDuration: 0.3 / 1.5, animations: {() -> Void in
-            
-            self.btnAdd.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
-            
-            
-        }, completion: {(_ finished: Bool) -> Void in
-            UIView.animate(withDuration: TimeInterval(0.3 / 2), animations: {() -> Void in
-                self.btnAdd.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
-                
-                
-            }, completion: {(_ finished: Bool) -> Void in
-                UIView.animate(withDuration: TimeInterval(0.3 / 2), animations: {() -> Void in
-                    self.btnAdd.transform = .identity
-                    
-                })
-            })
-        })
-        
-    }
+    
     /*
      // MARK: - Navigation
      
@@ -1617,8 +1491,13 @@ class ProfileViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
-    
 }
+
+
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
 
 
 extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout,ProfileStreamViewDelegate {
@@ -1634,6 +1513,10 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         }else {
             return self.arrayMyStreams.count
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cell.animateCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -1710,7 +1593,6 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     cell.layer.borderColor = UIColor.clear.cgColor
                 }
                 
-              
             }
            
             return cell
@@ -1808,7 +1690,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 }
             }
         }else {
-          //  let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
+      
                 var index = 0
             
             if let cell = collectionView.cellForItem(at: indexPath) as? ProfileStreamCell {
@@ -1916,11 +1798,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
 }
 
-extension ProfileViewController : ActionSheetControllerHeaderActionDelegate {
-    func actionSheetControllerHeaderButtonAction() {
-        self.actionForAddStream()
-    }
-}
+
 
 extension ProfileViewController : ContentViewControllerDelegate {
     

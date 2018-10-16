@@ -28,9 +28,7 @@ class ProfileStreamView: UICollectionReusableView {
         imgCover.isUserInteractionEnabled = true
         DispatchQueue.main.async {
              self.viewContainer.layer.contents = UIImage(named: "stream-bottom-gradient")?.cgImage
-         //   self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
-            // self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
-           self.viewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 11)
+             self.viewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 11)
         }
     }
     
@@ -59,12 +57,11 @@ class ProfileStreamView: UICollectionReusableView {
         self.imgCover.contentMode = .scaleAspectFill
         self.imgUser.layer.masksToBounds = true
         self.lblTitle.text = stream.Title.trim().capitalized
-      //  self.lblTitle.addShadow()
+   
         self.btnEditHeader.isHidden = true
         if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             self.btnEditHeader.isHidden = false
         }
-     //   self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
     }
     
     @objc func tap(gesture:UITapGestureRecognizer) {

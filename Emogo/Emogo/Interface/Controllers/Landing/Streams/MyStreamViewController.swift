@@ -15,14 +15,14 @@ var isAssignProfile:String? = nil
 
 class MyStreamViewController: UIViewController {
     
-    // MARK: - UI Elements
-    
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+
     @IBOutlet weak var myStreamCollectionView: UICollectionView!
     @IBOutlet weak var lblNoResult: UILabel!
     @IBOutlet weak var btnDone: UIButton!
 
+    //MARK: ⬇︎⬇︎⬇︎ Variables ⬇︎⬇︎⬇︎
 
-    // MARK: - Variables
     var currentType:RefreshType! = .start
     var objContent:ContentDAO!
     var streamID:String?
@@ -33,8 +33,9 @@ class MyStreamViewController: UIViewController {
     var arraySelected = [StreamDAO]()
     var layout = CHTCollectionViewWaterfallLayout()
     
-    // MARK: - Override Functions
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -58,14 +59,15 @@ class MyStreamViewController: UIViewController {
         super.viewWillDisappear(animated)
     }
     
-    // MARK: - Prepare Layouts
-    func prepareLayouts(){
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
+     func prepareLayouts(){
         
         // Attach datasource and delegate
-      //  self.navigationController?.isNavigationBarHidden = false
+     
         self.myStreamCollectionView.dataSource  = self
         self.myStreamCollectionView.delegate = self
-      //  self.configureNewNavigation()
+
        
         // Change individual layout attributes for the spacing between cells
 
@@ -106,50 +108,10 @@ class MyStreamViewController: UIViewController {
       
     }
     
-    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            switch swipeGesture.direction {
-            case UISwipeGestureRecognizerDirection.left:
-                
-               if selectedType == .Emogo  {
-                    if  self.stretchyHeader.segmentControl != nil {
-                        self.stretchyHeader.segmentControl.selectedSegmentIndex = 1
-                    }
-                 Animation.addRightTransition(collection: self.myStreamCollectionView)
-                 self.updateStuffList(index: 1)
-               }
-                break
-                case UISwipeGestureRecognizerDirection.right:
-                   if  selectedType == .Collab {
-                        if  self.stretchyHeader.segmentControl != nil {
-                            self.stretchyHeader.segmentControl.selectedSegmentIndex = 0
-                            
-                        }
-                        Animation.addLeftTransition(collection: self.myStreamCollectionView)
-                        self.updateStuffList(index: 0)
-                   }
-                 break
-            default:
-                 break
-            }
-        }
-        
-    }
-    /*
-    func configureNewNavigation(){
-       
-        //  let imgP = UIImage(named: "back_icon_stream")
-        let imgP = UIImage(named: "back_icon")
-        let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
-        self.navigationItem.leftBarButtonItem = btnback
-    }
-    @objc  func btnCancelAction(){
-       
-            self.navigationController?.popViewController(animated: true)
-            //   self.navigationController?.pop()
-        
-    }*/
     
+    
+    //MARK: ⬇︎⬇︎⬇︎ Configure Custom Layouts ⬇︎⬇︎⬇︎
+
     
     func configureStrechyHeader(){
         let nibViews = Bundle.main.loadNibNamed("MyStreamHeaderView", owner: self, options: nil)
@@ -184,6 +146,7 @@ class MyStreamViewController: UIViewController {
         self.stretchyHeader.segmentControl.shouldAnimateUserSelection = false
     }
     
+    
     func configureLoadMoreAndRefresh(){
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
@@ -194,6 +157,9 @@ class MyStreamViewController: UIViewController {
         }
         self.myStreamCollectionView.expiredTimeInterval = 20.0
     }
+    
+    
+    
     func updateStuffList(index:Int){
         switch index {
         case 0:
@@ -217,8 +183,8 @@ class MyStreamViewController: UIViewController {
     }
     
     
-    // MARK: -  Action Methods And Selector
-    
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+
     @IBAction func btnActionDone(_ sender: Any) {
         if isAssignProfile != nil  {
             assignProfileStream()
@@ -238,14 +204,68 @@ class MyStreamViewController: UIViewController {
         }
       
     }
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.left:
+                
+                if selectedType == .Emogo  {
+                    if  self.stretchyHeader.segmentControl != nil {
+                        self.stretchyHeader.segmentControl.selectedSegmentIndex = 1
+                    }
+                    Animation.addRightTransition(collection: self.myStreamCollectionView)
+                    self.updateStuffList(index: 1)
+                }
+                break
+            case UISwipeGestureRecognizerDirection.right:
+                if  selectedType == .Collab {
+                    if  self.stretchyHeader.segmentControl != nil {
+                        self.stretchyHeader.segmentControl.selectedSegmentIndex = 0
+                        
+                    }
+                    Animation.addLeftTransition(collection: self.myStreamCollectionView)
+                    self.updateStuffList(index: 0)
+                }
+                break
+            default:
+                break
+            }
+        }
+        
+    }
+    
     @objc func backButtonAction(sender:UIButton){
          isAssignProfile = nil
         self.navigationController?.pop()
     }
 
-    
 
-    // MARK: - Class Methods
+    //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
+    
+    func actionForAddStream(){
+        
+        if kDefault?.bool(forKey: kHapticFeedback) == true{
+            Haptic.impact(.light).generate()
+        }else{
+            
+        }
+        let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
+        createVC.exestingNavigation = self.navigationController
+        createVC.isAddContent = true
+        let nav = UINavigationController(rootViewController: createVC)
+        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: nav, animated: true, completion: nil)
+    }
+    
+    
+    func gifPreview(content:ContentDAO){
+        let obj:ShowPreviewViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ShowPreviewView) as! ShowPreviewViewController
+        obj.objContent = content
+        self.present(obj, animated: false, completion: nil)
+    }
+    
+    
+    
     func openFullView(index:Int){
         var arrayContents = [LightboxImage]()
        
@@ -283,8 +303,8 @@ class MyStreamViewController: UIViewController {
         }
     }
     
-    // MARK: - API Methods
-    
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+
     func getMyStreams(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
             HUDManager.sharedInstance.showHUD()
@@ -348,8 +368,9 @@ class MyStreamViewController: UIViewController {
             }
         }
     }
-    //MARK:- Get Collab List
     
+    
+    //MARK:- Get Collab List
     
     func getColabStreams(type:RefreshType){
         if type == .start || type == .up {
@@ -467,26 +488,9 @@ class MyStreamViewController: UIViewController {
         }
     }
     
-    func actionForAddStream(){
-        
-        if kDefault?.bool(forKey: kHapticFeedback) == true{
-            Haptic.impact(.light).generate()
-        }else{
-            
-        }
-        let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
-        createVC.exestingNavigation = self.navigationController
-        createVC.isAddContent = true
-        let nav = UINavigationController(rootViewController: createVC)
-        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: nav, animated: true, completion: nil)
-    }
     
-    func gifPreview(content:ContentDAO){
-        let obj:ShowPreviewViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ShowPreviewView) as! ShowPreviewViewController
-        obj.objContent = content
-        self.present(obj, animated: false, completion: nil)
-    }
     
+   
     /*
     // MARK: - Navigation
 
@@ -500,8 +504,11 @@ class MyStreamViewController: UIViewController {
 }
 
 
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
 extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
-    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return StreamList.sharedInstance.arrayMyStream.count

@@ -109,9 +109,9 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = false
             viewCollapse.isHidden = true
-//            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+
         }else{
-//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+
             self.viewExpand.center = self.view.center
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = true
@@ -149,7 +149,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
             UIView.animate(withDuration: 0.2, animations: {
-//                self.imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+
                 self.viewExpand.isHidden = false
                 self.viewCollapse.isHidden = true
                 self.viewExpand.center = self.view.center
@@ -159,7 +159,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
                 self.txtMobileNumber.becomeFirstResponder()
             })
         }else{
-//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+
             UIView.animate(withDuration: 0.1, animations: {
                 self.view.endEditing(true)
                 self.txtMobileCollapse.resignFirstResponder()
@@ -175,7 +175,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
             
         } else {
             DispatchQueue.main.async(execute: {
-                //                self.supportedInterfaceOrientations = .po
+             
                 self.view.transform  = CGAffineTransform(rotationAngle: -180)
             })
         }
@@ -223,7 +223,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.blackTranslucent
         toolBar.isTranslucent = true
-        //        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+       
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
         doneButton.tintColor = .white
         
@@ -319,7 +319,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
                     let obj : SignUpVerifyViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify) as! SignUpVerifyViewController
                     obj.OTP = errorMsg
                     obj.phone = self.txtMobileNumber.text?.trim()
-                    //                self.addTransitionAtPresentingControllerRight()
+              
                     self.present(obj, animated: false, completion: nil)
                 }
                 else {

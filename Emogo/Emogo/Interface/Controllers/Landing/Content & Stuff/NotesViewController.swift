@@ -10,20 +10,20 @@ import UIKit
 
 class NotesViewController: UIViewController {
     
+     //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
     @IBOutlet weak var notesCollectionView: UICollectionView!
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var lblNoResult: UILabel!
 
+    
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         prepareLayouts()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,12 +34,18 @@ class NotesViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         self.navigationItem.rightBarButtonItem = addNote
     }
-    
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
     
 
     func prepareLayouts(){
         self.btnNext.isHidden = true
-        //  btnNext.isUserInteractionEnabled = false
+
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.arrayStuff.removeAll()
         // Attach datasource and delegate
@@ -71,7 +77,7 @@ class NotesViewController: UIViewController {
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
         self.notesCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-           // print("reload more called")
+           
             self?.getMyStuff(type:.down)
         }
         
@@ -83,7 +89,7 @@ class NotesViewController: UIViewController {
         self.notesCollectionView.expiredTimeInterval = 20.0
         
     }
-    
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
     
     @IBAction func btnActionNext(_ sender: Any) {
         if  ContentList.sharedInstance.arrayContent.count != 0 {
@@ -115,6 +121,7 @@ class NotesViewController: UIViewController {
     self.navigationController?.push(viewController: controller)
     }
     
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
     
     func getMyStuff(type:RefreshType) {
         if type == .start  {
@@ -176,25 +183,16 @@ class NotesViewController: UIViewController {
         }
         
     }
-    
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+  
 }
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
 
 extension NotesViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //return ContentList.sharedInstance.arrayStuff.count
+    
         return ContentList.sharedInstance.arrayStuff.count
     }
     

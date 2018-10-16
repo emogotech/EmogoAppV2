@@ -46,8 +46,7 @@ class APIManager: NSObject {
                 callback!(.success(dict))
                 break
             case .failure(let error):
-                // TODO deal with error
-                // print(error.localizedDescription)
+              
                  if response.response != nil {
                     let statusCode = (response.response?.statusCode)!
                     print(statusCode)
@@ -61,8 +60,7 @@ class APIManager: NSObject {
     func POSTRequest(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
-        //print(url)
-        //   let headers : HTTPHeaders = ["Content-Type" : "application/json"]
+       
         Alamofire.request(url, method: .post, parameters: Param, encoding: JSONEncoding.default).responseJSON { response in
             switch response.result {
             case .success(let value):
@@ -70,8 +68,7 @@ class APIManager: NSObject {
                 callback!(.success(dict))
                 break
             case .failure(let error):
-                // TODO deal with error
-               // print(error.localizedDescription)
+            
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)!
                     print(statusCode)
@@ -152,7 +149,7 @@ class APIManager: NSObject {
                // print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)! //example : 200
-                   // print(statusCode)
+                  
                     if statusCode == 401 {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
                     }
@@ -384,16 +381,14 @@ class APIManager: NSObject {
             if response.destinationURL != nil {
                 //print(response.destinationURL!)
              if   let imagePath = response.destinationURL?.path {
-                                   // print(imagePath)
+                             
                 completionHandler(imagePath,response.destinationURL)
                 return
                             }
             }else {
                 completionHandler(nil,nil)
             }
-//            if response.request, let imagePath = response.destinationURL?.path {
-//                print(imagePath)
-//            }
+
         }
     }
 }

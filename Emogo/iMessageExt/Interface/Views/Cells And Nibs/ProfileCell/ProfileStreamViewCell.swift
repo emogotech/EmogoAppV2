@@ -25,16 +25,13 @@ class ProfileStreamViewCell: UICollectionViewCell {
         if stream.isAdd {
             self.cardView.isHidden =  true
             self.imgAdd.isHidden =  false
-            //self.imgAdd.isHaptic =  true
-            // self.imgAdd.hapticType = .impact(.light)
+           
         }else {
             self.imgCover.contentMode = .scaleAspectFill
             self.cardView.isHidden =  false
-            //            self.imgCover.dropShadow()
-            //            self.cardView.dropShadow()
             self.lblName.isHidden = false
             self.imgAdd.isHidden =  true
-            //   self.imgCover.backgroundColor = .black
+       
             self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
             self.lblTitle.text = stream.Title.trim().capitalized
             self.lblTitle.minimumScaleFactor = 1.0

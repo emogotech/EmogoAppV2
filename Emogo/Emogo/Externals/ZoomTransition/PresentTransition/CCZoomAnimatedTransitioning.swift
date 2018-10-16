@@ -51,6 +51,7 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
         
         let fromView = fromVC.view!
         let toView = toVC.view!
+     
 //        if toVC is UINavigationController {
 //            toView = ((toVC as! UINavigationController).viewControllers.first?.view)!
 //        }
@@ -89,13 +90,14 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
 //                if navigationImageView?.image != nil {
 //                    return (navigationImageView?.image)!
 //                }
-                if let image  = self.snapshotView(view: toView) {
+                if let image  = self.snapshotView(view: (toVC as! UINavigationController).visibleViewController!.view!) {
                     return image
                 } else {
-                    return self.imageWithColor(color: UIColor.init(white: 0.3, alpha: 0.3)) ?? UIImage()
+                    return self.imageWithColor(color: UIColor.white) ?? UIImage()
                 }
             }()
             
+        
             let offsetY : CGFloat =  navigationHeaderAndStatusbarHeight
          //   let _ : CGFloat = statubarHeight;
             
@@ -108,14 +110,16 @@ class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioni
             containerView.addSubview(shadow)
             
             let blurshadow = UIImageView.init(image: tranimage)
-            blurshadow.contentMode = .scaleToFill;
-            blurshadow.frame = shadow.bounds;
+            blurshadow.contentMode = .scaleAspectFill;
+            blurshadow.frame = shadow.bounds
+         //   blurshadow.frame = CGRect(x: 0, y: offsetY, width: shadow.bounds.size.width, height: shadow.bounds.size.height);
             blurshadow.alpha = 0;
             shadow.addSubview(blurshadow)
             
             let transitvshadow = UIImageView.init(image: transitimage)
             transitvshadow.contentMode = .scaleAspectFill;
-            transitvshadow.frame = shadow.bounds;
+            transitvshadow.frame = shadow.bounds
+          //  transitvshadow.frame = CGRect(x: 0, y: offsetY, width: shadow.bounds.size.width, height: shadow.bounds.size.height);
             shadow.addSubview(transitvshadow)
             shadow.clipsToBounds = true;
             

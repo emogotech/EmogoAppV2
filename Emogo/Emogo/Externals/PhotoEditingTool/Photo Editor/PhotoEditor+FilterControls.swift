@@ -25,7 +25,7 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
             let filter = self.images[indexPath.row]
             cell.imgPreview.tag = indexPath.row
             cell.lblName.text = filter.iconName
-            let value:String = filter.key
+            //let value:String = filter.key
             cell.imgPreview.image = filter.icon
             
             return cell

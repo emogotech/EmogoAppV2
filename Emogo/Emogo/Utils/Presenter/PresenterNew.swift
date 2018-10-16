@@ -52,44 +52,7 @@ class PresenterNew: NSObject {
         customPresenter.blurBackground = false
         return customPresenter
     }()
-    /*
-    static let ActionSheetPresenter: Presentr = {
-        
-        if UIDevice.current.modelName.lowercased().contains("iphone5") || UIDevice.current.modelName.lowercased().contains("iphone 5") {
-            let width = ModalSize.full
-            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height -  150.0), sizeLandscape: Float(kFrame.size.width - 150.0))
-            let cennterY = kFrame.size.height - (kFrame.size.height -  150.0)
-            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
-            let customType = PresentationType.custom(width: width, height: height, center: center)
-            let customPresenter = Presentr(presentationType: customType)
-            customPresenter.transitionType = .coverVertical
-            customPresenter.dismissTransitionType = .coverVertical
-            customPresenter.roundCorners = true
-            customPresenter.cornerRadius = 15.0
-            customPresenter.backgroundOpacity = 0.85
-            customPresenter.dismissOnSwipe = true
-            customPresenter.blurBackground = false
-            return customPresenter
-        }else {
-           
-            let width = ModalSize.full
-            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height/2.0 +  100.0), sizeLandscape: Float(kFrame.size.width/2.0 +  100.0))
-            let cennterY = kFrame.size.height - (kFrame.size.height/2.0 +  100.0)
-            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
-            let customType = PresentationType.custom(width: width, height: height, center: center)
-            let customPresenter = Presentr(presentationType: customType)
-            customPresenter.transitionType = .coverVertical
-            customPresenter.dismissTransitionType = .coverVertical
-            customPresenter.roundCorners = true
-            customPresenter.cornerRadius = 15.0
-            customPresenter.backgroundOpacity = 0.85
-            customPresenter.dismissOnSwipe = true
-            customPresenter.blurBackground = false
-            
-            return customPresenter
-        }
-       
-    }()*/
+   
      static let ActionSheetPresenter: Presentr = {
         
          if deviceType.iPhoneX  {
@@ -214,26 +177,7 @@ class PresenterNew: NSObject {
                 
                 return customPresenter
             }
-        /*
-        if UIDevice.current.modelName.lowercased().contains("iphone5") || UIDevice.current.modelName.lowercased().contains("iphone 5") {
-            let width = ModalSize.full
-            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height -  390.0), sizeLandscape: Float(kFrame.size.width - 390.0))
-            let cennterY = kFrame.size.height - (kFrame.size.height -  390.0)
-            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
-            let customType = PresentationType.custom(width: width, height: height, center: center)
-            let customPresenter = Presentr(presentationType: customType)
-            customPresenter.transitionType = .coverVertical
-            customPresenter.dismissTransitionType = .coverVertical
-            customPresenter.roundCorners = true
-            customPresenter.cornerRadius = 35.0
-            customPresenter.backgroundOpacity = 0.85
-            customPresenter.dismissOnSwipe = true
-            customPresenter.blurBackground = false
-            return customPresenter
-        }else {
-          
-        }
-        */
+       
         
     }()
     
@@ -241,12 +185,7 @@ class PresenterNew: NSObject {
         
         let width = ModalSize.full
         let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 30), sizeLandscape: Float(kFrame.size.width - 30))
-       // let height:ModalSize!
-       // var center:ModalCenterPosition!
-        
-//        let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height/2.0 + 150.0), sizeLandscape: Float(kFrame.size.width/2.0 + 150.0))
-//        let cennterY = kFrame.size.height - (kFrame.size.height/2.0 + 150.0)
-       // let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+      
         let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 30))
         let customType = PresentationType.custom(width: width, height: height, center: center)
         

@@ -81,7 +81,7 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
     
     func prepareView(seletedImage:ContentDAO,indexPath:IndexPath) {
         self.seletedImage = seletedImage
-     //   tblView.setContentOffset(.zero, animated: false)
+   
         self.tblView.reloadData()
         if !seletedImage.description.trim().isEmpty  || !seletedImage.name.trim().isEmpty {
             self.tblView.contentInset = UIEdgeInsets(top:0, left: 0, bottom:  75, right: 0)
@@ -153,9 +153,7 @@ class ContentDetailViewCell: UICollectionViewCell,UITableViewDelegate,UITableVie
         isSwipeDissmiss = true
     }
     
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return
-//    }
+
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !isSwipeDissmiss {

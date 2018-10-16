@@ -14,19 +14,20 @@ import Photos
 import IQKeyboardManagerSwift
 import Haptica
 
+//MARK: ⬇︎⬇︎⬇︎ PROTOCOLS ⬇︎⬇︎⬇︎
 
  protocol ContentViewControllerDelegate {
     func updateViewCount(count:String)
     func currentPreview(content:ContentDAO,index:IndexPath)
 }
 
-extension ContentViewControllerDelegate {
-    func updateViewCount(count:String){
-    }
-}
+
 
 class ContentViewController: UIViewController {
 
+    
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var bottomToolBarView: UIView!
     @IBOutlet weak var btnLikeDislike: UIButton!
@@ -35,7 +36,7 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnSave: UIButton!
   
 
-    // @IBOutlet weak var btnMore: UIButton!
+     //MARK: ⬇︎⬇︎⬇︎ Varibales ⬇︎⬇︎⬇︎
     
     let cellIdentifier = "contentViewCell"
     var seletedImage:ContentDAO!
@@ -66,7 +67,7 @@ class ContentViewController: UIViewController {
     var isStopPlaying:Bool! = false
     var isEdited:Bool! = false
 
-   
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +77,7 @@ class ContentViewController: UIViewController {
         if self.navigationController?.isNavigationBarHidden == true {
             self.navigationController?.isNavigationBarHidden = false
         }
-      //  navigationController?.setNavigationBarHidden(false, animated: true)
+    
         self.collectionView.collectionViewLayout = self.pageViewControllerLayout()
         self.collectionView.isPagingEnabled = true
         let indexPath = IndexPath(row: self.currentIndex, section: 0)
@@ -123,7 +124,7 @@ class ContentViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-      //  navigationController?.setNavigationBarHidden(true, animated: true)
+          
            isStopPlaying = false
            configureContentNavigation()
  
@@ -141,35 +142,27 @@ class ContentViewController: UIViewController {
         }
         isFadeForLaunch = true
         self.collectionView.reloadData()
-
-//        UIView.transition(with: self.collectionView, duration: 0.3, options: .beginFromCurrentState, animations: {
-//            self.collectionView.reloadData()
-//        }, completion: { (_) in
-//            //self.navigationController?.setNavigationBarHidden(false, animated: true)
-//        })
-        
         self.bottomToolBarView.addBlurView(style: .light)
       
     }
     
-
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     }
 
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+        //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
 
     func updateContent(){
-     //   btnOther.isHidden = false
-     //   bottomToolBarView.backgroundColor = UIColor.white
+     
         self.collectionView.backgroundColor = UIColor.white
         self.btnLikeDislike.isHidden = false
-      //  btnOther.isHidden = false
+  
         print(ContentList.sharedInstance.arrayContent)
         if currentIndex != nil {
             let isIndexValid = ContentList.sharedInstance.arrayContent.indices.contains(self.currentIndex)
@@ -199,10 +192,7 @@ class ContentViewController: UIViewController {
             btnShare.isHidden = false
             btnSave.isHidden = false
         }
-      //  self.btnEdit.isHidden = true
-//        if seletedImage.isEdit {
-//            self.btnEdit.isHidden = false
-//        }
+
         
         if isDidload {
             self.showButtons()
@@ -217,10 +207,8 @@ class ContentViewController: UIViewController {
      
         if seletedImage.fileName == "SreamCover" {
             self.btnLikeDislike.isHidden = true
-          //  btnOther.isHidden = true
         }
           self.collectionView.backgroundColor = UIColor.white
-       //  self.collectionView.backgroundColor = UIColor(hex: seletedImage.color.trim())
          if  SharedData.sharedInstance.deepLinkType == kDeepLinkShareEditContent {
              self.btnAddToEmogo.isHidden = false
              self.btnSave.isHidden = false
@@ -230,8 +218,7 @@ class ContentViewController: UIViewController {
            
         }else{
             if !seletedImage.color.trim().isEmpty {
-              //  bottomToolBarView.backgroundColor = UIColor.white
-              //  bottomToolBarView.backgroundColor = UIColor(hex: seletedImage.color.trim())
+             
             }
         }
         prepareLeftItems()
@@ -273,6 +260,8 @@ class ContentViewController: UIViewController {
             collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
     }
     
+     //MARK: ⬇︎⬇︎⬇︎ Configure Custom Layouts ⬇︎⬇︎⬇︎
+    
     func configureContentNavigation(){
         if self.navigationController?.isNavigationBarHidden == true {
             self.navigationController?.isNavigationBarHidden = false
@@ -302,10 +291,6 @@ class ContentViewController: UIViewController {
       
         let imgClose = UIImage(named: "cross_icon_content")
         let btnClose = UIBarButtonItem(image: imgClose, style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
-        //  self.btnEdit.isHidden = true
-        //    if seletedImage.isEdit {
-        //            self.btnEdit.isHidden = false
-        //        }
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.rightBarButtonItem = self.btnEdit
         
@@ -315,14 +300,11 @@ class ContentViewController: UIViewController {
             btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
             arrButtons.append(btnEdit)
         }
-            arrButtons.append(btnReport)
-        
-        
-      
-       
-     
+        arrButtons.append(btnReport)
         self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
     }
+    
+    
     func prepareLeftItems(){
         self.navigationItem.leftBarButtonItem = nil
         let tempView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
@@ -332,44 +314,23 @@ class ContentViewController: UIViewController {
         if !seletedImage.createrImage.trim().isEmpty {
             imageView.setImageWithResizeURL(seletedImage.createrImage.trim())
         }else {
-        imageView.setImage(string:seletedImage.fullname, color: UIColor.colorHash(name:seletedImage.fullname ), circular: true)
+             imageView.setImage(string:seletedImage.fullname.trim(), color: UIColor(r: 0, g: 122, b: 255), circular: true)
+       
         }
         
-       // let labelWidth = tempView.bounds.size.width - imageView.bounds.size.width
-       // let label = UILabel(frame: CGRect(x: imageView.bounds.size.width + 2, y: 0, width: labelWidth - 2, height: 35))
-      //  label.text = seletedImage.fullname
-//
-     
+      
         tempView.addSubview(imageView)
-      //  tempView.addSubview(label)
+     
         let leftView = UIBarButtonItem(customView: tempView)
         self.navigationItem.leftBarButtonItem = leftView
     }
+  
     
-//    @IBAction func btnMoreAction(_ sender: Any) {
-//        isMoreTapped = !isMoreTapped
-//        if isMoreTapped {
-//            txtDescription.textContainer.maximumNumberOfLines = 3
-//        }else {
-//            txtDescription.textContainer.maximumNumberOfLines = 3
-//
-//        }
-//
-//    }
     
-    @objc func btnShowReportListAction(_ sender: Any){
-        if seletedImage.isDelete {
-            self.showDelete()
-            return
-        }
-        if self.seletedImage?.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim(){
-            self.showReport()
-        }
-    }
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
     
     @IBAction func btnBackAction(_ sender: Any) {
-        self.isStopPlaying = true
-        self.collectionView.reloadData()
+     
         if isProfile != nil  {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
             ContentList.sharedInstance.arrayContent = array
@@ -383,7 +344,10 @@ class ContentViewController: UIViewController {
             isEdited = false
             NotificationCenter.default.post(name: (NSNotification.Name(rawValue: kNotification_Update_Stuff_List)), object: nil)
         }
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true) {
+            self.isStopPlaying = true
+            self.collectionView.reloadData()
+        }
     }
     
     
@@ -402,6 +366,15 @@ class ContentViewController: UIViewController {
             }
         }
         
+    }
+    @objc func btnShowReportListAction(_ sender: Any){
+        if seletedImage.isDelete {
+            self.showDelete()
+            return
+        }
+        if self.seletedImage?.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim(){
+            self.showReport()
+        }
     }
     
     @IBAction func btnLikeDislikeAction(_ sender: Any) {
@@ -432,17 +405,7 @@ class ContentViewController: UIViewController {
                 
             })
         })
-        
-//        UIView.transition(with: self.btnLikeDislike,
-//                          duration:0.5,
-//                          options: .transitionCrossDissolve,
-//                          animations: {
-//
-//
-//        },
-//                          completion: nil)
-        
-      
+     
         self.likeDislikeContent()
     }
     
@@ -495,62 +458,7 @@ class ContentViewController: UIViewController {
                 }
             }
     }
-    }
-    
-    func shareSticker(image:UIImage){
-        if MFMessageComposeViewController.canSendAttachments(){
-            let composeVC = MFMessageComposeViewController()
-            composeVC.recipients = []
-            composeVC.message = composeMessage(image: image)
-            composeVC.messageComposeDelegate = self
-            self.present(composeVC, animated: true, completion: nil)
-        }
-    }
-    
-    func composeMessage(image:UIImage) -> MSMessage {
-        let session = MSSession()
-        let message = MSMessage(session: session)
-        let layout = MSMessageTemplateLayout()
-        if seletedImage.type == .video {
-            layout.mediaFileURL = self.seletedImage.fileUrl
-        }
-        layout.caption = self.seletedImage.name!
-        layout.image  = self.imageOrientation(image)
-        layout.subcaption = self.seletedImage.description
-        let content = self.seletedImage
-        message.layout = layout
-        if ContentList.sharedInstance.objStream == nil {
-            let strURl = kNavigation_Content + "/" + (content?.contentID!)!
-            message.url = URL(string: strURl)
-        }else {
-            let strURl = kNavigation_Content + "/" +  (content?.contentID!)! + "/" + ContentList.sharedInstance.objStream!
-            message.url = URL(string: strURl)
-        }
-        
-        return message
-    }
-    
-    
-    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            switch swipeGesture.direction {
-                
-            case UISwipeGestureRecognizerDirection.down:
-                self.isStopPlaying = true
-                self.collectionView.reloadData()
-                if isProfile != nil  {
-                    let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
-                    ContentList.sharedInstance.arrayContent = array
-                }
-                self.dismiss(animated: true, completion: nil)
-            break
-                
-            default:
-                break
-            }
-            }
-        }
-  
+}
     
     @IBAction func btnActionAddStream(_ sender: Any) {
         
@@ -568,210 +476,7 @@ class ContentViewController: UIViewController {
         self.navigationController?.push(viewController: obj)
     }
     
-
-    func showReport(){
-        let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
-        
-        let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler:
-        {
-            (alert: UIAlertAction!) -> Void in
-            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Spam, user: "", stream: "", content: self.seletedImage.contentID!, completionHandler: { (isSuccess, error) in
-                
-                if isSuccess! {
-                    self.showToast(type: AlertType.success, strMSG: kAlert_Success_Report_Content)
-                }
-            })
-        })
-        
-        
-        let deleteAction = UIAlertAction(title: kAlertSheet_Inappropiate, style: .destructive, handler:
-        {
-            (alert: UIAlertAction!) -> Void in
-            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Inappropriate, user: "", stream: "", content: self.seletedImage.contentID!, completionHandler: { (isSuccess, error) in
-                if isSuccess! {
-                    self.showToast(type: AlertType.success, strMSG: kAlert_Success_Report_Content)
-                }
-            })
-        })
-        
-        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
-        {
-            (alert: UIAlertAction!) -> Void in
-            
-        })
-        
-        optionMenu.addAction(deleteAction)
-        optionMenu.addAction(saveAction)
-        optionMenu.addAction(cancelAction)
-        self.present(optionMenu, animated: true, completion: nil)
-    }
-    
-    func showDelete(){
-        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let saveAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
-        {
-            (alert: UIAlertAction!) -> Void in
-           
-            if self.isViewCount != nil {
-                self.deleteContentFromStream()
-            }else {
-                self.deleteContent()
-            }
-        })
-        
-        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
-        {
-            (alert: UIAlertAction!) -> Void in
-            
-        })
-        
-        optionMenu.addAction(saveAction)
-        optionMenu.addAction(cancelAction)
-        self.present(optionMenu, animated: true, completion: nil)
-    }
-    
-    func saveActionSheet(){
-        
-        let optionMenu = UIAlertController(title: kSaveAlertTitle, message: nil, preferredStyle: .actionSheet)
-        let saveToMyStuffAction = UIAlertAction(title: kAlertSheet_SaveToMyStuff, style: .default, handler: {
-            (alert: UIAlertAction!) -> Void in
-            self.saveToMyStuff()
-        })
-        
-        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .default, handler: {
-            (alert: UIAlertAction!) -> Void in
-            
-            
-            if self.seletedImage.type == .image {
-                if self.seletedImage.imgPreview == nil {
-                    HUDManager.sharedInstance.showHUD()
-                    SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
-                        HUDManager.sharedInstance.hideHUD()
-                        if image != nil {
-                            UIImageWriteToSavedPhotosAlbum(image!
-                                ,self, #selector(self.image(_:withPotentialError:contextInfo:)
-                                ), nil)
-                        }
-                    })
-                }
-                
-            }else if self.seletedImage.type == .video{
-                self.videoDownload()
-                
-            }else if self.seletedImage.type == .gif{
-             
-                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
-                    HUDManager.sharedInstance.hideHUD()
-                    if image != nil {
-                        UIImageWriteToSavedPhotosAlbum(image!
-                            ,self, #selector(self.image(_:withPotentialError:contextInfo:)
-                            ), nil)
-                    }
-                })
-            }else if self.seletedImage.type == .link{
-                
-                //  self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImage)
-                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
-                    HUDManager.sharedInstance.hideHUD()
-                    if image != nil {
-                        UIImageWriteToSavedPhotosAlbum(image!
-                            ,self, #selector(self.image(_:withPotentialError:contextInfo:)
-                            ), nil)
-                    }
-                })
-            }
-        })
-        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
-            (alert: UIAlertAction!) -> Void in
-        })
-        
-        optionMenu.addAction(saveToMyStuffAction)
-        optionMenu.addAction(saveToGalleryAction)
-        optionMenu.addAction(cancelAction)
-        self.present(optionMenu, animated: true, completion: nil)
-    }
-    
-    @objc func videoDownload(){
-        
-        APIManager.sharedInstance.download(strFile: self.seletedImage.coverImage) { (_, fileURL) in
-            if let fileURL = fileURL {
-                self.showToast(type: AlertType.success, strMSG: kAlert_Save_Video)
-              //  SharedData.sharedInstance.saveVideo(fileUrl: fileURL)
-                PHPhotoLibrary.shared().performChanges({
-                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL:fileURL)
-                }) { completed, error in
-                    if completed {
-                       // print("Video is saved!")
-                    }
-                }
-            }
-        }
-    }
-    
-    @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
-        self.showToast(type: .error, strMSG: kAlert_Save_Image)
-    }
-    
-    func performEdit(){
-       
-        if seletedImage.type == .image ||  seletedImage.type == .gif {
-            if self.seletedImage.imgPreview == nil {
-                HUDManager.sharedInstance.showHUD()
-                SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
-                    HUDManager.sharedInstance.hideHUD()
-                    if image != nil {
-                        self.openEditor(image:image!)
-                    }
-                })
-                
-            }else {
-                self.openEditor(image:seletedImage.imgPreview!)
-            }
-        }else if seletedImage.type == .video {
-            AppDelegate.appDelegate.keyboardResign(isActive: false)
-            let objVideoEditor:VideoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_VideoEditorView) as! VideoEditorViewController
-            objVideoEditor.delegate = self
-            objVideoEditor.seletedImage = self.seletedImage
-            self.navigationController?.pushAsPresent(viewController: objVideoEditor)
-        }else if seletedImage.type == .link {
-            HUDManager.sharedInstance.showHUD()
-            print(self.seletedImage.coverImageVideo)
-            SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
-                HUDManager.sharedInstance.hideHUD()
-                if image != nil {
-                    self.openEditor(image:image!)
-                }
-            })
-        }else if seletedImage.type == .notes {
-            isFromNotesEdit = true
-            let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
-            controller.contentDAO = self.seletedImage
-            controller.delegate = self
-            controller.isOpenFrom = "Content"
-            self.navigationController?.pushNormal(viewController: controller)
-        }
-    }
-    
-    
-    private func openEditor(image:UIImage){
-        AppDelegate.appDelegate.keyboardResign(isActive: false)
-        photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
-        photoEditor.image = image
-        photoEditor.isForEditOnly = true
-        photoEditor.seletedImage = self.seletedImage
-        //PhotoEditorDelegate
-        photoEditor.photoEditorDelegate = self
-        photoEditor.hiddenControls = [.share]
-        photoEditor.stickers = shapes.shapes
-        photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
-        self.navigationController?.pushAsPresent(viewController: photoEditor)
-    }
-    
-    
-    
-    
-    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+ //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
     
     func deleteContent(){
         HUDManager.sharedInstance.showHUD()
@@ -883,12 +588,11 @@ class ContentViewController: UIViewController {
         }
     }
     
-    //MARK:- Like Dislike Content
     
     func likeDislikeContent(){
-    //    HUDManager.sharedInstance.showHUD()
+   
         APIServiceManager.sharedInstance.apiForLikeDislikeContent(content: self.seletedImage.contentID, status:self.seletedImage.likeStatus)  { (isSuccess, errorMsg) in
-         //   HUDManager.sharedInstance.hideHUD()
+         
             if isSuccess == true {
                 if self.seletedImage.likeStatus == 0 {
                   self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon_content"), for: .normal)
@@ -896,7 +600,7 @@ class ContentViewController: UIViewController {
                     self.btnLikeDislike .setImage(#imageLiteral(resourceName: "active_like"), for: .normal)
                 }
             }else{
-             //   HUDManager.sharedInstance.hideHUD()
+          
                 self.showToast(strMSG: errorMsg!)
             }
         }
@@ -912,7 +616,7 @@ class ContentViewController: UIViewController {
         }
         
     }
-    //MARK:- Save Content to My Stuff
+
     
     func saveToMyStuff(){
         HUDManager.sharedInstance.showHUD()
@@ -945,8 +649,7 @@ class ContentViewController: UIViewController {
           
                    self.bottomToolBarView.isHidden = false
            self.navigationController?.setNavigationBarHidden(false, animated: true)
-           
-         // self.navigationController?.isNavigationBarHidden = false
+     
             return
         }
         if seletedImage.type == .link {
@@ -956,7 +659,7 @@ class ContentViewController: UIViewController {
           
                  self.bottomToolBarView.isHidden = false
             self.navigationController?.setNavigationBarHidden(false, animated: true)
-         //   self.navigationController?.isNavigationBarHidden = false
+         
             
             self.openURL(url: url)
             return
@@ -995,7 +698,6 @@ class ContentViewController: UIViewController {
                 }else {
                     let url = URL(string: obj.coverImageVideo)
                     let videoUrl = URL(string: obj.coverImage)
-                    print(videoUrl)
                     if let url = url, let videoUrl = videoUrl {
                         image = LightboxImage(imageURL: url, text: text.trim(), videoURL: videoUrl)
                     }
@@ -1025,30 +727,7 @@ class ContentViewController: UIViewController {
             
         }else{
             
-//            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
-//
-//            }) { (_) in
-//
-//            }
-//            let controller = LightboxController(images: arrayContents, startIndex: index)
-//            controller.pageDelegate = self
-//        
-//            if self.arrayLightBoxIndexes.count != 0 {
-//                controller.dismissalDelegate = self
-//            }
-//            controller.dynamicBackground = true
-//            if arrayContents.count != 0 {
-//                
-//                self.hideStatusBar()
-//                self.navigationController?.push(viewController: controller)
-//                
-//              // self.navigationController?.pushViewController(controller, animated: true)
-//               //present(controller, animated: true, completion: nil)
-//                
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//                    self.viewIndex = -1
-//                }
-//            }
+
         }
     }
    
@@ -1077,8 +756,275 @@ class ContentViewController: UIViewController {
         }
     }
    
+    //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
+    
+    func shareSticker(image:UIImage){
+        if MFMessageComposeViewController.canSendAttachments(){
+            let composeVC = MFMessageComposeViewController()
+            composeVC.recipients = []
+            composeVC.message = composeMessage(image: image)
+            composeVC.messageComposeDelegate = self
+            self.present(composeVC, animated: true, completion: nil)
+        }
+    }
+    
+    func composeMessage(image:UIImage) -> MSMessage {
+        let session = MSSession()
+        let message = MSMessage(session: session)
+        let layout = MSMessageTemplateLayout()
+        if seletedImage.type == .video {
+            layout.mediaFileURL = self.seletedImage.fileUrl
+        }
+        layout.caption = self.seletedImage.name!
+        layout.image  = self.imageOrientation(image)
+        layout.subcaption = self.seletedImage.description
+        let content = self.seletedImage
+        message.layout = layout
+        if ContentList.sharedInstance.objStream == nil {
+            let strURl = kNavigation_Content + "/" + (content?.contentID!)!
+            message.url = URL(string: strURl)
+        }else {
+            let strURl = kNavigation_Content + "/" +  (content?.contentID!)! + "/" + ContentList.sharedInstance.objStream!
+            message.url = URL(string: strURl)
+        }
+        
+        return message
+    }
+    
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+                
+            case UISwipeGestureRecognizerDirection.down:
+                self.isStopPlaying = true
+                self.collectionView.reloadData()
+                if isProfile != nil  {
+                    let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
+                    ContentList.sharedInstance.arrayContent = array
+                }
+                self.dismiss(animated: true, completion: nil)
+                break
+                
+            default:
+                break
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    func showReport(){
+        let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
+        
+        let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Spam, user: "", stream: "", content: self.seletedImage.contentID!, completionHandler: { (isSuccess, error) in
+                
+                if isSuccess! {
+                    self.showToast(type: AlertType.success, strMSG: kAlert_Success_Report_Content)
+                }
+            })
+        })
+        
+        
+        let deleteAction = UIAlertAction(title: kAlertSheet_Inappropiate, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Inappropriate, user: "", stream: "", content: self.seletedImage.contentID!, completionHandler: { (isSuccess, error) in
+                if isSuccess! {
+                    self.showToast(type: AlertType.success, strMSG: kAlert_Success_Report_Content)
+                }
+            })
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            
+        })
+        
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(saveAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+    
+    func showDelete(){
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let saveAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            
+            if self.isViewCount != nil {
+                self.deleteContentFromStream()
+            }else {
+                self.deleteContent()
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            
+        })
+        
+        optionMenu.addAction(saveAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+    
+    func saveActionSheet(){
+        
+        let optionMenu = UIAlertController(title: kSaveAlertTitle, message: nil, preferredStyle: .actionSheet)
+        let saveToMyStuffAction = UIAlertAction(title: kAlertSheet_SaveToMyStuff, style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.saveToMyStuff()
+        })
+        
+        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            
+            
+            if self.seletedImage.type == .image {
+                if self.seletedImage.imgPreview == nil {
+                    HUDManager.sharedInstance.showHUD()
+                    SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
+                        HUDManager.sharedInstance.hideHUD()
+                        if image != nil {
+                            UIImageWriteToSavedPhotosAlbum(image!
+                                ,self, #selector(self.image(_:withPotentialError:contextInfo:)
+                                ), nil)
+                        }
+                    })
+                }
+                
+            }else if self.seletedImage.type == .video{
+                self.videoDownload()
+                
+            }else if self.seletedImage.type == .gif{
+                
+                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
+                    HUDManager.sharedInstance.hideHUD()
+                    if image != nil {
+                        UIImageWriteToSavedPhotosAlbum(image!
+                            ,self, #selector(self.image(_:withPotentialError:contextInfo:)
+                            ), nil)
+                    }
+                })
+            }else if self.seletedImage.type == .link{
+                
+                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
+                    HUDManager.sharedInstance.hideHUD()
+                    if image != nil {
+                        UIImageWriteToSavedPhotosAlbum(image!
+                            ,self, #selector(self.image(_:withPotentialError:contextInfo:)
+                            ), nil)
+                    }
+                })
+            }
+        })
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        optionMenu.addAction(saveToMyStuffAction)
+        optionMenu.addAction(saveToGalleryAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+    
+    @objc func videoDownload(){
+        
+        APIManager.sharedInstance.download(strFile: self.seletedImage.coverImage) { (_, fileURL) in
+            if let fileURL = fileURL {
+                self.showToast(type: AlertType.success, strMSG: kAlert_Save_Video)
+                
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL:fileURL)
+                }) { completed, error in
+                    if completed {
+                        
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
+        self.showToast(type: .error, strMSG: kAlert_Save_Image)
+    }
+    
+    func performEdit(){
+        
+        if seletedImage.type == .image ||  seletedImage.type == .gif {
+            if self.seletedImage.imgPreview == nil {
+                HUDManager.sharedInstance.showHUD()
+                SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
+                    HUDManager.sharedInstance.hideHUD()
+                    if image != nil {
+                        self.openEditor(image:image!)
+                    }
+                })
+                
+            }else {
+                self.openEditor(image:seletedImage.imgPreview!)
+            }
+        }else if seletedImage.type == .video {
+            AppDelegate.appDelegate.keyboardResign(isActive: false)
+            let objVideoEditor:VideoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_VideoEditorView) as! VideoEditorViewController
+            objVideoEditor.delegate = self
+            objVideoEditor.seletedImage = self.seletedImage
+            self.navigationController?.pushAsPresent(viewController: objVideoEditor)
+        }else if seletedImage.type == .link {
+            HUDManager.sharedInstance.showHUD()
+            print(self.seletedImage.coverImageVideo)
+            SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
+                HUDManager.sharedInstance.hideHUD()
+                if image != nil {
+                    self.openEditor(image:image!)
+                }
+            })
+        }else if seletedImage.type == .notes {
+            isFromNotesEdit = true
+            let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
+            controller.contentDAO = self.seletedImage
+            controller.delegate = self
+            controller.isOpenFrom = "Content"
+            self.navigationController?.pushNormal(viewController: controller)
+        }
+    }
+    
+    
+    private func openEditor(image:UIImage){
+        AppDelegate.appDelegate.keyboardResign(isActive: false)
+        photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
+        photoEditor.image = image
+        photoEditor.isForEditOnly = true
+        photoEditor.seletedImage = self.seletedImage
+        //PhotoEditorDelegate
+        photoEditor.photoEditorDelegate = self
+        photoEditor.hiddenControls = [.share]
+        photoEditor.stickers = shapes.shapes
+        photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
+        self.navigationController?.pushAsPresent(viewController: photoEditor)
+    }
 
 }
+
+
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+extension ContentViewControllerDelegate {
+    func updateViewCount(count:String){
+    }
+}
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
 
 extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,UICollectionViewDelegateFlowLayout {
     
@@ -1094,23 +1040,10 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
             self.collectionView.scrollToItem(at: indexToScrollTo, at: .left, animated: false)
             onceOnly = true
         }
-        
-//        let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
-//        if let cell  = collectionView.cellForItem(at: indexPath)  as? ContentViewCell {
-//            cell.imgCover.backgroundColor = UIColor(hex: content.color.trim())
-//            cell.viewCollection.backgroundColor = UIColor(hex: content.color.trim())
-//            cell.tempImageView.backgroundColor = UIColor(hex: content.color.trim())
-//               bottomToolBarView.backgroundColor = .clear
-////            bottomToolBarView.backgroundColor = UIColor(hex: content.color.trim())
-//            self.collectionView.backgroundColor = UIColor(hex: content.color.trim())
-//        }
-
     }
   
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         print("Didplay did end")
-        
-        
         if isStopPlaying {
             if cell is ContentDetailViewCell {
                 (cell as! ContentDetailViewCell).reloadAllInputs()
@@ -1133,11 +1066,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }
    }
 
-      //  cell.scrollView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-    
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showFullView))
-//        cell.scrollView.isExclusiveTouch = true
-//        cell.scrollView.addGestureRecognizer(tap)
+
         return cell
     }
   
@@ -1159,7 +1088,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.viewIndex = indexPath.row
         self.showFullView()
-      //  self.openFullView()
+    
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -1176,7 +1105,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if self.delegate != nil {
             self.delegate?.currentPreview(content: self.seletedImage, index: indexPath)
         }
-       // print(indexPath)
+      
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -1225,7 +1154,10 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
 }
 
+
+
 extension ContentViewController:ContentDetailViewCellDelegate{
+    
     func actionForPlayerSelect(indexPath: IndexPath) {
          self.viewIndex = indexPath.row
         self.playButtonTapped(sender: indexPath)
@@ -1276,6 +1208,7 @@ extension ContentViewController:PhotoEditorDelegate
         isEdited = true
         AppDelegate.appDelegate.keyboardResign(isActive: true)
         self.seletedImage = image
+       
         if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
             ContentList.sharedInstance.arrayContent [index] = seletedImage
         }
@@ -1287,7 +1220,7 @@ extension ContentViewController:PhotoEditorDelegate
     
     
     func canceledEditing() {
-       // print("Canceled")
+      
         isStopPlaying = false
         isEdited = true
         AppDelegate.appDelegate.keyboardResign(isActive: true)
@@ -1306,10 +1239,12 @@ extension ContentViewController:VideoEditorDelegate
         isStopPlaying = false
         isEdited = true
         AppDelegate.appDelegate.keyboardResign(isActive: true)
+        image.isEdit = self.seletedImage.isEdit
         self.seletedImage = image
         if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
             ContentList.sharedInstance.arrayContent [index] = seletedImage
         }
+    
         self.updateContent()
         if self.isViewCount != nil {
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
@@ -1340,8 +1275,8 @@ extension ContentViewController:LightboxControllerPageDelegate,LightboxControlle
     
     
     func lightboxController(_ controller: LightboxController, didMoveToPage page: Int){
-       //   self.currentIndex = controller.currentPage
-          print(page)
+     
+        
          self.lightBoxIndex = page
         if  self.viewIndex != self.currentIndex {
             if isFromViewStream == false {
@@ -1350,8 +1285,7 @@ extension ContentViewController:LightboxControllerPageDelegate,LightboxControlle
                 }
             }
         }
-       
-     //   self.updateCollectionView()
+   
     }
     func lightboxControllerWillDismiss(_ controller: LightboxController){
         let isIndexValid = self.arrayLightBoxIndexes.indices.contains(self.lightBoxIndex)
@@ -1359,14 +1293,13 @@ extension ContentViewController:LightboxControllerPageDelegate,LightboxControlle
         let index = self.arrayLightBoxIndexes[self.lightBoxIndex]
             let isContent = ContentList.sharedInstance.arrayContent.indices.contains(index)
             if  isContent {
-//                self.currentIndex = index
-//                self.seletedImage = ContentList.sharedInstance.arrayContent[ self.currentIndex]
+
                 
                 if isProfile != nil  {
                     let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
                     ContentList.sharedInstance.arrayContent = array
                 }
-                //self.view.alpha = 0.0
+               
                 self.dismiss(animated: true, completion: nil)
             }
         }

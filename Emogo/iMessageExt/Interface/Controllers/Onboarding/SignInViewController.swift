@@ -96,9 +96,9 @@ class SignInViewController: MSMessagesAppViewController {
             self.viewExpand.isHidden = false
             viewCollapse.isHidden = true
             btnBack.isHidden = false
-//            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+
         }else{
-//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+
             self.viewExpand.center = self.view.center
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = true
@@ -137,7 +137,7 @@ class SignInViewController: MSMessagesAppViewController {
     
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
-//            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+
             UIView.animate(withDuration: 0.2, animations: {
                 self.viewExpand.isHidden = false
                 self.viewExpand.center = self.view.center
@@ -149,7 +149,7 @@ class SignInViewController: MSMessagesAppViewController {
                 self.txtMobileNumber.becomeFirstResponder()
             })
         }else{
-//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+
             UIView.animate(withDuration: 0.1, animations: {
                 self.view.endEditing(true)
             }, completion: { (finshed) in
@@ -266,7 +266,7 @@ extension SignInViewController: UITextFieldDelegate {
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.blackTranslucent
         toolBar.isTranslucent = true
-        //        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+      
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
         doneButton.tintColor = .white
         

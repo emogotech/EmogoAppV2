@@ -41,6 +41,7 @@ extension VideoEditorViewController {
                     self.uploadFile()
                 }
             }else {
+              
                 self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
             }
         }

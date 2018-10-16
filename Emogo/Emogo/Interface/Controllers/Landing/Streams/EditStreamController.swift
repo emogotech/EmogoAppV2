@@ -12,12 +12,12 @@ import PhotosUI
 import AVFoundation
 import Lightbox
 import Contacts
-import XLActionController
 import CropViewController
 
 class EditStreamController: UITableViewController {
     
-    //MARK:- IBOutlet Connections
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+
     
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var tfDescription: MBAutoGrowingTextView!
@@ -26,11 +26,6 @@ class EditStreamController: UITableViewController {
     @IBOutlet weak var lblCaption: UILabel!
     @IBOutlet weak var btnAddCollab: UIButton!
     @IBOutlet weak var viewTitle: UIView!
-    
-//    @IBOutlet weak var switchEmogoPrivate: PMAnimatedSwitch!
-//    @IBOutlet weak var switchAddContent: PMAnimatedSwitch!
-//    @IBOutlet weak var switchMakeEmogoGlobal: PMAnimatedSwitch!
-//    @IBOutlet weak var switchAddPeople: PMAnimatedSwitch!
     
     @IBOutlet weak var switchEmogoPrivate: UISwitch!
     @IBOutlet weak var switchAddContent: UISwitch!
@@ -50,6 +45,10 @@ class EditStreamController: UITableViewController {
     var isfromProfile:String?
     var contentRowHeight : CGFloat = 30.0
     var objNavigationController:PMNavigationController?
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +71,8 @@ class EditStreamController: UITableViewController {
     }
     
     
-    // MARK: - Prepare Layouts
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
     
     private func prepareLayouts(){
         tfEmogoTitle.delegate = self
@@ -102,6 +102,7 @@ class EditStreamController: UITableViewController {
       
     }
     
+    
     func prepareNavigationbarButtons(){
         let button   = UIButton(type: .system)
         button.setTitleColor(UIColor.lightGray, for: .normal)
@@ -126,49 +127,153 @@ class EditStreamController: UITableViewController {
         self.navigationItem.rightBarButtonItem = btnDone
         self.title = "Edit Emogo"
         
-//        let btnBack = UIBarButtonItem(title: "CANCEL", style: .plain, target: self, action: #selector(self.btnCancelAction(_:)))
-//        btnBack.tintColor = UIColor.lightGray
-//
-//        self.navigationItem.leftBarButtonItem = btnBack
-//
-//        let btnDone = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
-//
-//        self.navigationItem.rightBarButtonItem = btnDone
-//        self.title = "Edit Emogo"
+
     }
     
-    /*
-    func prepareSwitches(){
-        switchEmogoPrivate.tag = 101
-        switchEmogoPrivate.delegate = self
-        switchEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))
-        switchEmogoPrivate.layer.borderWidth = 1.0
-        switchEmogoPrivate.layer.borderColor = UIColor.black.cgColor
-        
-        switchAddContent.tag = 102
-        switchAddContent.delegate = self
-        switchAddContent.isRoundButton = true
-        switchAddContent.layer.borderWidth = 1.0
-        switchAddContent.layer.borderColor = UIColor.black.cgColor
-        
-        
-        switchAddPeople.tag = 103
-        switchAddPeople.delegate = self
-        switchAddPeople.isRoundButton = true
-        switchAddPeople.layer.borderWidth = 1.0
-        switchAddPeople.layer.borderColor = UIColor.black.cgColor
-        
-        
-        switchMakeEmogoGlobal.tag = 104
-        switchMakeEmogoGlobal.delegate = self
-        switchMakeEmogoGlobal.isRoundButton = true
-        switchMakeEmogoGlobal.layer.borderWidth = 1.0
-        switchMakeEmogoGlobal.layer.borderColor = UIColor.black.cgColor
-        //self.viewTitle.layer.contents = UIImage(named: "gradient")?.cgImage
-
-    }*/
     
-    //MARK:- Switch Action
+    
+    func prepareForEditStream(){
+        if self.objStream != nil {
+            self.title =  self.objStream?.title.trim()
+            tfEmogoTitle.text = self.objStream?.title.trim()
+            tfDescription.text = self.objStream?.description.trim()
+            if !(objStream?.coverImage.trim().isEmpty)!  {
+                self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, handler: { (image, _) in
+                    
+                    self.imgCover.backgroundColor = image?.getColors().background
+                })
+                self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
+                self.strCoverImage = objStream?.coverImage
+            }
+            
+            self.switchMakeEmogoGlobal.isOn = (self.objStream?.anyOneCanEdit)!
+            
+            if self.objStream?.type.lowercased() == "public"{
+                self.switchEmogoPrivate.isOn = false
+                self.switchEmogoPrivate.thumbTintColor =  UIColor.lightGray
+                self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
+                
+                streamType = "Public"
+                
+            }else {
+                self.switchEmogoPrivate.isOn = true
+                self.switchEmogoPrivate.thumbTintColor =  UIColor.white
+                self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
+                
+                streamType = "Private"
+                
+            }
+            
+            self.switchAddContent.isUserInteractionEnabled = false
+            self.switchAddPeople.isUserInteractionEnabled  = false
+            self.switchAddPeople.isOn       = false
+            self.switchAddContent.isOn      = false
+            self.switchAddPeople.thumbTintColor = UIColor.lightGray
+            self.switchAddContent.thumbTintColor = UIColor.lightGray
+            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                
+                self.selectedCollaborators = (self.objStream?.arrayColab)!
+                
+                if self.selectedCollaborators.count != 0 {
+                    self.switchAddContent.isUserInteractionEnabled = true
+                    self.switchAddPeople.isUserInteractionEnabled  = true
+                    self.switchAddPeople.thumbTintColor = UIColor.lightGray
+                    self.switchAddContent.thumbTintColor = UIColor.lightGray
+                }
+            }else {
+                self.switchEmogoPrivate.isUserInteractionEnabled = false
+                self.switchMakeEmogoGlobal.isUserInteractionEnabled = false
+                self.btnChangeCover.isHidden = true
+                self.tfEmogoTitle.isUserInteractionEnabled = false
+                self.tfDescription.isUserInteractionEnabled = false
+                self.selectedCollaborators = (self.objStream?.arrayColab)!
+                if self.selectedCollaborators.count != 0 {
+                    self.switchAddPeople.isUserInteractionEnabled = (self.objStream?.userCanAddPeople)!
+                    self.switchAddContent.isUserInteractionEnabled = (self.objStream?.userCanAddContent)!
+                }
+                self.btnAddCollab.isUserInteractionEnabled = (self.objStream?.canAddPeople)!
+                
+            }
+            
+            
+        }
+        
+        if self.tfDescription.text.count > 0 {
+            self.lblCaption.isHidden = false
+        }else{
+            self.lblCaption.isHidden = true
+        }
+        
+        if self.tfDescription.contentSize.height > contentRowHeight {
+            contentRowHeight = self.tfDescription.contentSize.height
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+        }
+        
+        self.switchAddPeople.isOn = (self.objStream?.userCanAddPeople)!
+        self.switchAddContent.isOn = (self.objStream?.userCanAddContent)!
+        
+        if self.switchAddPeople.isOn == true {
+            self.switchAddPeople.thumbTintColor =  UIColor.white
+        }else{
+            self.switchAddPeople.thumbTintColor =  UIColor.lightGray
+        }
+        
+        if self.switchAddContent.isOn == true {
+            self.switchAddContent.thumbTintColor =  UIColor.white
+        }else{
+            self.switchAddPeople.thumbTintColor =  UIColor.lightGray
+        }
+        
+        if (self.objStream?.anyOneCanEdit)! {
+            self.btnAddCollab.isUserInteractionEnabled = false
+            self.switchAddContent.isUserInteractionEnabled = false
+            self.switchAddPeople.isUserInteractionEnabled = false
+            self.switchAddPeople.isOn = false
+            self.switchAddContent.isOn = false
+            self.switchMakeEmogoGlobal.thumbTintColor =  UIColor.white
+        }
+        self.tableView.reloadData()
+    }
+    
+    func prepareEdit(isEnable:Bool) {
+        self.tfEmogoTitle.isUserInteractionEnabled = isEnable
+        self.tfDescription.isUserInteractionEnabled = isEnable
+        self.btnChangeCover.isUserInteractionEnabled = isEnable
+        self.switchMakeEmogoGlobal.isUserInteractionEnabled = isEnable
+        switchEmogoPrivate.isUserInteractionEnabled = isEnable
+        
+    }
+    func configureCollaboatorsRowExpandCollapse() {
+        self.reloadIndex(index: 3)
+    }
+    
+    func reloadIndex(index:Int) {
+        self.tableView.beginUpdates()
+        let index = IndexPath(row: index, section: 0)
+        self.tableView.reloadRows(at: [index], with: .automatic)
+        self.tableView.endUpdates()
+        self.tableView.reloadData()
+    }
+    
+    
+    
+    // MARK: - Set Cover Image
+    
+    func setCoverImage(image:UIImage) {
+        self.coverImage = image
+        self.imgCover.image = image
+        self.fileName =  NSUUID().uuidString + ".png"
+        self.strCoverImage = ""
+        self.imgCover.contentMode = .scaleAspectFit
+        self.imgCover.backgroundColor = image.getColors().background
+        self.tfEmogoTitle.becomeFirstResponder()
+        print(self.fileName)
+    }
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+
     
     @IBAction func switchActionEmogoPrivate(_ sender: UISwitch) {
         if self.switchEmogoPrivate.isOn {
@@ -242,9 +347,6 @@ class EditStreamController: UITableViewController {
     }
    
     
-    
-    
-    //MARK:- Action For Buttons
     @IBAction func btnDoneAction(_ sender: Any) {
         self.view.endEditing(true)
         if coverImage == nil && strCoverImage.isEmpty{
@@ -291,209 +393,6 @@ class EditStreamController: UITableViewController {
         actionForUploadCover()
     }
 
-    func prepareForEditStream(){
-        if self.objStream != nil {
-            self.title =  self.objStream?.title.trim()
-            tfEmogoTitle.text = self.objStream?.title.trim()
-            tfDescription.text = self.objStream?.description.trim()
-            if !(objStream?.coverImage.trim().isEmpty)!  {
-                self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, handler: { (image, _) in
-                    // self.imgCover.image = image
-                    self.imgCover.backgroundColor = image?.getColors().background
-                })
-                self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
-                self.strCoverImage = objStream?.coverImage
-            }
-           
-            
-           self.switchMakeEmogoGlobal.isOn = (self.objStream?.anyOneCanEdit)!
-        
-          //  self.switchMakeEmogoGlobal.animationSwitcherButton()
-
-            if self.objStream?.type.lowercased() == "public"{
-                self.switchEmogoPrivate.isOn = false
-                self.switchEmogoPrivate.thumbTintColor =  UIColor.lightGray
-               self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
-                //self.switchEmogoPrivate.animationSwitcherButton()
-                streamType = "Public"
-
-            }else {
-                self.switchEmogoPrivate.isOn = true
-                self.switchEmogoPrivate.thumbTintColor =  UIColor.white
-                self.switchMakeEmogoGlobal.thumbTintColor = UIColor.lightGray
-               
-                streamType = "Private"
-              //  self.switchEmogoPrivate.animationSwitcherButton()
-            }
-            
-            self.switchAddContent.isUserInteractionEnabled = false
-            self.switchAddPeople.isUserInteractionEnabled  = false
-            self.switchAddPeople.isOn       = false
-            self.switchAddContent.isOn      = false
-            self.switchAddPeople.thumbTintColor = UIColor.lightGray
-            self.switchAddContent.thumbTintColor = UIColor.lightGray
-            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-                
-                self.selectedCollaborators = (self.objStream?.arrayColab)!
-                
-                if self.selectedCollaborators.count != 0 {
-                    self.switchAddContent.isUserInteractionEnabled = true
-                    self.switchAddPeople.isUserInteractionEnabled  = true
-                    self.switchAddPeople.thumbTintColor = UIColor.lightGray
-                    self.switchAddContent.thumbTintColor = UIColor.lightGray
-                }
-            }else {
-                self.switchEmogoPrivate.isUserInteractionEnabled = false
-                self.switchMakeEmogoGlobal.isUserInteractionEnabled = false
-                self.btnChangeCover.isHidden = true
-                self.tfEmogoTitle.isUserInteractionEnabled = false
-                self.tfDescription.isUserInteractionEnabled = false
-                self.selectedCollaborators = (self.objStream?.arrayColab)!
-                if self.selectedCollaborators.count != 0 {
-                    self.switchAddPeople.isUserInteractionEnabled = (self.objStream?.userCanAddPeople)!
-                    self.switchAddContent.isUserInteractionEnabled = (self.objStream?.userCanAddContent)!
-                }
-                self.btnAddCollab.isUserInteractionEnabled = (self.objStream?.canAddPeople)!
-
-            }
-            
-             /*
-            // If Editor is Creator
-            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-                self.prepareEdit(isEnable: true)
-                
-                if self.switchMakeEmogoGlobal.on == true {
-                    
-                    self.switchAddContent.isUserInteractionEnabled = false
-                    self.switchAddPeople.isUserInteractionEnabled  = false
-                    self.switchAddPeople.on       = false
-                    self.switchAddContent.on      = false
-                }else {
-                    
-                    
-                    //   self.switchAddCollaborators.isUserInteractionEnabled = true
-                    self.switchMakeEmogoGlobal.isUserInteractionEnabled = false
-                    self.switchMakeEmogoGlobal.on = false
-                    if !self.switchEmogoPrivate.on {
-                        self.switchMakeEmogoGlobal.isUserInteractionEnabled = true
-                    }
-                    self.selectedCollaborators = (self.objStream?.arrayColab)!
-                    if self.selectedCollaborators.count != 0 {
-                        
-                    }
-                    
-                }
-                
-            }else {
-                // Colab is Logged in as Editor
-                self.prepareEdit(isEnable: false)
-                //  self.switchAddCollaborators.isUserInteractionEnabled = true
-                if self.switchAddPeople.on == true {
-                    self.switchAddPeople.isUserInteractionEnabled  = true
-                }else {
-                    self.switchAddPeople.isUserInteractionEnabled  = false
-                }
-                
-                if self.switchAddContent.on == true {
-                    self.switchAddContent.isUserInteractionEnabled  = true
-                }else {
-                    self.switchAddContent.isUserInteractionEnabled  = false
-                }
-                if self.selectedCollaborators.count != 0 {
-                    
-                }
-                
-            }
-             */
-        }
-        
-        if self.tfDescription.text.count > 0 {
-            self.lblCaption.isHidden = false
-        }else{
-            self.lblCaption.isHidden = true
-        }
-        
-        if self.tfDescription.contentSize.height > contentRowHeight {
-            contentRowHeight = self.tfDescription.contentSize.height
-            self.tableView.beginUpdates()
-            self.tableView.endUpdates()
-        }
-    
-        self.switchAddPeople.isOn = (self.objStream?.userCanAddPeople)!
-        self.switchAddContent.isOn = (self.objStream?.userCanAddContent)!
-        
-        if self.switchAddPeople.isOn == true {
-            self.switchAddPeople.thumbTintColor =  UIColor.white
-        }else{
-            self.switchAddPeople.thumbTintColor =  UIColor.lightGray
-        }
-        
-        if self.switchAddContent.isOn == true {
-            self.switchAddContent.thumbTintColor =  UIColor.white
-        }else{
-            self.switchAddPeople.thumbTintColor =  UIColor.lightGray
-        }
-//
-//         self.switchAddContent.thumbTintColor =  UIColor.white
-        if (self.objStream?.anyOneCanEdit)! {
-            self.btnAddCollab.isUserInteractionEnabled = false
-            self.switchAddContent.isUserInteractionEnabled = false
-            self.switchAddPeople.isUserInteractionEnabled = false
-            self.switchAddPeople.isOn = false
-       //     self.switchAddPeople.thumbTintColor =  UIColor.lightGray
-            self.switchAddContent.isOn = false
-         //   self.switchAddContent.thumbTintColor =  UIColor.lightGray
-            self.switchMakeEmogoGlobal.thumbTintColor =  UIColor.white
-        }
-        self.tableView.reloadData()
-    }
-    
-    func prepareEdit(isEnable:Bool) {
-        self.tfEmogoTitle.isUserInteractionEnabled = isEnable
-        self.tfDescription.isUserInteractionEnabled = isEnable
-        self.btnChangeCover.isUserInteractionEnabled = isEnable
-        self.switchMakeEmogoGlobal.isUserInteractionEnabled = isEnable
-        switchEmogoPrivate.isUserInteractionEnabled = isEnable
-        
-    }
-    func configureCollaboatorsRowExpandCollapse() {
-        self.reloadIndex(index: 3)
-    }
-    
-    func getStream(){
-        HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForViewStream(streamID: self.streamID) { (stream, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-            if (errorMsg?.isEmpty)! {
-                self.objStream = stream
-                self.prepareForEditStream()
-            }else {
-                self.showToast(type: .success, strMSG: errorMsg!)
-            }
-        }
-    }
-    func reloadIndex(index:Int) {
-        self.tableView.beginUpdates()
-        let index = IndexPath(row: index, section: 0)
-        self.tableView.reloadRows(at: [index], with: .automatic)
-        self.tableView.endUpdates()
-        self.tableView.reloadData()
-    }
-    
-    // MARK: - Set Cover Image
-    
-    func setCoverImage(image:UIImage) {
-        self.coverImage = image
-        self.imgCover.image = image
-        self.fileName =  NSUUID().uuidString + ".png"
-        self.strCoverImage = ""
-        self.imgCover.contentMode = .scaleAspectFit
-        self.imgCover.backgroundColor = image.getColors().background
-        self.tfEmogoTitle.becomeFirstResponder()
-        print(self.fileName)
-    }
-    
-    
     @objc func openFullView(){
         var image:LightboxImage!
         let text = (tfEmogoTitle.text?.trim())! + "\n" +  tfDescription.text.trim()
@@ -518,51 +417,18 @@ class EditStreamController: UITableViewController {
     }
     
     
-    private func uploadCoverImage(){
-        HUDManager.sharedInstance.showHUD()
-        let image = self.coverImage
-        let imageData = UIImageJPEGRepresentation(image!, 1.0)
-        let url = Document.saveFile(data: imageData!, name: self.fileName)
-        let fileUrl = URL(fileURLWithPath: url)
-        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
-            if error == nil {
-                DispatchQueue.main.async {
-                    if self.streamID != nil   {
-                        self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height),color: (image?.getColors().primary.toHexString)! )
-                    }else {
-                        HUDManager.sharedInstance.hideHUD()
-                    }
-                }
-            }else {
-                HUDManager.sharedInstance.hideHUD()
-            }
-        }
-    }
-    private func editStream(cover:String,width:Int,hieght:Int,color:String){
-        
-        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchMakeEmogoGlobal.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width,color:color) { (isSuccess, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-            if isSuccess == true{
-                self.showToastOnWindow(strMSG: kAlert_Stream_Edited_Success)
-                DispatchQueue.main.async{
-                    self.dismiss(animated: true, completion: nil)
-                    if self.isfromProfile != nil && self.isfromProfile == "fromProfile" {
-                        NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
-                    }
-                    
-                    NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
-
-                }
-            }else {
-                self.showToastOnWindow(strMSG: errorMsg!)
-            }
+    @objc func textFieldDidChange(_ textField: SkyFloatingLabelTextField) {
+        if (tfEmogoTitle.text?.trim().isEmpty)! {
+            tfEmogoTitle.placeholder = "Emogo Title"
+            tfEmogoTitle.title = nil
+        }else {
+            tfEmogoTitle.placeholder = nil
+            tfEmogoTitle.title = "Emogo Title"
         }
     }
     
-   
     func actionForUploadCover(){
         
-        //        let optionMenu = UIAlertController(title:nil, message:nil, preferredStyle: .actionSheet)
         let optionMenu = UIAlertController()
         let takePhotoAction = UIAlertAction(title: kAlertSheet_TakePhoto, style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -584,6 +450,9 @@ class EditStreamController: UITableViewController {
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
     }
+    
+    //MARK: ⬇︎⬇︎⬇︎Other Methods ⬇︎⬇︎⬇︎
+
     func btnImportAction(){
         let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
             //     self?.selectedAssets = assets
@@ -638,17 +507,75 @@ class EditStreamController: UITableViewController {
             self.present(cropController, animated: true, completion: nil)
         }
     }
-    
-    @objc func textFieldDidChange(_ textField: SkyFloatingLabelTextField) {
-        if (tfEmogoTitle.text?.trim().isEmpty)! {
-            tfEmogoTitle.placeholder = "Emogo Title"
-            tfEmogoTitle.title = nil
-        }else {
-            tfEmogoTitle.placeholder = nil
-            tfEmogoTitle.title = "Emogo Title"
+  
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+
+    func getStream(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForViewStream(streamID: self.streamID) { (stream, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                self.objStream = stream
+                self.prepareForEditStream()
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
         }
     }
+  
+    
+    private func uploadCoverImage(){
+        HUDManager.sharedInstance.showHUD()
+        let image = self.coverImage
+        let imageData = UIImageJPEGRepresentation(image!, 1.0)
+        let url = Document.saveFile(data: imageData!, name: self.fileName)
+        let fileUrl = URL(fileURLWithPath: url)
+        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                    if self.streamID != nil   {
+                        self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height),color: (image?.getColors().primary.toHexString)! )
+                    }else {
+                        HUDManager.sharedInstance.hideHUD()
+                    }
+                }
+            }else {
+                HUDManager.sharedInstance.hideHUD()
+            }
+        }
+    }
+    
+    private func editStream(cover:String,width:Int,hieght:Int,color:String){
+        
+        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchMakeEmogoGlobal.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width,color:color) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true{
+                self.showToastOnWindow(strMSG: kAlert_Stream_Edited_Success)
+                DispatchQueue.main.async{
+                    self.dismiss(animated: true, completion: nil)
+                    if self.isfromProfile != nil && self.isfromProfile == "fromProfile" {
+                        NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
+                    }
+                    
+                    NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
+
+                }
+            }else {
+                self.showToastOnWindow(strMSG: errorMsg!)
+            }
+        }
+    }
+    
 }
+
+
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
+
+
 extension EditStreamController: CustomCameraViewControllerDelegate {
     func dismissWith(image: UIImage?) {
         if let img = image {
@@ -723,89 +650,7 @@ extension EditStreamController {
         }
     }
 }
-/*
-extension EditStreamController :PMSwitcherChangeValueDelegate{
-    func switcherDidChangeValue(switcher: PMAnimatedSwitch, value: Bool) {
-        
-        switch switcher.tag {
-        case 101:
-            if value {
-                streamType = "Private"
-                self.switchMakeEmogoGlobal.on = false
-              //  self.switchAddPeople.on = false
-                // self.switchAddPeople.isUserInteractionEnabled = false
-                //self.switchAddContent.on = false
-                //self.switchAddContent.isUserInteractionEnabled = false
-                //self.switchAddPeople.animationSwitcherButton()
-                //self.switchAddContent.animationSwitcherButton()
-                self.switchMakeEmogoGlobal.animationSwitcherButton()
 
-            }else{
-                streamType = "Public"
-                self.switchMakeEmogoGlobal.on = false
-             //   self.switchAddPeople.isUserInteractionEnabled = false
-               // self.switchAddContent.isUserInteractionEnabled = false
-                //self.switchAddPeople.on = false
-                //self.switchAddContent.on = false
-                //self.switchAddPeople.animationSwitcherButton()
-                //self.switchAddContent.animationSwitcherButton()
-                self.switchMakeEmogoGlobal.animationSwitcherButton()
-                
-            }
-            break
-        case 102:
-            if value {
-                print("102 on")
-            }else {
-                print("102 off")
-            }
-            break
-        case 103:
-            if value {
-                print("103 on")
-            }else {
-                print("103 off")
-            }
-            break
-        case 104:
-            if value {
-                self.switchAddContent.on = false
-                self.switchAddContent.isUserInteractionEnabled = false
-                self.switchAddPeople.on = false
-                self.switchAddPeople.isUserInteractionEnabled = false
-                if switchEmogoPrivate.on == true {
-                    self.switchEmogoPrivate.on = false
-                    self.switchEmogoPrivate.animationSwitcherButton()
-                    self.streamType = "Public"
-                }
-                self.switchAddContent.animationSwitcherButton()
-                self.switchAddPeople.animationSwitcherButton()
-                self.btnAddCollab.isUserInteractionEnabled = false
-            }else {
-                self.switchAddContent.on = false
-                self.switchAddPeople.on = false
-                if self.objStream?.arrayColab.count == 0 {
-                    self.switchAddPeople.isUserInteractionEnabled = false
-                    self.switchAddContent.isUserInteractionEnabled = false
-                }else {
-                    self.switchAddPeople.isUserInteractionEnabled = true
-                    self.switchAddContent.isUserInteractionEnabled = true
-                }
-              
-                self.btnAddCollab.isUserInteractionEnabled = true
-            }
-            
-            break
-            
-        default:
-            break
-        }
-        
-        
-    }
-    
-    
-}*/
 
 extension EditStreamController :AddCollabViewControllerDelegate{
     

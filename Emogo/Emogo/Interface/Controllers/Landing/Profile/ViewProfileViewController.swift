@@ -11,6 +11,10 @@ import Haptica
 
 class ViewProfileViewController: UIViewController {
     
+    
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+
+    
     @IBOutlet weak var profileCollectionView: UICollectionView!
     
     @IBOutlet weak var lblBio: UILabel!
@@ -36,6 +40,9 @@ class ViewProfileViewController: UIViewController {
     @IBOutlet weak var viewSingle: UIView!
     @IBOutlet weak var kHeightlblName: NSLayoutConstraint!
     
+    
+    //MARK: ⬇︎⬇︎⬇︎ Variables ⬇︎⬇︎⬇︎
+
     let layout = CHTCollectionViewWaterfallLayout()
     var objPeople:PeopleDAO!
     var oldContentOffset = CGPoint.zero
@@ -53,6 +60,11 @@ class ViewProfileViewController: UIViewController {
     let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
     var selectedCell:ProfileStreamCell!
     
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -64,21 +76,34 @@ class ViewProfileViewController: UIViewController {
         prepareLayouts()
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if objPeople != nil  {
+            if !objPeople.userProfileID.isEmpty {
+                HUDManager.sharedInstance.showHUD()
+                self.getStreamList(type:.start,streamType: streamType)
+            }
+        }
+        
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
     func prepareLayouts(){
         
         self.title = objPeople.fullName
         self.lblNOResult.text = kAlert_No_Stream_found
         self.configureNavigationWithTitle()
-       
-        
-//        self.imgLink.image =  #imageLiteral(resourceName: "link_icon")
-//        self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
-//        self.imgSingleView.image = #imageLiteral(resourceName: "location_icon")
+
         let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
         let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share_profile"), style: .plain, target: self, action: #selector(self.profileShareAction))
         self.navigationItem.rightBarButtonItems = [btnFlag,btnShare]
@@ -88,17 +113,10 @@ class ViewProfileViewController: UIViewController {
         self.profileCollectionView.reloadData()
         profileCollectionView.alwaysBounceVertical = true
         self.viewSingle.isHidden = true
-        
-        // Change individual layout attributes for the spacing between cells
-//        layout.minimumColumnSpacing = 8.0
-//        layout.minimumInteritemSpacing = 8.0
-//        layout.sectionInset = UIEdgeInsetsMake(4, 8, 0, 8)
-//        layout.columnCount = 2
-        
-            layout.minimumColumnSpacing = 13.0
-            layout.minimumInteritemSpacing = 13.0
-            layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
-            layout.columnCount = 2
+        layout.minimumColumnSpacing = 13.0
+        layout.minimumInteritemSpacing = 13.0
+        layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
+        layout.columnCount = 2
         
         // Collection view attributes
         self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -127,16 +145,13 @@ class ViewProfileViewController: UIViewController {
         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
         segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         segmentMain.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
-       // segmentMain.selectionIndicatorColor = kCardViewBordorColor
         segmentMain.selectionStyle = .textWidthStripe
         segmentMain.selectedSegmentIndex = 0
         segmentMain.selectionIndicatorLocation = .down
         segmentMain.shouldAnimateUserSelection = false
-       
-        //         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.boldSystemFont(ofSize: 12.0) ]
-        
      
     }
+    
     
     func configureLoadMoreAndRefresh(){
         let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
@@ -153,6 +168,7 @@ class ViewProfileViewController: UIViewController {
         }
         self.profileCollectionView.expiredTimeInterval = 20.0
     }
+    
     
     func prepareData(){
         let nibViews = UINib(nibName: "ProfileStreamView", bundle: nil)
@@ -171,12 +187,9 @@ class ViewProfileViewController: UIViewController {
                         }
                         
                         self.lblFullName.minimumScaleFactor = 1.0
-                       // self.lblWebsite.text = people.website.trim()
                         self.lblWebsite.minimumScaleFactor = 1.0
-                      //  self.lblLocation.text = people.location.trim()
                         self.lblLocation.minimumScaleFactor = 1.0
                         self.lblBio.text = people.biography.trim()
-                        //self.lblBirthday.text = people.birthday.trim()
                         self.title = people.fullName.trim()
                         self.lblBio.minimumScaleFactor = 1.0
                         self.imgLink.isHidden = true
@@ -204,16 +217,7 @@ class ViewProfileViewController: UIViewController {
                         }else {
                             self.btnFollow.setImage(#imageLiteral(resourceName: "followNew"), for: .normal)
                         }
-//                        if people.location.trim().isEmpty {
-//                            self.imgLocation.isHidden = true
-//                        }
-//                        if people.website.trim().isEmpty {
-//                            self.imgLink.isHidden = true
-//                        }
-                   
-                        //   self.imgUser.borderWidth = 1.0
-                        // self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
-                        //print(people.userImage.trim())
+
                         if !people.userImage.trim().isEmpty {
                             self.imgUser.setImageWithResizeURL(people.userImage.trim())
                         }else {
@@ -225,15 +229,9 @@ class ViewProfileViewController: UIViewController {
                                 self.imgUser.setImage(string:people.displayName, color: UIColor.colorHash(name:people.displayName ), circular: true)
                             }
                         }
-//                        if people.biography.trim().isEmpty  {
-//                            self.kHeaderHeight.constant = 178
-//                            self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
-//
-//                        }
+
                         if !people.displayName.trim().isEmpty && !people.location.trim().isEmpty && !people.website.trim().isEmpty && people.biography.trim().isEmpty  {
-                            
-//                            self.lblLocation.text = people.location.trim()
-//                            self.lblWebsite.text =  people.website.trim()
+                        
                             self.lblLocation.isHidden = false
                             self.lblWebsite.isHidden =  false
                             self.imgLink.isHidden = false
@@ -253,7 +251,7 @@ class ViewProfileViewController: UIViewController {
                             }else{
                                 self.lblSingleView.text = people.website.trim()
                             }
-                           // self.lblSingleView.text = people.website.trim()
+                        
                             self.viewSingle.isHidden = false
                             self.lblWebsite.isHidden = true
                             self.lblLocation.isHidden = true
@@ -276,8 +274,6 @@ class ViewProfileViewController: UIViewController {
                             }else{
                                 self.lblSingleView.text = people.website.trim()
                             }
-                           // self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
-                          //  self.lblSingleView.text = people.website.trim()
                             
                             self.viewSingle.isHidden = false
                             self.lblWebsite.isHidden = true
@@ -300,8 +296,7 @@ class ViewProfileViewController: UIViewController {
                             }else{
                                 self.lblSingleView.text = people.location.trim()
                             }
-                           // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
-                           // self.lblSingleView.text = people.location.trim()
+                          
                             self.viewSingle.isHidden = false
                             self.lblWebsite.isHidden = true
                             self.lblBio.isHidden = true
@@ -315,8 +310,7 @@ class ViewProfileViewController: UIViewController {
                             self.topConstraintRange = (CGFloat(0)..<CGFloat(214))
                         }
                         else if !people.location.trim().isEmpty && people.website.trim().isEmpty && !people.biography.trim().isEmpty && !people.displayName.trim().isEmpty {
-                           // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
-                            //self.lblSingleView.text = people.location.trim()
+                         
                             if people.location.trim().count > 15 {
                                 self.lblSingleView.text = people.location.trim()
                             }else{
@@ -379,6 +373,9 @@ class ViewProfileViewController: UIViewController {
                             
                             self.viewSingle.isHidden = true
                             self.kHeightlblName.constant = 0
+                            self.imgLink.isHidden = false
+                            self.imgLocation.isHidden = false
+                            self.imgSingleView.isHidden = true
                             self.kHeaderHeight.constant = 223
                             self.topConstraintRange = (CGFloat(0)..<CGFloat(223))
                             
@@ -454,10 +451,7 @@ class ViewProfileViewController: UIViewController {
                             
                         }
                         self.profileStreamShow()
-                       // self.btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: self.color, thickness: 1)
-//                        self.btnContainer.addBorders(edges: UIRectEdge.top, color: self.color, thickness: 1)
-//                        self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
-//                        self.btnContainer.layer.masksToBounds = true
+  
                     }
                     
                 }
@@ -465,17 +459,8 @@ class ViewProfileViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if objPeople != nil  {
-            if !objPeople.userProfileID.isEmpty {
-                HUDManager.sharedInstance.showHUD()
-                self.getStreamList(type:.start,streamType: streamType)
-            }
-        }
-      
-    }
     
+   
  
     func profileStreamShow(){
         if self.streamType == "1" {
@@ -525,6 +510,10 @@ class ViewProfileViewController: UIViewController {
     }
     
     
+    
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+
+    
     @IBAction func btnActionMenuSelected(_ sender: UIButton) {
         self.updateSegment(selected: sender.tag)
     }
@@ -548,121 +537,6 @@ class ViewProfileViewController: UIViewController {
             self.followUser()
         }
     }
-    
-    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            switch swipeGesture.direction {
-            case UISwipeGestureRecognizerDirection.left:
-                if kDefault?.bool(forKey: kHapticFeedback) == true{
-                    Haptic.impact(.light).generate()
-                }else{
-                    
-                }
-                print("Swie Left")
-                if self.streamType == "1" {
-                    self.updateSegment(selected: 1)
-                    //self.updateSegment(selected: 102)
-                }
-                break
-                
-            case UISwipeGestureRecognizerDirection.right:
-                if kDefault?.bool(forKey: kHapticFeedback) == true{
-                    Haptic.impact(.light).generate()
-                }else{
-                    
-                }
-                print("Swie Right")
-                if self.streamType == "2" {
-                    self.updateSegment(selected: 0)
-                    //self.updateSegment(selected: 101)
-                }
-                break
-            default:
-                break
-            }
-        }
-    }
-    
-    private func updateSegment(selected:Int){
-        switch selected {
-        case 0:
-            layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
-            if kDefault?.bool(forKey: kHapticFeedback) == true{
-                Haptic.impact(.light).generate()
-            }else{
-                
-            }
-            self.streamType = "1"
-            if self.arrayMyStreams.count == 0 && self.isCalledMyStream {
-                self.getStream(type:  self.streamType)
-            }
-            self.profileStreamShow()
-            self.segmentMain.selectedSegmentIndex = 0
-            break
-        case 1:
-            layout.sectionInset = UIEdgeInsetsMake(3, 13, 0, 13)
-            if kDefault?.bool(forKey: kHapticFeedback) == true{
-                Haptic.impact(.light).generate()
-            }else{
-                
-            }
-            self.streamType = "2"
-            if self.arrayColabStream.count == 0 && self.isCalledColabStream {
-                self.getStream(type:  self.streamType)
-            }
-            self.lblNOResult.isHidden = true
-            StreamList.sharedInstance.arrayMyStream = self.arrayColabStream
-            if StreamList.sharedInstance.arrayMyStream.count == 0 {
-                self.lblNOResult.text = kAlert_No_Stream_found
-                self.lblNOResult.isHidden = false
-            }
-            self.layout.headerHeight = 0
-            self.segmentMain.selectedSegmentIndex = 1
-            self.profileCollectionView.reloadData()
-            break
-        default:
-            break
-        }
-    }
-    
-    /*
-    private func updateSegment(selected:Int){
-        switch selected {
-        case 101:
-            self.btnStream.setImage(#imageLiteral(resourceName: "strems_active_icon"), for: .normal)
-            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
-            self.streamType = "1"
-            if self.arrayMyStreams.count == 0 && self.isCalledMyStream {
-                self.getStream(type:  self.streamType)
-            }
-            self.profileStreamShow()
-            break
-        case 102:
-            self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
-            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_active_icon"), for: .normal)
-            self.streamType = "2"
-            if self.arrayColabStream.count == 0 && self.isCalledColabStream {
-                self.getStream(type:  self.streamType)
-            }
-            self.lblNOResult.isHidden = true
-            StreamList.sharedInstance.arrayMyStream = self.arrayColabStream
-            if StreamList.sharedInstance.arrayMyStream.count == 0 {
-                self.lblNOResult.text = kAlert_No_Stream_found
-                self.lblNOResult.isHidden = false
-            }
-            self.layout.headerHeight = 0
-            self.profileCollectionView.reloadData()
-            break
-        default:
-            break
-        }
-    }*/
-    
-    func getStream(type:String){
-        HUDManager.sharedInstance.showHUD()
-        self.getStreamList(type:.start,streamType: type)
-    }
-    
     
     override func btnBackAction() {
         
@@ -731,9 +605,9 @@ class ViewProfileViewController: UIViewController {
         let shareItem =  "Hey checkout \(objPeople.fullName.capitalized)'s profile!"
         let text = "\n via Emogo"
         
-        // let shareItem = "Hey checkout the s profile,emogo"
+        
         let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url,text], applicationActivities:nil)
-        //  activityViewController.excludedActivityTypes = [.print, .copyToPasteboard, .assignToContact, .saveToCameraRoll, .airDrop]
+        
         
         DispatchQueue.main.async {
             self.present(activityViewController, animated: true, completion: nil);
@@ -755,8 +629,101 @@ class ViewProfileViewController: UIViewController {
         }
     }
     
+    
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.left:
+                if kDefault?.bool(forKey: kHapticFeedback) == true{
+                    Haptic.impact(.light).generate()
+                }else{
+                    
+                }
+                print("Swie Left")
+                if self.streamType == "1" {
+                    self.updateSegment(selected: 1)
+                 
+                }
+                break
+                
+            case UISwipeGestureRecognizerDirection.right:
+                if kDefault?.bool(forKey: kHapticFeedback) == true{
+                    Haptic.impact(.light).generate()
+                }else{
+                    
+                }
+                print("Swie Right")
+                if self.streamType == "2" {
+                    self.updateSegment(selected: 0)
+                   
+                }
+                break
+            default:
+                break
+            }
+        }
+    }
+    
+    
+    private func updateSegment(selected:Int){
+        switch selected {
+        case 0:
+            layout.sectionInset = UIEdgeInsetsMake(13, 13, 0, 13)
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
+            self.streamType = "1"
+            if self.arrayMyStreams.count == 0 && self.isCalledMyStream {
+                self.getStream(type:  self.streamType)
+            }
+            self.profileStreamShow()
+            self.segmentMain.selectedSegmentIndex = 0
+            break
+        case 1:
+            layout.sectionInset = UIEdgeInsetsMake(3, 13, 0, 13)
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
+            self.streamType = "2"
+            if self.arrayColabStream.count == 0 && self.isCalledColabStream {
+                self.getStream(type:  self.streamType)
+            }
+            self.lblNOResult.isHidden = true
+            StreamList.sharedInstance.arrayMyStream = self.arrayColabStream
+            if StreamList.sharedInstance.arrayMyStream.count == 0 {
+                self.lblNOResult.text = kAlert_No_Stream_found
+                self.lblNOResult.isHidden = false
+            }
+            self.layout.headerHeight = 0
+            self.segmentMain.selectedSegmentIndex = 1
+            self.profileCollectionView.reloadData()
+            break
+        default:
+            break
+        }
+    }
+    
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+
+    
+    
+    func getStream(type:String){
+        HUDManager.sharedInstance.showHUD()
+        self.getStreamList(type:.start,streamType: type)
+    }
+    
+    
+   
+    
     func getStreamList(type:RefreshType,streamType:String){
-        //self.lblNOResult.isHidden = true
+       
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayMyStream.removeAll()
             self.profileCollectionView.reloadData()
@@ -838,15 +805,18 @@ class ViewProfileViewController: UIViewController {
 
 
 
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
+
+
 extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout,ProfileStreamViewDelegate {
    
     func actionForCover(imageView: UIImageView) {
         
           selectedImageView = imageView
            let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
-        
-//                let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
-//                StreamList.sharedInstance.arrayViewStream = array
        
         let tempIndex = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
   
@@ -857,32 +827,15 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         }
         StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
          obj.delegate = self
-        //obj.streamType = currentStreamType.rawValue
+
         obj.viewStream = "View"
         ContentList.sharedInstance.objStream = nil
         obj.image = selectedImageView?.image
         self.navigationController?.pushViewController(obj, animated: true)
-    //    self.navigationController?.pushNormal(viewController: obj)
+
    
     }
     
-    //        let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
-    //        if index != nil {
-    //            obj.currentIndex = index
-    //        }else {
-    //            StreamList.sharedInstance.arrayMyStream.insert(self.objPeople.stream!, at: 0)
-    //            obj.currentIndex = 0
-    //        }
-        
-//        let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
-//        StreamList.sharedInstance.arrayViewStream = array
-//        print(array)
-//        obj.streamType = currentStreamType.rawValue
-//        obj.viewStream = "View"
-//        selectedImageView = imageView
-//        ContentList.sharedInstance.objStream = nil
-//        self.navigationController?.pushViewController(obj, animated: true)
- //   }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -955,7 +908,6 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         }else {
             ContentList.sharedInstance.mainStreamIndex = nil
             StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
-//            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             let obj:EmogoDetailViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EmogoDetailView) as! EmogoDetailViewController
             obj.delegate = self
             obj.currentIndex = indexPath.row
@@ -964,7 +916,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             obj.viewStream = "View"
             ContentList.sharedInstance.objStream = nil
             self.navigationController?.pushNormal(viewController: obj)
-            //self.navigationController?.pushViewController(obj, animated: true)
+        
         }
         
     }
@@ -1010,9 +962,9 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         }
         oldContentOffset = scrollView.contentOffset
     }
-
     
 }
+
 
 extension ViewProfileViewController : EmogoDetailViewControllerDelegate {
     

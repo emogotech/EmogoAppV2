@@ -117,7 +117,7 @@ class ViewProfileViewController: UIViewController {
         }else{
             
         }
-        segmentMain.sectionTitles = ["EMOGOS", "COLLABS"]
+        segmentMain.sectionTitles = ["Emogos", "Collabs"]
         
         segmentMain.indexChangeBlock = {(_ index: Int) -> Void in
             
@@ -127,8 +127,8 @@ class ViewProfileViewController: UIViewController {
         segmentMain.selectionIndicatorHeight = 1.0
         segmentMain.backgroundColor = UIColor.white
         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
-        //segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
-        segmentMain.selectionIndicatorColor =  kCardViewBordorColor
+        segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+     
         segmentMain.selectionStyle = .textWidthStripe
         segmentMain.selectedSegmentIndex = 0
         segmentMain.selectionIndicatorLocation = .down
@@ -158,6 +158,8 @@ class ViewProfileViewController: UIViewController {
                         //self.lblBirthday.text = people.birthday.trim()
                         self.title = people.fullName.trim()
                         self.lblBio.minimumScaleFactor = 1.0
+                        self.imgLink.image = #imageLiteral(resourceName: "link_icon")
+                        self.imgLocation.image = #imageLiteral(resourceName: "location_icon")
                         self.imgLink.isHidden = false
                         self.imgLocation.isHidden = false
                         if self.objPeople.isFollowing {
@@ -185,9 +187,7 @@ class ViewProfileViewController: UIViewController {
                             self.lblWebsite.addGestureRecognizer(tap)
                             self.lblWebsite.isUserInteractionEnabled = true
                         }
-                     //   self.imgUser.borderWidth = 1.0
-                       // self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
-                        //print(people.userImage.trim())
+                    
                         if !people.userImage.trim().isEmpty {
                             self.imgUser.setImageWithResizeURL(people.userImage.trim())
                         }else {
@@ -217,6 +217,7 @@ class ViewProfileViewController: UIViewController {
                             self.imgLink.isHidden = false
                             self.imgLocation.isHidden = false
                             self.lblBio.isHidden =  true
+                            self.viewSingle.isHidden = true
                             self.heightviewBio.constant = 0
                             let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
                             self.lblLocation.addGestureRecognizer(tap)
@@ -277,13 +278,11 @@ class ViewProfileViewController: UIViewController {
                             self.lblSingleView.text = people.location.trim()
                             self.viewSingle.isHidden = false
                             self.lblWebsite.isHidden = true
+                            self.lblLocation.isHidden = true
                             self.lblBio.isHidden = false
                             self.imgLink.isHidden = true
                             self.imgLocation.isHidden = true
-                            self.imgSingleView.image = self.imgLink.image
-                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
-                            self.lblSingleView.addGestureRecognizer(tap)
-                            self.lblSingleView.isUserInteractionEnabled = true
+                            self.imgSingleView.image = self.imgLocation.image
                             self.kHeaderHeight.constant = 253//178
                             self.topConstraintRange = (CGFloat(0)..<CGFloat(253))
                         }
@@ -336,6 +335,7 @@ class ViewProfileViewController: UIViewController {
                             self.kHeaderHeight.constant = 223
                             self.topConstraintRange = (CGFloat(0)..<CGFloat(223))
                         }
+                       
                             
                         else{
                             self.viewSingle.isHidden = true
@@ -583,38 +583,7 @@ class ViewProfileViewController: UIViewController {
             break
         }
     }
-    /*
-    private func updateSegment(selected:Int){
-        switch selected {
-        case 101:
-            self.btnStream.setImage(#imageLiteral(resourceName: "strems_active_icon"), for: .normal)
-            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
-            self.streamType = "1"
-            if self.arrayMyStreams.count == 0 && self.isCalledMyStream {
-                self.getStream(type:  self.streamType)
-            }
-            self.profileStreamShow()
-            break
-        case 102:
-            self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
-            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_active_icon"), for: .normal)
-            self.streamType = "2"
-            if self.arrayColabStream.count == 0 && self.isCalledColabStream {
-                self.getStream(type:  self.streamType)
-            }
-            self.lblNOResult.isHidden = true
-            StreamList.sharedInstance.arrayMyStream = self.arrayColabStream
-            if StreamList.sharedInstance.arrayMyStream.count == 0 {
-                self.lblNOResult.text = kAlert_No_Stream_found
-                self.lblNOResult.isHidden = false
-            }
-            self.layout.headerHeight = 0
-            self.profileCollection.reloadData()
-            break
-        default:
-            break
-        }
-    }*/
+    
     
     func getStream(type:String){
          self.hudView.startLoaderWithAnimation()
@@ -690,10 +659,9 @@ class ViewProfileViewController: UIViewController {
         let url:URL = URL(string: objPeople.shareURL!)!
         let shareItem =  "Hey checkout \(objPeople.fullName.capitalized)'s profile!"
         let text = "\n via Emogo"
-        
-        // let shareItem = "Hey checkout the s profile,emogo"
+
         let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url,text], applicationActivities:nil)
-        //  activityViewController.excludedActivityTypes = [.print, .copyToPasteboard, .assignToContact, .saveToCameraRoll, .airDrop]
+      
         
         DispatchQueue.main.async {
             self.present(activityViewController, animated: true, completion: nil);
@@ -833,7 +801,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         if self.streamType == "1" {
             let tempStream = self.arrayMyStreams[indexPath.row]
             let tempIndex = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
-//            let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+
               let obj:ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             if tempIndex != nil {
                 obj.currentStreamIndex = tempIndex!
@@ -848,7 +816,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         }else {
             ContentList.sharedInstance.mainStreamIndex = nil
             StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
-//            let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+
               let obj:ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream {
                 var arrayTempStream  = [StreamDAO]()

@@ -12,6 +12,10 @@ import CropViewController
 
 class ProfileUpdateViewController: UITableViewController {
     
+    
+    //MARK: ⬇︎⬇︎⬇︎ UI Elements ⬇︎⬇︎⬇︎
+
+    
     @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var txtBio: UITextView!
@@ -26,6 +30,9 @@ class ProfileUpdateViewController: UITableViewController {
     var delegate:CustomCameraViewControllerDelegate?
     
   
+    
+    //MARK: ⬇︎⬇︎⬇︎ Override Functions ⬇︎⬇︎⬇︎
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.prepareLayouts()
@@ -38,8 +45,20 @@ class ProfileUpdateViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         prepreNavigation()
-
     }
+    
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == 6 {
+            cell.hideSeparator()
+        }else {
+            cell.showSeparator()
+        }
+    }
+    
+    //MARK: ⬇︎⬇︎⬇︎ Prepare Layouts ⬇︎⬇︎⬇︎
+
+    
     func prepareLayouts(){
        self.prepareData()
         self.tableView.tableFooterView = UIView(frame: .zero)
@@ -54,10 +73,8 @@ class ProfileUpdateViewController: UITableViewController {
         txtDisplayName.text = UserDAO.sharedInstance.user.displayName.trim()
         txtDisplayName.textContainer.maximumNumberOfLines = 1
         txtDisplayName.textContainer.lineBreakMode = .byTruncatingTail
-        
-        //txtBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
         txtLocation.text = UserDAO.sharedInstance.user.location.trim()
-      //  self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
+    
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
         }else{
@@ -94,23 +111,22 @@ class ProfileUpdateViewController: UITableViewController {
         btnSave.addTarget(self, action: #selector(self.btnDoneAction(_:)), for: .touchUpInside)
         let btnDone = UIBarButtonItem(customView: btnSave)
       
-       // let btnSave = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
-       
-       // self.navigationItem.rightBarButtonItem?.setTitleTextAttributes(myAttribute2, for: .normal)
-       // self.navigationItem.rightBarButtonItem?.tintColor = UIColor(hex: "007AFF")
-     
         self.navigationItem.rightBarButtonItem = btnDone
         self.title = "Edit Profile"
     }
     
+    func setCoverImage(image:UIImage) {
+        self.imageToUpload = image
+        self.imgUser.image = image
+        self.fileName =  NSUUID().uuidString + ".png"
+    }
+    
+    
+    //MARK: ⬇︎⬇︎⬇︎ Action Methods And Selector ⬇︎⬇︎⬇︎
+
+    
     @IBAction func btnDoneAction(_ sender: UIButton) {
-//        let url = NSURL(string: txtWebsite.text.trim())
-//        print(url)
-//        if !txtWebsite.text.trim().isEmpty && NSURL(string: txtWebsite.text.trim()) == nil  {
-//
-//            self.showToast(strMSG: kAlert_ValidWebsite)
-//            return
-//        }
+
         if self.imageToUpload != nil {
             self.uploadProfileImage()
         }else {
@@ -162,6 +178,8 @@ class ProfileUpdateViewController: UITableViewController {
         self.navigationController?.popViewAsDismiss()
     }
     
+    
+    
     func actionForCamera(){
         let cameraViewController:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         cameraViewController.isDismiss = true
@@ -171,6 +189,7 @@ class ProfileUpdateViewController: UITableViewController {
         let nav = UINavigationController(rootViewController: cameraViewController)
         self.present(nav, animated: true, completion: nil)
     }
+    
     
     func btnImportAction(){
         let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
@@ -239,15 +258,10 @@ class ProfileUpdateViewController: UITableViewController {
     }
     
     
-    func setCoverImage(image:UIImage) {
-        self.imageToUpload = image
-        self.imgUser.image = image
-        self.fileName =  NSUUID().uuidString + ".png"
-    }
     
     
-    // MARK: - API
-    
+    //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
+
     private func uploadProfileImage(){
         HUDManager.sharedInstance.showHUD()
         let image = self.imageToUpload.resizeImage(targetSize: CGSize(width: 200, height: 200))
@@ -280,13 +294,8 @@ class ProfileUpdateViewController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == 6 {
-            cell.hideSeparator()
-        }else {
-            cell.showSeparator()
-        }
-    }
+    
+  
     /*
     // MARK: - Navigation
 
@@ -298,6 +307,12 @@ class ProfileUpdateViewController: UITableViewController {
     */
 
 }
+
+
+//MARK: ⬇︎⬇︎⬇︎ EXTENSION ⬇︎⬇︎⬇︎
+
+//MARK: ⬇︎⬇︎⬇︎ Delegate And Datasource ⬇︎⬇︎⬇︎
+
 
 
 extension ProfileUpdateViewController:CustomCameraViewControllerDelegate {
@@ -352,20 +367,7 @@ extension ProfileUpdateViewController:CropViewControllerDelegate {
         }
     }
 
-//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//        if (text == "\n") {
-//            if textView == txtBio {
-//                txtWebsite.becomeFirstResponder()
-//            }else if textView == txtWebsite {
-//                txtLocation.becomeFirstResponder()
-//            }else  {
-//                textView.resignFirstResponder()
-//            }
-//            return false
-//        }
-//
-//        return true
-//    }
+
 
 
 
