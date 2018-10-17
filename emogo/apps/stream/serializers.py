@@ -32,8 +32,8 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         model = Stream
         fields = '__all__'
         extra_kwargs = {'name': {'required': True, 'allow_blank': False, 'allow_null': False},
-                        'type': {'required': True, 'allow_blank': False, 'allow_null': False},
-                        'image': {'required': True, 'allow_blank': False, 'allow_null': False}
+                        'type': {'required': True, 'allow_blank': False, 'allow_null': False}
+                        # 'image': {'required': True, 'allow_blank': False, 'allow_null': False}
                         }
 
     def validate(self, attrs):

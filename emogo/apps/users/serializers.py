@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from emogo import settings
-from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url, UserFollow
+from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url, UserFollow, UserDevice
 from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
@@ -563,3 +563,15 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
         fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name')
         return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username = contact), fields=fields, context=self.context).data 
                     if contact in users else False) for contact in self.validated_data.get('contact_list') }
+
+class UserDeviceTokenSerializer(serializers.Serializer):
+
+    class Meta:
+        model = UserDevice
+        fields = ('device_token',  'user')
+
+    def create(self, *args, **kwargs):
+        user, _ = UserDevice.objects.get_or_create( user=self.context.user)      
+        user.device_token=self.initial_data['device_token'] 
+        user.save()
+        return user

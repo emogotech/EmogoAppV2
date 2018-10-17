@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
     UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer, \
-    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer
+    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer, UserDeviceTokenSerializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -18,7 +18,7 @@ from emogo.constants import messages
 from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter, FollowerFollowingUserFilter
-from emogo.apps.users.models import UserProfile, UserFollow
+from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
 from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent
 from emogo.apps.collaborator.models import Collaborator
 from django.shortcuts import get_object_or_404
@@ -665,3 +665,27 @@ class CheckContactInEmogo(APIView):
             return custom_render_response(status_code=status.HTTP_200_OK, data=data)
         else:
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.errors)
+
+
+class UserDeviceTokenAPI(CreateAPIView):
+    """
+    Add user device token
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserDeviceTokenSerializer
+
+
+    def create(self, request):
+        """
+        if user enable notification then set device token in userdevice
+        if disabled then set device token to NULL
+        :param request: device_token
+        :return:Status 200 .
+        """
+        serializer = self.serializer_class(data=request.data, context=self.request)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return custom_render_response(status_code=status.HTTP_200_OK)
+        else:
+            return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
