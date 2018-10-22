@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404
 import itertools
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.models import UserFollow
+
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
@@ -75,13 +76,13 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, version, *args, **kwargs):
         if kwargs.get('pk') is not None:
-            return self.retrieve(request, *args, **kwargs)
+            return self.retrieve(request, version, *args, **kwargs)
         else:
-            return self.list(request, *args, **kwargs)
+            return self.list(request, version, *args, **kwargs)
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -104,7 +105,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             serializer = self.get_serializer(instance, fields=fields, context=self.request)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.queryset)
@@ -116,7 +117,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -133,7 +134,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         serializer = self.get_serializer(stream, context=self.request, fields=fields)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request, version, *args, **kwargs):
         """
         :param request: ALL request data
         :param args: request param as list
@@ -155,7 +156,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             instance._prefetched_objects_cache = {}
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request, version, *args, **kwargs):
         """
         :param request:
         :param args:
@@ -176,7 +177,7 @@ class DeleteStreamContentAPI(DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: Contents as list data
@@ -201,7 +202,7 @@ class DeleteStreamContentInBulkAPI(APIView):
     def get_object(self):
         return get_object_or_404(Stream, pk=self.kwargs.get('pk'))
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: Contents as list data
@@ -225,7 +226,7 @@ class CopyContentAPI(APIView):
     def get_object(self):
         return get_object_or_404(Content.actives, pk=self.request.data.get('content_id'))
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: None
@@ -278,11 +279,11 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, version, *args, **kwargs):
         if kwargs.get('pk') is not None:
-            return self.retrieve(request, *args, **kwargs)
+            return self.retrieve(request, version, *args, **kwargs)
         else:
-            return self.list(request, *args, **kwargs)
+            return self.list(request, version, *args, **kwargs)
 
     def get_object(self):
         qs = self.get_queryset().filter(pk=self.kwargs.get('pk'))
@@ -291,7 +292,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         else:
             return Http404
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -304,7 +305,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer = self.get_serializer(instance)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
@@ -317,7 +318,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, version, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
         instances = serializer.create(serializer.validated_data)
@@ -326,7 +327,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         'color', 'user_image', 'full_name', 'order'))
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request, version, *args, **kwargs):
         """
         :param request: ALL request data
         :param args: request param as list
@@ -352,7 +353,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request, version, *args, **kwargs):
         """
         :param request:
         :param args:
@@ -370,7 +371,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
 
 
 class GetTopContentAPI(ContentAPI):
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
@@ -389,7 +390,7 @@ class GetTopContentAPI(ContentAPI):
 
 
 class GetTopTwentyContentAPI(ContentAPI):
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
@@ -438,7 +439,7 @@ class LinkTypeContentAPI(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
@@ -463,7 +464,7 @@ class DeleteContentInBulk(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
+    def post(self, request, version):
         """
         Return a list of all users.
         """
@@ -486,7 +487,7 @@ class MoveContentToStream(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
+    def post(self, request, version):
         """
         Return a list of all users.
         """
@@ -509,7 +510,7 @@ class ReorderStreamContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
+    def post(self, request, version):
         """
         Return a list of all users.
         """
@@ -532,7 +533,7 @@ class ReorderContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
+    def post(self, request, version):
         """
         Return a list of all users.
         """
@@ -553,7 +554,7 @@ class ExtremistReportAPI(CreateAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, version, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, context=self.request)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -576,9 +577,9 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
     
     def get(self, request, *args, **kwargs):
         if kwargs.get('stream_id') is not None:
-            return self.retrieve(request, *args, **kwargs)
+            return self.retrieve(request, version, *args, **kwargs)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -591,7 +592,7 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         # To return created stream data
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
     
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -618,11 +619,11 @@ class StreamLikeAPI(RetrieveAPIView):
         followers = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
         return {'request': self.request, 'followers':followers}
     
-    def get(self, request, *args, **kwargs):
+    def get(self, request, version, *args, **kwargs):
         if kwargs.get('stream_id') is not None:
-            return self.retrieve(request, *args, **kwargs)
+            return self.retrieve(request, version, *args, **kwargs)
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -646,7 +647,7 @@ class ContentLikeDislikeAPI(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -716,7 +717,7 @@ class IncreaseStreamViewCount(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -734,7 +735,7 @@ class ContentInBulkAPI(ContentAPI):
     """
     Get Contents in bulk
     """
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         """
         :param ids: list of content ids
         :return: All content details.
