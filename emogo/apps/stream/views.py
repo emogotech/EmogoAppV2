@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404
 import itertools
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.models import UserFollow
+from emogo.apps.notification.views import NotificationAPI
 
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
@@ -47,6 +48,11 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                 to_attr='stream_collaborator'
             ),
             Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
+            ),
+            Prefetch(
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
                 to_attr='total_view_count'
@@ -68,6 +74,9 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
     filter_class = StreamFilter
+
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -124,7 +133,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :param kwargs: dict param
         :return: Create Stream API.
         """
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         stream = serializer.create(serializer.validated_data)
         # To return created stream data
@@ -589,6 +598,9 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
+        stream = Stream.objects.get(id =  serializer.data.get('stream'))
+        if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and version:
+            NotificationAPI().create_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
         # To return created stream data
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
     
@@ -658,6 +670,9 @@ class ContentLikeDislikeAPI(CreateAPIView):
         serializer = self.get_serializer(data=request.data, context=self.request)
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
+        content = Content.objects.get(id =  serializer.data.get('content'))
+        if (serializer.data.get('status') == 1) and (self.request.user !=  content.created_by) and version :
+            NotificationAPI().create_notification(self.request.user, content.created_by, 'liked_content', content.content_streams.all()[0].stream, content)
         # To return created stream data
         # self.serializer_class = ViewStreamSerializer
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)

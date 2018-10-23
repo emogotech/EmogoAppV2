@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.db import models
 
-from emogo.lib.custom_managers.manager import ActiveManager, UserActiveManager
+from emogo.lib.custom_managers.manager import ActiveManager, UserActiveManager, CollabActiveManager
 
 
 class DefaultDateModel(models.Model):
@@ -22,6 +22,7 @@ class DefaultStatusModel(DefaultDateModel):
     status = models.CharField(max_length=10, choices=settings.STATUSES, default=settings.STATUSES[0][0])
     objects = models.Manager()  # The default manager.
     actives = ActiveManager()  # The custom Active manager.
+    collab_actives = CollabActiveManager()  # The custom Collab Active manager for verified and Active status.
 
     class Meta:
         abstract = True

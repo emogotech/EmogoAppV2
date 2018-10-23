@@ -14,6 +14,8 @@ from django.contrib.auth.models import User
 import operator
 from django.db.models import Q, Count
 from itertools import product
+from emogo.apps.notification.views import NotificationAPI
+
 
 
 class StreamSerializer(DynamicFieldsModelSerializer):
@@ -94,7 +96,11 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                 self.create_content(self.instance)
 
         #3  Update the status of  all collaborator is Inactive When Stream is Global otherwise Collaborator Status is Active
-        if self.instance.collaborator_list.all().__len__ > 0 :
+        if self.context['version']:
+            collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')    
+        else:
+            collaborator_list = self.instance.collaborator_list.all()    
+        if collaborator_list.__len__ > 0 :
             stream_type = self.validated_data.get('type')
             if stream_type == 'Public':
                 # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public) 
@@ -102,7 +108,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             else:
                 # When Stream is (Global  -> Private), so collaboratopr status is Active 
                 status = 'Active'
-            self.instance.collaborator_list.all().update(status=status)
+            collaborator_list.update(status=status)
 
         # 4. Set have_some_update is true, when user edit the stream..
         self.instance.have_some_update = True
@@ -136,8 +142,9 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         :Call owner stream for adding Stream's Owner as collaborators in collaborators list ..
         :return: Add Stream collaborators.
         """
-        self.owner_collaborator(stream)
+
         collaborator_list = self.initial_data.get('collaborator')
+        self.owner_collaborator(stream, collaborator_list)
         collaborators = map(self.save_collaborator, collaborator_list,
                             itertools.repeat(stream, collaborator_list.__len__()))
         
@@ -155,6 +162,10 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         :return: Save Collaborator  object
         """
         if str(data.get('phone_number')) not in str(self.context.get('request').user) :
+            if data.get('status') and self.context['version']:
+                status = data.get('status')
+            else:
+                status = 'Active'
             collaborator, created = Collaborator.objects.get_or_create(
                 phone_number=data.get('phone_number'),
                 stream=stream
@@ -163,7 +174,11 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             collaborator.can_add_content = self.initial_data.get('collaborator_permission').get('can_add_content')
             collaborator.can_add_people = self.initial_data.get('collaborator_permission').get('can_add_people')
             collaborator.created_by = self.context.get('request').user
+            collaborator.status = status
             collaborator.save()
+            to_user = User.objects.filter(username = collaborator.phone_number )
+            if collaborator.status == "Unverified" and self.context['version'] and  to_user.__len__() > 0 and data.get('new_add'):
+                NotificationAPI().create_notification(self.context.get('request').user, to_user[0],  'collaborator_confirmation', stream)
             return collaborator
         return False
 
@@ -217,11 +232,20 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             stream.save()
         return stream
 
-    def owner_collaborator(self, stream):
+    def owner_collaborator(self, stream, data):
         # Adding and update the streams as collaborator..
         # Check Owner is present or stream have any collabrators or not.
+        user_qs = User.objects.filter(id = self.context.get('request').user.id).values('user_data__full_name', 'username')
+        if self.context['version']:
+            username_list =  {str(d['phone_number']): d['status'] for d in data}
+            if user_qs[0].get('username') in username_list:
+                status = str(username_list[user_qs[0].get('username')])
+            else:
+                status = 'Unverified'
+        else:
+            status = 'Active'
         if stream.collaborator_list.filter().__len__() < 1 :
-            user_qs = User.objects.filter(id = self.context.get('request').user.id).values('user_data__full_name', 'username')
+            
             collaborator, created = Collaborator.objects.get_or_create(
                 phone_number=user_qs[0].get('username'),
                 stream=stream
@@ -230,6 +254,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             collaborator.can_add_content = True
             collaborator.can_add_people = True
             collaborator.created_by = self.context.get('request').user
+            collaborator.status = status
             collaborator.save()
             return collaborator
 
@@ -304,14 +329,18 @@ class ViewStreamSerializer(StreamSerializer):
             return 0
 
     def get_collaborators(self, obj):
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id')
+        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status')
         list_of_instances = list()
         user_qs = list()
-        if obj.stream_collaborator.__len__() > 0:
+        if self.context['version']:
+            instances = obj.stream_collaborator_verified
+        else:
+            instances = obj.stream_collaborator
+
+        if instances.__len__() > 0:
 
             # If logged-in user is owner of stream show all collaborator
             current_url = resolve(self.context.get('request').path_info).url_name
-            instances = obj.stream_collaborator
 
             # If user as owner or want to get all collaborator list
             if current_url == 'stream_collaborator' or obj.created_by == self.context.get('request').user:
