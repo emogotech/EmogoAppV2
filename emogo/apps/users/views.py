@@ -31,6 +31,7 @@ from django.http import HttpResponse
 from django.http import Http404
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet, Q
+from emogo.apps.notification.views import NotificationAPI
 
 
 class Signup(APIView):
@@ -634,6 +635,9 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         serializer.is_valid(raise_exception=True)
         # To return created stream data
         self.perform_create(serializer)
+        if version:
+            to_user = User.objects.get(id = self.request.data.get('following'))
+            NotificationAPI().create_notification(self.request.user, to_user, 'follower')
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
     def get_object(self):
