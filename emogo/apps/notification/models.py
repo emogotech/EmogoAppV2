@@ -16,13 +16,8 @@ NOTIFICATION_TYPE = (
     ('liked_content', '{0} loved your {1}'),
     ('add_content', '{0} added to {1}'),
     ('self', 'You saved {0} items'),
+    ('decline', 'You declined to join {0}'),
 )
-
-# class NotificationType(DefaultDateModel):
-#     type = models.CharField(max_length=50, choices=NOTIFICATION_TYPE, null=True, blank=True)
-
-#     class Meta:
-#         db_table = 'notification_type'
 
 class Notification(DefaultDateModel):
     notification_type = models.CharField(max_length=50, choices=NOTIFICATION_TYPE, null=True, blank=True)
