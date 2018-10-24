@@ -431,6 +431,11 @@ class GetTopStreamSerializer(serializers.Serializer):
             to_attr='stream_collaborator'
         ),
         Prefetch(
+            'collaborator_list',
+            queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+            to_attr='stream_collaborator_verified'
+        ),
+        Prefetch(
                 'stream_like_dislike_status',
                 queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
                         Prefetch(
