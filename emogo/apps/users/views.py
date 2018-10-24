@@ -132,7 +132,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
     lookup_field= "user_id"
 
     def get_serializer_context(self):
-        return {'request': self.request, 'context':self.request}
+        return {'request': self.request, 'context':self.request, 'version': self.kwargs['version']}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -173,6 +173,11 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
                 'profile_stream__collaborator_list',
                 queryset=Collaborator.actives.all(),
                 to_attr='profile_stream_collaborator_list'
+            ),
+            Prefetch(
+                'profile_stream__collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='profile_stream_collaborator_verified'
             ),
             Prefetch(
                 'profile_stream__stream_contents',
@@ -285,6 +290,11 @@ class UserStearms(ListAPIView):
                 to_attr='stream_collaborator'
             ),
             Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
+            ),
+            Prefetch(
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
                 to_attr='total_view_count'
@@ -296,6 +306,10 @@ class UserStearms(ListAPIView):
             ),
         ).order_by('-stream_view_count')
     filter_class = UserStreamFilter
+
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
+
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -409,6 +423,9 @@ class UserLikedSteams(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     queryset = Stream.actives.all()
+    
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -432,10 +449,16 @@ class UserLikedSteams(ListAPIView):
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
                 to_attr='total_view_count'
-            ),Prefetch(
+            ),
+            Prefetch(
                 'collaborator_list',
                 queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
                 to_attr='stream_collaborator'
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
             ),
             Prefetch(
                 "stream_contents",
@@ -488,6 +511,9 @@ class UserCollaborators(ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Stream.actives.all()
 
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
+
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
@@ -536,6 +562,11 @@ class UserCollaborators(ListAPIView):
             to_attr='stream_collaborator'
         ),
         Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
+        ),
+        Prefetch(
             'stream_user_view_status',
             queryset=StreamUserViewStatus.objects.all(),
             to_attr='total_view_count'
@@ -561,7 +592,7 @@ class UserCollaborators(ListAPIView):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked')
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = self.get_serializer(page, many=True, fields=fields)
+            serializer = self.get_serializer(page, many=True, fields=fields, context=self.get_serializer_context())
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
@@ -591,11 +622,14 @@ class GetTopStreamAPI(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, version):
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
+
+    def get(self, request, version, *args, **kwargs):
         """
         Return a list of all users.
         """
-        serializer = self.serializer_class(data=request.data, context=self.request)
+        serializer = self.serializer_class(data=request.data, context=self.get_serializer_context())
         if serializer.is_valid():
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
