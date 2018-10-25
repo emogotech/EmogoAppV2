@@ -671,7 +671,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         self.perform_create(serializer)
         if version:
             to_user = User.objects.get(id = self.request.data.get('following'))
-            NotificationAPI().create_notification(self.request.user, to_user, 'follower')
+            NotificationAPI().send_notification(self.request.user, to_user, 'follower')
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
     def get_object(self):

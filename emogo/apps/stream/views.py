@@ -496,11 +496,14 @@ class MoveContentToStream(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
+
     def post(self, request, version):
         """
         Return a list of all users.
         """
-        serializer = self.serializer_class(data=request.data, context=self.request)
+        serializer = self.serializer_class(data=request.data, context=self.get_serializer_context())
         if serializer.is_valid():
             serializer.save()
             return custom_render_response(status_code=status.HTTP_200_OK, data={})
@@ -600,7 +603,7 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         serializer.create(serializer)
         stream = Stream.objects.get(id =  serializer.data.get('stream'))
         if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and version:
-            NotificationAPI().create_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
+            NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
         # To return created stream data
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
     
@@ -672,7 +675,7 @@ class ContentLikeDislikeAPI(CreateAPIView):
         serializer.create(serializer)
         content = Content.objects.get(id =  serializer.data.get('content'))
         if (serializer.data.get('status') == 1) and (self.request.user !=  content.created_by) and version :
-            NotificationAPI().create_notification(self.request.user, content.created_by, 'liked_content', content.content_streams.all()[0].stream, content)
+            NotificationAPI().send_notification(self.request.user, content.created_by, 'liked_content', content.content_streams.all()[0].stream, content)
         # To return created stream data
         # self.serializer_class = ViewStreamSerializer
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
@@ -766,3 +769,4 @@ class ContentInBulkAPI(ContentAPI):
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+

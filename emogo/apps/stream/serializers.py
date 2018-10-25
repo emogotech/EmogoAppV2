@@ -178,7 +178,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             collaborator.save()
             to_user = User.objects.filter(username = collaborator.phone_number )
             if collaborator.status == "Unverified" and self.context['version'] and  to_user.__len__() > 0 and data.get('new_add'):
-                NotificationAPI().create_notification(self.context.get('request').user, to_user[0],  'collaborator_confirmation', stream)
+                NotificationAPI().send_notification(self.context.get('request').user, to_user[0],  'collaborator_confirmation', stream)
             return collaborator
         return False
 
@@ -571,6 +571,14 @@ class MoveContentToStreamSerializer(ContentSerializer):
         # Set True in have_some_update field, When user move content to stream
         stream.have_some_update = True
         stream.save()
+        if self.context['version']:
+            collab_list = stream.collaborator_list.filter(status= 'Active')
+            for collab in collab_list.exclude(phone_number = self.context.get('request').user):
+                to_user = User.objects.get(username = collab.phone_number)
+                NotificationAPI().send_notification(self.request.user, to_user, 'add_content', stream)
+            self_added = collab_list.filter(phone_number = self.context.get('request').user)
+            if self_added.__len__() > 0:
+                NotificationAPI().send_notification(self.request.user, self.request.user, 'self', stream,None, self.initial_data.get('contents').count())
         return self.initial_data['contents']
 
 

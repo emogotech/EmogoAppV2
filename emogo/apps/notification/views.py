@@ -15,12 +15,12 @@ from apns import APNs, Frame, Payload
 # Create your views here.
 class NotificationAPI():
 
-    def create_notification(self, from_user, to_user, type, stream=None, content=None):
+    def create_notification(self, from_user, to_user, type, stream=None, content=None, content_count= None):
         obj = Notification.objects.create(
-            notification_type=type, from_user=from_user, to_user=to_user, stream=stream, content=content)
-        self.send_notification(obj)
+            notification_type=type, from_user=from_user, to_user=to_user, stream=stream, content=content, content_count=content_count)
 
-    def send_notification(self, obj):
+    def send_notification(self, from_user, to_user, type, stream=None, content=None, content_count=None):
+        self.create_notification(from_user, to_user, type, stream, content)
         try:
             token_hex = obj.to_user.userdevice_set.all()[0].device_token
             if token_hex != '':
