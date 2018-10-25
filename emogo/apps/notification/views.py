@@ -17,7 +17,9 @@ from emogo.apps.notification.serializers import ActivityLogSerializer
 from emogo.lib.helpers.utils import custom_render_response
 from emogo.apps.notification.models import Notification
 from apns import APNs, Frame, Payload
+from emogo.apps.users.models import UserFollow, UserProfile
 
+from django.db.models import Prefetch
 
 # Create your views here.
 class NotificationAPI():
@@ -73,9 +75,28 @@ class ActivityLogAPI(ListAPIView):
     def list(self, request, version, *args, **kwargs):
         #  Override serializer class : NotificationSerializer
         self.serializer_class = ActivityLogSerializer
-        queryset = self.filter_queryset(self.queryset.filter(to_user = self.request.user))
+        queryset = Notification.objects.filter(to_user = self.request.user).prefetch_related(
+            Prefetch(
+                "to_user",
+                queryset =UserProfile.actives.filter().select_related('user').prefetch_related(
+                    Prefetch(
+                        "user__who_follows",
+                        queryset=UserFollow.objects.all().order_by('-follow_time'),
+                        to_attr="followers_list"
+                    ),
+                    Prefetch(
+                        'user__who_is_followed',
+                        queryset=UserFollow.objects.all().order_by('-follow_time'),
+                        to_attr='following_list'
+                    )
+                ),
+                to_attr="user_follower"
+            ),
+           
+        ).order_by('-upd')
+
         #  Customized field list
-        page = self.paginate_queryset(queryset)
+        page = self.paginate_queryset(self.filter_queryset(queryset))
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
