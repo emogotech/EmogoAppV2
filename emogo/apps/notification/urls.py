@@ -3,4 +3,5 @@ from emogo.apps.notification import views
 
 urlpatterns = [
 	url(r'^activity_logs/$', views.ActivityLogAPI.as_view()),
+	url(r'^notification/delete/(?P<pk>[0-9]+)/$', views.DeleteNotificationAPI.as_view()),
 ]

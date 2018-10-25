@@ -5,21 +5,20 @@ import os
 
 from django.shortcuts import render
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+from django.db.models import Prefetch
+from apns import APNs, Frame, Payload
 
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-# from emogo.apps.stream.serializers import ViewStreamSerializer
 from emogo.apps.notification.serializers import ActivityLogSerializer
-
 from emogo.lib.helpers.utils import custom_render_response
 from emogo.apps.notification.models import Notification
-from apns import APNs, Frame, Payload
 from emogo.apps.users.models import UserFollow, UserProfile
 
-from django.db.models import Prefetch
 
 # Create your views here.
 class NotificationAPI():
@@ -101,3 +100,22 @@ class ActivityLogAPI(ListAPIView):
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+
+class DeleteNotificationAPI(DestroyAPIView):
+    """ Delete Notification """
+    queryset = Notification.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def destroy(self, request, version, *args, **kwargs):
+        """
+        :param request:
+        :param args:
+        :param kwargs:
+        :return: Hard Delete Notification
+        """
+
+        instance = self.get_object()
+        # Perform delete operation
+        self.perform_destroy(instance)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=None)
