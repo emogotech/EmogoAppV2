@@ -23,34 +23,49 @@ from emogo.apps.users.models import UserFollow, UserProfile
 # Create your views here.
 class NotificationAPI():
 
+    def total_counts(self):
+        # Return all open notification counts
+        return Notification.objects.filter(is_open=True)
+
     def create_notification(self, from_user, to_user, type, stream=None, content=None, content_count= None):
+        # Create Notification and return instance 
         obj = Notification.objects.create(
             notification_type=type, from_user=from_user, to_user=to_user, stream=stream, content=content, content_count=content_count)
+        return obj 
 
-    def send_notification(self, from_user, to_user, type, stream=None, content=None, content_count=None):
-        self.create_notification(from_user, to_user, type, stream, content)
+    def initialize_notification(self, obj):
+        # Initialize and call Notification
         try:
             token_hex = obj.to_user.userdevice_set.all()[0].device_token
+            import pdb; pdb.set_trace()
             if token_hex != '':
                 path = settings.NOTIFICATION_PEM_ROOT
                 apns = APNs(use_sandbox=True, cert_file=path, key_file=path)
                 msg = self.notification_message(obj)
-                payload = Payload(alert=msg, sound="default")
+                payload = Payload(alert=msg, sound="default", badge=self.total_counts().filter(to_user = self.request.user).count())
                 apns.gateway_server.send_notification(token_hex, payload)
         except Exception as e:
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
+    
+    def send_notification(self, from_user, to_user, type, stream=None, content=None, content_count=None):
+        # Call create notification metrhod and notify to user
+        obj = self.create_notification(from_user, to_user, type, stream, content)
+        self.initialize_notification(obj)
 
     def notification_message(self, obj):
+        # Return notification message for all type
         user_name = obj.from_user.user_data.full_name
         if obj.notification_type in ['collaborator_confirmation', 'joined', 'add_content', 'liked_emogo', 'decline']:
             second_args = obj.stream.name
         elif obj.notification_type in ['liked_content']:
             second_args = obj.content.type
         elif obj.notification_type in ['self']:
-            second_args = obj.content_count
+            user_name = obj.content_count
+            second_args = ''
         else:
             second_args = ''
         return obj.get_notification_type_display().format(user_name, second_args)
+
 
 class ActivityLogAPI(ListAPIView):
     """
@@ -119,3 +134,39 @@ class DeleteNotificationAPI(DestroyAPIView):
         # Perform delete operation
         self.perform_destroy(instance)
         return custom_render_response(status_code=status.HTTP_200_OK, data=None)
+
+class BadgeCountAPI(ListAPIView):
+    """ Badge Count Notification """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, version, *args, **kwargs):
+        """
+        :param request:
+        :param args:
+        :param kwargs:
+        :return: Get Total counts 
+        """
+        badge_counts = NotificationAPI().total_counts().filter(to_user = self.request.user).count()
+        return custom_render_response(status_code=status.HTTP_200_OK, data={'badge_counts':badge_counts})
+
+
+class ResetBadgeCountAPI(ListAPIView):
+    """ Badge Count Notification """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, version, *args, **kwargs):
+        """
+        :param request:
+        :param args:
+        :param kwargs:
+        :return: Get Total counts 
+        """
+        queryset = NotificationAPI().total_counts().filter(to_user = self.request.user)
+        if not request.data['notification_id'] :
+            types = ['collaborator_confirmation', 'joined', 'add_content']
+            queryset.exclude(notification_type__in=types).update(is_open = False)
+        else:
+            queryset.filter(id=request.data['notification_id']).update(is_open = False)
+        return custom_render_response(status_code=status.HTTP_200_OK)

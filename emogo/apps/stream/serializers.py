@@ -576,9 +576,9 @@ class MoveContentToStreamSerializer(ContentSerializer):
             for collab in collab_list.exclude(phone_number = self.context.get('request').user):
                 to_user = User.objects.get(username = collab.phone_number)
                 NotificationAPI().send_notification(self.request.user, to_user, 'add_content', stream)
-            self_added = collab_list.filter(phone_number = self.context.get('request').user)
-            if self_added.__len__() > 0:
-                NotificationAPI().send_notification(self.request.user, self.request.user, 'self', stream, None, self.initial_data.get('contents').count())
+            # self_added = collab_list.filter(phone_number = self.context.get('request').user)
+            # if self_added.__len__() > 0:
+            # NotificationAPI().send_notification(self.request.user, self.request.user, 'self', stream, None, self.initial_data.get('contents').count())
         return self.initial_data['contents']
 
 

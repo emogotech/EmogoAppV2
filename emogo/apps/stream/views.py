@@ -784,5 +784,10 @@ class ContentShareExtensionAPI(CreateAPIView):
         :param kwargs: dict param
         :return: Send notification API.
         """
-        if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and version:
-            NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
+        last_obj = None
+        for item in self.request.data.get('contents'):
+            content = Content.objects.get(id=item)
+            last_obj=NotificationAPI().create_notification(self.request.user, self.request.user, 'self', None, content, self.request.data.get('contents').__len__())
+        NotificationAPI().initialize_notification(last_obj)
+        return custom_render_response(status_code=status.HTTP_200_OK)
+
