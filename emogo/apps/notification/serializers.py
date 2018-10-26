@@ -25,7 +25,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = Notification
         fields = ['id', 'notification_type', 'message', 'upd',
-                  'confirmation_status', 'can_delete', 'is_follower', 'is_following', 'sender_user', 'stream', 'contents']
+                  'confirmation_status', 'is_follower', 'is_following', 'sender_user', 'stream', 'contents']
 
     def get_message(self, obj):
         from views import NotificationAPI
