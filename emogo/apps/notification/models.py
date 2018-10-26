@@ -26,7 +26,7 @@ class Notification(DefaultDateModel):
     stream = models.ForeignKey(Stream, null=True, blank=True)
     content = models.ForeignKey(Content, null=True, blank=True)
     content_count = models.IntegerField(default=0, blank=True, null=True)
-    can_delete = models.BooleanField(default=True)
+    is_open = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'notification'
