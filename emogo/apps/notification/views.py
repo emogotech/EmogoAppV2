@@ -37,12 +37,11 @@ class NotificationAPI():
         # Initialize and call Notification
         try:
             token_hex = obj.to_user.userdevice_set.all()[0].device_token
-            import pdb; pdb.set_trace()
             if token_hex != '':
                 path = settings.NOTIFICATION_PEM_ROOT
                 apns = APNs(use_sandbox=True, cert_file=path, key_file=path)
                 msg = self.notification_message(obj)
-                payload = Payload(alert=msg, sound="default", badge=self.total_counts().filter(to_user = self.request.user).count())
+                payload = Payload(alert=msg, sound="default", badge=self.total_counts().filter(to_user = obj.to_user).count())
                 apns.gateway_server.send_notification(token_hex, payload)
         except Exception as e:
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
