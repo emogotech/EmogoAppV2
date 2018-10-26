@@ -26,7 +26,6 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
-
     # def update(self, request, version, *args, **kwargs):
     def update(self, request, *args, **kwargs):
         """
@@ -35,14 +34,17 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         :param kwargs: dict param
         :return: Update collab API status.
         """
-        if kwargs['invites'] == 'accept' and request.method == 'PATCH' :
-            stream = Stream.objects.get(id = request.data.get('stream'))
-            collab = Collaborator.objects.filter( stream = stream ).filter( Q(id =  kwargs.get('pk'), phone_number = request.user.username) | Q(phone_number = stream.created_by.username, created_by=stream.created_by) )
-            collab.update(status = 'Active')        
+        if kwargs['invites'] == 'accept' and request.method == 'PATCH':
+            stream = Stream.objects.get(id=request.data.get('stream'))
+            collab = Collaborator.objects.filter(stream=stream).filter(Q(id=kwargs.get('pk'), phone_number=request.user.username) | Q(
+                phone_number=stream.created_by.username, created_by=stream.created_by))
+            collab.update(status='Active')
             if kwargs['version']:
-                NotificationAPI().send_notification(self.request.user, stream.created_by, 'joined', stream)
-            # # To return accpted
-            return custom_render_response(status_code=status.HTTP_200_OK)
+                NotificationAPI().send_notification(self.request.user,
+                                                    stream.created_by, 'joined', stream)
+            # To return accpted
+            message = 'You joined emogo {0}'.format(stream.name)
+            return custom_render_response(status_code=status.HTTP_200_OK, data={'message': message})
         else:
             return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)
 
@@ -53,15 +55,20 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         :param kwargs:
         :return: Soft Delete collaborator and change status deleted
         """
-        if kwargs['invites'] == 'decline' and request.method == 'DELETE':        
+        if kwargs['invites'] == 'decline' and request.method == 'DELETE':
 
-            stream = Stream.objects.get(id = request.data.get('stream'))
-            Collaborator.objects.filter( stream = stream ).filter( Q(id =  kwargs.get('pk'), phone_number = request.user.username)).update(status = 'Deleted') 
-            collab = Collaborator.objects.filter( stream = stream ).filter(status = 'Active')
+            stream = Stream.objects.get(id=request.data.get('stream'))
+            Collaborator.objects.filter(stream=stream).filter(Q(id=kwargs.get(
+                'pk'), phone_number=request.user.username)).update(status='Deleted')
+            obj = NotificationAPI().create_notification(
+                    self.request.user, stream.created_by, 'decline', stream)
+            message = 'You declined to join {0}'.format(stream.name)
+            collab = Collaborator.objects.filter(
+                stream=stream).filter(status='Active')
 
             if kwargs['version'] and collab.__len__() == 1:
-                collab.filter(phone_number = stream.created_by.username, created_by=stream.created_by).update(status = 'Unverified')
-                NotificationAPI().create_notification(self.request.user, stream.created_by, 'decline', stream)
-            return custom_render_response(status_code=status.HTTP_200_OK, data=None)
+                collab.filter(phone_number=stream.created_by.username,
+                              created_by=stream.created_by).update(status='Unverified')
+            return custom_render_response(status_code=status.HTTP_200_OK, data={'message':message})
         else:
             return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)

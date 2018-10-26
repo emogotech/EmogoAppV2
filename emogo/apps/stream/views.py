@@ -770,3 +770,19 @@ class ContentInBulkAPI(ContentAPI):
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+class ContentShareExtensionAPI(CreateAPIView):
+    """
+    Save content from share extension API
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, version, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Send notification API.
+        """
+        if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and version:
+            NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
