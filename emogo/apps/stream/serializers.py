@@ -573,13 +573,10 @@ class MoveContentToStreamSerializer(ContentSerializer):
         stream.save()
         if self.context['version']:
             collab_list = stream.collaborator_list.filter(status= 'Active')
-            for collab in collab_list.exclude(phone_number = self.context.get('request').user):
+            for collab in collab_list.exclude(phone_number = self.context.get('request').user.username):
                 to_user = User.objects.get(username = collab.phone_number)
-                NotificationAPI().send_notification(self.request.user, to_user, 'add_content', stream)
-            # self_added = collab_list.filter(phone_number = self.context.get('request').user)
-            # if self_added.__len__() > 0:
-            # NotificationAPI().send_notification(self.request.user, self.request.user, 'self', stream, None, self.initial_data.get('contents').count())
-        return self.initial_data['contents']
+                NotificationAPI().send_notification(self.context.get('request').user, to_user, 'add_content', stream)
+       return self.initial_data['contents']
 
 
 class ExtremistReportSerializer(DynamicFieldsModelSerializer):

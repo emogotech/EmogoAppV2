@@ -180,7 +180,7 @@ class UserStreamFilter(django_filters.FilterSet):
         return qs
 
     def filter_emogo_stream(self, qs, name, value):
-        user = get_object_or_404(User, user_data__id=value)
+        user = get_object_or_404(User, id=value)
         # 1. Get user as collaborator in streams created by requested user.
         stream_ids = Collaborator.actives.filter(stream__status='Active', created_by_id = user.id).values_list('stream', flat=True)
 
@@ -188,7 +188,7 @@ class UserStreamFilter(django_filters.FilterSet):
         return  qs.exclude(id__in=stream_ids).filter(created_by_id= user.id, type='Public').order_by('-upd')
 
     def filter_collab_stream(self, qs, name, value):
-        user = get_object_or_404(User, user_data__id=value)
+        user = get_object_or_404(User, id=value)
         stream_ids = Collaborator.actives.filter(
             (
                 (Q(phone_number__endswith=str(self.request.user.username)[-10:]) & Q(created_by_id = user.id)) |
