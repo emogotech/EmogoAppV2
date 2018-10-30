@@ -90,6 +90,7 @@ class Logout(APIView):
         try:
             # simply delete the token to force a login
             request.user.auth_token.delete()
+            request.user.userdevice_set.all()[0].delete()
             message, status_code, response_status = messages.MSG_LOGOUT_SUCCESS, "200", status.HTTP_200_OK
             return custom_render_response(status_code, message, response_status)
         except:
