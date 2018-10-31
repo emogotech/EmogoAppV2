@@ -54,7 +54,10 @@ class NotificationAPI():
     def notification_message(self, obj):
         # Return notification message for all type
         user_name = obj.from_user.user_data.full_name
-        if obj.notification_type in ['collaborator_confirmation', 'joined', 'add_content', 'liked_emogo', 'decline']:
+        if obj.notification_type in ['collaborator_confirmation', 'add_content', 'liked_emogo', 'decline', 'accepted']:
+            second_args = obj.stream.name
+        elif obj.notification_type in ['joined']:
+            user_name = ''
             second_args = obj.stream.name
         elif obj.notification_type in ['liked_content']:
             second_args = obj.content.type

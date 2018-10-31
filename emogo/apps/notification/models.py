@@ -11,11 +11,12 @@ NOTIFICATION_TYPE = (
     ('liked_emogo', '{0} liked your emogo {1}'),
     ('follower', '{0} started following you'),
     ('collaborator_confirmation', '{0} added you to {1}'),
-    ('joined', '{0} joined {1}'),
+    ('accepted', '{0} accepted your emogo request'),
+    ('joined', 'You joined {0}'),
     ('liked_content', '{0} loved your {1}'),
     ('add_content', '{0} added to {1}'),
     ('self', 'You saved {0} items'),
-    ('decline', 'You declined to join {0}'),
+    ('decline', '{0} declined to join {1}'),
 )
 
 class Notification(DefaultDateModel):
