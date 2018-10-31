@@ -576,7 +576,7 @@ class MoveContentToStreamSerializer(ContentSerializer):
             for collab in collab_list.exclude(phone_number = self.context.get('request').user.username):
                 to_user = User.objects.get(username = collab.phone_number)
                 NotificationAPI().send_notification(self.context.get('request').user, to_user, 'add_content', stream)
-       return self.initial_data['contents']
+        return self.initial_data['contents']
 
 
 class ExtremistReportSerializer(DynamicFieldsModelSerializer):

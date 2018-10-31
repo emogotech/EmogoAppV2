@@ -36,7 +36,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         """
         if kwargs['invites'] == 'accept' and request.method == 'PATCH':
             stream = Stream.objects.get(id=request.data.get('stream'))
-            collab = Collaborator.objects.filter(stream=stream).filter(Q(id=kwargs.get('pk'), phone_number=request.user.username) | Q(
+            collab = Collaborator.objects.filter(stream=stream).filter(Q(phone_number=request.user.username) | Q(
                 phone_number=stream.created_by.username, created_by=stream.created_by))
             collab.update(status='Active')
             if kwargs['version']:
@@ -58,8 +58,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         if kwargs['invites'] == 'decline' and request.method == 'DELETE':
 
             stream = Stream.objects.get(id=request.data.get('stream'))
-            Collaborator.objects.filter(stream=stream).filter(Q(id=kwargs.get(
-                'pk'), phone_number=request.user.username)).update(status='Deleted')
+            Collaborator.objects.filter(stream=stream, phone_number=request.user.username).update(status='Deleted')
             obj = NotificationAPI().create_notification(
                     self.request.user, stream.created_by, 'decline', stream)
             message = 'You declined to join {0}'.format(stream.name)
