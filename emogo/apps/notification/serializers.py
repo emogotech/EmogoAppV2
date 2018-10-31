@@ -67,7 +67,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
             retur
 
     def get_stream(self, obj):
-        fields = ('id', 'name', 'image')
+        fields = ('id', 'name', 'image', 'author', 'created_by')
         from emogo.apps.stream.serializers import ViewStreamSerializer
         if obj.stream is not None and obj.stream.status == 'Active':
             return ViewStreamSerializer(obj.stream, fields=fields, context=self.context).data
