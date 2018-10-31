@@ -1,13 +1,15 @@
+import itertools
+import datetime
+from django.db import transaction
+from django.contrib.auth.models import User
+from django.db.models import Prefetch
+from rest_framework import serializers
+from emogo.constants import messages
+
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from models import Notification
-
-from rest_framework import serializers
-import itertools
-from django.db import transaction
-from emogo.constants import messages
-import datetime
-from django.contrib.auth.models import User
+from emogo.apps.stream.models import Content, LikeDislikeContent
 
 
 class ActivityLogSerializer(DynamicFieldsModelSerializer):
@@ -17,7 +19,8 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
     sender_user = serializers.SerializerMethodField()
     message = serializers.SerializerMethodField()
     stream = serializers.SerializerMethodField()
-    contents = serializers.SerializerMethodField()
+    content = serializers.SerializerMethodField()
+    content_list = serializers.SerializerMethodField()
     confirmation_status = serializers.SerializerMethodField()
     is_follower  = serializers.SerializerMethodField()
     is_following  = serializers.SerializerMethodField()
@@ -25,7 +28,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = Notification
         fields = ['id', 'notification_type', 'message', 'upd',
-                  'confirmation_status', 'is_follower', 'is_following', 'sender_user', 'stream', 'contents']
+                  'confirmation_status', 'is_follower', 'is_following', 'sender_user', 'stream', 'content', 'content_list']
 
     def get_message(self, obj):
         from views import NotificationAPI
@@ -73,8 +76,23 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
             return ViewStreamSerializer(obj.stream, fields=fields, context=self.context).data
         return dict()
 
-    def get_contents(self, obj):
+    def get_content(self, obj):
         fields = ('id', 'name', 'url', 'type', 'video_image')
         from emogo.apps.stream.serializers import ViewContentSerializer
         if obj.content is not None:
             return ViewContentSerializer(obj.content, fields=fields, context=self.context).data
+
+    def get_content_list(self, obj):
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
+                  'full_name', 'user_image', 'liked')        
+        from emogo.apps.stream.serializers import ViewContentSerializer
+        if obj.content_lists is not None:
+            queryset = Content.actives.all().select_related('created_by__user_data__user').prefetch_related(
+                Prefetch(
+                    "content_like_dislike_status",
+                    queryset=LikeDislikeContent.objects.filter(status=1),
+                    to_attr='content_liked_user'
+                )
+            ).order_by('order', '-crd')
+            instances =  queryset.filter(id__in = eval(obj.content_lists) )
+            return ViewContentSerializer([x for x in instances], many=True, fields=fields, context=self.context).data

@@ -27,10 +27,10 @@ class NotificationAPI():
         # Return all open notification counts
         return Notification.objects.filter(is_open=True)
 
-    def create_notification(self, from_user, to_user, type, stream=None, content=None, content_count= None):
+    def create_notification(self, from_user, to_user, type, stream=None, content=None, content_count= None, content_lists=None):
         # Create Notification and return instance 
         obj = Notification.objects.create(
-            notification_type=type, from_user=from_user, to_user=to_user, stream=stream, content=content, content_count=content_count)
+            notification_type=type, from_user=from_user, to_user=to_user, stream=stream, content=content, content_count=content_count,content_lists=content_lists )
         return obj 
 
     def initialize_notification(self, obj):
@@ -46,9 +46,9 @@ class NotificationAPI():
         except Exception as e:
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
     
-    def send_notification(self, from_user, to_user, type, stream=None, content=None, content_count=None):
+    def send_notification(self, from_user, to_user, type, stream=None, content=None, content_count=None, content_lists=None):
         # Call create notification metrhod and notify to user
-        obj = self.create_notification(from_user, to_user, type, stream, content)
+        obj = self.create_notification(from_user, to_user, type, stream, content, content_count, content_lists)
         self.initialize_notification(obj)
 
     def notification_message(self, obj):
@@ -106,7 +106,7 @@ class ActivityLogAPI(ListAPIView):
                 to_attr="user_follower"
             ),
            
-        ).order_by('-upd')
+        ).order_by('-id')
 
         #  Customized field list
         page = self.paginate_queryset(self.filter_queryset(queryset))

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -25,6 +24,7 @@ class Notification(DefaultDateModel):
     to_user = models.ForeignKey(User, related_name="receiver")
     stream = models.ForeignKey(Stream, null=True, blank=True)
     content = models.ForeignKey(Content, null=True, blank=True)
+    content_lists = models.TextField(null=True, blank=True)
     content_count = models.IntegerField(default=0, blank=True, null=True)
     is_open = models.BooleanField(default=True)
 
