@@ -15,3 +15,10 @@ class UserActiveManager(models.Manager):
     """
     def get_queryset(self):
         return super(UserActiveManager, self).get_queryset().filter(status='Active', user__is_active=True)
+
+class CollabActiveManager(models.Manager):
+    """
+    Custom ActiveManager Class to get Active record.
+    """
+    def get_queryset(self):
+        return super(CollabActiveManager, self).get_queryset().filter(status__in =['Active', 'Unverified'])

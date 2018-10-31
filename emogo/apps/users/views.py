@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
     UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer, \
-    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer
+    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer, UserDeviceTokenSerializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -18,7 +18,7 @@ from emogo.constants import messages
 from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter, FollowerFollowingUserFilter
-from emogo.apps.users.models import UserProfile, UserFollow
+from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
 from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent
 from emogo.apps.collaborator.models import Collaborator
 from django.shortcuts import get_object_or_404
@@ -31,13 +31,14 @@ from django.http import HttpResponse
 from django.http import Http404
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet, Q
+from emogo.apps.notification.views import NotificationAPI
 
 
 class Signup(APIView):
     """
     User can register his detail and able to login in system.
     """
-    def post(self, request):
+    def post(self, request, version):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
@@ -52,7 +53,7 @@ class VerifyRegistration(APIView):
     This API to verify OTP.
     """
 
-    def post(self, request):
+    def post(self, request, version):
         fields = ("otp", "phone_number", )
         serializer = UserOtpSerializer(data=request.data, fields=fields)
         if serializer.is_valid(raise_exception=True):
@@ -69,7 +70,7 @@ class Login(APIView):
     User login API
     """
 
-    def post(self, request):
+    def post(self, request, version):
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
@@ -85,10 +86,11 @@ class Logout(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
+    def post(self, request, version):
         try:
             # simply delete the token to force a login
             request.user.auth_token.delete()
+            request.user.userdevice_set.all()[0].delete()
             message, status_code, response_status = messages.MSG_LOGOUT_SUCCESS, "200", status.HTTP_200_OK
             return custom_render_response(status_code, message, response_status)
         except:
@@ -100,7 +102,7 @@ class UniqueUserName(APIView):
     """
     User unique name API
     """
-    def post(self, request):
+    def post(self, request, version):
         serializer = UserSerializer(data=request.data, fields=('user_name',))
         if serializer.is_valid(raise_exception=True):
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
@@ -110,7 +112,7 @@ class ResendOTP(APIView):
     """
     This API for sending an OTP.
     """
-    def post(self, request):
+    def post(self, request, version):
         serializer = UserResendOtpSerializer(data=request.data, fields=('phone_number', ))
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
@@ -131,7 +133,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
     lookup_field= "user_id"
 
     def get_serializer_context(self):
-        return {'request': self.request, 'context':self.request}
+        return {'request': self.request, 'context':self.request, 'version': self.kwargs['version']}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -140,11 +142,11 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, version, *args, **kwargs):
         if kwargs.get('user_id') is not None:
-            return self.retrieve(self, request, *args, **kwargs)
+            return self.retrieve(self, request, version, *args, **kwargs)
         else:
-            return self.list(request, *args, **kwargs)
+            return self.list(request, version, *args, **kwargs)
 
     def get_qs_object(self):
         qs = UserProfile.actives.filter(user_id=self.kwargs.get('user_id')).select_related('user').select_related('profile_stream').prefetch_related(
@@ -174,6 +176,11 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
                 to_attr='profile_stream_collaborator_list'
             ),
             Prefetch(
+                'profile_stream__collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='profile_stream_collaborator_verified'
+            ),
+            Prefetch(
                 'profile_stream__stream_contents',
                 queryset=StreamContent.objects.all().select_related('content', 'content__created_by__user_data').prefetch_related(
                     Prefetch(
@@ -189,7 +196,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             return qs[0]
         raise Http404
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -206,7 +213,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         serializer = self.get_serializer(instance, fields=fields, context=self.request)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.exclude(user=self.request.user)
 
@@ -226,7 +233,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             serializer = self.get_serializer(page, many=True, fields=fields)
             return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request, version, *args, **kwargs):
         """
         :param request: ALL request data
         :param args: request param as list
@@ -284,6 +291,11 @@ class UserStearms(ListAPIView):
                 to_attr='stream_collaborator'
             ),
             Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
+            ),
+            Prefetch(
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
                 to_attr='total_view_count'
@@ -296,6 +308,10 @@ class UserStearms(ListAPIView):
         ).order_by('-stream_view_count')
     filter_class = UserStreamFilter
 
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
+
+
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
@@ -303,7 +319,7 @@ class UserStearms(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.get_queryset())
@@ -332,7 +348,7 @@ class UserFollowersAPI(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         qs = UserProfile.actives.filter(user__in=self.filter_queryset(self.get_queryset()).filter(following=self.request.user).values_list('follower', flat=True))
         qs = qs.select_related('user').prefetch_related(
                  Prefetch(
@@ -374,7 +390,7 @@ class UserFollowingAPI(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         qs = UserProfile.actives.filter(user__in=self.filter_queryset(self.get_queryset()).filter(follower=self.request.user).values_list('following', flat=True))
         qs = qs.select_related('user').prefetch_related(
             Prefetch(
@@ -408,6 +424,9 @@ class UserLikedSteams(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     queryset = Stream.actives.all()
+    
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -431,10 +450,16 @@ class UserLikedSteams(ListAPIView):
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
                 to_attr='total_view_count'
-            ),Prefetch(
+            ),
+            Prefetch(
                 'collaborator_list',
                 queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
                 to_attr='stream_collaborator'
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
             ),
             Prefetch(
                 "stream_contents",
@@ -465,7 +490,7 @@ class UserLikedSteams(ListAPIView):
         # queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
         return queryset
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.get_queryset())
@@ -486,6 +511,9 @@ class UserCollaborators(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     queryset = Stream.actives.all()
+
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -535,6 +563,11 @@ class UserCollaborators(ListAPIView):
             to_attr='stream_collaborator'
         ),
         Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
+        ),
+        Prefetch(
             'stream_user_view_status',
             queryset=StreamUserViewStatus.objects.all(),
             to_attr='total_view_count'
@@ -546,7 +579,7 @@ class UserCollaborators(ListAPIView):
         )).order_by('-id')
         return queryset
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, version, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         # self.request.user
         self.serializer_class = ViewStreamSerializer
@@ -560,7 +593,7 @@ class UserCollaborators(ListAPIView):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked')
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = self.get_serializer(page, many=True, fields=fields)
+            serializer = self.get_serializer(page, many=True, fields=fields, context=self.get_serializer_context())
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
@@ -590,11 +623,14 @@ class GetTopStreamAPI(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request):
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
+
+    def get(self, request, version, *args, **kwargs):
         """
         Return a list of all users.
         """
-        serializer = self.serializer_class(data=request.data, context=self.request)
+        serializer = self.serializer_class(data=request.data, context=self.get_serializer_context())
         if serializer.is_valid():
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -605,7 +641,7 @@ class VerifyLoginOTP(APIView):
     User login API
     """
 
-    def post(self, request):
+    def post(self, request, version):
         serializer = VerifyOtpLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_login_OTP(request.data["otp"])
@@ -623,7 +659,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, version, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -634,12 +670,15 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         serializer.is_valid(raise_exception=True)
         # To return created stream data
         self.perform_create(serializer)
+        if version:
+            to_user = User.objects.get(id = self.request.data.get('following'))
+            NotificationAPI().send_notification(self.request.user, to_user, 'follower')
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
     def get_object(self):
         return get_object_or_404(UserFollow, follower=self.request.user, following_id=self.kwargs.get('pk'))
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy(self, request, version, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=dict())
@@ -658,10 +697,34 @@ class CheckContactInEmogo(APIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CheckContactInEmogoSerializer
 
-    def post(self, request):
+    def post(self, request, version):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             data = serializer.find_contact_list()
             return custom_render_response(status_code=status.HTTP_200_OK, data=data)
         else:
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.errors)
+
+
+class UserDeviceTokenAPI(CreateAPIView):
+    """
+    Add user device token
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserDeviceTokenSerializer
+
+
+    def create(self, request, version):
+        """
+        if user enable notification then set device token in userdevice
+        if disabled then set device token to NULL
+        :param request: device_token
+        :return:Status 200 .
+        """
+        serializer = self.serializer_class(data=request.data, context=self.request)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return custom_render_response(status_code=status.HTTP_200_OK)
+        else:
+            return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # 'twilio-python',
     'autofixture',
     'branchio',
+    'emogo.apps.notification',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,7 @@ STATUSES = (
     ('Active', 'Active'),
     ('Inactive', 'Inactive'),
     ('Deleted', 'Deleted'),
+    ('Unverified', 'Unverified'),
 )
 
 REST_FRAMEWORK = {
@@ -207,8 +209,11 @@ branch_key = 'key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ'
 branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
 DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
 
+
 # Get Local Settings
 try:
     from local_settings import *
+    #Get PEM file url for notification
+    NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
 except ImportError:
     pass
