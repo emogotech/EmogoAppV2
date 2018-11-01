@@ -36,6 +36,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         :param kwargs: dict param
         :return: Update collab API status.
         """
+        self.serializer_class = ActivityLogSerializer
         if kwargs['invites'] == 'accept' and request.method == 'PATCH':
             stream = Stream.objects.get(id=request.data.get('stream'))
             collab = Collaborator.objects.filter(stream=stream).filter(Q(phone_number=request.user.username) | Q(
@@ -47,8 +48,8 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
                 NotificationAPI().initialize_notification(obj)
                 NotificationAPI().send_notification(self.request.user, stream.created_by, 'accepted', stream)
                 if obj.__len__() > 0:
-                    data = ActivityLogSerializer(instance=obj[0], context=self.request).data
-                    return custom_render_response(status_code=status.HTTP_200_OK, data=data)
+                    serializer = self.get_serializer(obj[0], context=self.request)
+                    return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
             # To return accpted
         else:
             return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)
