@@ -91,25 +91,7 @@ class ActivityLogAPI(ListAPIView):
     def list(self, request, version, *args, **kwargs):
         #  Override serializer class : NotificationSerializer
         self.serializer_class = ActivityLogSerializer
-        queryset = Notification.objects.filter(to_user = self.request.user).prefetch_related(
-            Prefetch(
-                "to_user",
-                queryset =UserProfile.actives.filter().select_related('user').prefetch_related(
-                    Prefetch(
-                        "user__who_follows",
-                        queryset=UserFollow.objects.all().order_by('-follow_time'),
-                        to_attr="followers_list"
-                    ),
-                    Prefetch(
-                        'user__who_is_followed',
-                        queryset=UserFollow.objects.all().order_by('-follow_time'),
-                        to_attr='following_list'
-                    )
-                ),
-                to_attr="user_follower"
-            ),
-           
-        ).order_by('-id')
+        queryset = Notification.objects.filter(to_user=self.request.user).order_by('-id')
 
         #  Customized field list
         page = self.paginate_queryset(self.filter_queryset(queryset))

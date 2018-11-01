@@ -43,7 +43,8 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
                 user_id = self.context.get('request').user.id
             else :
                 user_id = self.context.user.id
-            if user_id in [x.follower_id for x in obj.user_follower.user.followers_list]:
+                
+            if user_id in [x.follower_id for x in obj.to_user.who_follows.all() if x]:
                 return True
         return False
 
@@ -53,7 +54,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
                 user_id = self.context.get('request').user.id
             else :
                 user_id = self.context.user.id
-            if user_id in [x.following_id for x in obj.user_follower.user.following_list]:
+            if user_id in [x.following_id for x in obj.to_user.who_is_followed.all() if x]:
                 return True
         return False
 
@@ -70,9 +71,10 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
             retur
 
     def get_stream(self, obj):
-        fields = ('id', 'name', 'image', 'author', 'created_by')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'stream_permission', 'collaborator_permission', 'type')
         from emogo.apps.stream.serializers import ViewStreamSerializer
         if obj.stream is not None and obj.stream.status == 'Active':
+            setattr(obj.stream, 'stream_collaborator', obj.stream.collaborator_list.all())
             return ViewStreamSerializer(obj.stream, fields=fields, context=self.context).data
         return dict()
 

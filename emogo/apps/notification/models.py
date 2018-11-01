@@ -8,10 +8,10 @@ from emogo.lib.default_models.models import DefaultDateModel
 
 # Create your models here.
 NOTIFICATION_TYPE = (
-    ('liked_emogo', '{0} liked your emogo {1}'),
+    ('liked_emogo', '{0} liked your {1}'),
     ('follower', '{0} started following you'),
     ('collaborator_confirmation', '{0} added you to {1}'),
-    ('accepted', '{0} accepted your emogo request'),
+    ('accepted', '{0} accepted your {1} request'),
     ('joined', 'You joined {0}'),
     ('liked_content', '{0} loved your {1}'),
     ('add_content', '{0} added to {1}'),
