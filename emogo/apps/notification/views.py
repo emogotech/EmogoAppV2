@@ -27,10 +27,10 @@ class NotificationAPI():
         # Return all open notification counts
         return Notification.objects.filter(is_open=True)
 
-    def create_notification(self, from_user, to_user, type, stream=None, content=None, content_count= None):
+    def create_notification(self, from_user, to_user, type, stream=None, content=None, content_count= None, content_lists=None):
         # Create Notification and return instance 
         obj = Notification.objects.create(
-            notification_type=type, from_user=from_user, to_user=to_user, stream=stream, content=content, content_count=content_count)
+            notification_type=type, from_user=from_user, to_user=to_user, stream=stream, content=content, content_count=content_count,content_lists=content_lists )
         return obj 
 
     def initialize_notification(self, obj):
@@ -46,16 +46,19 @@ class NotificationAPI():
         except Exception as e:
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
     
-    def send_notification(self, from_user, to_user, type, stream=None, content=None, content_count=None):
+    def send_notification(self, from_user, to_user, type, stream=None, content=None, content_count=None, content_lists=None):
         # Call create notification metrhod and notify to user
-        obj = self.create_notification(from_user, to_user, type, stream, content)
+        obj = self.create_notification(from_user, to_user, type, stream, content, content_count, content_lists)
         self.initialize_notification(obj)
 
     def notification_message(self, obj):
         # Return notification message for all type
         user_name = obj.from_user.user_data.full_name
-        if obj.notification_type in ['collaborator_confirmation', 'joined', 'add_content', 'liked_emogo', 'decline']:
+        if obj.notification_type in ['collaborator_confirmation', 'add_content', 'liked_emogo', 'decline', 'accepted']:
             second_args = obj.stream.name
+        elif obj.notification_type in ['joined']:
+            second_args = ''
+            user_name = obj.stream.name
         elif obj.notification_type in ['liked_content']:
             second_args = obj.content.type
         elif obj.notification_type in ['self']:
@@ -88,25 +91,7 @@ class ActivityLogAPI(ListAPIView):
     def list(self, request, version, *args, **kwargs):
         #  Override serializer class : NotificationSerializer
         self.serializer_class = ActivityLogSerializer
-        queryset = Notification.objects.filter(to_user = self.request.user).prefetch_related(
-            Prefetch(
-                "to_user",
-                queryset =UserProfile.actives.filter().select_related('user').prefetch_related(
-                    Prefetch(
-                        "user__who_follows",
-                        queryset=UserFollow.objects.all().order_by('-follow_time'),
-                        to_attr="followers_list"
-                    ),
-                    Prefetch(
-                        'user__who_is_followed',
-                        queryset=UserFollow.objects.all().order_by('-follow_time'),
-                        to_attr='following_list'
-                    )
-                ),
-                to_attr="user_follower"
-            ),
-           
-        ).order_by('-upd')
+        queryset = Notification.objects.filter(to_user=self.request.user).order_by('-id')
 
         #  Customized field list
         page = self.paginate_queryset(self.filter_queryset(queryset))
