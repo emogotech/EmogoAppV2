@@ -784,10 +784,7 @@ class ContentShareExtensionAPI(CreateAPIView):
         :param kwargs: dict param
         :return: Send notification API.
         """
-        last_obj = None
-        for item in self.request.data.get('contents'):
-            content = Content.objects.get(id=item)
-            last_obj=NotificationAPI().create_notification(self.request.user, self.request.user, 'self', None, content, self.request.data.get('contents').__len__())
-        NotificationAPI().initialize_notification(last_obj)
+        content_ids = [ x.id for x in self.request.data.get('contents')]
+        NotificationAPI().send_notification(self.request.user, self.request.user, 'self', None, None, self.request.data.get('contents').__len__(), str(content_ids))
         return custom_render_response(status_code=status.HTTP_200_OK)
 
