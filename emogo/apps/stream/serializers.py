@@ -557,6 +557,13 @@ class MoveContentToStreamSerializer(ContentSerializer):
         for stream in self.initial_data.get('streams'):
             map(self.add_content_to_stream, self.initial_data.get('contents'),
                                 itertools.repeat(stream, self.initial_data.get('contents').__len__()))
+            if self.context['version']:
+                collab_list = stream.collaborator_list.filter(status= 'Active')
+                for collab in collab_list.exclude(phone_number = self.context.get('request').user.username):
+                    to_user = User.objects.filter(username = collab.phone_number)
+                    if to_user.__len__() > 0:
+                        content_ids = [ x.id for x in self.initial_data['contents']]
+                        NotificationAPI().send_notification(self.context.get('request').user, to_user[0], 'add_content', stream, None, self.initial_data['contents'].count(), str(content_ids))
         return True
 
     def add_content_to_stream(self, content, stream):
@@ -571,13 +578,6 @@ class MoveContentToStreamSerializer(ContentSerializer):
         # Set True in have_some_update field, When user move content to stream
         stream.have_some_update = True
         stream.save()
-        if self.context['version']:
-            collab_list = stream.collaborator_list.filter(status= 'Active')
-            for collab in collab_list.exclude(phone_number = self.context.get('request').user.username):
-                to_user = User.objects.filter(username = collab.phone_number)
-                if to_user.__len__() > 0:
-                    content_ids = [ x.id for x in self.initial_data['contents']]
-                    NotificationAPI().send_notification(self.context.get('request').user, to_user[0], 'add_content', stream, None, self.initial_data['contents'].count(), str(content_ids))
         return self.initial_data['contents']
 
 
