@@ -45,7 +45,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
                 obj = Notification.objects.filter(id = request.data.get('notification_id'))
                 obj.update(notification_type = 'joined')
                 NotificationAPI().initialize_notification(obj)
-                NotificationAPI().send_notification(stream.created_by, self.request.user, 'accepted', stream)
+                NotificationAPI().send_notification(self.request.user, stream.created_by, 'accepted', stream)
                 if obj.__len__() > 0:
                     data = ActivityLogSerializer(instance=obj[0], context=self.request).data
                     return custom_render_response(status_code=status.HTTP_200_OK, data=data)
