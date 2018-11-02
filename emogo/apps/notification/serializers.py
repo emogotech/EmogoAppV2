@@ -54,7 +54,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
                 user_id = self.context.get('request').user.id
             else :
                 user_id = self.context.user.id
-                
+
             if user_id in [x.following_id for x in obj.to_user.who_is_followed.all() if x]:
                 return True
         return False
@@ -81,7 +81,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
 
     def get_content(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked') 
+                  'full_name', 'user_image') 
         from emogo.apps.stream.serializers import ViewContentSerializer
         if obj.content is not None:
             return ViewContentSerializer(obj.content, fields=fields, context=self.context).data
