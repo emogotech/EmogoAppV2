@@ -16,7 +16,7 @@ NOTIFICATION_TYPE = (
     ('liked_content', '{0} loved your {1}'),
     ('add_content', '{0} added to {1}'),
     ('self', 'You saved {0} items'),
-    ('decline', '{0} declined to join {1}'),
+    ('decline', 'You declined to join {0}'),
 )
 
 class Notification(DefaultDateModel):
