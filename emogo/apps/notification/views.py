@@ -91,7 +91,7 @@ class ActivityLogAPI(ListAPIView):
     def list(self, request, version, *args, **kwargs):
         #  Override serializer class : NotificationSerializer
         self.serializer_class = ActivityLogSerializer
-        queryset = Notification.objects.filter(to_user=self.request.user).order_by('-id')
+        queryset = Notification.objects.filter(to_user=self.request.user).order_by('-upd')
 
         #  Customized field list
         page = self.paginate_queryset(self.filter_queryset(queryset))
