@@ -417,7 +417,7 @@ class ViewStreamSerializer(StreamSerializer):
         list_of_obj = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user ]
         if list_of_obj.__len__():
             return {'can_add_content': list_of_obj[0].can_add_content, 'can_add_people': list_of_obj[0].can_add_people}
-        return {'can_add_content': False , 'can_add_people': False}
+        return {'can_add_content': True , 'can_add_people': False}
 
     def get_stream_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
