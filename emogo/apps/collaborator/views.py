@@ -24,6 +24,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
     """
     Accpet  CRUD API
     """
+    serializer_class = ActivityLogSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -36,7 +37,6 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         :param kwargs: dict param
         :return: Update collab API status.
         """
-        self.serializer_class = ActivityLogSerializer
         if kwargs['invites'] == 'accept' and request.method == 'PATCH':
             stream = Stream.objects.get(id=request.data.get('stream'))
             collab = Collaborator.objects.filter(stream=stream).filter(Q(phone_number=request.user.username) | Q(
@@ -65,8 +65,10 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
 
             stream = Stream.objects.get(id=request.data.get('stream'))
             Collaborator.objects.filter(stream=stream, phone_number=request.user.username).update(status='Deleted')
-            obj = NotificationAPI().create_notification(stream.created_by,
-                    self.request.user, 'decline', stream)
+            obj = Notification.objects.filter(id = request.data.get('notification_id'))
+            obj[0].delete()
+            declined_obj = NotificationAPI().create_notification(self.request.user, self.request.user, 'decline', stream)
+
             # message = 'You declined to join {0}'.format(stream.name)
             collab = Collaborator.objects.filter(
                 stream=stream).filter(status='Active')
@@ -74,6 +76,9 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
             if kwargs['version'] and collab.__len__() == 1:
                 collab.filter(phone_number=stream.created_by.username,
                               created_by=stream.created_by).update(status='Unverified')
-            return custom_render_response(status_code=status.HTTP_200_OK)
+            
+            if declined_obj:
+                serializer = self.get_serializer(declined_obj, context=self.request)
+                return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
         else:
             return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)
