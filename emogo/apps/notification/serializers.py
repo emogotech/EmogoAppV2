@@ -39,7 +39,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
    
     def get_is_following(self, obj):
         if obj.notification_type == 'follower':
-            if obj.from_user_id in [x.follower_id for x in obj.to_user.who_follows.all() if x]:
+            if self.context.get('request').user.id in [x.follower_id for x in obj.from_user.who_follows.all() if x]:
                 return True
         return False
 
