@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 
-from rest_framework.generics import UpdateAPIView, DestroyAPIView
+from rest_framework.generics import UpdateAPIView, DestroyAPIView, ListAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
@@ -17,7 +17,9 @@ from emogo.apps.stream.models import Stream
 from emogo.apps.notification.models import Notification
 from emogo.apps.notification.views import NotificationAPI
 from emogo.apps.notification.serializers import *
+from emogo.apps.stream.serializers import ViewStreamSerializer
 
+from serializers import ViewCollaboratorSerializer
 
 # # Create your views here.
 class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
@@ -82,3 +84,33 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
                 return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
         else:
             return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)
+
+
+class StreamCollaboratorsAPI(ListAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def get(self, request, version, *args, **kwargs):
+            return self.list(request, version, *args, **kwargs)
+
+    def list(self, request, version, stream, *args, **kwargs):
+        obj = Stream.objects.get(id = stream)
+        self.serializer_class = ViewStreamSerializer
+        serializer = self.get_serializer(context=self.get_serializer_context())
+        list_of_instances = serializer.get_collab_data(obj, obj.collaborator_list.exclude(status='Inactive'))
+        queryset = self.filter_queryset(list_of_instances)
+        page = self.paginate_queryset(list_of_instances)
+        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me','status')
+        if page is not None:
+            serializer =  ViewCollaboratorSerializer(page, many=True, fields=fields, context=self.get_serializer_context())
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)

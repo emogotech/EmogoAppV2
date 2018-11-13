@@ -49,10 +49,6 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
             return False
 
     def get_user_image(self, obj):
-        # if self.context.get('request').data.get('collab_user_image') is not None:
-        #     for x in self.context.get('request').data.get('collab_user_image'):
-        #         if x.get('username') == obj.phone_number:
-        #             return x.get('user_data__user_image')
         return obj.user_image
 
     def get_user_profile_id(self, obj):
