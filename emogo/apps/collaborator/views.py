@@ -104,13 +104,23 @@ class StreamCollaboratorsAPI(ListAPIView):
             return self.list(request, version, *args, **kwargs)
 
     def list(self, request, version, stream, *args, **kwargs):
-        obj = Stream.objects.get(id = stream)
+        obj = Stream.actives.get(id = stream)
         self.serializer_class = ViewStreamSerializer
-        serializer = self.get_serializer(context=self.get_serializer_context())
-        list_of_instances = serializer.get_collab_data(obj, obj.collaborator_list.exclude(status='Inactive'))
-        queryset = self.filter_queryset(list_of_instances)
+        stream_serializer = self.get_serializer(context=self.get_serializer_context())
+        list_of_active_instances = stream_serializer.get_collab_data(obj, obj.collaborator_list.filter(status='Active'))
+        list_of_pending_instances = stream_serializer.get_collab_data(obj, obj.collaborator_list.filter(status='Unverified'))
+
+        self.serializer_class = ViewCollaboratorSerializer
+        collab_fields = ('id', 'name', 'phone_number', 'can_add_content', 'user_image', 'user_profile_id', 'can_add_people', 'image', 'added_by_me','status')
+        active_collab_serializer = self.get_serializer(list_of_active_instances, many=True, fields=collab_fields)
+        pending_collab_serializer = self.get_serializer(list_of_pending_instances, many=True, fields=collab_fields)
+        
+        list_of_instances = list_of_active_instances + list_of_pending_instances
         page = self.paginate_queryset(list_of_instances)
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me','status')
-        if page is not None:
-            serializer =  ViewCollaboratorSerializer(page, many=True, fields=fields, context=self.get_serializer_context())
-            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+        collab_data = {'accepted':active_collab_serializer.data, 'pending':pending_collab_serializer.data}
+        data = []
+        if page is not None and kwargs['pages'] == 'True':
+            data.append(collab_data)
+            return self.get_paginated_response(data=data, status_code=status.HTTP_200_OK)
+        else:
+            return custom_render_response(data=collab_data, status_code=status.HTTP_200_OK)
