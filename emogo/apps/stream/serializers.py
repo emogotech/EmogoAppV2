@@ -327,7 +327,7 @@ class ViewStreamSerializer(StreamSerializer):
         return list_of_instances
 
     def get_collab_images(self, obj):
-        fields = ('id', 'name', 'phone_number', 'user_image',  'user_profile_id', 'user_id', 'status')
+        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status')
 
         instances = obj.stream_collaborator
         list_of_instances = self.get_collab_data(obj, instances)

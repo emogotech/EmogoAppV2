@@ -124,3 +124,18 @@ class StreamCollaboratorsAPI(ListAPIView):
             return self.get_paginated_response(data=data, status_code=status.HTTP_200_OK)
         else:
             return custom_render_response(data=collab_data, status_code=status.HTTP_200_OK)
+
+class CollaboratorDeletionAPI(DestroyAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def destroy(self, request, *args, **kwargs):
+        """
+        :param request:
+        :param args:
+        :param kwargs:
+        :return: Hard Delete collaborator
+        """
+        collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
+        collaborator.delete()
+        return custom_render_response(status_code=status.HTTP_200_OK)
