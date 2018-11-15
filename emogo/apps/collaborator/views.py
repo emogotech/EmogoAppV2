@@ -119,11 +119,11 @@ class StreamCollaboratorsAPI(ListAPIView):
         page = self.paginate_queryset(list_of_instances)
         collab_data = {'accepted':active_collab_serializer.data, 'pending':pending_collab_serializer.data}
         data = []
+        data.append(collab_data)
         if page is not None and kwargs['pages'] == 'True':
-            data.append(collab_data)
             return self.get_paginated_response(data=data, status_code=status.HTTP_200_OK)
         else:
-            return custom_render_response(data=collab_data, status_code=status.HTTP_200_OK)
+            return custom_render_response(data=data, status_code=status.HTTP_200_OK)
 
 class CollaboratorDeletionAPI(DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
