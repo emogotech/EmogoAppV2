@@ -528,7 +528,7 @@ class ViewContentSerializer(ContentSerializer):
         return obj.created_by.user_data.full_name
 
     def get_created_by(self, obj):
-        return obj.created_by.user_data.id
+        return obj.created_by.id
 
     def get_liked(self, obj):
         if obj.content_liked_user.__len__() > 0:
