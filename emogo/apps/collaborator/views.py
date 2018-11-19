@@ -119,11 +119,11 @@ class StreamCollaboratorsAPI(ListAPIView):
         page = self.paginate_queryset(list_of_instances)
         collab_data = {'accepted':active_collab_serializer.data, 'pending':pending_collab_serializer.data}
         data = []
+        data.append(collab_data)
         if page is not None and kwargs['pages'] == 'True':
-            data.append(collab_data)
             return self.get_paginated_response(data=data, status_code=status.HTTP_200_OK)
         else:
-            return custom_render_response(data=collab_data, status_code=status.HTTP_200_OK)
+            return custom_render_response(data=data, status_code=status.HTTP_200_OK)
 
 class CollaboratorDeletionAPI(DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
@@ -137,5 +137,8 @@ class CollaboratorDeletionAPI(DestroyAPIView):
         :return: Hard Delete collaborator
         """
         collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
+        noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = collaborator.stream, from_user = self.request.user, to_user = User.objects.get(username = collaborator.phone_number) )
+        if noti.__len__() > 0 :
+            noti[0].delete()
         collaborator.delete()
         return custom_render_response(status_code=status.HTTP_200_OK)

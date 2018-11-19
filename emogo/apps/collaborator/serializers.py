@@ -44,7 +44,11 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
 
     def get_added_by_me(self, obj):
         if self.context['request'].user == obj.created_by:
-            return True
+            collb =  Collaborator.objects.filter(phone_number = self.context['request'].user.username, stream=obj.stream)
+            if collb.__len__() > 0:
+                return True
+            else:
+                return False
         else:
             return False
 

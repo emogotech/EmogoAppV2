@@ -437,8 +437,12 @@ class ViewStreamSerializer(StreamSerializer):
                 return {'can_add_content': False, 'can_add_people': False}
 
     def get_collaborator_permission(self, obj):
-        list_of_obj = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user ]
-        if list_of_obj.__len__():
+        if self.context.get('version') == 'v3':
+            list_of_obj = obj.collaborator_list.filter(phone_number = obj.created_by.username, created_by = obj.created_by)
+        else:
+            list_of_obj = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user and _.phone_number == self.context.get('request').user.username ]
+
+        if list_of_obj.__len__() > 0:
             return {'can_add_content': list_of_obj[0].can_add_content, 'can_add_people': list_of_obj[0].can_add_people}
         return {'can_add_content': True , 'can_add_people': False}
 
@@ -524,7 +528,7 @@ class ViewContentSerializer(ContentSerializer):
         return obj.created_by.user_data.full_name
 
     def get_created_by(self, obj):
-        return obj.created_by.user_data.id
+        return obj.created_by.id
 
     def get_liked(self, obj):
         if obj.content_liked_user.__len__() > 0:
