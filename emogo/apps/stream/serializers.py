@@ -277,7 +277,14 @@ class ViewStreamSerializer(StreamSerializer):
     is_collaborator = serializers.SerializerMethodField()
     stream_contents = serializers.SerializerMethodField()
     collab_images = serializers.SerializerMethodField()
+    total_stream_collaborators = serializers.SerializerMethodField()
 
+    def get_total_stream_collaborators(self, obj):
+        try:
+            return obj.stream_collaborator_verified.__len__()
+        except Exception:
+            return '0'
+            
     def get_collab_data(self, obj, instances):
         list_of_instances = list()
         user_qs = list()
@@ -344,6 +351,7 @@ class ViewStreamSerializer(StreamSerializer):
                 list_of_instances = other_collab[0:3]
         return ViewCollaboratorSerializer(list_of_instances,
                                           many=True, fields=fields, context=self.context).data
+    
     def get_total_collaborator(self, obj):
         try:
             return obj.stream_collaborator.__len__()
