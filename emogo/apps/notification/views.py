@@ -131,12 +131,12 @@ class BadgeCountAPI(ListAPIView):
         :param kwargs:
         :return: Get Total counts 
         """
-        badge_counts = NotificationAPI().total_counts().filter(to_user = self.request.user).count()
+        badge_counts = NotificationAPI().total_counts().filter(to_user = request.user).count()
         return custom_render_response(status_code=status.HTTP_200_OK, data={'badge_counts':badge_counts})
 
 
 class ResetBadgeCountAPI(ListAPIView):
-    """ Badge Count Notification """
+    """ Reset Badge Count Notification """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -153,4 +153,4 @@ class ResetBadgeCountAPI(ListAPIView):
             queryset.exclude(notification_type__in=types).update(is_open = False)
         else:
             queryset.filter(id=request.data['notification_id']).update(is_open = False)
-        return custom_render_response(status_code=status.HTTP_200_OK)
+        return BadgeCountAPI().get(self.request, version, *args, **kwargs)

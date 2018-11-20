@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 
-from rest_framework.generics import UpdateAPIView, DestroyAPIView
+from rest_framework.generics import UpdateAPIView, DestroyAPIView, ListAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
@@ -17,7 +17,9 @@ from emogo.apps.stream.models import Stream
 from emogo.apps.notification.models import Notification
 from emogo.apps.notification.views import NotificationAPI
 from emogo.apps.notification.serializers import *
+from emogo.apps.stream.serializers import ViewStreamSerializer
 
+from serializers import ViewCollaboratorSerializer
 
 # # Create your views here.
 class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
@@ -46,7 +48,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
                 obj = Notification.objects.filter(id = request.data.get('notification_id'))
                 obj.update(notification_type = 'joined')
                 NotificationAPI().initialize_notification(obj)
-                NotificationAPI().send_notification(self.request.user, stream.created_by, 'accepted', stream)
+                NotificationAPI().send_notification(self.request.user, obj[0].from_user, 'accepted', stream)
                 if obj.__len__() > 0:
                     serializer = self.get_serializer(obj[0], context=self.request)
                     return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
@@ -82,3 +84,63 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
                 return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
         else:
             return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)
+
+
+class StreamCollaboratorsAPI(ListAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def get(self, request, version, *args, **kwargs):
+            return self.list(request, version, *args, **kwargs)
+
+    def list(self, request, version, stream, *args, **kwargs):
+        obj = Stream.actives.get(id = stream)
+        self.serializer_class = ViewStreamSerializer
+        stream_serializer = self.get_serializer(context=self.get_serializer_context())
+        list_of_active_instances = stream_serializer.get_collab_data(obj, obj.collaborator_list.filter(status='Active'))
+        list_of_pending_instances = stream_serializer.get_collab_data(obj, obj.collaborator_list.filter(status='Unverified'))
+
+        self.serializer_class = ViewCollaboratorSerializer
+        collab_fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status')
+        active_collab_serializer = self.get_serializer(list_of_active_instances, many=True, fields=collab_fields)
+        pending_collab_serializer = self.get_serializer(list_of_pending_instances, many=True, fields=collab_fields)
+        
+        list_of_instances = list_of_active_instances + list_of_pending_instances
+        page = self.paginate_queryset(list_of_instances)
+        collab_data = {'accepted':active_collab_serializer.data, 'pending':pending_collab_serializer.data}
+        data = []
+        data.append(collab_data)
+        if page is not None and kwargs['pages'] == 'True':
+            return self.get_paginated_response(data=data, status_code=status.HTTP_200_OK)
+        else:
+            return custom_render_response(data=data, status_code=status.HTTP_200_OK)
+
+class CollaboratorDeletionAPI(DestroyAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def destroy(self, request, *args, **kwargs):
+        """
+        :param request:
+        :param args:
+        :param kwargs:
+        :return: Hard Delete collaborator
+        """
+        collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
+        collab_user = User.objects.filter(username = collaborator.phone_number)
+        if collab_user.__len__():
+            noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = collaborator.stream, from_user = self.request.user, to_user = collab_user[0] )
+            if noti.__len__() > 0 :
+                noti[0].delete()
+        collaborator.delete()
+        return custom_render_response(status_code=status.HTTP_200_OK)
