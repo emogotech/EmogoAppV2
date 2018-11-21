@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent, StreamUserViewStatus
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent, StreamUserViewStatus, RecentUpdates
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -603,11 +603,12 @@ class MoveContentToStreamSerializer(ContentSerializer):
     def add_content_to_stream(self, content, stream):
         """
         :param content: The content object
-        :param stream: The stream object
+        :param stream: The streStreamUserViewStatusam object
         :return: Function add content to stream
         """
         # Create Stream and content
-        StreamContent.objects.get_or_create(content=content, stream=stream)
+        obj , created = StreamContent.objects.get_or_create(content=content, stream=stream)
+        RecentUpdates.objects.create(stream_content=obj, user=self.context.get('request').user)
 
         # Set True in have_some_update field, When user move content to stream
         stream.have_some_update = True
@@ -773,3 +774,29 @@ class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
         instance = StreamUserViewStatus.objects.create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)
         instance.save()
         return instance
+
+
+class RecentUpdatesSerializer(serializers.ModelSerializer):
+    """
+        Recent updates to Stream Serializer
+    """
+    user_image = serializers.SerializerMethodField()
+    content_url = serializers.SerializerMethodField()
+    content_name = serializers.SerializerMethodField()
+    content_type = serializers.SerializerMethodField()
+
+    class Meta:
+        model = RecentUpdates
+        fields = ('user_image','content_url','content_name','content_type','status')
+
+    def get_user_image(self, obj):
+        return obj.user.user_data.user_image
+
+    def get_content_url(self, obj):
+        return obj.stream_content.content.url
+
+    def get_content_name(self, obj):
+        return obj.stream_content.content.name
+
+    def get_content_type(self, obj):
+        return obj.stream_content.content.type

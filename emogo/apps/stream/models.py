@@ -172,3 +172,12 @@ class ExtremistReport(DefaultDateModel):
 
     class Meta:
         db_table = 'extremist_report'
+
+
+class RecentUpdates(DefaultStatusModel):
+    user = models.ForeignKey(User, blank=True, null=True)
+    stream_content = models.ForeignKey(StreamContent, null=True, blank=True, related_name='stream_content')
+    action_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'recent_updates'

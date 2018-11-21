@@ -6,11 +6,11 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent
-from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
-    ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
-    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, CopyContentSerializer, \
-    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, RecentUpdates
+from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer,  \
+    ContentBulkDeleteSerializer, MoveContentToStreamSerializer, StreamUserViewStatusSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
+    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, CopyContentSerializer, RecentUpdatesSerializer, ContentLikeDislikeSerializer
+
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -23,6 +23,7 @@ from emogo.apps.notification.views import NotificationAPI
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
+import datetime
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -493,6 +494,63 @@ class DeleteContentInBulk(APIView):
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
+class RecentUpdatesAPI(ListAPIView):
+    """"
+    View to list all the recent updates of the logged in user.
+    """
+    queryset = RecentUpdates.objects.all()
+    serializer_class = RecentUpdatesSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+
+    def list(self, request, version, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = RecentUpdatesSerializer(queryset, many=True)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
+    def get_queryset(self):
+        """
+        Get the list of items for this view.
+        This must be an iterable, and may be a queryset.
+        Defaults to using `self.queryset`.
+
+        This method should always be used rather than accessing `self.queryset`
+        directly, as `self.queryset` gets evaluated only once, and those results
+        are cached for all subsequent requests.
+
+        You may want to override this if you need to provide different
+        querysets depending on the incoming request.
+
+        (Eg. return a list of items that is specific to the user)
+        """
+        assert self.queryset is not None, (
+                "'%s' should either include a `queryset` attribute, "
+                "or override the `get_queryset()` method."
+                % self.__class__.__name__
+        )
+
+        queryset = self.queryset
+        today = datetime.date.today()
+        week_ago = today - datetime.timedelta(days=7)
+
+        if isinstance(queryset, QuerySet):
+            # Ensure queryset is re-evaluated on each request.
+            queryset = queryset.filter(user=self.request.user , crd__gt=week_ago)
+        return queryset
+
 class MoveContentToStream(APIView):
     """
     View to list all users in the system.
@@ -517,7 +575,6 @@ class MoveContentToStream(APIView):
             return custom_render_response(status_code=status.HTTP_200_OK, data={})
         else:
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
-
 
 class ReorderStreamContent(APIView):
     """
@@ -623,7 +680,7 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         """
         # Customized field list
         fields = ( 'total_liked', 'user_liked')
-        queryset = Stream.objects.filter(id =  kwargs.get('stream_id'))
+        queryset = Stream.objects.filter(id = kwargs.get('stream_id'))
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields, context=self.get_serializer_context())
