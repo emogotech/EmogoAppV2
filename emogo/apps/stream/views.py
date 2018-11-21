@@ -10,7 +10,7 @@ from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeS
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, CopyContentSerializer, \
-    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, AddBookmarkSerializer
+    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, AddBookmarkSerializer, BookmarkNewEmogosSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -823,3 +823,44 @@ class AddBookmarkAPI(CreateAPIView):
         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
 
 
+class Bookmark_NewEmogosAPI(ListAPIView):
+    """"
+    View to list all the recent updates of the logged in user.
+    """
+    queryset = Stream.objects.all()
+    serializer_class = BookmarkNewEmogosSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, version, args, *kwargs):
+        queryset = self.get_queryset()
+        user = self.request.user
+        serializer = BookmarkNewEmogosSerializer(queryset, many=True)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
+    # def get_queryset(self):
+    # """
+    # Get the list of items for this view.
+    # This must be an iterable, and may be a queryset.
+    # Defaults to using `self.queryset`.
+    #
+    # This method should always be used rather than accessing `self.queryset`
+    # directly, as `self.queryset` gets evaluated only once, and those results
+    # are cached for all subsequent requests.
+    #
+    # You may want to override this if you need to provide different
+    # querysets depending on the incoming request.
+    #
+    # (Eg. return a list of items that is specific to the user)
+    # """
+    # assert self.queryset is not None, (
+    # "'%s' should either include a `queryset` attribute, "
+    # "or override the `get_queryset()` method."
+    # % self.__class__.__name__
+    # )
+    #
+    # queryset = self.queryset
+    # if isinstance(queryset, QuerySet):
+    # # Ensure queryset is re-evaluated on each request.
+    # queryset = queryset.filter(user=self.request.user)
+    # return queryset

@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^bulk_contents', views.ContentInBulkAPI.as_view()),
     url(r'^content/share_extension', views.ContentShareExtensionAPI.as_view()),
     url(r'^bookmarks/$', views.AddBookmarkAPI.as_view()),# don't make a name starts with stream
+    url(r'^bookmarks_new_emogos/$', views.Bookmark_NewEmogosAPI.as_view()),
 ]
