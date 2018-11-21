@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent, StreamUserViewStatus
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent, StreamUserViewStatus, StarredStream
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -773,3 +773,24 @@ class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
         instance = StreamUserViewStatus.objects.create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)
         instance.save()
         return instance
+
+
+class AddBookmarkSerializer(DynamicFieldsModelSerializer):
+    """
+    Stream Bookmarked serializer class
+    """
+    user = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = StarredStream
+        fields = ['user', 'stream', 'status']
+
+    # def get_total_liked(self, obj):
+    #     return StarredStream.objects.filter(status=1, content=obj.get('content'))
+
+    def create(self, validated_data):
+        # import pdb; pdb.set_trace()
+        obj, created = StarredStream.objects.update_or_create(
+            stream=self.validated_data.get('stream'),
+            user=self.context.get('request').user)
+        return obj
