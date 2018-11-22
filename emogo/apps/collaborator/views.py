@@ -46,10 +46,11 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
             collab.update(status='Active')
             if kwargs['version']:
                 obj = Notification.objects.filter(id = request.data.get('notification_id'))
-                obj.update(notification_type = 'joined')
-                NotificationAPI().initialize_notification(obj)
-                NotificationAPI().send_notification(self.request.user, obj[0].from_user, 'accepted', stream)
                 if obj.__len__() > 0:
+                    if not (obj[0].notification_type == 'deleted_collaborator' or obj[0].notification_type == 'deleted_stream' ):
+                        obj.update(notification_type = 'joined')
+                        NotificationAPI().initialize_notification(obj)
+                        NotificationAPI().send_notification(self.request.user, obj[0].from_user, 'accepted', stream)
                     serializer = self.get_serializer(obj[0], context=self.request)
                     return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
             # To return accpted
@@ -68,17 +69,20 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
             stream = Stream.objects.get(id=request.data.get('stream'))
             Collaborator.objects.filter(stream=stream, phone_number=request.user.username).update(status='Deleted')
             obj = Notification.objects.filter(id = request.data.get('notification_id'))
-            obj[0].delete()
-            declined_obj = NotificationAPI().create_notification(self.request.user, self.request.user, 'decline', stream)
+            if obj.__len__() > 0:
+                if not (obj[0].notification_type == 'deleted_collaborator' or obj[0].notification_type == 'deleted_stream' ):
+                    obj[0].delete()
+                    declined_obj = NotificationAPI().create_notification(self.request.user, self.request.user, 'decline', stream)
 
-            # message = 'You declined to join {0}'.format(stream.name)
-            collab = Collaborator.objects.filter(
-                stream=stream).filter(status='Active')
+                    # message = 'You declined to join {0}'.format(stream.name)
+                    collab = Collaborator.objects.filter(
+                        stream=stream).filter(status='Active')
 
-            if kwargs['version'] and collab.__len__() == 1:
-                collab.filter(phone_number=stream.created_by.username,
-                              created_by=stream.created_by).update(status='Unverified')
-            
+                    if kwargs['version'] and collab.__len__() == 1:
+                        collab.filter(phone_number=stream.created_by.username,
+                                      created_by=stream.created_by).update(status='Unverified')
+                else:
+                    declined_obj = obj[0]
             if declined_obj:
                 serializer = self.get_serializer(declined_obj, context=self.request)
                 return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
