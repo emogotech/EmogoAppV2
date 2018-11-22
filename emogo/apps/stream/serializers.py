@@ -174,7 +174,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             collaborator.can_add_content = self.initial_data.get('collaborator_permission').get('can_add_content')
             collaborator.can_add_people = self.initial_data.get('collaborator_permission').get('can_add_people')
             if data.get('new_add') == False and data.get('created_by'):
-                collaborator.created_by = data.get('created_by')
+                collaborator.created_by_id = data.get('created_by')
             else:
                 collaborator.created_by = self.context.get('request').user
             collaborator.status = status
