@@ -137,10 +137,17 @@ class CollaboratorDeletionAPI(DestroyAPIView):
         :return: Hard Delete collaborator
         """
         collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
+        stream_id = collaborator.stream.id
         collab_user = User.objects.filter(username = collaborator.phone_number)
         if collab_user.__len__():
             noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = collaborator.stream, from_user = self.request.user, to_user = collab_user[0] )
             if noti.__len__() > 0 :
                 noti[0].delete()
         collaborator.delete()
+        stream = Stream.objects.filter(id =stream_id)
+        if stream.__len__() > 0:
+            if stream[0].collaborator_list.count() == 1:
+                collab = Collaborator.objects.filter(stream=stream[0]).filter(
+                    phone_number=stream[0].created_by.username, created_by=stream[0].created_by)
+                collab.delete()
         return custom_render_response(status_code=status.HTTP_200_OK)
