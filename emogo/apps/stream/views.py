@@ -181,6 +181,10 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :return: Soft Delete Stream and it's attribute
         """
         instance = self.get_object()
+        #update notification when user delete stream
+        noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = instance, from_user = instance.created_by)
+        if noti.__len__() > 0 :
+            noti.update(notification_type = 'deleted_stream')
         # Perform delete operation
         self.perform_destroy(instance)
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)

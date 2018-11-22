@@ -142,7 +142,7 @@ class CollaboratorDeletionAPI(DestroyAPIView):
         if collab_user.__len__():
             noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = collaborator.stream, from_user = self.request.user, to_user = collab_user[0] )
             if noti.__len__() > 0 :
-                noti[0].delete()
+                noti.update(notification_type = 'deleted_collaborator')
         collaborator.delete()
         stream = Stream.objects.filter(id =stream_id)
         if stream.__len__() > 0:
