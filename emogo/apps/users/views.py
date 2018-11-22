@@ -21,6 +21,7 @@ from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter, Fo
 from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
 from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent
 from emogo.apps.collaborator.models import Collaborator
+from emogo.apps.notification.models import Notification
 from django.shortcuts import get_object_or_404
 from itertools import chain
 # models
@@ -685,7 +686,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
 
     def destroy(self, request, version, *args, **kwargs):
         instance = self.get_object()
-        noti = Notification.objects.filter(notification_type = 'follower' , from_user=self.request.user, to_user=to_user )
+        noti = Notification.objects.filter(notification_type='follower', from_user=instance.follower, to_user=instance.following )
         if noti.__len__() > 0 :
             noti.delete()
         self.perform_destroy(instance)
