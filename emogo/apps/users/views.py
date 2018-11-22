@@ -685,6 +685,9 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
 
     def destroy(self, request, version, *args, **kwargs):
         instance = self.get_object()
+        noti = Notification.objects.filter(notification_type = 'follower' , from_user=self.request.user, to_user=to_user )
+        if noti.__len__() > 0 :
+            noti.delete()
         self.perform_destroy(instance)
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=dict())
 

@@ -18,7 +18,7 @@ NOTIFICATION_TYPE = (
     ('self', 'You saved {0} items'),
     ('decline', 'You declined to join {0}'),
     ('deleted_collaborator', 'This collaboration does not exists anymore'),
-    ('deleted_stream', 'This stream does not exists anymore'),
+    ('deleted_stream', 'This {0} does not exists anymore'),
 )
 
 class Notification(DefaultDateModel):
