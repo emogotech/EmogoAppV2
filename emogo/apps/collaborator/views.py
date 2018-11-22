@@ -111,7 +111,7 @@ class StreamCollaboratorsAPI(ListAPIView):
         list_of_pending_instances = stream_serializer.get_collab_data(obj, obj.collaborator_list.filter(status='Unverified'))
 
         self.serializer_class = ViewCollaboratorSerializer
-        collab_fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status')
+        collab_fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status', 'created_by')
         active_collab_serializer = self.get_serializer(list_of_active_instances, many=True, fields=collab_fields)
         pending_collab_serializer = self.get_serializer(list_of_pending_instances, many=True, fields=collab_fields)
         

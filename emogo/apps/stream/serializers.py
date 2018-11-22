@@ -173,7 +173,10 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             collaborator.name = data.get('name')
             collaborator.can_add_content = self.initial_data.get('collaborator_permission').get('can_add_content')
             collaborator.can_add_people = self.initial_data.get('collaborator_permission').get('can_add_people')
-            collaborator.created_by = self.context.get('request').user
+            if data.get('new_add') == False and data.get('created_by'):
+                collaborator.created_by = data.get('created_by')
+            else:
+                collaborator.created_by = self.context.get('request').user
             collaborator.status = status
             collaborator.save()
             to_user = User.objects.filter(username = collaborator.phone_number )
@@ -334,7 +337,7 @@ class ViewStreamSerializer(StreamSerializer):
         return list_of_instances
 
     def get_collab_images(self, obj):
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status')
+        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status', 'created_by')
         instances = obj.stream_collaborator
         list_of_instances = self.get_collab_data(obj, instances)
         if instances.__len__() > 0:
@@ -404,7 +407,7 @@ class ViewStreamSerializer(StreamSerializer):
             return 0
 
     def get_collaborators(self, obj):
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status')
+        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status', 'created_by')
         if self.context['version']:
             instances = obj.stream_collaborator_verified
         else:
