@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404
 import itertools
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.models import UserFollow
+from emogo.apps.notification.models import Notification
 from emogo.apps.notification.views import NotificationAPI
 
 from django.db.models import Prefetch, Count
