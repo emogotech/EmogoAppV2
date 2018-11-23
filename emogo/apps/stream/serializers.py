@@ -795,30 +795,11 @@ class AddBookmarkSerializer(DynamicFieldsModelSerializer):
             user=self.context.get('request').user)
         return obj
 
-
 class BookmarkNewEmogosSerializer(serializers.ModelSerializer):
     """
     Recent updates to Stream Serializer
     """
-    user = serializers.SerializerMethodField()
-    follower_id = serializers.SerializerMethodField()
-    following_id = serializers.SerializerMethodField()
-    stream_id = serializers.SerializerMethodField()
-
-
     class Meta:
         model = Stream
-        fields = ['id', 'name']
-    # fields = ('user_image','content_url','content_name','content_type','status')
+        fields = ['created_by_id', 'name']
 
-    def get_user(self, obj):
-        user = self.context.get('request').user
-
-    def get_follower_id(self, obj):
-        return obj.user_follow.get(follower_id=user).follower_id
-
-    def get_following_id(self, obj):
-        return obj.user_following.get(following_id=user).following_id
-
-    def get_stream_id(self, obj):
-        return obj.user_profile.filter(Q(user_id= follower_id) |Q (user_id= following_id)).profile_stream_id

@@ -23,6 +23,8 @@ from emogo.apps.notification.views import NotificationAPI
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
+import datetime
+from rest_framework.authtoken.models import Token
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -156,8 +158,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :param kwargs: request param as dict
         :return: Update stream instance
         """
-        import pdb;
-        pdb.set_trace()
+
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -823,44 +824,57 @@ class AddBookmarkAPI(CreateAPIView):
         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
 
 
-class Bookmark_NewEmogosAPI(ListAPIView):
+class BookmarkNewEmogosAPI(ListAPIView):
     """"
     View to list all the recent updates of the logged in user.
     """
     queryset = Stream.objects.all()
+    queryset_bookmark = StarredStream.objects.all()
     serializer_class = BookmarkNewEmogosSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, version, args, *kwargs):
+    def list(self, request, version, *args, **kwargs):
         queryset = self.get_queryset()
-        user = self.request.user
-        serializer = BookmarkNewEmogosSerializer(queryset, many=True)
-        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+        serializer = ViewStreamSerializer(queryset[0:10], fields=('name', 'url', 'id', 'user_image','image'), many=True)
+        user_serializer = ViewStreamSerializer(queryset[0:10], fields=('name', 'url', 'id', 'user_image','image'), many=True)
+        return_dictionary={'new_emogos': serializer.data, 'bookmark': user_serializer}
+        return custom_render_response(status_code=status.HTTP_200_OK, data=return_dictionary)
 
-    # def get_queryset(self):
-    # """
-    # Get the list of items for this view.
-    # This must be an iterable, and may be a queryset.
-    # Defaults to using `self.queryset`.
-    #
-    # This method should always be used rather than accessing `self.queryset`
-    # directly, as `self.queryset` gets evaluated only once, and those results
-    # are cached for all subsequent requests.
-    #
-    # You may want to override this if you need to provide different
-    # querysets depending on the incoming request.
-    #
-    # (Eg. return a list of items that is specific to the user)
-    # """
-    # assert self.queryset is not None, (
-    # "'%s' should either include a `queryset` attribute, "
-    # "or override the `get_queryset()` method."
-    # % self.__class__.__name__
-    # )
-    #
-    # queryset = self.queryset
-    # if isinstance(queryset, QuerySet):
-    # # Ensure queryset is re-evaluated on each request.
-    # queryset = queryset.filter(user=self.request.user)
-    # return queryset
+    def get_queryset(self):
+        """
+        Get the list of items for this view.
+        This must be an iterable, and may be a queryset.
+        Defaults to using `self.queryset`.
+
+        This method should always be used rather than accessing `self.queryset`
+        directly, as `self.queryset` gets evaluated only once, and those results
+        are cached for all subsequent requests.
+
+        You may want to override this if you need to provide different
+        querysets depending on the incoming request.
+
+        (Eg. return a list of items that is specific to the user)
+        """
+        assert self.queryset is not None, (
+                "'%s' should either include a `queryset` attribute, "
+                "or override the `get_queryset()` method."
+                % self.__class__.__name__
+        )
+
+        queryset = self.queryset
+        queryset_bookmark = self.queryset_bookmark
+        today = datetime.date.today()
+        week_ago = today - datetime.timedelta(days=7)
+        current_user_streams = queryset.filter(created_by=self.request.user, status='Active', crd__gt=week_ago)
+        # list all the objects of streams created by current user
+        following = UserFollow.objects.filter(follower=self.request.user).values_list('following', flat=True)
+        current_user_following_streams = queryset.filter(created_by_id__in=following, type='Public',
+                                                               status='Active', crd__gt=week_ago)
+        # list all the objects of streams created by users followed by current user
+        user_bookmarks_id_list = StarredStream.objects.filter(user_id=self.request.user)
+
+        if isinstance(queryset, QuerySet):
+            # Ensure queryset is re-evaluated on each request.
+            queryset = current_user_streams | current_user_following_streams
+        return queryset
