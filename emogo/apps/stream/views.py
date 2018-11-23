@@ -498,7 +498,7 @@ class RecentUpdatesAPI(ListAPIView):
     """"
     View to list all the recent updates of the logged in user.
     """
-    queryset = RecentUpdates.objects.all()
+    queryset = StreamContent.objects.all()
     serializer_class = RecentUpdatesSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -511,8 +511,9 @@ class RecentUpdatesAPI(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, version, *args, **kwargs):
+        #import pdb; pdb.set_trace()
         queryset = self.get_queryset()
-        serializer = RecentUpdatesSerializer(queryset, many=True)
+        serializer = ViewStreamSerializer(queryset, many=True)
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
@@ -543,10 +544,22 @@ class RecentUpdatesAPI(ListAPIView):
         queryset = self.queryset
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
-
+        # Active streams of logged in user.
+        current_user_streams = Stream.objects.filter(created_by=self.request.user, status='Active', type="Public")
+        # People whom current user is following.
+        following = UserFollow.objects.filter(follower=self.request.user).values_list('following', flat=True)
+        # Streams of the user following.
+        all_following_public_streams = Stream.objects.filter(created_by_id__in=following, status="Active", type="Public")
+        # Streams where the current user is as collaborator.
+        user_as_collaborator_streams = Collaborator.objects.filter(phone_number=self.request.user.username).values_list('stream_id', flat=True)
+        # Active stream in which user is as collaborator.
+        user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active", type="Public")
+        # All streams which are related to current user in any way.
+        all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
+        #import pdb; pdb.set_trace()
         if isinstance(queryset, QuerySet):
             # Ensure queryset is re-evaluated on each request.
-            queryset = queryset.filter(user=self.request.user , crd__gt=week_ago)
+            queryset = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago)
         return queryset
 
 
@@ -853,3 +866,21 @@ class ContentShareExtensionAPI(CreateAPIView):
         # content_ids = [ x.id for x in self.request.data.get('contents')]
         NotificationAPI().send_notification(self.request.user, self.request.user, 'self', None, None, self.request.data.get('contents').__len__(), str(self.request.data.get('contents')))
         return custom_render_response(status_code=status.HTTP_200_OK)
+
+
+
+        # following = UserFollow.objects.filter(follower=self.request.user.id).values_list('following', flat=True)
+        # view_status = StreamUserViewStatus.objects.filter(user=self.request.user.id).values_list('stream', flat=True)
+        # creators_list = list(following)
+        # # creators_list = [1,2,3,4,5]
+        # user_current = self.request.user.id
+        # creators_list.append(user_current)
+        # view_status_list = list(view_status)
+        # # view_status_list = [3,4]
+        # import pdb; pdb.set_trace()
+        # creators_list = list(set(creators_list) & set(view_status_list))
+        # if isinstance(queryset, QuerySet):
+        #     # Ensure queryset is re-evaluated on each request.
+        #     queryset = queryset.filter(created_by_id__in=creators_list, status ='Active')
+        #
+        # return queryset

@@ -608,8 +608,8 @@ class MoveContentToStreamSerializer(ContentSerializer):
         """
         # Create Stream and content
         obj , created = StreamContent.objects.get_or_create(content=content, stream=stream)
-        # Add new row in recent updates table with respect logged in user.
-        RecentUpdates.objects.create(stream_content=obj, user=self.context.get('request').user)
+        # Add new row in recent updates table with respect to user
+        #RecentUpdates.objects.create(stream_content=obj, user=self.context.get('request').user)
 
         # Set True in have_some_update field, When user move content to stream
         stream.have_some_update = True
@@ -787,17 +787,17 @@ class RecentUpdatesSerializer(serializers.ModelSerializer):
     content_type = serializers.SerializerMethodField()
 
     class Meta:
-        model = RecentUpdates
-        fields = ('user_image','content_url','content_name','content_type','status')
+        model = StreamContent
+        fields = ('user_image','content_url','content_name','content_type')
 
     def get_user_image(self, obj):
         return obj.user.user_data.user_image
 
     def get_content_url(self, obj):
-        return obj.stream_content.content.url
+        return obj.content.url
 
     def get_content_name(self, obj):
-        return obj.stream_content.content.name
+        return obj.content.name
 
     def get_content_type(self, obj):
-        return obj.stream_content.content.type
+        return obj.content.type
