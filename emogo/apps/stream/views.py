@@ -692,9 +692,8 @@ class ContentLikeDislikeAPI(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         content = Content.objects.get(id =  serializer.data.get('content'))
-        # import pdb; pdb.set_trace()
         if (serializer.data.get('status') == 1) and (self.request.user !=  content.created_by) and version :
-            noti = Notification.objects.filter(notification_type = 'liked_content' , stream = content.content_streams.all()[0].stream, from_user = self.request.user, to_user = content.created_by)
+            noti = Notification.objects.filter(notification_type = 'liked_content' , stream = content.content_streams.all()[0].stream, from_user = self.request.user, to_user = content.created_by, content = content)
             if noti.__len__() > 0 :
                 noti[0].save()
                 NotificationAPI().initialize_notification(noti[0])
