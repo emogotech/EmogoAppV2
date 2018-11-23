@@ -616,7 +616,12 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         serializer.create(serializer)
         stream = Stream.objects.get(id =  serializer.data.get('stream'))
         if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and version:
-            NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
+            noti = Notification.objects.filter(notification_type = 'liked_emogo' , stream = stream, from_user = self.request.user, to_user = stream.created_by)
+            if noti.__len__() > 0 :
+                noti.update(notification_type = 'liked_emogo')
+                NotificationAPI().initialize_notification(noti[0])
+            else:
+                NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
         # To return created stream data
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
     
@@ -688,7 +693,12 @@ class ContentLikeDislikeAPI(CreateAPIView):
         serializer.create(serializer)
         content = Content.objects.get(id =  serializer.data.get('content'))
         if (serializer.data.get('status') == 1) and (self.request.user !=  content.created_by) and version :
-            NotificationAPI().send_notification(self.request.user, content.created_by, 'liked_content', content.content_streams.all()[0].stream, content)
+            noti = Notification.objects.filter(notification_type = 'liked_content' , stream = content.content_streams.all()[0].stream, from_user = self.request.user, to_user = content.created_by)
+            if noti.__len__() > 0 :
+                noti.update(notification_type = 'liked_content')
+                NotificationAPI().initialize_notification(noti[0])
+            else:
+                NotificationAPI().send_notification(self.request.user, content.created_by, 'liked_content', content.content_streams.all()[0].stream, content)
         # To return created stream data
         # self.serializer_class = ViewStreamSerializer
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
