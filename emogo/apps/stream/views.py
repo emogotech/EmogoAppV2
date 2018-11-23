@@ -602,9 +602,9 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
     
     def get(self, request, *args, **kwargs):
         if kwargs.get('stream_id') is not None:
-            return self.retrieve(request, version, *args, **kwargs)
+            return self.retrieve(request, *args, **kwargs)
 
-    def create(self, request, version, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -615,12 +615,12 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         stream = Stream.objects.get(id =  serializer.data.get('stream'))
-        if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and version:
+        if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and kwargs.get('version'):
             NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
         # To return created stream data
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
     
-    def retrieve(self, request, version, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -647,11 +647,11 @@ class StreamLikeAPI(RetrieveAPIView):
         followers = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
         return {'request': self.request, 'followers':followers}
     
-    def get(self, request, version, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if kwargs.get('stream_id') is not None:
-            return self.retrieve(request, version, *args, **kwargs)
+            return self.retrieve(request, *args, **kwargs)
 
-    def retrieve(self, request, version, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -675,7 +675,7 @@ class ContentLikeDislikeAPI(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
-    def create(self, request, version, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -687,7 +687,7 @@ class ContentLikeDislikeAPI(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         content = Content.objects.get(id =  serializer.data.get('content'))
-        if (serializer.data.get('status') == 1) and (self.request.user !=  content.created_by) and version :
+        if (serializer.data.get('status') == 1) and (self.request.user !=  content.created_by) and kwargs.get('version') :
             NotificationAPI().send_notification(self.request.user, content.created_by, 'liked_content', content.content_streams.all()[0].stream, content)
         # To return created stream data
         # self.serializer_class = ViewStreamSerializer
@@ -748,7 +748,7 @@ class IncreaseStreamViewCount(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
-    def create(self, request, version, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -790,7 +790,7 @@ class ContentShareExtensionAPI(CreateAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def create(self, request, version, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -810,7 +810,7 @@ class AddBookmarkAPI(CreateAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def create(self, request, version, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -828,17 +828,25 @@ class BookmarkNewEmogosAPI(ListAPIView):
     """"
     View to list all the recent updates of the logged in user.
     """
-    queryset = Stream.objects.all()
-    queryset_bookmark = StarredStream.objects.all()
+    queryset = Stream.objects.prefetch_related(
+        Prefetch(
+            'stream_user_view_status',
+            queryset=StreamUserViewStatus.objects.all(),
+            to_attr='total_view_count'
+        ),
+    )
+    queryset_bookmark = StarredStream.objects.filter().select_related('stream')
     serializer_class = BookmarkNewEmogosSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        serializer = ViewStreamSerializer(queryset[0:10], fields=('name', 'url', 'id', 'user_image','image'), many=True)
-        user_serializer = ViewStreamSerializer(queryset[0:10], fields=('name', 'url', 'id', 'user_image','image'), many=True)
-        return_dictionary={'new_emogos': serializer.data, 'bookmark': user_serializer}
+        fields = ('name', 'url', 'id', 'user_image', 'image')
+        user_bookmarks = self.queryset_bookmark.filter(user=self.request.user, stream__status='Active')[:10]
+        user_bookmarks_serializer = ViewStreamSerializer([x.stream for x in user_bookmarks.select_related('stream')], fields=fields, many=True)
+        serializer = ViewStreamSerializer(queryset[0:10],fields=fields, many=True)
+        return_dictionary={'new_emogos': serializer.data, "bookmarks": user_bookmarks_serializer.data}
         return custom_render_response(status_code=status.HTTP_200_OK, data=return_dictionary)
 
     def get_queryset(self):
@@ -872,8 +880,6 @@ class BookmarkNewEmogosAPI(ListAPIView):
         current_user_following_streams = queryset.filter(created_by_id__in=following, type='Public',
                                                                status='Active', crd__gt=week_ago)
         # list all the objects of streams created by users followed by current user
-        user_bookmarks_id_list = StarredStream.objects.filter(user_id=self.request.user)
-
         if isinstance(queryset, QuerySet):
             # Ensure queryset is re-evaluated on each request.
             queryset = current_user_streams | current_user_following_streams

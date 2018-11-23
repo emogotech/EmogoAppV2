@@ -179,6 +179,7 @@ class StarredStream(models.Model):
     view_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, blank=True, null=True)
     status = models.CharField(max_length=1, choices=CHOICE_TYPE, default=1)
+    objects = models.Manager()  # The default manager.
 
     class Meta:
         db_table = 'starred_stream'
