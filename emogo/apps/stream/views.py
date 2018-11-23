@@ -503,14 +503,12 @@ class RecentUpdatesAPI(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
         """
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
-
 
     def list(self, request, version, *args, **kwargs):
         queryset = self.get_queryset()
@@ -551,6 +549,7 @@ class RecentUpdatesAPI(ListAPIView):
             queryset = queryset.filter(user=self.request.user , crd__gt=week_ago)
         return queryset
 
+
 class MoveContentToStream(APIView):
     """
     View to list all users in the system.
@@ -575,6 +574,7 @@ class MoveContentToStream(APIView):
             return custom_render_response(status_code=status.HTTP_200_OK, data={})
         else:
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+
 
 class ReorderStreamContent(APIView):
     """
@@ -652,7 +652,7 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         followers = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
         return {'request': self.request, 'followers':followers}
     
-    def get(self, request, *args, **kwargs):
+    def get(self, request, version, *args, **kwargs):
         if kwargs.get('stream_id') is not None:
             return self.retrieve(request, version, *args, **kwargs)
 
@@ -835,6 +835,7 @@ class ContentInBulkAPI(ContentAPI):
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+
 class ContentShareExtensionAPI(CreateAPIView):
     """
     Save content from share extension API
@@ -852,4 +853,3 @@ class ContentShareExtensionAPI(CreateAPIView):
         # content_ids = [ x.id for x in self.request.data.get('contents')]
         NotificationAPI().send_notification(self.request.user, self.request.user, 'self', None, None, self.request.data.get('contents').__len__(), str(self.request.data.get('contents')))
         return custom_render_response(status_code=status.HTTP_200_OK)
-

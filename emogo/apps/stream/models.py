@@ -175,6 +175,9 @@ class ExtremistReport(DefaultDateModel):
 
 
 class RecentUpdates(DefaultStatusModel):
+    """
+    Recent update table model class.
+    """
     user = models.ForeignKey(User, blank=True, null=True)
     stream_content = models.ForeignKey(StreamContent, null=True, blank=True, related_name='stream_content')
     action_date = models.DateTimeField(auto_now_add=True)
