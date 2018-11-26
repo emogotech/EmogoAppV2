@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent, StreamUserViewStatus, RecentUpdates
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent, StreamUserViewStatus, StarredStream
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -802,3 +802,53 @@ class RecentUpdatesSerializer(serializers.ModelSerializer):
 
     def get_content_type(self, obj):
         return obj.content.type
+
+class AddBookmarkSerializer(DynamicFieldsModelSerializer):
+    """
+    Stream Bookmarked serializer class
+    """
+    user = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = StarredStream
+        fields = ['user', 'stream', 'status']
+
+    # def get_total_liked(self, obj):
+    #     return StarredStream.objects.filter(status=1, content=obj.get('content'))
+
+    def create(self, validated_data):
+        # import pdb; pdb.set_trace()
+        obj, created = StarredStream.objects.update_or_create(
+            stream=self.validated_data.get('stream'),
+            user=self.context.get('request').user)
+        return obj
+
+class BookmarkNewEmogosSerializer(serializers.ModelSerializer):
+    """
+    Recent updates to Stream Serializer
+    """
+    class Meta:
+        model = Stream
+        fields = ['created_by_id', 'name']
+
+
+class StarredSerializer(serializers.ModelSerializer):
+    """
+    Starred streams.
+    """
+    user_image = serializers.SerializerMethodField()
+    stream_name = serializers.SerializerMethodField()
+    stream_image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = StarredStream
+        fields = ['user_image', 'stream_name', 'stream_image','id']
+
+    def get_user_image(self, obj):
+        return obj.user.user_data.user_image
+
+    def get_stream_name(self, obj):
+        return obj.stream.name
+
+    def get_stream_image(self, obj):
+        return obj.stream.image
