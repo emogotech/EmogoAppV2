@@ -540,7 +540,8 @@ class RecentUpdatesAPI(ListAPIView):
                 "or override the `get_queryset()` method."
                 % self.__class__.__name__
         )
-
+        import pdb;
+        pdb.set_trace()
         queryset = self.queryset
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
@@ -556,7 +557,6 @@ class RecentUpdatesAPI(ListAPIView):
         user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active", type="Public")
         # All streams which are related to current user in any way.
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        #import pdb; pdb.set_trace()
         if isinstance(queryset, QuerySet):
             # Ensure queryset is re-evaluated on each request.
             queryset = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago)

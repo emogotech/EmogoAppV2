@@ -608,6 +608,7 @@ class MoveContentToStreamSerializer(ContentSerializer):
         """
         # Create Stream and content
         obj , created = StreamContent.objects.get_or_create(content=content, stream=stream)
+        #StreamContent.objects.create(content=content, stream=stream)
         # Add new row in recent updates table with respect to user
         #RecentUpdates.objects.create(stream_content=obj, user=self.context.get('request').user)
 
