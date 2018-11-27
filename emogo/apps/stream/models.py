@@ -189,7 +189,7 @@ class StarredStream(DefaultStatusModel):
     user = models.ForeignKey(User, blank=True, null=True)
     stream = models.ForeignKey(Stream, related_name='stream_starred')
     view_date = models.DateTimeField(auto_now_add=True)
-    crd = None # Made parent field as None.
+    crd = None  # Made parent field as None.
     upd = None
     objects = models.Manager()  # The default manager.
 

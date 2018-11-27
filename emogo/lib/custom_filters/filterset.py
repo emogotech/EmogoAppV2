@@ -216,12 +216,24 @@ class UserStreamFilter(django_filters.FilterSet):
 
 
 class StarredStreamFilter(django_filters.FilterSet):
-    name = django_filters.filters.BooleanFilter(method='filter_starred_stream')
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
 
     class Meta:
         model = StarredStream
-        fields = ['name']
+        fields = ['stream_name']
 
-    def filter_starred_stream(self, qs, name, value):
-        import pdb; pdb.set_trace();
-        return qs.filter(stream__name=value)
+    def filter_stream_name(self, qs, name, value):
+        return qs.filter(stream__name__icontains=value)
+
+
+class NewEmogosFilter(django_filters.FilterSet):
+    emogo_name = django_filters.filters.CharFilter(method='filter_emogo_name')
+
+    class Meta:
+        model = Stream
+        fields = ['emogo_name']
+
+    def filter_emogo_name(self, qs, name, value):
+        # import pdb;
+        # pdb.set_trace()
+        return qs.filter(name__icontains=value)
