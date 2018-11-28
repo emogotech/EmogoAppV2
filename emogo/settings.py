@@ -214,6 +214,6 @@ DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&m
 try:
     from local_settings import *
     #Get PEM file url for notification
-    NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
+    # NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
 except ImportError:
     pass

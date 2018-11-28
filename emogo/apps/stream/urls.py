@@ -27,4 +27,6 @@ urlpatterns = [
     url(r'^bulk_delete_stream_content/(?P<pk>[0-9]+)/$', views.DeleteStreamContentInBulkAPI.as_view()),
     url(r'^bulk_contents', views.ContentInBulkAPI.as_view()),
     url(r'^content/share_extension', views.ContentShareExtensionAPI.as_view()),
+    url(r'^bookmarks/$', views.AddBookmarkAPI.as_view()),# don't make a name starts with stream
+    url(r'^bookmarks_new_emogos/$', views.BookmarkNewEmogosAPI.as_view()),
 ]
