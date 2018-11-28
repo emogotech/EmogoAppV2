@@ -519,7 +519,7 @@ class RecentUpdatesAPI(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(queryset, many=True, fields=('name', 'image', 'status','id'))
         page = self.paginate_queryset(queryset)
