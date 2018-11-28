@@ -926,13 +926,47 @@ class BookmarkNewEmogosAPI(ListAPIView):
     """"
     View to list all the starred and new Emogos in home page.
     """
-    queryset = Stream.objects.prefetch_related(
+    queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+        'created_by__user_data__user').prefetch_related(
+        Prefetch(
+            "stream_contents",
+            queryset=StreamContent.objects.all().select_related('content','content__created_by__user_data').prefetch_related(
+                    Prefetch(
+                        "content__content_like_dislike_status",
+                        queryset=LikeDislikeContent.objects.filter(status=1),
+                        to_attr='content_liked_user'
+                    )
+                ).order_by('order', '-attached_date'),
+            to_attr="content_list"
+        ),
+        Prefetch(
+            'collaborator_list',
+            queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+            to_attr='stream_collaborator'
+        ),
+        Prefetch(
+            'collaborator_list',
+            queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+            to_attr='stream_collaborator_verified'
+        ),
+        Prefetch(
+                'stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                        Prefetch(
+                            "user__who_follows",
+                            queryset=UserFollow.objects.all(),
+                            to_attr='user_liked_followers'
+                        ),
+
+                ),
+                to_attr='total_like_dislike_data'
+            ),
         Prefetch(
             'stream_user_view_status',
             queryset=StreamUserViewStatus.objects.all(),
             to_attr='total_view_count'
-        ),
-    )
+        )
+    ).order_by('-id')
     queryset_bookmark = StarredStream.objects.filter().select_related('stream')
     serializer_class = BookmarkNewEmogosSerializer
     authentication_classes = (TokenAuthentication,)
@@ -940,10 +974,16 @@ class BookmarkNewEmogosAPI(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        fields = ('name', 'url', 'id', 'user_image', 'image')
+        fields = (
+        'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
+        'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes',
+        'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
+        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
         user_bookmarks = self.queryset_bookmark.filter(user=self.request.user, stream__status='Active')[:10]
-        user_bookmarks_serializer = ViewStreamSerializer([x.stream for x in user_bookmarks.select_related('stream')], fields=fields, many=True)
-        serializer = ViewStreamSerializer(queryset[0:10],fields=fields, many=True)
+        user_bookmarks_stream = self.queryset.filter(id__in = [x.stream.id for x in user_bookmarks.select_related('stream')])
+        user_bookmarks_serializer = ViewStreamSerializer(user_bookmarks_stream[0:10], fields=fields, many=True, context=self.get_serializer_context())
+
+        serializer = ViewStreamSerializer(queryset[0:10], fields=fields, many=True, context=self.get_serializer_context())
         return_dictionary={'new_emogos': serializer.data, "bookmarks": user_bookmarks_serializer.data}
         return custom_render_response(status_code=status.HTTP_200_OK, data=return_dictionary)
 
