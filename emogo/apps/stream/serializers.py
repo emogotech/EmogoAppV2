@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent, StreamUserViewStatus, StarredStream
+from models import Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream, LikeDislikeContent, StreamUserViewStatus, StarredStream
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -606,11 +606,13 @@ class MoveContentToStreamSerializer(ContentSerializer):
     def add_content_to_stream(self, content, stream):
         """
         :param content: The content object
-        :param stream: The stream object
+        :param stream: The StreamUserViewStatus object
         :return: Function add content to stream
         """
         # Create Stream and content
-        StreamContent.objects.get_or_create(content=content, stream=stream)
+        obj , created = StreamContent.objects.get_or_create(content=content, stream=stream)
+        # Add new row in recent updates table with respect to user
+        RecentUpdates.objects.create(stream_content=obj, user=self.context.get('request').user)
 
         # Set True in have_some_update field, When user move content to stream
         stream.have_some_update = True
@@ -778,6 +780,33 @@ class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
         return instance
 
 
+class RecentUpdatesSerializer(serializers.ModelSerializer):
+    """
+        Recent updates to Stream Serializer
+    """
+    user_image = serializers.SerializerMethodField()
+    content_url = serializers.SerializerMethodField()
+    content_name = serializers.SerializerMethodField()
+    content_type = serializers.SerializerMethodField()
+
+    class Meta:
+        model = RecentUpdates
+        # model = StreamContent
+        fields = ('user_image','content_url','content_name','content_type')
+
+    def get_user_image(self, obj):
+        return obj.user.user_data.user_image
+        # return obj.user.user_data.user_image
+
+    def get_content_url(self, obj):
+        return obj.content.url
+
+    def get_content_name(self, obj):
+        return obj.content.name
+
+    def get_content_type(self, obj):
+        return obj.content.type
+
 class AddBookmarkSerializer(DynamicFieldsModelSerializer):
     """
     Stream Bookmarked serializer class
@@ -806,3 +835,24 @@ class BookmarkNewEmogosSerializer(serializers.ModelSerializer):
         model = Stream
         fields = ['created_by_id', 'name']
 
+
+class StarredSerializer(serializers.ModelSerializer):
+    """
+    Starred streams.
+    """
+    user_image = serializers.SerializerMethodField()
+    stream_name = serializers.SerializerMethodField()
+    stream_image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = StarredStream
+        fields = ['user_image', 'stream_name', 'stream_image','id']
+
+    def get_user_image(self, obj):
+        return obj.user.user_data.user_image
+
+    def get_stream_name(self, obj):
+        return obj.stream.name
+
+    def get_stream_image(self, obj):
+        return obj.stream.image

@@ -5,7 +5,7 @@ from django.db.models import Q
 from itertools import chain
 from emogo.apps.collaborator.models import Collaborator
 from django.db.models import Prefetch
-from emogo.apps.stream.models import StreamUserViewStatus
+from emogo.apps.stream.models import StreamUserViewStatus, StarredStream
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
@@ -213,3 +213,27 @@ class UserStreamFilter(django_filters.FilterSet):
                 to_attr='total_view_count'
             ),
         ).order_by('-upd')
+
+
+class StarredStreamFilter(django_filters.FilterSet):
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
+
+    class Meta:
+        model = StarredStream
+        fields = ['stream_name']
+
+    def filter_stream_name(self, qs, name, value):
+        return qs.filter(stream__name__icontains=value)
+
+
+class NewEmogosFilter(django_filters.FilterSet):
+    emogo_name = django_filters.filters.CharFilter(method='filter_emogo_name')
+
+    class Meta:
+        model = Stream
+        fields = ['emogo_name']
+
+    def filter_emogo_name(self, qs, name, value):
+        # import pdb;
+        # pdb.set_trace()
+        return qs.filter(name__icontains=value)
