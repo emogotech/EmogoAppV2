@@ -30,6 +30,7 @@ class Notification(DefaultDateModel):
     content_lists = models.TextField(null=True, blank=True)
     content_count = models.IntegerField(default=0, blank=True, null=True)
     is_open = models.BooleanField(default=True)
+    objects = models.Manager()  # The default manager.
 
     class Meta:
         db_table = 'notification'

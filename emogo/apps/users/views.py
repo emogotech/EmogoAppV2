@@ -143,11 +143,11 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def get(self, request, version, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if kwargs.get('user_id') is not None:
-            return self.retrieve(self, request, version, *args, **kwargs)
+            return self.retrieve(self, request, *args, **kwargs)
         else:
-            return self.list(request, version, *args, **kwargs)
+            return self.list(request, *args, **kwargs)
 
     def get_qs_object(self):
         qs = UserProfile.actives.filter(user_id=self.kwargs.get('user_id')).select_related('user').select_related('profile_stream').prefetch_related(
@@ -197,7 +197,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             return qs[0]
         raise Http404
 
-    def retrieve(self, request, version, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -214,7 +214,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         serializer = self.get_serializer(instance, fields=fields, context=self.request)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.exclude(user=self.request.user)
 
@@ -234,7 +234,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             serializer = self.get_serializer(page, many=True, fields=fields)
             return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
-    def update(self, request, version, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         """
         :param request: ALL request data
         :param args: request param as list
@@ -320,13 +320,13 @@ class UserStearms(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators']
-        if version == 'v3':
+        if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -351,7 +351,7 @@ class UserFollowersAPI(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         qs = UserProfile.actives.filter(user__in=self.filter_queryset(self.get_queryset()).filter(following=self.request.user).values_list('follower', flat=True))
         qs = qs.select_related('user').prefetch_related(
                  Prefetch(
@@ -393,7 +393,7 @@ class UserFollowingAPI(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         qs = UserProfile.actives.filter(user__in=self.filter_queryset(self.get_queryset()).filter(follower=self.request.user).values_list('following', flat=True))
         qs = qs.select_related('user').prefetch_related(
             Prefetch(
@@ -493,13 +493,13 @@ class UserLikedSteams(ListAPIView):
         # queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
         return queryset
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators']
-        if version == 'v3':
+        if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -583,7 +583,7 @@ class UserCollaborators(ListAPIView):
         )).order_by('-id')
         return queryset
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         # self.request.user
         self.serializer_class = ViewStreamSerializer
@@ -595,7 +595,7 @@ class UserCollaborators(ListAPIView):
 
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators']
-        if version == 'v3':
+        if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -641,7 +641,6 @@ class GetTopStreamAPI(APIView):
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
-
 class VerifyLoginOTP(APIView):
     """
     User login API
@@ -665,7 +664,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def create(self, request, version, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -684,7 +683,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
     def get_object(self):
         return get_object_or_404(UserFollow, follower=self.request.user, following_id=self.kwargs.get('pk'))
 
-    def destroy(self, request, version, *args, **kwargs):
+    def destroy(self, request,  *args, **kwargs):
         instance = self.get_object()
         noti = Notification.objects.filter(notification_type='follower', from_user=instance.follower, to_user=instance.following )
         if noti.__len__() > 0 :
@@ -724,7 +723,7 @@ class UserDeviceTokenAPI(CreateAPIView):
     serializer_class = UserDeviceTokenSerializer
 
 
-    def create(self, request, version):
+    def create(self, request):
         """
         if user enable notification then set device token in userdevice
         if disabled then set device token to NULL

@@ -780,32 +780,45 @@ class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
         return instance
 
 
-class RecentUpdatesSerializer(serializers.ModelSerializer):
+class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
     """
         Recent updates to Stream Serializer
     """
     user_image = serializers.SerializerMethodField()
-    content_url = serializers.SerializerMethodField()
-    content_name = serializers.SerializerMethodField()
+    first_content_cover = serializers.SerializerMethodField()
+    stream_name = serializers.SerializerMethodField()
     content_type = serializers.SerializerMethodField()
+    added_by_user_id = serializers.SerializerMethodField()
+    user_profile_id = serializers.SerializerMethodField()
+    user_name = serializers.SerializerMethodField()
 
     class Meta:
-        model = RecentUpdates
+        model = StreamContent
         # model = StreamContent
-        fields = ('user_image','content_url','content_name','content_type')
+        fields = ('user_image','first_content_cover','stream_name','content_type','added_by_user_id','user_profile_id','user_name')
 
     def get_user_image(self, obj):
         return obj.user.user_data.user_image
         # return obj.user.user_data.user_image
 
-    def get_content_url(self, obj):
+    def get_first_content_cover(self, obj):
         return obj.content.url
-
-    def get_content_name(self, obj):
-        return obj.content.name
 
     def get_content_type(self, obj):
         return obj.content.type
+
+    def get_added_by_user_id(self, obj):
+        return obj.user.id
+
+    def get_user_profile_id(self, obj):
+        return obj.user.user_data.id
+
+    def get_user_name(self, obj):
+        return obj.user.user_data.full_name
+
+    def get_stream_name(self, obj):
+        return obj.stream.name
+
 
 class AddBookmarkSerializer(DynamicFieldsModelSerializer):
     """

@@ -89,13 +89,13 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def get(self, request, version, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if kwargs.get('pk') is not None:
-            return self.retrieve(request, version, *args, **kwargs)
+            return self.retrieve(request, *args, **kwargs)
         else:
-            return self.list(request, version, *args, **kwargs)
+            return self.list(request, *args, **kwargs)
 
-    def retrieve(self, request, version, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -117,7 +117,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             serializer = self.get_serializer(instance, fields=fields, context=self.request)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request,  *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.queryset)
@@ -127,14 +127,14 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                   'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
                   'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
                   'user_liked', 'collab_images', 'total_stream_collaborators']
-        if version == 'v3':
+        if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
-    def create(self, request, version, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -148,12 +148,12 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = ViewStreamSerializer
         stream = self.queryset.filter(id=stream.id).prefetch_related('stream_contents', 'collaborator_list')[0]
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators']
-        if version == 'v3':
+        if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(stream, context=self.request, fields=fields)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
-    def update(self, request, version, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         """
         :param request: ALL request data
         :param args: request param as list
@@ -171,7 +171,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         instance = self.get_object()
         self.serializer_class = ViewStreamSerializer
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators']
-        if version == 'v3':
+        if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(instance, context=self.request, fields=fields)
         if getattr(instance, '_prefetched_objects_cache', None):
@@ -180,7 +180,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             instance._prefetched_objects_cache = {}
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
-    def destroy(self, request, version, *args, **kwargs):
+    def destroy(self, request,  *args, **kwargs):
         """
         :param request:
         :param args:
@@ -205,7 +205,7 @@ class DeleteStreamContentAPI(DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def destroy(self, request, version, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: Contents as list data
@@ -307,11 +307,11 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def get(self, request, version, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if kwargs.get('pk') is not None:
-            return self.retrieve(request, version, *args, **kwargs)
+            return self.retrieve(request, *args, **kwargs)
         else:
-            return self.list(request, version, *args, **kwargs)
+            return self.list(request, *args, **kwargs)
 
     def get_object(self):
         qs = self.get_queryset().filter(pk=self.kwargs.get('pk'))
@@ -320,7 +320,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         else:
             return Http404
 
-    def retrieve(self, request, version, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: list or tuple data
@@ -333,7 +333,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer = self.get_serializer(instance)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
@@ -346,7 +346,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
-    def create(self, request, version, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
         instances = serializer.create(serializer.validated_data)
@@ -355,7 +355,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         'color', 'user_image', 'full_name', 'order'))
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
-    def update(self, request, version, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         """
         :param request: ALL request data
         :param args: request param as list
@@ -381,7 +381,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
-    def destroy(self, request, version, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         """
         :param request:
         :param args:
@@ -399,7 +399,8 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
 
 
 class GetTopContentAPI(ContentAPI):
-    def list(self, request, version, *args, **kwargs):
+
+    def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
@@ -418,7 +419,8 @@ class GetTopContentAPI(ContentAPI):
 
 
 class GetTopTwentyContentAPI(ContentAPI):
-    def list(self, request, version, *args, **kwargs):
+
+    def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
@@ -467,7 +469,7 @@ class LinkTypeContentAPI(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
@@ -509,7 +511,7 @@ class RecentUpdatesAPI(ListAPIView):
     View to list all the recent updates of the logged in user.
     """
     queryset = StreamContent.objects.all()
-    serializer_class = ViewStreamSerializer
+    serializer_class = RecentUpdatesSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -521,12 +523,15 @@ class RecentUpdatesAPI(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(queryset, many=True, fields=('name', 'image', 'status','id'))
+        queryset = self.get_queryset()
+        fields = (
+        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
+        'user_name')
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = self.get_serializer(queryset, many=True, fields=('name', 'image', 'status','id'))
+            serializer = self.get_serializer(queryset, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+        serializer = self.get_serializer(queryset, many=True, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def get_queryset(self):
@@ -552,30 +557,71 @@ class RecentUpdatesAPI(ListAPIView):
         queryset = self.queryset
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
-        current_user_streams = Stream.objects.filter(created_by=self.request.user, status='Active', type="Public", crd__gt=week_ago)
+        current_user_streams = Stream.objects.filter(created_by=self.request.user, status='Active', type="Public")
         # list all the objects of active streams created by logged in user.
         following = UserFollow.objects.filter(follower=self.request.user).values_list('following', flat=True)
         # list all the objects of users whom logged in user is following.
-        all_following_public_streams = Stream.objects.filter(created_by_id__in=following, status="Active", type="Public", crd__gt=week_ago)
+        all_following_public_streams = Stream.objects.filter(created_by_id__in=following, status="Active", type="Public")
         # list all the objects of streams created by users followed by current user
         user_as_collaborator_streams = Collaborator.objects.filter(phone_number=self.request.user.username).values_list('stream_id', flat=True)
         # list all the objects of streams where the current user is as collaborator.
-        user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active", type="Public", crd__gt=week_ago)
+        user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active", type="Public")
         # list all the objects of active streams where the current user is as collaborator.
 
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        content_ids = StreamContent.objects.filter(stream__in=all_streams).annotate(total_view_count=Count('content_id')).values('stream_id', 'content_id', 'user_id')
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago).select_related('stream', 'content')
         grouped = collections.defaultdict(list)
         for item in content_ids:
-            grouped[item['stream_id']].append(item)
+            grouped[item.stream].append(item)
 
-        if isinstance(queryset, QuerySet):
-            # Ensure queryset is re-evaluated on each request.
-            queryset = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-            # list all the objects of active streams which are related to current user in any way.
-        import pdb; pdb.set_trace()
+        return_list = list()
+        for stream , group in grouped.items():
+            if group.__len__() > 0:
+                return_list.append(group[0])
+        return return_list
 
+
+class RecentUpdatesDetialListAPI(ListAPIView):
+    """"
+    View to list all the recent updates of the logged in user.
+    """
+    queryset = StreamContent.objects.all()
+    serializer_class = RecentUpdatesSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def filter_queryset(self, queryset):
+        """
+        Given a queryset, filter it with whichever filter backend is in use.
+
+        You are unlikely to want to override this method, although you may need
+        to call it either from a list view, or from a custom `get_object`
+        method if you want to apply the configured filtering backend to the
+        default queryset.
+        """
+        queryset = queryset.filter(stream=self.request.query_params.get('stream'))
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        fields = (
+        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
+        'user_name')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(queryset, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+        serializer = self.get_serializer(queryset, many=True, fields=fields)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
 class MoveContentToStream(APIView):
@@ -659,7 +705,7 @@ class ExtremistReportAPI(CreateAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def create(self, request, version, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, context=self.request)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -680,7 +726,7 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         followers = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
         return {'request': self.request, 'followers':followers}
     
-    def get(self, request, version, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if kwargs.get('stream_id') is not None:
             return self.retrieve(request, *args, **kwargs)
 
@@ -857,7 +903,7 @@ class ContentInBulkAPI(ContentAPI):
     """
     Get Contents in bulk
     """
-    def list(self, request, version, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
         """
         :param ids: list of content ids
         :return: All content details.
