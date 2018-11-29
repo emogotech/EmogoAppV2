@@ -610,9 +610,9 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :return: Function add content to stream
         """
         # Create Stream and content
-        obj , created = StreamContent.objects.get_or_create(content=content, stream=stream)
+        obj , created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
         # Add new row in recent updates table with respect to user
-        RecentUpdates.objects.create(stream_content=obj, user=self.context.get('request').user)
+        # RecentUpdates.objects.create(stream_content=obj, user=self.context.get('request').user)
 
         # Set True in have_some_update field, When user move content to stream
         stream.have_some_update = True

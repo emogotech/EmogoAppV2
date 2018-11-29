@@ -107,6 +107,7 @@ class StreamContent(models.Model):
     content = models.ForeignKey(Content, related_name='content_streams')
     attached_date = models.DateTimeField(auto_now_add=True)
     order = models.IntegerField(default=0, blank=True, null=True)
+    user = models.ForeignKey(User, blank=True, null=True)
     objects = models.Manager()  # The default manager.
 
     class Meta:

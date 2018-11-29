@@ -561,6 +561,14 @@ class RecentUpdatesAPI(ListAPIView):
         # list all the objects of streams where the current user is as collaborator.
         user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active", type="Public", crd__gt=week_ago)
         # list all the objects of active streams where the current user is as collaborator.
+        # import pdb;pdb.set_trace()
+        all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
+
+
+        # content_ids = StreamContent.objects.filter(stream__in=all_streams).annotate(total_view_count=Count('content_id')).values(
+                            # 'stream_id', 'content_id', 'user_id')
+        content_ids = StreamContent.objects.filter(stream__in=all_streams).annotate(total_view_count=Count('content_id'))
+
         if isinstance(queryset, QuerySet):
             # Ensure queryset is re-evaluated on each request.
             queryset = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
