@@ -16,6 +16,7 @@ from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
 import itertools
+import collections
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.models import UserFollow
 from emogo.apps.notification.models import Notification
@@ -561,18 +562,19 @@ class RecentUpdatesAPI(ListAPIView):
         # list all the objects of streams where the current user is as collaborator.
         user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active", type="Public", crd__gt=week_ago)
         # list all the objects of active streams where the current user is as collaborator.
-        # import pdb;pdb.set_trace()
+
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-
-
-        # content_ids = StreamContent.objects.filter(stream__in=all_streams).annotate(total_view_count=Count('content_id')).values(
-                            # 'stream_id', 'content_id', 'user_id')
-        content_ids = StreamContent.objects.filter(stream__in=all_streams).annotate(total_view_count=Count('content_id'))
+        content_ids = StreamContent.objects.filter(stream__in=all_streams).annotate(total_view_count=Count('content_id')).values('stream_id', 'content_id', 'user_id')
+        grouped = collections.defaultdict(list)
+        for item in content_ids:
+            grouped[item['stream_id']].append(item)
 
         if isinstance(queryset, QuerySet):
             # Ensure queryset is re-evaluated on each request.
             queryset = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
             # list all the objects of active streams which are related to current user in any way.
+        import pdb; pdb.set_trace()
+
         return queryset
 
 
