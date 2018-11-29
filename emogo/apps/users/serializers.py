@@ -11,7 +11,7 @@ from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerialize
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
 from emogo.apps.stream.serializers import ViewStreamSerializer, ViewContentSerializer
 from emogo.apps.stream.models import Stream, LikeDislikeStream, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
-    LikeDislikeContent
+    LikeDislikeContent, StarredStream
 from emogo.apps.collaborator.models import Collaborator
 from itertools import chain
 from django.db import IntegrityError
@@ -462,6 +462,8 @@ class GetTopStreamSerializer(serializers.Serializer):
     following_stream = serializers.SerializerMethodField()
     private_stream = serializers.SerializerMethodField()
     public_stream = serializers.SerializerMethodField()
+    new_emogo_stream = serializers.SerializerMethodField()
+    bookmarked_stream = serializers.SerializerMethodField()
     collaborator_qs = Collaborator.actives.all().select_related('stream')
 
     def use_fields(self):
@@ -542,7 +544,34 @@ class GetTopStreamSerializer(serializers.Serializer):
         total = result_list.count()
         result_list = result_list[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.context).data }
+
+    ## Added Public stream
+    def get_new_emogo_stream(self, obj):
+        import datetime
+        today = datetime.date.today()
+        week_ago = today - datetime.timedelta(days=7)
+        current_user_streams = self.qs.filter(created_by=self.context.get('request').user, status='Active', crd__gt=week_ago)
+        # list all the objects of streams created by current user
+        following = UserFollow.objects.filter(follower=self.context.get('request').user).values_list('following', flat=True)
+        current_user_following_streams = self.qs.filter(created_by_id__in=following, type='Public',
+                                                         status='Active', crd__gt=week_ago)
+
+        result_list = current_user_streams | current_user_following_streams
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(),
+                                                             context=self.context).data}
+
+    ## Added Public stream
+    def get_bookmarked_stream(self, obj):
+        user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream')
+        result_list = self.qs.filter(id__in=[x.stream.id for x in user_bookmarks])
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(),
+                                                                     context=self.context).data}
     
+
 class UserFollowSerializer(DynamicFieldsModelSerializer):
     """
     User Follow model Serializer

@@ -408,7 +408,7 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_collaborators(self, obj):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status', 'created_by')
-        if self.context['version']:
+        if self.context.get('version'):
             instances = obj.stream_collaborator_verified
         else:
             instances = obj.stream_collaborator
