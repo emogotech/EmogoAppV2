@@ -723,7 +723,7 @@ class UserDeviceTokenAPI(CreateAPIView):
     serializer_class = UserDeviceTokenSerializer
 
 
-    def create(self, request):
+    def create(self, request, *args, **kwargs):
         """
         if user enable notification then set device token in userdevice
         if disabled then set device token to NULL
