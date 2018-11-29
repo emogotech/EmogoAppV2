@@ -526,11 +526,13 @@ class RecentUpdatesAPI(ListAPIView):
         queryset = self.get_queryset()
         fields = (
         'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name')
+        'user_name','seen_index')
         page = self.paginate_queryset(queryset)
         if page is not None:
+            # serializer = self.get_serializer(queryset, many=True)
             serializer = self.get_serializer(queryset, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+        # serializer = self.get_serializer(queryset, many=True)
         serializer = self.get_serializer(queryset, many=True, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -567,7 +569,7 @@ class RecentUpdatesAPI(ListAPIView):
         # list all the objects of streams where the current user is as collaborator.
         user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active", type="Public")
         # list all the objects of active streams where the current user is as collaborator.
-
+        # import pdb; pdb.set_trace()
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
         content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago).select_related('stream', 'content')
         grouped = collections.defaultdict(list)
@@ -581,7 +583,7 @@ class RecentUpdatesAPI(ListAPIView):
         return return_list
 
 
-class RecentUpdatesDetialListAPI(ListAPIView):
+class RecentUpdatesDetailListAPI(ListAPIView):
     """"
     View to list all the recent updates of the logged in user.
     """
@@ -606,7 +608,9 @@ class RecentUpdatesDetialListAPI(ListAPIView):
         method if you want to apply the configured filtering backend to the
         default queryset.
         """
-        queryset = queryset.filter(stream=self.request.query_params.get('stream'))
+        today = datetime.date.today()
+        week_ago = today - datetime.timedelta(days=7)
+        queryset = queryset.filter(stream=self.request.query_params.get('stream'), user=self.request.query_params.get('user'), attached_date__gt=week_ago)
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset

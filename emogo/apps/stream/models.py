@@ -174,13 +174,12 @@ class ExtremistReport(DefaultDateModel):
         db_table = 'extremist_report'
 
 
-class RecentUpdates(DefaultStatusModel):
+class RecentUpdates(models.Model):
     """
     Recent update table model class.
     """
-    user = models.ForeignKey(User, blank=True, null=True)
-    stream_content = models.ForeignKey(StreamContent, null=True, blank=True, related_name='stream_content')
-    action_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, unique=True)
+    seen_index = models.IntegerField(null=True, blank=True)
 
     class Meta:
         db_table = 'recent_updates'

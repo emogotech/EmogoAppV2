@@ -611,8 +611,6 @@ class MoveContentToStreamSerializer(ContentSerializer):
         """
         # Create Stream and content
         obj , created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
-        # Add new row in recent updates table with respect to user
-        # RecentUpdates.objects.create(stream_content=obj, user=self.context.get('request').user)
 
         # Set True in have_some_update field, When user move content to stream
         stream.have_some_update = True
@@ -791,11 +789,12 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
     added_by_user_id = serializers.SerializerMethodField()
     user_profile_id = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
+    seen_index = serializers.SerializerMethodField()
 
     class Meta:
         model = StreamContent
         # model = StreamContent
-        fields = ('user_image','first_content_cover','stream_name','content_type','added_by_user_id','user_profile_id','user_name')
+        fields = ('user_image','first_content_cover','stream_name','content_type','added_by_user_id','user_profile_id','user_name','seen_index')
 
     def get_user_image(self, obj):
         return obj.user.user_data.user_image
@@ -819,6 +818,9 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
     def get_stream_name(self, obj):
         return obj.stream.name
 
+    def get_seen_index(self, obj):
+        # import pdb; pdb.set_trace()
+        return obj.user.recentupdates_set.all()[0].seen_index
 
 class AddBookmarkSerializer(DynamicFieldsModelSerializer):
     """
