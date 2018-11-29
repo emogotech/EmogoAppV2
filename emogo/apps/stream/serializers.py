@@ -15,6 +15,7 @@ import operator
 from django.db.models import Q, Count
 from itertools import product
 from emogo.apps.notification.views import NotificationAPI
+from django.db import IntegrityError
 
 
 
@@ -844,7 +845,7 @@ class AddBookmarkSerializer(DynamicFieldsModelSerializer):
 
 class BookmarkNewEmogosSerializer(serializers.ModelSerializer):
     """
-    Recent updates to Stream Serializer
+    Bookmark and New Emogos Serializer
     """
     class Meta:
         model = Stream
@@ -871,3 +872,19 @@ class StarredSerializer(serializers.ModelSerializer):
 
     def get_stream_image(self, obj):
         return obj.stream.image
+
+
+class SeenIndexSerializer(DynamicFieldsModelSerializer):
+    """
+    Seen index serializer class
+    """
+    class Meta:
+        model = RecentUpdates
+        fields = ['user', 'seen_index','stream']
+
+    def create(self, validated_data):
+        obj, created = RecentUpdates.objects.update_or_create(
+            user=self.validated_data.get('user'),
+            seen_index=self.validated_data.get('seen_index'),
+            stream=self.validated_data.get('stream'))
+        return obj

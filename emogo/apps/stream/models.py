@@ -178,7 +178,8 @@ class RecentUpdates(models.Model):
     """
     Recent update table model class.
     """
-    user = models.ForeignKey(User, unique=True)
+    user = models.ForeignKey(User,null=True, blank=True)
+    stream = models.ForeignKey(Stream, null=True, blank=True)
     seen_index = models.IntegerField(null=True, blank=True)
 
     class Meta:

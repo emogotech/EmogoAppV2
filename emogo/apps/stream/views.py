@@ -7,7 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
 from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream
-from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
+from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
     ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, AddBookmarkSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer
@@ -1269,3 +1269,25 @@ class NewEmogosAPI(ListAPIView):
             # Ensure queryset is re-evaluated on each request.
             queryset = current_user_streams | current_user_following_streams
         return queryset
+
+
+class SeenIndexAPI(CreateAPIView):
+    """
+    Add Bookmark CRUD API
+    """
+    serializer_class = SeenIndexSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        This function bookmark stream
+        """
+        serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
+        serializer.is_valid(raise_exception=True)
+        serializer.create(serializer)
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
