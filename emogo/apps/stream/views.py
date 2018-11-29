@@ -571,7 +571,7 @@ class RecentUpdatesAPI(ListAPIView):
         # list all the objects of active streams where the current user is as collaborator.
         # import pdb; pdb.set_trace()
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago).select_related('stream', 'content')
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False).select_related('stream', 'content')
         grouped = collections.defaultdict(list)
         for item in content_ids:
             grouped[item.stream].append(item)
