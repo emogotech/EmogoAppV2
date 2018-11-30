@@ -10,7 +10,7 @@ from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeS
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
-    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, AddBookmarkSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer
+    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -960,11 +960,11 @@ class ContentShareExtensionAPI(CreateAPIView):
         # return queryset
 
 
-class AddBookmarkAPI(CreateAPIView):
+class StarredStreamAPI(CreateAPIView, DestroyAPIView):
     """
     Add Bookmark CRUD API
     """
-    serializer_class = AddBookmarkSerializer
+    serializer_class = StarredStreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -980,6 +980,11 @@ class AddBookmarkAPI(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={})
 
 
 class BookmarkNewEmogosAPI(ListAPIView):
