@@ -571,13 +571,13 @@ class RecentUpdatesAPI(ListAPIView):
         # list all the objects of active streams where the current user is as collaborator.
         # import pdb; pdb.set_trace()
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False).select_related('stream', 'content')
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related('stream', 'content')
         grouped = collections.defaultdict(list)
         for item in content_ids:
-            grouped[item.stream].append(item)
+            grouped[item.thread].append(item)
 
         return_list = list()
-        for stream , group in grouped.items():
+        for thread , group in grouped.items():
             if group.__len__() > 0:
                 return_list.append(group[0])
         return return_list
@@ -960,7 +960,7 @@ class ContentShareExtensionAPI(CreateAPIView):
         # return queryset
 
 
-class AddBookmarkAPI(CreateAPIView):
+class AddBookmarkAPI(CreateAPIView, DestroyAPIView):
     """
     Add Bookmark CRUD API
     """
@@ -1273,7 +1273,7 @@ class NewEmogosAPI(ListAPIView):
 
 class SeenIndexAPI(CreateAPIView):
     """
-    Add Bookmark CRUD API
+    Seen index API for recent updates.
     """
     serializer_class = SeenIndexSerializer
     authentication_classes = (TokenAuthentication,)

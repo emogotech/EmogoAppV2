@@ -108,6 +108,7 @@ class StreamContent(models.Model):
     attached_date = models.DateTimeField(auto_now_add=True)
     order = models.IntegerField(default=0, blank=True, null=True)
     user = models.ForeignKey(User, blank=True, null=True)
+    thread = models.CharField(max_length=45, null=True, blank=True)
     objects = models.Manager()  # The default manager.
 
     class Meta:
@@ -178,8 +179,8 @@ class RecentUpdates(models.Model):
     """
     Recent update table model class.
     """
-    user = models.ForeignKey(User,null=True, blank=True)
     stream = models.ForeignKey(Stream, null=True, blank=True)
+    thread = models.CharField(max_length=45, null=True, blank=True)
     seen_index = models.IntegerField(null=True, blank=True)
 
     class Meta:

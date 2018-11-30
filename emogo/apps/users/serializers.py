@@ -599,14 +599,14 @@ class GetTopStreamSerializer(serializers.Serializer):
         # list all the objects of active streams where the current user is as collaborator.
 
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False).select_related(
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related(
             'stream', 'content')
 
         grouped = collections.defaultdict(list)
         for item in content_ids:
-            grouped[item.stream].append(item)
+            grouped[item.thread].append(item)
 
-        for stream, group in grouped.items():
+        for thread, group in grouped.items():
             if group.__len__() > 0:
                 result_list.append(group[0])
 

@@ -591,10 +591,17 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :param kwargs: validated data
         :return: save serializer data
         """
+        import string
+        import random
+
+        def random_generator(size=6, chars=string.ascii_uppercase + string.digits):
+            return ''.join(random.choice(chars) for x in range(size))
+        self.initial_data['thread'] = random_generator()
         self.initial_data['contents'].update(upd=datetime.datetime.now())
         for stream in self.initial_data.get('streams'):
             map(self.add_content_to_stream, self.initial_data.get('contents'),
                                 itertools.repeat(stream, self.initial_data.get('contents').__len__()))
+
             if self.context['version']:
                 collab_list = stream.collaborator_list.filter(status= 'Active')
                 for collab in collab_list.exclude(phone_number = self.context.get('request').user.username):
@@ -611,9 +618,12 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :return: Function add content to stream
         """
         # Create Stream and content
-        obj , created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
 
+        obj , created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
         # Set True in have_some_update field, When user move content to stream
+        obj.thread = self.initial_data.get("thread")
+        obj.save()
+
         stream.have_some_update = True
         stream.save()
         return self.initial_data['contents']
@@ -820,12 +830,12 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.stream.name
 
     def get_seen_index(self, obj):
-        # import pdb; pdb.set_trace()
         return obj.user.recentupdates_set.all()[0].seen_index
+
 
 class AddBookmarkSerializer(DynamicFieldsModelSerializer):
     """
-    Stream Bookmarked serializer class
+    Stream Bookmark serializer class.
     """
     user = serializers.CharField(read_only=True)
 
@@ -833,15 +843,12 @@ class AddBookmarkSerializer(DynamicFieldsModelSerializer):
         model = StarredStream
         fields = ['user', 'stream', 'status']
 
-    # def get_total_liked(self, obj):
-    #     return StarredStream.objects.filter(status=1, content=obj.get('content'))
-
     def create(self, validated_data):
-        # import pdb; pdb.set_trace()
         obj, created = StarredStream.objects.update_or_create(
             stream=self.validated_data.get('stream'),
             user=self.context.get('request').user)
         return obj
+
 
 class BookmarkNewEmogosSerializer(serializers.ModelSerializer):
     """
@@ -880,11 +887,11 @@ class SeenIndexSerializer(DynamicFieldsModelSerializer):
     """
     class Meta:
         model = RecentUpdates
-        fields = ['user', 'seen_index','stream']
+        fields = [ 'thread','seen_index','stream']
 
     def create(self, validated_data):
         obj, created = RecentUpdates.objects.update_or_create(
-            user=self.validated_data.get('user'),
+            thread=self.validated_data.get('thread'),
             seen_index=self.validated_data.get('seen_index'),
             stream=self.validated_data.get('stream'))
         return obj
