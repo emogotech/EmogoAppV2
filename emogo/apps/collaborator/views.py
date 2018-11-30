@@ -46,10 +46,11 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
             collab.update(status='Active')
             if kwargs['version']:
                 obj = Notification.objects.filter(id = request.data.get('notification_id'))
-                obj.update(notification_type = 'joined')
-                NotificationAPI().initialize_notification(obj)
-                NotificationAPI().send_notification(self.request.user, obj[0].from_user, 'accepted', stream)
                 if obj.__len__() > 0:
+                    if not (obj[0].notification_type == 'deleted_collaborator' or obj[0].notification_type == 'deleted_stream' ):
+                        obj.update(notification_type = 'joined')
+                        NotificationAPI().initialize_notification(obj)
+                        NotificationAPI().send_notification(self.request.user, obj[0].from_user, 'accepted', stream)
                     serializer = self.get_serializer(obj[0], context=self.request)
                     return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
             # To return accpted
@@ -68,17 +69,20 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
             stream = Stream.objects.get(id=request.data.get('stream'))
             Collaborator.objects.filter(stream=stream, phone_number=request.user.username).update(status='Deleted')
             obj = Notification.objects.filter(id = request.data.get('notification_id'))
-            obj[0].delete()
-            declined_obj = NotificationAPI().create_notification(self.request.user, self.request.user, 'decline', stream)
+            if obj.__len__() > 0:
+                if not (obj[0].notification_type == 'deleted_collaborator' or obj[0].notification_type == 'deleted_stream' ):
+                    obj[0].delete()
+                    declined_obj = NotificationAPI().create_notification(self.request.user, self.request.user, 'decline', stream)
 
-            # message = 'You declined to join {0}'.format(stream.name)
-            collab = Collaborator.objects.filter(
-                stream=stream).filter(status='Active')
+                    # message = 'You declined to join {0}'.format(stream.name)
+                    collab = Collaborator.objects.filter(
+                        stream=stream).filter(status='Active')
 
-            if kwargs['version'] and collab.__len__() == 1:
-                collab.filter(phone_number=stream.created_by.username,
-                              created_by=stream.created_by).update(status='Unverified')
-            
+                    if kwargs['version'] and collab.__len__() == 1:
+                        collab.filter(phone_number=stream.created_by.username,
+                                      created_by=stream.created_by).update(status='Unverified')
+                else:
+                    declined_obj = obj[0]
             if declined_obj:
                 serializer = self.get_serializer(declined_obj, context=self.request)
                 return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
@@ -111,7 +115,7 @@ class StreamCollaboratorsAPI(ListAPIView):
         list_of_pending_instances = stream_serializer.get_collab_data(obj, obj.collaborator_list.filter(status='Unverified'))
 
         self.serializer_class = ViewCollaboratorSerializer
-        collab_fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status')
+        collab_fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status', 'created_by')
         active_collab_serializer = self.get_serializer(list_of_active_instances, many=True, fields=collab_fields)
         pending_collab_serializer = self.get_serializer(list_of_pending_instances, many=True, fields=collab_fields)
         
@@ -137,10 +141,17 @@ class CollaboratorDeletionAPI(DestroyAPIView):
         :return: Hard Delete collaborator
         """
         collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
+        stream_id = collaborator.stream.id
         collab_user = User.objects.filter(username = collaborator.phone_number)
         if collab_user.__len__():
             noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = collaborator.stream, from_user = self.request.user, to_user = collab_user[0] )
             if noti.__len__() > 0 :
-                noti[0].delete()
+                noti.update(notification_type = 'deleted_collaborator')
         collaborator.delete()
+        stream = Stream.objects.filter(id =stream_id)
+        if stream.__len__() > 0:
+            if stream[0].collaborator_list.count() == 1:
+                collab = Collaborator.objects.filter(stream=stream[0]).filter(
+                    phone_number=stream[0].created_by.username, created_by=stream[0].created_by)
+                collab.delete()
         return custom_render_response(status_code=status.HTTP_200_OK)

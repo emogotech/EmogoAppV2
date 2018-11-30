@@ -17,6 +17,8 @@ NOTIFICATION_TYPE = (
     ('add_content', '{0} added to {1}'),
     ('self', 'You saved {0} items'),
     ('decline', 'You declined to join {0}'),
+    ('deleted_collaborator', 'This collaboration does not exists anymore'),
+    ('deleted_stream', 'This {0} does not exists anymore'),
 )
 
 class Notification(DefaultDateModel):
@@ -28,6 +30,7 @@ class Notification(DefaultDateModel):
     content_lists = models.TextField(null=True, blank=True)
     content_count = models.IntegerField(default=0, blank=True, null=True)
     is_open = models.BooleanField(default=True)
+    objects = models.Manager()  # The default manager.
 
     class Meta:
         db_table = 'notification'
