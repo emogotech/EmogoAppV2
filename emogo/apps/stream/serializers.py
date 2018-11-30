@@ -822,7 +822,8 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         # import pdb; pdb.set_trace()
         return obj.user.recentupdates_set.all()[0].seen_index
 
-class AddBookmarkSerializer(DynamicFieldsModelSerializer):
+
+class StarredStreamSerializer(DynamicFieldsModelSerializer):
     """
     Stream Bookmarked serializer class
     """
@@ -841,6 +842,7 @@ class AddBookmarkSerializer(DynamicFieldsModelSerializer):
             stream=self.validated_data.get('stream'),
             user=self.context.get('request').user)
         return obj
+
 
 class BookmarkNewEmogosSerializer(serializers.ModelSerializer):
     """
