@@ -24,11 +24,12 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
     confirmation_status = serializers.SerializerMethodField()
     is_follower  = serializers.SerializerMethodField()
     is_following  = serializers.SerializerMethodField()
+    is_click  = serializers.SerializerMethodField()
 
     class Meta:
         model = Notification
         fields = ['id', 'notification_type', 'message', 'upd',
-                  'confirmation_status', 'is_follower', 'is_following', 'sender_user', 'stream', 'content', 'content_list']
+                  'confirmation_status', 'is_follower', 'is_following', 'sender_user', 'stream', 'content', 'content_list', 'is_click']
 
     def get_message(self, obj):
         from views import NotificationAPI
@@ -90,3 +91,13 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
             ).order_by('order', '-crd')
             instances =  queryset.filter(id__in = eval(obj.content_lists) )
             return ViewContentSerializer([x for x in instances], many=True, fields=fields, context=self.context).data
+
+    def get_is_click(self, obj):
+        if obj.notification_type == 'liked_emogo':
+            return False if obj.stream.status == 'Inactive' else True
+        elif obj.notification_type == 'joined' and obj.stream.type == 'Private':
+            collab_list = obj.stream.collaborator_list.filter(phone_number=self.context.get('request').user)
+            return True if collab_list.__len__() > 0 else False
+        return True
+
+            
