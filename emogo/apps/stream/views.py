@@ -230,7 +230,7 @@ class DeleteStreamContentInBulkAPI(APIView):
     def get_object(self):
         return get_object_or_404(Stream, pk=self.kwargs.get('pk'))
 
-    def post(self, request, version, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: Contents as list data
@@ -254,7 +254,7 @@ class CopyContentAPI(APIView):
     def get_object(self):
         return get_object_or_404(Content.actives, pk=self.request.data.get('content_id'))
 
-    def post(self, request, version, *args, **kwargs):
+    def post(self, request,  *args, **kwargs):
         """
         :param request: The request data
         :param args: None
@@ -494,7 +494,7 @@ class DeleteContentInBulk(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request, version):
+    def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
         """
@@ -642,7 +642,7 @@ class MoveContentToStream(APIView):
     def get_serializer_context(self):
         return {'request': self.request, 'version': self.kwargs['version']}
 
-    def post(self, request, version):
+    def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
         """
@@ -665,7 +665,7 @@ class ReorderStreamContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request, version):
+    def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
         """
@@ -688,7 +688,7 @@ class ReorderContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request, version):
+    def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
         """
