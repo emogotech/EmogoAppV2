@@ -10,7 +10,7 @@ from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeS
 from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
-    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, AddBookmarkSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer
+    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -230,7 +230,7 @@ class DeleteStreamContentInBulkAPI(APIView):
     def get_object(self):
         return get_object_or_404(Stream, pk=self.kwargs.get('pk'))
 
-    def post(self, request, version, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         """
         :param request: The request data
         :param args: Contents as list data
@@ -254,7 +254,7 @@ class CopyContentAPI(APIView):
     def get_object(self):
         return get_object_or_404(Content.actives, pk=self.request.data.get('content_id'))
 
-    def post(self, request, version, *args, **kwargs):
+    def post(self, request,  *args, **kwargs):
         """
         :param request: The request data
         :param args: None
@@ -494,7 +494,7 @@ class DeleteContentInBulk(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request, version):
+    def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
         """
@@ -642,7 +642,7 @@ class MoveContentToStream(APIView):
     def get_serializer_context(self):
         return {'request': self.request, 'version': self.kwargs['version']}
 
-    def post(self, request, version):
+    def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
         """
@@ -665,7 +665,7 @@ class ReorderStreamContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request, version):
+    def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
         """
@@ -688,7 +688,7 @@ class ReorderContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request, version):
+    def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
         """
@@ -960,11 +960,11 @@ class ContentShareExtensionAPI(CreateAPIView):
         # return queryset
 
 
-class AddBookmarkAPI(CreateAPIView, DestroyAPIView):
+class StarredStreamAPI(CreateAPIView, DestroyAPIView):
     """
     Add Bookmark CRUD API
     """
-    serializer_class = AddBookmarkSerializer
+    serializer_class = StarredStreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -980,6 +980,11 @@ class AddBookmarkAPI(CreateAPIView, DestroyAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={})
 
 
 class BookmarkNewEmogosAPI(ListAPIView):

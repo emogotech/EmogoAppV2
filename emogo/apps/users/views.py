@@ -675,7 +675,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         serializer.is_valid(raise_exception=True)
         # To return created stream data
         self.perform_create(serializer)
-        if version:
+        if kwargs.get('version'):
             to_user = User.objects.get(id = self.request.data.get('following'))
             NotificationAPI().send_notification(self.request.user, to_user, 'follower')
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
@@ -705,7 +705,7 @@ class CheckContactInEmogo(APIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CheckContactInEmogoSerializer
 
-    def post(self, request, version):
+    def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             data = serializer.find_contact_list()
@@ -723,7 +723,7 @@ class UserDeviceTokenAPI(CreateAPIView):
     serializer_class = UserDeviceTokenSerializer
 
 
-    def create(self, request):
+    def create(self, request, *args, **kwargs):
         """
         if user enable notification then set device token in userdevice
         if disabled then set device token to NULL

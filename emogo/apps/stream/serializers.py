@@ -833,7 +833,8 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.user.recentupdates_set.all()[0].seen_index
 
 
-class AddBookmarkSerializer(DynamicFieldsModelSerializer):
+class StarredStreamSerializer(DynamicFieldsModelSerializer):
+
     """
     Stream Bookmark serializer class.
     """
