@@ -15,6 +15,7 @@ import operator
 from django.db.models import Q, Count
 from itertools import product
 from emogo.apps.notification.views import NotificationAPI
+from django.db import IntegrityError
 
 
 
@@ -284,6 +285,7 @@ class ViewStreamSerializer(StreamSerializer):
     stream_contents = serializers.SerializerMethodField()
     collab_images = serializers.SerializerMethodField()
     total_stream_collaborators = serializers.SerializerMethodField()
+    is_bookmarked = serializers.SerializerMethodField()
 
     def get_total_stream_collaborators(self, obj):
         try:
@@ -466,6 +468,10 @@ class ViewStreamSerializer(StreamSerializer):
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
 
+    def get_is_bookmarked(self, obj):
+        return True if obj.total_starred_stream_data.__len__() > 0 else False 
+        
+
 class ContentListSerializer(serializers.ListSerializer):
     """
     Content list Serializer
@@ -593,10 +599,17 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :param kwargs: validated data
         :return: save serializer data
         """
+        import string
+        import random
+
+        def random_generator(size=6, chars=string.ascii_uppercase + string.digits):
+            return ''.join(random.choice(chars) for x in range(size))
+        self.initial_data['thread'] = random_generator()
         self.initial_data['contents'].update(upd=datetime.datetime.now())
         for stream in self.initial_data.get('streams'):
             map(self.add_content_to_stream, self.initial_data.get('contents'),
                                 itertools.repeat(stream, self.initial_data.get('contents').__len__()))
+
             if self.context['version']:
                 collab_list = stream.collaborator_list.filter(status= 'Active')
                 for collab in collab_list.exclude(phone_number = self.context.get('request').user.username):
@@ -613,9 +626,12 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :return: Function add content to stream
         """
         # Create Stream and content
-        obj , created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
 
+        obj , created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
         # Set True in have_some_update field, When user move content to stream
+        obj.thread = self.initial_data.get("thread")
+        obj.save()
+
         stream.have_some_update = True
         stream.save()
         return self.initial_data['contents']
@@ -822,13 +838,13 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.stream.name
 
     def get_seen_index(self, obj):
-        # import pdb; pdb.set_trace()
         return obj.user.recentupdates_set.all()[0].seen_index
 
 
 class StarredStreamSerializer(DynamicFieldsModelSerializer):
+
     """
-    Stream Bookmarked serializer class
+    Stream Bookmark serializer class.
     """
     user = serializers.CharField(read_only=True)
 
@@ -836,11 +852,7 @@ class StarredStreamSerializer(DynamicFieldsModelSerializer):
         model = StarredStream
         fields = ['user', 'stream', 'status']
 
-    # def get_total_liked(self, obj):
-    #     return StarredStream.objects.filter(status=1, content=obj.get('content'))
-
     def create(self, validated_data):
-        # import pdb; pdb.set_trace()
         obj, created = StarredStream.objects.update_or_create(
             stream=self.validated_data.get('stream'),
             user=self.context.get('request').user)
@@ -849,7 +861,7 @@ class StarredStreamSerializer(DynamicFieldsModelSerializer):
 
 class BookmarkNewEmogosSerializer(serializers.ModelSerializer):
     """
-    Recent updates to Stream Serializer
+    Bookmark and New Emogos Serializer
     """
     class Meta:
         model = Stream
@@ -876,3 +888,19 @@ class StarredSerializer(serializers.ModelSerializer):
 
     def get_stream_image(self, obj):
         return obj.stream.image
+
+
+class SeenIndexSerializer(DynamicFieldsModelSerializer):
+    """
+    Seen index serializer class
+    """
+    class Meta:
+        model = RecentUpdates
+        fields = [ 'thread','seen_index','stream']
+
+    def create(self, validated_data):
+        obj, created = RecentUpdates.objects.update_or_create(
+            thread=self.validated_data.get('thread'),
+            seen_index=self.validated_data.get('seen_index'),
+            stream=self.validated_data.get('stream'))
+        return obj

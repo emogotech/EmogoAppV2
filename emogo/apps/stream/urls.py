@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^content/share_extension', views.ContentShareExtensionAPI.as_view()),
     url(r'^recent_updates/$', views.RecentUpdatesAPI.as_view()),
     url(r'^recent_updates_detail/$', views.RecentUpdatesDetailListAPI.as_view()),
+    url(r'^seen_index/$', views.SeenIndexAPI.as_view()),
     url(r'^starred_streams', views.StarredAPI.as_view()),
     url(r'^bookmarks/$', views.StarredStreamAPI.as_view()),# don't make a name starts with stream
     url(r'^bookmarks_and_new_emogos/$', views.BookmarkNewEmogosAPI.as_view()),

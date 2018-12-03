@@ -454,7 +454,12 @@ class GetTopStreamSerializer(serializers.Serializer):
             'stream_user_view_status',
             queryset=StreamUserViewStatus.objects.all(),
             to_attr='total_view_count'
-        )
+        ),
+        Prefetch(
+                'stream_starred',
+                queryset=StarredStream.objects.all().select_related('user'),
+                to_attr='total_starred_stream_data'
+            ),
     ).order_by('-id')
 
     featured = serializers.SerializerMethodField()
@@ -471,7 +476,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     collaborator_qs = Collaborator.actives.all().select_related('stream')
 
     def use_fields(self):
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
         return fields
 
     def get_serializer_context(self):
@@ -598,14 +603,14 @@ class GetTopStreamSerializer(serializers.Serializer):
         # list all the objects of active streams where the current user is as collaborator.
 
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False).select_related(
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related(
             'stream', 'content')
 
         grouped = collections.defaultdict(list)
         for item in content_ids:
-            grouped[item.stream].append(item)
+            grouped[item.thread].append(item)
 
-        for stream, group in grouped.items():
+        for thread, group in grouped.items():
             if group.__len__() > 0:
                 result_list.append(group[0])
 

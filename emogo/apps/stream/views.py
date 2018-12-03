@@ -7,7 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
 from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream
-from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
+from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
     ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer
@@ -73,6 +73,11 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                 ),
                 to_attr='total_like_dislike_data'
             ),
+            Prefetch(
+                'stream_starred',
+                queryset=StarredStream.objects.all().select_related('user'),
+                to_attr='total_starred_stream_data'
+            ),
         ).order_by('-stream_view_count')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -107,7 +112,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = ViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
         if current_url == 'stream_collaborator':
             user_data = User.objects.filter(username__in=[x.phone_number for x in instance.stream_collaborator]).values('username','user_data__user_image')
             self.request.data.update({'collab_user_image': user_data})
@@ -126,7 +131,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                   'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission',
                   'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
                   'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
-                  'user_liked', 'collab_images', 'total_stream_collaborators']
+                  'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)
@@ -170,7 +175,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.perform_update(serializer)
         instance = self.get_object()
         self.serializer_class = ViewStreamSerializer
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators']
+        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(instance, context=self.request, fields=fields)
@@ -571,13 +576,13 @@ class RecentUpdatesAPI(ListAPIView):
         # list all the objects of active streams where the current user is as collaborator.
         # import pdb; pdb.set_trace()
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False).select_related('stream', 'content')
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related('stream', 'content')
         grouped = collections.defaultdict(list)
         for item in content_ids:
-            grouped[item.stream].append(item)
+            grouped[item.thread].append(item)
 
         return_list = list()
-        for stream , group in grouped.items():
+        for thread , group in grouped.items():
             if group.__len__() > 0:
                 return_list.append(group[0])
         return return_list
@@ -1274,3 +1279,25 @@ class NewEmogosAPI(ListAPIView):
             # Ensure queryset is re-evaluated on each request.
             queryset = current_user_streams | current_user_following_streams
         return queryset
+
+
+class SeenIndexAPI(CreateAPIView):
+    """
+    Seen index API for recent updates.
+    """
+    serializer_class = SeenIndexSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        This function bookmark stream
+        """
+        serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
+        serializer.is_valid(raise_exception=True)
+        serializer.create(serializer)
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
