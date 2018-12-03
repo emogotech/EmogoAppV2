@@ -580,7 +580,13 @@ class UserCollaborators(ListAPIView):
             'stream_like_dislike_status',
             queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
             to_attr='total_like_dislike_data'
-        )).order_by('-id')
+        ),
+        Prefetch(
+            'stream_starred',
+            queryset=StarredStream.objects.all().select_related('user'),
+            to_attr='total_starred_stream_data'
+        ),
+        ).order_by('-id')
         return queryset
 
     def list(self, request, *args, **kwargs):
@@ -594,7 +600,7 @@ class UserCollaborators(ListAPIView):
         queryset =  self.get_queryset().filter(id__in=stream_ids).order_by('-upd')
 
         #  Customized field list
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators']
+        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)

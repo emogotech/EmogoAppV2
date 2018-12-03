@@ -73,6 +73,11 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                 ),
                 to_attr='total_like_dislike_data'
             ),
+            Prefetch(
+                'stream_starred',
+                queryset=StarredStream.objects.all().select_related('user'),
+                to_attr='total_starred_stream_data'
+            ),
         ).order_by('-stream_view_count')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -107,7 +112,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = ViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
         if current_url == 'stream_collaborator':
             user_data = User.objects.filter(username__in=[x.phone_number for x in instance.stream_collaborator]).values('username','user_data__user_image')
             self.request.data.update({'collab_user_image': user_data})
@@ -126,7 +131,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                   'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission',
                   'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
                   'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
-                  'user_liked', 'collab_images', 'total_stream_collaborators']
+                  'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)
@@ -170,7 +175,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.perform_update(serializer)
         instance = self.get_object()
         self.serializer_class = ViewStreamSerializer
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators']
+        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(instance, context=self.request, fields=fields)
