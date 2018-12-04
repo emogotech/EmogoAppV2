@@ -908,6 +908,14 @@ class IncreaseStreamViewCount(CreateAPIView):
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
 
+class TestUrlAPI(APIView):
+
+    def get(self, request, format=None):
+        """
+        Test class only
+        """
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data={"key":"Ranjeet"})
+
 class ContentInBulkAPI(ContentAPI):
     """
     Get Contents in bulk
