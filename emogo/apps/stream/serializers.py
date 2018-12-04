@@ -809,12 +809,10 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = StreamContent
-        # model = StreamContent
-        fields = ('user_image','first_content_cover','stream_name','content_type','added_by_user_id','user_profile_id','user_name','seen_index')
+        fields = ('user_image','first_content_cover','stream_name','content_type','added_by_user_id','user_profile_id','user_name','seen_index','thread')
 
     def get_user_image(self, obj):
         return obj.user.user_data.user_image
-        # return obj.user.user_data.user_image
 
     def get_first_content_cover(self, obj):
         return obj.content.url
@@ -835,7 +833,7 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.stream.name
 
     def get_seen_index(self, obj):
-        return obj.user.recentupdates_set.all()[0].seen_index
+        return obj.stream.recentupdates_set.all()[0].seen_index
 
 
 class StarredStreamSerializer(DynamicFieldsModelSerializer):

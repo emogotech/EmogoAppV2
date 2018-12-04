@@ -11,7 +11,6 @@ class Command(BaseCommand):
         # Get all Streams data
         streams = Stream.objects.all()
         for stream in streams:
-          # import /pdb; pdb.set_trace()
           # Check Owner is present or stream have any collabrators or not.
           if stream.collaborator_list.all().__len__() > 0 and stream.created_by.username not in map(lambda x: x.phone_number, stream.collaborator_list.all()) :
             #Find user instance by stream created_by

@@ -586,7 +586,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         result_list = list()
         fields = (
             'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-            'user_name')
+            'user_name','thread')
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
         current_user_streams = Stream.objects.filter(created_by=self.context.get('request').user, status='Active', type="Public")
@@ -649,8 +649,9 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
         users = User.objects.all().values_list('username', flat=True)
         # Find User profile for contact list
         fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name')
-        return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username = contact), fields=fields, context=self.context).data 
-                    if contact in users else False) for contact in self.validated_data.get('contact_list') }
+        return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username=contact), fields=fields, context=self.context).data
+                    if contact in users else False) for contact in self.validated_data.get('contact_list')}
+
 
 class UserDeviceTokenSerializer(serializers.Serializer):
 
