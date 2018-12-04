@@ -44,15 +44,15 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
 
     def get_added_by_me(self, obj):
         if self.context['request'].user == obj.created_by:
-            return True
+            collb =  Collaborator.objects.filter(phone_number = self.context['request'].user.username, stream=obj.stream)
+            if collb.__len__() > 0:
+                return True
+            else:
+                return False
         else:
             return False
 
     def get_user_image(self, obj):
-        # if self.context.get('request').data.get('collab_user_image') is not None:
-        #     for x in self.context.get('request').data.get('collab_user_image'):
-        #         if x.get('username') == obj.phone_number:
-        #             return x.get('user_data__user_image')
         return obj.user_image
 
     def get_user_profile_id(self, obj):

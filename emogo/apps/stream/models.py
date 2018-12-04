@@ -107,6 +107,8 @@ class StreamContent(models.Model):
     content = models.ForeignKey(Content, related_name='content_streams')
     attached_date = models.DateTimeField(auto_now_add=True)
     order = models.IntegerField(default=0, blank=True, null=True)
+    user = models.ForeignKey(User, blank=True, null=True)
+    thread = models.CharField(max_length=45, null=True, blank=True)
     objects = models.Manager()  # The default manager.
 
     class Meta:
@@ -155,7 +157,6 @@ class Tags(DefaultStatusModel):
     event_id = models.IntegerField(null=True, blank=True)
     event_type = models.CharField(max_length=10, choices=EVENT_TYPE, default=EVENT_TYPE[0][0])
     created_by = models.ForeignKey(User, null=True, blank=True)
-
     class Meta:
         db_table = 'tags'
 
@@ -172,3 +173,27 @@ class ExtremistReport(DefaultDateModel):
 
     class Meta:
         db_table = 'extremist_report'
+
+
+class RecentUpdates(models.Model):
+    """
+    Recent update table model class.
+    """
+    stream = models.ForeignKey(Stream, null=True, blank=True)
+    thread = models.CharField(max_length=45, null=True, blank=True)
+    seen_index = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'recent_updates'
+
+
+class StarredStream(DefaultStatusModel):
+    user = models.ForeignKey(User, blank=True, null=True)
+    stream = models.ForeignKey(Stream, related_name='stream_starred')
+    view_date = models.DateTimeField(auto_now_add=True)
+    crd = None  # Made parent field as None.
+    upd = None
+    objects = models.Manager()  # The default manager.
+
+    class Meta:
+        db_table = 'starred_stream';

@@ -5,19 +5,22 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from emogo import settings
-from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url, UserFollow
+from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url, UserFollow, UserDevice
 from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
 from emogo.apps.stream.serializers import ViewStreamSerializer, ViewContentSerializer
 from emogo.apps.stream.models import Stream, LikeDislikeStream, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
-    LikeDislikeContent
+    LikeDislikeContent, StarredStream
 from emogo.apps.collaborator.models import Collaborator
 from itertools import chain
 from django.db import IntegrityError
 from emogo.lib.helpers.utils import generate_pin, send_otp
 from emogo.apps.stream.views import get_stream_qs_objects
 from django.db.models import Prefetch, Count
+import collections
+from emogo.apps.stream.serializers import RecentUpdatesSerializer
+
 
 
 class UserSerializer(DynamicFieldsModelSerializer):
@@ -183,14 +186,20 @@ class UserDetailSerializer(UserProfileSerializer):
             return self.context.user
 
     def get_profile_stream(self, obj):
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
 
         if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
-            setattr(obj.profile_stream, 'stream_collaborator', obj.profile_stream.profile_stream_collaborator_list)
+            if self.context['version']:
+                collaborator_list =  obj.profile_stream.profile_stream_collaborator_verified
+                setattr(obj.profile_stream, 'stream_collaborator_verified', collaborator_list)
+            else:
+                collaborator_list =  obj.profile_stream.profile_stream_collaborator_list
+             
+            setattr(obj.profile_stream, 'stream_collaborator', collaborator_list)
             setattr(obj.profile_stream, 'content_list', obj.profile_stream.profile_stream_content_list)
 
             if obj.profile_stream.type == 'Private' and obj.profile_stream.created_by != self.get_user_instance():
-                if self.get_user_instance().username in [x.phone_number for x in obj.profile_stream.profile_stream_collaborator_list]:
+                if self.get_user_instance().username in [x.phone_number for x in collaborator_list]:
                     return ViewStreamSerializer(obj.profile_stream, fields=fields, context = self.context).data
                 return dict()
             else:
@@ -314,9 +323,6 @@ class UserLoginSerializer(UserSerializer):
             user_profile = UserProfile.objects.get(user=user, otp__isnull=True)
             body = "Here is your emogo one time passcode"
             sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
-
-            # print sent_otp
-            # sent_otp = 12345
             if sent_otp is not None:
                 setattr(self, 'user_pin', sent_otp)
             else:
@@ -428,6 +434,11 @@ class GetTopStreamSerializer(serializers.Serializer):
             to_attr='stream_collaborator'
         ),
         Prefetch(
+            'collaborator_list',
+            queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+            to_attr='stream_collaborator_verified'
+        ),
+        Prefetch(
                 'stream_like_dislike_status',
                 queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
                         Prefetch(
@@ -443,7 +454,12 @@ class GetTopStreamSerializer(serializers.Serializer):
             'stream_user_view_status',
             queryset=StreamUserViewStatus.objects.all(),
             to_attr='total_view_count'
-        )
+        ),
+        Prefetch(
+                'stream_starred',
+                queryset=StarredStream.objects.all().select_related('user'),
+                to_attr='total_starred_stream_data'
+            ),
     ).order_by('-id')
 
     featured = serializers.SerializerMethodField()
@@ -454,24 +470,27 @@ class GetTopStreamSerializer(serializers.Serializer):
     following_stream = serializers.SerializerMethodField()
     private_stream = serializers.SerializerMethodField()
     public_stream = serializers.SerializerMethodField()
+    new_emogo_stream = serializers.SerializerMethodField()
+    bookmarked_stream = serializers.SerializerMethodField()
+    recent_update = serializers.SerializerMethodField()
     collaborator_qs = Collaborator.actives.all().select_related('stream')
 
     def use_fields(self):
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
         return fields
 
     def get_serializer_context(self):
         #  Modify the context parameter, pass the request params in context for viewstreamserializer
-        return {'request': self.context}
+        return self.context
 
 
     def get_featured(self, obj):
         qs = self.qs.filter(featured=True).order_by('-stream_view_count')
-        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields(), context = self.get_serializer_context()).data }
+        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields(), context = self.context).data }
 
     def get_emogo(self, obj):
         qs = self.qs.filter(emogo=True)
-        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields(), context = self.get_serializer_context()).data }
+        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields(), context = self.context).data }
 
     def get_popular(self, obj):
         # Get self created streams
@@ -490,54 +509,116 @@ class GetTopStreamSerializer(serializers.Serializer):
             total = owner_qs.count()
             result_list = owner_qs[0:10]
 
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.get_serializer_context()).data}
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.context).data}
 
     def get_people(self, obj):
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name', 'user_id')
-        qs = UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')
+        qs = UserProfile.actives.all().exclude(user=self.context.get('request').user).order_by('full_name').select_related('user')
         return {"total": qs.count(), "data": UserDetailSerializer(qs[0:10], many=True, fields=fields,
                                     context=self.context).data}
 
     def get_liked(self, obj):
-        stream_ids_list = LikeDislikeStream.objects.filter(user=self.context.user, status=1).values_list('stream',
-                                                                                                         flat=True)
+
+        stream_ids_list = LikeDislikeStream.objects.filter(user=self.context.get('request').user, status=1).values_list('stream', flat=True)
         result_list = self.qs.filter(id__in=stream_ids_list).order_by('-upd')
         total = result_list.count()
         result_list = result_list[0:10]
-
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.get_serializer_context()).data }
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.context).data }
 
     def get_following_stream(self, obj):
         # 1. Get user as collaborator in streams created by following's
-        stream_ids = Collaborator.actives.filter(phone_number=self.context.user.username, stream__status='Active',
-                                                 stream__type='Private', created_by_id__in=UserFollow.objects.filter(
-                follower=self.context.user).values_list('following_id', flat=True)).values_list(
-            'stream', flat=True)
+        stream_ids = Collaborator.actives.filter(phone_number=self.context.get('request').user.username, stream__status='Active', stream__type='Private', created_by_id__in=UserFollow.objects.filter(follower=self.context.get('request').user).values_list('following_id', flat=True)).values_list('stream', flat=True)
 
         # 2. Fetch stream Queryset objects.
         stream_as_collabs = self.qs.filter(id__in=stream_ids)
 
         # 3. Get main stream created by requested user and stream type is Public.
-        main_qs = self.qs.filter(created_by__in=UserFollow.objects.filter(follower=self.context.user).values_list('following_id', flat=True), type='Public')
+        main_qs = self.qs.filter(created_by__in=UserFollow.objects.filter(follower=self.context.get('request').user).values_list('following_id', flat=True), type='Public')
         result_list = main_qs | stream_as_collabs
         total = result_list.count()
         result_list = result_list.order_by('-upd')[0:10]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.get_serializer_context()).data }
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.context).data }
     
     ## Added Private stream 
     def get_private_stream(self, obj):
-        result_list = self.qs.filter(created_by__id=self.context.user.id, type='Private').order_by('-upd')
+        result_list = self.qs.filter(created_by__id=self.context.get('request').user.id, type='Private').order_by('-upd')
         total = result_list.count()
         result_list = result_list[0:10]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.get_serializer_context()).data }
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.context).data }
     
     ## Added Public stream 
     def get_public_stream(self, obj):
-        result_list = self.qs.filter(created_by__id=self.context.user.id, type='Public').order_by('-upd')
+        result_list = self.qs.filter(created_by__id=self.context.get('request').user.id, type='Public').order_by('-upd')
         total = result_list.count()
         result_list = result_list[0:10]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.get_serializer_context()).data }
-    
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.context).data }
+
+    ## Added Public stream
+    def get_new_emogo_stream(self, obj):
+        import datetime
+        today = datetime.date.today()
+        week_ago = today - datetime.timedelta(days=7)
+        current_user_streams = self.qs.filter(created_by=self.context.get('request').user, status='Active', crd__gt=week_ago)
+        # list all the objects of streams created by current user
+        following = UserFollow.objects.filter(follower=self.context.get('request').user).values_list('following', flat=True)
+        current_user_following_streams = self.qs.filter(created_by_id__in=following, type='Public',
+                                                         status='Active', crd__gt=week_ago)
+
+        result_list = current_user_streams | current_user_following_streams
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(),
+                                                             context=self.context).data}
+
+    ## Added Public stream
+    def get_bookmarked_stream(self, obj):
+        user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream')
+        result_list = self.qs.filter(id__in=[x.stream.id for x in user_bookmarks])
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(),
+                                                                     context=self.context).data}
+
+    ## Added Public stream
+    def get_recent_update(self, obj):
+        import datetime
+        result_list = list()
+        fields = (
+            'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
+            'user_name')
+        today = datetime.date.today()
+        week_ago = today - datetime.timedelta(days=7)
+        current_user_streams = Stream.objects.filter(created_by=self.context.get('request').user, status='Active', type="Public")
+        # list all the objects of active streams created by logged in user.
+        following = UserFollow.objects.filter(follower=self.context.get('request').user).values_list('following', flat=True)
+        # list all the objects of users whom logged in user is following.
+        all_following_public_streams = Stream.objects.filter(created_by_id__in=following, status="Active",
+                                                             type="Public")
+        # list all the objects of streams created by users followed by current user
+        user_as_collaborator_streams = Collaborator.objects.filter(phone_number=self.context.get('request').user.username).values_list(
+            'stream_id', flat=True)
+        # list all the objects of streams where the current user is as collaborator.
+        user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams,
+                                                                    status="Active", type="Public")
+        # list all the objects of active streams where the current user is as collaborator.
+
+        all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related(
+            'stream', 'content')
+
+        grouped = collections.defaultdict(list)
+        for item in content_ids:
+            grouped[item.thread].append(item)
+
+        for thread, group in grouped.items():
+            if group.__len__() > 0:
+                result_list.append(group[0])
+
+        total = result_list.__len__()
+        result_list = result_list[0:10]
+        return {"total": total, "data": RecentUpdatesSerializer(result_list, many=True, fields=fields).data}
+
+
 class UserFollowSerializer(DynamicFieldsModelSerializer):
     """
     User Follow model Serializer
@@ -571,3 +652,15 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
         fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name')
         return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username = contact), fields=fields, context=self.context).data 
                     if contact in users else False) for contact in self.validated_data.get('contact_list') }
+
+class UserDeviceTokenSerializer(serializers.Serializer):
+
+    class Meta:
+        model = UserDevice
+        fields = ('device_token',  'user')
+
+    def create(self, *args, **kwargs):
+        user, _ = UserDevice.objects.get_or_create( user=self.context.user)      
+        user.device_token=self.initial_data['device_token'] 
+        user.save()
+        return user

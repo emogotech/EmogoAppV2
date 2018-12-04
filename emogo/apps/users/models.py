@@ -58,9 +58,9 @@ class UserProfile(UsersStatusModel):
 
 class UserDevice(DefaultDateModel):
     user = models.ForeignKey(User, null=True, blank=True)
-    type = models.CharField(max_length=10, choices=DEVICE_TYPE, default=DEVICE_TYPE[0][0])
+    type = models.CharField(max_length=10, choices=DEVICE_TYPE, default=DEVICE_TYPE[1][0])
     is_device_enable = models.BooleanField(default=False)
-    udid = models.CharField(max_length=80, null=True, blank=True)
+    device_token = models.TextField(null=True)
     objects = models.Manager()  # The default manager.
 
     class Meta:
