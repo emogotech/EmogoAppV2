@@ -19,7 +19,7 @@ from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter, FollowerFollowingUserFilter
 from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
-from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.notification.models import Notification
 from django.shortcuts import get_object_or_404
