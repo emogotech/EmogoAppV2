@@ -99,7 +99,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
             collab_list = obj.stream.collaborator_list.filter(phone_number=self.context.get('request').user, status="Active")
             return True if collab_list.__len__() > 0 else False
         elif obj.stream.type == 'Private':
-            return True if obj.stream.created_by == self.context.get('request').user else: False
+            return True if obj.stream.created_by == self.context.get('request').user else False
         return True
 
             
