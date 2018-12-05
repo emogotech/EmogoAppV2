@@ -833,9 +833,8 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.stream.name
 
     def get_seen_index(self, obj):
-
         try:
-            return obj.stream.recent_stream.set.all()[0].seen_index
+            return obj.stream.recent_stream.all()[0].seen_index
         except Exception as e:
             return 0
 
