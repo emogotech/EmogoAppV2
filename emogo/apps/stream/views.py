@@ -1301,3 +1301,27 @@ class SeenIndexAPI(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
+
+
+class UpdateUserViewStreamStatus(UpdateAPIView):
+    """
+    Like Dislike CRUD API
+    """
+    serializer_class = StreamUserViewStatusSerializer
+    queryset = StreamUserViewStatus.objects.all().select_related('stream')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def update(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        serializer.update(serializer)
+        # To return created stream data
+        # self.serializer_class = ViewStreamSerializer
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)

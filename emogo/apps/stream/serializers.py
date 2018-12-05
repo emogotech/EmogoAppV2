@@ -283,6 +283,7 @@ class ViewStreamSerializer(StreamSerializer):
     collab_images = serializers.SerializerMethodField()
     total_stream_collaborators = serializers.SerializerMethodField()
     is_bookmarked = serializers.SerializerMethodField()
+    is_stream_bookmarked = serializers.SerializerMethodField()
 
     def get_total_stream_collaborators(self, obj):
         try:
@@ -467,7 +468,11 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_is_bookmarked(self, obj):
         return True if obj.total_starred_stream_data.__len__() > 0 else False 
-        
+
+    def get_is_stream_bookmarked(self,obj):
+        import pdb; pdb.set_trace()
+        return True if obj.id in obj.stream_starred else False
+
 
 class ContentListSerializer(serializers.ListSerializer):
     """
@@ -792,6 +797,11 @@ class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
         instance = StreamUserViewStatus.objects.create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)
         instance.save()
         return instance
+
+    def update(self, validated_data):
+        obj, instance = StreamUserViewStatus.objects.get_or_create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)
+        obj.save()
+        return obj
 
 
 class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
