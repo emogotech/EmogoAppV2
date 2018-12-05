@@ -95,11 +95,11 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
     def get_is_click(self, obj):
         if obj.notification_type == 'liked_emogo':
             return False if obj.stream.status == 'Inactive' else True
-        elif obj.stream.type == 'Private':
+        elif obj.stream and obj.stream.type == 'Private' :
             collab_list = obj.stream.collaborator_list.filter(phone_number=self.context.get('request').user, status="Active")
             return True if collab_list.__len__() > 0 else False
-        elif obj.stream.type == 'Private':
-            return True if obj.stream.created_by == self.context.get('request').user else False
+        elif  obj.stream and obj.stream.created_by == self.context.get('request').user:
+            return True if obj.stream.type == 'Private' else True
         return True
 
             
