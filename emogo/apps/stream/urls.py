@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^reorder_stream_content/$', views.ReorderStreamContent.as_view()),
     url(r'^reorder_content/$', views.ReorderContent.as_view()),
     url(r'^extremist_report/$', views.ExtremistReportAPI.as_view()),
+    url(r'^ranjeet/$', views.TestUrlAPI.as_view()),
     url(r'^delete_stream_content/(?P<pk>[0-9]+)/$', views.DeleteStreamContentAPI.as_view()),
     url(r'^bulk_delete_stream_content/(?P<pk>[0-9]+)/$', views.DeleteStreamContentInBulkAPI.as_view()),
     url(r'^bulk_contents', views.ContentInBulkAPI.as_view()),
