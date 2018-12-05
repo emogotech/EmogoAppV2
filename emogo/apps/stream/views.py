@@ -559,8 +559,6 @@ class RecentUpdatesAPI(ListAPIView):
                 "or override the `get_queryset()` method."
                 % self.__class__.__name__
         )
-        # import pdb; pdb.set_trace()
-
         queryset = self.queryset
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
@@ -575,20 +573,24 @@ class RecentUpdatesAPI(ListAPIView):
         user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active", type="Public")
         # list all the objects of active streams where the current user is as collaborator.
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        final_streams = all_streams.prefetch_related(
-            Prefetch('recentupdates_set',
-                     queryset=RecentUpdates.objects.all().order_by('seen_index'),
+        # import pdb; pdb.set_trace()
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago,
+                                                   user_id__isnull=False, thread__isnull=False).select_related('stream',
+                                                                                                               'content').prefetch_related(
+            Prefetch('stream__recent_stream',
+                     queryset=RecentUpdates.objects.filter(user=self.request.user).order_by('seen_index'),
                      to_attr='recent_updates'))
 
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related('stream', 'content')
         grouped = collections.defaultdict(list)
         for item in content_ids:
             grouped[item.thread].append(item)
-
         return_list = list()
-        for thread , group in grouped.items():
+        for thread, group in grouped.items():
             if group.__len__() > 0:
                 return_list.append(group[0])
+
+        return_list = list(sorted(return_list, key=lambda a: a.stream.recent_updates[
+            0].seen_index if a.stream.recent_updates.__len__() > 0 else None))
         return return_list
 
 
@@ -619,16 +621,17 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         """
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
-        queryset = queryset.filter(stream=self.request.query_params.get('stream'), user=self.request.query_params.get('user'), attached_date__gt=week_ago)
+        queryset = queryset.filter(thread=self.request.query_params.get('thread'), attached_date__gt=week_ago)
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
+        # import pdb; pdb.set_trace()
         fields = (
         'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name','thread')
+        'user_name','thread','seen_index')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(queryset, many=True, fields=fields)

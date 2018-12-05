@@ -179,7 +179,8 @@ class RecentUpdates(models.Model):
     """
     Recent update table model class.
     """
-    stream = models.ForeignKey(Stream, null=True, blank=True)
+    user = models.ForeignKey(User, blank=True, null=True)
+    stream = models.ForeignKey(Stream, null=True, blank=True, related_name='recent_stream')
     thread = models.CharField(max_length=45, null=True, blank=True)
     seen_index = models.IntegerField(null=True, blank=True)
 

@@ -10,7 +10,7 @@ from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
 from emogo.apps.stream.serializers import ViewStreamSerializer, ViewContentSerializer
-from emogo.apps.stream.models import Stream, LikeDislikeStream, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
+from emogo.apps.stream.models import Stream, LikeDislikeStream, RecentUpdates, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
     LikeDislikeContent, StarredStream
 from emogo.apps.collaborator.models import Collaborator
 from itertools import chain
@@ -586,7 +586,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         result_list = list()
         fields = (
             'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-            'user_name','thread')
+            'user_name','thread','seen_index')
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
         current_user_streams = Stream.objects.filter(created_by=self.context.get('request').user, status='Active', type="Public")
@@ -604,16 +604,30 @@ class GetTopStreamSerializer(serializers.Serializer):
         # list all the objects of active streams where the current user is as collaborator.
 
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related(
-            'stream', 'content')
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago,
+                                                   user_id__isnull=False, thread__isnull=False).select_related('stream',
+                                                                                                               'content').prefetch_related(
+            Prefetch('stream__recent_stream',
+                     queryset=RecentUpdates.objects.filter(user=self.context.get('request').user).order_by('seen_index'),
+                     to_attr='recent_updates'))
 
+        # grouped = collections.defaultdict(list)
+        # for item in content_ids:
+        #     grouped[item.thread].append(item)
+        #
+        # for thread, group in grouped.items():
+        #     if group.__len__() > 0:
+        #         result_list.append(group[0])
         grouped = collections.defaultdict(list)
         for item in content_ids:
             grouped[item.thread].append(item)
-
+        return_list = list()
         for thread, group in grouped.items():
             if group.__len__() > 0:
-                result_list.append(group[0])
+                return_list.append(group[0])
+        # import pdb; pdb.set_trace()
+        result_list = list(sorted(return_list, key=lambda a: a.stream.recent_updates[
+            0].seen_index if a.stream.recent_updates.__len__() > 0 else None))
 
         total = result_list.__len__()
         result_list = result_list[0:10]

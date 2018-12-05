@@ -833,7 +833,11 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.stream.name
 
     def get_seen_index(self, obj):
-        return obj.stream.recentupdates_set.all()[0].seen_index
+
+        try:
+            return obj.stream.recent_stream.set.all()[0].seen_index
+        except Exception as e:
+            return 0
 
 
 class StarredStreamSerializer(DynamicFieldsModelSerializer):
