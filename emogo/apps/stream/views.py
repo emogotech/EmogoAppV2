@@ -827,13 +827,18 @@ class ContentLikeDislikeAPI(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         content = Content.objects.get(id =  serializer.data.get('content'))
+
         if (serializer.data.get('status') == 1) and (self.request.user !=  content.created_by) and kwargs.get('version') :
-            noti = Notification.objects.filter(notification_type = 'liked_content' , stream = content.content_streams.all()[0].stream, from_user = self.request.user, to_user = content.created_by, content = content)
+            stream = content.content_streams.all()[0].stream if content.content_streams.all().__len__() > 0 else None
+
+            noti = Notification.objects.filter(notification_type = 'liked_content' , from_user = self.request.user, to_user = content.created_by, content = content)
+            if stream:
+               noti = noti.filter(stream = stream) 
             if noti.__len__() > 0 :
                 noti[0].save()
                 NotificationAPI().initialize_notification(noti[0])
             else:
-                NotificationAPI().send_notification(self.request.user, content.created_by, 'liked_content', content.content_streams.all()[0].stream, content)
+                NotificationAPI().send_notification(self.request.user, content.created_by, 'liked_content', stream, content)
         # To return created stream data
         # self.serializer_class = ViewStreamSerializer
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
