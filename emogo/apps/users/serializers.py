@@ -476,7 +476,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     collaborator_qs = Collaborator.actives.all().select_related('stream')
 
     def use_fields(self):
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked','is_stream_bookmarked')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
         return fields
 
     def get_serializer_context(self):
@@ -512,7 +512,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.context).data}
 
     def get_people(self, obj):
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name', 'user_id','is_stream_bookmarked')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name', 'user_id')
         qs = UserProfile.actives.all().exclude(user=self.context.get('request').user).order_by('full_name').select_related('user')
         return {"total": qs.count(), "data": UserDetailSerializer(qs[0:10], many=True, fields=fields,
                                     context=self.context).data}
@@ -586,7 +586,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         result_list = list()
         fields = (
             'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-            'user_name','is_stream_bookmarked')
+            'user_name')
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
         current_user_streams = Stream.objects.filter(created_by=self.context.get('request').user, status='Active', type="Public")
