@@ -464,10 +464,9 @@ class ViewStreamSerializer(StreamSerializer):
         instances = obj.content_list[0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
-
     def get_is_bookmarked(self, obj):
-        return True if obj.total_starred_stream_data.__len__() > 0 else False 
-        
+        return True if obj.total_starred_stream_data.__len__() > 0 else False
+
 
 class ContentListSerializer(serializers.ListSerializer):
     """
@@ -792,6 +791,11 @@ class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
         instance = StreamUserViewStatus.objects.create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)
         instance.save()
         return instance
+
+    def update(self, validated_data):
+        obj, instance = StreamUserViewStatus.objects.get_or_create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)
+        obj.save()
+        return obj
 
 
 class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
