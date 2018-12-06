@@ -26,7 +26,6 @@ from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
 import datetime
-from rest_framework.authtoken.models import Token
 from rest_framework import filters
 
 
@@ -1276,13 +1275,12 @@ class NewEmogosAPI(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
-        fields = (
-            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
-            'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator',
-            'total_likes',
-            'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
-            'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
+        fields = ('id', 'name','image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
+        'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator',
+        'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
+        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
         queryset = self.filter_queryset(self.get_queryset())
+        queryset = list(sorted(queryset, key=lambda x: [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date() for y in x.total_view_count if y.user == self.request.user].__len__() > 0 else datetime.date.min))
         page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(queryset, many=True, fields=fields, context=self.get_serializer_context())
         if page is not None:
