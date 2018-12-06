@@ -1208,7 +1208,7 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
 
-        stream_id = self.kwargs.get('stream_id')
+        stream_id = self.request.query_params.get('stream_id')
         stream = StarredStream.objects.filter(stream_id=stream_id, user=self.request.user)
         stream.delete()
 
