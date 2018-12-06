@@ -10,7 +10,8 @@ from models import Stream, Content, ExtremistReport, StreamContent, RecentUpdate
 from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
-    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer
+    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, \
+    RecentUpdatesSerializer, AddUserViewStatusSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -529,7 +530,7 @@ class RecentUpdatesAPI(ListAPIView):
         queryset = self.get_queryset()
         fields = (
         'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name','seen_index')
+        'user_name','seen_index', 'thread')
         page = self.paginate_queryset(queryset)
         if page is not None:
             # serializer = self.get_serializer(queryset, many=True)
@@ -562,7 +563,7 @@ class RecentUpdatesAPI(ListAPIView):
         queryset = self.queryset
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
-        current_user_streams = Stream.objects.filter(created_by=self.request.user, status='Active', type="Public")
+        current_user_streams = Stream.objects.filter(created_by=self.request.user, status='Active')
         # list all the objects of active streams created by logged in user.
         following = UserFollow.objects.filter(follower=self.request.user).values_list('following', flat=True)
         # list all the objects of users whom logged in user is following.
@@ -570,7 +571,7 @@ class RecentUpdatesAPI(ListAPIView):
         # list all the objects of streams created by users followed by current user
         user_as_collaborator_streams = Collaborator.objects.filter(phone_number=self.request.user.username).values_list('stream_id', flat=True)
         # list all the objects of streams where the current user is as collaborator.
-        user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active", type="Public")
+        user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active")
         # list all the objects of active streams where the current user is as collaborator.
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
         # import pdb; pdb.set_trace()
@@ -598,7 +599,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
     """"
     View to list all the recent updates of the logged in user.
     """
-    queryset = StreamContent.objects.all()
+    queryset = StreamContent.objects.filter().select_related('stream')
     serializer_class = RecentUpdatesSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -621,6 +622,11 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         """
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
+        queryset = queryset.prefetch_related(
+            Prefetch('stream__recent_stream',
+                     queryset=RecentUpdates.objects.filter(user=self.request.user, thread=self.request.query_params.get('thread')).order_by('-seen_index'),
+                     to_attr='stream_recent_updates')
+            )
         queryset = queryset.filter(thread=self.request.query_params.get('thread'), attached_date__gt=week_ago)
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, self)
@@ -1341,25 +1347,32 @@ class SeenIndexAPI(CreateAPIView):
         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
 
 
-class UpdateUserViewStreamStatus(UpdateAPIView):
+class AddUserViewStreamStatus(CreateAPIView):
     """
     Like Dislike CRUD API
     """
-    serializer_class = StreamUserViewStatusSerializer
+    serializer_class = AddUserViewStatusSerializer
     queryset = StreamUserViewStatus.objects.all().select_related('stream')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def update(self, request, *args, **kwargs):
-        """
-        :param request: The request data
-        :param args: list or tuple data
-        :param kwargs: dict param
-        :return: Create Stream API.
-        """
-        serializer = self.get_serializer(data=request.data, context=self.request)
+    # def update(self, request, *args, **kwargs):
+    #     """
+    #     :param request: The request data
+    #     :param args: list or tuple data
+    #     :param kwargs: dict param
+    #     :return: Create Stream API.
+    #     """
+    #     serializer = self.get_serializer(data=request.data, context=self.request)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.update(serializer)
+    #     # To return created stream data
+    #     # self.serializer_class = ViewStreamSerializer
+    #     return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+    #
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.update(serializer)
-        # To return created stream data
-        # self.serializer_class = ViewStreamSerializer
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)

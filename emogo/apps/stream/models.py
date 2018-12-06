@@ -183,6 +183,7 @@ class RecentUpdates(models.Model):
     stream = models.ForeignKey(Stream, null=True, blank=True, related_name='recent_stream')
     thread = models.CharField(max_length=45, null=True, blank=True)
     seen_index = models.IntegerField(null=True, blank=True)
+    objects = models.Manager()
 
     class Meta:
         db_table = 'recent_updates'

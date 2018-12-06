@@ -790,12 +790,24 @@ class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
     def create(self, validated_data):
         instance = StreamUserViewStatus.objects.create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)
         instance.save()
-        return instance
 
-    def update(self, validated_data):
-        obj, instance = StreamUserViewStatus.objects.get_or_create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)
+
+class AddUserViewStatusSerializer(DynamicFieldsModelSerializer):
+    """
+    Stream user view status API.
+    """
+    user = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = StreamUserViewStatus
+        fields = '__all__'
+        extra_kwargs = {'stream': {'required': True}}
+
+    def save(self, **kwargs):
+        obj, instance = StreamUserViewStatus.objects.get_or_create(stream=self.validated_data.get('stream'),
+                                                                   user=self.context.get('request').auth.user)
         obj.save()
-        return obj
+        return
 
 
 class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
@@ -837,10 +849,10 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.stream.name
 
     def get_seen_index(self, obj):
-        try:
-            return obj.stream.recent_stream.all()[0].seen_index
-        except Exception as e:
-            return 0
+        if obj.stream.stream_recent_updates.__len__() > 0:
+            return obj.stream.stream_recent_updates[0].seen_index
+        else:
+            return '0'
 
 
 class StarredStreamSerializer(DynamicFieldsModelSerializer):
@@ -903,6 +915,8 @@ class SeenIndexSerializer(DynamicFieldsModelSerializer):
     def create(self, validated_data):
         obj, created = RecentUpdates.objects.update_or_create(
             thread=self.validated_data.get('thread'),
-            seen_index=self.validated_data.get('seen_index'),
-            stream=self.validated_data.get('stream'))
+            stream=self.validated_data.get('stream'),
+            user = self.context.get('request').user,
+            defaults={'seen_index':self.validated_data.get('seen_index')}
+        )
         return obj
