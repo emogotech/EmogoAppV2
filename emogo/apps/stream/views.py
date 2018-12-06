@@ -530,7 +530,7 @@ class RecentUpdatesAPI(ListAPIView):
         queryset = self.get_queryset()
         fields = (
         'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name','seen_index', 'thread')
+        'user_name', 'thread')
         page = self.paginate_queryset(queryset)
         if page is not None:
             # serializer = self.get_serializer(queryset, many=True)

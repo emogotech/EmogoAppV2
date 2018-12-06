@@ -586,10 +586,10 @@ class GetTopStreamSerializer(serializers.Serializer):
         result_list = list()
         fields = (
             'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-            'user_name','thread','seen_index')
+            'user_name', 'thread')
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
-        current_user_streams = Stream.objects.filter(created_by=self.context.get('request').user, status='Active', type="Public")
+        current_user_streams = Stream.objects.filter(created_by=self.context.get('request').user, status='Active')
         # list all the objects of active streams created by logged in user.
         following = UserFollow.objects.filter(follower=self.context.get('request').user).values_list('following', flat=True)
         # list all the objects of users whom logged in user is following.
@@ -600,7 +600,7 @@ class GetTopStreamSerializer(serializers.Serializer):
             'stream_id', flat=True)
         # list all the objects of streams where the current user is as collaborator.
         user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams,
-                                                                    status="Active", type="Public")
+                                                                    status="Active")
         # list all the objects of active streams where the current user is as collaborator.
 
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
@@ -611,13 +611,6 @@ class GetTopStreamSerializer(serializers.Serializer):
                      queryset=RecentUpdates.objects.filter(user=self.context.get('request').user).order_by('seen_index'),
                      to_attr='recent_updates'))
 
-        # grouped = collections.defaultdict(list)
-        # for item in content_ids:
-        #     grouped[item.thread].append(item)
-        #
-        # for thread, group in grouped.items():
-        #     if group.__len__() > 0:
-        #         result_list.append(group[0])
         grouped = collections.defaultdict(list)
         for item in content_ids:
             grouped[item.thread].append(item)
