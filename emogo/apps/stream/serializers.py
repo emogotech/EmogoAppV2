@@ -282,6 +282,7 @@ class ViewStreamSerializer(StreamSerializer):
     collab_images = serializers.SerializerMethodField()
     total_stream_collaborators = serializers.SerializerMethodField()
     is_bookmarked = serializers.SerializerMethodField()
+    is_seen = serializers.SerializerMethodField()
 
     def get_total_stream_collaborators(self, obj):
         try:
@@ -465,6 +466,16 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_is_bookmarked(self, obj):
         return True if obj.total_starred_stream_data.__len__() > 0 else False
+
+    def get_is_seen(self, obj):
+        # import pdb; pdb.set_trace()
+        user_id = self.context.get('request').user.id
+        if obj.total_view_count.__len__() > 0 and user_id==obj.total_view_count[0].user_id :
+            # for x in obj.total_view_count.all().user_id:
+            #     if user_id ==  x:
+            return True
+        else:
+            return False
 
 
 class ContentListSerializer(serializers.ListSerializer):

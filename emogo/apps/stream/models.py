@@ -119,6 +119,7 @@ class StreamUserViewStatus(models.Model):
     stream = models.ForeignKey(Stream, related_name='stream_user_view_status')
     action_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
+
     objects = models.Manager()  # The default manager.
 
     class Meta:

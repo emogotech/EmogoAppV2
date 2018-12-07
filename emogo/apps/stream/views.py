@@ -599,7 +599,8 @@ class RecentUpdatesDetailListAPI(ListAPIView):
     """"
     View to list all the recent updates of the logged in user.
     """
-    queryset = StreamContent.objects.filter().select_related('stream__created_by__user_data__user', 'content', 'user__user_data')
+    queryset = StreamContent.objects.filter().select_related('stream__created_by__user_data__user', 'content',
+                                                             'user__user_data')
     serializer_class = RecentUpdatesDetailSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -636,7 +637,9 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         week_ago = today - datetime.timedelta(days=7)
         queryset = queryset.annotate(stream_view_count=Count('stream__stream_user_view_status')).prefetch_related(
             Prefetch('stream__recent_stream',
-                     queryset=RecentUpdates.objects.filter(user=self.request.user, thread=self.request.query_params.get('thread')).order_by('-seen_index'),
+                     queryset=RecentUpdates.objects.filter(user=self.request.user,
+                                                           thread=self.request.query_params.get('thread')).order_by(
+                         '-seen_index'),
                      to_attr='stream_recent_updates'),
             Prefetch(
                 "stream__stream_contents",
@@ -698,13 +701,9 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         fields = (
         'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
         'user_name', 'thread', 'seen_index', 'stream_detail')
-        # page = self.paginate_queryset(queryset)
-        # if page is not None:
-        #     serializer = self.get_serializer(queryset, many=True, fields=fields)
-        #     return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
-
-        content_fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')
+        content_fields = (
+        'id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
+        'full_name', 'user_image', 'liked')
         stream_fields = (
             'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
             'have_some_update',
@@ -715,7 +714,8 @@ class RecentUpdatesDetailListAPI(ListAPIView):
             'is_bookmarked')
         content_dataserializer = ViewContentSerializer([x.content for x in queryset], many=True, fields=content_fields)
         if queryset.__len__() > 0:
-            stream_serializer = ViewStreamSerializer(queryset[0].stream, fields=stream_fields, context=self.get_serializer_context()).data
+            stream_serializer = ViewStreamSerializer(queryset[0].stream, fields=stream_fields,
+                                                     context=self.get_serializer_context()).data
         else:
             stream_serializer = dict()
         seen_index = 0
@@ -1378,7 +1378,7 @@ class NewEmogosAPI(ListAPIView):
         fields = ('id', 'name','image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
         'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator',
         'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
-        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
+        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_seen')
         queryset = self.filter_queryset(self.get_queryset())
         queryset = list(sorted(queryset, key=lambda x: [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date() for y in x.total_view_count if y.user == self.request.user].__len__() > 0 else datetime.date.min))
         page = self.paginate_queryset(queryset)
@@ -1419,6 +1419,7 @@ class NewEmogosAPI(ListAPIView):
         # list all the objects of streams created by users followed by current user
         if isinstance(queryset, QuerySet):
             # Ensure queryset is re-evaluated on each request.
+            # import pdb; pdb.set_trace()
             queryset = current_user_streams | current_user_following_streams
         return queryset
 
