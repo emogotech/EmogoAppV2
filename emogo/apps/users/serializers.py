@@ -568,7 +568,12 @@ class GetTopStreamSerializer(serializers.Serializer):
         result_list = current_user_streams | current_user_following_streams
         total = result_list.count()
         result_list = result_list[0:10]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(),
+        queryset = list(sorted(result_list, key=lambda x:
+        [y.action_date.date() for y in x.total_view_count if y.user == self.context.get('request').user][0] if [y.action_date.date()
+                                                                                                 for y in
+                                                                                                 x.total_view_count if
+                                                                                                 y.user == self.context.get('request').user].__len__() > 0 else datetime.date.min))
+        return {"total": total, "data": ViewStreamSerializer(queryset, many=True, fields=self.use_fields(),
                                                              context=self.context).data}
 
     ## Added Public stream
@@ -585,8 +590,9 @@ class GetTopStreamSerializer(serializers.Serializer):
         import datetime
         result_list = list()
         fields = (
-            'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-            'user_name', 'thread')
+        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'content_title', 'content_description',
+        'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
+        'seen_index', 'thread')
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
         current_user_streams = Stream.objects.filter(created_by=self.context.get('request').user, status='Active')

@@ -528,8 +528,9 @@ class RecentUpdatesAPI(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         fields = (
-        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name', 'thread')
+        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'content_title', 'content_description',
+        'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
+        'seen_index', 'thread')
         page = self.paginate_queryset(queryset)
         if page is not None:
             # serializer = self.get_serializer(queryset, many=True)
@@ -610,6 +611,18 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        fields = (
+        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
+        'user_name','thread','seen_index')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(queryset, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+        serializer = self.get_serializer(queryset, many=True, fields=fields)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
     def filter_queryset(self, queryset):
         """
         Given a queryset, filter it with whichever filter backend is in use.
@@ -626,23 +639,11 @@ class RecentUpdatesDetailListAPI(ListAPIView):
                      queryset=RecentUpdates.objects.filter(user=self.request.user, thread=self.request.query_params.get('thread')).order_by('-seen_index'),
                      to_attr='stream_recent_updates')
             )
+        # import pdb; pdb.set_trace()
         queryset = queryset.filter(thread=self.request.query_params.get('thread'), attached_date__gt=week_ago)
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        # import pdb; pdb.set_trace()
-        fields = (
-        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name','thread','seen_index')
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(queryset, many=True, fields=fields)
-            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
-        serializer = self.get_serializer(queryset, many=True, fields=fields)
-        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
 class MoveContentToStream(APIView):
@@ -1180,6 +1181,12 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
         bookmarked_streams = self.starred_stream_queryset.filter(user=self.request.user).select_related('stream')
         queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.filter(id__in=[x.stream.id for x in bookmarked_streams])
+        queryset = list(sorted(queryset, key=lambda x:
+        [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
+                                                                                                 for y in
+                                                                                                 x.total_view_count if
+                                                                                                 y.user == self.request.user].__len__() > 0 else datetime.date.min))
+
         fields = (
             'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
             'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator',
@@ -1211,7 +1218,6 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
         stream_id = self.request.query_params.get('stream_id')
         stream = StarredStream.objects.filter(stream_id=stream_id, user=self.request.user)
         stream.delete()
-
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={})
 
 
@@ -1337,7 +1343,7 @@ class SeenIndexAPI(CreateAPIView):
         :param args: list or tuple data
         :param kwargs: dict param
         :return: Create Stream API.
-        This function bookmark stream
+        This function seen recent stream.
         """
         serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)

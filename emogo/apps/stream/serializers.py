@@ -822,10 +822,18 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
     user_profile_id = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     seen_index = serializers.SerializerMethodField()
+    content_title = serializers.SerializerMethodField()
+    content_description = serializers.SerializerMethodField()
+    content_width = serializers.SerializerMethodField()
+    content_height = serializers.SerializerMethodField()
+    content_color = serializers.SerializerMethodField()
 
     class Meta:
         model = StreamContent
-        fields = ('user_image','first_content_cover','stream_name','content_type','added_by_user_id','user_profile_id','user_name','seen_index','thread')
+        fields = (
+        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'content_title', 'content_description',
+        'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
+        'seen_index', 'thread')
 
     def get_user_image(self, obj):
         return obj.user.user_data.user_image
@@ -849,10 +857,27 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.stream.name
 
     def get_seen_index(self, obj):
-        if obj.stream.stream_recent_updates.__len__() > 0:
-            return obj.stream.stream_recent_updates[0].seen_index
+        # import pdb; pdb.set_trace()
+        if obj.stream.recent_stream.all().__len__() > 0:
+            # return obj.stream.stream_recent_updates[0].seen_index
+            return obj.stream.recent_stream.all()[0].seen_index
         else:
             return '0'
+
+    def get_content_title(self, obj):
+        return obj.content.name
+
+    def get_content_description(self, obj):
+        return obj.content.description
+
+    def get_content_width(self, obj):
+        return obj.content.width
+
+    def get_content_height(self, obj):
+        return obj.content.height
+
+    def get_content_color(self, obj):
+        return obj.content.color
 
 
 class StarredStreamSerializer(DynamicFieldsModelSerializer):
