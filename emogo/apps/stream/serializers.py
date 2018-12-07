@@ -868,7 +868,6 @@ class RecentUpdatesDetailSerializer(DynamicFieldsModelSerializer):
     user_profile_id = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     seen_index = serializers.SerializerMethodField()
-    stream_detail = serializers.SerializerMethodField()
 
     class Meta:
         model = StreamContent
@@ -901,14 +900,7 @@ class RecentUpdatesDetailSerializer(DynamicFieldsModelSerializer):
             return obj.stream.stream_recent_updates[0].seen_index
         else:
             return '0'
-    def get_stream_detail(self, obj):
-        fields = (
-        'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
-        'stream_permission', 'color', 'collaborator_permission', 'total_collaborator', 'total_likes',
-        'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
-        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators',
-        'is_bookmarked')
-        return ViewStreamSerializer(obj.stream, fields=fields, context = self.context).data
+
 
 
 class StarredStreamSerializer(DynamicFieldsModelSerializer):
