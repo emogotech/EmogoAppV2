@@ -18,7 +18,6 @@ from emogo.apps.notification.views import NotificationAPI
 from django.db import IntegrityError
 
 
-
 class StreamSerializer(DynamicFieldsModelSerializer):
     """
     Stream model Serializer
@@ -878,6 +877,52 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
 
     def get_content_color(self, obj):
         return obj.content.color
+
+
+class RecentUpdatesDetailSerializer(DynamicFieldsModelSerializer):
+    """
+        Recent updates to Stream Serializer
+    """
+    user_image = serializers.SerializerMethodField()
+    first_content_cover = serializers.SerializerMethodField()
+    stream_name = serializers.SerializerMethodField()
+    content_type = serializers.SerializerMethodField()
+    added_by_user_id = serializers.SerializerMethodField()
+    user_profile_id = serializers.SerializerMethodField()
+    user_name = serializers.SerializerMethodField()
+    seen_index = serializers.SerializerMethodField()
+
+    class Meta:
+        model = StreamContent
+        fields = ('user_image','first_content_cover','stream_name','content_type','added_by_user_id','user_profile_id',
+                  'user_name','seen_index','thread', 'stream_detail')
+
+    def get_user_image(self, obj):
+        return obj.user.user_data.user_image
+
+    def get_first_content_cover(self, obj):
+        return obj.content.url
+
+    def get_content_type(self, obj):
+        return obj.content.type
+
+    def get_added_by_user_id(self, obj):
+        return obj.user.id
+
+    def get_user_profile_id(self, obj):
+        return obj.user.user_data.id
+
+    def get_user_name(self, obj):
+        return obj.user.user_data.full_name
+
+    def get_stream_name(self, obj):
+        return obj.stream.name
+
+    def get_seen_index(self, obj):
+        if obj.stream.stream_recent_updates.__len__() > 0:
+            return obj.stream.stream_recent_updates[0].seen_index
+        else:
+            return '0'
 
 
 class StarredStreamSerializer(DynamicFieldsModelSerializer):

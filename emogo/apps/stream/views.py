@@ -11,7 +11,7 @@ from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSeriali
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
     ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, \
-    RecentUpdatesSerializer, AddUserViewStatusSerializer
+    RecentUpdatesSerializer, AddUserViewStatusSerializer, RecentUpdatesDetailSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -599,8 +599,8 @@ class RecentUpdatesDetailListAPI(ListAPIView):
     """"
     View to list all the recent updates of the logged in user.
     """
-    queryset = StreamContent.objects.filter().select_related('stream')
-    serializer_class = RecentUpdatesSerializer
+    queryset = StreamContent.objects.filter().select_related('stream__created_by__user_data__user', 'content', 'user__user_data')
+    serializer_class = RecentUpdatesDetailSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -634,16 +634,109 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         """
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
-        queryset = queryset.prefetch_related(
+        queryset = queryset.annotate(stream_view_count=Count('stream__stream_user_view_status')).prefetch_related(
             Prefetch('stream__recent_stream',
                      queryset=RecentUpdates.objects.filter(user=self.request.user, thread=self.request.query_params.get('thread')).order_by('-seen_index'),
-                     to_attr='stream_recent_updates')
+                     to_attr='stream_recent_updates'),
+            Prefetch(
+                "stream__stream_contents",
+                queryset=StreamContent.objects.all().select_related('content',
+                                                                    'content__created_by__user_data').prefetch_related(
+                    Prefetch(
+                        "content__content_like_dislike_status",
+                        queryset=LikeDislikeContent.objects.filter(status=1),
+                        to_attr='content_liked_user'
+                    )
+                ).order_by('order', '-attached_date'),
+                to_attr="content_list"
+            ),
+            Prefetch(
+                'stream__collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator'
+            ),
+            Prefetch(
+                'stream__collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
+            ),
+            Prefetch(
+                'stream__stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                    Prefetch(
+                        "user__who_follows",
+                        queryset=UserFollow.objects.all(),
+                        to_attr='user_liked_followers'
+                    ),
+
+                ),
+                to_attr='total_like_dislike_data'
+            ),
+            Prefetch(
+                'stream__stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+            Prefetch(
+                'stream__stream_starred',
+                queryset=StarredStream.objects.all().select_related('user'),
+                to_attr='total_starred_stream_data'
+            ),
+            Prefetch(
+                "content__content_like_dislike_status",
+                queryset=LikeDislikeContent.objects.filter(status=1),
+                to_attr='content_liked_user'
             )
-        # import pdb; pdb.set_trace()
+        )
         queryset = queryset.filter(thread=self.request.query_params.get('thread'), attached_date__gt=week_ago)
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        fields = (
+        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
+        'user_name', 'thread', 'seen_index', 'stream_detail')
+        # page = self.paginate_queryset(queryset)
+        # if page is not None:
+        #     serializer = self.get_serializer(queryset, many=True, fields=fields)
+        #     return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+        content_fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
+                  'full_name', 'user_image', 'liked')
+        stream_fields = (
+            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
+            'have_some_update',
+            'stream_permission', 'color', 'collaborator_permission', 'total_collaborator', 'total_likes',
+            'is_collaborator', 'any_one_can_edit', 'user_image', 'crd', 'upd', 'category', 'emogo',
+            'featured', 'description', 'status', 'liked', 'user_liked',
+            'total_stream_collaborators',
+            'is_bookmarked')
+        content_dataserializer = ViewContentSerializer([x.content for x in queryset], many=True, fields=content_fields)
+        if queryset.__len__() > 0:
+            stream_serializer = ViewStreamSerializer(queryset[0].stream, fields=stream_fields, context=self.get_serializer_context()).data
+        else:
+            stream_serializer = dict()
+        seen_index = 0
+        user_dict = dict()
+        if queryset.__len__() > 0:
+            user_dict['full_name'] = queryset[0].user.user_data.full_name
+            user_dict['user_image'] = queryset[0].user.user_data.user_image
+            user_dict['user_profile_id'] = queryset[0].user.user_data.id
+            user_dict['added_by_user_id'] = queryset[0].user.id
+
+            if queryset[0].stream.stream_recent_updates.__len__() > 0:
+                seen_index = queryset[0].stream.stream_recent_updates[0].seen_index
+            else:
+                seen_index = 0
+
+        return_data = {"stream": stream_serializer,
+                       "stream_content":content_dataserializer.data,
+                       "seen_index" : seen_index,
+                       "user_detail" : user_dict
+                       }
+        return custom_render_response(status_code=status.HTTP_200_OK, data=return_data)
 
 
 class MoveContentToStream(APIView):
@@ -1169,6 +1262,7 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+    # lookup_field = ('stream_id',)
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -1215,7 +1309,7 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
 
-        stream_id = self.request.query_params.get('stream_id')
+        stream_id = self.kwargs.get('stream_id')
         stream = StarredStream.objects.filter(stream_id=stream_id, user=self.request.user)
         stream.delete()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={})

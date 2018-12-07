@@ -60,7 +60,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
         try:
             return [{'id': obj.from_user.id, 'user_profile_id': obj.from_user.user_data.id, 'user_image': obj.from_user.user_data.user_image, 'full_name': obj.from_user.user_data.full_name, 'display_name': obj.from_user.user_data.display_name}]
         except AttributeError:
-            retur
+            return None
 
     def get_stream(self, obj):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'stream_permission', 'collaborator_permission', 'type')
