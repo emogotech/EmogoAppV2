@@ -574,7 +574,6 @@ class RecentUpdatesAPI(ListAPIView):
         user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active")
         # list all the objects of active streams where the current user is as collaborator.
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        # import pdb; pdb.set_trace()
         content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago,
                                                    user_id__isnull=False, thread__isnull=False).select_related('stream',
                                                                                                                'content').prefetch_related(
@@ -712,7 +711,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
             'featured', 'description', 'status', 'liked', 'user_liked',
             'total_stream_collaborators',
             'is_bookmarked')
-        content_dataserializer = ViewContentSerializer([x.content for x in queryset], many=True, fields=content_fields)
+        content_dataserializer = ViewContentSerializer([x.content for x in queryset], many=True, fields=content_fields, context=self.get_serializer_context())
         if queryset.__len__() > 0:
             stream_serializer = ViewStreamSerializer(queryset[0].stream, fields=stream_fields,
                                                      context=self.get_serializer_context()).data
@@ -1067,7 +1066,6 @@ class ContentShareExtensionAPI(CreateAPIView):
         # creators_list.append(user_current)
         # view_status_list = list(view_status)
         # # view_status_list = [3,4]
-        # import pdb; pdb.set_trace()
         # creators_list = list(set(creators_list) & set(view_status_list))
         # if isinstance(queryset, QuerySet):
         #     # Ensure queryset is re-evaluated on each request.
@@ -1428,7 +1426,6 @@ class NewEmogosAPI(ListAPIView):
         # list all the objects of streams created by users followed by current user
         if isinstance(queryset, QuerySet):
             # Ensure queryset is re-evaluated on each request.
-            # import pdb; pdb.set_trace()
             queryset = current_user_streams | current_user_following_streams
         return queryset
 

@@ -864,7 +864,6 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.stream.name
 
     def get_seen_index(self, obj):
-        # import pdb; pdb.set_trace()
         if obj.stream.recent_stream.all().__len__() > 0:
             # return obj.stream.stream_recent_updates[0].seen_index
             return obj.stream.recent_stream.all()[0].seen_index
