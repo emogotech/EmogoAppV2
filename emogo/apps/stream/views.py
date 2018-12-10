@@ -1159,11 +1159,16 @@ class BookmarkNewEmogosAPI(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
+        queryset = list(sorted(queryset, key=lambda x:
+        [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
+                                                                                                 for y in
+                                                                                                 x.total_view_count if
+                                                                                                 y.user == self.request.user].__len__() > 0 else datetime.date.min))
         fields = (
         'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
         'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes',
         'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
-        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
+        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_seen')
         user_bookmarks = self.queryset_bookmark.filter(user=self.request.user, stream__status='Active')[:10]
         user_bookmarks_stream = self.queryset.filter(id__in = [x.stream.id for x in user_bookmarks.select_related('stream')])
         user_bookmarks_serializer = ViewStreamSerializer(user_bookmarks_stream[0:10], fields=fields, many=True, context=self.get_serializer_context())
@@ -1380,7 +1385,11 @@ class NewEmogosAPI(ListAPIView):
         'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
         'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_seen')
         queryset = self.filter_queryset(self.get_queryset())
-        queryset = list(sorted(queryset, key=lambda x: [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date() for y in x.total_view_count if y.user == self.request.user].__len__() > 0 else datetime.date.min))
+        queryset = list(sorted(queryset, key=lambda x:
+        [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
+                                                                                                 for y in
+                                                                                                 x.total_view_count if
+                                                                                                 y.user == self.request.user].__len__() > 0 else datetime.date.min))
         page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(queryset, many=True, fields=fields, context=self.get_serializer_context())
         if page is not None:
