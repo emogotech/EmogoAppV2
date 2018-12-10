@@ -468,15 +468,14 @@ class ViewStreamSerializer(StreamSerializer):
         return True if obj.total_starred_stream_data.__len__() > 0 else False
 
     def get_is_seen(self, obj):
-        # import pdb; pdb.set_trace()
-        user_id = self.context.get('request').user.id
-        if obj.total_view_count.__len__() > 0 and user_id==obj.total_view_count[0].user_id :
-            # for x in obj.total_view_count.all().user_id:
-            #     if user_id ==  x:
-            return True
+        exists = list()
+        if obj.total_view_count.__len__() > 0:
+            exists = [x for x in obj.total_view_count if x.user == self.context.get('request').user]
+            if exists.__len__() > 0:
+                return True
         else:
             return False
-
+        
 
 class ContentListSerializer(serializers.ListSerializer):
     """
