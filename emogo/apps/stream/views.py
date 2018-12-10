@@ -1168,7 +1168,7 @@ class BookmarkNewEmogosAPI(ListAPIView):
         'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
         'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes',
         'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
-        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_seen')
+        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
         user_bookmarks = self.queryset_bookmark.filter(user=self.request.user, stream__status='Active')[:10]
         user_bookmarks_stream = self.queryset.filter(id__in = [x.stream.id for x in user_bookmarks.select_related('stream')])
         user_bookmarks_serializer = ViewStreamSerializer(user_bookmarks_stream[0:10], fields=fields, many=True, context=self.get_serializer_context())

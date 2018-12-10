@@ -557,6 +557,12 @@ class GetTopStreamSerializer(serializers.Serializer):
     ## Added Public stream
     def get_new_emogo_stream(self, obj):
         import datetime
+        fields = (
+        'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
+        'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes',
+        'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
+        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators',
+        'is_bookmarked','is_seen')
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
         current_user_streams = self.qs.filter(created_by=self.context.get('request').user, status='Active', crd__gt=week_ago)
@@ -573,7 +579,7 @@ class GetTopStreamSerializer(serializers.Serializer):
                                                                                                  for y in
                                                                                                  x.total_view_count if
                                                                                                  y.user == self.context.get('request').user].__len__() > 0 else datetime.date.min))
-        return {"total": total, "data": ViewStreamSerializer(queryset, many=True, fields=self.use_fields(),
+        return {"total": total, "data": ViewStreamSerializer(queryset, many=True, fields=fields,
                                                              context=self.context).data}
 
     ## Added Public stream
