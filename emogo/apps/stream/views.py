@@ -574,12 +574,14 @@ class RecentUpdatesAPI(ListAPIView):
         user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active")
         # list all the objects of active streams where the current user is as collaborator.
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
+
         content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago,
                                                    user_id__isnull=False, thread__isnull=False).select_related('stream',
                                                                                                                'content').prefetch_related(
             Prefetch('stream__recent_stream',
                      queryset=RecentUpdates.objects.filter(user=self.request.user).order_by('seen_index'),
                      to_attr='recent_updates'))
+
         grouped = collections.defaultdict(list)
         for item in content_ids:
             grouped[item.thread].append(item)
@@ -588,12 +590,9 @@ class RecentUpdatesAPI(ListAPIView):
             if group.__len__() > 0:
                 return_list.append(group[0])
 
-
-
         return_list = list(sorted(return_list, key=lambda a: a.stream.recent_updates[
             0].seen_index if a.stream.recent_updates.__len__() > 0 else None))
-        # import pdb;
-        # pdb.set_trace()
+
         return return_list
 
 
@@ -1316,7 +1315,6 @@ class NewEmogosAPI(ListAPIView):
                     queryset=UserFollow.objects.all(),
                     to_attr='user_liked_followers'
                 ),
-
             ),
             to_attr='total_like_dislike_data'
         ),
@@ -1324,7 +1322,12 @@ class NewEmogosAPI(ListAPIView):
             'stream_user_view_status',
             queryset=StreamUserViewStatus.objects.all(),
             to_attr='total_view_count'
-        )
+        ),
+        Prefetch(
+            'stream_starred',
+            queryset=StarredStream.objects.all().select_related('user'),
+            to_attr='total_starred_stream_data'
+        ),
     ).order_by('-id')
     serializer_class = ViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
@@ -1343,7 +1346,7 @@ class NewEmogosAPI(ListAPIView):
         fields = ('id', 'name','image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
         'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator',
         'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
-        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_seen')
+        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_seen','is_bookmarked')
         queryset = self.filter_queryset(self.get_queryset())
         queryset = list(sorted(queryset, key=lambda x:
         [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
