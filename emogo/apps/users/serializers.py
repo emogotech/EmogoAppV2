@@ -597,7 +597,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         fields = (
         'user_image', 'first_content_cover', 'stream_name', 'content_type', 'content_title', 'content_description',
         'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
-        'seen_index', 'thread')
+        'seen_index', 'thread','total_added_content')
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
         current_user_streams = Stream.objects.filter(created_by=self.context.get('request').user, status='Active')
