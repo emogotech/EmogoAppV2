@@ -465,7 +465,14 @@ class ViewStreamSerializer(StreamSerializer):
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
     def get_is_bookmarked(self, obj):
-        return True if obj.total_starred_stream_data.__len__() > 0 else False
+        exists = [x for x in obj.total_starred_stream_data if x.user == self.context.get('request').user]
+        if exists.__len__() > 0:
+            return True
+        else:
+            return False
+
+    # def get_is_bookmarked(self, obj):
+    #     return True if obj.total_starred_stream_data.__len__() > 0 else False
 
     def get_is_seen(self, obj):
         exists = [x for x in obj.total_view_count if x.user == self.context.get('request').user]
@@ -607,6 +614,7 @@ class MoveContentToStreamSerializer(ContentSerializer):
 
         def random_generator(size=6, chars=string.ascii_uppercase + string.digits):
             return ''.join(random.choice(chars) for x in range(size))
+
         self.initial_data['thread'] = random_generator()
         self.initial_data['contents'].update(upd=datetime.datetime.now())
         for stream in self.initial_data.get('streams'):
