@@ -588,6 +588,7 @@ class RecentUpdatesAPI(ListAPIView):
         return_list = list()
         for thread, group in grouped.items():
             if group.__len__() > 0:
+                setattr(group[0], 'total_added_contents', group.__len__())
                 return_list.append(group[0])
 
         return_list = list(sorted(return_list, key=lambda a: a.stream.recent_updates[

@@ -866,12 +866,18 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.stream.name
 
     def get_seen_index(self, obj):
-        # import pdb; pdb.set_trace()
-        if obj.stream.recent_stream.all().__len__() > 0:
+        if obj.stream.recent_updates.__len__() > 0:
             # return obj.stream.stream_recent_updates[0].seen_index
-            return obj.stream.recent_stream.all()[0].seen_index
+            return_list = [x for x in obj.stream.recent_updates if x.thread == obj.thread]
+            if return_list.__len__() > 0:
+                if return_list[0].seen_index == obj.total_added_contents:
+                    return True
+                else:
+                    return False
+            else:
+                return False
         else:
-            return '0'
+            return False
 
     def get_content_title(self, obj):
         return obj.content.name
@@ -887,6 +893,7 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
 
     def get_content_color(self, obj):
         return obj.content.color
+
 
 
 class RecentUpdatesDetailSerializer(DynamicFieldsModelSerializer):

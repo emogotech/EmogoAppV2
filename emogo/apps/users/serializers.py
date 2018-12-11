@@ -483,7 +483,6 @@ class GetTopStreamSerializer(serializers.Serializer):
         #  Modify the context parameter, pass the request params in context for viewstreamserializer
         return self.context
 
-
     def get_featured(self, obj):
         qs = self.qs.filter(featured=True).order_by('-stream_view_count')
         return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields(), context = self.context).data }
@@ -623,6 +622,8 @@ class GetTopStreamSerializer(serializers.Serializer):
         return_list = list()
         for thread, group in grouped.items():
             if group.__len__() > 0:
+                if group.__len__() > 0:
+                    setattr(group[0], 'total_added_contents', group.__len__())
                 return_list.append(group[0])
         # import pdb; pdb.set_trace()
         result_list = list(sorted(return_list, key=lambda a: a.stream.recent_updates[
