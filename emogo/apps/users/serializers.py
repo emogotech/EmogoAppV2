@@ -553,9 +553,15 @@ class GetTopStreamSerializer(serializers.Serializer):
         result_list = result_list[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.context).data }
 
-    ## Added Public stream
+    ## Added New stream
     def get_new_emogo_stream(self, obj):
         import datetime
+        fields = (
+        'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
+        'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes',
+        'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
+        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators',
+        'is_bookmarked','is_seen')
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
         current_user_streams = self.qs.filter(created_by=self.context.get('request').user, status='Active', crd__gt=week_ago)
@@ -572,10 +578,10 @@ class GetTopStreamSerializer(serializers.Serializer):
                                                                                                  for y in
                                                                                                  x.total_view_count if
                                                                                                  y.user == self.context.get('request').user].__len__() > 0 else datetime.date.min))
-        return {"total": total, "data": ViewStreamSerializer(queryset, many=True, fields=self.use_fields(),
+        return {"total": total, "data": ViewStreamSerializer(queryset, many=True, fields=fields,
                                                              context=self.context).data}
 
-    ## Added Public stream
+    ## Added Bookmark stream
     def get_bookmarked_stream(self, obj):
         user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream')
         result_list = self.qs.filter(id__in=[x.stream.id for x in user_bookmarks])
@@ -584,7 +590,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(),
                                                                      context=self.context).data}
 
-    ## Added Public stream
+    ## Recent updates in stream
     def get_recent_update(self, obj):
         import datetime
         result_list = list()
@@ -625,7 +631,6 @@ class GetTopStreamSerializer(serializers.Serializer):
                 if group.__len__() > 0:
                     setattr(group[0], 'total_added_contents', group.__len__())
                 return_list.append(group[0])
-        # import pdb; pdb.set_trace()
         result_list = list(sorted(return_list, key=lambda a: a.stream.recent_updates[
             0].seen_index if a.stream.recent_updates.__len__() > 0 else None))
 
