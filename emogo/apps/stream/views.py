@@ -528,7 +528,7 @@ class RecentUpdatesAPI(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         fields = (
-        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'content_title', 'content_description',
+        'user_image', 'first_content_cover', 'stream_name','stream_type', 'content_type', 'content_title', 'content_description',
         'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
         'seen_index', 'thread', 'total_added_content')
         page = self.paginate_queryset(queryset)
@@ -731,6 +731,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
             if queryset[0].stream.stream_recent_updates.__len__() > 0:
                 seen_index = queryset[0].stream.stream_recent_updates[0].seen_index
             else:
+
                 seen_index = 0
 
         return_data = {"stream": stream_serializer,
