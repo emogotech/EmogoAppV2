@@ -878,7 +878,7 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
             # return obj.stream.stream_recent_updates[0].seen_index
             return_list = [x for x in obj.stream.recent_updates if x.thread == obj.thread]
             if return_list.__len__() > 0:
-                if return_list[0].seen_index == obj.total_added_contents:
+                if return_list[0].seen_index == (obj.total_added_contents-1):
                     return True
                 else:
                     return False
