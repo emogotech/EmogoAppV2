@@ -614,10 +614,9 @@ class MoveContentToStreamSerializer(ContentSerializer):
 
         def random_generator(size=6, chars=string.ascii_uppercase + string.digits):
             return ''.join(random.choice(chars) for x in range(size))
-
-        self.initial_data['thread'] = random_generator()
         self.initial_data['contents'].update(upd=datetime.datetime.now())
         for stream in self.initial_data.get('streams'):
+            self.initial_data['thread'] = random_generator()
             map(self.add_content_to_stream, self.initial_data.get('contents'),
                                 itertools.repeat(stream, self.initial_data.get('contents').__len__()))
 
@@ -637,7 +636,6 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :return: Function add content to stream
         """
         # Create Stream and content
-
         obj , created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
         # Set True in have_some_update field, When user move content to stream
         obj.thread = self.initial_data.get("thread")
