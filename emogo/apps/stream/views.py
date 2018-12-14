@@ -534,7 +534,9 @@ class RecentUpdatesAPI(ListAPIView):
         page = self.paginate_queryset(queryset)
         if page is not None:
             # serializer = self.get_serializer(queryset, many=True)
-            serializer = self.get_serializer(queryset, many=True, fields=fields)
+            # for x in queryset:
+            #     print x.total_added_contents , x.thread
+            serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
         # serializer = self.get_serializer(queryset, many=True)
         serializer = self.get_serializer(queryset, many=True, fields=fields)
@@ -580,7 +582,8 @@ class RecentUpdatesAPI(ListAPIView):
                                                                                                                'content').prefetch_related(
             Prefetch('stream__recent_stream',
                      queryset=RecentUpdates.objects.filter(user=self.request.user).order_by('seen_index'),
-                     to_attr='recent_updates'))
+                     to_attr='recent_updates')
+        ).order_by('-id')
 
         grouped = collections.defaultdict(list)
         for item in content_ids:
@@ -591,9 +594,19 @@ class RecentUpdatesAPI(ListAPIView):
                 setattr(group[0], 'total_added_contents', group.__len__())
                 return_list.append(group[0])
 
-        return_list = list(sorted(return_list, key=lambda a: a.stream.recent_updates[
-            0].seen_index if a.stream.recent_updates.__len__() > 0 else None))
+        have_seen_all_content = list()
+        have_not_seen_all_content = list()
+        for x in return_list:
+            if x.stream.recent_updates.__len__() > 0:
+                if x.total_added_contents == x.stream.recent_updates[0].seen_index:
+                    have_seen_all_content.append(x)
+                    # print(x.stream.recent_updates[0].seen_index)
+            else:
+                have_not_seen_all_content.append(x)
+        have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
 
+        have_seen_all_content = list(sorted(have_seen_all_content, key=lambda a: a.stream.recent_updates[0].seen_index))
+        return_list = have_not_seen_all_content + have_seen_all_content
         return return_list
 
 
@@ -614,17 +627,17 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        fields = (
-        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name','thread','seen_index')
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(queryset, many=True, fields=fields)
-            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
-        serializer = self.get_serializer(queryset, many=True, fields=fields)
-        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+    # def list(self, request, *args, **kwargs):
+    #     queryset = self.filter_queryset(self.get_queryset())
+    #     fields = (
+    #     'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
+    #     'user_name','thread','seen_index')
+    #     page = self.paginate_queryset(queryset)
+    #     if page is not None:
+    #         serializer = self.get_serializer(queryset, many=True, fields=fields)
+    #         return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+    #     serializer = self.get_serializer(queryset, many=True, fields=fields)
+    #     return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def filter_queryset(self, queryset):
         """
