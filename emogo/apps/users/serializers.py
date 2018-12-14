@@ -583,7 +583,7 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     ## Added Bookmark stream
     def get_bookmarked_stream(self, obj):
-        user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream')
+        user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream').order_by('-id')
         result_list = self.qs.filter(id__in=[x.stream.id for x in user_bookmarks])
         total = result_list.count()
         result_list = result_list[0:10]

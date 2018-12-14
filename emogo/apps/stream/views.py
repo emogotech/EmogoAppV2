@@ -1107,7 +1107,7 @@ class BookmarkNewEmogosAPI(ListAPIView):
             to_attr='total_view_count'
         )
     ).order_by('-id')
-    queryset_bookmark = StarredStream.objects.filter().select_related('stream')
+    queryset_bookmark = StarredStream.objects.filter().select_related('stream').order_by('-id')
     serializer_class = BookmarkNewEmogosSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -1236,7 +1236,7 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
-        bookmarked_streams = self.starred_stream_queryset.filter(user=self.request.user).select_related('stream')
+        bookmarked_streams = self.starred_stream_queryset.filter(user=self.request.user).select_related('stream').order_by('-id')
         queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.filter(id__in=[x.stream.id for x in bookmarked_streams])
         queryset = list(sorted(queryset, key=lambda x:
