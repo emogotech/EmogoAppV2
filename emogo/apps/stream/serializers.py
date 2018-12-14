@@ -830,6 +830,7 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
     user_image = serializers.SerializerMethodField()
     first_content_cover = serializers.SerializerMethodField()
     stream_name = serializers.SerializerMethodField()
+    stream_type = serializers.SerializerMethodField()
     content_type = serializers.SerializerMethodField()
     added_by_user_id = serializers.SerializerMethodField()
     user_profile_id = serializers.SerializerMethodField()
@@ -845,7 +846,7 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = StreamContent
         fields = (
-        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'content_title', 'content_description',
+        'user_image', 'first_content_cover', 'stream_name', 'stream_type','content_type', 'content_title', 'content_description',
         'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
         'seen_index', 'thread', 'total_added_content')
 
@@ -872,6 +873,9 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
 
     def get_stream_name(self, obj):
         return obj.stream.name
+
+    def get_stream_type(self, obj):
+        return obj.stream.type
 
     def get_seen_index(self, obj):
         if obj.stream.recent_updates.__len__() > 0:
@@ -947,7 +951,7 @@ class RecentUpdatesDetailSerializer(DynamicFieldsModelSerializer):
         if obj.stream.stream_recent_updates.__len__() > 0:
             return obj.stream.stream_recent_updates[0].seen_index
         else:
-            return '0'
+            return None
 
 
 class StarredStreamSerializer(DynamicFieldsModelSerializer):

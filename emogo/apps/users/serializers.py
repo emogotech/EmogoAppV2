@@ -595,7 +595,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         import datetime
         result_list = list()
         fields = (
-        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'content_title', 'content_description',
+        'user_image', 'first_content_cover', 'stream_name','stream_type', 'content_type', 'content_title', 'content_description',
         'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
         'seen_index', 'thread','total_added_content')
         today = datetime.date.today()
@@ -668,8 +668,20 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
         users = User.objects.all().values_list('username', flat=True)
         # Find User profile for contact list
         fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name')
-        return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username=contact), fields=fields, context=self.context).data
-                    if contact in users else False) for contact in self.validated_data.get('contact_list')}
+
+        user_username = list()
+        for user in users:
+            user = user[-10:]
+            user_username.append(user)
+
+        user_contact = list()
+        for contact in self.validated_data.get('contact_list'):
+            contact = contact[-10:]
+            user_contact.append(contact)
+
+        return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username__endswith=str(contact)[-10:]), fields=fields,
+                                                   context=self.context).data
+                              if contact in user_username else False) for contact in user_contact}
 
 
 class UserDeviceTokenSerializer(serializers.Serializer):
