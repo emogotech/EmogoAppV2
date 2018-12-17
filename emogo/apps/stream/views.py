@@ -593,17 +593,18 @@ class RecentUpdatesAPI(ListAPIView):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()
-                seen_indexes = RecentUpdates.objects.filter(thread=thread, seen_index__gt=total_added_contents)
-                seen_indexes.update(seen_index=total_added_contents)
+                # seen_indexes = RecentUpdates.objects.filter(thread=thread, seen_index__gt=total_added_contents)
+                # seen_indexes.update(seen_index=total_added_contents-1)
                 return_list.append(group[0])
 
         have_seen_all_content = list()
         have_not_seen_all_content = list()
         for x in return_list:
             if x.stream.recent_updates.__len__() > 0:
-                if x.total_added_contents == x.stream.recent_updates[0].seen_index:
+                if (x.total_added_contents-1) == x.stream.recent_updates[0].seen_index:
                     have_seen_all_content.append(x)
-                    # print(x.stream.recent_updates[0].seen_index)
+                else:
+                    have_not_seen_all_content.append(x)
             else:
                 have_not_seen_all_content.append(x)
         have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))

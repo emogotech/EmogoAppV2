@@ -646,8 +646,10 @@ class GetTopStreamSerializer(serializers.Serializer):
         have_not_seen_all_content = list()
         for x in return_list:
             if x.stream.recent_updates.__len__() > 0:
-                if x.total_added_contents == x.stream.recent_updates[0].seen_index:
+                if (x.total_added_contents - 1) == x.stream.recent_updates[0].seen_index:
                     have_seen_all_content.append(x)
+                else:
+                    have_not_seen_all_content.append(x)
             else:
                 have_not_seen_all_content.append(x)
         have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
