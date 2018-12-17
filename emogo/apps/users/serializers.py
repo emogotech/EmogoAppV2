@@ -172,6 +172,7 @@ class UserDetailSerializer(UserProfileSerializer):
     following = serializers.SerializerMethodField()
     is_following = serializers.SerializerMethodField()
     is_follower = serializers.SerializerMethodField()
+    user_phone = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
@@ -206,6 +207,9 @@ class UserDetailSerializer(UserProfileSerializer):
 
     def get_followers(self, obj):
         return obj.user.followers.__len__()
+
+    def get_user_phone(self, obj):
+        return obj.user.username
 
     def get_following(self, obj):
         return obj.user.following.__len__()
@@ -679,7 +683,7 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
     def find_contact_list(self):
         users = User.objects.all().values_list('username', flat=True)
         # Find User profile for contact list
-        fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name')
+        fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name', 'user_phone')
 
         user_username = list()
         for user in users:
