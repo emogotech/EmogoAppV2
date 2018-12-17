@@ -587,8 +587,12 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     ## Added Bookmark stream
     def get_bookmarked_stream(self, obj):
+        from django.db.models import Case, When
         user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream').order_by('-id')
-        result_list = self.qs.filter(id__in=[x.stream.id for x in user_bookmarks])
+        pk_list = [x.stream.id for x in user_bookmarks]
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
+        result_list = self.qs.filter(id__in=pk_list).order_by(preserved)
+        # result_list.order_by = False
         total = result_list.count()
         result_list = result_list[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(),

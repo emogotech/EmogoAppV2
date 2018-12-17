@@ -1225,7 +1225,7 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
             queryset=StarredStream.objects.all().select_related('user'),
             to_attr='total_starred_stream_data'
         ),
-    ).order_by('-id')
+    )
     starred_stream_queryset = StarredStream.objects.all()
     serializer_class = ViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
@@ -1241,9 +1241,13 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
+        from django.db.models import Case, When
         bookmarked_streams = self.starred_stream_queryset.filter(user=self.request.user).select_related('stream').order_by('-id')
+        pk_list = [x.stream.id for x in bookmarked_streams]
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
         queryset = self.filter_queryset(self.get_queryset())
-        queryset = queryset.filter(id__in=[x.stream.id for x in bookmarked_streams])
+        queryset = queryset.filter(id__in=pk_list).order_by(preserved)
+
         # queryset = list(sorted(queryset, key=lambda x:
         # [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
         #                                                                                          for y in
