@@ -592,6 +592,9 @@ class RecentUpdatesAPI(ListAPIView):
         for thread, group in grouped.items():
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
+                total_added_contents = group.__len__()
+                seen_indexes = RecentUpdates.objects.filter(thread=thread, seen_index__gt=total_added_contents)
+                seen_indexes.update(seen_index=total_added_contents)
                 return_list.append(group[0])
 
         have_seen_all_content = list()
