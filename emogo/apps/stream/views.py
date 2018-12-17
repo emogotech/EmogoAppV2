@@ -1244,11 +1244,11 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
         bookmarked_streams = self.starred_stream_queryset.filter(user=self.request.user).select_related('stream').order_by('-id')
         queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.filter(id__in=[x.stream.id for x in bookmarked_streams])
-        queryset = list(sorted(queryset, key=lambda x:
-        [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
-                                                                                                 for y in
-                                                                                                 x.total_view_count if
-                                                                                                 y.user == self.request.user].__len__() > 0 else datetime.date.min))
+        # queryset = list(sorted(queryset, key=lambda x:
+        # [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
+        #                                                                                          for y in
+        #                                                                                          x.total_view_count if
+        #                                                                                          y.user == self.request.user].__len__() > 0 else datetime.date.min))
 
         fields = (
             'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
