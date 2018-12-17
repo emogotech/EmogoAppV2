@@ -110,10 +110,27 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                 status = 'Active'
             collaborator_list.update(status=status)
 
-        # 4. Set have_some_update is true, when user edit the stream..
+        # 4. Set have_some_update is true, when user edit the stream.
         self.instance.have_some_update = True
         self.instance.save()
+        # Removed stream bookmarked
+        self.removed_stream_bookmarked(self.instance)
         return kwargs
+
+    def removed_stream_bookmarked(self, obj):
+        import pdb;
+        pdb.set_trace()
+        phone_number= self.instance.collaborator_list.filter(stream_id=self.instance.id).values_list('phone_number', flat=True)
+        # phone_number = Collaborator.actives.filter(stream_id=self.instance.id).values_list('phone_number', flat=True)
+        valid_users = []
+        for contact in phone_number:
+            users = User.objects.filter(username__endswith=str(contact)[-10:])
+            valid_users.append(users.first().id)
+        # Delete all unathorized user bookmarked
+        bookmarked_stream_invalid_users = StarredStream.actives.filter(stream_id=self.instance.id).exclude(
+            user_id__in=valid_users)
+        bookmarked_stream_invalid_users.delete()
+        return True
 
     def create(self, validated_data):
         """
