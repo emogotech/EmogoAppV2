@@ -583,7 +583,7 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     ## Added Bookmark stream
     def get_bookmarked_stream(self, obj):
-        user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream')
+        user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream').order_by('-id')
         result_list = self.qs.filter(id__in=[x.stream.id for x in user_bookmarks])
         total = result_list.count()
         result_list = result_list[0:10]
@@ -631,10 +631,22 @@ class GetTopStreamSerializer(serializers.Serializer):
                 if group.__len__() > 0:
                     setattr(group[0], 'total_added_contents', group.__len__())
                 return_list.append(group[0])
-        result_list = list(sorted(return_list, key=lambda a: a.stream.recent_updates[
-            0].seen_index if a.stream.recent_updates.__len__() > 0 else None))
+        # result_list = list(sorted(return_list, key=lambda a: a.stream.recent_updates[
+        #     0].seen_index if a.stream.recent_updates.__len__() > 0 else None))
 
-        total = result_list.__len__()
+        have_seen_all_content = list()
+        have_not_seen_all_content = list()
+        for x in return_list:
+            if x.stream.recent_updates.__len__() > 0:
+                if x.total_added_contents == x.stream.recent_updates[0].seen_index:
+                    have_seen_all_content.append(x)
+            else:
+                have_not_seen_all_content.append(x)
+        have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
+
+        have_seen_all_content = list(sorted(have_seen_all_content, key=lambda a: a.stream.recent_updates[0].seen_index))
+        return_list = have_not_seen_all_content + have_seen_all_content
+        total = return_list.__len__()
         result_list = result_list[0:10]
         return {"total": total, "data": RecentUpdatesSerializer(result_list, many=True, fields=fields).data}
 
