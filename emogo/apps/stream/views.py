@@ -592,6 +592,9 @@ class RecentUpdatesAPI(ListAPIView):
         for thread, group in grouped.items():
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
+                total_added_contents = group.__len__()
+                seen_indexes = RecentUpdates.objects.filter(thread=thread, seen_index__gt=total_added_contents)
+                seen_indexes.update(seen_index=total_added_contents)
                 return_list.append(group[0])
 
         have_seen_all_content = list()
@@ -626,18 +629,6 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         """
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
-
-    # def list(self, request, *args, **kwargs):
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #     fields = (
-    #     'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-    #     'user_name','thread','seen_index')
-    #     page = self.paginate_queryset(queryset)
-    #     if page is not None:
-    #         serializer = self.get_serializer(queryset, many=True, fields=fields)
-    #         return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
-    #     serializer = self.get_serializer(queryset, many=True, fields=fields)
-    #     return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def filter_queryset(self, queryset):
         """
@@ -733,7 +724,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
                                                      context=self.get_serializer_context()).data
         else:
             stream_serializer = dict()
-        seen_index = 0
+        seen_index = None
         user_dict = dict()
         if queryset.__len__() > 0:
             user_dict['full_name'] = queryset[0].user.user_data.full_name
@@ -745,7 +736,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
                 seen_index = queryset[0].stream.stream_recent_updates[0].seen_index
             else:
 
-                seen_index = 0
+                seen_index = None
 
         return_data = {"stream": stream_serializer,
                        "stream_content":content_dataserializer.data,
