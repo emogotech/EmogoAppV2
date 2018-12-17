@@ -674,14 +674,47 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
             user = user[-10:]
             user_username.append(user)
 
-        user_contact = list()
+        user_prof = list()
+        contact_not_exist = list()
+        valid_users = []
+        for contact in self.validated_data.get('contact_list'):
+            users = UserProfile.objects.filter(user__username__endswith=str(contact)[-10:])
+            valid_users.append(users)
+        for i in range(len(valid_users)):
+            for x in valid_users[i]:
+                user_prof.append(x.user.username)
+
+        valid_user_number=[]
+        for contact in user_prof:
+            username=contact[-10:]
+            valid_user_number.append(username)
+
         for contact in self.validated_data.get('contact_list'):
             contact = contact[-10:]
-            user_contact.append(contact)
+            if contact not in valid_user_number:
+                contact_not_exist.append(contact)
 
-        return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username__endswith=str(contact)[-10:]), fields=fields,
-                                                   context=self.context).data
-                              if contact in user_username else False) for contact in user_contact}
+        user_info = {}
+
+        for contact in self.validated_data.get('contact_list'):
+            if contact[-10:] in contact_not_exist:
+                user_info[contact] = False
+
+            users = User.objects.all().values_list('username', flat=True)
+            valid=[]
+            for user in users:
+                for contact in self.validated_data.get('contact_list'):
+                    if user[-10:] == contact[-10:]:
+                        valid.append(user)
+
+            for x in valid:
+                user_info[x] = UserDetailSerializer(UserProfile.objects.get(user__username=x), fields=fields,
+                    context=self.context).data
+
+
+        return user_info
+
+
 
 
 class UserDeviceTokenSerializer(serializers.Serializer):

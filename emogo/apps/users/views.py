@@ -714,6 +714,7 @@ class CheckContactInEmogo(APIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
+
             data = serializer.find_contact_list()
             return custom_render_response(status_code=status.HTTP_200_OK, data=data)
         else:

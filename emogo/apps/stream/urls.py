@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^copy_content/$', views.CopyContentAPI.as_view()),
     url(r'^get_top_content/$', views.GetTopContentAPI.as_view()),
     url(r'^get_top_twenty_content/$', views.GetTopTwentyContentAPI.as_view()),
-    url(r'^move_content_to_stream/$', views.MoveContentToStream.as_view()),
+    url(r'^0/$', views.MoveContentToStream.as_view()),
     url(r'^reorder_stream_content/$', views.ReorderStreamContent.as_view()),
     url(r'^reorder_content/$', views.ReorderContent.as_view()),
     url(r'^extremist_report/$', views.ExtremistReportAPI.as_view()),
