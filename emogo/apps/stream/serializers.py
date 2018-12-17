@@ -100,7 +100,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')    
         else:
             collaborator_list = self.instance.collaborator_list.all()    
-        if collaborator_list.__len__ > 0 :
+        if collaborator_list.__len__ > 0:
             stream_type = self.validated_data.get('type')
             if stream_type == 'Public':
                 # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public) 

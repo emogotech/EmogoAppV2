@@ -647,7 +647,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         have_seen_all_content = list(sorted(have_seen_all_content, key=lambda a: a.stream.recent_updates[0].seen_index))
         return_list = have_not_seen_all_content + have_seen_all_content
         total = return_list.__len__()
-        result_list = result_list[0:10]
+        result_list = return_list[0:10]
         return {"total": total, "data": RecentUpdatesSerializer(result_list, many=True, fields=fields).data}
 
 
