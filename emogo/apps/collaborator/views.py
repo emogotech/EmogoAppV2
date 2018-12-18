@@ -129,6 +129,7 @@ class StreamCollaboratorsAPI(ListAPIView):
         else:
             return custom_render_response(data=data, status_code=status.HTTP_200_OK)
 
+
 class CollaboratorDeletionAPI(DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -140,14 +141,17 @@ class CollaboratorDeletionAPI(DestroyAPIView):
         :param kwargs:
         :return: Hard Delete collaborator
         """
+        from emogo.apps.stream.models import StarredStream
         collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
         stream_id = collaborator.stream.id
-        collab_user = User.objects.filter(username = collaborator.phone_number)
+        collab_user = User.objects.filter(username__endwith = collaborator.phone_number[-10:])
         if collab_user.__len__():
             noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = collaborator.stream, from_user = self.request.user, to_user = collab_user[0] )
             if noti.__len__() > 0 :
                 noti.update(notification_type = 'deleted_collaborator')
         collaborator.delete()
+        if collab_user.__len__() > 0:
+            StarredStream.objects.filter(user=collab_user[0], stream_id = stream_id).delete()
         stream = Stream.objects.filter(id =stream_id)
         if stream.__len__() > 0:
             if stream[0].collaborator_list.count() == 1:
