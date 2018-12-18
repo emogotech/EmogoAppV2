@@ -700,13 +700,12 @@ class DeleteStreamContentSerializer(DynamicFieldsModelSerializer):
 
     def delete_content(self):
         self.instance.stream_contents.filter(content__in=self.validated_data.get("content")).delete()
-        recent_updates_thread_list = RecentUpdates.objects.filter(stream=self.instance).values_list('thread', flat=True)
-        stream_content_thread_list = [x.thread for x in self.instance.stream_contents]
-        if stream_content_thread_list.__len__() > 0:
-            for thread in recent_updates_thread_list:
-                if thread not in stream_content_thread_list:
-                    RecentUpdates.objects.filter(thread=thread).delete()
-
+        # recent_updates_thread_list = RecentUpdates.objects.filter(stream=self.instance).values_list('thread', flat=True)
+        # stream_content_thread_list = [x.thread for x in self.instance.stream_contents]
+        # if stream_content_thread_list.__len__() > 0:
+        #     for thread in recent_updates_thread_list:
+        #         if thread not in stream_content_thread_list:
+        #             RecentUpdates.objects.filter(thread=thread).delete()
         return True
 
 
