@@ -144,7 +144,7 @@ class CollaboratorDeletionAPI(DestroyAPIView):
         from emogo.apps.stream.models import StarredStream
         collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
         stream_id = collaborator.stream.id
-        collab_user = User.objects.filter(username__endwith = collaborator.phone_number[-10:])
+        collab_user = User.objects.filter(username__endswith = collaborator.phone_number[-10:])
         if collab_user.__len__():
             noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = collaborator.stream, from_user = self.request.user, to_user = collab_user[0] )
             if noti.__len__() > 0 :
