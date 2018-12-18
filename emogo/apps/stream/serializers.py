@@ -100,7 +100,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')    
         else:
             collaborator_list = self.instance.collaborator_list.all()    
-        if collaborator_list.__len__ > 0 :
+        if collaborator_list.__len__ > 0:
             stream_type = self.validated_data.get('type')
             if stream_type == 'Public':
                 # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public) 
@@ -194,7 +194,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                 collaborator.created_by = self.context.get('request').user
             collaborator.status = status
             collaborator.save()
-            to_user = User.objects.filter(username = collaborator.phone_number )
+            to_user = User.objects.filter(username__endswith = collaborator.phone_number[-10:] )
             if collaborator.status == "Unverified" and self.context['version'] and  to_user.__len__() > 0 and data.get('new_add'):
                 NotificationAPI().send_notification(self.context.get('request').user, to_user[0],  'collaborator_confirmation', stream)
             return collaborator

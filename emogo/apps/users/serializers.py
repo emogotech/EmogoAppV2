@@ -172,6 +172,7 @@ class UserDetailSerializer(UserProfileSerializer):
     following = serializers.SerializerMethodField()
     is_following = serializers.SerializerMethodField()
     is_follower = serializers.SerializerMethodField()
+    phone_number = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
@@ -206,6 +207,9 @@ class UserDetailSerializer(UserProfileSerializer):
 
     def get_followers(self, obj):
         return obj.user.followers.__len__()
+
+    def get_phone_number(self, obj):
+        return obj.user.username
 
     def get_following(self, obj):
         return obj.user.following.__len__()
@@ -583,8 +587,12 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     ## Added Bookmark stream
     def get_bookmarked_stream(self, obj):
+        from django.db.models import Case, When
         user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream').order_by('-id')
-        result_list = self.qs.filter(id__in=[x.stream.id for x in user_bookmarks])
+        pk_list = [x.stream.id for x in user_bookmarks]
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
+        result_list = self.qs.filter(id__in=pk_list).order_by(preserved)
+        # result_list.order_by = False
         total = result_list.count()
         result_list = result_list[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(),
@@ -638,8 +646,10 @@ class GetTopStreamSerializer(serializers.Serializer):
         have_not_seen_all_content = list()
         for x in return_list:
             if x.stream.recent_updates.__len__() > 0:
-                if x.total_added_contents == x.stream.recent_updates[0].seen_index:
+                if (x.total_added_contents - 1) == x.stream.recent_updates[0].seen_index:
                     have_seen_all_content.append(x)
+                else:
+                    have_not_seen_all_content.append(x)
             else:
                 have_not_seen_all_content.append(x)
         have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
@@ -647,7 +657,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         have_seen_all_content = list(sorted(have_seen_all_content, key=lambda a: a.stream.recent_updates[0].seen_index))
         return_list = have_not_seen_all_content + have_seen_all_content
         total = return_list.__len__()
-        result_list = result_list[0:10]
+        result_list = return_list[0:10]
         return {"total": total, "data": RecentUpdatesSerializer(result_list, many=True, fields=fields).data}
 
 
@@ -679,7 +689,7 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
     def find_contact_list(self):
         users = User.objects.all().values_list('username', flat=True)
         # Find User profile for contact list
-        fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name')
+        fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name', 'phone_number')
 
         user_username = list()
         for user in users:

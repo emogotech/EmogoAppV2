@@ -592,15 +592,19 @@ class RecentUpdatesAPI(ListAPIView):
         for thread, group in grouped.items():
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
+                total_added_contents = group.__len__()
+                # seen_indexes = RecentUpdates.objects.filter(thread=thread, seen_index__gt=total_added_contents)
+                # seen_indexes.update(seen_index=total_added_contents-1)
                 return_list.append(group[0])
 
         have_seen_all_content = list()
         have_not_seen_all_content = list()
         for x in return_list:
             if x.stream.recent_updates.__len__() > 0:
-                if x.total_added_contents == x.stream.recent_updates[0].seen_index:
+                if (x.total_added_contents-1) == x.stream.recent_updates[0].seen_index:
                     have_seen_all_content.append(x)
-                    # print(x.stream.recent_updates[0].seen_index)
+                else:
+                    have_not_seen_all_content.append(x)
             else:
                 have_not_seen_all_content.append(x)
         have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
@@ -626,18 +630,6 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         """
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
-
-    # def list(self, request, *args, **kwargs):
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #     fields = (
-    #     'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-    #     'user_name','thread','seen_index')
-    #     page = self.paginate_queryset(queryset)
-    #     if page is not None:
-    #         serializer = self.get_serializer(queryset, many=True, fields=fields)
-    #         return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
-    #     serializer = self.get_serializer(queryset, many=True, fields=fields)
-    #     return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def filter_queryset(self, queryset):
         """
@@ -733,7 +725,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
                                                      context=self.get_serializer_context()).data
         else:
             stream_serializer = dict()
-        seen_index = 0
+        seen_index = None
         user_dict = dict()
         if queryset.__len__() > 0:
             user_dict['full_name'] = queryset[0].user.user_data.full_name
@@ -745,7 +737,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
                 seen_index = queryset[0].stream.stream_recent_updates[0].seen_index
             else:
 
-                seen_index = 0
+                seen_index = None
 
         return_data = {"stream": stream_serializer,
                        "stream_content":content_dataserializer.data,
@@ -1234,7 +1226,7 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
             queryset=StarredStream.objects.all().select_related('user'),
             to_attr='total_starred_stream_data'
         ),
-    ).order_by('-id')
+    )
     starred_stream_queryset = StarredStream.objects.all()
     serializer_class = ViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
@@ -1250,14 +1242,18 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
+        from django.db.models import Case, When
         bookmarked_streams = self.starred_stream_queryset.filter(user=self.request.user).select_related('stream').order_by('-id')
+        pk_list = [x.stream.id for x in bookmarked_streams]
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
         queryset = self.filter_queryset(self.get_queryset())
-        queryset = queryset.filter(id__in=[x.stream.id for x in bookmarked_streams])
-        queryset = list(sorted(queryset, key=lambda x:
-        [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
-                                                                                                 for y in
-                                                                                                 x.total_view_count if
-                                                                                                 y.user == self.request.user].__len__() > 0 else datetime.date.min))
+        queryset = queryset.filter(id__in=pk_list).order_by(preserved)
+
+        # queryset = list(sorted(queryset, key=lambda x:
+        # [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
+        #                                                                                          for y in
+        #                                                                                          x.total_view_count if
+        #                                                                                          y.user == self.request.user].__len__() > 0 else datetime.date.min))
 
         fields = (
             'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
