@@ -120,7 +120,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
     def removed_stream_bookmarked(self, obj):
         if self.instance.stream_collaborator.__len__() > 0:
-            phone_number = [x.phone_number for x in self.instance.collaborator_list]
+            phone_number = [x.phone_number for x in self.instance.collaborator_list.all()]
             valid_users = []
             for contact in phone_number:
                 users = User.objects.filter(username__endswith=str(contact)[-10:])
