@@ -724,7 +724,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
             stream_serializer = ViewStreamSerializer(queryset[0].stream, fields=stream_fields,
                                                      context=self.get_serializer_context()).data
         else:
-            stream_serializer = dict()
+            return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)
         seen_index = None
         user_dict = dict()
         if queryset.__len__() > 0:
