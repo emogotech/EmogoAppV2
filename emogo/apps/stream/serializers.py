@@ -114,13 +114,11 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         self.instance.have_some_update = True
         self.instance.save()
         # Removed stream bookmarked
-        self.removed_stream_bookmarked(self.instance)
+        # self.removed_stream_bookmarked(self.instance)
         return kwargs
 
     def removed_stream_bookmarked(self, obj):
-        import pdb;
-        pdb.set_trace()
-        phone_number= self.instance.collaborator_list.filter(stream_id=self.instance.id).values_list('phone_number', flat=True)
+        phone_number = self.instance.collaborator_list.filter(stream_id=self.instance.id).values_list('phone_number', flat=True)
         # phone_number = Collaborator.actives.filter(stream_id=self.instance.id).values_list('phone_number', flat=True)
         valid_users = []
         for contact in phone_number:
