@@ -900,17 +900,12 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.stream.type
 
     def get_seen_index(self, obj):
-        if obj.stream.recent_updates.__len__() > 0:
-            # return obj.stream.stream_recent_updates[0].seen_index
-            return_list = [x for x in obj.stream.recent_updates if x.thread == obj.thread]
-            if return_list.__len__() > 0:
-                if return_list[0].seen_index == (obj.total_added_contents-1):
-                    return True
-                else:
-                    return False
+        try:
+            if obj.exact_current_seen_index_row.seen_index >= (obj.total_added_contents - 1):
+                return True
             else:
                 return False
-        else:
+        except AttributeError:
             return False
 
     def get_content_title(self, obj):

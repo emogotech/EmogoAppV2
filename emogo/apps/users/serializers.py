@@ -636,25 +636,31 @@ class GetTopStreamSerializer(serializers.Serializer):
         return_list = list()
         for thread, group in grouped.items():
             if group.__len__() > 0:
-                if group.__len__() > 0:
-                    setattr(group[0], 'total_added_contents', group.__len__())
+                setattr(group[0], 'total_added_contents', group.__len__())
+                total_added_contents = group.__len__()
+                # seen_indexes = RecentUpdates.objects.filter(thread=thread, seen_index__gt=total_added_contents)
+                # seen_indexes.update(seen_index=total_added_contents-1)
+                if group[0].stream.recent_updates.__len__() > 0:
+                    exact_current_seen_index = [x for x in group[0].stream.recent_updates if
+                                                x.thread == group[0].thread]
+                    if exact_current_seen_index.__len__() > 0:
+                        setattr(group[0], 'exact_current_seen_index_row', exact_current_seen_index[0])
                 return_list.append(group[0])
-        # result_list = list(sorted(return_list, key=lambda a: a.stream.recent_updates[
-        #     0].seen_index if a.stream.recent_updates.__len__() > 0 else None))
 
         have_seen_all_content = list()
         have_not_seen_all_content = list()
         for x in return_list:
-            if x.stream.recent_updates.__len__() > 0:
-                if (x.total_added_contents - 1) == x.stream.recent_updates[0].seen_index:
+            try:
+                if x.exact_current_seen_index_row.seen_index >= (x.total_added_contents - 1):
                     have_seen_all_content.append(x)
                 else:
                     have_not_seen_all_content.append(x)
-            else:
+            except AttributeError:
                 have_not_seen_all_content.append(x)
-        have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
 
-        have_seen_all_content = list(sorted(have_seen_all_content, key=lambda a: a.stream.recent_updates[0].seen_index))
+        have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
+        have_seen_all_content = list(
+            sorted(have_seen_all_content, key=lambda a: a.exact_current_seen_index_row.seen_index))
         return_list = have_not_seen_all_content + have_seen_all_content
         total = return_list.__len__()
         result_list = return_list[0:10]
