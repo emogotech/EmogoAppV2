@@ -119,6 +119,7 @@ class StreamUserViewStatus(models.Model):
     stream = models.ForeignKey(Stream, related_name='stream_user_view_status')
     action_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
+
     objects = models.Manager()  # The default manager.
 
     class Meta:
@@ -179,9 +180,11 @@ class RecentUpdates(models.Model):
     """
     Recent update table model class.
     """
-    stream = models.ForeignKey(Stream, null=True, blank=True)
+    user = models.ForeignKey(User, blank=True, null=True)
+    stream = models.ForeignKey(Stream, null=True, blank=True, related_name='recent_stream')
     thread = models.CharField(max_length=45, null=True, blank=True)
     seen_index = models.IntegerField(null=True, blank=True)
+    objects = models.Manager()
 
     class Meta:
         db_table = 'recent_updates'

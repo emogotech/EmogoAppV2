@@ -236,6 +236,4 @@ class NewEmogosFilter(django_filters.FilterSet):
         fields = ['emogo_name']
 
     def filter_emogo_name(self, qs, name, value):
-        # import pdb;
-        # pdb.set_trace()
         return qs.filter(name__icontains=value)

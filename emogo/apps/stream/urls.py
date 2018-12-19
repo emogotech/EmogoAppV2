@@ -32,8 +32,10 @@ urlpatterns = [
     url(r'^recent_updates_detail/$', views.RecentUpdatesDetailListAPI.as_view()),
     url(r'^seen_index/$', views.SeenIndexAPI.as_view()),
     url(r'^starred_streams', views.StarredAPI.as_view()),
-    url(r'^bookmarks/$', views.StarredStreamAPI.as_view()),# don't make a name starts with stream
+    url(r'^bookmarks/(?P<stream_id>[0-9]+)/$', views.StarredAPI.as_view()),  # don't make a name starts with stream
+    url(r'^bookmarks/$', views.StarredAPI.as_view()),# don't make a name starts with stream
     url(r'^bookmarks_and_new_emogos/$', views.BookmarkNewEmogosAPI.as_view()),
     url(r'^new_emogos_list', views.NewEmogosAPI.as_view()),
+    url(r'^update_user_view_stream_status/', views.AddUserViewStreamStatus.as_view()),
 
 ]

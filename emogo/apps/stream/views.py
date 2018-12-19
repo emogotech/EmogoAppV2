@@ -6,11 +6,12 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream
+from models import Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream
 from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
-    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer
+    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, \
+    RecentUpdatesSerializer, AddUserViewStatusSerializer, RecentUpdatesDetailSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -25,7 +26,6 @@ from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
 import datetime
-from rest_framework.authtoken.models import Token
 from rest_framework import filters
 
 
@@ -170,8 +170,6 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
-        # import pdb;
-        # pdb.set_trace()
         self.perform_update(serializer)
         instance = self.get_object()
         self.serializer_class = ViewStreamSerializer
@@ -530,12 +528,15 @@ class RecentUpdatesAPI(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         fields = (
-        'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name','seen_index')
+        'user_image', 'first_content_cover', 'stream_name','stream_type', 'content_type', 'content_title', 'content_description',
+        'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
+        'seen_index', 'thread', 'total_added_content')
         page = self.paginate_queryset(queryset)
         if page is not None:
             # serializer = self.get_serializer(queryset, many=True)
-            serializer = self.get_serializer(queryset, many=True, fields=fields)
+            # for x in queryset:
+            #     print x.total_added_contents , x.thread
+            serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
         # serializer = self.get_serializer(queryset, many=True)
         serializer = self.get_serializer(queryset, many=True, fields=fields)
@@ -564,7 +565,7 @@ class RecentUpdatesAPI(ListAPIView):
         queryset = self.queryset
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
-        current_user_streams = Stream.objects.filter(created_by=self.request.user, status='Active', type="Public")
+        current_user_streams = Stream.objects.filter(created_by=self.request.user, status='Active')
         # list all the objects of active streams created by logged in user.
         following = UserFollow.objects.filter(follower=self.request.user).values_list('following', flat=True)
         # list all the objects of users whom logged in user is following.
@@ -572,19 +573,48 @@ class RecentUpdatesAPI(ListAPIView):
         # list all the objects of streams created by users followed by current user
         user_as_collaborator_streams = Collaborator.objects.filter(phone_number=self.request.user.username).values_list('stream_id', flat=True)
         # list all the objects of streams where the current user is as collaborator.
-        user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active", type="Public")
+        user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams, status="Active")
         # list all the objects of active streams where the current user is as collaborator.
-        # import pdb; pdb.set_trace()
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related('stream', 'content')
+
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago,
+                                                   user_id__isnull=False, thread__isnull=False).select_related('stream',
+                                                                                                               'content').prefetch_related(
+            Prefetch('stream__recent_stream',
+                     queryset=RecentUpdates.objects.filter(user=self.request.user).order_by('seen_index'),
+                     to_attr='recent_updates')
+        ).order_by('-id')
+
         grouped = collections.defaultdict(list)
         for item in content_ids:
             grouped[item.thread].append(item)
-
         return_list = list()
-        for thread , group in grouped.items():
+        for thread, group in grouped.items():
             if group.__len__() > 0:
+                setattr(group[0], 'total_added_contents', group.__len__())
+                total_added_contents = group.__len__()
+                # seen_indexes = RecentUpdates.objects.filter(thread=thread, seen_index__gt=total_added_contents)
+                # seen_indexes.update(seen_index=total_added_contents-1)
+                if group[0].stream.recent_updates.__len__() > 0:
+                    exact_current_seen_index = [x for x in group[0].stream.recent_updates if x.thread == group[0].thread]
+                    if exact_current_seen_index.__len__() > 0:
+                        setattr(group[0], 'exact_current_seen_index_row', exact_current_seen_index[0])
                 return_list.append(group[0])
+
+        have_seen_all_content = list()
+        have_not_seen_all_content = list()
+        for x in return_list:
+            try:
+                if x.exact_current_seen_index_row.seen_index >=(x.total_added_contents-1):
+                    have_seen_all_content.append(x)
+                else:
+                    have_not_seen_all_content.append(x)
+            except AttributeError :
+                have_not_seen_all_content.append(x)
+
+        have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
+        have_seen_all_content = list(sorted(have_seen_all_content, key=lambda a: a.exact_current_seen_index_row.seen_index))
+        return_list = have_not_seen_all_content + have_seen_all_content
         return return_list
 
 
@@ -592,8 +622,9 @@ class RecentUpdatesDetailListAPI(ListAPIView):
     """"
     View to list all the recent updates of the logged in user.
     """
-    queryset = StreamContent.objects.all()
-    serializer_class = RecentUpdatesSerializer
+    queryset = StreamContent.objects.filter().select_related('stream__created_by__user_data__user', 'content',
+                                                             'user__user_data')
+    serializer_class = RecentUpdatesDetailSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -615,7 +646,63 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         """
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
-        queryset = queryset.filter(stream=self.request.query_params.get('stream'), user=self.request.query_params.get('user'), attached_date__gt=week_ago)
+        queryset = queryset.annotate(stream_view_count=Count('stream__stream_user_view_status')).prefetch_related(
+            Prefetch('stream__recent_stream',
+                     queryset=RecentUpdates.objects.filter(user=self.request.user,
+                                                           thread=self.request.query_params.get('thread')).order_by(
+                         '-seen_index'),
+                     to_attr='stream_recent_updates'),
+            Prefetch(
+                "stream__stream_contents",
+                queryset=StreamContent.objects.all().select_related('content',
+                                                                    'content__created_by__user_data').prefetch_related(
+                    Prefetch(
+                        "content__content_like_dislike_status",
+                        queryset=LikeDislikeContent.objects.filter(status=1),
+                        to_attr='content_liked_user'
+                    )
+                ).order_by('order', '-attached_date'),
+                to_attr="content_list"
+            ),
+            Prefetch(
+                'stream__collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator'
+            ),
+            Prefetch(
+                'stream__collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
+            ),
+            Prefetch(
+                'stream__stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                    Prefetch(
+                        "user__who_follows",
+                        queryset=UserFollow.objects.all(),
+                        to_attr='user_liked_followers'
+                    ),
+
+                ),
+                to_attr='total_like_dislike_data'
+            ),
+            Prefetch(
+                'stream__stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+            Prefetch(
+                'stream__stream_starred',
+                queryset=StarredStream.objects.all().select_related('user'),
+                to_attr='total_starred_stream_data'
+            ),
+            Prefetch(
+                "content__content_like_dislike_status",
+                queryset=LikeDislikeContent.objects.filter(status=1),
+                to_attr='content_liked_user'
+            )
+        )
+        queryset = queryset.filter(thread=self.request.query_params.get('thread'), attached_date__gt=week_ago)
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset
@@ -624,13 +711,44 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         fields = (
         'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name')
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(queryset, many=True, fields=fields)
-            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
-        serializer = self.get_serializer(queryset, many=True, fields=fields)
-        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+        'user_name', 'thread', 'seen_index', 'stream_detail')
+        content_fields = (
+        'id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
+        'full_name', 'user_image', 'liked')
+        stream_fields = (
+            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
+            'have_some_update',
+            'stream_permission', 'color', 'collaborator_permission', 'total_collaborator', 'total_likes',
+            'is_collaborator', 'any_one_can_edit', 'user_image', 'crd', 'upd', 'category', 'emogo',
+            'featured', 'description', 'status', 'liked', 'user_liked',
+            'total_stream_collaborators',
+            'is_bookmarked')
+        content_dataserializer = ViewContentSerializer([x.content for x in queryset], many=True, fields=content_fields, context=self.get_serializer_context())
+        if queryset.__len__() > 0:
+            stream_serializer = ViewStreamSerializer(queryset[0].stream, fields=stream_fields,
+                                                     context=self.get_serializer_context()).data
+        else:
+            return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)
+        seen_index = None
+        user_dict = dict()
+        if queryset.__len__() > 0:
+            user_dict['full_name'] = queryset[0].user.user_data.full_name
+            user_dict['user_image'] = queryset[0].user.user_data.user_image
+            user_dict['user_profile_id'] = queryset[0].user.user_data.id
+            user_dict['added_by_user_id'] = queryset[0].user.id
+
+            if queryset[0].stream.stream_recent_updates.__len__() > 0:
+                seen_index = queryset[0].stream.stream_recent_updates[0].seen_index
+            else:
+
+                seen_index = None
+
+        return_data = {"stream": stream_serializer,
+                       "stream_content":content_dataserializer.data,
+                       "seen_index" : seen_index,
+                       "user_detail" : user_dict
+                       }
+        return custom_render_response(status_code=status.HTTP_200_OK, data=return_data)
 
 
 class MoveContentToStream(APIView):
@@ -961,49 +1079,6 @@ class ContentShareExtensionAPI(CreateAPIView):
         NotificationAPI().send_notification(self.request.user, self.request.user, 'self', None, None, self.request.data.get('contents').__len__(), str(self.request.data.get('contents')))
         return custom_render_response(status_code=status.HTTP_200_OK)
 
-        # following = UserFollow.objects.filter(follower=self.request.user.id).values_list('following', flat=True)
-        # view_status = StreamUserViewStatus.objects.filter(user=self.request.user.id).values_list('stream', flat=True)
-        # creators_list = list(following)
-        # # creators_list = [1,2,3,4,5]
-        # user_current = self.request.user.id
-        # creators_list.append(user_current)
-        # view_status_list = list(view_status)
-        # # view_status_list = [3,4]
-        # import pdb; pdb.set_trace()
-        # creators_list = list(set(creators_list) & set(view_status_list))
-        # if isinstance(queryset, QuerySet):
-        #     # Ensure queryset is re-evaluated on each request.
-        #     queryset = queryset.filter(created_by_id__in=creators_list, status ='Active')
-        #
-        # return queryset
-
-
-class StarredStreamAPI(CreateAPIView, DestroyAPIView):
-    """
-    Add Bookmark CRUD API
-    """
-    serializer_class = StarredStreamSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-
-    def create(self, request, *args, **kwargs):
-        """
-        :param request: The request data
-        :param args: list or tuple data
-        :param kwargs: dict param
-        :return: Create Stream API.
-        This function bookmark stream
-        """
-        serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
-        serializer.is_valid(raise_exception=True)
-        serializer.create(serializer)
-        return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={})
-
 
 class BookmarkNewEmogosAPI(ListAPIView):
     """"
@@ -1050,13 +1125,18 @@ class BookmarkNewEmogosAPI(ListAPIView):
             to_attr='total_view_count'
         )
     ).order_by('-id')
-    queryset_bookmark = StarredStream.objects.filter().select_related('stream')
+    queryset_bookmark = StarredStream.objects.filter().select_related('stream').order_by('-id')
     serializer_class = BookmarkNewEmogosSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
+        queryset = list(sorted(queryset, key=lambda x:
+        [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
+                                                                                                 for y in
+                                                                                                 x.total_view_count if
+                                                                                                 y.user == self.request.user].__len__() > 0 else datetime.date.min))
         fields = (
         'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
         'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes',
@@ -1107,7 +1187,7 @@ class BookmarkNewEmogosAPI(ListAPIView):
         return queryset
 
 
-class StarredAPI(ListAPIView):
+class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
     """"
     View to list all the starred streams of the logged in user.
     """
@@ -1152,15 +1232,19 @@ class StarredAPI(ListAPIView):
             'stream_user_view_status',
             queryset=StreamUserViewStatus.objects.all(),
             to_attr='total_view_count'
-        )
-    ).order_by('-id')
+        ),
+        Prefetch(
+            'stream_starred',
+            queryset=StarredStream.objects.all().select_related('user'),
+            to_attr='total_starred_stream_data'
+        ),
+    )
     starred_stream_queryset = StarredStream.objects.all()
     serializer_class = ViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
-    # filter_class = StarredStreamFilter
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -1170,19 +1254,52 @@ class StarredAPI(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
-        bookmarked_streams = self.starred_stream_queryset.filter(user=self.request.user).select_related('stream')
+        from django.db.models import Case, When
+        bookmarked_streams = self.starred_stream_queryset.filter(user=self.request.user).select_related('stream').order_by('-id')
+        pk_list = [x.stream.id for x in bookmarked_streams]
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
         queryset = self.filter_queryset(self.get_queryset())
-        queryset = queryset.filter(id__in=[x.stream.id for x in bookmarked_streams])
+        queryset = queryset.filter(id__in=pk_list).order_by(preserved)
+
+        # queryset = list(sorted(queryset, key=lambda x:
+        # [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
+        #                                                                                          for y in
+        #                                                                                          x.total_view_count if
+        #                                                                                          y.user == self.request.user].__len__() > 0 else datetime.date.min))
+
         fields = (
             'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
             'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator',
             'total_likes',
             'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
-            'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
+            'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators',
+            'is_bookmarked')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields, context=self.get_serializer_context())
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Starred Stream API.
+        This function bookmark stream
+        """
+        self.serializer_class = StarredStreamSerializer
+
+        serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
+        serializer.is_valid(raise_exception=True)
+        serializer.create(serializer)
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
+
+    def destroy(self, request, *args, **kwargs):
+
+        stream_id = self.kwargs.get('stream_id')
+        stream = StarredStream.objects.filter(stream_id=stream_id, user=self.request.user)
+        stream.delete()
+        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={})
 
 
 class NewEmogosAPI(ListAPIView):
@@ -1221,7 +1338,6 @@ class NewEmogosAPI(ListAPIView):
                     queryset=UserFollow.objects.all(),
                     to_attr='user_liked_followers'
                 ),
-
             ),
             to_attr='total_like_dislike_data'
         ),
@@ -1229,7 +1345,12 @@ class NewEmogosAPI(ListAPIView):
             'stream_user_view_status',
             queryset=StreamUserViewStatus.objects.all(),
             to_attr='total_view_count'
-        )
+        ),
+        Prefetch(
+            'stream_starred',
+            queryset=StarredStream.objects.all().select_related('user'),
+            to_attr='total_starred_stream_data'
+        ),
     ).order_by('-id')
     serializer_class = ViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
@@ -1245,13 +1366,16 @@ class NewEmogosAPI(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
-        fields = (
-            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
-            'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator',
-            'total_likes',
-            'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
-            'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
+        fields = ('id', 'name','image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
+        'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator',
+        'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
+        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_seen','is_bookmarked')
         queryset = self.filter_queryset(self.get_queryset())
+        queryset = list(sorted(queryset, key=lambda x:
+        [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
+                                                                                                 for y in
+                                                                                                 x.total_view_count if
+                                                                                                 y.user == self.request.user].__len__() > 0 else datetime.date.min))
         page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(queryset, many=True, fields=fields, context=self.get_serializer_context())
         if page is not None:
@@ -1308,9 +1432,26 @@ class SeenIndexAPI(CreateAPIView):
         :param args: list or tuple data
         :param kwargs: dict param
         :return: Create Stream API.
-        This function bookmark stream
+        This function seen recent stream.
         """
         serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
+
+
+class AddUserViewStreamStatus(CreateAPIView):
+    """
+    Like Dislike CRUD API
+    """
+    serializer_class = AddUserViewStatusSerializer
+    queryset = StreamUserViewStatus.objects.all().select_related('stream')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
