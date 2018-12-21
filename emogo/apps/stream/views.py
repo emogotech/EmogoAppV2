@@ -6,7 +6,7 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream
+from models import Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
 from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
@@ -1343,6 +1343,11 @@ class NewEmogosAPI(ListAPIView):
             queryset=StarredStream.objects.all().select_related('user'),
             to_attr='total_starred_stream_data'
         ),
+        Prefetch(
+            'seen_stream',
+            queryset=NewEmogoViewStatusOnly.objects.filter().select_related('user'),
+            to_attr='user_seen_streams'
+        ),
     ).order_by('-id')
     serializer_class = ViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
@@ -1363,11 +1368,13 @@ class NewEmogosAPI(ListAPIView):
         'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
         'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_seen','is_bookmarked')
         queryset = self.filter_queryset(self.get_queryset())
+        # To return the sorted queryset according to seen status of new emogo.
         queryset = list(sorted(queryset, key=lambda x:
-        [y.action_date.date() for y in x.total_view_count if y.user == self.request.user][0] if [y.action_date.date()
-                                                                                                 for y in
-                                                                                                 x.total_view_count if
-                                                                                                 y.user == self.request.user].__len__() > 0 else datetime.date.min))
+        [y.crd.date() for y in x.user_seen_streams if y.user == self.request.user][0] if [y.crd.date()
+                                                                                          for y in
+                                                                                          x.user_seen_streams if
+                                                                                          y.user == self.request.user].__len__() > 0 else datetime.date.min))
+
         page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(queryset, many=True, fields=fields, context=self.get_serializer_context())
         if page is not None:
@@ -1434,10 +1441,10 @@ class SeenIndexAPI(CreateAPIView):
 
 class AddUserViewStreamStatus(CreateAPIView):
     """
-    Like Dislike CRUD API
+    Stream view status API
     """
     serializer_class = AddUserViewStatusSerializer
-    queryset = StreamUserViewStatus.objects.all().select_related('stream')
+    # queryset = Stream.objects.all().select_related('stream')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -1445,5 +1452,4 @@ class AddUserViewStreamStatus(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)

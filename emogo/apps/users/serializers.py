@@ -11,7 +11,7 @@ from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerialize
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
 from emogo.apps.stream.serializers import ViewStreamSerializer, ViewContentSerializer
 from emogo.apps.stream.models import Stream, LikeDislikeStream, RecentUpdates, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
-    LikeDislikeContent, StarredStream
+    LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
 from emogo.apps.collaborator.models import Collaborator
 from itertools import chain
 from django.db import IntegrityError
@@ -464,6 +464,11 @@ class GetTopStreamSerializer(serializers.Serializer):
                 queryset=StarredStream.objects.all().select_related('user'),
                 to_attr='total_starred_stream_data'
             ),
+        Prefetch(
+            'seen_stream',
+            queryset=NewEmogoViewStatusOnly.objects.filter().select_related('user'),
+            to_attr='user_seen_streams'
+        ),
     ).order_by('-id')
 
     featured = serializers.SerializerMethodField()
@@ -575,14 +580,15 @@ class GetTopStreamSerializer(serializers.Serializer):
                                                          status='Active', crd__gt=week_ago)
 
         result_list = current_user_streams | current_user_following_streams
-        total = result_list.count()
+        result_list = list(sorted(result_list, key=lambda x:
+        [y.crd.date() for y in x.user_seen_streams if y.user == self.request.user][0] if [y.crd.date()
+                                                                                          for y in
+                                                                                          x.user_seen_streams if
+                                                                                          y.user == self.request.user].__len__() > 0 else datetime.date.min))
+
+        total = result_list.__len__()
         result_list = result_list[0:10]
-        queryset = list(sorted(result_list, key=lambda x:
-        [y.action_date.date() for y in x.total_view_count if y.user == self.context.get('request').user][0] if [y.action_date.date()
-                                                                                                 for y in
-                                                                                                 x.total_view_count if
-                                                                                                 y.user == self.context.get('request').user].__len__() > 0 else datetime.date.min))
-        return {"total": total, "data": ViewStreamSerializer(queryset, many=True, fields=fields,
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=fields,
                                                              context=self.context).data}
 
     ## Added Bookmark stream
