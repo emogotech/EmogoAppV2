@@ -36,6 +36,6 @@ urlpatterns = [
     url(r'^bookmarks/$', views.StarredAPI.as_view()),# don't make a name starts with stream
     url(r'^bookmarks_and_new_emogos/$', views.BookmarkNewEmogosAPI.as_view()),
     url(r'^new_emogos_list', views.NewEmogosAPI.as_view()),
-    url(r'^update_user_view_stream_status/', views.AddUserViewStreamStatus.as_view()),
+    url(r'^update_user_view_stream_status/$', views.AddUserViewStreamStatus.as_view()),
 
 ]

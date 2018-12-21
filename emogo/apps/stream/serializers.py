@@ -1,7 +1,7 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from models import Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream, \
-    LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates
+    LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates, NewEmogoViewStatusOnly
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -17,6 +17,7 @@ from django.db.models import Q, Count
 from itertools import product
 from emogo.apps.notification.views import NotificationAPI
 from django.db import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class StreamSerializer(DynamicFieldsModelSerializer):
@@ -114,6 +115,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         # 4. Set have_some_update is true, when user edit the stream.
         self.instance.have_some_update = True
         self.instance.save()
+        set_have_some_update_true(self.instance)
         # Removed stream bookmarked
         self.removed_stream_bookmarked(self.instance)
         return kwargs
@@ -302,6 +304,14 @@ class ViewStreamSerializer(StreamSerializer):
     total_stream_collaborators = serializers.SerializerMethodField()
     is_bookmarked = serializers.SerializerMethodField()
     is_seen = serializers.SerializerMethodField()
+    have_some_update = serializers.SerializerMethodField()
+
+    def get_have_some_update(self, obj):
+        try:
+            obj = NewEmogoViewStatusOnly.objects.get(stream=obj, user=self.context.get('request').user)
+            return obj.have_some_update
+        except ObjectDoesNotExist:
+            return obj.have_some_update
 
     def get_total_stream_collaborators(self, obj):
         try:
@@ -365,7 +375,7 @@ class ViewStreamSerializer(StreamSerializer):
             owner_collab = []
             other_collab = []
             for i in list_of_instances:
-                if i.phone_number ==  self.context.get('request').user.username:
+                if i.phone_number == self.context.get('request').user.username:
                     owner_collab.append(i)
                 else:
                     other_collab.append(i)
@@ -662,6 +672,7 @@ class MoveContentToStreamSerializer(ContentSerializer):
 
         stream.have_some_update = True
         stream.save()
+        set_have_some_update_true(stream)
         return self.initial_data['contents']
 
 
@@ -834,18 +845,21 @@ class AddUserViewStatusSerializer(DynamicFieldsModelSerializer):
     """
     Stream user view status API.
     """
-    user = serializers.CharField(read_only=True)
+    # is_seen = serializers.BooleanField()
+    # user = serializers.CharField(read_only=True)
 
     class Meta:
-        model = StreamUserViewStatus
-        fields = '__all__'
+        model = NewEmogoViewStatusOnly
+        fields = ['stream']
         extra_kwargs = {'stream': {'required': True}}
 
     def save(self, **kwargs):
-        obj, instance = StreamUserViewStatus.objects.get_or_create(stream=self.validated_data.get('stream'),
-                                                                   user=self.context.get('request').auth.user)
+        # if self.validated_data.get('is_seen'):
+        obj, created = NewEmogoViewStatusOnly.objects.get_or_create(user=self.context.get('request').auth.user,
+                                                                   stream=self.validated_data.get('stream'))
+        obj.have_some_update = False
         obj.save()
-        return
+        return obj
 
 
 class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
@@ -1039,3 +1053,7 @@ class SeenIndexSerializer(DynamicFieldsModelSerializer):
             defaults={'seen_index':self.validated_data.get('seen_index')}
         )
         return obj
+
+def set_have_some_update_true(stream):
+    NewEmogoViewStatusOnly.objects.filter(stream=stream).update(have_some_update = True)
+    return True

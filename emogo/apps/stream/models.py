@@ -199,4 +199,16 @@ class StarredStream(DefaultStatusModel):
     objects = models.Manager()  # The default manager.
 
     class Meta:
-        db_table = 'starred_stream';
+        db_table = 'starred_stream'
+
+
+class NewEmogoViewStatusOnly(models.Model):
+    crd = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, blank=True, null=True)
+    stream = models.ForeignKey(Stream, related_name='seen_stream')
+    have_some_update = models.BooleanField(default=False)
+    objects = models.Manager()  # The default manager.
+
+    class Meta:
+        db_table = 'new_emogo_view_status_only'
+
