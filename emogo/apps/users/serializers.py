@@ -580,10 +580,10 @@ class GetTopStreamSerializer(serializers.Serializer):
 
         result_list = current_user_streams | current_user_following_streams
         result_list = list(sorted(result_list, key=lambda x:
-        [y.crd.date() for y in x.user_seen_streams if y.user == self.request.user][0] if [y.crd.date()
+        [y.crd.date() for y in x.user_seen_streams if y.user == self.context.get('request').user][0] if [y.crd.date()
                                                                                           for y in
                                                                                           x.user_seen_streams if
-                                                                                          y.user == self.request.user].__len__() > 0 else datetime.date.min))
+                                                                                          y.user == self.context.get('request').user].__len__() > 0 else datetime.date.min))
 
         total = result_list.__len__()
         result_list = result_list[0:10]
