@@ -126,11 +126,13 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             valid_users = []
             for contact in phone_number:
                 users = User.objects.filter(username__endswith=str(contact)[-10:])
-                valid_users.append(users.first().id)
+                if users.__len__() > 0:
+                    valid_users.append(users[0].id)
             # Delete all unathorized user bookmarked
-            bookmarked_stream_invalid_users = StarredStream.actives.filter(stream_id=self.instance.id).exclude(
-                user_id__in=valid_users)
-            bookmarked_stream_invalid_users.delete()
+            if valid_users.__len__() > 0:
+                bookmarked_stream_invalid_users = StarredStream.actives.filter(stream_id=self.instance.id).exclude(
+                    user_id__in=valid_users)
+                bookmarked_stream_invalid_users.delete()
         return True
 
     def create(self, validated_data):
