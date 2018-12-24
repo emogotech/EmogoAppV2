@@ -34,6 +34,7 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
     user_profile_id = serializers.SerializerMethodField()
     user_id = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
+    phone_number = serializers.SerializerMethodField()
 
     class Meta:
         model = Collaborator
@@ -44,7 +45,7 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
 
     def get_added_by_me(self, obj):
         if self.context['request'].user == obj.created_by:
-            collb =  Collaborator.objects.filter(phone_number = self.context['request'].user.username, stream=obj.stream)
+            collb = Collaborator.objects.filter(phone_number = self.context['request'].user.username, stream=obj.stream)
             if collb.__len__() > 0:
                 return True
             else:
@@ -54,6 +55,12 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
 
     def get_user_image(self, obj):
         return obj.user_image
+
+    def get_phone_number(self, obj):
+        user_objects = User.objects.filter(username__endswith=obj.phone_number[-10:])
+        if user_objects.__len__() > 0:
+            return user_objects[0].username
+        return None
 
     def get_user_profile_id(self, obj):
         return obj.user_profile_id

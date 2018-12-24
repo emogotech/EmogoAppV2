@@ -10,8 +10,8 @@ from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
 from emogo.apps.stream.serializers import ViewStreamSerializer, ViewContentSerializer
-from emogo.apps.stream.models import Stream, LikeDislikeStream, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
-    LikeDislikeContent, StarredStream
+from emogo.apps.stream.models import Stream, LikeDislikeStream, RecentUpdates, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
+    LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
 from emogo.apps.collaborator.models import Collaborator
 from itertools import chain
 from django.db import IntegrityError
@@ -173,6 +173,7 @@ class UserDetailSerializer(UserProfileSerializer):
     following = serializers.SerializerMethodField()
     is_following = serializers.SerializerMethodField()
     is_follower = serializers.SerializerMethodField()
+    phone_number = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
@@ -208,6 +209,9 @@ class UserDetailSerializer(UserProfileSerializer):
 
     def get_followers(self, obj):
         return obj.user.followers.__len__()
+
+    def get_phone_number(self, obj):
+        return obj.user.username
 
     def get_following(self, obj):
         return obj.user.following.__len__()
@@ -460,6 +464,11 @@ class GetTopStreamSerializer(serializers.Serializer):
                 queryset=StarredStream.objects.all().select_related('user'),
                 to_attr='total_starred_stream_data'
             ),
+        Prefetch(
+            'seen_stream',
+            queryset=NewEmogoViewStatusOnly.objects.filter().select_related('user'),
+            to_attr='user_seen_streams'
+        ),
     ).order_by('-id')
 
     featured = serializers.SerializerMethodField()
@@ -482,7 +491,6 @@ class GetTopStreamSerializer(serializers.Serializer):
     def get_serializer_context(self):
         #  Modify the context parameter, pass the request params in context for viewstreamserializer
         return self.context
-
 
     def get_featured(self, obj):
         qs = self.qs.filter(featured=True).order_by('-stream_view_count')
@@ -553,9 +561,15 @@ class GetTopStreamSerializer(serializers.Serializer):
         result_list = result_list[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.context).data }
 
-    ## Added Public stream
+    ## Added New stream
     def get_new_emogo_stream(self, obj):
         import datetime
+        fields = (
+        'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update',
+        'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes',
+        'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo',
+        'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators',
+        'is_bookmarked','is_seen')
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
         current_user_streams = self.qs.filter(created_by=self.context.get('request').user, status='Active', crd__gt=week_ago)
@@ -565,30 +579,41 @@ class GetTopStreamSerializer(serializers.Serializer):
                                                          status='Active', crd__gt=week_ago)
 
         result_list = current_user_streams | current_user_following_streams
-        total = result_list.count()
+        result_list = list(sorted(result_list, key=lambda x:
+        [y.crd.date() for y in x.user_seen_streams if y.user == self.request.user][0] if [y.crd.date()
+                                                                                          for y in
+                                                                                          x.user_seen_streams if
+                                                                                          y.user == self.request.user].__len__() > 0 else datetime.date.min))
+
+        total = result_list.__len__()
         result_list = result_list[0:10]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(),
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=fields,
                                                              context=self.context).data}
 
-    ## Added Public stream
+    ## Added Bookmark stream
     def get_bookmarked_stream(self, obj):
-        user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream')
-        result_list = self.qs.filter(id__in=[x.stream.id for x in user_bookmarks])
+        from django.db.models import Case, When
+        user_bookmarks = StarredStream.objects.filter(user=self.context.get('request').user, stream__status='Active').select_related('stream').order_by('-id')
+        pk_list = [x.stream.id for x in user_bookmarks]
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
+        result_list = self.qs.filter(id__in=pk_list).order_by(preserved)
+        # result_list.order_by = False
         total = result_list.count()
         result_list = result_list[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(),
                                                                      context=self.context).data}
 
-    ## Added Public stream
+    ## Recent updates in stream
     def get_recent_update(self, obj):
         import datetime
         result_list = list()
         fields = (
-            'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-            'user_name')
+        'user_image', 'first_content_cover', 'stream_name','stream_type', 'content_type', 'content_title', 'content_description',
+        'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
+        'seen_index', 'thread','total_added_content')
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
-        current_user_streams = Stream.objects.filter(created_by=self.context.get('request').user, status='Active', type="Public")
+        current_user_streams = Stream.objects.filter(created_by=self.context.get('request').user, status='Active')
         # list all the objects of active streams created by logged in user.
         following = UserFollow.objects.filter(follower=self.context.get('request').user).values_list('following', flat=True)
         # list all the objects of users whom logged in user is following.
@@ -599,23 +624,51 @@ class GetTopStreamSerializer(serializers.Serializer):
             'stream_id', flat=True)
         # list all the objects of streams where the current user is as collaborator.
         user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams,
-                                                                    status="Active", type="Public")
+                                                                    status="Active")
         # list all the objects of active streams where the current user is as collaborator.
 
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related(
-            'stream', 'content')
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago,
+                                                   user_id__isnull=False, thread__isnull=False).select_related('stream',
+                                                                                                               'content').prefetch_related(
+            Prefetch('stream__recent_stream',
+                     queryset=RecentUpdates.objects.filter(user=self.context.get('request').user).order_by('seen_index'),
+                     to_attr='recent_updates'))
 
         grouped = collections.defaultdict(list)
         for item in content_ids:
             grouped[item.thread].append(item)
-
+        return_list = list()
         for thread, group in grouped.items():
             if group.__len__() > 0:
-                result_list.append(group[0])
+                setattr(group[0], 'total_added_contents', group.__len__())
+                total_added_contents = group.__len__()
+                # seen_indexes = RecentUpdates.objects.filter(thread=thread, seen_index__gt=total_added_contents)
+                # seen_indexes.update(seen_index=total_added_contents-1)
+                if group[0].stream.recent_updates.__len__() > 0:
+                    exact_current_seen_index = [x for x in group[0].stream.recent_updates if
+                                                x.thread == group[0].thread]
+                    if exact_current_seen_index.__len__() > 0:
+                        setattr(group[0], 'exact_current_seen_index_row', exact_current_seen_index[0])
+                return_list.append(group[0])
 
-        total = result_list.__len__()
-        result_list = result_list[0:10]
+        have_seen_all_content = list()
+        have_not_seen_all_content = list()
+        for x in return_list:
+            try:
+                if x.exact_current_seen_index_row.seen_index >= (x.total_added_contents - 1):
+                    have_seen_all_content.append(x)
+                else:
+                    have_not_seen_all_content.append(x)
+            except AttributeError:
+                have_not_seen_all_content.append(x)
+
+        have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
+        have_seen_all_content = list(
+            sorted(have_seen_all_content, key=lambda a: a.exact_current_seen_index_row.seen_index))
+        return_list = have_not_seen_all_content + have_seen_all_content
+        total = return_list.__len__()
+        result_list = return_list[0:10]
         return {"total": total, "data": RecentUpdatesSerializer(result_list, many=True, fields=fields).data}
 
 
@@ -649,9 +702,55 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
     def find_contact_list(self):
         users = User.objects.all().values_list('username', flat=True)
         # Find User profile for contact list
-        fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name')
-        return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username = contact), fields=fields, context=self.context).data 
-                    if contact in users else False) for contact in self.validated_data.get('contact_list') }
+        fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name', 'phone_number')
+
+        user_username = list()
+        for user in users:
+            user = user[-10:]
+            user_username.append(user)
+
+        user_prof = list()
+        contact_not_exist = list()
+        valid_users = []
+        for contact in self.validated_data.get('contact_list'):
+            users = UserProfile.objects.filter(user__username__endswith=str(contact)[-10:])
+            valid_users.append(users)
+        for i in range(len(valid_users)):
+            for x in valid_users[i]:
+                user_prof.append(x.user.username)
+
+        valid_user_number=[]
+        for contact in user_prof:
+            username=contact[-10:]
+            valid_user_number.append(username)
+
+        for contact in self.validated_data.get('contact_list'):
+            contact = contact[-10:]
+            if contact not in valid_user_number:
+                contact_not_exist.append(contact)
+
+        user_info = {}
+
+        for contact in self.validated_data.get('contact_list'):
+            if contact[-10:] in contact_not_exist:
+                user_info[contact] = False
+
+            users = User.objects.all().values_list('username', flat=True)
+            valid=[]
+            for user in users:
+                for contact in self.validated_data.get('contact_list'):
+                    if user[-10:] == contact[-10:]:
+                        valid.append(user)
+
+            for x in valid:
+                user_info[x] = UserDetailSerializer(UserProfile.objects.get(user__username=x), fields=fields,
+                    context=self.context).data
+
+
+        return user_info
+
+
+
 
 class UserDeviceTokenSerializer(serializers.Serializer):
 
