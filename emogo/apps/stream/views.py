@@ -1453,3 +1453,42 @@ class AddUserViewStreamStatus(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+
+
+class UserLikedContentAPI(ListAPIView):
+    """"
+       List all the liked contents of the logged in user.
+    """
+    serializer_class = ViewContentSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def list(self, request, *args, **kwargs):
+        """
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        fields = (
+        "color", "created_by", "description", "full_name", "height", "id", "liked", "name", "type", "url", "user_image",
+        "video_image", "width")
+        like_dislike_qs = LikeDislikeContent.objects.filter(user=self.request.user, status=1).select_related('content',
+                                                                                                             'content__created_by__user_data').prefetch_related(
+            Prefetch(
+                "content__content_like_dislike_status",
+                queryset=LikeDislikeContent.objects.filter(status=1),
+                to_attr='content_liked_user')
+        )
+        list_of_qs = [x.content for x in like_dislike_qs]
+        page = self.paginate_queryset(list_of_qs)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
