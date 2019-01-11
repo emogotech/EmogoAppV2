@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^user_collaborators/$', views.UserCollaborators.as_view()),
     url(r'^fixtures/$', views.FixturesTestAPI.as_view()),
     url(r'^get_top_stream/$', views.GetTopStreamAPI.as_view()),
+    url(r'^get_top_stream_v2/$', views.GetTopStreamAPIV2.as_view()),
     url(r'^verify_login_otp/$', views.VerifyLoginOTP.as_view()),
     url(r'^user_liked_streams/$', views.UserLikedSteams.as_view()),
     url(r'^follow_user/$', views.UserFollowAPI.as_view()),
