@@ -322,7 +322,18 @@ class UserLoginSerializer(UserSerializer):
                     user.auth_token.delete()
                 user.user_data.otp = None
                 user.user_data.save()
-            user_profile = UserProfile.objects.get(user=user, otp__isnull=True)
+            user_profile = UserProfile.objects.select_related('user').prefetch_related(
+            Prefetch(
+                "user__who_follows",
+                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                to_attr="followers"
+            ),
+            Prefetch(
+                'user__who_is_followed',
+                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                to_attr='following'
+            )).get(user=user, otp__isnull=True)
+            
             body = "Here is your emogo one time passcode"
             sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
             # print sent_otp
