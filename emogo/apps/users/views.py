@@ -695,7 +695,11 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         if noti.__len__() > 0 :
             noti.delete()
         self.perform_destroy(instance)
-        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=dict())
+        user_data = UserProfile.actives.select_related('user').prefetch_related(
+                                Prefetch( "user__who_follows", queryset=UserFollow.objects.all().order_by('-follow_time'), to_attr="followers" ),
+                                Prefetch( 'user__who_is_followed', queryset=UserFollow.objects.all().order_by('-follow_time'), to_attr='following')
+                            ).get(user_id=self.request.user)
+        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={'followers':user_data.user.followers.__len__(), 'following':user_data.user.following.__len__()})
 
     def perform_create(self, serializer):
         obj, created = UserFollow.objects.get_or_create(follower=self.request.user,
