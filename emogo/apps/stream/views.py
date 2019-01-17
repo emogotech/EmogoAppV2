@@ -1486,7 +1486,7 @@ class UserLikedContentAPI(ListAPIView):
                 "content__content_like_dislike_status",
                 queryset=LikeDislikeContent.objects.filter(status=1),
                 to_attr='content_liked_user')
-        )
+        ).order_by('-view_date')
         list_of_qs = [x.content for x in like_dislike_qs]
         page = self.paginate_queryset(list_of_qs)
         if page is not None:
