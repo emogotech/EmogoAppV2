@@ -487,10 +487,11 @@ class UserLikedSteams(ListAPIView):
                 ),
                 to_attr='total_like_dislike_data'
             )
-        ).order_by('-upd')
+        )
+
         queryset = list(queryset)
-        # stream_ids_list = list(stream_ids_list)
-        # queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
+        stream_ids_list = list(stream_ids_list)
+        queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
         return queryset
 
     def list(self, request, *args, **kwargs):

@@ -791,7 +791,7 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
     def create(self, validated_data):
         obj, created = LikeDislikeStream.objects.update_or_create(
             stream=self.validated_data.get('stream'), user=self.context.get('request').user,
-            defaults={'status': self.validated_data.get('status')},
+            defaults={'status': self.validated_data.get('status'), 'view_date':datetime.datetime.now()},
         )
         return obj
 
