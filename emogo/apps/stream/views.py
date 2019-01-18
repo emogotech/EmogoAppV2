@@ -1487,7 +1487,7 @@ class UserLikedContentAPI(ListAPIView):
                 queryset=LikeDislikeContent.objects.filter(status=1),
                 to_attr='content_liked_user')
         ).order_by('-view_date')
-        list_of_qs = [x.content for x in like_dislike_qs]
+        list_of_qs = [x.content for x in like_dislike_qs if x.content.status != 'Inactive' ]
         page = self.paginate_queryset(list_of_qs)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
