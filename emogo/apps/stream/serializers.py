@@ -814,7 +814,7 @@ class ContentLikeDislikeSerializer(DynamicFieldsModelSerializer):
     def create(self, validated_data):
         obj, created = LikeDislikeContent.objects.update_or_create(
             content=self.validated_data.get('content'), user=self.context.get('request').user,
-            defaults={'status': self.validated_data.get('status')},
+            defaults={'status': self.validated_data.get('status'), 'view_date':datetime.datetime.now()},
         )
         return obj
 
