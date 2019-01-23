@@ -63,7 +63,9 @@ class StreamFilter(django_filters.FilterSet):
                                    str(x.phone_number) in str(
                                        self.request.user.username) and x.stream.status == 'Active']
         # Filter collaborator streams and all stream which is contain the value from Stream table
-        result_list = qs.filter(Q(name__icontains=value) | Q(id__in =  collaborator_permission))
+        result_list1 = qs.filter(name__icontains=value, type='Public')
+        result_list2 = qs.filter(id__in = collaborator_permission)
+        result_list = result_list1 | result_list2
         return result_list
 
 
@@ -234,6 +236,4 @@ class NewEmogosFilter(django_filters.FilterSet):
         fields = ['emogo_name']
 
     def filter_emogo_name(self, qs, name, value):
-        # import pdb;
-        # pdb.set_trace()
         return qs.filter(name__icontains=value)

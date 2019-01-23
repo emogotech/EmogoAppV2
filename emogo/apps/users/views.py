@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
     UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer, \
-    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer, UserDeviceTokenSerializer
+    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer, UserDeviceTokenSerializer, GetTopStreamV2Serializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -19,7 +19,7 @@ from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter, FollowerFollowingUserFilter
 from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
-from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.notification.models import Notification
 from django.shortcuts import get_object_or_404
@@ -75,7 +75,7 @@ class Login(APIView):
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
-            fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image", 'display_name')
+            fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image", 'display_name', 'followers', 'following')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -487,10 +487,11 @@ class UserLikedSteams(ListAPIView):
                 ),
                 to_attr='total_like_dislike_data'
             )
-        ).order_by('-upd')
+        )
+
         queryset = list(queryset)
-        # stream_ids_list = list(stream_ids_list)
-        # queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
+        stream_ids_list = list(stream_ids_list)
+        queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
         return queryset
 
     def list(self, request, *args, **kwargs):
@@ -597,7 +598,7 @@ class UserCollaborators(ListAPIView):
         stream_ids = Collaborator.actives.filter(Q(created_by_id=self.request.user.id) | 
                                                     Q(phone_number__endswith=str(self.request.user.username)[-10:])).values_list( 'stream', flat=True)
         # # 2. Fetch  stream Queryset objects as collaborators.
-        queryset =  self.get_queryset().filter(id__in=stream_ids).order_by('-upd')
+        queryset = self.get_queryset().filter(id__in=stream_ids).order_by('-upd')
 
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked']
@@ -669,6 +670,18 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
     serializer_class = UserFollowSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    qs = UserProfile.actives.select_related('user').prefetch_related(
+            Prefetch( 
+                "user__who_follows", 
+                queryset=UserFollow.objects.all().order_by('-follow_time'), 
+                to_attr="followers" 
+            ),
+            Prefetch( 
+                'user__who_is_followed', 
+                queryset=UserFollow.objects.all().order_by('-follow_time'), 
+                to_attr='following'
+            )
+        )
 
     def create(self, request, *args, **kwargs):
         """
@@ -684,7 +697,10 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         if kwargs.get('version'):
             to_user = User.objects.get(id = self.request.data.get('following'))
             NotificationAPI().send_notification(self.request.user, to_user, 'follower')
-        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+        user_data = self.qs.get(user_id=self.request.user)
+        data = serializer.data
+        data.update({'total_followers':user_data.user.followers.__len__(), 'total_following': user_data.user.following.__len__()})
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=data)
 
     def get_object(self):
         return get_object_or_404(UserFollow, follower=self.request.user, following_id=self.kwargs.get('pk'))
@@ -695,7 +711,8 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         if noti.__len__() > 0 :
             noti.delete()
         self.perform_destroy(instance)
-        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=dict())
+        user_data = self.qs.get(user_id=self.request.user)
+        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={'followers':user_data.user.followers.__len__(), 'following':user_data.user.following.__len__()})
 
     def perform_create(self, serializer):
         obj, created = UserFollow.objects.get_or_create(follower=self.request.user,
@@ -714,6 +731,7 @@ class CheckContactInEmogo(APIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
+
             data = serializer.find_contact_list()
             return custom_render_response(status_code=status.HTTP_200_OK, data=data)
         else:
@@ -742,3 +760,23 @@ class UserDeviceTokenAPI(CreateAPIView):
             return custom_render_response(status_code=status.HTTP_200_OK)
         else:
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+
+
+class GetTopStreamAPIV2(APIView):
+    """
+    View to list all users in the system.
+    """
+    serializer_class = GetTopStreamV2Serializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
+
+    def get(self, request, version, *args, **kwargs):
+        """
+        Return a list of all users.
+        """
+        serializer = self.serializer_class(data=request.data, context=self.get_serializer_context())
+        if serializer.is_valid():
+            return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
