@@ -383,7 +383,17 @@ class VerifyOtpLoginSerializer(UserSerializer):
             user = authenticate(username=self.validated_data.get('username'), password=otp)
             if user is None:
                 raise serializers.ValidationError(messages.MSG_INVALID_OTP)
-            user_profile = UserProfile.objects.get(user=user)
+            user_profile = UserProfile.objects.select_related('user').prefetch_related(
+            Prefetch(
+                "user__who_follows",
+                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                to_attr="followers"
+            ),
+            Prefetch(
+                'user__who_is_followed',
+                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                to_attr='following'
+            )).get(user=user)
             if hasattr(user, 'auth_token'):
                 user.auth_token.delete()
             token = Token.objects.create(user=user)
