@@ -60,9 +60,10 @@ class VerifyRegistration(APIView):
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
                 instance = serializer.save()
+                user_profile = UserProfile.objects.select_related('user').prefetch_related( Prefetch( "user__who_follows", queryset=UserFollow.objects.all().order_by('-follow_time'), to_attr="followers" ), Prefetch( 'user__who_is_followed', queryset=UserFollow.objects.all().order_by('-follow_time'), to_attr='following' )).get(id = instance.id)
                 fields = ("user_profile_id", "full_name", "user_image", "token", "user_id", "phone_number",
-                          'location', 'website', 'birthday', 'biography', 'branchio_url', 'display_name')
-                serializer = UserDetailSerializer(instance=instance, fields=fields, context=self.request)
+                          'location', 'website', 'birthday', 'biography', 'branchio_url', 'display_name', 'followers', 'following')
+                serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
                 return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
@@ -658,7 +659,7 @@ class VerifyLoginOTP(APIView):
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_login_OTP(request.data["otp"])
             fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image",
-                      'location', 'website', 'biography', 'birthday', 'branchio_url', 'display_name')
+                      'location', 'website', 'biography', 'birthday', 'branchio_url', 'display_name', 'followers', 'following')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
