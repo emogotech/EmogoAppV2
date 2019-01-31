@@ -867,8 +867,9 @@ class GetTopStreamAPIV2(APIView):
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
         # list all the objects of streams created by current user
-        recent_and_emogo_result_list = self.qs.filter(Q(created_by=self.request.user,)|Q(created_by_id__in=following,type='Public'), status='Active', crd__gt=week_ago)
-        new_emogos = [x for x in recent_and_emogo_result_list] 
+        recent_and_emogo_result_list = self.qs.filter(Q(created_by=self.request.user,)|Q(created_by_id__in=following,type='Public'), status='Active')
+        emogo_list = recent_and_emogo_result_list.filter(crd__gt=week_ago)
+        new_emogos = [x for x in emogo_list] 
         new_emogos_list = list(sorted(new_emogos, key=lambda x:
         [y.crd.date() for y in x.user_seen_streams if y.user == self.request.user][0] if [y.crd.date()  for y in  x.user_seen_streams if  y.user == self.request.user].__len__() > 0 else datetime.date.min))
 
@@ -935,4 +936,4 @@ class GetTopStreamAPIV2(APIView):
         recent_result_list = return_list[0:10]
         recent_result_serializer={"total": total, "data": RecentUpdatesSerializer(recent_result_list, many=True, fields=recent_fields).data}
 
-        return custom_render_response(status_code=status.HTTP_200_OK, data={'featured':featured_serializer, 'emogo':emogo_serializer, 'popular':popular_serializer, 'new_emogo':new_emogo_stream_serializer, 'bookmarked_stream':bookmarked_stream_serializer, "recent_update":recent_result_serializer })
+        return custom_render_response(status_code=status.HTTP_200_OK, data={'featured':featured_serializer, 'emogo':emogo_serializer, 'popular':popular_serializer, 'new_emogo_stream':new_emogo_stream_serializer, 'bookmarked_stream':bookmarked_stream_serializer, "recent_update":recent_result_serializer })
