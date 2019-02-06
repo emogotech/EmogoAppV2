@@ -3,6 +3,7 @@ from emogo.apps.stream import views
 
 urlpatterns = [
     # url(r'^/stream/collaborators/(?P<pk>[0-9]+)/', views.StreamAPI.as_view(fields=), name='user-list')
+    url(r'^stream-search-for-add-content/', views.SearchEmogoAPI.as_view()),
     url(r'^stream/collaborator/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view(), name='stream_collaborator'),
     url(r'^stream/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view(), name='view_stream'),
     url(r'^stream/$', views.StreamAPI.as_view()),
@@ -36,6 +37,5 @@ urlpatterns = [
     url(r'^bookmarks_and_new_emogos/$', views.BookmarkNewEmogosAPI.as_view()),
     url(r'^new_emogos_list', views.NewEmogosAPI.as_view()),
     url(r'^update_user_view_stream_status/$', views.AddUserViewStreamStatus.as_view()),
-    url(r'^user_liked_content/$', views.UserLikedContentAPI.as_view()),
-
+    url(r'^user_liked_content/$', views.UserLikedContentAPI.as_view())
 ]
