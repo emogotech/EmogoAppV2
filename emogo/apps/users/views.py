@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
     UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer, \
-    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer, UserDeviceTokenSerializer, GetTopStreamV2Serializer
+    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer, UserDeviceTokenSerializer, ViewGetTopStreamSerializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -19,7 +19,7 @@ from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter, FollowerFollowingUserFilter
 from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
-from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.notification.models import Notification
 from django.shortcuts import get_object_or_404
@@ -33,7 +33,10 @@ from django.http import Http404
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet, Q
 from emogo.apps.notification.views import NotificationAPI
-
+import datetime
+from django.db.models import Case, When
+from emogo.apps.stream.serializers import RecentUpdatesSerializer
+import collections
 
 class Signup(APIView):
     """
@@ -767,9 +770,64 @@ class GetTopStreamAPIV2(APIView):
     """
     View to list all users in the system.
     """
-    serializer_class = GetTopStreamV2Serializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+    qs = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+        'created_by__user_data__user').prefetch_related(
+        Prefetch(
+            "stream_contents",
+            queryset=StreamContent.objects.all().select_related('content','content__created_by__user_data').prefetch_related(
+                    Prefetch(
+                        "content__content_like_dislike_status",
+                        queryset=LikeDislikeContent.objects.filter(status=1),
+                        to_attr='content_liked_user'
+                    )
+                ).order_by('order', '-attached_date'),
+            to_attr="content_list"
+        ),
+        Prefetch(
+            'collaborator_list',
+            queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+            to_attr='stream_collaborator'
+        ),
+        Prefetch(
+            'collaborator_list',
+            queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+            to_attr='stream_collaborator_verified'
+        ),
+        Prefetch(
+                'stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                        Prefetch(
+                            "user__who_follows",                            
+                            queryset=UserFollow.objects.all(),
+                            to_attr='user_liked_followers'                                   
+                        ),
+
+                ),
+                to_attr='total_like_dislike_data'
+            ),
+        Prefetch(
+            'stream_user_view_status',
+            queryset=StreamUserViewStatus.objects.all(),
+            to_attr='total_view_count'
+        ),
+        Prefetch(
+                'stream_starred',
+                queryset=StarredStream.objects.all().select_related('user'),
+                to_attr='total_starred_stream_data'
+            ),
+        Prefetch(
+            'seen_stream',
+            queryset=NewEmogoViewStatusOnly.objects.filter().select_related('user'),
+            to_attr='user_seen_streams'
+        ),
+    ).order_by('-id')
+
+    def use_fields(self):
+        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked']
+        return fields
 
     def get_serializer_context(self):
         return {'request': self.request, 'version': self.kwargs['version']}
@@ -778,6 +836,104 @@ class GetTopStreamAPIV2(APIView):
         """
         Return a list of all users.
         """
-        serializer = self.serializer_class(data=request.data, context=self.get_serializer_context())
-        if serializer.is_valid():
-            return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+        queryset = [x for x in self.qs]
+        # Featured Data
+        featured = [x for x in queryset if x.featured == True]
+        featured_serializer =  {"total": featured.__len__(), "data": ViewGetTopStreamSerializer(featured[0:10], many=True, fields=self.use_fields(), context=self.get_serializer_context()).data }
+
+        # Emogo Data
+        emogo = [x for x in queryset if x.emogo == True] 
+        emogo_serializer = {"total": emogo.__len__(), "data": ViewGetTopStreamSerializer(emogo[0:10], many=True, fields=self.use_fields(), context=self.get_serializer_context()).data }
+
+        # Popular Data
+        popular_sort = sorted(queryset, key=lambda x: x.view_count, reverse=True)
+        popular = [x for x in popular_sort if x.type == 'Public'] 
+        if popular.__len__() < 10:
+            # 1. Get user as collaborator in streams created by following's
+            stream_ids = [x.stream.id for x in Collaborator.actives.select_related('stream').filter(phone_number=self.request.user.username, stream__status='Active', stream__type='Private')]
+            # 2. Fetch stream Queryset objects.
+            owner_qs = self.qs.filter(type='Public').order_by('-view_count')
+            stream_as_collabs = self.qs.filter(id__in=stream_ids)  
+            result_list = owner_qs | stream_as_collabs
+            total = result_list.__len__()
+            popular_list = result_list[0:10]
+        else:
+            total = popular.__len__()
+            popular_list = popular[0:10]
+        popular_serializer = {"total": total, "data": ViewGetTopStreamSerializer(popular_list, fields=self.use_fields(), many=True,  context = self.get_serializer_context()).data}
+        
+        #New Emogo Data
+        following = UserFollow.objects.filter(follower=self.request.user).values_list('following', flat=True)
+        today = datetime.date.today()
+        week_ago = today - datetime.timedelta(days=7)
+        # list all the objects of streams created by current user
+        recent_and_emogo_result_list = self.qs.filter(Q(created_by=self.request.user,)|Q(created_by_id__in=following,type='Public'), status='Active')
+        emogo_list = recent_and_emogo_result_list.filter(crd__gt=week_ago)
+        new_emogos = [x for x in emogo_list] 
+        new_emogos_list = list(sorted(new_emogos, key=lambda x:
+        [y.crd.date() for y in x.user_seen_streams if y.user == self.request.user][0] if [y.crd.date()  for y in  x.user_seen_streams if  y.user == self.request.user].__len__() > 0 else datetime.date.min))
+
+        new_emogo_total = new_emogos_list.__len__()
+        new_emogos_list = new_emogos_list[0:10]
+        new_emogo_stream_serializer={"total": new_emogo_total, "data": ViewGetTopStreamSerializer(new_emogos_list, many=True, fields=self.use_fields().append('is_seen'), context=self.get_serializer_context()).data}
+
+        #Get Booked Mark  Data
+        user_bookmarks = StarredStream.objects.filter(user=self.request.user, stream__status='Active').select_related('stream').order_by('-id')
+        pk_list = [x.stream.id for x in user_bookmarks]
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
+        book_mark_result_list = self.qs.filter(id__in=pk_list).order_by(preserved)
+        bookmark_total = book_mark_result_list.count()
+        book_mark_result_list = book_mark_result_list[0:10]
+        bookmarked_stream_serializer = {"total": bookmark_total, "data": ViewGetTopStreamSerializer(book_mark_result_list, many=True, fields=self.use_fields(),  context=self.get_serializer_context()).data}
+
+        ## Recent updates in stream
+        recent_result_list = list()
+        recent_fields = (
+        'user_image', 'first_content_cover', 'stream_name','stream_type', 'content_type', 'content_title', 'content_description',
+        'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
+        'seen_index', 'thread','total_added_content')
+        # list all the objects of streams created by users followed by current user
+        user_as_collaborator_streams = Collaborator.objects.filter(phone_number=self.request.user.username).values_list(
+            'stream_id', flat=True)
+        # list all the objects of streams where the current user is as collaborator.
+        user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams,
+                                                                    status="Active")
+        # list all the objects of active streams where the current user is as collaborator.
+        all_streams = recent_and_emogo_result_list | user_as_collaborator_active_streams
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related('stream', 'content').prefetch_related( Prefetch('stream__recent_stream', queryset=RecentUpdates.objects.filter(user=self.request.user).order_by('seen_index'), to_attr='recent_updates'))
+
+        grouped = collections.defaultdict(list)
+        for item in content_ids:
+            grouped[item.thread].append(item)
+        return_list = list()
+        for thread, group in grouped.items():
+            if group.__len__() > 0:
+                setattr(group[0], 'total_added_contents', group.__len__())
+                total_added_contents = group.__len__()
+                if group[0].stream.recent_updates.__len__() > 0:
+                    exact_current_seen_index = [x for x in group[0].stream.recent_updates if
+                                                x.thread == group[0].thread]
+                    if exact_current_seen_index.__len__() > 0:
+                        setattr(group[0], 'exact_current_seen_index_row', exact_current_seen_index[0])
+                return_list.append(group[0])
+
+        have_seen_all_content = list()
+        have_not_seen_all_content = list()
+        for x in return_list:
+            try:
+                if x.exact_current_seen_index_row.seen_index >= (x.total_added_contents - 1):
+                    have_seen_all_content.append(x)
+                else:
+                    have_not_seen_all_content.append(x)
+            except AttributeError:
+                have_not_seen_all_content.append(x)
+
+        have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
+        have_seen_all_content = list(
+            sorted(have_seen_all_content, key=lambda a: a.exact_current_seen_index_row.seen_index))
+        return_list = have_not_seen_all_content + have_seen_all_content
+        total = return_list.__len__()
+        recent_result_list = return_list[0:10]
+        recent_result_serializer={"total": total, "data": RecentUpdatesSerializer(recent_result_list, many=True, fields=recent_fields).data}
+
+        return custom_render_response(status_code=status.HTTP_200_OK, data={'featured':featured_serializer, 'emogo':emogo_serializer, 'popular':popular_serializer, 'new_emogo_stream':new_emogo_stream_serializer, 'bookmarked_stream':bookmarked_stream_serializer, "recent_update":recent_result_serializer })
