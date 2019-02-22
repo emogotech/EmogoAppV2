@@ -725,52 +725,35 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
 
     def find_contact_list(self):
         users = User.objects.all().values_list('username', flat=True)
+        all_users = [x for x in users]
         # Find User profile for contact list
         fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name', 'phone_number')
-
-        user_username = list()
-        for user in users:
-            user = user[-10:]
-            user_username.append(user)
-
         user_prof = list()
         contact_not_exist = list()
-        valid_users = []
-        for contact in self.validated_data.get('contact_list'):
-            users = UserProfile.objects.filter(user__username__endswith=str(contact)[-10:])
-            valid_users.append(users)
-        for i in range(len(valid_users)):
-            for x in valid_users[i]:
-                user_prof.append(x.user.username)
-
         valid_user_number=[]
-        for contact in user_prof:
-            username=contact[-10:]
-            valid_user_number.append(username)
 
-        for contact in self.validated_data.get('contact_list'):
-            contact = contact[-10:]
+        contacts = [str(contact)[-10:] for contact in self.validated_data.get('contact_list')]
+        valid_user_number = [x.user.username[-10:] for x in UserProfile.objects.filter(user__username__regex = "|".join(contacts)).select_related('user')]
+
+        for contact in contacts:
             if contact not in valid_user_number:
                 contact_not_exist.append(contact)
 
         user_info = {}
+        valid=[]
 
         for contact in self.validated_data.get('contact_list'):
             if contact[-10:] in contact_not_exist:
                 user_info[contact] = False
 
-            users = User.objects.all().values_list('username', flat=True)
-            valid=[]
-            for user in users:
-                for contact in self.validated_data.get('contact_list'):
-                    if user[-10:] == contact[-10:]:
-                        valid.append(user)
+        for user in all_users:
+            for contact in contacts:
+                if str(user[-10:]) == contact:
+                    valid.append(str(user[-10:]))
 
-            for x in valid:
-                user_info[x] = UserDetailSerializer(UserProfile.objects.get(user__username=x), fields=fields,
-                    context=self.context).data
-
-
+        user_data = UserDetailSerializer(UserProfile.objects.filter(user__username__regex = "|".join(valid)), fields=fields, context=self.context, many=True).data
+        for x in user_data:
+            user_info[x['phone_number']] = x
         return user_info
 
 
