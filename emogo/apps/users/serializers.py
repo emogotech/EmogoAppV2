@@ -751,7 +751,7 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
                 if str(user[-10:]) == contact:
                     valid.append(str(user[-10:]))
 
-        user_data = UserDetailSerializer(UserProfile.objects.filter(user__username__regex = "|".join(valid)), fields=fields, context=self.context, many=True).data
+        user_data = UserDetailSerializer(UserProfile.objects.filter(user__username__regex = "|".join(valid)).select_related('user'), fields=fields, context=self.context, many=True).data
         for x in user_data:
             user_info[x['phone_number']] = x
         return user_info
