@@ -22,7 +22,7 @@ from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.models import UserFollow
 from emogo.apps.notification.models import Notification
 from emogo.apps.notification.views import NotificationAPI
-from django.db.models import Prefetch, Count
+from django.db.models import Prefetch, Count, Q
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
 import datetime
@@ -1492,3 +1492,93 @@ class UserLikedContentAPI(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+
+class SearchEmogoAPI(ListAPIView):
+    serializer_class = ViewStreamSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+        'created_by__user_data__user').prefetch_related(
+        Prefetch(
+            "stream_contents",
+            queryset=StreamContent.objects.all().select_related('content',
+                                                                'content__created_by__user_data').prefetch_related(
+                Prefetch(
+                    "content__content_like_dislike_status",
+                    queryset=LikeDislikeContent.objects.filter(status=1),
+                    to_attr='content_liked_user'
+                )
+            ).order_by('order', '-attached_date'),
+            to_attr="content_list"
+        ),
+        Prefetch(
+            'collaborator_list',
+            queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+            to_attr='stream_collaborator'
+        ),
+        Prefetch(
+            'collaborator_list',
+            queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+            to_attr='stream_collaborator_verified'
+        ),
+        Prefetch(
+            'stream_like_dislike_status',
+            queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                Prefetch(
+                    "user__who_follows",
+                    queryset=UserFollow.objects.all(),
+                    to_attr='user_liked_followers'
+                ),
+            ),
+            to_attr='total_like_dislike_data'
+        ),
+        Prefetch(
+            'stream_user_view_status',
+            queryset=StreamUserViewStatus.objects.all(),
+            to_attr='total_view_count'
+        ),
+        Prefetch(
+            'stream_starred',
+            queryset=StarredStream.objects.all().select_related('user'),
+            to_attr='total_starred_stream_data'
+        ),
+        Prefetch(
+            'seen_stream',
+            queryset=NewEmogoViewStatusOnly.objects.filter().select_related('user'),
+            to_attr='user_seen_streams'
+        ),
+    ).order_by('-id')
+
+    def get_queryset(self):
+        """
+        Get the list of items for this view.
+        This must be an iterable, and may be a queryset.
+        Defaults to using `self.queryset`.
+
+        This method should always be used rather than accessing `self.queryset`
+        directly, as `self.queryset` gets evaluated only once, and those results
+        are cached for all subsequent requests.
+
+        You may want to override this if you need to provide different
+        query sets depending on the incoming request.
+
+        (Eg. return a list of items that is specific to the user)
+        """
+        assert self.queryset is not None, (
+                "'%s' should either include a `queryset` attribute, "
+                "or override the `get_queryset()` method."
+                % self.__class__.__name__
+        )
+        # list all the objects of active streams created by logged in user.
+        user_as_collaborator_streams = Collaborator.objects.filter(phone_number__endswith=self.request.user.username).values_list('stream_id', flat=True)
+        queryset = self.queryset.filter(Q(created_by=self.request.user) | Q(pk__in=user_as_collaborator_streams))
+        if self.request.query_params.get('name') is not None:
+            queryset = queryset.filter(name__icontains=self.request.query_params.get('name'))
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
