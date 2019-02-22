@@ -898,7 +898,10 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
         return obj.total_added_contents
 
     def get_first_content_cover(self, obj):
-        return obj.content.url
+        if obj.content.type == "Link" :
+           return obj.content.video_image
+        else:
+            return obj.content.url
 
     def get_content_type(self, obj):
         return obj.content.type
