@@ -565,6 +565,7 @@ class RecentUpdatesAPI(ListAPIView):
         queryset = self.queryset
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
+
         current_user_streams = Stream.objects.filter(created_by=self.request.user, status='Active')
         # list all the objects of active streams created by logged in user.
         following = UserFollow.objects.filter(follower=self.request.user).values_list('following', flat=True)
@@ -577,12 +578,10 @@ class RecentUpdatesAPI(ListAPIView):
         # list all the objects of active streams where the current user is as collaborator.
         all_streams = current_user_streams | all_following_public_streams | user_as_collaborator_active_streams
 
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago,
-                                                   user_id__isnull=False, thread__isnull=False).select_related('stream',
-                                                                                                               'content').prefetch_related(
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related('stream','content', 'user__user_data').prefetch_related(
             Prefetch('stream__recent_stream',
-                     queryset=RecentUpdates.objects.filter(user=self.request.user).order_by('seen_index'),
-                     to_attr='recent_updates')
+                    queryset=RecentUpdates.objects.filter(user=self.request.user).order_by('seen_index'),
+                    to_attr='recent_updates')
         ).order_by('-id')
 
         grouped = collections.defaultdict(list)
@@ -593,8 +592,6 @@ class RecentUpdatesAPI(ListAPIView):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()
-                # seen_indexes = RecentUpdates.objects.filter(thread=thread, seen_index__gt=total_added_contents)
-                # seen_indexes.update(seen_index=total_added_contents-1)
                 if group[0].stream.recent_updates.__len__() > 0:
                     exact_current_seen_index = [x for x in group[0].stream.recent_updates if x.thread == group[0].thread]
                     if exact_current_seen_index.__len__() > 0:
