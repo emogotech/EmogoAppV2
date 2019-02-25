@@ -900,7 +900,7 @@ class GetTopStreamAPIV2(APIView):
                                                                     status="Active")
         # list all the objects of active streams where the current user is as collaborator.
         all_streams = recent_and_emogo_result_list | user_as_collaborator_active_streams
-        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related('stream', 'content').prefetch_related( Prefetch('stream__recent_stream', queryset=RecentUpdates.objects.filter(user=self.request.user).order_by('seen_index'), to_attr='recent_updates'))
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago, user_id__isnull=False, thread__isnull=False).select_related('stream', 'content', 'user__user_data').prefetch_related( Prefetch('stream__recent_stream', queryset=RecentUpdates.objects.filter(user=self.request.user).order_by('seen_index'), to_attr='recent_updates'))
 
         grouped = collections.defaultdict(list)
         for item in content_ids:
