@@ -39,7 +39,7 @@ class NotificationAPI():
             token_hex = obj.to_user.userdevice_set.all()[0].device_token
             if token_hex != '':
                 path = settings.NOTIFICATION_PEM_ROOT
-                apns = APNs(use_sandbox=True, cert_file=path, key_file=path)
+                apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
                 msg = self.notification_message(obj)
                 payload = Payload(alert=msg, sound="default", badge=self.total_counts().filter(to_user = obj.to_user).count())
                 apns.gateway_server.send_notification(token_hex, payload)
