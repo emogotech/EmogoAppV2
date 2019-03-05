@@ -842,7 +842,7 @@ class GetTopStreamAPIV2(APIView):
         featured_serializer =  {"total": featured.__len__(), "data": ViewGetTopStreamSerializer(featured[0:10], many=True, fields=self.use_fields(), context=self.get_serializer_context()).data }
 
         # Emogo Data
-        emogo = [x for x in queryset if x.emogo == True] 
+        emogo = [x for x in queryset if x.emogo] 
         emogo_serializer = {"total": emogo.__len__(), "data": ViewGetTopStreamSerializer(emogo[0:10], many=True, fields=self.use_fields(), context=self.get_serializer_context()).data }
 
         # Popular Data
