@@ -838,7 +838,7 @@ class GetTopStreamAPIV2(APIView):
         """
         queryset = [x for x in self.qs]
         # Featured Data
-        featured = [x for x in queryset if x.featured == True]
+        featured = [x for x in queryset if x.featured]
         featured_serializer =  {"total": featured.__len__(), "data": ViewGetTopStreamSerializer(featured[0:10], many=True, fields=self.use_fields(), context=self.get_serializer_context()).data }
 
         # Emogo Data
