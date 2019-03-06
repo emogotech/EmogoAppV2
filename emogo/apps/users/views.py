@@ -773,57 +773,7 @@ class GetTopStreamAPIV2(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    qs = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
-        'created_by__user_data__user').prefetch_related(
-        Prefetch(
-            "stream_contents",
-            queryset=StreamContent.objects.all().select_related('content','content__created_by__user_data').prefetch_related(
-                    Prefetch(
-                        "content__content_like_dislike_status",
-                        queryset=LikeDislikeContent.objects.filter(status=1),
-                        to_attr='content_liked_user'
-                    )
-                ).order_by('order', '-attached_date'),
-            to_attr="content_list"
-        ),
-        Prefetch(
-            'collaborator_list',
-            queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
-            to_attr='stream_collaborator'
-        ),
-        Prefetch(
-            'collaborator_list',
-            queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
-            to_attr='stream_collaborator_verified'
-        ),
-        Prefetch(
-                'stream_like_dislike_status',
-                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
-                        Prefetch(
-                            "user__who_follows",                            
-                            queryset=UserFollow.objects.all(),
-                            to_attr='user_liked_followers'                                   
-                        ),
 
-                ),
-                to_attr='total_like_dislike_data'
-            ),
-        Prefetch(
-            'stream_user_view_status',
-            queryset=StreamUserViewStatus.objects.all(),
-            to_attr='total_view_count'
-        ),
-        Prefetch(
-                'stream_starred',
-                queryset=StarredStream.objects.all().select_related('user'),
-                to_attr='total_starred_stream_data'
-            ),
-        Prefetch(
-            'seen_stream',
-            queryset=NewEmogoViewStatusOnly.objects.filter().select_related('user'),
-            to_attr='user_seen_streams'
-        ),
-    ).order_by('-id')
 
     def use_fields(self):
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked']
@@ -836,7 +786,59 @@ class GetTopStreamAPIV2(APIView):
         """
         Return a list of all users.
         """
-        queryset = [x for x in self.qs]
+        qs = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+        'created_by__user_data__user').prefetch_related(
+            Prefetch(
+                "stream_contents",
+                queryset=StreamContent.objects.all().select_related('content','content__created_by__user_data').prefetch_related(
+                        Prefetch(
+                            "content__content_like_dislike_status",
+                            queryset=LikeDislikeContent.objects.filter(status=1),
+                            to_attr='content_liked_user'
+                        )
+                    ).order_by('order', '-attached_date'),
+                to_attr="content_list"
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator'
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
+            ),
+            Prefetch(
+                    'stream_like_dislike_status',
+                    queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                            Prefetch(
+                                "user__who_follows",                            
+                                queryset=UserFollow.objects.all(),
+                                to_attr='user_liked_followers'                                   
+                            ),
+
+                    ),
+                    to_attr='total_like_dislike_data'
+                ),
+            Prefetch(
+                'stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+            Prefetch(
+                    'stream_starred',
+                    queryset=StarredStream.objects.all().select_related('user'),
+                    to_attr='total_starred_stream_data'
+                ),
+            Prefetch(
+                'seen_stream',
+                queryset=NewEmogoViewStatusOnly.objects.filter().select_related('user'),
+                to_attr='user_seen_streams'
+            ),
+        ).order_by('-id')
+
+        queryset = [x for x in qs]
         # Featured Data
         featured = [x for x in queryset if x.featured]
         featured_serializer =  {"total": featured.__len__(), "data": ViewGetTopStreamSerializer(featured[0:10], many=True, fields=self.use_fields(), context=self.get_serializer_context()).data }
@@ -852,8 +854,8 @@ class GetTopStreamAPIV2(APIView):
             # 1. Get user as collaborator in streams created by following's
             stream_ids = [x.stream.id for x in Collaborator.actives.select_related('stream').filter(phone_number=self.request.user.username, stream__status='Active', stream__type='Private')]
             # 2. Fetch stream Queryset objects.
-            owner_qs = self.qs.filter(type='Public').order_by('-view_count')
-            stream_as_collabs = self.qs.filter(id__in=stream_ids)  
+            owner_qs = qs.filter(type='Public').order_by('-view_count')
+            stream_as_collabs = qs.filter(id__in=stream_ids)  
             result_list = owner_qs | stream_as_collabs
             total = result_list.__len__()
             popular_list = result_list[0:10]
@@ -867,7 +869,7 @@ class GetTopStreamAPIV2(APIView):
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
         # list all the objects of streams created by current user
-        recent_and_emogo_result_list = self.qs.filter(Q(created_by=self.request.user,)|Q(created_by_id__in=following,type='Public'), status='Active')
+        recent_and_emogo_result_list = qs.filter(Q(created_by=self.request.user,)|Q(created_by_id__in=following,type='Public'), status='Active')
         emogo_list = recent_and_emogo_result_list.filter(crd__gt=week_ago)
         new_emogos = [x for x in emogo_list] 
         new_emogos_list = list(sorted(new_emogos, key=lambda x:
@@ -881,7 +883,7 @@ class GetTopStreamAPIV2(APIView):
         user_bookmarks = StarredStream.objects.filter(user=self.request.user, stream__status='Active').select_related('stream').order_by('-id')
         pk_list = [x.stream.id for x in user_bookmarks]
         preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
-        book_mark_result_list = self.qs.filter(id__in=pk_list).order_by(preserved)
+        book_mark_result_list = qs.filter(id__in=pk_list).order_by(preserved)
         bookmark_total = book_mark_result_list.count()
         book_mark_result_list = book_mark_result_list[0:10]
         bookmarked_stream_serializer = {"total": bookmark_total, "data": ViewGetTopStreamSerializer(book_mark_result_list, many=True, fields=self.use_fields(),  context=self.get_serializer_context()).data}
