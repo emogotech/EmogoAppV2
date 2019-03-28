@@ -865,10 +865,12 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         stream = Stream.objects.get(id =  serializer.data.get('stream'))
+        noti = Notification.objects.filter(notification_type = 'liked_emogo' , stream = stream, from_user = self.request.user, to_user = stream.created_by)
+        if noti.__len__() > 0:
+            noti[0].is_open = False if noti[0].is_open else True
+            noti[0].save()
         if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and kwargs.get('version'):
-            noti = Notification.objects.filter(notification_type = 'liked_emogo' , stream = stream, from_user = self.request.user, to_user = stream.created_by)
             if noti.__len__() > 0 :
-                noti[0].save()
                 NotificationAPI().initialize_notification(noti[0])
             else:
                 NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
