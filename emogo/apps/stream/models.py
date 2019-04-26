@@ -95,7 +95,7 @@ class Content(DefaultStatusModel):
     created_by = models.ForeignKey(User, null=True, blank=True)
     height = models.CharField(max_length=10, null=True, blank=True, default=300)
     width = models.CharField(max_length=10, null=True, blank=True, default=300)
-    color = models.CharField(max_length=100, null=True, blank=True, default=None)
+    color = models.CharField(max_length=255, null=True, blank=True, default=None)
     order = models.IntegerField(default=0, blank=True, null=True)
 
     class Meta:
