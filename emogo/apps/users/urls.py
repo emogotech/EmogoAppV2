@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^get_user_following/$', views.UserFollowingAPI.as_view()),
     url(r'^check_contact_in_emogo_user/$', views.CheckContactInEmogo.as_view()),
     url(r'^device_token/$', views.UserDeviceTokenAPI.as_view()),
+    url(r'^is_buisness/$', views.UserBuisnessAccount.as_view()),
 ]

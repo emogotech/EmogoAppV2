@@ -209,7 +209,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :return: Get User profile API.
         """
         fields = ('user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name')
+                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name', 'is_buisness_account')
 
         instance = self.get_qs_object()
         # If requested user is logged in user
@@ -939,3 +939,15 @@ class GetTopStreamAPIV2(APIView):
         recent_result_serializer={"total": total, "data": RecentUpdatesSerializer(recent_result_list, many=True, fields=recent_fields).data}
 
         return custom_render_response(status_code=status.HTTP_200_OK, data={'featured':featured_serializer, 'emogo':emogo_serializer, 'popular':popular_serializer, 'new_emogo_stream':new_emogo_stream_serializer, 'bookmarked_stream':bookmarked_stream_serializer, "recent_update":recent_result_serializer })
+
+
+class UserBuisnessAccount(APIView):
+    """
+    Update is_buisness_account flag API
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, version):
+        UserProfile.objects.filter(user_id = request.user).update(is_buisness_account = request.data['is_buisness_account'])
+        return custom_render_response(status_code = status.HTTP_200_OK)
