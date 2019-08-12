@@ -215,7 +215,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :return: Get User profile API.
         """
         fields = ('user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name', 'is_buisness_account')
+                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name', 'is_buisness_account', 'emogo_count')
 
         instance = self.get_qs_object()
         # If requested user is logged in user
