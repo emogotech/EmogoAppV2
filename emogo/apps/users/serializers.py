@@ -262,12 +262,7 @@ class UserListFollowerFollowingSerializer(UserDetailSerializer):
         return False
 
     def get_followers_count(self, obj):
-        l = []
-        for i in obj.user.follower_list:
-            l.append(i.follower)
-
-        ab=len(l)
-        return ab
+        return obj.user.follower_list.__len__()
 
 
 class UserOtpSerializer(UserProfileSerializer):
