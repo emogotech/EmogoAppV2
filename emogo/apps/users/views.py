@@ -431,7 +431,7 @@ class UserFollowersAPI(ListAPIView):
             )
         )
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_following')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_following', 'followers_count')
         self.serializer_class = UserListFollowerFollowingSerializer
         # self.queryset = qs
 
