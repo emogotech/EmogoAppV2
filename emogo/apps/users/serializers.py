@@ -176,6 +176,7 @@ class UserDetailSerializer(UserProfileSerializer):
     is_following = serializers.SerializerMethodField()
     is_follower = serializers.SerializerMethodField()
     phone_number = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
     emogo_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -262,6 +263,9 @@ class UserListFollowerFollowingSerializer(UserDetailSerializer):
         if user_id in [x.following_id for x in obj.user.following_list]:
             return True
         return False
+
+    def get_followers_count(self, obj):
+        return obj.user.follower_list.__len__()
 
 
 class UserOtpSerializer(UserProfileSerializer):
