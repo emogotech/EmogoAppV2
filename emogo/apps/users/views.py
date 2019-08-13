@@ -474,7 +474,7 @@ class UserFollowingAPI(ListAPIView):
         )
 
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_follower')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_follower', 'following_count')
         self.serializer_class = UserListFollowerFollowingSerializer
 
         # This IF condition is added because if try to search by name or phone disable pagination class.

@@ -177,6 +177,7 @@ class UserDetailSerializer(UserProfileSerializer):
     is_follower = serializers.SerializerMethodField()
     phone_number = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
+    following_count = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
@@ -263,6 +264,9 @@ class UserListFollowerFollowingSerializer(UserDetailSerializer):
 
     def get_followers_count(self, obj):
         return obj.user.follower_list.__len__()
+
+    def get_following_count(self, obj):
+        return obj.user.following_list.__len__()
 
 
 class UserOtpSerializer(UserProfileSerializer):
