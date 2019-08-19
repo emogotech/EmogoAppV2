@@ -8,7 +8,7 @@ from emogo.apps.users.models import UserProfile
 admin.site.unregister(User)
 
 
-class UserInline(admin.StackedInline):
+class SuggestedUserInline(admin.StackedInline):
     model = UserProfile
     fields = ['is_suggested']
 
@@ -18,7 +18,7 @@ class CustomUserAdmin(UserAdmin):
     list_display = ('user_name', 'phone_number', 'is_staff', 'is_active', 'is_suggested')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('username', 'user_data__full_name','first_name', 'last_name', 'email')
-    inlines = [UserInline]
+    inlines = [SuggestedUserInline]
 
     def user_name(self, obj):
         return obj.user_data.full_name
