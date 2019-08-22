@@ -37,6 +37,12 @@ import datetime
 from django.db.models import Case, When
 from emogo.apps.stream.serializers import RecentUpdatesSerializer
 import collections
+import boto3
+import re
+import threading
+from django.conf import settings
+
+
 
 class Signup(APIView):
     """
@@ -209,7 +215,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :return: Get User profile API.
         """
         fields = ('user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name', 'is_buisness_account')
+                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name', 'is_buisness_account', 'emogo_count')
 
         instance = self.get_qs_object()
         # If requested user is logged in user
@@ -269,6 +275,66 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
 
         serializer = UserDetailSerializer(self.get_qs_object(), fields=fields, context=self.get_serializer_context())
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
+    def delete_objects(self, image_array):
+        """Delete multiple objects from an Amazon S3 bucket
+
+        :param bucket_name: string
+        :param object_names: list of strings
+        :return: True if the referenced objects were deleted, otherwise False
+        """
+
+        # Convert list of object names to appropriate data format
+
+        # Delete the objects
+        s3 = boto3.resource('s3', aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+        try:
+            for image in image_array:
+                s3.Object(settings.AWS_BUCKET_NAME, image).delete()
+        except:
+            return False
+        return True
+
+    def delete(self, request, *args, **kwargs):
+        # User delete API
+        image_array = []
+        queryset =  UserProfile.actives.get(user_id=request.user.id)
+        for obj in queryset.user_streams():
+            stream_img = obj.image
+            if re.findall('http[s]?://s3.amazonaws.com+', stream_img):
+                stream1 = stream_img.split('https://s3.amazonaws.com')[1].split('/')
+                bucket_name1 = stream1[2] + '/' + stream1[3]
+                if stream1[2] in ['testing', 'stream-media']:
+                    image_array.append(bucket_name1)
+
+        for obj1 in queryset.user_contents():
+            # Delete stream,content image/video  from s3
+            content_image = obj1.video_image
+            if re.findall('http[s]?://s3.amazonaws.com+', content_image):
+                content1 = content_image.split('https://s3.amazonaws.com')[1].split('/')
+                bucket_name2 = content1[2] + '/' + content1[3]
+                if content1[2] in ['testing', 'stream-media']:
+                    image_array.append(bucket_name2)
+
+            content_url = obj1.url
+            if re.findall('http[s]?://s3.amazonaws.com+', content_url):
+                content_url1 = content_url.split('https://s3.amazonaws.com')[1].split('/')
+                content_bucket_url = content_url1[2] + '/' + content_url1[3]
+                if content_url1[2] in ['testing', 'stream-media']:
+                    image_array.append(content_bucket_url)
+
+        user_img = queryset.user_image
+        if re.findall('http[s]?://s3.amazonaws.com+', user_img):
+            user_img1 = user_img.split('https://s3.amazonaws.com')[1].split('/')
+            user_img_bucket = user_img1[2] + '/' + user_img1[3]
+            if user_img1[2] in ['testing', 'stream-media']:
+                image_array.append(user_img_bucket)
+
+        request.user.delete()
+        thread = threading.Thread(target=self.delete_objects,args=([image_array]))
+        thread.start()
+        return custom_render_response(status_code=status.HTTP_200_OK)
 
 
 class UserStearms(ListAPIView):
@@ -365,7 +431,7 @@ class UserFollowersAPI(ListAPIView):
             )
         )
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_following')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_following', 'followers_count')
         self.serializer_class = UserListFollowerFollowingSerializer
         # self.queryset = qs
 
@@ -408,7 +474,7 @@ class UserFollowingAPI(ListAPIView):
         )
 
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_follower')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_follower', 'following_count')
         self.serializer_class = UserListFollowerFollowingSerializer
 
         # This IF condition is added because if try to search by name or phone disable pagination class.

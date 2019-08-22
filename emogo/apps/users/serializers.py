@@ -177,6 +177,10 @@ class UserDetailSerializer(UserProfileSerializer):
     is_following = serializers.SerializerMethodField()
     is_follower = serializers.SerializerMethodField()
     phone_number = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
+    emogo_count = serializers.SerializerMethodField()
+    following_count = serializers.SerializerMethodField()
+
 
     class Meta:
         model = UserProfile
@@ -240,6 +244,8 @@ class UserDetailSerializer(UserProfileSerializer):
     def get_contents(self, obj):
         return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data
 
+    def get_emogo_count(self, obj):
+        return obj.user.stream_set.all().filter(status='Active').count()
 
 class UserListFollowerFollowingSerializer(UserDetailSerializer):
     pass
@@ -261,6 +267,12 @@ class UserListFollowerFollowingSerializer(UserDetailSerializer):
         if user_id in [x.following_id for x in obj.user.following_list]:
             return True
         return False
+
+    def get_followers_count(self, obj):
+        return obj.user.follower_list.__len__()
+
+    def get_following_count(self, obj):
+        return obj.user.following_list.__len__()
 
 
 class UserOtpSerializer(UserProfileSerializer):
