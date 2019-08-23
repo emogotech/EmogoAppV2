@@ -422,7 +422,12 @@ class UserFollowersAPI(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
-        qs = UserProfile.actives.filter(user__in=self.filter_queryset(self.get_queryset()).filter(following=self.request.user).values_list('follower', flat=True))
+
+        if request.GET.get('user_id'):
+            qs = UserProfile.actives.filter(user__in=self.filter_queryset(self.get_queryset()).filter(following=request.GET.get('user_id')).values_list('follower', flat=True))
+        else:
+            qs = UserProfile.actives.filter(user__in=self.filter_queryset(self.get_queryset()).filter(following=self.request.user).values_list('follower', flat=True))
+
         qs = qs.select_related('user').prefetch_related(
                  Prefetch(
                     "user__who_follows",
