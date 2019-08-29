@@ -35,12 +35,13 @@ from django.db.models import QuerySet, Q
 from emogo.apps.notification.views import NotificationAPI
 import datetime
 from django.db.models import Case, When
-from emogo.apps.stream.serializers import RecentUpdatesSerializer
+from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer
 import collections
 import boto3
 import re
 import threading
 from django.conf import settings
+from django.core.paginator import Paginator
 
 
 
@@ -1032,3 +1033,211 @@ class UserBuisnessAccount(APIView):
     def post(self, request, version):
         UserProfile.objects.filter(user_id = request.user).update(is_buisness_account = request.data['is_buisness_account'])
         return custom_render_response(status_code = status.HTTP_200_OK)
+
+
+class GetTopStreamAPIV3(APIView):
+    """
+        View to list all users in the system.
+        """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def use_fields(self):
+        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
+                  'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission',
+                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
+                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
+                  'collab_images', 'total_stream_collaborators', 'is_bookmarked']
+        return fields
+
+    def use_fields_follow(self):
+        fields = ['user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number', 'location', 'website',
+                  'biography', 'birthday', 'branchio_url', 'followers', 'following', 'display_name', 'is_buisness_account', 'emogo_count']
+
+        return fields
+
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs['version']}
+
+    def get(self, request, version, *args, **kwargs):
+        """
+        Return a list of all users.
+        """
+        qs = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+            'created_by__user_data__user').prefetch_related(
+            Prefetch(
+                "stream_contents",
+                queryset=StreamContent.objects.all().select_related('content',
+                                                                    'content__created_by__user_data').prefetch_related(
+                    Prefetch(
+                        "content__content_like_dislike_status",
+                        queryset=LikeDislikeContent.objects.filter(status=1),
+                        to_attr='content_liked_user'
+                    )
+                ).order_by('order', '-attached_date'),
+                to_attr="content_list"
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator'
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
+            ),
+            Prefetch(
+                'stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                    Prefetch(
+                        "user__who_follows",
+                        queryset=UserFollow.objects.all(),
+                        to_attr='user_liked_followers'
+                    ),
+
+                ),
+                to_attr='total_like_dislike_data'
+            ),
+            Prefetch(
+                'stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+            Prefetch(
+                'stream_starred',
+                queryset=StarredStream.objects.all().select_related('user'),
+                to_attr='total_starred_stream_data'
+            ),
+            Prefetch(
+                'seen_stream',
+                queryset=NewEmogoViewStatusOnly.objects.filter().select_related('user'),
+                to_attr='user_seen_streams'
+            ),
+        ).order_by('-id')
+
+        queryset = [x for x in qs]
+        following = UserFollow.objects.filter(follower=self.request.user).values_list('following', flat=True)
+        today = datetime.date.today()
+        week_ago = today - datetime.timedelta(days=7)
+        # list all the objects of streams created by current user
+        recent_and_emogo_result_list = qs.filter(
+            Q(created_by=self.request.user, ) | Q(created_by_id__in=following, type='Public'), status='Active')
+        emogo_list = recent_and_emogo_result_list.filter(crd__gt=week_ago)
+
+        recent_result_list = list()
+        recent_fields = (
+            'user_image', 'first_content_cover', 'stream_name', 'stream_type', 'content_type', 'content_title',
+            'content_description',
+            'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
+            'seen_index', 'thread', 'total_added_content')
+        # list all the objects of streams created by users followed by current user
+        user_as_collaborator_streams = Collaborator.objects.filter(phone_number=self.request.user.username).values_list(
+            'stream_id', flat=True)
+        # list all the objects of streams where the current user is as collaborator.
+        user_as_collaborator_active_streams = Stream.objects.filter(id__in=user_as_collaborator_streams,
+                                                                    status="Active")
+
+        all_streams = recent_and_emogo_result_list | user_as_collaborator_active_streams
+        content_ids = StreamContent.objects.filter(stream__in=all_streams, attached_date__gt=week_ago,
+                                                   user_id__isnull=False, thread__isnull=False).select_related('stream',
+                                                                                                               'content',
+                                                                                                               'user__user_data').prefetch_related(
+            Prefetch('stream__recent_stream',
+                     queryset=RecentUpdates.objects.filter(user=self.request.user).order_by('seen_index'),
+                     to_attr='recent_updates'))
+
+        grouped = collections.defaultdict(list)
+        for item in content_ids:
+            grouped[item.thread].append(item)
+        return_list = list()
+        for thread, group in grouped.items():
+            if group.__len__() > 0:
+                setattr(group[0], 'total_added_contents', group.__len__())
+                total_added_contents = group.__len__()
+                if group[0].stream.recent_updates.__len__() > 0:
+                    exact_current_seen_index = [x for x in group[0].stream.recent_updates if
+                                                x.thread == group[0].thread]
+                    if exact_current_seen_index.__len__() > 0:
+                        setattr(group[0], 'exact_current_seen_index_row', exact_current_seen_index[0])
+                return_list.append(group[0])
+
+        have_seen_all_content = list()
+        have_not_seen_all_content = list()
+        for x in return_list:
+            try:
+                if x.exact_current_seen_index_row.seen_index >= (x.total_added_contents - 1):
+                    have_seen_all_content.append(x)
+                else:
+                    have_not_seen_all_content.append(x)
+            except AttributeError:
+                have_not_seen_all_content.append(x)
+
+        have_not_seen_all_content = list(sorted(have_not_seen_all_content, key=lambda a: a.attached_date, reverse=True))
+        have_seen_all_content = list(
+            sorted(have_seen_all_content, key=lambda a: a.exact_current_seen_index_row.seen_index))
+        return_list = have_not_seen_all_content + have_seen_all_content
+        total = return_list.__len__()
+        recent_result_list = return_list[0:10]
+
+        recent_result_serializer = {"total": total, "data": RecentUpdatesSerializer(recent_result_list, many=True,
+                                                                                    fields=recent_fields).data}
+
+
+        # Emogo Data
+        emogo = [x for x in queryset if x.emogo]
+        emogo_serializer = {"total": emogo.__len__(),
+                            "data": ViewGetTopStreamSerializer(emogo[0:10], many=True, fields=self.use_fields(),
+                                                               context=self.get_serializer_context()).data}
+
+        #Content data
+        content_obj = Content.actives.all().order_by('-upd')
+        obj = request.GET.get('index', 0)
+        paginator = Paginator(content_obj, 27)
+        try:
+            page = int(request.GET.get('page', int(obj) + 1))
+            content_obj = self.get_paginated_response(page)
+        except:
+            content_obj = paginator.page(page)
+
+        content_result_serializer = {"data": ContentSerializer(content_obj, many=True, fields=self.use_fields()).data}
+
+        if obj == '1':
+            data = {
+                    "featured": emogo_serializer,
+                    "content": content_result_serializer }
+
+        elif obj == '2':
+            suggested_user = UserProfile.actives.filter(is_suggested=True).prefetch_related(
+                                Prefetch(
+                                    "user__who_follows",
+                                    queryset=UserFollow.objects.all(),
+                                    to_attr="followers"
+                                ),
+                                Prefetch(
+                                    'user__who_is_followed',
+                                    queryset=UserFollow.objects.all(),
+                                    to_attr='following'
+                                ))
+
+            suggested_follow_serializer = {"data":UserDetailSerializer(suggested_user[0:15], many = True, fields=self.use_fields_follow(),  context=self.request).data}
+            suggested_follow_serializer['data'] = sorted(suggested_follow_serializer['data'], key=lambda x: x['is_follower'])
+            data = {
+                    "suggested_follow": suggested_follow_serializer,
+                    "content": content_result_serializer }
+
+        elif obj:
+            data = {"content": content_result_serializer}
+
+        else:
+            data = {"recent_update": recent_result_serializer, "content": content_result_serializer}
+
+        return custom_render_response(status_code=status.HTTP_200_OK,
+                                          data=data)

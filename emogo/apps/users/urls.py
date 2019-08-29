@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^check_contact_in_emogo_user/$', views.CheckContactInEmogo.as_view()),
     url(r'^device_token/$', views.UserDeviceTokenAPI.as_view()),
     url(r'^is_buisness/$', views.UserBuisnessAccount.as_view()),
+    url(r'^get_top_stream_v3/', views.GetTopStreamAPIV3.as_view()),
 ]
