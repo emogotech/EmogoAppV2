@@ -41,7 +41,7 @@ import boto3
 import re
 import threading
 from django.conf import settings
-from django.core.paginator import Paginator
+from rest_framework import pagination
 
 
 
@@ -1035,19 +1035,25 @@ class UserBuisnessAccount(APIView):
         return custom_render_response(status_code = status.HTTP_200_OK)
 
 
-class GetTopStreamAPIV3(APIView):
+class ContentPagination(pagination.PageNumberPagination):
+       page_size = 27
+
+
+class GetTopStreamAPIV3(ListAPIView):
     """
         View to list all users in the system.
         """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    pagination_class = ContentPagination
+
 
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
         """
         assert self.paginator is not None
-        return self.paginator.get_paginated_response(data, status_code=status_code)
+        return self.paginator.get_paginated_response(data)
 
     def use_fields(self):
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
@@ -1199,15 +1205,12 @@ class GetTopStreamAPIV3(APIView):
 
         #Content data
         content_obj = Content.actives.all().order_by('-upd')
-        obj = request.GET.get('index', 0)
-        paginator = Paginator(content_obj, 27)
-        try:
-            page = int(request.GET.get('page', int(obj) + 1))
-            content_obj = self.get_paginated_response(page)
-        except:
-            content_obj = paginator.page(page)
+        obj = request.GET.get('page', 0)
 
-        content_result_serializer = {"data": ContentSerializer(content_obj, many=True, fields=self.use_fields()).data}
+        page = self.paginate_queryset(content_obj)
+        if page is not None:
+            content_result_serializer = {
+                "data": ContentSerializer(page, many=True, fields=self.use_fields()).data}
 
         if obj == '1':
             data = {
@@ -1239,5 +1242,5 @@ class GetTopStreamAPIV3(APIView):
         else:
             data = {"recent_update": recent_result_serializer, "content": content_result_serializer}
 
-        return custom_render_response(status_code=status.HTTP_200_OK,
+        return self.get_paginated_response(status_code=status.HTTP_200_OK,
                                           data=data)
