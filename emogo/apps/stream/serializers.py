@@ -590,8 +590,12 @@ class ViewContentSerializer(ContentSerializer):
     def get_liked(self, obj):
         if obj.content_liked_user.__len__() > 0:
             for x in obj.content_liked_user:
-                if self.context.get('request').auth.user_id == x.user_id:
-                    return True
+                try:
+                    if self.context.get('request').auth.user_id == x.user_id:
+                        return True
+                except:
+                    return False
+
         return False
 
 

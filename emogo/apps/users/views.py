@@ -35,7 +35,7 @@ from django.db.models import QuerySet, Q
 from emogo.apps.notification.views import NotificationAPI
 import datetime
 from django.db.models import Case, When
-from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer
+from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer, ViewContentSerializer
 import collections
 import boto3
 import re
@@ -1204,13 +1204,22 @@ class GetTopStreamAPIV3(ListAPIView):
                                                                context=self.get_serializer_context()).data}
 
         #Content data
-        content_obj = Content.actives.all().order_by('-upd')
-        obj = request.GET.get('page', 0)
+        fields = (
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
+            'order', 'color', 'user_image', 'full_name', 'order', 'liked')
+        content_obj = Content.actives.all().select_related('created_by__user_data__user').prefetch_related(
+                    Prefetch(
+                        "content_like_dislike_status",
+                        queryset=LikeDislikeContent.objects.filter(status=1),
+                        to_attr='content_liked_user'
+                    )
+                ).order_by('-upd')
 
+        obj = request.GET.get('page', 0)
         page = self.paginate_queryset(content_obj)
         if page is not None:
             content_result_serializer = {
-                "data": ContentSerializer(page, many=True, fields=self.use_fields()).data}
+                "data": ViewContentSerializer(page, many=True, fields=fields).data}
 
         if obj == '1':
             data = {
