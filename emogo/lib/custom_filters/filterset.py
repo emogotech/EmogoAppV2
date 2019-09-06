@@ -15,6 +15,7 @@ class StreamFilter(django_filters.FilterSet):
     self_created = django_filters.filters.BooleanFilter(method='filter_self_created')
     popular = django_filters.filters.BooleanFilter(method='filter_popular')
     global_search = django_filters.filters.CharFilter(method='filter_global_search')
+    name = django_filters.filters.CharFilter(method='filter_name')
     collaborator_qs = Collaborator.actives.all()
 
     class Meta:
@@ -67,6 +68,9 @@ class StreamFilter(django_filters.FilterSet):
         result_list2 = qs.filter(id__in = collaborator_permission)
         result_list = result_list1 | result_list2
         return result_list
+
+    def filter_name(self, qs, name, request):
+        return qs.filter(name__icontains=request)
 
 
 class UsersFilter(django_filters.FilterSet):
