@@ -1221,12 +1221,12 @@ class GetTopStreamAPIV3(ListAPIView):
             content_result_serializer = {
                 "data": ViewContentSerializer(page, many=True, fields=fields).data}
 
-        if obj == '1':
+        if obj == '2':
             data = {
                     "featured": emogo_serializer,
                     "content": content_result_serializer }
 
-        elif obj == '2':
+        elif obj == '3':
             suggested_user = UserProfile.actives.filter(is_suggested=True).prefetch_related(
                                 Prefetch(
                                     "user__who_follows",
