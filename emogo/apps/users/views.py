@@ -1143,7 +1143,7 @@ class GetTopStreamAPIV3(ListAPIView):
             'user_image', 'first_content_cover', 'stream_name', 'stream_type', 'content_type', 'content_title',
             'content_description',
             'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
-            'seen_index', 'thread', 'total_added_content')
+            'seen_index', 'thread', 'total_added_content', 'video_image')
         # list all the objects of streams created by users followed by current user
         user_as_collaborator_streams = Collaborator.objects.filter(phone_number=self.request.user.username).values_list(
             'stream_id', flat=True)
