@@ -686,6 +686,10 @@ class UserCollaborators(ListAPIView):
         #2. Fetch  stream Queryset objects as collaborators and exclude self.request.user created stream.
         queryset = self.get_queryset().filter(id__in=stream_ids).exclude(created_by_id=self.request.user.id).order_by('-upd')
 
+        # Search stream by name
+        if request.GET.get('name'):
+            queryset = queryset.filter(name__icontains=request.GET.get('name'))
+
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked']
         if kwargs.get('version') == 'v3':
