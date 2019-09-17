@@ -683,8 +683,12 @@ class UserCollaborators(ListAPIView):
         # Fetch all self created streams
         stream_ids = Collaborator.actives.filter(Q(created_by_id=self.request.user.id) | 
                                                     Q(phone_number__endswith=str(self.request.user.username)[-10:])).values_list( 'stream', flat=True)
-        # # 2. Fetch  stream Queryset objects as collaborators.
-        queryset = self.get_queryset().filter(id__in=stream_ids).order_by('-upd')
+        #2. Fetch  stream Queryset objects as collaborators and exclude self.request.user created stream.
+        queryset = self.get_queryset().filter(id__in=stream_ids).exclude(created_by_id=self.request.user.id).order_by('-upd')
+
+        # Search stream by name
+        if request.GET.get('name'):
+            queryset = queryset.filter(name__icontains=request.GET.get('name'))
 
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked']
@@ -1143,7 +1147,7 @@ class GetTopStreamAPIV3(ListAPIView):
             'user_image', 'first_content_cover', 'stream_name', 'stream_type', 'content_type', 'content_title',
             'content_description',
             'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
-            'seen_index', 'thread', 'total_added_content')
+            'seen_index', 'thread', 'total_added_content', 'video_image')
         # list all the objects of streams created by users followed by current user
         user_as_collaborator_streams = Collaborator.objects.filter(phone_number=self.request.user.username).values_list(
             'stream_id', flat=True)

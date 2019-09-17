@@ -887,13 +887,15 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
     content_height = serializers.SerializerMethodField()
     content_color = serializers.SerializerMethodField()
     total_added_content = serializers.SerializerMethodField()
+    video_image = serializers.SerializerMethodField()
+
 
     class Meta:
         model = StreamContent
         fields = (
         'user_image', 'first_content_cover', 'stream_name', 'stream_type','content_type', 'content_title', 'content_description',
         'content_width', 'content_height', 'content_color', 'added_by_user_id', 'user_profile_id', 'user_name',
-        'seen_index', 'thread', 'total_added_content')
+        'seen_index', 'thread', 'total_added_content', 'video_image')
 
     def get_user_image(self, obj):
         return obj.user.user_data.user_image
@@ -949,6 +951,8 @@ class RecentUpdatesSerializer(DynamicFieldsModelSerializer):
     def get_content_color(self, obj):
         return obj.content.color
 
+    def get_video_image(self,obj):
+        return obj.content.video_image
 
 
 class RecentUpdatesDetailSerializer(DynamicFieldsModelSerializer):
