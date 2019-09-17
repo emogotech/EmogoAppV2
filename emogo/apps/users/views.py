@@ -1253,3 +1253,32 @@ class GetTopStreamAPIV3(ListAPIView):
 
         return self.get_paginated_response(status_code=status.HTTP_200_OK,
                                           data=data)
+
+
+class SuggestedFollowUser(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def use_fields_follow(self):
+        fields = ['user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number', 'location', 'website',
+                  'biography', 'birthday', 'branchio_url', 'followers', 'following', 'display_name', 'is_buisness_account', 'emogo_count']
+
+        return fields
+
+
+    def get(self, request, *args, **kwargs):
+        suggested_obj =  UserProfile.actives.filter(is_suggested=True).prefetch_related(
+                                Prefetch(
+                                    "user__who_follows",
+                                    queryset=UserFollow.objects.all(),
+                                    to_attr="followers"
+                                ),
+                                Prefetch(
+                                    'user__who_is_followed',
+                                    queryset=UserFollow.objects.all(),
+                                    to_attr='following'
+                                ))
+
+        serializer = UserDetailSerializer(suggested_obj[0:15], many=True,fields=self.use_fields_follow(),  context=self.request)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
