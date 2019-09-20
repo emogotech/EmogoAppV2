@@ -1284,6 +1284,6 @@ class SuggestedFollowUser(APIView):
                                 )).order_by('full_name')
 
         serializer = UserDetailSerializer(suggested_obj[0:15], many=True,fields=self.use_fields_follow(),  context=self.request)
-        serializer = sorted(serializer.data, key=lambda x: x['is_follower'])
+        serializer = sorted(serializer.data, key=lambda x: x['is_following'])
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer)
 
