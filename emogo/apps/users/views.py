@@ -1241,10 +1241,10 @@ class GetTopStreamAPIV3(ListAPIView):
                                     'user__who_is_followed',
                                     queryset=UserFollow.objects.all(),
                                     to_attr='following'
-                                ))
+                                )).order_by('full_name')
 
             suggested_follow_serializer = {"data":UserDetailSerializer(suggested_user[0:15], many = True, fields=self.use_fields_follow(),  context=self.request).data}
-            suggested_follow_serializer['data'] = sorted(suggested_follow_serializer['data'], key=lambda x: x['is_follower'])
+            suggested_follow_serializer['data'] = sorted(suggested_follow_serializer['data'], key=lambda x: x['is_following'])
             data = {
                     "suggested_follow": suggested_follow_serializer,
                     "content": content_result_serializer }
