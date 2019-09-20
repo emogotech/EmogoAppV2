@@ -2,12 +2,12 @@ import django_filters
 from emogo.apps.stream.models import Stream, Content
 from emogo.apps.users.models import UserProfile, UserFollow
 from django.db.models import Q
-from itertools import chain
 from emogo.apps.collaborator.models import Collaborator
 from django.db.models import Prefetch
 from emogo.apps.stream.models import StreamUserViewStatus, StarredStream
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from itertools import chain
 
 
 class StreamFilter(django_filters.FilterSet):
@@ -34,7 +34,13 @@ class StreamFilter(django_filters.FilterSet):
         # # Merge result
         # result_list = list(chain(owner_qs, collaborator_permission))
         # return result_list
-        return qs.filter(created_by=self.request.user).order_by('stream_starred', '-upd')
+
+        #Get only starred stream in cronological order
+        starred_stream = qs.filter(created_by=self.request.user, stream_starred__id__isnull=False).order_by('-stream_starred__upd')
+        #Get not starred stream in cronological order
+        un_starred_stream = qs.filter(created_by=self.request.user, stream_starred__id__isnull=True).order_by('-upd')
+        # Merge result
+        return list(chain(starred_stream, un_starred_stream))
 
     def filter_self_created(self, qs, name, value):
         # Fetch all self created streams
