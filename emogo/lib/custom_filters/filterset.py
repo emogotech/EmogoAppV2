@@ -4,10 +4,14 @@ from emogo.apps.users.models import UserProfile, UserFollow
 from django.db.models import Q
 from emogo.apps.collaborator.models import Collaborator
 from django.db.models import Prefetch
-from emogo.apps.stream.models import StreamUserViewStatus, StarredStream
+from emogo.apps.stream.models import StreamUserViewStatus, StarredStream,Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from itertools import chain
+from django.db.models import Prefetch, Count, Q
+
+
+
 
 
 class StreamFilter(django_filters.FilterSet):
@@ -76,7 +80,55 @@ class StreamFilter(django_filters.FilterSet):
         return result_list
 
     def filter_name(self, qs, name, request):
-        return qs.filter(name__icontains=request)
+        queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+            'created_by__user_data__user').prefetch_related(
+            Prefetch(
+                "stream_contents",
+                queryset=StreamContent.objects.all().select_related('content',
+                                                                    'content__created_by__user_data').prefetch_related(
+                    Prefetch(
+                        "content__content_like_dislike_status",
+                        queryset=LikeDislikeContent.objects.filter(status=1),
+                        to_attr='content_liked_user'
+                    )
+                ).order_by('order', '-attached_date'),
+                to_attr="content_list"
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator'
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator_verified'
+            ),
+            Prefetch(
+                'stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+            Prefetch(
+                'stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                    Prefetch(
+                        "user__who_follows",
+                        queryset=UserFollow.objects.all(),
+                        to_attr='user_liked_followers'
+                    ),
+
+                ),
+                to_attr='total_like_dislike_data'
+            ),
+            Prefetch(
+                'stream_starred',
+                queryset=StarredStream.objects.all().select_related('user'),
+                to_attr='total_starred_stream_data'
+            ),
+        ).order_by('-stream_view_count')
+        obj=queryset.filter(created_by=self.request.user)
+        return obj.filter(name__icontains=request)
 
 
 class UsersFilter(django_filters.FilterSet):
@@ -123,10 +175,16 @@ class FollowerFollowingUserFilter(django_filters.FilterSet):
 
 class ContentsFilter(django_filters.FilterSet):
     type = django_filters.CharFilter(name='type', lookup_expr='iexact')
+    name = django_filters.filters.CharFilter(method='filter_name')
+
+
 
     class Meta:
         model = Content
         fields = ['type']
+
+    def filter_name(self, qs, name, value):
+        return qs.filter(name__icontains=value)
 
 
 class UserStreamFilter(django_filters.FilterSet):
