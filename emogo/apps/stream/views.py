@@ -1581,3 +1581,30 @@ class SearchEmogoAPI(ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
+
+class NotYetAddedContentAPI(ListAPIView):
+    serializer_class = ViewStreamSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        qs = Content.objects.all().exclude(streams__created_by_id=self.request.user.id).prefetch_related(
+        Prefetch(
+            "content_like_dislike_status",
+            queryset=LikeDislikeContent.objects.filter(status=1),
+            to_attr='content_liked_user'
+        )
+    )
+        self.serializer_class = ViewContentSerializer
+        #  Customized field list
+        fields = (
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
+            'order',
+            'color', 'user_image', 'full_name', 'order', 'liked')
+
+        page = self.paginate_queryset(qs)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data)
+
+
