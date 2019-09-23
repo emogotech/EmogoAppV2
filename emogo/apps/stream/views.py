@@ -1587,6 +1587,13 @@ class NotYetAddedContentAPI(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
     def list(self, request, *args, **kwargs):
         qs = Content.objects.all().exclude(streams__created_by_id=self.request.user.id).prefetch_related(
         Prefetch(
@@ -1605,6 +1612,6 @@ class NotYetAddedContentAPI(ListAPIView):
         page = self.paginate_queryset(qs)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
-            return self.get_paginated_response(data=serializer.data)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
