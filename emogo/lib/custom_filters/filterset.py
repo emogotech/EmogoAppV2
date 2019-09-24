@@ -123,23 +123,10 @@ class FollowerFollowingUserFilter(django_filters.FilterSet):
 
 class ContentsFilter(django_filters.FilterSet):
     type = django_filters.CharFilter(name='type', lookup_expr='iexact')
-    name = django_filters.filters.CharFilter(method='filter_name')
-
 
     class Meta:
         model = Content
         fields = ['type']
-
-    def filter_name(self, qs, name, value):
-        stream_obj=Stream.actives.filter(name__icontains=value).prefetch_related(
-        Prefetch(
-            "stream_like_dislike_status",
-            queryset=LikeDislikeStream.objects.filter(status=1),
-            to_attr='stream_liked_user'
-        )
-    )
-        content_obj=  qs.filter(streams__name=value)
-        return list(chain(stream_obj, content_obj))
 
 
 class UserStreamFilter(django_filters.FilterSet):
