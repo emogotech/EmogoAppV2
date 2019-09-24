@@ -38,5 +38,6 @@ urlpatterns = [
     url(r'^bookmarks_and_new_emogos/$', views.BookmarkNewEmogosAPI.as_view()),
     url(r'^new_emogos_list', views.NewEmogosAPI.as_view()),
     url(r'^update_user_view_stream_status/$', views.AddUserViewStreamStatus.as_view()),
-    url(r'^user_liked_content/$', views.UserLikedContentAPI.as_view())
+    url(r'^user_liked_content/$', views.UserLikedContentAPI.as_view()),
+    url(r'^content_not_yet_added/$', views.NotYetAddedContentAPI.as_view())
 ]
