@@ -163,10 +163,21 @@ class FollowerFollowingUserFilter(django_filters.FilterSet):
         return qs.filter(following__username__icontains=value)
 
     def filter_follower_name(self, qs, name, value):
-        return qs.filter(follower__user_data__full_name__icontains=value)
+        follower_obj = qs.filter(follower__user_data__display_name__icontains=value)
+
+        if follower_obj:
+            return follower_obj
+        else:
+            return qs.filter(follower__user_data__full_name__icontains=value)
+
 
     def filter_following_name(self, qs, name, value):
-        return qs.filter(following__user_data__full_name__icontains=value)
+        following_obj = qs.filter(following__user_data__display_name__icontains=value)
+
+        if following_obj:
+            return following_obj
+        else:
+            return qs.filter(following__user_data__full_name__icontains=value)
 
 
 class ContentsFilter(django_filters.FilterSet):
