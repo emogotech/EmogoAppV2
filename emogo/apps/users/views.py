@@ -481,11 +481,16 @@ class UserFollowingAPI(ListAPIView):
                 "user__who_is_followed",
                 queryset=UserFollow.objects.all().order_by('-follow_time'),
                 to_attr="following_list"
-            )
-        )
+            ),
+            Prefetch(
+                        "user__who_follows",
+                        queryset=UserFollow.objects.all().order_by('-follow_time'),
+                        to_attr="follower_list"
+                            )
+                    )
 
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_follower', 'following_count')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_follower', 'following_count', 'followers_count')
         self.serializer_class = UserListFollowerFollowingSerializer
 
         # This IF condition is added because if try to search by name or phone disable pagination class.
