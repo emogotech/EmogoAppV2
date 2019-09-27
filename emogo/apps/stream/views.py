@@ -43,7 +43,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                         queryset=LikeDislikeContent.objects.filter(status=1),
                         to_attr='content_liked_user'
                     )
-                ).order_by('order', '-attached_date'),
+                ).order_by('order', '-attached_date').order_by('content__upd'),
                 to_attr="content_list"
             ),
             Prefetch(
