@@ -487,7 +487,7 @@ class UserFollowingAPI(ListAPIView):
                         queryset=UserFollow.objects.all().order_by('-follow_time'),
                         to_attr="follower_list"
                             )
-                    )
+                    ).order_by('full_name')
 
         #  Customized field list
         fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_follower', 'following_count', 'followers_count')
