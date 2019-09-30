@@ -1247,7 +1247,7 @@ class GetTopStreamAPIV3(ListAPIView):
                     "content": content_result_serializer }
 
         elif obj == '3':
-            suggested_user = UserProfile.actives.filter(is_suggested=True).prefetch_related(
+            suggested_user = UserProfile.actives.filter(is_suggested=True).exclude(user_id=self.request.user.id).prefetch_related(
                                 Prefetch(
                                     "user__who_follows",
                                     queryset=UserFollow.objects.all(),
@@ -1287,7 +1287,7 @@ class SuggestedFollowUser(APIView):
 
 
     def get(self, request, *args, **kwargs):
-        suggested_obj =  UserProfile.actives.filter(is_suggested=True).prefetch_related(
+        suggested_obj =  UserProfile.actives.filter(is_suggested=True).exclude(user_id=self.request.user.id).prefetch_related(
                                 Prefetch(
                                     "user__who_follows",
                                     queryset=UserFollow.objects.all(),
