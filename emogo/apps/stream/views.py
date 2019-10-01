@@ -43,7 +43,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                         queryset=LikeDislikeContent.objects.filter(status=1),
                         to_attr='content_liked_user'
                     )
-                ).order_by('order', '-attached_date').order_by('content__upd'),
+                ).order_by('order', '-attached_date'),
                 to_attr="content_list"
             ),
             Prefetch(
@@ -341,7 +341,11 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
+        fields = ('id', 'name', 'image', 'author', 'created_by','video_image','url', 'full_name', 'view_count', 'type', 'height', 'width',
+                  'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
+                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
+                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status',
+                  'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
 
 
         if request.GET.get('name'):
