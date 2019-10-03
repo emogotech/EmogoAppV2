@@ -43,7 +43,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                         queryset=LikeDislikeContent.objects.filter(status=1),
                         to_attr='content_liked_user'
                     )
-                ).order_by('order', '-attached_date').order_by('content__upd'),
+                ).order_by('order', '-attached_date').order_by('-content__upd'),
                 to_attr="content_list"
             ),
             Prefetch(
@@ -146,7 +146,12 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :param kwargs: dict param
         :return: Create Stream API.
         """
-        serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
+        # Save content in desending order
+        content_obj= request.data['content']
+        content_obj.reverse()
+        request.data.update({"content": content_obj})
+
+        serializer = self.get_serializer(data= request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         stream = serializer.create(serializer.validated_data)
         # To return created stream data
@@ -284,7 +289,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             queryset=LikeDislikeContent.objects.filter(status=1),
             to_attr='content_liked_user'
         )
-    ).order_by('order', '-crd')
+    ).order_by('order', '-upd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_class = ContentsFilter
@@ -822,6 +827,10 @@ class MoveContentToStream(APIView):
         """
         Return a list of all users.
         """
+        #Save content in desending order
+        content_obj = request.data['contents']
+        content_obj.reverse()
+        request.data.update({"contents": content_obj})
         serializer = self.serializer_class(data=request.data, context=self.get_serializer_context())
         if serializer.is_valid():
             serializer.save()
