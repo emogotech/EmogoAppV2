@@ -1669,7 +1669,7 @@ class NotYetAddedContentAPI(ListAPIView):
             queryset=LikeDislikeContent.objects.filter(status=1),
             to_attr='content_liked_user'
         )
-    )
+    ).order_by('-upd')
         self.serializer_class = ViewContentSerializer
         #  Customized field list
         fields = (
