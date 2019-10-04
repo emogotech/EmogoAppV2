@@ -1672,7 +1672,7 @@ class NotYetAddedContentAPI(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
-        qs = Content.objects.all().exclude(streams__created_by_id=self.request.user.id).prefetch_related(
+        qs = Content.objects.filter(created_by_id=self.request.user.id, streams__id=None).prefetch_related(
         Prefetch(
             "content_like_dislike_status",
             queryset=LikeDislikeContent.objects.filter(status=1),
