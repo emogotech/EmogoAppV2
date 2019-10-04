@@ -148,9 +148,12 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :return: Create Stream API.
         """
         # Save content in desending order
-        content_obj= request.data['content']
-        content_obj.reverse()
-        request.data.update({"content": content_obj})
+        try:
+            content_obj= request.data['content']
+            content_obj.reverse()
+            request.data.update({"content": content_obj})
+        except:
+            None
 
         serializer = self.get_serializer(data= request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
