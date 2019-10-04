@@ -419,6 +419,10 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
+        try:
+            request.data.reverse()
+        except:
+            None
         serializer = self.get_serializer(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
         instances = serializer.create(serializer.validated_data)
