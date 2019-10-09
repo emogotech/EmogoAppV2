@@ -1150,6 +1150,15 @@ class GetTopStreamAPIV3(ListAPIView):
         ).order_by('-id')
 
         queryset = [x for x in qs]
+        # Featured Data
+        featured = [x for x in queryset if x.featured]
+        featured_serializer = {"total": featured.__len__(),
+                               "data": ViewGetTopStreamSerializer(featured[0:10], many=True, fields=self.use_fields(),
+                                                                  context=self.get_serializer_context()).data}
+
+        featured_serializer['data'] = sorted(featured_serializer['data'],
+                                                     key=lambda x: x['author'])
+
         following = UserFollow.objects.filter(follower=self.request.user).values_list('following', flat=True)
         today = datetime.date.today()
         week_ago = today - datetime.timedelta(days=7)
@@ -1233,7 +1242,7 @@ class GetTopStreamAPIV3(ListAPIView):
                         queryset=LikeDislikeContent.objects.filter(status=1),
                         to_attr='content_liked_user'
                     )
-                ).order_by('-upd')
+                ).distinct().order_by('-upd')
 
         obj = request.GET.get('page', 0)
         page = self.paginate_queryset(content_obj)
@@ -1243,7 +1252,7 @@ class GetTopStreamAPIV3(ListAPIView):
 
         if obj == '2':
             data = {
-                    "featured": emogo_serializer,
+                    "featured": featured_serializer,
                     "content": content_result_serializer }
 
         elif obj == '3':
