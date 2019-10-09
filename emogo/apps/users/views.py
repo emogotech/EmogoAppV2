@@ -1227,7 +1227,7 @@ class GetTopStreamAPIV3(ListAPIView):
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
             'order', 'color', 'user_image', 'full_name', 'order', 'liked')
-        content_obj = Content.actives.all().select_related('created_by__user_data__user').prefetch_related(
+        content_obj = Content.actives.filter(streams__type='Public').select_related('created_by__user_data__user').prefetch_related(
                     Prefetch(
                         "content_like_dislike_status",
                         queryset=LikeDislikeContent.objects.filter(status=1),
