@@ -513,7 +513,7 @@ class UserLikedSteams(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     queryset = Stream.actives.all()
-    
+
     def get_serializer_context(self):
         return {'request': self.request, 'version': self.kwargs['version']}
 
@@ -565,9 +565,9 @@ class UserLikedSteams(ListAPIView):
                 'stream_like_dislike_status',
                 queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
                         Prefetch(
-                            "user__who_follows",                            
+                            "user__who_follows",
                             queryset=UserFollow.objects.all(),
-                            to_attr='user_liked_followers'                                   
+                            to_attr='user_liked_followers'
                         ),
 
                 ),
@@ -579,20 +579,24 @@ class UserLikedSteams(ListAPIView):
                 to_attr='total_starred_stream_data'
             ),
         )
-
+        non_converted = queryset
         queryset = list(queryset)
         stream_ids_list = list(stream_ids_list)
         queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
-        return queryset
+        return queryset, non_converted
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
-        queryset = self.filter_queryset(self.get_queryset())
+        queryset, non_converted = self.filter_queryset(self.get_queryset())
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
+        #Search in liked streams
+        if request.GET.get('stream_name'):
+            queryset = non_converted.filter(name__icontains=request.GET['stream_name'])
+
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields, context=self.request)
