@@ -209,6 +209,10 @@ branch_key = 'key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ'
 branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
 DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
 
+# S3 bucket credential
+AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_BUCKET_NAME = 'emogo-v2'
 
 # Get Local Settings
 try:
