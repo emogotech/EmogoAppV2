@@ -16,6 +16,7 @@ class Collaborator(DefaultStatusModel):
     can_add_people = models.BooleanField(default=False)
     image = models.CharField(max_length=200, null=True, blank=True, default="")
     created_by = models.ForeignKey(User, null=True, blank=True)
+    user = models.ForeignKey(User, null=True, blank=True, related_name='user_as_collaborator')
     # deleted_by = models.CharField(max_length=15, choices=DELETED_TYPE, default=DELETED_TYPE[0][0])
 
 
