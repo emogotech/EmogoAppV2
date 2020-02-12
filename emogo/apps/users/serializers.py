@@ -61,7 +61,6 @@ class UserSerializer(DynamicFieldsModelSerializer):
             user_profile = UserProfile.objects.get(full_name=validated_data.get('user_name'), otp__isnull=False)
             user_profile.otp = self.user_pin
             user_profile.save()
-
             user_profile.user.username = validated_data.get('username')
             user_profile.user.save()
             return user_profile.user
@@ -75,6 +74,11 @@ class UserSerializer(DynamicFieldsModelSerializer):
         if created:
             user_profile = UserProfile(full_name=validated_data.get('user_name'), user=user, otp=self.user_pin)
             user_profile.save()
+            collaborators = Collaborator.objects.filter(phone_number__endswith=user.username[-10:])
+            if collaborators:
+                for collaborator in collaborators:
+                    collaborator.user = user
+                    collaborator.save()
         else:
             user.user_data.full_name = validated_data.get('user_name')
             user.user_data.otp = self.user_pin
