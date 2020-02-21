@@ -1,7 +1,7 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from models import Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream, \
-    LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates, NewEmogoViewStatusOnly
+    LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates, NewEmogoViewStatusOnly, Folder
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -159,6 +159,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     def create_collaborator(self, stream):
         """
         :param stream: The stream object
+        :Add Stream's Owner as collaborators..
         :Call owner stream for adding Stream's Owner as collaborators in collaborators list ..
         :return: Add Stream collaborators.
         """
@@ -257,6 +258,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
     def owner_collaborator(self, stream, data):
         # Adding and update the streams as collaborator..
+
         # Check Owner is present or stream have any collabrators or not.
         user_qs = User.objects.filter(id = self.context.get('request').user.id).values('user_data__full_name', 'username')
         if self.context['version']:
@@ -267,6 +269,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                 status = 'Unverified'
         else:
             status = 'Active'
+
         if stream.collaborator_list.filter().__len__() < 1 :
             
             collaborator, created = Collaborator.objects.get_or_create(
@@ -1077,3 +1080,19 @@ class SeenIndexSerializer(DynamicFieldsModelSerializer):
 def set_have_some_update_true(stream):
     NewEmogoViewStatusOnly.objects.filter(stream=stream).update(have_some_update = True)
     return True
+
+
+class FolderCreateSerializer(DynamicFieldsModelSerializer):
+    """
+    Folder model Serializer
+    """
+
+    class Meta:
+        model = Folder
+        fields = ("name",)
+
+    def validate_name(self, value):
+        # This code is run only in case of update through the PATCH method:
+        if Folder.objects.filter(name=value, owner=self.context.get("request").user).exists():
+            raise serializers.ValidationError(messages.MSG_FOLDER_NAME_EXISTS.format(value))
+        return value

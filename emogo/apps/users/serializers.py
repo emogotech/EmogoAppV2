@@ -25,6 +25,7 @@ from itertools import product
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 
 
+
 class UserSerializer(DynamicFieldsModelSerializer):
     """
     User model Serializer
@@ -185,6 +186,7 @@ class UserDetailSerializer(UserProfileSerializer):
         model = UserProfile
         fields = '__all__'
 
+
     def get_user_instance(self):
         if isinstance(self.context, dict):
             return self.context.get('request').user
@@ -233,7 +235,7 @@ class UserDetailSerializer(UserProfileSerializer):
     def get_is_follower(self, obj):
         if isinstance(self.context, dict):
             user_id = self.context.get('request').user.id
-        else:
+        else :
             user_id = self.context.user.id
         if user_id in [x.following_id for x in obj.user.following]:
             return True
@@ -351,8 +353,6 @@ class UserLoginSerializer(UserSerializer):
             
             body = "Here is your emogo one time passcode"
             sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
-            # print sent_otp
-            # sent_otp = 12345
             if sent_otp is not None:
                 setattr(self, 'user_pin', sent_otp)
             else:
@@ -540,19 +540,19 @@ class GetTopStreamSerializer(serializers.Serializer):
         # Get self created streams
         owner_qs = self.qs.filter(type='Public').order_by('-view_count')
         if owner_qs.count() < 10:
+            # Get streams user as collaborator and has add content permission
+            collaborator_permission = [x.stream for x in self.collaborator_qs if
+                                       str(x.phone_number) in str(self.context.user.username) and x.stream.status == 'Active']
 
-            # 1. Get user as collaborator in streams created by following's
-            stream_ids = self.collaborator_qs.filter(phone_number=self.context.user.username, stream__status='Active',
-                                                     stream__type='Private')
-            # 2. Fetch stream Queryset objects.
-            stream_as_collabs = self.qs.filter(id__in=stream_ids)
-
-            result_list = owner_qs | stream_as_collabs
+            # merge result
+            result_list = list(chain(owner_qs, collaborator_permission))
             total = result_list.__len__()
             result_list = result_list[0:10]
+
         else:
             total = owner_qs.count()
             result_list = owner_qs[0:10]
+
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields(), context = self.context).data}
 
     def get_people(self, obj):
@@ -562,6 +562,7 @@ class GetTopStreamSerializer(serializers.Serializer):
                                     context=self.context).data}
 
     def get_liked(self, obj):
+
         stream_ids_list = LikeDislikeStream.objects.filter(user=self.context.get('request').user, status=1).values_list('stream', flat=True)
         result_list = self.qs.filter(id__in=stream_ids_list).order_by('-upd')
         total = result_list.count()
@@ -570,9 +571,7 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     def get_following_stream(self, obj):
         # 1. Get user as collaborator in streams created by following's
-        stream_ids = Collaborator.actives.filter(phone_number=self.context.get('request').user.username, stream__status='Active',
-                                                 stream__type='Private', created_by_id__in=UserFollow.objects.filter(follower=self.context.get('request').user).values_list('following_id', flat=True)).values_list(
-            'stream', flat=True)
+        stream_ids = Collaborator.actives.filter(phone_number=self.context.get('request').user.username, stream__status='Active', stream__type='Private', created_by_id__in=UserFollow.objects.filter(follower=self.context.get('request').user).values_list('following_id', flat=True)).values_list('stream', flat=True)
 
         # 2. Fetch stream Queryset objects.
         stream_as_collabs = self.qs.filter(id__in=stream_ids)
@@ -727,8 +726,10 @@ class UserFollowSerializer(DynamicFieldsModelSerializer):
     def get_is_following(self, ob):
         return False
 
-
 class CheckContactInEmogoSerializer(serializers.Serializer):
+    """
+    Check contact list exist in Emogo user.
+    """
     contact_list = serializers.ListField(min_length=1)
 
     class Meta:

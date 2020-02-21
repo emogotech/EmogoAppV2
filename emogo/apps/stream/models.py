@@ -45,6 +45,14 @@ class CategoryMaster(DefaultStatusModel):
         db_table = 'category_master'
 
 
+class Folder(DefaultDateModel):
+    name = models.CharField(max_length=50)
+    owner = models.ForeignKey(User, related_name="owner_folders")
+
+    class Meta:
+        db_table = "folder"
+
+
 class Stream(DefaultStatusModel):
     name = models.CharField(max_length=75, null=True, blank=True)
     description = models.TextField(max_length=1000, null=True, blank=True)
@@ -60,6 +68,7 @@ class Stream(DefaultStatusModel):
     width = models.CharField(max_length=10, null=True, blank=True, default=300)
     have_some_update = models.BooleanField(default=False)
     color = models.CharField(max_length=50, null=True, blank=True, default=None)
+    folder = models.ForeignKey(Folder, related_name="folder_streams", null=True, blank=True)
 
     class Meta:
         db_table = 'stream'

@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^reorder_stream_content/$', views.ReorderStreamContent.as_view()),
     url(r'^reorder_content/$', views.ReorderContent.as_view()),
     url(r'^extremist_report/$', views.ExtremistReportAPI.as_view()),
+    url(r'^ranjeet/$', views.TestUrlAPI.as_view()),
     url(r'^delete_stream_content/(?P<pk>[0-9]+)/$', views.DeleteStreamContentAPI.as_view()),
     url(r'^bulk_delete_stream_content/(?P<pk>[0-9]+)/$', views.DeleteStreamContentInBulkAPI.as_view()),
     url(r'^bulk_contents', views.ContentInBulkAPI.as_view()),
@@ -38,5 +39,6 @@ urlpatterns = [
     url(r'^new_emogos_list', views.NewEmogosAPI.as_view()),
     url(r'^update_user_view_stream_status/$', views.AddUserViewStreamStatus.as_view()),
     url(r'^user_liked_content/$', views.UserLikedContentAPI.as_view()),
-    url(r'^content_not_yet_added/$', views.NotYetAddedContentAPI.as_view())
+    url(r'^content_not_yet_added/$', views.NotYetAddedContentAPI.as_view()),
+    url(r'^folder/$', views.FolderAPI.as_view()),
 ]
