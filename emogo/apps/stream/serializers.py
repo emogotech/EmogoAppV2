@@ -1089,7 +1089,7 @@ class FolderCreateSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = Folder
-        fields = ("name",)
+        fields = "__all__"
 
     def validate_name(self, value):
         # This code is run only in case of update through the PATCH method:

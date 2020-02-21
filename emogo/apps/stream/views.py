@@ -1717,7 +1717,7 @@ class FolderAPI(CreateAPIView, ListAPIView):
         :param kwargs: dict param
         :return: Create Folder API.
         """
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data, fields=("name",))
         serializer.is_valid(raise_exception=True)
         # To return created folder data
         self.perform_create(serializer)
@@ -1752,7 +1752,7 @@ class FolderAPI(CreateAPIView, ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         # serializer = self.get_serializer(queryset, many=True)
-        fields = ("name",)
+        fields = ("id", "name")
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
