@@ -34,7 +34,7 @@ from django.db.models import Prefetch, Count
 from django.db.models import QuerySet, Q
 from emogo.apps.notification.views import NotificationAPI
 import datetime
-from django.db.models import Case, When
+from django.db.models import Case, When, Q, IntegerField
 from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer, ViewContentSerializer
 import collections
 import boto3
@@ -42,7 +42,7 @@ import re
 import threading
 from django.conf import settings
 from rest_framework import pagination
-
+import json
 
 
 class Signup(APIView):
@@ -786,7 +786,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
                 queryset=UserFollow.objects.all().order_by('-follow_time'), 
                 to_attr="followers" 
             ),
-            Prefetch( 
+            Prefetch(
                 'user__who_is_followed', 
                 queryset=UserFollow.objects.all().order_by('-follow_time'), 
                 to_attr='following'
@@ -1316,3 +1316,49 @@ class SuggestedFollowUser(APIView):
         serializer = sorted(serializer.data, key=lambda x: x['is_following'])
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer)
 
+
+class UserLeftMenuData(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        # Fetch all self created streams
+        try:
+            shared_streams_count = json.loads(UserCollaborators.as_view()(request, version="v3").render().content).get('count')
+        except Exception as e:
+            shared_streams_count = 0
+
+        stream_ids = Collaborator.actives.filter(created_by_id=self.request.user.id).values_list('stream', flat=True)
+
+        # 2. Fetch and return stream Queryset objects without collaborators.
+
+        user_obj_data = User.objects.all().annotate(
+            user_stream_count=Count(
+                Case(
+                    When(~Q(stream__id__in=stream_ids) & Q(stream__created_by=self.request.user), then=1),
+                    output_field=IntegerField(),
+                )),
+            user_media_count=Count(
+                Case(
+                    When(content__created_by=self.request.user, content__status='Active', then=1),
+                    output_field=IntegerField(),
+                )),
+            user_link_count=Count(
+                Case(
+                    When(content__type="Link", content__status='Active', then=1),
+                    output_field=IntegerField(),
+                )),
+            user_not_yet_count=Count(
+                Case(
+                    When(content__streams__id=None, content__status='Active', then=1),
+                    output_field=IntegerField(),
+                )),
+        ).get(id=request.user.id)
+        user_data = {
+            "user_stream_count": user_obj_data.user_stream_count,
+            "user_media_count": user_obj_data.user_media_count,
+            "user_link_count": user_obj_data.user_link_count,
+            "user_not_yet_count": user_obj_data.user_not_yet_count,
+            "shared_streams_count": shared_streams_count,
+        }
+        return custom_render_response(status_code=status.HTTP_200_OK, data=user_data)
