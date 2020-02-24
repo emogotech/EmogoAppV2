@@ -247,7 +247,8 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             created_by=self.context.get('request').user,
             height=self.validated_data.get('height', 300),
             width=self.validated_data.get('width', 300),
-            color = self.validated_data.get('color')
+            color=self.validated_data.get('color'),
+            folder=self.validated_data.get("folder", None)
         )
         stream.save()
         # Update any_one_can_edit flag is type is Public
