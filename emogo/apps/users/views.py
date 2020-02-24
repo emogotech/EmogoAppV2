@@ -43,6 +43,9 @@ import threading
 from django.conf import settings
 from rest_framework import pagination
 import json
+from rest_framework.parsers import MultiPartParser, JSONParser
+from botocore.exceptions import ClientError
+import logging
 
 
 class Signup(APIView):
@@ -1386,3 +1389,23 @@ class UserLeftMenuData(APIView):
             "shared_streams_count": shared_streams_count,
         }
         return custom_render_response(status_code=status.HTTP_200_OK, data=user_data)
+
+
+class UploadMediaOnS3(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    parser_classes = (MultiPartParser,)
+
+    def post(self, request, *args, **kwargs):
+        s3_client = boto3.client('s3', aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                                 aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+        file = self.request.data.get("file", None)
+        file_name = self.request.data.get("file_name", None)
+        file_type = self.request.data.get("type", None)
+        if file and file_name and file_type:
+            try:
+                s3_client.upload_fileobj(file, "emogo-v2", "{}/{}".format(file_type, file_name))
+                return custom_render_response(status_code=status.HTTP_200_OK, data={"status": "Done"})
+            except ClientError as e:
+                logging.error(e)
+        return custom_render_response(status_code=400, data={"Error": "Bad request parameters."})
