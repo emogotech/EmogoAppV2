@@ -214,6 +214,9 @@ AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_BUCKET_NAME = 'emogo-v2'
 
+# Max file upload size on server
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520
+
 # Get Local Settings
 try:
     from local_settings import *
