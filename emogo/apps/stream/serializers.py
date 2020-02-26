@@ -1083,14 +1083,18 @@ def set_have_some_update_true(stream):
     return True
 
 
-class FolderCreateSerializer(DynamicFieldsModelSerializer):
+class FolderSerializer(DynamicFieldsModelSerializer):
     """
     Folder model Serializer
     """
+    stream_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Folder
         fields = "__all__"
+
+    def get_stream_count(self, obj):
+        return obj.stream_count
 
     def validate_name(self, value):
         # This code is run only in case of update through the PATCH method:
