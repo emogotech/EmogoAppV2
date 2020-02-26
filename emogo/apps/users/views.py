@@ -19,7 +19,7 @@ from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter, FollowerFollowingUserFilter
 from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
-from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates, Folder
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.notification.models import Notification
 from django.shortcuts import get_object_or_404
@@ -35,7 +35,7 @@ from django.db.models import QuerySet, Q
 from emogo.apps.notification.views import NotificationAPI
 import datetime
 from django.db.models import Case, When, Q, IntegerField
-from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer, ViewContentSerializer
+from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer, ViewContentSerializer, FolderSerializer
 import collections
 import boto3
 import re
@@ -1324,6 +1324,14 @@ class UserLeftMenuData(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def get_folder_data(self, data):
+        fields = ("id", "name", "stream_count")
+        folders = Folder.objects.filter(owner=self.request.user).annotate(stream_count=Count("folder_streams"))
+        folder_serializer = FolderSerializer(folders, many=True, fields=fields)
+        data["folders_count"] = folders.__len__()
+        data["folder_data"] = folder_serializer.data
+        return data
+
     def get(self, request, *args, **kwargs):
         # Fetch all self created streams
         try:
@@ -1355,40 +1363,17 @@ class UserLeftMenuData(APIView):
                 queryset=Content.actives.filter(streams__id=None).prefetch_related("streams"),
                 to_attr="user_not_yet_count"
             )).get(id=request.user.id)
-        # .annotate(
-        #     # user_stream_count=Count(
-        #     #     "stream",
-        #     #     Case(
-        #     #         When(~Q(stream__id__in=stream_ids) & Q(stream__status='Active'), then=1),
-        #     #         output_field=IntegerField(),
-        #     #     )),
-        #     # user_media_count=Count(
-        #     #     "content",
-        #     #     Case(
-        #     #         When(content__created_by=self.request.user, content__status='Active', then=1),
-        #     #         output_field=IntegerField(),
-        #     #     )),
-        #     # user_link_count=Count(
-        #     #     "content",
-        #     #     Case(
-        #     #         When(content__created_by=self.request.user, content__type__="Link", content__status='Active', then=1),
-        #     #         output_field=IntegerField(),
-        #     #     )),
-        #     user_not_yet_count=Count(
-        #         "content",
-        #         Case(
-        #             When(content__streams__id=None, content__status='Active', then=1),
-        #             output_field=IntegerField(),
-        #         )),
-        # ).get(id=request.user.id)
-        user_data = {
-            "user_stream_count": user_obj_data.user_stream_data.__len__(),
-            "user_media_count": user_obj_data.user_media_count.__len__(),
-            "user_media__link_count": user_obj_data.user_link_count.__len__(),
-            "not_yet_added_content_count": user_obj_data.user_not_yet_count.__len__(),
-            "shared_streams_count": shared_streams_count,
+        data = {
+            "left_menu_data": {
+                "user_stream_count": user_obj_data.user_stream_data.__len__(),
+                "user_media_count": user_obj_data.user_media_count.__len__(),
+                "user_media_link_count": user_obj_data.user_link_count.__len__(),
+                "not_yet_added_content_count": user_obj_data.user_not_yet_count.__len__(),
+                "shared_streams_count": shared_streams_count,
+            }
         }
-        return custom_render_response(status_code=status.HTTP_200_OK, data=user_data)
+        data = self.get_folder_data(data)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=data)
 
 
 class UploadMediaOnS3(APIView):

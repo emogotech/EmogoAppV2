@@ -12,7 +12,7 @@ from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSeriali
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
     ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, \
-    RecentUpdatesSerializer, AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderCreateSerializer
+    RecentUpdatesSerializer, AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -133,7 +133,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                   'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission',
                   'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
                   'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
-                  'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked']
+                  'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked', 'folder']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)
@@ -1709,7 +1709,7 @@ class FolderAPI(CreateAPIView, ListAPIView):
     """
     User Folder Create API
     """
-    serializer_class = FolderCreateSerializer
+    serializer_class = FolderSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     queryset = Folder.objects.all()
