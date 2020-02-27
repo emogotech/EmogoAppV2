@@ -46,6 +46,9 @@ import json
 from rest_framework.parsers import MultiPartParser, JSONParser
 from botocore.exceptions import ClientError
 import logging
+import random
+import string
+import os
 
 
 class Signup(APIView):
@@ -1326,7 +1329,10 @@ class UserLeftMenuData(APIView):
 
     def get_folder_data(self, data):
         fields = ("id", "name", "stream_count")
-        folders = Folder.objects.filter(owner=self.request.user).annotate(stream_count=Count("folder_streams"))
+        folders = Folder.objects.filter(owner=self.request.user).annotate(stream_count=Count(Case(
+                                                                            When(folder_streams__status="Active", then=1),
+                                                                            output_field=IntegerField(),
+                                                                          )))
         folder_serializer = FolderSerializer(folders, many=True, fields=fields)
         data["folders_count"] = folders.__len__()
         data["folder_data"] = folder_serializer.data
@@ -1387,12 +1393,24 @@ class UploadMediaOnS3(APIView):
         file = self.request.data.get("file", None)
         file_name = self.request.data.get("file_name", None)
         file_type = self.request.data.get("type", None)
+        errors = {}
         if file and file_name and file_type:
             try:
-                s3_client.upload_fileobj(file, "emogo-v2", "{}/{}".format(file_type, file_name))
-                # location = boto3.client('s3').get_bucket_location(Bucket='emogo-v2')['LocationConstraint']
-                # url = "https://s3-%s.amazonaws.com/%s/%s" % (location, 'emogo-v2', file_name)
-                return custom_render_response(status_code=status.HTTP_200_OK, data={"status": "Done"})
+                random_string = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(8))
+                name, extension = os.path.splitext(file.name)
+                final_file_name = file_name+random_string+extension
+                url = "https://emogo-v2.s3.amazonaws.com/{}/{}".format(file_type, final_file_name)
+                s3_client.upload_fileobj(file, "emogo-v2", "{}/{}".format(file_type, final_file_name))
+                return custom_render_response(status_code=status.HTTP_200_OK, data={"file_url": url})
             except ClientError as e:
+                print('Client Error')
                 logging.error(e)
-        return custom_render_response(status_code=400, data={"Error": "Bad request parameters."})
+        else:
+            if file is None:
+                errors["file"] = "Media file is required."
+            if file_name is None:
+                errors["file_name"] = "File name is required."
+            if file_type is None:
+                errors["file_type"] = "File type is required."
+
+        return custom_render_response(status_code=400, data={"Error": errors})
