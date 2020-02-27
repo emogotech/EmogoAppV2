@@ -1390,6 +1390,8 @@ class UploadMediaOnS3(APIView):
         if file and file_name and file_type:
             try:
                 s3_client.upload_fileobj(file, "emogo-v2", "{}/{}".format(file_type, file_name))
+                # location = boto3.client('s3').get_bucket_location(Bucket='emogo-v2')['LocationConstraint']
+                # url = "https://s3-%s.amazonaws.com/%s/%s" % (location, 'emogo-v2', file_name)
                 return custom_render_response(status_code=status.HTTP_200_OK, data={"status": "Done"})
             except ClientError as e:
                 logging.error(e)
