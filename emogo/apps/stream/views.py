@@ -23,7 +23,7 @@ from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.models import UserFollow
 from emogo.apps.notification.models import Notification
 from emogo.apps.notification.views import NotificationAPI
-from django.db.models import Prefetch, Count, Q
+from django.db.models import Prefetch, Count, Q, When, Case, IntegerField
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
 import datetime
@@ -1714,6 +1714,18 @@ class FolderAPI(CreateAPIView, ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Folder.objects.all()
 
+    def get_folder_data(self):
+        data = {}
+        fields = ("id", "name", "stream_count")
+        folders = Folder.objects.filter(owner=self.request.user).annotate(stream_count=Count(Case(
+                                                                            When(folder_streams__status="Active", then=1),
+                                                                            output_field=IntegerField(),
+                                                                          )))
+        folder_serializer = FolderSerializer(folders, many=True, fields=fields)
+        data["folders_count"] = folders.__len__()
+        data["folder_data"] = folder_serializer.data
+        return data
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -1725,8 +1737,9 @@ class FolderAPI(CreateAPIView, ListAPIView):
         serializer.is_valid(raise_exception=True)
         # To return created folder data
         self.perform_create(serializer)
+        data = self.get_folder_data()
         # data = serializer.data
-        return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=data)
 
     def get_paginated_response(self, data, status_code=None):
         """

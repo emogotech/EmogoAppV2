@@ -40,6 +40,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                         # 'image': {'required': True, 'allow_blank': False, 'allow_null': False}
                         }
 
+    def validate_folder(self, value):
+        if value and value.owner != self.context["request"].user:
+            raise serializers.ValidationError(messages.MSG_FOLDER_OWNER_NOT_VALID)
+        else:
+            return value
+
     def validate(self, attrs):
         # This code is run only in case of update through the PATCH method:
         delete_content = self.initial_data.get('delete_content')
@@ -69,7 +75,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     def save(self, **kwargs):
         # Get variable any one can true
         any_one_can_edit = self.validated_data.get('any_one_can_edit')
-            
+
         # If any_one_can_edit variable is True, Set default stream's type is Public
         if any_one_can_edit:
             self.validated_data['type'] = 'Public'
@@ -99,9 +105,9 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
         #3  Update the status of  all collaborator is Inactive When Stream is Global otherwise Collaborator Status is Active
         if self.context['version']:
-            collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')    
+            collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')
         else:
-            collaborator_list = self.instance.collaborator_list.all()    
+            collaborator_list = self.instance.collaborator_list.all()
         if collaborator_list.__len__ > 0:
             stream_type = self.validated_data.get('type')
             if stream_type == 'Public':
@@ -168,7 +174,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         self.owner_collaborator(stream, collaborator_list)
         collaborators = map(self.save_collaborator, collaborator_list,
                             itertools.repeat(stream, collaborator_list.__len__()))
-        
+
         if stream.collaborator_list.count() == 1:
             if  stream.collaborator_list.all()[0].created_by == self.context.get('request').user and \
                 stream.collaborator_list.all()[0].phone_number == self.context.get('request').user.username:
@@ -272,7 +278,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             status = 'Active'
 
         if stream.collaborator_list.filter().__len__() < 1 :
-            
+
             collaborator, created = Collaborator.objects.get_or_create(
                 phone_number=user_qs[0].get('username'),
                 stream=stream
@@ -1097,7 +1103,10 @@ class FolderSerializer(DynamicFieldsModelSerializer):
         return obj.stream_count
 
     def validate_name(self, value):
+        restricted_folder_name = ["My Emogos", "Not yet Added", "Shared with Me", "All My Media", "Links"]
         # This code is run only in case of update through the PATCH method:
         if Folder.objects.filter(name=value, owner=self.context.get("request").user).exists():
             raise serializers.ValidationError(messages.MSG_FOLDER_NAME_EXISTS.format(value))
+        if any(True for name in restricted_folder_name if name.lower() == value.lower()):
+            raise serializers.ValidationError(messages.MSG_RESTRICTED_FOLDER_NAME)
         return value
