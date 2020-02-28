@@ -1345,13 +1345,13 @@ class UserLeftMenuData(APIView):
         except Exception as e:
             shared_streams_count = 0
 
-        stream_ids = Collaborator.actives.filter(created_by_id=self.request.user.id).values_list('stream', flat=True)
+        # stream_ids = Collaborator.actives.filter(created_by_id=self.request.user.id).values_list('stream', flat=True)
 
         # 2. Fetch and return stream Queryset objects without collaborators.
         user_obj_data = User.objects.all().prefetch_related(
             Prefetch(
                 "stream_set",
-                queryset=Stream.actives.exclude(id__in=stream_ids),
+                queryset=Stream.actives.all(),
                 to_attr="user_stream_data"
             ),
             Prefetch(
