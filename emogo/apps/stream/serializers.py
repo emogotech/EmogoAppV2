@@ -32,6 +32,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     delete_collaborator = CustomListField(child=serializers.IntegerField(min_value=1), read_only=True)
     delete_content = serializers.ListField(child=serializers.IntegerField(min_value=1), read_only=True)
 
+    def is_valid(self, *args, **kwargs):
+        if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
+                Folder.objects.filter(id=self.initial_data.get("folder")).exists():
+                    raise serializers.ValidationError(messages.MSG_FOLDER_NOT_VALID.format(self.initial_data.get("folder")))
+        return super(StreamSerializer, self).is_valid(*args, **kwargs)
+
     class Meta:
         model = Stream
         fields = '__all__'
