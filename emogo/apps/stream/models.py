@@ -18,8 +18,9 @@ CONTENT_TYPE = (
     ('Picture', 'Picture'),
     ('Link', 'Link'),
     ('Giphy', 'Giphy'),
-    ('Note', 'Note')
-
+    ('Note', 'Note'),
+    ("pdf", "PDF"),
+    ("mp3", "MP3")
 )
 
 EVENT_TYPE = (
