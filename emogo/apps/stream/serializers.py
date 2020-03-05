@@ -1108,7 +1108,7 @@ class FolderSerializer(DynamicFieldsModelSerializer):
     def get_stream_count(self, obj):
         return obj.stream_count
 
-    def validate_name(self, value):
+    def validate_folder_name(self, value):
         restricted_folder_name = ["My Emogos", "Not yet Added", "Shared with Me", "All My Media", "Links"]
         # This code is run only in case of update through the PATCH method:
         if Folder.objects.filter(name=value, owner=self.context.get("request").user).exists():

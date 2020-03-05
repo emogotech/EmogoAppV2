@@ -335,7 +335,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         if qs.exists():
             return qs[0]
         else:
-            return Http404
+            raise Http404("Content does not exist.")
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -1735,6 +1735,7 @@ class FolderAPI(CreateAPIView, ListAPIView):
         """
         serializer = self.get_serializer(data=request.data, fields=("name",))
         serializer.is_valid(raise_exception=True)
+        serializer.validate_folder_name(request.data.get("name"))
         # To return created folder data
         self.perform_create(serializer)
         data = self.get_folder_data()
