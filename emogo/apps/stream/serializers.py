@@ -1111,7 +1111,7 @@ class FolderSerializer(DynamicFieldsModelSerializer):
     def validate_folder_name(self, value):
         restricted_folder_name = ["My Emogos", "Not yet Added", "Shared with Me", "All My Media", "Links"]
         # This code is run only in case of update through the PATCH method:
-        if Folder.objects.filter(name=value, owner=self.context.get("request").user).exists():
+        if Folder.objects.filter(name__iexact=value, owner=self.context.get("request").user).exists():
             raise serializers.ValidationError(messages.MSG_FOLDER_NAME_EXISTS.format(value))
         if any(True for name in restricted_folder_name if name.lower() == value.lower()):
             raise serializers.ValidationError(messages.MSG_RESTRICTED_FOLDER_NAME)
