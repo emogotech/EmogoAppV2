@@ -31,6 +31,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
     delete_collaborator = CustomListField(child=serializers.IntegerField(min_value=1), read_only=True)
     delete_content = serializers.ListField(child=serializers.IntegerField(min_value=1), read_only=True)
+    folder_name = serializers.SerializerMethodField()
+
+    def get_folder_name(self, obj):
+        if obj.folder:
+            return obj.folder.name
+        return None
 
     def is_valid(self, *args, **kwargs):
         if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
