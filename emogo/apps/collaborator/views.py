@@ -19,7 +19,7 @@ from emogo.apps.notification.views import NotificationAPI
 from emogo.apps.notification.serializers import *
 from emogo.apps.stream.serializers import ViewStreamSerializer
 
-from serializers import ViewCollaboratorSerializer
+from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 
 # # Create your views here.
 class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):

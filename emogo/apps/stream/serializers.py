@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream, \
+from emogo.apps.stream.models import Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream, \
     LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates, NewEmogoViewStatusOnly
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer

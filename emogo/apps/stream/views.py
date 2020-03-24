@@ -6,8 +6,8 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
-from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
+from emogo.apps.stream.models import Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
+from emogo.apps.stream.serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
     ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, \

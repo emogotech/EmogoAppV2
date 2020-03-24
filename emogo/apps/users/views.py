@@ -27,7 +27,7 @@ from itertools import chain
 # models
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
-from autofixtures import UserAutoFixture
+from emogo.apps.users.autofixtures import UserAutoFixture
 from django.http import HttpResponse
 from django.http import Http404
 from django.db.models import Prefetch, Count
