@@ -18,7 +18,7 @@ RUN apt-get install -y default-jdk
 RUN apt-get install cron
 
 COPY requirements.txt /usr/src/app/
-
+RUN pip3 install psycopg2-binary
 
 RUN pip install --no-cache-dir -r requirements.txt
 
