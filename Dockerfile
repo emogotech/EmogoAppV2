@@ -11,7 +11,7 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . /usr/src/app/
 COPY ./start.sh /usr/src/app/
-
+RUN 2to3 -w /usr/local/lib/python3.6/site-packages/apns.py
 RUN chmod 777 /usr/src/app
 RUN mkdir -p /usr/src/app/logs
 RUN touch /usr/src/app/logs/logfile.log
