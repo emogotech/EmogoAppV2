@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^stream/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view(), name='view_stream'),
     url(r'^stream/$', views.StreamAPI.as_view()),
     url('^stream', views.StreamAPI.as_view()),
+    url('^emogo-move-to-folder/(?P<pk>[0-9]+)/$', views.StreamMoveToFolderAPI.as_view()),
     url('^like_dislike_stream', views.StreamLikeDislikeAPI.as_view()),
     url(r'^like_stream/(?P<stream_id>[0-9]+)/$', views.StreamLikeAPI.as_view()),
     url('^like_dislike_content', views.ContentLikeDislikeAPI.as_view()),
