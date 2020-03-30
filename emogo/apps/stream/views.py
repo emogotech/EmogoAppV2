@@ -12,7 +12,8 @@ from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSeriali
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
     ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, \
-    RecentUpdatesSerializer, AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderSerializer
+    RecentUpdatesSerializer, AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderSerializer, \
+    StreamMoveToFolderSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -114,7 +115,11 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = ViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
+                  'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
+                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
+                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
+                  'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder', 'folder_name')
         if current_url == 'stream_collaborator':
             user_data = User.objects.filter(username__in=[x.phone_number for x in instance.stream_collaborator]).values('username','user_data__user_image')
             self.request.data.update({'collab_user_image': user_data})
@@ -155,15 +160,17 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             request.data.update({"content": content_obj})
         except:
             None
-
-        serializer = self.get_serializer(data= request.data, context=self.get_serializer_context())
+        serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         stream = serializer.create(serializer.validated_data)
         # To return created stream data
         self.serializer_class = ViewStreamSerializer
         stream = self.queryset.filter(id=stream.id).prefetch_related('stream_contents', 'collaborator_list')[0]
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators',
-                  'folder']
+        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
+                  'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
+                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
+                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
+                  'user_liked', 'collab_images', 'total_stream_collaborators', 'stream_folder_id', "folder"]
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(stream, context=self.request, fields=fields)
@@ -187,7 +194,11 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             instance.save()
         instance = self.get_object()
         self.serializer_class = ViewStreamSerializer
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked', 'folder']
+        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
+                  'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
+                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
+                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
+                  'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked', 'folder']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(instance, context=self.request, fields=fields)
@@ -206,7 +217,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         """
         instance = self.get_object()
         #update notification when user delete stream
-        noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = instance, from_user = instance.created_by)
+        noti = Notification.objects.filter(notification_type = 'collaborator_confirmation', stream = instance, from_user = instance.created_by)
         if noti.__len__() > 0 :
             noti.update(notification_type = 'deleted_stream')
         # Perform delete operation
@@ -1718,7 +1729,7 @@ class FolderAPI(CreateAPIView, ListAPIView):
         data = {}
         fields = ("id", "name", "stream_count")
         folders = Folder.objects.filter(owner=self.request.user).annotate(stream_count=Count(Case(
-                                                                            When(folder_streams__status="Active", then=1),
+                                                                            When(stream_folders__status="Active", then=1),
                                                                             output_field=IntegerField(),
                                                                           )))
         folder_serializer = FolderSerializer(folders, many=True, fields=fields)
@@ -1777,3 +1788,29 @@ class FolderAPI(CreateAPIView, ListAPIView):
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
+class StreamMoveToFolderAPI(UpdateAPIView):
+    serializer_class = StreamMoveToFolderSerializer
+    queryset = Stream.actives.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def update(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        """
+        instance = self.get_object()
+        serializer = self.serializer_class(instance, data=request.data, context=self.get_serializer_context())
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        data = {}
+        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={"success": True})
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def perform_update(self, serializer):
+        stream = self.get_object()
+        for folder_obj in stream.folder.filter(owner=self.request.user):
+            stream.folder.remove(folder_obj)
+        stream.folder.add(serializer.validated_data["folder"][0])
+        return stream

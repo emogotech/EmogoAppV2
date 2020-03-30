@@ -32,17 +32,25 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     delete_collaborator = CustomListField(child=serializers.IntegerField(min_value=1), read_only=True)
     delete_content = serializers.ListField(child=serializers.IntegerField(min_value=1), read_only=True)
     folder_name = serializers.SerializerMethodField()
+    folder = serializers.SerializerMethodField()
 
     def get_folder_name(self, obj):
-        if obj.folder:
-            return obj.folder.name
+        user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
+        if user_stream_folder:
+            return user_stream_folder.name
         return None
 
-    def is_valid(self, *args, **kwargs):
-        if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
-                Folder.objects.filter(id=self.initial_data.get("folder")).exists():
-                    raise serializers.ValidationError(messages.MSG_FOLDER_NOT_VALID.format(self.initial_data.get("folder")))
-        return super(StreamSerializer, self).is_valid(*args, **kwargs)
+    def get_folder(self, obj):
+        user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
+        if user_stream_folder:
+            return user_stream_folder.id
+        return None
+
+    # def is_valid(self, *args, **kwargs):
+    #     if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
+    #             Folder.objects.filter(id=self.initial_data.get("folder")).exists():
+    #                 raise serializers.ValidationError(messages.MSG_FOLDER_NOT_VALID.format(self.initial_data.get("folder")))
+    #     return super(StreamSerializer, self).is_valid(*args, **kwargs)
 
     class Meta:
         model = Stream
@@ -52,11 +60,11 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                         # 'image': {'required': True, 'allow_blank': False, 'allow_null': False}
                         }
 
-    def validate_folder(self, value):
-        if value and value.owner != self.context["request"].user:
-            raise serializers.ValidationError(messages.MSG_FOLDER_OWNER_NOT_VALID)
-        else:
-            return value
+    # def validate_folder(self, value):
+    #     if value and value.owner != self.context["request"].user:
+    #         raise serializers.ValidationError(messages.MSG_FOLDER_OWNER_NOT_VALID)
+    #     else:
+    #         return value
 
     def validate(self, attrs):
         # This code is run only in case of update through the PATCH method:
@@ -266,7 +274,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             height=self.validated_data.get('height', 300),
             width=self.validated_data.get('width', 300),
             color=self.validated_data.get('color'),
-            folder=self.validated_data.get("folder", None)
+            # folder=self.validated_data.get("folder", None)
         )
         stream.save()
         # Update any_one_can_edit flag is type is Public
@@ -1122,3 +1130,21 @@ class FolderSerializer(DynamicFieldsModelSerializer):
         if any(True for name in restricted_folder_name if name.lower() == value.lower()):
             raise serializers.ValidationError(messages.MSG_RESTRICTED_FOLDER_NAME)
         return value
+
+
+class StreamMoveToFolderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stream
+        fields = '__all__'
+        extra_kwargs = {'folder': {'required': True}}
+
+    def validate_folder(self, value):
+        if value and value[0].owner != self.context["request"].user:
+            raise serializers.ValidationError(messages.MSG_FOLDER_OWNER_NOT_VALID)
+        return value
+
+    def is_valid(self, *args, **kwargs):
+        if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
+                Folder.objects.filter(id=self.initial_data.get("folder")[0]).exists():
+            raise serializers.ValidationError(messages.MSG_FOLDER_NOT_VALID.format(self.initial_data.get("folder")[0]))
+        return super(StreamMoveToFolderSerializer, self).is_valid(*args, **kwargs)

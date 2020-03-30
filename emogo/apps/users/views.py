@@ -1330,7 +1330,7 @@ class UserLeftMenuData(APIView):
     def get_folder_data(self, data):
         fields = ("id", "name", "stream_count")
         folders = Folder.objects.filter(owner=self.request.user).annotate(stream_count=Count(Case(
-                                                                            When(folder_streams__status="Active", then=1),
+                                                                            When(stream_folders__status="Active", then=1),
                                                                             output_field=IntegerField(),
                                                                           )))
         folder_serializer = FolderSerializer(folders, many=True, fields=fields)
