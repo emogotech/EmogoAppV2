@@ -189,9 +189,9 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        if request.data.get("folder") is None:
-            instance.folder = None
-            instance.save()
+        # if request.data.get("folder") is None:
+        #     instance.folder = None
+        #     instance.save()
         instance = self.get_object()
         self.serializer_class = ViewStreamSerializer
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
