@@ -1803,7 +1803,7 @@ class StreamMoveToFolderAPI(UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         data = {}
-        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={"success": True})
+        return custom_render_response(status_code=status.HTTP_200_OK, data={"success": True})
 
     def get_serializer_context(self):
         return {'request': self.request}
