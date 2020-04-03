@@ -20,7 +20,9 @@ CONTENT_TYPE = (
     ('Giphy', 'Giphy'),
     ('Note', 'Note'),
     ("pdf", "PDF"),
-    ("mp3", "MP3")
+    ("mp3", "MP3"),
+    ("excel", "Excel"),
+    ("text", "Text")
 )
 
 EVENT_TYPE = (
