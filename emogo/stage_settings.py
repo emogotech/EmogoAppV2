@@ -114,7 +114,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = 'http://prodapi.emogo.co:8000/static/'
+STATIC_URL = 'https://stage.emogo.co/static/'
 
 # global status for application
 STATUSES = (
