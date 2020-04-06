@@ -25,6 +25,8 @@ SECRET_KEY = 'd^6nmg0*yi#6ita0%gpakjft0np#4p!bu*)7!5&zp*$wt!xs86'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+import logging
+from boto3.session import Session
 
 # Application definition
 
@@ -145,7 +147,16 @@ TWILIO_ACCOUNT_SID = 'AC470ab177bba5b96f4c1af3d3d29b8975'
 TWILIO_AUTH_TOKEN = '1491edbec65ec8a99f72b6c0bee54aca'
 TWILIO_FROM_NUMBER = '+13392090249'
 
+AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_REGION_NAME = 'us-west-1'
 
+
+boto3_session = Session(
+  aws_access_key_id=AWS_ACCESS_KEY_ID,
+  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+  region_name=AWS_REGION_NAME
+)
 
 # LOGGING = {
 #     'version': 1,
@@ -206,6 +217,46 @@ TWILIO_FROM_NUMBER = '+13392090249'
 #   'handlers': ['slack_admins'],
 #   'level': 'INFO',
 # }
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    # 'root': {
+    #     'level': logging.ERROR,
+    #     'handlers': ['console'],
+    # },
+    'formatters': {
+        'simple': {
+            'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+        'aws': {
+            # you can add specific format for aws here
+            'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'watchtower': {
+            'level': 'DEBUG',
+            'class': 'watchtower.CloudWatchLogHandler',
+                     'boto3_session': boto3_session,
+                     'log_group': 'EmogoDevGroupName',
+                     'stream_name': 'EmogoDevServer',
+            'formatter': 'aws',
+        },
+    },
+    'loggers': {
+        'django': {
+            'level': 'INFO',
+            'handlers': ['watchtower'],
+            'propagate': False,
+        },
+        # add your other loggers here...
+    },
+}
+
 branch_key = 'key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ'
 branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
 DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
