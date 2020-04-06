@@ -1,7 +1,7 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.apps.stream.models import Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream, \
-    LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates, NewEmogoViewStatusOnly
+    LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates, NewEmogoViewStatusOnly, Folder
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -18,7 +18,7 @@ from itertools import product
 from emogo.apps.notification.views import NotificationAPI
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
-
+from functools import reduce
 
 class StreamSerializer(DynamicFieldsModelSerializer):
     """

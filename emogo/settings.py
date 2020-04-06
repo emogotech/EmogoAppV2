@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     # 'twilio-python',
     'autofixture',
     'branchio',
-    'emogo.apps.notification'   
-
+    'emogo.apps.notification',
+    'health_check',
 ]
 
 MIDDLEWARE = [
