@@ -94,4 +94,4 @@ virtualenv==16.0.0
 virtualenv-clone==0.3.0
 Werkzeug==0.9.6
 WTForms==2.0.2
-django-health-check==3.12.1
+#django-health-check==3.12.1
