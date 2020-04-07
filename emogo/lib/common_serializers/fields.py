@@ -52,9 +52,9 @@ class CustomDictField(DictField):
 
         if self.keys:
             for key in self.keys:
-                if unicode(key) not in data.keys():
+                if str(key) not in list(data.keys()):
                     self.fail('does_not_have_key', input_type=key)
         return {
             six.text_type(key): self.child.run_validation(value)
-            for key, value in data.items()
+            for key, value in list(data.items())
         }
