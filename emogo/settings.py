@@ -26,6 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 import logging
+import watchtower
 from boto3.session import Session
 
 # Application definition
@@ -147,16 +148,6 @@ TWILIO_ACCOUNT_SID = 'AC470ab177bba5b96f4c1af3d3d29b8975'
 TWILIO_AUTH_TOKEN = '1491edbec65ec8a99f72b6c0bee54aca'
 TWILIO_FROM_NUMBER = '+13392090249'
 
-AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_REGION_NAME = 'us-west-1'
-
-
-boto3_session = Session(
-  aws_access_key_id=AWS_ACCESS_KEY_ID,
-  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-  region_name=AWS_REGION_NAME
-)
 
 # LOGGING = {
 #     'version': 1,
@@ -219,6 +210,27 @@ boto3_session = Session(
 # }
 
 
+
+branch_key = 'key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ'
+branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
+DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
+
+# S3 bucket credential
+AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_BUCKET_NAME = 'emogo-v2'
+
+# Max file upload size on server
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520
+AWS_REGION_NAME = 'us-west-1'
+
+
+boto3_session = Session(
+  aws_access_key_id=AWS_ACCESS_KEY_ID,
+  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+  region_name=AWS_REGION_NAME
+)
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -242,8 +254,8 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'watchtower.CloudWatchLogHandler',
                      'boto3_session': boto3_session,
-                     'log_group': 'EmogoDevGroupName',
-                     'stream_name': 'EmogoDevServer',
+                     'log_group': 'MyLogGroupName',
+                     'stream_name': 'MyStreamName',
             'formatter': 'aws',
         },
     },
@@ -257,22 +269,29 @@ LOGGING = {
     },
 }
 
-branch_key = 'key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ'
-branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
-DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
+DATABASES = {
 
-# S3 bucket credential
-AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_BUCKET_NAME = 'emogo-v2'
-
-# Max file upload size on server
-DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520
+    "default": {
+        # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        # DB name or path to database file if using sqlite3.
+        "NAME": "emogo_v3",
+        # Not used with sqlite3.
+        "USER": "plannah_user",
+        # Not used with sqlite3.
+        "PASSWORD": "northout@123",
+        # Set to empty string for localhost. Not used with sqlite3.
+        "HOST": "127.0.0.1",
+        # Set to empty string for default. Not used with sqlite3.
+        "PORT": "5432",
+    },
+}
 
 # Get Local Settings
-try:
-    from local_settings import *
-    #Get PEM file url for notification
-    NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
-except ImportError:
-    pass
+
+# try:
+#     from local_settings import *
+#     #Get PEM file url for notification
+#     NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
+# except ImportError:
+#     pass
