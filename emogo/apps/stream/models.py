@@ -21,8 +21,8 @@ CONTENT_TYPE = (
     ('Note', 'Note'),
     ("pdf", "PDF"),
     ("mp3", "MP3"),
-    # ("excel", "Excel"),
-    # ("text", "Text")
+    ("excel", "Excel"),
+    ("text", "Text")
 )
 
 EVENT_TYPE = (
