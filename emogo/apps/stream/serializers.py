@@ -128,7 +128,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')
         else:
             collaborator_list = self.instance.collaborator_list.all()
-        if collaborator_list.__len__ > 0:
+        if collaborator_list.__len__() > 0:
             stream_type = self.validated_data.get('type')
             if stream_type == 'Public':
                 # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public) 
@@ -194,10 +194,10 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         self.owner_collaborator(stream, collaborator_list)
         collaborators = map(self.save_collaborator, collaborator_list,
                             itertools.repeat(stream, collaborator_list.__len__()))
-
         if stream.collaborator_list.count() == 1:
-            if  stream.collaborator_list.all()[0].created_by == self.context.get('request').user and \
-                stream.collaborator_list.all()[0].phone_number == self.context.get('request').user.username:
+            if stream.collaborator_list.all()[0].created_by == self.context.get('request').user and \
+                stream.collaborator_list.all()[0].phone_number == self.context.get('request').user.username and \
+                    self.instance:
                 self.instance.collaborator_list.filter().delete()
         else:
             return collaborators

@@ -49,7 +49,8 @@ import logging
 import random
 import string
 import os
-
+import logging
+logger = logging.getLogger('watchtower-logger')
 
 class Signup(APIView):
     """
@@ -89,6 +90,7 @@ class Login(APIView):
     """
 
     def post(self, request, version):
+        logger.error('test!')
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
