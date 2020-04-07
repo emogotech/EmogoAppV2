@@ -22,12 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd^6nmg0*yi#6ita0%gpakjft0np#4p!bu*)7!5&zp*$wt!xs86'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 ALLOWED_HOSTS = ['*']
 import logging
 import watchtower
 from boto3.session import Session
+import watchtower
 
 # Application definition
 
@@ -220,9 +221,11 @@ AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_BUCKET_NAME = 'emogo-v2'
 
+
+
 # Max file upload size on server
 DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520
-AWS_REGION_NAME = 'us-west-1'
+AWS_REGION_NAME = 'us-west-2'
 
 
 boto3_session = Session(
@@ -234,40 +237,89 @@ boto3_session = Session(
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    # 'root': {
-    #     'level': logging.ERROR,
-    #     'handlers': ['console'],
-    # },
     'formatters': {
         'simple': {
             'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
             'datefmt': "%Y-%m-%d %H:%M:%S"
         },
         'aws': {
-            # you can add specific format for aws here
             'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
             'datefmt': "%Y-%m-%d %H:%M:%S"
         },
     },
     'handlers': {
-        'watchtower': {
-            'level': 'DEBUG',
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'debug_handlers': {
+            'level': 'INFO',
             'class': 'watchtower.CloudWatchLogHandler',
-                     'boto3_session': boto3_session,
-                     'log_group': 'MyLogGroupName',
-                     'stream_name': 'MyStreamName',
+            'boto3_session': boto3_session,
+            'log_group': 'Cloudwatch-Emogo-Group-Name',
+            'stream_name': 'DjangoInfoStream',
+            'formatter': 'aws',
+        },
+        'email_log_handlers': {
+            'level': 'INFO',
+            'class': 'watchtower.CloudWatchLogHandler',
+            'boto3_session': boto3_session,
+            'log_group': 'Cloudwatch-Emogo-Group-Name',
+            'stream_name': 'EmailLogStream',
             'formatter': 'aws',
         },
     },
     'loggers': {
         'django': {
             'level': 'INFO',
-            'handlers': ['watchtower'],
+            'handlers': ['debug_handlers'],
+            'propagate': True,
+        },
+        'email_log': {
+            'level': 'INFO',
+            'handlers': ['email_log_handlers'],
             'propagate': False,
         },
-        # add your other loggers here...
     },
 }
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     # 'root': {
+#     #     'level': logging.ERROR,
+#     #     'handlers': ['console'],
+#     # },
+#     'formatters': {
+#         'simple': {
+#             'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
+#             'datefmt': "%Y-%m-%d %H:%M:%S"
+#         },
+#         'aws': {
+#             # you can add specific format for aws here
+#             'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
+#             'datefmt': "%Y-%m-%d %H:%M:%S"
+#         },
+#     },
+#     'handlers': {
+#         'watchtower': {
+#             'level': 'DEBUG',
+#             'class': 'watchtower.CloudWatchLogHandler',
+#                      'boto3_session': boto3_session,
+#                      'log_group': 'MyLogGroupName',
+#                      'stream_name': 'MyStreamName',
+#             'formatter': 'aws',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'level': 'INFO',
+#             'handlers': ['watchtower'],
+#             'propagate': False,
+#         },
+#         # add your other loggers here...
+#     },
+# }
 
 # DATABASES = {
 #

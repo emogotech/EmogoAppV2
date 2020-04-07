@@ -50,7 +50,9 @@ import random
 import string
 import os
 import logging
-logger = logging.getLogger('watchtower-logger')
+# logger = logging.getLogger('watchtower-logger')
+logger_name = logging.getLogger('email_log')
+
 
 class Signup(APIView):
     """
@@ -90,7 +92,8 @@ class Login(APIView):
     """
 
     def post(self, request, version):
-        logger.error('test!')
+        logger_name.info('You desired Mail Log')
+        logger_name.error('Ranjeet test')
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
