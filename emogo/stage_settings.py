@@ -25,6 +25,10 @@ SECRET_KEY = 'd^6nmg0*yi#6ita0%gpakjft0np#4p!bu*)7!5&zp*$wt!xs86'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+import logging
+import watchtower
+from boto3.session import Session
+import watchtower
 
 # Application definition
 
@@ -215,6 +219,61 @@ AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_BUCKET_NAME = 'emogo-v2'
 
+AWS_REGION_NAME = 'us-west-2'
+boto3_session = Session(
+  aws_access_key_id=AWS_ACCESS_KEY_ID,
+  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+  region_name=AWS_REGION_NAME
+)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+        'aws': {
+            'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'debug_handlers': {
+            'level': 'INFO',
+            'class': 'watchtower.CloudWatchLogHandler',
+            'boto3_session': boto3_session,
+            'log_group': 'Cloudwatch-Emogo-Group-Name',
+            'stream_name': 'StageConsoleStream',
+            'formatter': 'aws',
+        },
+        'email_log_handlers': {
+            'level': 'INFO',
+            'class': 'watchtower.CloudWatchLogHandler',
+            'boto3_session': boto3_session,
+            'log_group': 'Cloudwatch-Emogo-Group-Name',
+            'stream_name': 'StageLogStream',
+            'formatter': 'aws',
+        },
+    },
+    'loggers': {
+        'django': {
+            'level': 'INFO',
+            'handlers': ['debug_handlers'],
+            'propagate': True,
+        },
+        'email_log': {
+            'level': 'INFO',
+            'handlers': ['email_log_handlers'],
+            'propagate': False,
+        },
+    },
+}
 # DATABASES = {
 #
 #     "default": {
