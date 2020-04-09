@@ -217,15 +217,15 @@ branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
 DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
 
 # S3 bucket credential
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID') # AKIAI44TFVCYXAX3XHIA
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY') #'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')
+AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA' #os.getenv('AWS_ACCESS_KEY_ID') #
+AWS_SECRET_ACCESS_KEY = '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' #os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_BUCKET_NAME = 'emogo-v2'
 
 
 
 # Max file upload size on server
 DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520
-AWS_REGION_NAME = os.getenv('AWS_REGION_NAME') #'us-west-2'
+AWS_REGION_NAME = 'us-west-2' #os.getenv('AWS_REGION_NAME') #
 
 
 boto3_session = Session(
