@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from django.db import transaction
 from rest_framework import status
@@ -1025,7 +1025,7 @@ class GetTopStreamAPIV2(APIView):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in grouped.items():
+        for thread, group in list(grouped.items()):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()
@@ -1208,7 +1208,7 @@ class GetTopStreamAPIV3(ListAPIView):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in grouped.items():
+        for thread, group in list(grouped.items()):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()
