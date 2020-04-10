@@ -106,7 +106,7 @@ class SlackExceptionHandler(AdminEmailHandler):
     # slack message attachment text has max of 8000 bytes
     # lets split it up into 7900 bytes long chunks to be on the safe side
     split = 7900
-    parts = range(int(math.ceil(len(message.encode('utf8')) / split)))
+    parts = list(range(int(math.ceil(len(message.encode('utf8')) / split))))
 
     for part in parts:
         start = 0 if part == 0 else split * part

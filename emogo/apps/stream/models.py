@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 from django.contrib.auth.models import User
 from django.db import models
 from emogo.lib.default_models.models import DefaultStatusModel, DefaultDateModel
@@ -80,7 +80,7 @@ class Stream(DefaultStatusModel):
         collaborators = self.collaborator_list(manager='actives').all()
         self.stream_contents.all().delete()
         # Delete collaborators
-        map(self.update_status, collaborators, itertools.repeat('Inactive', collaborators.__len__()))
+        list(map(self.update_status, collaborators, itertools.repeat('Inactive', collaborators.__len__())))
 
         # Delete stream
         self.update_status(self, 'Inactive')
