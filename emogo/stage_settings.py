@@ -246,7 +246,7 @@ DATABASES = {
 
 # Get Local Settings
 try:
-    PEM_FILE = 'emogoProduction.pem'
+    PEM_FILE = 'emogoDev.pem'
     IS_SANDBOX = True
     #Get PEM file url for notification
     NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
