@@ -306,7 +306,7 @@ DATABASES = {
 
 # Get Local Settings
 try:
-    from local_settings import *
+#     from local_settings import *
     #Get PEM file url for notification
     NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
 except ImportError:
