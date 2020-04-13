@@ -1,5 +1,5 @@
 import django_filters
-from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamContent, LikeDislikeContent
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamContent, LikeDislikeContent, Folder
 from emogo.apps.users.models import UserProfile, UserFollow
 from django.db.models import Q
 from emogo.apps.collaborator.models import Collaborator
@@ -20,7 +20,7 @@ class StreamFilter(django_filters.FilterSet):
 
     class Meta:
         model = Stream
-        fields = ['featured', 'emogo', 'my_stream', 'popular', 'self_created']
+        fields = ['featured', 'emogo', 'my_stream', 'popular', 'self_created', 'folder']
 
     def filter_my_stream(self, qs, name, value):
         # Get self created streams
