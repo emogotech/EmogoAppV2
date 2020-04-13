@@ -246,7 +246,8 @@ DATABASES = {
 
 # Get Local Settings
 try:
-    from local_settings import *
+    PEM_FILE = 'emogoProduction.pem'
+    IS_SANDBOX = True
     #Get PEM file url for notification
     NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
 except ImportError:
