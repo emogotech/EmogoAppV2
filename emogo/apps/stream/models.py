@@ -20,7 +20,7 @@ CONTENT_TYPE = (
     ('Giphy', 'Giphy'),
     ('Note', 'Note'),
     ("pdf", "PDF"),
-    ("mp3", "MP3"),
+    ("audio", "Audio"),
     ("excel", "Excel"),
     ("text", "Text")
 )
