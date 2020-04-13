@@ -92,8 +92,8 @@ class Login(APIView):
     """
 
     def post(self, request, version):
-        logger_name.info('You desired Mail Log')
-        logger_name.error('Testing on development server.')
+        logger_name.info('Stage server logs')
+        logger_name.error('Testing on stage server.')
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
