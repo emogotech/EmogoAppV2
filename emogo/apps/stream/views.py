@@ -29,6 +29,9 @@ from django.db.models import QuerySet
 from django.contrib.auth.models import User
 import datetime
 from rest_framework import filters
+import logging
+# logger = logging.getLogger('watchtower-logger')
+logger_name = logging.getLogger('email_log')
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -131,8 +134,13 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
 
     def list(self, request,  *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
+        import time
+        start_time = time.time()
+        logger_name.info("start time = {}".format(start_time))
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.queryset)
+        get_queryset_data = time.time() - start_time
+        logger_name.info("Getting queryset data = {}".format(get_queryset_data))
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
                   'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission',
@@ -144,6 +152,9 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
+            get_serialized_data = time.time() - start_time
+            logger_name.info("Page serialize data = {}".format(get_serialized_data))
+            logger_name.info("total time = {}".format(time.time() - start_time))
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
