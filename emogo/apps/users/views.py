@@ -94,19 +94,19 @@ class Login(APIView):
     def post(self, request, version):
         import time
         start_time = time.time()
-        logger_name.info("start time = ", start_time)
-        # logger_name.info('Stage server logs')
-        # logger_name.error('Testing on stage server.')
+        print("start time = ", start_time)
+        logger_name.info('Stage server logs')
+        logger_name.error('Testing on stage server.')
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             login_serializer_chek_time = time.time() - start_time
-            logger_name.info("serializer running time = ", login_serializer_chek_time)
+            print("serializer running time = ", login_serializer_chek_time)
             user_profile = serializer.authenticate_user()
             fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image", 'display_name', 'followers', 'following')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
             login_to_detail_time = time.time() - login_serializer_chek_time
-            logger_name.info("Login to detail time = ", login_to_detail_time)
-            logger_name.info("total time = ", time.time() - start_time)
+            print("Login to detail time = ", login_to_detail_time)
+            print("total time = ", time.time() - start_time)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
