@@ -109,6 +109,7 @@ class Content(DefaultStatusModel):
     width = models.CharField(max_length=10, null=True, blank=True, default=300)
     color = models.CharField(max_length=255, null=True, blank=True, default=None)
     order = models.IntegerField(default=0, blank=True, null=True)
+    html_text = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'content'

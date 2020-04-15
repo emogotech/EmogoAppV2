@@ -251,6 +251,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             name=data.get('name'),
             url=data.get('url'),
             type=data.get('type'),
+            html_text=data.get("html_text"),
             created_by=self.context.get('request').user
         )
         content.save()
@@ -478,7 +479,7 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')
+                  'full_name', 'user_image', 'liked', 'html_text')
         instances = obj.content_list
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
@@ -518,7 +519,7 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_stream_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')
+                  'full_name', 'user_image', 'liked', 'html_text')
         instances = obj.content_list[0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
