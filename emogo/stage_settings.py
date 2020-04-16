@@ -275,40 +275,40 @@ LOGGING = {
     },
 }
 
-# DATABASES = {
-#     "default": {
-#         # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         # DB name or path to database file if using sqlite3.
-#         "NAME": "stage",
-#         # Not used with sqlite3.
-#         "USER": "stage",
-#         # Not used with sqlite3.
-#         "PASSWORD": "eSPmfG64STCwjAz7",
-#         # Set to empty string for localhost. Not used with sqlite3.
-#         "HOST": "stage.cv58xadzqgqd.us-west-2.rds.amazonaws.com",
-#         # Set to empty string for default. Not used with sqlite3.
-#         "PORT": "5432",
-#     },
-# }
-
 DATABASES = {
-
     "default": {
         # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         # DB name or path to database file if using sqlite3.
-        "NAME": "stagerds",
+        "NAME": "stage",
         # Not used with sqlite3.
-        "USER": "stagerds",
+        "USER": "stage",
         # Not used with sqlite3.
         "PASSWORD": "eSPmfG64STCwjAz7",
         # Set to empty string for localhost. Not used with sqlite3.
-        "HOST": "stage-rds.czvdhrcaf6yc.us-east-1.rds.amazonaws.com",
+        "HOST": "stage.cv58xadzqgqd.us-west-2.rds.amazonaws.com",
         # Set to empty string for default. Not used with sqlite3.
         "PORT": "5432",
     },
-} 
+}
+
+# DATABASES = {
+
+#     "default": {
+#         # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         # DB name or path to database file if using sqlite3.
+#         "NAME": "stagerds",
+#         # Not used with sqlite3.
+#         "USER": "stagerds",
+#         # Not used with sqlite3.
+#         "PASSWORD": "eSPmfG64STCwjAz7",
+#         # Set to empty string for localhost. Not used with sqlite3.
+#         "HOST": "stage-rds.czvdhrcaf6yc.us-east-1.rds.amazonaws.com",
+#         # Set to empty string for default. Not used with sqlite3.
+#         "PORT": "5432",
+#     },
+# } 
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
