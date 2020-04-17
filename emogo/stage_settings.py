@@ -275,18 +275,36 @@ LOGGING = {
     },
 }
 
+# DATABASES = {
+#     "default": {
+#         # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         # DB name or path to database file if using sqlite3.
+#         "NAME": "stage",
+#         # Not used with sqlite3.
+#         "USER": "stage",
+#         # Not used with sqlite3.
+#         "PASSWORD": "eSPmfG64STCwjAz7",
+#         # Set to empty string for localhost. Not used with sqlite3.
+#         "HOST": "stage.cv58xadzqgqd.us-west-2.rds.amazonaws.com",
+#         # Set to empty string for default. Not used with sqlite3.
+#         "PORT": "5432",
+#     },
+# }
+
 DATABASES = {
+
     "default": {
         # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         # DB name or path to database file if using sqlite3.
-        "NAME": "stage",
+        "NAME": "stagedb",
         # Not used with sqlite3.
-        "USER": "stage",
+        "USER": "stagedba",
         # Not used with sqlite3.
-        "PASSWORD": "eSPmfG64STCwjAz7",
+        "PASSWORD": "2MSKRV38L5VV99QH",
         # Set to empty string for localhost. Not used with sqlite3.
-        "HOST": "stage.cv58xadzqgqd.us-west-2.rds.amazonaws.com",
+        "HOST": "stagedba.cpoczs3mm579.us-east-1.rds.amazonaws.com",
         # Set to empty string for default. Not used with sqlite3.
         "PORT": "5432",
     },
