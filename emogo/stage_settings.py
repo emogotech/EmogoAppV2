@@ -310,6 +310,7 @@ DATABASES = {
     },
 }
 
+
 # DATABASES = {
 
 #     "default": {
@@ -337,6 +338,7 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
+
 
 # Get Local Settings
 try:
