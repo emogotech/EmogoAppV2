@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'emogo.apps.collaborator',
     # 'django_twilio',
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'django_filters',
     # 'twilio-python',
     'autofixture',

@@ -7,7 +7,8 @@ from django.db.models import Q
 from django.utils.decorators import method_decorator
 
 from rest_framework.generics import UpdateAPIView, DestroyAPIView, ListAPIView
-from rest_framework.authentication import TokenAuthentication
+# from rest_framework.authentication import TokenAuthentication
+from emogo.apps.users.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
