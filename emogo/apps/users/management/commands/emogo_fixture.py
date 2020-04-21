@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from emogo.apps.users.models import UserFollow
-from rest_framework.authtoken.models import Token
+from emogo.apps.users.models import Token
 from emogo.apps.users.autofixtures import UserAutoFixture, UserFollowAutoFixture, TokenAutoFixture
 from emogo.apps.stream.models import Stream, Content, StreamContent, LikeDislikeContent, LikeDislikeStream
 from emogo.apps.stream.autofixtures import StreamAutoFixture, ContentAutoFixture, StreamContentAutoFixture, LikeDislikeStreamAutoFixture, LikeDislikeContentAutoFixture

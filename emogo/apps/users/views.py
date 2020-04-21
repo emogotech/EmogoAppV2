@@ -3,7 +3,8 @@
 
 from django.db import transaction
 from rest_framework import status
-from rest_framework.authentication import TokenAuthentication
+# from rest_framework.authentication import TokenAuthentication
+from emogo.apps.users.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 # django rest
 from rest_framework.views import APIView
@@ -78,12 +79,14 @@ class VerifyRegistration(APIView):
         serializer = UserOtpSerializer(data=request.data, fields=fields)
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
-                instance = serializer.save()
+                instance, token = serializer.save()
                 user_profile = UserProfile.objects.select_related('user').prefetch_related( Prefetch( "user__who_follows", queryset=UserFollow.objects.all().order_by('-follow_time'), to_attr="followers" ), Prefetch( 'user__who_is_followed', queryset=UserFollow.objects.all().order_by('-follow_time'), to_attr='following' )).get(id = instance.id)
                 fields = ("user_profile_id", "full_name", "user_image", "token", "user_id", "phone_number",
                           'location', 'website', 'birthday', 'biography', 'branchio_url', 'display_name', 'followers', 'following')
                 serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
-                return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+                serialize_data = serializer.data
+                serialize_data.update({"token": token})
+                return custom_render_response(status_code=status.HTTP_200_OK, data=serialize_data)
 
 
 class Login(APIView):
@@ -92,21 +95,12 @@ class Login(APIView):
     """
 
     def post(self, request, version):
-        import time
-        start_time = time.time()
-        logger_name.info("start time = {}".format(start_time))
-        # logger_name.info('Stage server logs')
-        # logger_name.error('Testing on stage server.')
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
-            login_serializer_chek_time = time.time() - start_time
-            logger_name.info("serializer running time = {}".format(login_serializer_chek_time))
             user_profile = serializer.authenticate_user()
-            fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image", 'display_name', 'followers', 'following')
+            fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image",
+                      'display_name', 'followers', 'following', "exceed_login_limit")
             serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
-            login_to_detail_time = time.time() - login_serializer_chek_time
-            logger_name.info("Login to detail time = {}".format(login_to_detail_time))
-            logger_name.info("total time = {}".format(time.time() - start_time))
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
@@ -120,8 +114,12 @@ class Logout(APIView):
     def post(self, request, version):
         try:
             # simply delete the token to force a login
-            request.user.auth_token.delete()
-            request.user.userdevice_set.all()[0].delete()
+            if request.data.get("logout_from_all_device", False) == True:
+                request.user.auth_tokens.all().delete()
+            else:
+                request.user.auth_tokens.filter(key=request.META.get(
+                    'HTTP_AUTHORIZATION', b'').split()[1]).delete()
+            request.user.userdevice_set.all().delete()
             message, status_code, response_status = messages.MSG_LOGOUT_SUCCESS, "200", status.HTTP_200_OK
             return custom_render_response(status_code, message, response_status)
         except:
@@ -785,11 +783,13 @@ class VerifyLoginOTP(APIView):
     def post(self, request, version):
         serializer = VerifyOtpLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
-            user_profile = serializer.authenticate_login_OTP(request.data["otp"])
+            user_profile, token = serializer.authenticate_login_OTP(request.data["otp"])
             fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image",
                       'location', 'website', 'biography', 'birthday', 'branchio_url', 'display_name', 'followers', 'following')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
-            return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+            serialize_data = serializer.data
+            serialize_data.update({"token": token})
+            return custom_render_response(status_code=status.HTTP_200_OK, data=serialize_data)
 
 
 class UserFollowAPI(CreateAPIView, DestroyAPIView):

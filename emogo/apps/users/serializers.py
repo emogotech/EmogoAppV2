@@ -3,7 +3,8 @@ import re
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token
+# from rest_framework.authtoken.models import Token
+from emogo.apps.users.models import Token
 from emogo import settings
 from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url, UserFollow, UserDevice
 from emogo.constants import messages
@@ -115,8 +116,8 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
             , 'streams', 'contents', 'collaborators', 'username', 'display_name', 'location', 'website', 'biography', 'birthday', 'branchio_url', 'profile_stream']
 
     def get_token(self, obj):
-        if hasattr(obj.user, 'auth_token'):
-            return obj.user.auth_token.key
+        # if hasattr(obj.user, 'auth_token'):
+        #     return obj.user.auth_token.key
         return None
 
     def get_phone_number(self, obj):
@@ -181,6 +182,7 @@ class UserDetailSerializer(UserProfileSerializer):
     followers_count = serializers.SerializerMethodField()
     emogo_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
+    exceed_login_limit = serializers.SerializerMethodField()
 
 
     class Meta:
@@ -193,6 +195,11 @@ class UserDetailSerializer(UserProfileSerializer):
             return self.context.get('request').user
         else:
             return self.context.user
+
+    def get_exceed_login_limit(self, obj):
+        if Token.objects.filter(user=obj.user).count() >= 4:
+            return True
+        return False
 
     def get_profile_stream(self, obj):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
@@ -315,8 +322,8 @@ class UserOtpSerializer(UserProfileSerializer):
     def save(self):
         self.instance.otp = None
         self.instance.save(update_fields=['otp'])
-        Token.objects.get_or_create(user=self.instance.user)
-        return self.instance
+        token = Token.objects.create(user=self.instance.user)
+        return self.instance, token.key
 
 
 class UserLoginSerializer(UserSerializer):
@@ -335,11 +342,11 @@ class UserLoginSerializer(UserSerializer):
         try:
             user = User.objects.get(username=self.validated_data.get('username'))
             # If user is already login then logout requested user and try to new log-in.
-            if user.is_authenticated():
-                if hasattr(user, 'auth_token'):
-                    user.auth_token.delete()
-                user.user_data.otp = None
-                user.user_data.save()
+            # if user.is_authenticated():
+            #     if hasattr(user, 'auth_token'):
+            #         user.auth_token.delete()
+            #     user.user_data.otp = None
+            #     user.user_data.save()
             user_profile = UserProfile.objects.select_related('user').prefetch_related(
             Prefetch(
                 "user__who_follows",
@@ -410,13 +417,17 @@ class VerifyOtpLoginSerializer(UserSerializer):
                 queryset=UserFollow.objects.all().order_by('-follow_time'),
                 to_attr='following'
             )).get(user=user)
-            if hasattr(user, 'auth_token'):
-                user.auth_token.delete()
+            # if hasattr(user, 'auth_token'):
+            #     user.auth_token.delete()
+            user_tokens = Token.objects.filter(user=user).order_by("-created")
+            if user_tokens.__len__() >= 4:
+                tokens_id = [token_obj.id for token_obj in user_tokens[:3]]
+                user_tokens.exclude(pk__in=tokens_id).delete()
             token = Token.objects.create(user=user)
             token.save()
+            return user_profile, token.key
         except (UserProfile.DoesNotExist, User.DoesNotExist):
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
-        return user_profile
 
 
 class UserResendOtpSerializer(UserProfileSerializer):
