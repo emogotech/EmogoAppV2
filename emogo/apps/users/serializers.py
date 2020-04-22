@@ -23,7 +23,6 @@ from emogo.apps.stream.serializers import RecentUpdatesSerializer
 import operator
 from itertools import product
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
-from functools import reduce
 
 
 
@@ -676,7 +675,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in list(grouped.items()):
+        for thread, group in grouped.items():
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()
@@ -843,7 +842,7 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
                         setattr(instance, 'user_id', user.get('id'))
                         setattr(instance, 'user_image', user.get('user_data__user_image'))
                     # If some collaborator are not registered.
-                    elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in [x.phone_number for x in list_of_instances]:
+                    elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in map(lambda x: x.phone_number, list_of_instances):
                         setattr(instance, 'name', instance.name)
                         setattr(instance, 'user_profile_id', None)
                         setattr(instance, 'user_id', None)
@@ -920,7 +919,7 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
         # Find the logged in user and fetch current user's followers 
         user_id = self.context.get('request').user.id
         try:
-            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if user_id in  [y.follower.id for y in x.user.user_liked_followers] else False } for x in obj.total_like_dislike_data ]
+            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if user_id in  map(lambda y: y.follower.id, x.user.user_liked_followers) else False } for x in obj.total_like_dislike_data ]
         except AttributeError:
             return None
 

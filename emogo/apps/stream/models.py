@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 from emogo.lib.default_models.models import DefaultStatusModel, DefaultDateModel
@@ -18,11 +18,8 @@ CONTENT_TYPE = (
     ('Picture', 'Picture'),
     ('Link', 'Link'),
     ('Giphy', 'Giphy'),
-    ('Note', 'Note'),
-    ("pdf", "PDF"),
-    ("audio", "Audio"),
-    ("excel", "Excel"),
-    ("text", "Text")
+    ('Note', 'Note')
+
 )
 
 EVENT_TYPE = (
@@ -48,14 +45,6 @@ class CategoryMaster(DefaultStatusModel):
         db_table = 'category_master'
 
 
-class Folder(DefaultDateModel):
-    name = models.CharField(max_length=50)
-    owner = models.ForeignKey(User, related_name="owner_folders")
-
-    class Meta:
-        db_table = "folder"
-
-
 class Stream(DefaultStatusModel):
     name = models.CharField(max_length=75, null=True, blank=True)
     description = models.TextField(max_length=1000, null=True, blank=True)
@@ -71,7 +60,6 @@ class Stream(DefaultStatusModel):
     width = models.CharField(max_length=10, null=True, blank=True, default=300)
     have_some_update = models.BooleanField(default=False)
     color = models.CharField(max_length=50, null=True, blank=True, default=None)
-    folder = models.ManyToManyField(Folder, related_name="stream_folders", null=True, blank=True)
 
     class Meta:
         db_table = 'stream'
@@ -80,7 +68,7 @@ class Stream(DefaultStatusModel):
         collaborators = self.collaborator_list(manager='actives').all()
         self.stream_contents.all().delete()
         # Delete collaborators
-        list(map(self.update_status, collaborators, itertools.repeat('Inactive', collaborators.__len__())))
+        map(self.update_status, collaborators, itertools.repeat('Inactive', collaborators.__len__()))
 
         # Delete stream
         self.update_status(self, 'Inactive')
@@ -98,7 +86,7 @@ class Stream(DefaultStatusModel):
 
 
 class Content(DefaultStatusModel):
-    name = models.CharField(max_length=255, null=True, blank=True)
+    name = models.CharField(max_length=75, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     url = models.TextField(max_length=1000, null=True, blank=True)
     type = models.CharField(max_length=10, choices=CONTENT_TYPE, default=CONTENT_TYPE[0][0])

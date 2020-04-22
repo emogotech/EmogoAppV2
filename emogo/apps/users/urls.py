@@ -27,6 +27,4 @@ urlpatterns = [
     url(r'^is_buisness/$', views.UserBuisnessAccount.as_view()),
     url(r'^get_top_stream_v3/', views.GetTopStreamAPIV3.as_view()),
     url(r'^suggested_follow/$', views.SuggestedFollowUser.as_view()),
-    url(r'^user-left-menu-data/$', views.UserLeftMenuData.as_view()),
-    url(r'^upload-media-on-s3/$', views.UploadMediaOnS3.as_view()),
 ]

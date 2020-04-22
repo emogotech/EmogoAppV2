@@ -20,7 +20,7 @@ def custom_exception_handler(exc, context):
     if response is not None:
         response.data = {}
         errors = []
-        for field, value in list(response.data.items()):
+        for field, value in response.data.items():
             errors.append("{} : {}".format(field, " ".join(value)))
 
         # response.data['errors'] = errors
@@ -50,7 +50,7 @@ def generate_pin(length=5):
     :return: Return a numeric PIN with length digits
     """
 
-    return random.sample(list(range(10 ** (length - 1), 10 ** length)), 1)[0]
+    return random.sample(range(10 ** (length - 1), 10 ** length), 1)[0]
 
 
 def send_otp(phone_number, body):

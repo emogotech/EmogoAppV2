@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from rest_framework import serializers
-from emogo.apps.collaborator.models import Collaborator
+from models import Collaborator
 from emogo.apps.users.models import UserProfile
 from django.contrib.auth.models import User
 
