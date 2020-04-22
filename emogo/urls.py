@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^health/', include('health_check.urls')),
+    # url(r'^health/', include('health_check.urls')),
     url(r'^api/((?P<version>(v3))/)?', include('emogo.apps.users.urls')),
     url(r'^api/((?P<version>(v3))/)?', include('emogo.apps.stream.urls')),
     url(r'^api/((?P<version>(v3))/)?', include('emogo.apps.collaborator.urls')),

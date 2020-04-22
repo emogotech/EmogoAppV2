@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'autofixture',
     'branchio',
     'emogo.apps.notification',
-    'health_check'
+    # 'health_check'
 ]
 
 MIDDLEWARE = [
