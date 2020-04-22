@@ -118,7 +118,10 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     def get_token(self, obj):
         # if hasattr(obj.user, 'auth_token'):
         #     return obj.user.auth_token.key
-        return None
+        try:
+            return self.context.get("request").META.get('HTTP_AUTHORIZATION', b'').split()[1]
+        except:
+            return None
 
     def get_phone_number(self, obj):
         return obj.user.username
