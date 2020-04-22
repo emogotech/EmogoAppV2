@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd^6nmg0*yi#6ita0%gpakjft0np#4p!bu*)7!5&zp*$wt!xs86'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 ALLOWED_HOSTS = ['*']
 import logging
@@ -298,11 +298,11 @@ DATABASES = {
 # }
 
 # Get Local Settings
+DEBUG = False
 try:
-    # from .local_settings import *
     #Get PEM file url for notification
-    PEM_FILE = 'emogoDev.pem'
-    IS_SANDBOX = True
-    NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
+    PEM_FILE = 'emogoProduction.pem'
+    IS_SANDBOX = False
+    NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR, PEM_FILE)
 except ImportError:
     pass
