@@ -275,27 +275,27 @@ LOGGING = {
     },
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2', #'os.environ.get('DBENGINE'),
-#         'NAME': 'proddb', #os.environ.get('DBNAME'),
-#         'USER': 'proddb', #os.environ.get('DBUSER'),
-#         'PASSWORD': '35BUnFUmbUvt6Pz7', #os.environ.get('DBPASSWORD'),
-#         'HOST': 'proddb.cpoczs3mm579.us-east-1.rds.amazonaws.com', #os.environ.get('DBHOST'),
-#         'PORT': 5432, #os.environ.get('DBPORT'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DBENGINE'),
-        'NAME': os.environ.get('DBNAME'),
-        'USER': os.environ.get('DBUSER'),
-        'PASSWORD': os.environ.get('DBPASSWORD'),
-        'HOST': os.environ.get('DBHOST'),
-        'PORT': os.environ.get('DBPORT'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', #'os.environ.get('DBENGINE'),
+        'NAME': 'proddb', #os.environ.get('DBNAME'),
+        'USER': 'proddb', #os.environ.get('DBUSER'),
+        'PASSWORD': '35BUnFUmbUvt6Pz7', #os.environ.get('DBPASSWORD'),
+        'HOST': 'proddb.cpoczs3mm579.us-east-1.rds.amazonaws.com', #os.environ.get('DBHOST'),
+        'PORT': 5432, #os.environ.get('DBPORT'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.environ.get('DBENGINE'),
+#         'NAME': os.environ.get('DBNAME'),
+#         'USER': os.environ.get('DBUSER'),
+#         'PASSWORD': os.environ.get('DBPASSWORD'),
+#         'HOST': os.environ.get('DBHOST'),
+#         'PORT': os.environ.get('DBPORT'),
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
