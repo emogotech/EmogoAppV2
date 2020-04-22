@@ -277,7 +277,7 @@ LOGGING = {
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DBENGINE'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', #'os.environ.get('DBENGINE'),
         'NAME': os.environ.get('DBNAME'),
         'USER': os.environ.get('DBUSER'),
         'PASSWORD': os.environ.get('DBPASSWORD'),
