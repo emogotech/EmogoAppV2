@@ -197,7 +197,7 @@ class UserDetailSerializer(UserProfileSerializer):
             return self.context.user
 
     def get_exceed_login_limit(self, obj):
-        if Token.objects.filter(user=obj.user).count() >= 4:
+        if Token.objects.filter(user=obj.user).count() >= 5:
             return True
         return False
 
@@ -420,8 +420,8 @@ class VerifyOtpLoginSerializer(UserSerializer):
             # if hasattr(user, 'auth_token'):
             #     user.auth_token.delete()
             user_tokens = Token.objects.filter(user=user).order_by("-created")
-            if user_tokens.__len__() >= 4:
-                tokens_id = [token_obj.id for token_obj in user_tokens[:3]]
+            if user_tokens.__len__() >= 5:
+                tokens_id = [token_obj.id for token_obj in user_tokens[:4]]
                 user_tokens.exclude(pk__in=tokens_id).delete()
             token = Token.objects.create(user=user)
             token.save()
