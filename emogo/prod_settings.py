@@ -298,7 +298,7 @@ DATABASES = {
 # }
 
 # Get Local Settings
-DEBUG = False
+DEBUG = True
 try:
     #Get PEM file url for notification
     PEM_FILE = 'emogoProduction.pem'
