@@ -19,7 +19,7 @@ from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter, FollowerFollowingUserFilter
 from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
-from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates, Folder
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.notification.models import Notification
 from django.shortcuts import get_object_or_404
@@ -27,31 +27,22 @@ from itertools import chain
 # models
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
-from emogo.apps.users.autofixtures import UserAutoFixture
+from autofixtures import UserAutoFixture
 from django.http import HttpResponse
 from django.http import Http404
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet, Q
 from emogo.apps.notification.views import NotificationAPI
 import datetime
-from django.db.models import Case, When, Q, IntegerField
-from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer, ViewContentSerializer, FolderSerializer
+from django.db.models import Case, When
+from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer, ViewContentSerializer
 import collections
 import boto3
 import re
 import threading
 from django.conf import settings
 from rest_framework import pagination
-import json
-from rest_framework.parsers import MultiPartParser, JSONParser
-from botocore.exceptions import ClientError
-import logging
-import random
-import string
-import os
-import logging
-# logger = logging.getLogger('watchtower-logger')
-logger_name = logging.getLogger('email_log')
+
 
 
 class Signup(APIView):
@@ -92,8 +83,6 @@ class Login(APIView):
     """
 
     def post(self, request, version):
-        logger_name.info('Stage server logs')
-        logger_name.error('Testing on stage server.')
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
@@ -797,7 +786,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
                 queryset=UserFollow.objects.all().order_by('-follow_time'), 
                 to_attr="followers" 
             ),
-            Prefetch(
+            Prefetch( 
                 'user__who_is_followed', 
                 queryset=UserFollow.objects.all().order_by('-follow_time'), 
                 to_attr='following'
@@ -1327,95 +1316,3 @@ class SuggestedFollowUser(APIView):
         serializer = sorted(serializer.data, key=lambda x: x['is_following'])
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer)
 
-
-class UserLeftMenuData(APIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-
-    def get_folder_data(self, data):
-        fields = ("id", "name", "stream_count")
-        folders = Folder.objects.filter(owner=self.request.user).annotate(stream_count=Count(Case(
-                                                                            When(stream_folders__status="Active", then=1),
-                                                                            output_field=IntegerField(),
-                                                                          )))
-        folder_serializer = FolderSerializer(folders, many=True, fields=fields)
-        data["folders_count"] = folders.__len__()
-        data["folder_data"] = folder_serializer.data
-        return data
-
-    def get(self, request, *args, **kwargs):
-        # Fetch all self created streams
-        try:
-            shared_streams_count = json.loads(UserCollaborators.as_view()(request, version="v3").render().content).get('count')
-        except Exception as e:
-            shared_streams_count = 0
-
-        # stream_ids = Collaborator.actives.filter(created_by_id=self.request.user.id).values_list('stream', flat=True)
-
-        # 2. Fetch and return stream Queryset objects without collaborators.
-        user_obj_data = User.objects.all().prefetch_related(
-            Prefetch(
-                "stream_set",
-                queryset=Stream.actives.all(),
-                to_attr="user_stream_data"
-            ),
-            Prefetch(
-                "content_set",
-                queryset=Content.actives.all(),
-                to_attr="user_media_count"
-            ),
-            Prefetch(
-                "content_set",
-                queryset=Content.actives.filter(type="Link"),
-                to_attr = "user_link_count"
-            ),
-            Prefetch(
-                "content_set",
-                queryset=Content.actives.filter(streams__id=None).prefetch_related("streams"),
-                to_attr="user_not_yet_count"
-            )).get(id=request.user.id)
-        data = {
-            "left_menu_data": {
-                "user_stream_count": user_obj_data.user_stream_data.__len__(),
-                "user_media_count": user_obj_data.user_media_count.__len__(),
-                "user_media_link_count": user_obj_data.user_link_count.__len__(),
-                "not_yet_added_content_count": user_obj_data.user_not_yet_count.__len__(),
-                "shared_streams_count": shared_streams_count,
-            }
-        }
-        data = self.get_folder_data(data)
-        return custom_render_response(status_code=status.HTTP_200_OK, data=data)
-
-
-class UploadMediaOnS3(APIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-    parser_classes = (MultiPartParser,)
-
-    def post(self, request, *args, **kwargs):
-        s3_client = boto3.client('s3', aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                                 aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
-        file = self.request.data.get("file", None)
-        file_name = self.request.data.get("file_name", None)
-        file_type = self.request.data.get("type", None)
-        errors = {}
-        if file and file_name and file_type:
-            try:
-                random_string = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(8))
-                name, extension = os.path.splitext(file.name)
-                final_file_name = file_name+random_string+extension
-                url = "https://emogo-v2.s3.amazonaws.com/{}/{}".format(file_type, final_file_name)
-                s3_client.upload_fileobj(file, "emogo-v2", "{}/{}".format(file_type, final_file_name))
-                return custom_render_response(status_code=status.HTTP_200_OK, data={"file_url": url})
-            except ClientError as e:
-                print('Client Error')
-                logging.error(e)
-        else:
-            if file is None:
-                errors["file"] = "Media file is required."
-            if file_name is None:
-                errors["file_name"] = "File name is required."
-            if file_type is None:
-                errors["file_type"] = "File type is required."
-
-        return custom_render_response(status_code=400, data={"Error": errors})

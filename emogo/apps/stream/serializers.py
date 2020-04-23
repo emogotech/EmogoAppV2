@@ -1,7 +1,7 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from emogo.apps.stream.models import Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream, \
-    LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates, NewEmogoViewStatusOnly, Folder
+from models import Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream, \
+    LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates, NewEmogoViewStatusOnly
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -18,7 +18,7 @@ from itertools import product
 from emogo.apps.notification.views import NotificationAPI
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
-from functools import reduce
+
 
 class StreamSerializer(DynamicFieldsModelSerializer):
     """
@@ -31,26 +31,6 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
     delete_collaborator = CustomListField(child=serializers.IntegerField(min_value=1), read_only=True)
     delete_content = serializers.ListField(child=serializers.IntegerField(min_value=1), read_only=True)
-    folder_name = serializers.SerializerMethodField()
-    folder = serializers.SerializerMethodField()
-
-    def get_folder_name(self, obj):
-        user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
-        if user_stream_folder:
-            return user_stream_folder.name
-        return None
-
-    def get_folder(self, obj):
-        user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
-        if user_stream_folder:
-            return user_stream_folder.id
-        return None
-
-    # def is_valid(self, *args, **kwargs):
-    #     if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
-    #             Folder.objects.filter(id=self.initial_data.get("folder")).exists():
-    #                 raise serializers.ValidationError(messages.MSG_FOLDER_NOT_VALID.format(self.initial_data.get("folder")))
-    #     return super(StreamSerializer, self).is_valid(*args, **kwargs)
 
     class Meta:
         model = Stream
@@ -59,12 +39,6 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                         'type': {'required': True, 'allow_blank': False, 'allow_null': False}
                         # 'image': {'required': True, 'allow_blank': False, 'allow_null': False}
                         }
-
-    # def validate_folder(self, value):
-    #     if value and value.owner != self.context["request"].user:
-    #         raise serializers.ValidationError(messages.MSG_FOLDER_OWNER_NOT_VALID)
-    #     else:
-    #         return value
 
     def validate(self, attrs):
         # This code is run only in case of update through the PATCH method:
@@ -95,7 +69,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     def save(self, **kwargs):
         # Get variable any one can true
         any_one_can_edit = self.validated_data.get('any_one_can_edit')
-
+            
         # If any_one_can_edit variable is True, Set default stream's type is Public
         if any_one_can_edit:
             self.validated_data['type'] = 'Public'
@@ -125,10 +99,10 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
         #3  Update the status of  all collaborator is Inactive When Stream is Global otherwise Collaborator Status is Active
         if self.context['version']:
-            collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')
+            collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')    
         else:
-            collaborator_list = self.instance.collaborator_list.all()
-        if collaborator_list.__len__() > 0:
+            collaborator_list = self.instance.collaborator_list.all()    
+        if collaborator_list.__len__ > 0:
             stream_type = self.validated_data.get('type')
             if stream_type == 'Public':
                 # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public) 
@@ -194,10 +168,10 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         self.owner_collaborator(stream, collaborator_list)
         collaborators = map(self.save_collaborator, collaborator_list,
                             itertools.repeat(stream, collaborator_list.__len__()))
+        
         if stream.collaborator_list.count() == 1:
-            if stream.collaborator_list.all()[0].created_by == self.context.get('request').user and \
-                stream.collaborator_list.all()[0].phone_number == self.context.get('request').user.username and \
-                    self.instance:
+            if  stream.collaborator_list.all()[0].created_by == self.context.get('request').user and \
+                stream.collaborator_list.all()[0].phone_number == self.context.get('request').user.username:
                 self.instance.collaborator_list.filter().delete()
         else:
             return collaborators
@@ -273,8 +247,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             created_by=self.context.get('request').user,
             height=self.validated_data.get('height', 300),
             width=self.validated_data.get('width', 300),
-            color=self.validated_data.get('color'),
-            # folder=self.validated_data.get("folder", None)
+            color = self.validated_data.get('color')
         )
         stream.save()
         # Update any_one_can_edit flag is type is Public
@@ -298,7 +271,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             status = 'Active'
 
         if stream.collaborator_list.filter().__len__() < 1 :
-
+            
             collaborator, created = Collaborator.objects.get_or_create(
                 phone_number=user_qs[0].get('username'),
                 stream=stream
@@ -1107,44 +1080,3 @@ class SeenIndexSerializer(DynamicFieldsModelSerializer):
 def set_have_some_update_true(stream):
     NewEmogoViewStatusOnly.objects.filter(stream=stream).update(have_some_update = True)
     return True
-
-
-class FolderSerializer(DynamicFieldsModelSerializer):
-    """
-    Folder model Serializer
-    """
-    stream_count = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Folder
-        fields = "__all__"
-
-    def get_stream_count(self, obj):
-        return obj.stream_count
-
-    def validate_folder_name(self, value):
-        restricted_folder_name = ["My Emogos", "Not yet Added", "Shared with Me", "All My Media", "Links"]
-        # This code is run only in case of update through the PATCH method:
-        if Folder.objects.filter(name__iexact=value, owner=self.context.get("request").user).exists():
-            raise serializers.ValidationError(messages.MSG_FOLDER_NAME_EXISTS.format(value))
-        if any(True for name in restricted_folder_name if name.lower() == value.lower()):
-            raise serializers.ValidationError(messages.MSG_RESTRICTED_FOLDER_NAME)
-        return value
-
-
-class StreamMoveToFolderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Stream
-        fields = '__all__'
-        extra_kwargs = {'folder': {'required': True}}
-
-    def validate_folder(self, value):
-        if value and value[0].owner != self.context["request"].user:
-            raise serializers.ValidationError(messages.MSG_FOLDER_OWNER_NOT_VALID)
-        return value
-
-    def is_valid(self, *args, **kwargs):
-        if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
-                Folder.objects.filter(id=self.initial_data.get("folder")[0]).exists():
-            raise serializers.ValidationError(messages.MSG_FOLDER_NOT_VALID.format(self.initial_data.get("folder")[0]))
-        return super(StreamMoveToFolderSerializer, self).is_valid(*args, **kwargs)

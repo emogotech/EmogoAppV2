@@ -22,13 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd^6nmg0*yi#6ita0%gpakjft0np#4p!bu*)7!5&zp*$wt!xs86'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-import logging
-import watchtower
-from boto3.session import Session
-import watchtower
 
 # Application definition
 
@@ -50,7 +46,7 @@ INSTALLED_APPS = [
     'autofixture',
     'branchio',
     'emogo.apps.notification',
-    'health_check',
+    # 'health_check'
 ]
 
 MIDDLEWARE = [
@@ -150,6 +146,7 @@ TWILIO_AUTH_TOKEN = '1491edbec65ec8a99f72b6c0bee54aca'
 TWILIO_FROM_NUMBER = '+13392090249'
 
 
+
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
@@ -209,9 +206,6 @@ TWILIO_FROM_NUMBER = '+13392090249'
 #   'handlers': ['slack_admins'],
 #   'level': 'INFO',
 # }
-
-
-
 branch_key = 'key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ'
 branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
 DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
@@ -221,129 +215,10 @@ AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_BUCKET_NAME = 'emogo-v2'
 
-
-
-# Max file upload size on server
-DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520
-AWS_REGION_NAME = 'us-west-2'
-
-
-boto3_session = Session(
-  aws_access_key_id=AWS_ACCESS_KEY_ID,
-  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-  region_name=AWS_REGION_NAME
-)
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'simple': {
-            'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
-            'datefmt': "%Y-%m-%d %H:%M:%S"
-        },
-        'aws': {
-            'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
-            'datefmt': "%Y-%m-%d %H:%M:%S"
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-        'debug_handlers': {
-            'level': 'INFO',
-            'class': 'watchtower.CloudWatchLogHandler',
-            'boto3_session': boto3_session,
-            'log_group': 'Cloudwatch-Emogo-Group-Name',
-            'stream_name': 'DjangoInfoStream',
-            'formatter': 'aws',
-        },
-        'email_log_handlers': {
-            'level': 'INFO',
-            'class': 'watchtower.CloudWatchLogHandler',
-            'boto3_session': boto3_session,
-            'log_group': 'Cloudwatch-Emogo-Group-Name',
-            'stream_name': 'EmailLogStream',
-            'formatter': 'aws',
-        },
-    },
-    'loggers': {
-        'django': {
-            'level': 'INFO',
-            'handlers': ['debug_handlers'],
-            'propagate': True,
-        },
-        'email_log': {
-            'level': 'INFO',
-            'handlers': ['email_log_handlers'],
-            'propagate': False,
-        },
-    },
-}
-
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     # 'root': {
-#     #     'level': logging.ERROR,
-#     #     'handlers': ['console'],
-#     # },
-#     'formatters': {
-#         'simple': {
-#             'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
-#             'datefmt': "%Y-%m-%d %H:%M:%S"
-#         },
-#         'aws': {
-#             # you can add specific format for aws here
-#             'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
-#             'datefmt': "%Y-%m-%d %H:%M:%S"
-#         },
-#     },
-#     'handlers': {
-#         'watchtower': {
-#             'level': 'DEBUG',
-#             'class': 'watchtower.CloudWatchLogHandler',
-#                      'boto3_session': boto3_session,
-#                      'log_group': 'MyLogGroupName',
-#                      'stream_name': 'MyStreamName',
-#             'formatter': 'aws',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'level': 'INFO',
-#             'handlers': ['watchtower'],
-#             'propagate': False,
-#         },
-#         # add your other loggers here...
-#     },
-# }
-
-# DATABASES = {
-#
-#     "default": {
-#         # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         # DB name or path to database file if using sqlite3.
-#         "NAME": "emogo_v3",
-#         # Not used with sqlite3.
-#         "USER": "plannah_user",
-#         # Not used with sqlite3.
-#         "PASSWORD": "northout@123",
-#         # Set to empty string for localhost. Not used with sqlite3.
-#         "HOST": "127.0.0.1",
-#         # Set to empty string for default. Not used with sqlite3.
-#         "PORT": "5432",
-#     },
-# }
-
 # Get Local Settings
-
 try:
-    from .local_settings import *
+    from local_settings import *
     #Get PEM file url for notification
-    # NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
+    NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
 except ImportError:
     pass

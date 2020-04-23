@@ -23,7 +23,6 @@ from emogo.apps.stream.serializers import RecentUpdatesSerializer
 import operator
 from itertools import product
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
-from functools import reduce
 
 
 

@@ -2,7 +2,7 @@ import autofixture
 from autofixture import generators , AutoFixture
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
-from emogo.apps.users.models import UserProfile, UserFollow
+from models import UserProfile, UserFollow
 from autofixture.autofixtures import UserFixture
 from emogo.lib.custom_generators.generators import PhoneNumberGenerator
 from rest_framework.authtoken.models import Token
