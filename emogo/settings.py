@@ -22,10 +22,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd^6nmg0*yi#6ita0%gpakjft0np#4p!bu*)7!5&zp*$wt!xs86'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 ALLOWED_HOSTS = ['*']
+import logging
+import watchtower
 from boto3.session import Session
+import watchtower
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,7 +50,7 @@ INSTALLED_APPS = [
     'autofixture',
     'branchio',
     'emogo.apps.notification',
-    # 'health_check'
+    'health_check',
 ]
 
 MIDDLEWARE = [
@@ -146,7 +150,6 @@ TWILIO_AUTH_TOKEN = '1491edbec65ec8a99f72b6c0bee54aca'
 TWILIO_FROM_NUMBER = '+13392090249'
 
 
-
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
@@ -206,6 +209,9 @@ TWILIO_FROM_NUMBER = '+13392090249'
 #   'handlers': ['slack_admins'],
 #   'level': 'INFO',
 # }
+
+
+
 branch_key = 'key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ'
 branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
 DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
@@ -216,8 +222,14 @@ AWS_SECRET_ACCESS_KEY = 'ljp75RTSJpTkenhMrZVEteQjOf4tJ7Ab+As5e4wj' #os.getenv('A
 AWS_BUCKET_NAME = 'emogo-v2'
 AWS_REGION_NAME = 'us-west-2' #os.getenv('AWS_REGION_NAME') #
 
+print(os.getenv('AWS_ACCESS_KEY_ID'))
+print(os.getenv('AWS_SECRET_ACCESS_KEY'))
+print(os.getenv('AWS_REGION_NAME'))
+
+
 # Max file upload size on server
 DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520
+
 
 
 boto3_session = Session(
@@ -332,12 +344,10 @@ LOGGING = {
 # }
 
 # Get Local Settings
-PEM_FILE = 'emogoDev.pem'
-IS_SANDBOX = True
-NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
-# print(NOTIFICATION_PEM_ROOT)
+
 try:
+    from .local_settings import *
     #Get PEM file url for notification
-    NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
+    # NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
 except ImportError:
     pass

@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd^6nmg0*yi#6ita0%gpakjft0np#4p!bu*)7!5&zp*$wt!xs86'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 ALLOWED_HOSTS = ['*']
 import logging
@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'autofixture',
     'branchio',
     'emogo.apps.notification',
-    'health_check'
+    # 'health_check'
 ]
 
 MIDDLEWARE = [
@@ -249,7 +249,7 @@ LOGGING = {
             'class': 'watchtower.CloudWatchLogHandler',
             'boto3_session': boto3_session,
             'log_group': 'Cloudwatch-Emogo-Group-Name',
-            'stream_name': 'StageConsoleStream',
+            'stream_name': 'ProdConsoleStream',
             'formatter': 'aws',
         },
         'email_log_handlers': {
@@ -257,7 +257,7 @@ LOGGING = {
             'class': 'watchtower.CloudWatchLogHandler',
             'boto3_session': boto3_session,
             'log_group': 'Cloudwatch-Emogo-Group-Name',
-            'stream_name': 'StageLogStream',
+            'stream_name': 'ProdLogStream',
             'formatter': 'aws',
         },
     },
@@ -276,22 +276,26 @@ LOGGING = {
 }
 
 DATABASES = {
-
-    "default": {
-        # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        # DB name or path to database file if using sqlite3.
-        "NAME": "stage",
-        # Not used with sqlite3.
-        "USER": "stage",
-        # Not used with sqlite3.
-        "PASSWORD": "eSPmfG64STCwjAz7",
-        # Set to empty string for localhost. Not used with sqlite3.
-        "HOST": "stage.cv58xadzqgqd.us-west-2.rds.amazonaws.com",
-        # Set to empty string for default. Not used with sqlite3.
-        "PORT": "5432",
-    },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', #'os.environ.get('DBENGINE'),
+        'NAME': 'proddb', #os.environ.get('DBNAME'),
+        'USER': 'proddb', #os.environ.get('DBUSER'),
+        'PASSWORD': '35BUnFUmbUvt6Pz7', #os.environ.get('DBPASSWORD'),
+        'HOST': 'proddb.cpoczs3mm579.us-east-1.rds.amazonaws.com', #os.environ.get('DBHOST'),
+        'PORT': 5432, #os.environ.get('DBPORT'),
+    }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.environ.get('DBENGINE'),
+#         'NAME': os.environ.get('DBNAME'),
+#         'USER': os.environ.get('DBUSER'),
+#         'PASSWORD': os.environ.get('DBPASSWORD'),
+#         'HOST': os.environ.get('DBHOST'),
+#         'PORT': os.environ.get('DBPORT'),
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -305,10 +309,11 @@ DATABASES = {
 # }
 
 # Get Local Settings
+DEBUG = True
 try:
-    PEM_FILE = 'emogoDev.pem'
-    IS_SANDBOX = True
     #Get PEM file url for notification
-    NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
+    PEM_FILE = 'emogoProduction.pem'
+    IS_SANDBOX = False
+    NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR, PEM_FILE)
 except ImportError:
     pass

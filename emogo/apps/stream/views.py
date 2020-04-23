@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from __future__ import unicode_literals
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
@@ -27,9 +27,6 @@ from django.db.models import QuerySet
 from django.contrib.auth.models import User
 import datetime
 from rest_framework import filters
-import logging
-# logger = logging.getLogger('watchtower-logger')
-logger_name = logging.getLogger('email_log')
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -128,13 +125,8 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
 
     def list(self, request,  *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
-        import time
-        start_time = time.time()
-        logger_name.info("start time = {}".format(start_time))
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.queryset)
-        get_queryset_data = time.time() - start_time
-        logger_name.info("Getting queryset data = {}".format(get_queryset_data))
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
                   'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission',
@@ -146,9 +138,6 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
-            get_serialized_data = time.time() - start_time
-            logger_name.info("Page serialize data = {}".format(get_serialized_data))
-            logger_name.info("total time = {}".format(time.time() - start_time))
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
@@ -365,7 +354,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
                   'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
                   'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
                   'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status',
-                  'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'html_text')
+                  'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
 
 
         if request.GET.get('name'):
@@ -439,7 +428,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         instances = serializer.create(serializer.validated_data)
         serializer = ViewContentSerializer(instances, many=True, fields=(
         'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
-        'color', 'user_image', 'full_name', 'order', 'html_text'))
+        'color', 'user_image', 'full_name', 'order'))
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
     def update(self, request, *args, **kwargs):
@@ -463,7 +452,8 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         #  Customized field list
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'user_image', 'full_name', 'order', 'liked', 'html_text')
+            'order',
+            'color', 'user_image', 'full_name', 'order', 'liked')
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -490,7 +480,7 @@ class GetTopContentAPI(ContentAPI):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'full_name', 'user_image', 'liked', 'html_text')
+            'order', 'color', 'full_name', 'user_image', 'liked')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         picture_type = self.get_serializer(queryset.filter(type='Picture')[0:10], many=True, fields=fields)
@@ -510,7 +500,7 @@ class GetTopTwentyContentAPI(ContentAPI):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'full_name', 'user_image', 'liked', 'html_text')
+            'order', 'color', 'full_name', 'user_image', 'liked')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         final_qs = itertools.chain(queryset.filter(type='Link')[0:5], queryset.filter(type='Picture')[0:5],
@@ -561,7 +551,7 @@ class LinkTypeContentAPI(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
         fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image','height', 'width',
-                  'full_name', 'user_image', 'liked', 'html_text')
+                  'full_name', 'user_image', 'liked')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -671,7 +661,7 @@ class RecentUpdatesAPI(ListAPIView):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in list(grouped.items()):
+        for thread, group in grouped.items():
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()
@@ -794,7 +784,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         'user_name', 'thread', 'seen_index', 'stream_detail')
         content_fields = (
         'id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-        'full_name', 'user_image', 'liked', 'html_text')
+        'full_name', 'user_image', 'liked')
         stream_fields = (
             'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
             'have_some_update',
@@ -1140,7 +1130,7 @@ class ContentInBulkAPI(ContentAPI):
         #  Customized field list
         fields = (
         'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
-        'color', 'user_image', 'full_name', 'order', 'liked', 'html_text')
+        'color', 'user_image', 'full_name', 'order', 'liked')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -1573,7 +1563,7 @@ class UserLikedContentAPI(ListAPIView):
         """
         fields = (
         "color", "created_by", "description", "full_name", "height", "id", "liked", "name", "type", "url", "user_image",
-        "video_image", "width", "html_text")
+        "video_image", "width")
         like_dislike_qs = LikeDislikeContent.objects.filter(user=self.request.user, status=1).select_related('content',
                                                                                                              'content__created_by__user_data').prefetch_related(
             Prefetch(
@@ -1701,7 +1691,8 @@ class NotYetAddedContentAPI(ListAPIView):
         #  Customized field list
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'user_image', 'full_name', 'order', 'liked', 'html_text')
+            'order',
+            'color', 'user_image', 'full_name', 'order', 'liked')
 
         page = self.paginate_queryset(qs)
         if page is not None:
