@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from django.db import transaction
 from rest_framework import status
@@ -83,11 +83,21 @@ class Login(APIView):
     """
 
     def post(self, request, version):
+        import time
+        start_time = time.time()
+        logger_name.info("start time = {}".format(start_time))
+        # logger_name.info('Stage server logs')
+        # logger_name.error('Testing on stage server.')
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
+            login_serializer_chek_time = time.time() - start_time
+            logger_name.info("serializer running time = {}".format(login_serializer_chek_time))
             user_profile = serializer.authenticate_user()
             fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image", 'display_name', 'followers', 'following')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
+            login_to_detail_time = time.time() - login_serializer_chek_time
+            logger_name.info("Login to detail time = {}".format(login_to_detail_time))
+            logger_name.info("total time = {}".format(time.time() - start_time))
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
@@ -1014,7 +1024,7 @@ class GetTopStreamAPIV2(APIView):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in grouped.items():
+        for thread, group in list(grouped.items()):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()
@@ -1197,7 +1207,7 @@ class GetTopStreamAPIV3(ListAPIView):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in grouped.items():
+        for thread, group in list(grouped.items()):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()

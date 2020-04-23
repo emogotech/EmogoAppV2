@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 from django.contrib.auth.models import User
 from django.db import models
 from emogo.lib.default_models.models import DefaultStatusModel, DefaultDateModel
@@ -19,7 +19,6 @@ CONTENT_TYPE = (
     ('Link', 'Link'),
     ('Giphy', 'Giphy'),
     ('Note', 'Note')
-
 )
 
 EVENT_TYPE = (
@@ -68,7 +67,7 @@ class Stream(DefaultStatusModel):
         collaborators = self.collaborator_list(manager='actives').all()
         self.stream_contents.all().delete()
         # Delete collaborators
-        map(self.update_status, collaborators, itertools.repeat('Inactive', collaborators.__len__()))
+        list(map(self.update_status, collaborators, itertools.repeat('Inactive', collaborators.__len__())))
 
         # Delete stream
         self.update_status(self, 'Inactive')
@@ -97,6 +96,7 @@ class Content(DefaultStatusModel):
     width = models.CharField(max_length=10, null=True, blank=True, default=300)
     color = models.CharField(max_length=255, null=True, blank=True, default=None)
     order = models.IntegerField(default=0, blank=True, null=True)
+    html_text = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'content'

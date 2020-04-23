@@ -168,7 +168,6 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         self.owner_collaborator(stream, collaborator_list)
         collaborators = map(self.save_collaborator, collaborator_list,
                             itertools.repeat(stream, collaborator_list.__len__()))
-        
         if stream.collaborator_list.count() == 1:
             if  stream.collaborator_list.all()[0].created_by == self.context.get('request').user and \
                 stream.collaborator_list.all()[0].phone_number == self.context.get('request').user.username:
@@ -212,7 +211,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         :return: Add Stream content
         """
         content_list = self.initial_data.get('content')
-        contents = map(self.save_content, content_list, itertools.repeat(stream, content_list.__len__()))
+        contents = list(map(self.save_content, content_list, itertools.repeat(stream, content_list.__len__())))
         return contents
 
     def save_content(self, data, stream):
@@ -225,6 +224,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             name=data.get('name'),
             url=data.get('url'),
             type=data.get('type'),
+            html_text=data.get("html_text"),
             created_by=self.context.get('request').user
         )
         content.save()
@@ -352,7 +352,7 @@ class ViewStreamSerializer(StreamSerializer):
                         setattr(instance, 'user_id', user.get('id'))
                         setattr(instance, 'user_image', user.get('user_data__user_image'))
                     # If some collaborator are not registered.
-                    elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in map(lambda x: x.phone_number, list_of_instances):
+                    elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in [x.phone_number for x in list_of_instances]:
                         setattr(instance, 'name', instance.name)
                         setattr(instance, 'user_profile_id', None)
                         setattr(instance, 'user_id', None)
@@ -429,7 +429,7 @@ class ViewStreamSerializer(StreamSerializer):
         # Find the logged in user and fetch current user's followers 
         user_id = self.context.get('request').user.id
         try:
-            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if user_id in  map(lambda y: y.follower.id, x.user.user_liked_followers) else False } for x in obj.total_like_dislike_data ]
+            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if user_id in  [y.follower.id for y in x.user.user_liked_followers] else False } for x in obj.total_like_dislike_data ]
         except AttributeError:
             return None
 
@@ -451,7 +451,7 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')
+                  'full_name', 'user_image', 'liked', 'html_text')
         instances = obj.content_list
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
@@ -491,7 +491,7 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_stream_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')
+                  'full_name', 'user_image', 'liked', 'html_text')
         instances = obj.content_list[0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
@@ -662,8 +662,8 @@ class MoveContentToStreamSerializer(ContentSerializer):
         self.initial_data['contents'].update(upd=datetime.datetime.now())
         for stream in self.initial_data.get('streams'):
             self.initial_data['thread'] = random_generator()
-            map(self.add_content_to_stream, self.initial_data.get('contents'),
-                                itertools.repeat(stream, self.initial_data.get('contents').__len__()))
+            list(map(self.add_content_to_stream, self.initial_data.get('contents'),
+                                itertools.repeat(stream, self.initial_data.get('contents').__len__())))
 
             if self.context['version']:
                 collab_list = stream.collaborator_list.filter(status= 'Active')
@@ -681,7 +681,7 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :return: Function add content to stream
         """
         # Create Stream and content
-        obj , created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
+        obj, created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
         # Set True in have_some_update field, When user move content to stream
         obj.thread = self.initial_data.get("thread")
         obj.save()

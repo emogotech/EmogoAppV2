@@ -32,7 +32,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
                   'confirmation_status', 'is_follower', 'is_following', 'sender_user', 'stream', 'content', 'content_list', 'is_click']
 
     def get_message(self, obj):
-        from views import NotificationAPI
+        from emogo.apps.notification.views import NotificationAPI
         try:
             return NotificationAPI().notification_message(obj)
         except AttributeError:
