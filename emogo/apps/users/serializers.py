@@ -360,7 +360,7 @@ class UserLoginSerializer(UserSerializer):
                 'user__who_is_followed',
                 queryset=UserFollow.objects.all().order_by('-follow_time'),
                 to_attr='following'
-            )).get(user=user, otp__isnull=True)
+            )).get(user=user)
             
             body = "Here is your emogo one time passcode"
             sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
@@ -428,6 +428,8 @@ class VerifyOtpLoginSerializer(UserSerializer):
                 user_tokens.exclude(pk__in=tokens_id).delete()
             token = Token.objects.create(user=user)
             token.save()
+            user_profile.otp = None
+            user_profile.save()
             return user_profile, token.key
         except (UserProfile.DoesNotExist, User.DoesNotExist):
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
