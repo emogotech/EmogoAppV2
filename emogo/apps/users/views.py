@@ -1100,6 +1100,10 @@ class GetTopStreamAPIV3(ListAPIView):
         """
         Return a list of all users.
         """
+
+        import logging
+        logger_name = logging.getLogger('email_log')
+        logger_name.info("Absolute url = ", self.request.build_absolute_uri())
         qs = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
             'created_by__user_data__user').prefetch_related(
             Prefetch(
