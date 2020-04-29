@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "753657886637.dkr.ecr.us-east-1.amazonaws.com/emogo-qa",
+    "Name": "753657886637.dkr.ecr.us-east-1.amazonaws.com/emogo-qa:latest",
     "Update": "true"
   },
   "Ports": [
