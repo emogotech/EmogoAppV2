@@ -298,7 +298,7 @@ DATABASES = {
 # }
 
 # Get Local Settings
-SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = True
 try:
     PEM_FILE = 'emogoDev.pem'
     IS_SANDBOX = True
