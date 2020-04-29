@@ -1103,7 +1103,7 @@ class GetTopStreamAPIV3(ListAPIView):
 
         import logging
         logger_name = logging.getLogger('email_log')
-        logger_name.info("Absolute url = {}".format(self.request.build_absolute_uri()))
+        logger_name.info(self.request)
         qs = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
             'created_by__user_data__user').prefetch_related(
             Prefetch(
