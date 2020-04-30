@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'emogo.apps.collaborator',
     # 'django_twilio',
     'rest_framework',
-    'rest_framework.authtoken',
+    #'rest_framework.authtoken',
     'django_filters',
     # 'twilio-python',
     'autofixture',
@@ -277,12 +277,12 @@ LOGGING = {
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DBENGINE'),
-        'NAME': os.environ.get('DBNAME'),
-        'USER': os.environ.get('DBUSER'),
-        'PASSWORD': os.environ.get('DBPASSWORD'),
-        'HOST': os.environ.get('DBHOST'),
-        'PORT': os.environ.get('DBPORT'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'qadb',
+        'USER': 'qadb',
+        'PASSWORD': 'hcNE8dcfUxwbEQRE',
+        'HOST': 'qadb.cpoczs3mm579.us-east-1.rds.amazonaws.com',
+        'PORT': 5432,
     }
 }
 
