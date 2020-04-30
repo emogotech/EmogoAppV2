@@ -298,7 +298,7 @@ DATABASES = {
 # }
 
 # Get Local Settings
-
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 try:
     PEM_FILE = 'emogoDev.pem'
     IS_SANDBOX = True
