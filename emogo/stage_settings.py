@@ -24,7 +24,7 @@ SECRET_KEY = 'd^6nmg0*yi#6ita0%gpakjft0np#4p!bu*)7!5&zp*$wt!xs86'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', "::1"]
 import logging
 import watchtower
 from boto3.session import Session
