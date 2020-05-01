@@ -43,7 +43,8 @@ import threading
 from django.conf import settings
 from rest_framework import pagination
 
-
+def index(request):
+	return HttpResponse('Hello World')
 
 class Signup(APIView):
     """

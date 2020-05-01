@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from django.conf import settings
 from django.conf.urls.static import static
-
+from emogo.apps.users import views
 urlpatterns = [
+    url('', views.index),
     url(r'^admin/', admin.site.urls),
     # url(r'^health/', include('health_check.urls')),
     url(r'^api/((?P<version>(v3))/)?', include('emogo.apps.users.urls')),
