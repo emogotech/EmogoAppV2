@@ -185,7 +185,7 @@ class UserDetailSerializer(UserProfileSerializer):
     followers_count = serializers.SerializerMethodField()
     emogo_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
-    exceed_login_limit = serializers.SerializerMethodField()
+    # exceed_login_limit = serializers.SerializerMethodField()
 
 
     class Meta:
@@ -199,10 +199,10 @@ class UserDetailSerializer(UserProfileSerializer):
         else:
             return self.context.user
 
-    def get_exceed_login_limit(self, obj):
-        if Token.objects.filter(user=obj.user).count() >= 5:
-            return True
-        return False
+    # def get_exceed_login_limit(self, obj):
+    #     if Token.objects.filter(user=obj.user).count() >= 5:
+    #         return True
+    #     return False
 
     def get_profile_stream(self, obj):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
@@ -322,10 +322,10 @@ class UserOtpSerializer(UserProfileSerializer):
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
 
-    def save(self):
+    def save(self, device_name=None):
         self.instance.otp = None
         self.instance.save(update_fields=['otp'])
-        token = Token.objects.create(user=self.instance.user)
+        token = Token.objects.create(user=self.instance.user, device_name=device_name)
         return self.instance, token.key
 
 
@@ -402,7 +402,23 @@ class VerifyOtpLoginSerializer(UserSerializer):
         else:
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
-    def authenticate_login_OTP(self, otp):
+    def validate_and_create_token(self, user, device_name, device_to_logout):
+        user_tokens = Token.objects.filter(user=user)
+        if user_tokens.__len__() >= 5:
+            if not device_to_logout:
+                raise serializers.ValidationError(
+                    {'device_name': ["Select atleast one device to Signout before login."]})
+            # token_ids = [tokn.id for tokn in user_tokens]
+            token_ids_to_logout = [tokn.id for tokn in user_tokens if tokn.id in device_to_logout]
+            user_tokens = user_tokens.filter(pk__in=token_ids_to_logout).delete()
+            if user_tokens.__len__() > 4:
+                raise serializers.ValidationError(
+                    {'device_name': ["Select valid device to Signout."]})
+        token = Token.objects.create(user=user, device_name=device_name)
+        token.save()
+        return token
+
+    def authenticate_login_OTP(self, otp, device_name=None, device_to_logout=None):
         # print self.validated_data.get('username')
         try:
             User.objects.get(username=self.validated_data.get('username'))
@@ -422,12 +438,7 @@ class VerifyOtpLoginSerializer(UserSerializer):
             )).get(user=user)
             # if hasattr(user, 'auth_token'):
             #     user.auth_token.delete()
-            user_tokens = Token.objects.filter(user=user).order_by("-created")
-            if user_tokens.__len__() >= 5:
-                tokens_id = [token_obj.id for token_obj in user_tokens[:4]]
-                user_tokens.exclude(pk__in=tokens_id).delete()
-            token = Token.objects.create(user=user)
-            token.save()
+            token = self.validate_and_create_token(user, device_name, device_to_logout)
             user_profile.otp = None
             user_profile.save()
             return user_profile, token.key
