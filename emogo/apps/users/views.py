@@ -77,8 +77,8 @@ class VerifyRegistration(APIView):
     """
 
     def post(self, request, version):
-        if not request.data.get("device_name", None):
-            raise serializers.ValidationError({'device_name': ["device name is required."]})
+        # if not request.data.get("device_name", None):
+        #     raise serializers.ValidationError({'device_name': ["device name is required."]})
         fields = ("otp", "phone_number", )
         serializer = UserOtpSerializer(data=request.data, fields=fields)
         if serializer.is_valid(raise_exception=True):
@@ -792,8 +792,8 @@ class VerifyLoginOTP(APIView):
     """
 
     def post(self, request, version):
-        if not request.data.get("device_name", None):
-            raise serializers.ValidationError({'device_name': ["device name is required."]})
+        # if not request.data.get("device_name", None):
+        #     raise serializers.ValidationError({'device_name': ["device name is required."]})
         serializer = VerifyOtpLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile, token = serializer.authenticate_login_OTP(
