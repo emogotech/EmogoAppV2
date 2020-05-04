@@ -154,7 +154,7 @@ class Token(rest_framework.authtoken.models.Token):
         User, related_name='auth_tokens',
         on_delete=models.CASCADE, verbose_name=_("User")
     )
-    # name = models.CharField(_("Name"), max_length=64)
+    device_name = models.CharField(_("Device Name"), max_length=90, null=True, blank=True)
  
     # class Meta:
     #     unique_together = (('user', 'name'),)
