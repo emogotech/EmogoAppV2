@@ -37,6 +37,8 @@ from emogo.apps.notification.views import NotificationAPI
 import datetime
 from django.db.models import Case, When, Q, IntegerField
 from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer, ViewContentSerializer, FolderSerializer
+from rest_framework import serializers
+from emogo.apps.users.models import Token
 import collections
 import boto3
 import re
@@ -75,11 +77,13 @@ class VerifyRegistration(APIView):
     """
 
     def post(self, request, version):
+        if not request.data.get("device_name", None):
+            raise serializers.ValidationError({'device_name': ["device name is required."]})
         fields = ("otp", "phone_number", )
         serializer = UserOtpSerializer(data=request.data, fields=fields)
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
-                instance, token = serializer.save()
+                instance, token = serializer.save(device_name=request.data.get("device_name"))
                 user_profile = UserProfile.objects.select_related('user').prefetch_related( Prefetch( "user__who_follows", queryset=UserFollow.objects.all().order_by('-follow_time'), to_attr="followers" ), Prefetch( 'user__who_is_followed', queryset=UserFollow.objects.all().order_by('-follow_time'), to_attr='following' )).get(id = instance.id)
                 fields = ("user_profile_id", "full_name", "user_image", "token", "user_id", "phone_number",
                           'location', 'website', 'birthday', 'biography', 'branchio_url', 'display_name', 'followers', 'following')
@@ -99,9 +103,16 @@ class Login(APIView):
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
             fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image",
-                      'display_name', 'followers', 'following', "exceed_login_limit")
+                      'display_name', 'followers', 'following')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
-            return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+            serialize_data = serializer.data
+            user_tokens = Token.objects.filter(user=user_profile.user)
+            if user_tokens.__len__() >= 5:
+                device_data = {token.id: token.device_name for token in user_tokens}
+                serialize_data.update({"exceed_login_limit": True, "logged_in_devices": device_data})
+            else:
+                serialize_data.update({"exceed_login_limit": False})
+            return custom_render_response(status_code=status.HTTP_200_OK, data=serialize_data)
 
 
 class Logout(APIView):
@@ -781,9 +792,13 @@ class VerifyLoginOTP(APIView):
     """
 
     def post(self, request, version):
+        if not request.data.get("device_name", None):
+            raise serializers.ValidationError({'device_name': ["device name is required."]})
         serializer = VerifyOtpLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
-            user_profile, token = serializer.authenticate_login_OTP(request.data["otp"])
+            user_profile, token = serializer.authenticate_login_OTP(
+                request.data["otp"], device_name=request.data.get("device_name"),
+                device_to_logout=request.data.get("device_to_logout"))
             fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image",
                       'location', 'website', 'biography', 'birthday', 'branchio_url', 'display_name', 'followers', 'following')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
