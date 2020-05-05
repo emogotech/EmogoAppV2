@@ -25,7 +25,7 @@ import operator
 from itertools import product
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from functools import reduce
-
+import threading
 
 
 class UserSerializer(DynamicFieldsModelSerializer):
@@ -60,7 +60,8 @@ class UserSerializer(DynamicFieldsModelSerializer):
             raise serializers.ValidationError({'phone_number': messages.MSG_UNABLE_TO_SEND_OTP.format(validated_data.get('username'))})
 
         try:
-            user_profile = UserProfile.objects.get(full_name=validated_data.get('user_name'), otp__isnull=False)
+            user_profile = UserProfile.objects.select_related("user").get(
+                full_name=validated_data.get('user_name'), otp__isnull=False)
             user_profile.otp = self.user_pin
             user_profile.save()
 
@@ -82,6 +83,8 @@ class UserSerializer(DynamicFieldsModelSerializer):
             user.user_data.otp = self.user_pin
             user.user_data.save()
         # Create user deep link url
+        thread = threading.Thread(target=create_user_deep_link, args=(user))
+        thread.start()
         create_user_deep_link(user)
         return user
 
@@ -341,9 +344,23 @@ class UserLoginSerializer(UserSerializer):
         else:
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
+    def sent_otp_to_user(self, user):
+        body = "Here is your emogo one time passcode"
+        sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
+        if sent_otp is not None:
+            setattr(self, 'user_pin', sent_otp)
+        else:
+            raise serializers.ValidationError({'phone_number': messages.MSG_UNABLE_TO_SEND_OTP.format(self.validated_data.get('username'))})
+        # print self.user_pin
+        if str(user.username) == str('+15089511377'):
+            user.set_password('12345')
+        else:
+            user.set_password(self.user_pin)
+        user.save()
+
     def authenticate_user(self):
         try:
-            user = User.objects.get(username=self.validated_data.get('username'))
+            user = User.objects.only("username", "password").get(username=self.validated_data.get('username'))
             # If user is already login then logout requested user and try to new log-in.
             # if user.is_authenticated():
             #     if hasattr(user, 'auth_token'):
@@ -353,27 +370,16 @@ class UserLoginSerializer(UserSerializer):
             user_profile = UserProfile.objects.select_related('user').prefetch_related(
             Prefetch(
                 "user__who_follows",
-                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                queryset=UserFollow.objects.only("id"),
                 to_attr="followers"
             ),
             Prefetch(
                 'user__who_is_followed',
-                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                queryset=UserFollow.objects.only("id"),
                 to_attr='following'
             )).get(user=user)
-            
-            body = "Here is your emogo one time passcode"
-            sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
-            if sent_otp is not None:
-                setattr(self, 'user_pin', sent_otp)
-            else:
-                raise serializers.ValidationError({'phone_number': messages.MSG_UNABLE_TO_SEND_OTP.format(self.validated_data.get('username'))})
-            # print self.user_pin
-            if str(user.username) == str('+15089511377'):
-                user.set_password('12345')
-            else:
-                user.set_password(self.user_pin)
-            user.save()
+            thread = threading.Thread(target=self.sent_otp_to_user, args=(user))
+            thread.start()
 
         except (UserProfile.DoesNotExist, User.DoesNotExist):
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
