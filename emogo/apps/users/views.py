@@ -93,6 +93,18 @@ class VerifyRegistration(APIView):
                 return custom_render_response(status_code=status.HTTP_200_OK, data=serialize_data)
 
 
+def get_device_data(user_tokens):
+    temp_devices = ["device-1", "device-2", "device-3", "device-4", "device-5"]
+    device_data = {}
+    for token in user_tokens:
+        if token.device_name:
+            device_data.update({token.id: token.device_name})
+        else:
+            device_name = temp_devices.pop(0)
+            device_data.update({token.id: device_name})
+    return device_data
+
+
 class Login(APIView):
     """
     User login API
@@ -106,13 +118,26 @@ class Login(APIView):
                       'display_name', 'followers', 'following')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
             serialize_data = serializer.data
-            user_tokens = Token.objects.filter(user=user_profile.user)
+            user_tokens = Token.objects.only("device_name").filter(user=user_profile.user)
             if user_tokens.__len__() >= 5:
-                device_data = {token.id: token.device_name for token in user_tokens}
-                serialize_data.update({"exceed_login_limit": True, "logged_in_devices": device_data})
+                serialize_data.update(
+                    {"exceed_login_limit": True, "logged_in_devices": get_device_data(user_tokens)})
             else:
                 serialize_data.update({"exceed_login_limit": False})
             return custom_render_response(status_code=status.HTTP_200_OK, data=serialize_data)
+
+
+class UserLoggedInDevices(APIView):
+    """
+    Return logged in devices for the user 
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        user_tokens = Token.objects.only("device_name").filter(user=self.request.user)
+        data = {"logged_in_devices": get_device_data(user_tokens)}
+        return custom_render_response(status_code=status.HTTP_200_OK, data=data)
 
 
 class Logout(APIView):
