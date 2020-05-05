@@ -68,7 +68,7 @@ class Signup(APIView):
                 # Todo : For now we have commented send_otp code for development purpose
                 # send_otp(request.data.get('phone_number'))
                 serializer.create(serializer.validated_data)
-                return custom_render_response(status_code=status.HTTP_201_CREATED, data={"otp": serializer.user_pin})
+                return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
 
 
 class VerifyRegistration(APIView):
