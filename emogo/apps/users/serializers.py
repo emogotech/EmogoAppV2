@@ -83,7 +83,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
             user.user_data.otp = self.user_pin
             user.user_data.save()
         # Create user deep link url
-        thread = threading.Thread(target=create_user_deep_link, args=(user))
+        thread = threading.Thread(target=create_user_deep_link, args=[user])
         thread.start()
         create_user_deep_link(user)
         return user
@@ -378,7 +378,7 @@ class UserLoginSerializer(UserSerializer):
                 queryset=UserFollow.objects.only("id"),
                 to_attr='following'
             )).get(user=user)
-            thread = threading.Thread(target=self.sent_otp_to_user, args=(user))
+            thread = threading.Thread(target=self.sent_otp_to_user, args=[user])
             thread.start()
 
         except (UserProfile.DoesNotExist, User.DoesNotExist):
