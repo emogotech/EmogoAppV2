@@ -296,7 +296,7 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
-
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Get Local Settings
 try:
     PEM_FILE = 'emogoDev.pem'
