@@ -69,7 +69,7 @@ def send_otp(phone_number, body):
     """
     pin = 12345
     # pin = generate_pin()
-    thread = threading.Thread(target=generate_and_send_otp, args=(phone_number, body, pin))
+    thread = threading.Thread(target=generate_and_send_otp, args=[phone_number, body, pin])
     thread.start()
     # client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
     # try:
