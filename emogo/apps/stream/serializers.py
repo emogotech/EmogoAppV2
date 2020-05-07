@@ -620,22 +620,29 @@ class ViewContentSerializer(ContentSerializer):
 
     def get_liked(self, obj):
         try:
-            if obj.content_liked_user.__len__() > 0:
-                for x in obj.content_liked_user:
-                    try:
-                        if self.context.get('request').auth.user_id == x.user_id:
-                            return True
-                    except:
-                        return False
+            if obj.content_liked_user.__len__() > 0 and any(
+                True for x in obj.content_liked_user if self.context.get('request').auth.user_id == x.user_id):
+                    return True
+                # for x in obj.content_liked_user:
+                #     try:
+                #         if self.context.get('request').auth.user_id == x.user_id:
+                #             return True
+                #     except:
+                #         return False
 
         except:
-            if obj.stream_liked_user.__len__() > 0:
-                for x in obj.stream_liked_user:
-                    try:
-                        if self.context.get('request').auth.user_id == x.user_id:
-                            return True
-                    except:
-                        return False
+            try:
+                if hasattr(obj, "stream_liked_user") and obj.stream_liked_user.__len__() > 0 and any(
+                    True for x in obj.stream_liked_user if self.context.get('request').auth.user_id == x.user_id):
+                        return True
+            except:
+                pass
+                # for x in obj.stream_liked_user:
+                #     try:
+                #         if self.context.get('request').auth.user_id == x.user_id:
+                #             return True
+                #     except:
+                #         return False
 
         return False
 
