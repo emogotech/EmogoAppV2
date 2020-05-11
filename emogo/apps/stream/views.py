@@ -354,11 +354,15 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             return self.list(request, *args, **kwargs)
 
     def get_object(self):
-        qs = self.get_queryset().filter(pk=self.kwargs.get('pk'))
-        if qs.exists():
-            return qs[0]
-        else:
+        try:
+            return self.get_queryset().get(pk=self.kwargs.get('pk'))
+        except ObjectDoesNotExist:
             raise Http404("Content does not exist.")
+        # qs = self.get_queryset().filter(pk=self.kwargs.get('pk'))
+        # if qs.exists():
+        #     return qs[0]
+        # else:
+        #     raise Http404("Content does not exist.")
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -455,8 +459,8 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer.is_valid(raise_exception=True)
         instances = serializer.create(serializer.validated_data)
         serializer = ViewContentSerializer(instances, many=True, fields=(
-        'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
-        'color', 'user_image', 'full_name', 'order', 'html_text'))
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height',
+            'width', 'order', 'color', 'user_image', 'full_name', 'html_text'))
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
     def update(self, request, *args, **kwargs):
@@ -479,8 +483,8 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         self.serializer_class = ViewContentSerializer
         #  Customized field list
         fields = (
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'user_image', 'full_name', 'order', 'liked', 'html_text')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height',
+            'width', 'order', 'color', 'user_image', 'full_name', 'liked', 'html_text')
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
