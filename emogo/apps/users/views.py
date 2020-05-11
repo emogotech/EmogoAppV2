@@ -98,7 +98,8 @@ def get_device_data(user_tokens):
     device_data = {}
     for token in user_tokens:
         if token.device_name:
-            device_data.update({token.id: {"name": token.device_name, "date":created}})
+            device_data.update({token.id: {
+                "name": token.device_name, "date":token.created.strftime("%Y/%m/%d %H:%M")}})
         else:
             device_name = temp_devices.pop(0)
             device_data.update({token.id: {
