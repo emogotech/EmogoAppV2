@@ -35,16 +35,24 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     folder = serializers.SerializerMethodField()
 
     def get_folder_name(self, obj):
-        user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
-        if user_stream_folder:
-            return user_stream_folder.name
+        folder_names = [fd.name for fd in obj.folders if fd.owner == self.context["request"].user]
+        if folder_names:
+            return folder_names[0]
         return None
+        # user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
+        # if user_stream_folder:
+        #     return user_stream_folder.name
+        # return None
 
     def get_folder(self, obj):
-        user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
-        if user_stream_folder:
-            return user_stream_folder.id
+        folder_ids = [fd.id for fd in obj.folders if fd.owner == self.context["request"].user]
+        if folder_ids:
+            return folder_ids[0]
         return None
+        # user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
+        # if user_stream_folder:
+        #     return user_stream_folder.id
+        # return None
 
     # def is_valid(self, *args, **kwargs):
     #     if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
@@ -95,7 +103,6 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     def save(self, **kwargs):
         # Get variable any one can true
         any_one_can_edit = self.validated_data.get('any_one_can_edit')
-
         # If any_one_can_edit variable is True, Set default stream's type is Public
         if any_one_can_edit:
             self.validated_data['type'] = 'Public'
@@ -122,7 +129,6 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             self.instance.stream_contents.all().delete()
             if contents.__len__() > 0:
                 self.create_content(self.instance)
-
         #3  Update the status of  all collaborator is Inactive When Stream is Global otherwise Collaborator Status is Active
         if self.context['version']:
             collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')
@@ -149,16 +155,20 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     def removed_stream_bookmarked(self, obj):
         if self.instance.stream_collaborator.__len__() > 0:
             phone_number = [x.phone_number for x in self.instance.collaborator_list.all()]
-            valid_users = []
-            for contact in phone_number:
-                users = User.objects.filter(username__endswith=str(contact)[-10:])
-                if users.__len__() > 0:
-                    valid_users.append(users[0].id)
+            # valid_users = []
+            valid_users = [user.id for user in User.objects.only("id").filter(reduce(
+                operator.or_, (Q(username__endswith=str(contact)[-10:]) for contact in phone_number)))]
+            # for contact in phone_number:
+            #     users = User.objects.filter(username__endswith=str(contact)[-10:])
+            #     if users.__len__() > 0:
+            #         valid_users.append(users[0].id)
             # Delete all unathorized user bookmarked
             if valid_users.__len__() > 0:
-                bookmarked_stream_invalid_users = StarredStream.actives.filter(stream_id=self.instance.id).exclude(
-                    user_id__in=valid_users)
-                bookmarked_stream_invalid_users.delete()
+                StarredStream.actives.filter(stream_id=self.instance.id).exclude(
+                    user_id__in=valid_users).delete()
+                # bookmarked_stream_invalid_users = StarredStream.actives.filter(stream_id=self.instance.id).exclude(
+                #     user_id__in=valid_users)
+                # bookmarked_stream_invalid_users.delete()
         return True
 
     def create(self, validated_data):
@@ -288,23 +298,23 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         # Adding and update the streams as collaborator..
 
         # Check Owner is present or stream have any collabrators or not.
-        user_qs = User.objects.filter(id = self.context.get('request').user.id).values('user_data__full_name', 'username')
+        user_qs = User.objects.only("username").prefetch_related("user_data").get(
+            id=self.context.get('request').user.id)
         if self.context['version']:
             username_list =  {str(d['phone_number']): d['status'] for d in data}
-            if user_qs[0].get('username') in username_list:
-                status = str(username_list[user_qs[0].get('username')])
+            if user_qs.username in username_list:
+                status = str(username_list[user_qs.username])
             else:
                 status = 'Unverified'
         else:
             status = 'Active'
 
         if stream.collaborator_list.filter().__len__() < 1 :
-
             collaborator, created = Collaborator.objects.get_or_create(
-                phone_number=user_qs[0].get('username'),
+                phone_number=user_qs.username,
                 stream=stream
             )
-            collaborator.name = user_qs[0].get('user_data__full_name')
+            collaborator.name = user_qs.user_data.full_name
             collaborator.can_add_content = self.initial_data.get('collaborator_permission').get('can_add_content')
             collaborator.can_add_people = self.initial_data.get('collaborator_permission').get('can_add_people')
             collaborator.created_by = self.context.get('request').user

@@ -71,12 +71,11 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             Prefetch(
                 'stream_like_dislike_status',
                 queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
-                        Prefetch(
-                            "user__who_follows",                            
-                            queryset=UserFollow.objects.all(),
-                            to_attr='user_liked_followers'                                   
-                        ),
-
+                    Prefetch(
+                        "user__who_follows",
+                        queryset=UserFollow.objects.select_related("follower").all(),
+                        to_attr='user_liked_followers'
+                    ),
                 ),
                 to_attr='total_like_dislike_data'
             ),
@@ -84,6 +83,11 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                 'stream_starred',
                 queryset=StarredStream.objects.all().select_related('user'),
                 to_attr='total_starred_stream_data'
+            ),
+            Prefetch(
+                'folder',
+                queryset=Folder.objects.only("name"),
+                to_attr='folders'
             ),
         ).order_by('-stream_view_count')
     authentication_classes = (TokenAuthentication,)
@@ -135,13 +139,8 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
 
     def list(self, request,  *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
-        import time
-        start_time = time.time()
-        logger_name.info("start time = {}".format(start_time))
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.queryset)
-        get_queryset_data = time.time() - start_time
-        logger_name.info("Getting queryset data = {}".format(get_queryset_data))
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
                   'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission',
@@ -153,9 +152,6 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
-            get_serialized_data = time.time() - start_time
-            logger_name.info("Page serialize data = {}".format(get_serialized_data))
-            logger_name.info("total time = {}".format(time.time() - start_time))
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
@@ -197,7 +193,20 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         """
 
         partial = kwargs.pop('partial', False)
-        instance = self.get_object()
+        # from django.db import connection, reset_queries
+        # reset_queries()
+        # print(len(connection.queries))
+        # print(time.time() - start_time)
+        # import time
+        # start_time = time.time()
+        # instance = self.get_object()
+        instance = Stream.actives.prefetch_related(
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator'
+            )
+        ).get(pk=self.kwargs.get('pk'))
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
