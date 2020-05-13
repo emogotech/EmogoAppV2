@@ -13,7 +13,7 @@ from emogo.apps.stream.serializers import StreamSerializer, SeenIndexSerializer,
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
     ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, \
     RecentUpdatesSerializer, AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderSerializer, \
-    StreamMoveToFolderSerializer
+    StreamMoveToFolderSerializer, OptimisedViewStreamSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -40,6 +40,8 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     Stream CRUD API
     """
     serializer_class = StreamSerializer
+    from django.db.models import OuterRef, Subquery
+    newest = User.objects.get(id=2)
     queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related('created_by__user_data__user').prefetch_related(
             Prefetch(
                 "stream_contents",
@@ -138,15 +140,24 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def list(self, request,  *args, **kwargs):
+
         #  Override serializer class : ViewStreamSerializer
-        self.serializer_class = ViewStreamSerializer
+        self.serializer_class = OptimisedViewStreamSerializer
+        from django.db.models import Subquery, OuterRef
+
+        m = Collaborator.objects.annotate(new_finds=Subquery(
+            User.objects.filter(username=OuterRef('phone_number'))[:1]
+        )).filter(id=9183)
+
+        # Collaborator.objects.user
         queryset = self.filter_queryset(self.queryset)
         #  Customized field list
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
                   'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission',
                   'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
                   'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
-                  'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder', 'folder_name']
+                  'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder', 'folder_name'
+                ]
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)

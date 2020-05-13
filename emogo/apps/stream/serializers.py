@@ -20,6 +20,7 @@ from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from functools import reduce
 
+
 class StreamSerializer(DynamicFieldsModelSerializer):
     """
     Stream model Serializer
@@ -549,6 +550,30 @@ class ViewStreamSerializer(StreamSerializer):
             return True
         else:
             return False
+
+
+class OptimisedViewStreamSerializer(ViewStreamSerializer):
+
+    def get_have_some_update(self, obj):
+        return None
+
+    def get_is_bookmarked(self, obj):
+        return None
+
+    def get_stream_contents(self, obj):
+        return None
+
+    def get_collaborator_permission(self, obj):
+        return None
+
+    def get_stream_permission(selfs, obj):
+        return None
+
+    def get_collaborators(self, obj):
+        return None
+
+    def get_contents(self, obj):
+        return  None
 
 
 class ContentListSerializer(serializers.ListSerializer):
