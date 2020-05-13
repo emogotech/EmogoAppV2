@@ -57,12 +57,32 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             ),
             Prefetch(
                 'collaborator_list',
-                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                queryset=Collaborator.actives.all().select_related('created_by').annotate(collab_username=Subquery(
+                    User.objects.filter(username=OuterRef('phone_number')).values(
+                    'username')[:1])).annotate(collab_fullname=Subquery(User.objects.select_related("user_data__full_name").filter(
+                    username=OuterRef('phone_number')).values(
+                    'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
+                    User.objects.select_related("user_data__user_image").filter(username=OuterRef('phone_number')).values(
+                    'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
+                    User.objects.filter(username=OuterRef('phone_number')).values(
+                    'id')[:1])).annotate(collab_userdata_id=Subquery(
+                    User.objects.select_related("user_data__id").filter(username=OuterRef('phone_number')).values(
+                    'user_data__id')[:1])).order_by('-id'),
                 to_attr='stream_collaborator'
             ),
             Prefetch(
                 'collaborator_list',
-                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                queryset=Collaborator.collab_actives.all().select_related('created_by').annotate(collab_username=Subquery(
+                    User.objects.filter(username=OuterRef('phone_number')).values(
+                    'username')[:1])).annotate(collab_fullname=Subquery(User.objects.select_related("user_data__full_name").filter(
+                    username=OuterRef('phone_number')).values(
+                    'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
+                    User.objects.select_related("user_data__user_image").filter(username=OuterRef('phone_number')).values(
+                    'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
+                    User.objects.filter(username=OuterRef('phone_number')).values(
+                    'id')[:1])).annotate(collab_userdata_id=Subquery(
+                    User.objects.select_related("user_data__id").filter(username=OuterRef('phone_number')).values(
+                    'user_data__id')[:1])).order_by('-id'),
                 to_attr='stream_collaborator_verified'
             ),
             Prefetch(
@@ -122,7 +142,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         """
 
         instance = self.get_object()
-        self.serializer_class = ViewStreamSerializer
+        self.serializer_class = OptimisedViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
@@ -145,9 +165,9 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = OptimisedViewStreamSerializer
         from django.db.models import Subquery, OuterRef
 
-        m = Collaborator.objects.annotate(new_finds=Subquery(
-            User.objects.filter(username=OuterRef('phone_number'))[:1]
-        )).filter(id=9183)
+        # m = Collaborator.objects.annotate(new_finds=Subquery(
+        #     User.objects.filter(username=OuterRef('phone_number'))[:1]
+        # )).filter(id=9183)
 
         # Collaborator.objects.user
         queryset = self.filter_queryset(self.queryset)

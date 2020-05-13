@@ -360,53 +360,53 @@ class ViewStreamSerializer(StreamSerializer):
         except Exception:
             return '0'
             
-    def get_collab_data(self, obj, instances):
-        list_of_instances = list()
-        user_qs = list()
-        if instances.__len__() > 0:
+    # def get_collab_data(self, obj, instances):
+    #     list_of_instances = list()
+    #     user_qs = list()
+    #     if instances.__len__() > 0:
 
-            # If logged-in user is owner of stream show all collaborator
-            current_url = resolve(self.context.get('request').path_info).url_name
+    #         # If logged-in user is owner of stream show all collaborator
+    #         current_url = resolve(self.context.get('request').path_info).url_name
 
-            # If user as owner or want to get all collaborator list
-            if current_url == 'stream_collaborator' or obj.created_by == self.context.get('request').user:
-                phone_numbers = [str(_.phone_number) for _ in instances]
-                if phone_numbers.__len__() > 0:
-                    condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
-                    user_qs = User.objects.filter(condition).filter(is_active=True).values('id', 'user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
-            # else Show collaborator created by logged in user.
-            else:
-                phone_numbers = [str(_.phone_number) for _ in instances]
-                if phone_numbers.__len__() > 0:
-                    condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
-                    user_qs = User.objects.filter(condition).filter(is_active=True).values('id', 'user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
+    #         # If user as owner or want to get all collaborator list
+    #         if current_url == 'stream_collaborator' or obj.created_by == self.context.get('request').user:
+    #             phone_numbers = [str(_.phone_number) for _ in instances]
+    #             if phone_numbers.__len__() > 0:
+    #                 condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
+    #                 user_qs = User.objects.filter(condition).filter(is_active=True).values('id', 'user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
+    #         # else Show collaborator created by logged in user.
+    #         else:
+    #             phone_numbers = [str(_.phone_number) for _ in instances]
+    #             if phone_numbers.__len__() > 0:
+    #                 condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
+    #                 user_qs = User.objects.filter(condition).filter(is_active=True).values('id', 'user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
 
-            if user_qs.__len__() > 0:
-                for user, instance in product(user_qs, instances):
-                    # print(user.get('username'), instance.phone_number)
-                    # If some collaborator are registered
-                    if user.get('username') is not None and user.get('username').endswith(instance.phone_number):
-                        setattr(instance, 'name', user.get('user_data__full_name'))
-                        setattr(instance, 'user_profile_id', user.get('user_data__id'))
-                        setattr(instance, 'user_id', user.get('id'))
-                        setattr(instance, 'user_image', user.get('user_data__user_image'))
-                    # If some collaborator are not registered.
-                    elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in [x.phone_number for x in list_of_instances]:
-                        setattr(instance, 'name', instance.name)
-                        setattr(instance, 'user_profile_id', None)
-                        setattr(instance, 'user_id', None)
-                        setattr(instance, 'user_image', None)
-                    list_of_instances.append(instance)
-            # If any collaborator is not registered
-            else:
-                for instance in instances:
-                    setattr(instance, 'name', instance.name)
-                    setattr(instance, 'user_profile_id', None)
-                    setattr(instance, 'user_id', None)
-                    setattr(instance, 'user_image', None)
-                    list_of_instances.append(instance)
-            list_of_instances = list(set(list_of_instances))
-        return list_of_instances
+    #         if user_qs.__len__() > 0:
+    #             for user, instance in product(user_qs, instances):
+    #                 # print(user.get('username'), instance.phone_number)
+    #                 # If some collaborator are registered
+    #                 if user.get('username') is not None and user.get('username').endswith(instance.phone_number):
+    #                     setattr(instance, 'name', user.get('user_data__full_name'))
+    #                     setattr(instance, 'user_profile_id', user.get('user_data__id'))
+    #                     setattr(instance, 'user_id', user.get('id'))
+    #                     setattr(instance, 'user_image', user.get('user_data__user_image'))
+    #                 # If some collaborator are not registered.
+    #                 elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in [x.phone_number for x in list_of_instances]:
+    #                     setattr(instance, 'name', instance.name)
+    #                     setattr(instance, 'user_profile_id', None)
+    #                     setattr(instance, 'user_id', None)
+    #                     setattr(instance, 'user_image', None)
+    #                 list_of_instances.append(instance)
+    #         # If any collaborator is not registered
+    #         else:
+    #             for instance in instances:
+    #                 setattr(instance, 'name', instance.name)
+    #                 setattr(instance, 'user_profile_id', None)
+    #                 setattr(instance, 'user_id', None)
+    #                 setattr(instance, 'user_image', None)
+    #                 list_of_instances.append(instance)
+    #         list_of_instances = list(set(list_of_instances))
+    #     return list_of_instances
 
     def get_collab_images(self, obj):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status', 'created_by')
@@ -569,8 +569,27 @@ class OptimisedViewStreamSerializer(ViewStreamSerializer):
     def get_stream_permission(selfs, obj):
         return None
 
-    def get_collaborators(self, obj):
-        return None
+    def get_collab_data(self, obj, instances):
+        list_of_instances = list()
+        if instances.__len__() > 0:
+            for instance in instances:
+                # If some collaborator are registered
+                if instance.collab_username and instance.collab_username.endswith(instance.phone_number):
+                    setattr(instance, 'name', instance.collab_fullname)
+                    setattr(instance, 'user_profile_id', None)
+                    setattr(instance, 'user_id', instance.collab_user_id)
+                    setattr(instance, 'user_image', None)
+                # If some collaborator are not registered.
+                else:
+                    setattr(instance, 'name', instance.name)
+                    setattr(instance, 'user_profile_id', None)
+                    setattr(instance, 'user_id', None)
+                    setattr(instance, 'user_image', None)
+                list_of_instances.append(instance)
+        return list_of_instances
+
+    # def get_collaborators(self, obj):
+    #     return None
 
     def get_contents(self, obj):
         return  None

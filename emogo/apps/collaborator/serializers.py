@@ -59,7 +59,6 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
 
 
     def get_phone_number(self, obj):
-        return  None
         user_objects = User.objects.filter(username__endswith=obj.phone_number[-10:])
 
         if user_objects.__len__() > 0:
