@@ -76,3 +76,16 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
     # Get User id 
     def get_user_id(self, obj):
         return obj.user_id
+
+
+class OptimisedViewCollaboratorSerializer(ViewCollaboratorSerializer):
+
+    def get_phone_number(self, obj):
+        if obj.collab_username:
+            return obj.collab_username
+        return None
+
+    def get_added_by_me(self, obj):
+        if self.context['request'].user == obj.created_by and obj.collab_username:
+            return True
+        return False

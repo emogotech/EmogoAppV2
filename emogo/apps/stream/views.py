@@ -25,8 +25,8 @@ from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.models import UserFollow
 from emogo.apps.notification.models import Notification
 from emogo.apps.notification.views import NotificationAPI
-from django.db.models import Prefetch, Count, Q, When, Case, IntegerField
-from django.db.models import QuerySet
+from django.db.models import (Prefetch, Count, Q, When, Case, IntegerField, OuterRef, Subquery,
+                              QuerySet)
 from django.contrib.auth.models import User
 import datetime
 from rest_framework import filters
@@ -40,8 +40,6 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     Stream CRUD API
     """
     serializer_class = StreamSerializer
-    from django.db.models import OuterRef, Subquery
-    newest = User.objects.get(id=2)
     queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related('created_by__user_data__user').prefetch_related(
             Prefetch(
                 "stream_contents",
@@ -58,30 +56,30 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             Prefetch(
                 'collaborator_list',
                 queryset=Collaborator.actives.all().select_related('created_by').annotate(collab_username=Subquery(
-                    User.objects.filter(username=OuterRef('phone_number')).values(
-                    'username')[:1])).annotate(collab_fullname=Subquery(User.objects.select_related("user_data__full_name").filter(
-                    username=OuterRef('phone_number')).values(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                    'username')[:1])).annotate(collab_fullname=Subquery(User.objects.filter(
+                    username__endswith=OuterRef('phone_number')).values(
                     'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
-                    User.objects.select_related("user_data__user_image").filter(username=OuterRef('phone_number')).values(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
                     'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
-                    User.objects.filter(username=OuterRef('phone_number')).values(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
                     'id')[:1])).annotate(collab_userdata_id=Subquery(
-                    User.objects.select_related("user_data__id").filter(username=OuterRef('phone_number')).values(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
                     'user_data__id')[:1])).order_by('-id'),
                 to_attr='stream_collaborator'
             ),
             Prefetch(
                 'collaborator_list',
                 queryset=Collaborator.collab_actives.all().select_related('created_by').annotate(collab_username=Subquery(
-                    User.objects.filter(username=OuterRef('phone_number')).values(
-                    'username')[:1])).annotate(collab_fullname=Subquery(User.objects.select_related("user_data__full_name").filter(
-                    username=OuterRef('phone_number')).values(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                    'username')[:1])).annotate(collab_fullname=Subquery(User.objects.filter(
+                    username__endswith=OuterRef('phone_number')).values(
                     'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
-                    User.objects.select_related("user_data__user_image").filter(username=OuterRef('phone_number')).values(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
                     'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
-                    User.objects.filter(username=OuterRef('phone_number')).values(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
                     'id')[:1])).annotate(collab_userdata_id=Subquery(
-                    User.objects.select_related("user_data__id").filter(username=OuterRef('phone_number')).values(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
                     'user_data__id')[:1])).order_by('-id'),
                 to_attr='stream_collaborator_verified'
             ),
@@ -108,8 +106,13 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             ),
             Prefetch(
                 'folder',
-                queryset=Folder.objects.only("name"),
+                queryset=Folder.objects.select_related("owner"),
                 to_attr='folders'
+            ),
+            Prefetch(
+                'seen_stream',
+                queryset=NewEmogoViewStatusOnly.objects.all().select_related("user"),
+                to_attr='user_stream_seen_status'
             ),
         ).order_by('-stream_view_count')
     authentication_classes = (TokenAuthentication,)
@@ -163,7 +166,6 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
 
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = OptimisedViewStreamSerializer
-        from django.db.models import Subquery, OuterRef
 
         # m = Collaborator.objects.annotate(new_finds=Subquery(
         #     User.objects.filter(username=OuterRef('phone_number'))[:1]
@@ -203,8 +205,8 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         serializer.is_valid(raise_exception=True)
         stream = serializer.create(serializer.validated_data)
         # To return created stream data
-        self.serializer_class = ViewStreamSerializer
-        stream = self.queryset.filter(id=stream.id).prefetch_related('stream_contents', 'collaborator_list')[0]
+        self.serializer_class = OptimisedViewStreamSerializer
+        stream = self.queryset.prefetch_related('stream_contents', 'collaborator_list').get(id=stream.id)
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
                   'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
                   'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
@@ -245,7 +247,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         #     instance.folder = None
         #     instance.save()
         instance = self.get_object()
-        self.serializer_class = ViewStreamSerializer
+        self.serializer_class = OptimisedViewStreamSerializer
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
                   'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
                   'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
