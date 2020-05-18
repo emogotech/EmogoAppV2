@@ -85,7 +85,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
         # Create user deep link url
         thread = threading.Thread(target=create_user_deep_link, args=[user])
         thread.start()
-        create_user_deep_link(user)
+        # create_user_deep_link(user)
         return user
 
     def validate_user_name(self, value):
