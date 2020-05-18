@@ -923,7 +923,8 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
             stream = obj.get('stream') 
         except:
             stream = obj
-        return LikeDislikeStream.objects.filter(status=1, stream=stream)
+        return LikeDislikeStream.objects.filter(
+            status=1, stream=stream).select_related('user__user_data')
 
     def get_total_liked(self, obj):
         return self.liked(obj).aggregate(total_liked=Count('id')).get('total_liked',0)
@@ -931,7 +932,12 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
     def get_user_liked(self, obj):
         # Find the logged in user and fetch current user's followers 
         try:
-            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if x.user.id in  self.context.get('followers') else False } for x in self.liked(obj) ]
+            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id,
+                    'user_image': x.user.user_data.user_image,
+                    'full_name': x.user.user_data.full_name,
+                    'display_name': x.user.user_data.display_name,
+                    'is_following': True if x.user.id in  self.context.get(
+                        'followers') else False } for x in self.liked(obj)]
         except AttributeError:
             return None
 
