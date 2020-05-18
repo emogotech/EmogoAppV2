@@ -269,7 +269,8 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             url=data.get('url'),
             type=data.get('type'),
             html_text=data.get("html_text"),
-            created_by=self.context.get('request').user
+            created_by=self.context.get('request').user,
+            description=data.get("description")
         )
         content.save()
         # Add content to stream
