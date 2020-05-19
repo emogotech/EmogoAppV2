@@ -31,6 +31,7 @@ from django.contrib.auth.models import User
 import datetime
 from rest_framework import filters
 import logging
+import threading
 # logger = logging.getLogger('watchtower-logger')
 logger_name = logging.getLogger('email_log')
 
@@ -1004,6 +1005,21 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         if kwargs.get('stream_id') is not None:
             return self.retrieve(request, *args, **kwargs)
 
+    def send_like_dislike_notification(self, version, stream, serializer):
+        noti = Notification.objects.filter(
+            notification_type='liked_emogo', stream=stream, from_user=self.request.user,
+            to_user=stream.created_by)
+        if noti.__len__() > 0:
+            noti[0].is_open = False if noti[0].is_open else True
+            noti[0].save()
+        if (serializer.data.get('status') == 1) and (
+                self.request.user != stream.created_by) and version:
+            if noti.__len__() > 0 :
+                NotificationAPI().initialize_notification(noti[0])
+            else:
+                NotificationAPI().send_notification(
+                    self.request.user, stream.created_by, 'liked_emogo', stream)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -1014,16 +1030,21 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
-        stream = Stream.objects.get(id =  serializer.data.get('stream'))
-        noti = Notification.objects.filter(notification_type = 'liked_emogo' , stream = stream, from_user = self.request.user, to_user = stream.created_by)
-        if noti.__len__() > 0:
-            noti[0].is_open = False if noti[0].is_open else True
-            noti[0].save()
-        if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and kwargs.get('version'):
-            if noti.__len__() > 0 :
-                NotificationAPI().initialize_notification(noti[0])
-            else:
-                NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
+        stream = Stream.objects.select_related("created_by").get(id=serializer.data.get('stream'))
+        thread = threading.Thread(target=self.send_like_dislike_notification, args=(
+                [kwargs.get('version'), stream, serializer]))
+        thread.start()
+        # noti = Notification.objects.filter(
+        #     notification_type='liked_emogo', stream=stream, from_user=self.request.user,
+        #     to_user=stream.created_by)
+        # if noti.__len__() > 0:
+        #     noti[0].is_open = False if noti[0].is_open else True
+        #     noti[0].save()
+        # if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and kwargs.get('version'):
+        #     if noti.__len__() > 0 :
+        #         NotificationAPI().initialize_notification(noti[0])
+        #     else:
+        #         NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
         # To return created stream data
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
     
