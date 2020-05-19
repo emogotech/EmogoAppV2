@@ -9,9 +9,11 @@ from rest_framework.permissions import IsAuthenticated
 # django rest
 from rest_framework.views import APIView
 # serializer
-from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
-    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer, \
-    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer, UserDeviceTokenSerializer, ViewGetTopStreamSerializer
+from emogo.apps.users.serializers import (
+    UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer,
+    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer,
+    VerifyOtpLoginSerializer, UserFollowSerializer, UserListFollowerFollowingSerializer,
+    CheckContactInEmogoSerializer, UserDeviceTokenSerializer, ViewGetTopStreamSerializer)
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -1354,24 +1356,28 @@ class SuggestedFollowUser(APIView):
     permission_classes = (IsAuthenticated,)
 
     def use_fields_follow(self):
-        fields = ['user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url', 'followers', 'following', 'display_name', 'is_buisness_account', 'emogo_count']
-
+        fields = ['user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower',
+                  'user_image', 'phone_number', 'location', 'website', 'biography',
+                  'birthday', 'branchio_url', 'followers', 'following', 'display_name',
+                  'is_buisness_account', 'emogo_count']
         return fields
 
 
     def get(self, request, *args, **kwargs):
-        suggested_obj =  UserProfile.actives.filter(is_suggested=True).exclude(user_id=self.request.user.id).prefetch_related(
-                                Prefetch(
-                                    "user__who_follows",
-                                    queryset=UserFollow.objects.all(),
-                                    to_attr="followers"
-                                ),
-                                Prefetch(
-                                    'user__who_is_followed',
-                                    queryset=UserFollow.objects.all(),
-                                    to_attr='following'
-                                )).order_by('full_name')
+        suggested_obj =  UserProfile.actives.filter(is_suggested=True).exclude(
+            user_id=self.request.user.id).annotate(
+                stream_counts=Count(Case(When(user__stream__status="Active", then=1),
+                output_field=IntegerField()))).prefetch_related(
+                    Prefetch(
+                        "user__who_follows",
+                        queryset=UserFollow.objects.all(),
+                        to_attr="followers"
+                    ),
+                    Prefetch(
+                        'user__who_is_followed',
+                        queryset=UserFollow.objects.all(),
+                        to_attr='following'
+                    )).order_by('full_name')
 
         serializer = UserDetailSerializer(suggested_obj[0:15], many=True,fields=self.use_fields_follow(),  context=self.request)
         serializer = sorted(serializer.data, key=lambda x: x['is_following'])
