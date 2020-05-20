@@ -564,6 +564,15 @@ class ViewStreamSerializer(StreamSerializer):
 
 class OptimisedViewStreamSerializer(ViewStreamSerializer):
 
+    def get_total_stream_collaborators(self, obj):
+        try:
+            if hasattr(obj, "stream_collaborator_verified"):
+                return obj.stream_collaborator_verified.__len__()
+            return [collab for collab in obj.stream_collaborator if \
+                collab.status in ['Active', 'Unverified']].__len__()
+        except Exception:
+            return '0'
+
     def get_have_some_update(self, obj):
         view_status = [state for state in obj.user_stream_seen_status if \
             state.user == self.context.get('request').user]
@@ -629,7 +638,10 @@ class OptimisedViewStreamSerializer(ViewStreamSerializer):
                   'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status',
                   'created_by')
         if self.context.get('version'):
-            instances = obj.stream_collaborator_verified
+            if hasattr(obj, "stream_collaborator_verified"):
+                instances = obj.stream_collaborator_verified
+            instances = [collab for collab in obj.stream_collaborator if \
+                collab.status in ['Active', 'Unverified']]
         else:
             instances = obj.stream_collaborator
         list_of_instances = self.get_collab_data(obj, instances)
