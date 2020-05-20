@@ -36,11 +36,20 @@ class StreamFilter(django_filters.FilterSet):
         # return result_list
 
         #Get only starred stream in cronological order
-        starred_stream = qs.filter(created_by=self.request.user, stream_starred__id__isnull=False).order_by('-stream_starred__upd')
+        # starred_stream = qs.filter(created_by=self.request.user, stream_starred__id__isnull=False).order_by('-stream_starred__upd')
+        # #Get not starred stream in cronological order
+        # un_starred_stream = qs.filter(created_by=self.request.user, stream_starred__id__isnull=True).order_by('-upd')
+        starred_stream = Stream.objects.select_related(
+            "created_by").filter(
+            created_by=self.request.user, stream_starred__id__isnull=False).order_by(
+            '-stream_starred__upd')
         #Get not starred stream in cronological order
-        un_starred_stream = qs.filter(created_by=self.request.user, stream_starred__id__isnull=True).order_by('-upd')
+        un_starred_stream = Stream.objects.select_related(
+            "created_by").filter(
+            created_by=self.request.user, stream_starred__id__isnull=True).order_by('-upd')
         # Merge result
-        return list(chain(starred_stream, un_starred_stream))
+        stream_list = list(chain(starred_stream, un_starred_stream))
+        return qs.filter(id__in=[obj.id for obj in stream_list])
 
     def filter_self_created(self, qs, name, value):
         # Fetch all self created streams
