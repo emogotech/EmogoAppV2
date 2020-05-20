@@ -259,6 +259,8 @@ class UserDetailSerializer(UserProfileSerializer):
         return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data
 
     def get_emogo_count(self, obj):
+        if hasattr(obj, "stream_counts"):
+            return obj.stream_counts
         return obj.user.stream_set.all().filter(status='Active').count()
 
 class UserListFollowerFollowingSerializer(UserDetailSerializer):
