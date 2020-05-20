@@ -69,21 +69,21 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                     'user_data__id')[:1])).order_by('-id'),
                 to_attr='stream_collaborator'
             ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.collab_actives.all().select_related('created_by').annotate(collab_username=Subquery(
-                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
-                    'username')[:1])).annotate(collab_fullname=Subquery(User.objects.filter(
-                    username__endswith=OuterRef('phone_number')).values(
-                    'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
-                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
-                    'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
-                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
-                    'id')[:1])).annotate(collab_userdata_id=Subquery(
-                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
-                    'user_data__id')[:1])).order_by('-id'),
-                to_attr='stream_collaborator_verified'
-            ),
+            # Prefetch(
+            #     'collaborator_list',
+            #     queryset=Collaborator.collab_actives.all().select_related('created_by').annotate(collab_username=Subquery(
+            #         User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+            #         'username')[:1])).annotate(collab_fullname=Subquery(User.objects.filter(
+            #         username__endswith=OuterRef('phone_number')).values(
+            #         'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
+            #         User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+            #         'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
+            #         User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+            #         'id')[:1])).annotate(collab_userdata_id=Subquery(
+            #         User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+            #         'user_data__id')[:1])).order_by('-id'),
+            #     to_attr='stream_collaborator_verified'
+            # ),
             Prefetch(
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
