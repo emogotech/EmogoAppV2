@@ -37,24 +37,26 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     folder = serializers.SerializerMethodField()
 
     def get_folder_name(self, obj):
-        folder_names = [fd.name for fd in obj.folders if fd.owner == self.context["request"].user]
-        if folder_names:
-            return folder_names[0]
+        if hasattr(obj, "folders"):
+            folder_names = [fd.name for fd in obj.folders if fd.owner == self.context["request"].user]
+            if folder_names:
+                return folder_names[0]
+        else:
+            user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
+            if user_stream_folder:
+                return user_stream_folder.name
         return None
-        # user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
-        # if user_stream_folder:
-        #     return user_stream_folder.name
-        # return None
 
     def get_folder(self, obj):
-        folder_ids = [fd.id for fd in obj.folders if fd.owner == self.context["request"].user]
-        if folder_ids:
-            return folder_ids[0]
+        if hasattr(obj, "folders"):
+            folder_ids = [fd.id for fd in obj.folders if fd.owner == self.context["request"].user]
+            if folder_ids:
+                return folder_ids[0]
+        else:
+            user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
+            if user_stream_folder:
+                return user_stream_folder.id
         return None
-        # user_stream_folder = obj.folder.filter(owner=self.context["request"].user).first()
-        # if user_stream_folder:
-        #     return user_stream_folder.id
-        # return None
 
     # def is_valid(self, *args, **kwargs):
     #     if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
@@ -574,7 +576,7 @@ class OptimisedViewStreamSerializer(ViewStreamSerializer):
             return '0'
 
     def get_have_some_update(self, obj):
-        view_status = [state for state in obj.user_stream_seen_status if \
+        view_status = [state for state in obj.user_seen_streams if \
             state.user == self.context.get('request').user]
         if view_status:
             return view_status[0].have_some_update

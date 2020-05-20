@@ -40,7 +40,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     """
     Stream CRUD API
     """
-    serializer_class = StreamSerializer
+    serializer_class = OptimisedViewStreamSerializer
     queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related('created_by__user_data__user').prefetch_related(
             Prefetch(
                 "stream_contents",
@@ -113,7 +113,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             Prefetch(
                 'seen_stream',
                 queryset=NewEmogoViewStatusOnly.objects.all().select_related("user"),
-                to_attr='user_stream_seen_status'
+                to_attr='user_seen_streams'
             ),
         ).order_by('-stream_view_count')
     authentication_classes = (TokenAuthentication,)
@@ -164,7 +164,6 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def list(self, request,  *args, **kwargs):
-
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = OptimisedViewStreamSerializer
 
@@ -1673,10 +1672,10 @@ class UserLikedContentAPI(ListAPIView):
 
 
 class SearchEmogoAPI(ListAPIView):
-    serializer_class = ViewStreamSerializer
+    serializer_class = OptimisedViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+    queryset = Stream.actives.all().select_related(
         'created_by__user_data__user').prefetch_related(
         Prefetch(
             "stream_contents",
@@ -1692,20 +1691,25 @@ class SearchEmogoAPI(ListAPIView):
         ),
         Prefetch(
             'collaborator_list',
-            queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+            queryset=Collaborator.actives.all().select_related('created_by').annotate(collab_username=Subquery(
+                User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                'username')[:1])).annotate(collab_fullname=Subquery(User.objects.filter(
+                username__endswith=OuterRef('phone_number')).values(
+                'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
+                User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
+                User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                'id')[:1])).annotate(collab_userdata_id=Subquery(
+                User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                'user_data__id')[:1])).order_by('-id'),
             to_attr='stream_collaborator'
-        ),
-        Prefetch(
-            'collaborator_list',
-            queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
-            to_attr='stream_collaborator_verified'
         ),
         Prefetch(
             'stream_like_dislike_status',
             queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
                 Prefetch(
                     "user__who_follows",
-                    queryset=UserFollow.objects.all(),
+                    queryset=UserFollow.objects.select_related("follower").all(),
                     to_attr='user_liked_followers'
                 ),
             ),
@@ -1725,6 +1729,11 @@ class SearchEmogoAPI(ListAPIView):
             'seen_stream',
             queryset=NewEmogoViewStatusOnly.objects.filter().select_related('user'),
             to_attr='user_seen_streams'
+        ),
+        Prefetch(
+            'folder',
+            queryset=Folder.objects.select_related("owner"),
+            to_attr='folders'
         ),
     ).order_by('-id')
 
