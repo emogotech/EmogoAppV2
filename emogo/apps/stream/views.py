@@ -30,6 +30,7 @@ from django.db.models import (Prefetch, Count, Q, When, Case, IntegerField, Oute
 from django.contrib.auth.models import User
 import datetime
 from rest_framework import filters
+from django.core.exceptions import ObjectDoesNotExist
 import logging
 import threading
 # logger = logging.getLogger('watchtower-logger')
