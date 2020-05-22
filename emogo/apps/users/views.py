@@ -13,7 +13,8 @@ from emogo.apps.users.serializers import (
     UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer,
     UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer,
     VerifyOtpLoginSerializer, UserFollowSerializer, UserListFollowerFollowingSerializer,
-    CheckContactInEmogoSerializer, UserDeviceTokenSerializer, ViewGetTopStreamSerializer)
+    CheckContactInEmogoSerializer, UserDeviceTokenSerializer, ViewGetTopStreamSerializer,
+    OptimisedUserDetailSerializer)
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -33,7 +34,7 @@ from django.db.models.query import QuerySet
 from emogo.apps.users.autofixtures import UserAutoFixture
 from django.http import HttpResponse
 from django.http import Http404
-from django.db.models import Prefetch, Count
+from django.db.models import Prefetch, Count, OuterRef, Subquery
 from django.db.models import QuerySet, Q
 from emogo.apps.notification.views import NotificationAPI
 import datetime
@@ -50,6 +51,7 @@ from rest_framework import pagination
 import json
 from rest_framework.parsers import MultiPartParser, JSONParser
 from botocore.exceptions import ClientError
+from django.core.exceptions import ObjectDoesNotExist
 import logging
 import random
 import string
@@ -194,7 +196,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
     Users CRUD API
     """
 
-    serializer_class = UserDetailSerializer
+    serializer_class = OptimisedUserDetailSerializer
     queryset = UserProfile.actives.all().select_related('user').order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -218,52 +220,73 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             return self.list(request, *args, **kwargs)
 
     def get_qs_object(self):
-        qs = UserProfile.actives.filter(user_id=self.kwargs.get('user_id')).select_related('user').select_related('profile_stream').prefetch_related(
-            Prefetch(
-                "user__who_follows",
-                queryset=UserFollow.objects.all().order_by('-follow_time'),
-                to_attr="followers"
-            ),
-            Prefetch(
-                'user__who_is_followed',
-                queryset=UserFollow.objects.all().order_by('-follow_time'),
-                to_attr='following'
-            ),
-            Prefetch(
-                'profile_stream__stream_user_view_status',
-                queryset=StreamUserViewStatus.objects.all(),
-                to_attr='total_view_count'
-            ),
-            Prefetch(
-                'profile_stream__stream_like_dislike_status',
-                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
-                to_attr='total_like_dislike_data'
-            ),
-            Prefetch(
-                'profile_stream__collaborator_list',
-                queryset=Collaborator.actives.all(),
-                to_attr='profile_stream_collaborator_list'
-            ),
-            Prefetch(
-                'profile_stream__collaborator_list',
-                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
-                to_attr='profile_stream_collaborator_verified'
-            ),
-            Prefetch(
-                'profile_stream__stream_contents',
-                queryset=StreamContent.objects.all().select_related('content', 'content__created_by__user_data').prefetch_related(
-                    Prefetch(
-                        "content__content_like_dislike_status",
-                        queryset=LikeDislikeContent.objects.filter(status=1),
-                        to_attr='content_liked_user'
-                    )
-                ).order_by('order', '-attached_date'),
-                to_attr="profile_stream_content_list"
-            ),
-        )
-        if qs.__len__() > 0:
-            return qs[0]
-        raise Http404
+        try:
+            return UserProfile.actives.select_related('user').select_related(
+                'profile_stream').prefetch_related(
+                Prefetch(
+                    "user__who_follows",
+                    queryset=UserFollow.objects.select_related(
+                        "follower").order_by('-follow_time'),
+                    to_attr="followers"
+                ),
+                Prefetch(
+                    'user__who_is_followed',
+                    queryset=UserFollow.objects.all().order_by('-follow_time'),
+                    to_attr='following'
+                ),
+                Prefetch(
+                    'profile_stream__stream_user_view_status',
+                    queryset=StreamUserViewStatus.objects.all(),
+                    to_attr='total_view_count'
+                ),
+                Prefetch(
+                    'profile_stream__stream_like_dislike_status',
+                    queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
+                    to_attr='total_like_dislike_data'
+                ),
+                Prefetch(
+                    'profile_stream__collaborator_list',
+                    queryset=Collaborator.actives.all().select_related('created_by').annotate(
+                        collab_username=Subquery(
+                        User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                        'username')[:1])).annotate(collab_fullname=Subquery(User.objects.filter(
+                        username__endswith=OuterRef('phone_number')).values(
+                        'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
+                        User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                        'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
+                        User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                        'id')[:1])).annotate(collab_userdata_id=Subquery(
+                        User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                        'user_data__id')[:1])).order_by('-id'),
+                    to_attr='profile_stream_collaborator_list'
+                ),
+                # Prefetch(
+                #     'profile_stream__collaborator_list',
+                #     queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                #     to_attr='profile_stream_collaborator_verified'
+                # ),
+                Prefetch(
+                    'profile_stream__stream_contents',
+                    queryset=StreamContent.objects.all().select_related('content', 'content__created_by__user_data').prefetch_related(
+                        Prefetch(
+                            "content__content_like_dislike_status",
+                            queryset=LikeDislikeContent.objects.filter(status=1),
+                            to_attr='content_liked_user'
+                        )
+                    ).order_by('order', '-attached_date'),
+                    to_attr="profile_stream_content_list"
+                ),
+                Prefetch(
+                    'profile_stream__seen_stream',
+                    queryset=NewEmogoViewStatusOnly.objects.all().select_related("user"),
+                    to_attr='user_seen_streams'
+                ),
+            ).get(user_id=self.kwargs.get('user_id'))
+        except ObjectDoesNotExist:
+            raise Http404
+        # if qs.__len__() > 0:
+        #     return qs[0]
+        # raise Http404
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -272,8 +295,10 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :param kwargs: dict param
         :return: Get User profile API.
         """
-        fields = ('user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name', 'is_buisness_account', 'emogo_count')
+        fields = ('user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower',
+                  'user_image', 'phone_number', 'location', 'website', 'biography',
+                  'birthday', 'branchio_url', 'profile_stream', 'followers', 'following',
+                  'display_name', 'is_buisness_account', 'emogo_count')
 
         instance = self.get_qs_object()
         # If requested user is logged in user
@@ -314,9 +339,9 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
 
         instance = self.get_object()
         fields = (
-        'user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number',
-        'location', 'website',
-        'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name')
+        'user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower',
+        'user_image', 'phone_number', 'location', 'website', 'biography', 'birthday',
+        'branchio_url', 'profile_stream', 'followers', 'following', 'display_name')
 
         # If requested user is logged in user
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -331,7 +356,8 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         if instance.user == self.request.user:
             fields = fields + ('token',)
 
-        serializer = UserDetailSerializer(self.get_qs_object(), fields=fields, context=self.get_serializer_context())
+        serializer = OptimisedUserDetailSerializer(
+            self.get_qs_object(), fields=fields, context=self.get_serializer_context())
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def delete_objects(self, image_array):
