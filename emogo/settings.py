@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'branchio',
     'emogo.apps.notification',
     'health_check',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
