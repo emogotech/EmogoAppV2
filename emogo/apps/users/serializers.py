@@ -10,7 +10,8 @@ from emogo.apps.users.models import UserProfile, create_user_deep_link, update_u
 from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
-from emogo.apps.stream.serializers import ViewStreamSerializer, ViewContentSerializer
+from emogo.apps.stream.serializers import (
+    ViewStreamSerializer, ViewContentSerializer, OptimisedViewStreamSerializer)
 from emogo.apps.stream.models import Stream, LikeDislikeStream, RecentUpdates, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
     LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
 from emogo.apps.collaborator.models import Collaborator
@@ -262,6 +263,39 @@ class UserDetailSerializer(UserProfileSerializer):
         if hasattr(obj, "stream_counts"):
             return obj.stream_counts
         return obj.user.stream_set.all().filter(status='Active').count()
+
+
+class OptimisedUserDetailSerializer(UserDetailSerializer):
+
+    def get_profile_stream(self, obj):
+        fields = (
+            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type',
+            'height', 'width', 'have_some_update', 'stream_permission', 'color',
+            'stream_contents', 'collaborator_permission', 'total_collaborator',
+            'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
+            'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description',
+            'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
+
+        if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
+            if self.context['version']:
+                collaborator_list =  [collab for collab in \
+                        obj.profile_stream.profile_stream_collaborator_list if \
+                            collab.status in ['Active', 'Unverified']]
+                setattr(obj.profile_stream, 'stream_collaborator_verified', collaborator_list)
+            else:
+                collaborator_list =  obj.profile_stream.profile_stream_collaborator_list
+            setattr(obj.profile_stream, 'stream_collaborator', collaborator_list)
+            setattr(obj.profile_stream, 'content_list', obj.profile_stream.profile_stream_content_list)
+
+            if obj.profile_stream.type == 'Private' and obj.profile_stream.created_by != self.get_user_instance():
+                if self.get_user_instance().username in [x.phone_number for x in collaborator_list]:
+                    return OptimisedViewStreamSerializer(obj.profile_stream, fields=fields, context = self.context).data
+                return dict()
+            else:
+                return OptimisedViewStreamSerializer(
+                    obj.profile_stream, fields=fields, context = self.context).data
+        return dict()
+
 
 class UserListFollowerFollowingSerializer(UserDetailSerializer):
     pass
