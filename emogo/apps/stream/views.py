@@ -122,7 +122,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     filter_class = StreamFilter
 
     def get_serializer_context(self):
-        return {'request': self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -906,7 +906,7 @@ class MoveContentToStream(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get_serializer_context(self):
-        return {'request': self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def post(self, request, *args, **kwargs):
         """
@@ -1234,6 +1234,7 @@ class ContentShareExtensionAPI(CreateAPIView):
     """
     Save content from share extension API
     """
+    exclude_from_schema = True
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
