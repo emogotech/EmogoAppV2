@@ -204,7 +204,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
     lookup_field= "user_id"
 
     def get_serializer_context(self):
-        return {'request': self.request, 'context':self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'context':self.request, 'version': self.kwargs.get('version')}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -464,7 +464,7 @@ class UserStearms(ListAPIView):
     filter_class = UserStreamFilter
 
     def get_serializer_context(self):
-        return {'request': self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
 
     def get_paginated_response(self, data, status_code=None):
@@ -598,7 +598,7 @@ class UserLikedSteams(ListAPIView):
     queryset = Stream.actives.all()
 
     def get_serializer_context(self):
-        return {'request': self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -696,7 +696,7 @@ class UserCollaborators(ListAPIView):
     queryset = Stream.actives.all()
 
     def get_serializer_context(self):
-        return {'request': self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -830,7 +830,7 @@ class GetTopStreamAPI(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get_serializer_context(self):
-        return {'request': self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def get(self, request, version, *args, **kwargs):
         """
@@ -975,7 +975,7 @@ class GetTopStreamAPIV2(APIView):
         return fields
 
     def get_serializer_context(self):
-        return {'request': self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def get(self, request, version, *args, **kwargs):
         """
@@ -1183,7 +1183,7 @@ class GetTopStreamAPIV3(ListAPIView):
         return fields
 
     def get_serializer_context(self):
-        return {'request': self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def get(self, request, version, *args, **kwargs):
         """
