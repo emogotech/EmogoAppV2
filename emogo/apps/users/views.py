@@ -15,7 +15,8 @@ from emogo.apps.users.serializers import (
     VerifyOtpLoginSerializer, UserFollowSerializer, UserListFollowerFollowingSerializer,
     CheckContactInEmogoSerializer, UserDeviceTokenSerializer, ViewGetTopStreamSerializer,
     OptimisedUserDetailSerializer)
-from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
+from emogo.apps.stream.serializers import (
+    StreamSerializer, ViewStreamSerializer, OptimisedViewStreamSerializer)
 # constants
 from emogo.constants import messages
 # util method
@@ -38,7 +39,7 @@ from django.db.models import Prefetch, Count, OuterRef, Subquery
 from django.db.models import QuerySet, Q
 from emogo.apps.notification.views import NotificationAPI
 import datetime
-from django.db.models import Case, When, Q, IntegerField
+from django.db.models import Case, When, Q, IntegerField, OuterRef, Subquery
 from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer, ViewContentSerializer, FolderSerializer
 from rest_framework import serializers
 from emogo.apps.users.models import Token
@@ -592,7 +593,7 @@ class UserLikedSteams(ListAPIView):
     """
     User Streams API
     """
-    serializer_class = StreamSerializer
+    serializer_class = OptimisedViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     queryset = Stream.actives.all()
@@ -616,8 +617,13 @@ class UserLikedSteams(ListAPIView):
         method if you want to apply the configured filtering backend to the
         default queryset.
         """
-        stream_ids_list = LikeDislikeStream.objects.filter(user=self.request.user, status=1).values_list('stream', flat=True).order_by('-view_date')
-        queryset = queryset.filter(id__in=stream_ids_list).select_related('created_by__user_data').prefetch_related(
+        # stream_ids_list = LikeDislikeStream.objects.filter(
+        #     user=self.request.user, status=1).values_list('stream', flat=True).order_by(
+        #         '-view_date')
+        queryset = queryset.filter(
+            stream_like_dislike_status__user=self.request.user,
+            stream_like_dislike_status__status=1).select_related(
+            'created_by__user_data').prefetch_related(
             Prefetch(
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
@@ -625,17 +631,29 @@ class UserLikedSteams(ListAPIView):
             ),
             Prefetch(
                 'collaborator_list',
-                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                queryset=Collaborator.actives.all().select_related('created_by').annotate(
+                    collab_username=Subquery(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                    'username')[:1])).annotate(collab_fullname=Subquery(User.objects.filter(
+                    username__endswith=OuterRef('phone_number')).values(
+                    'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                    'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                    'id')[:1])).annotate(collab_userdata_id=Subquery(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                    'user_data__id')[:1])).order_by('-id'),
                 to_attr='stream_collaborator'
             ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator_verified'
-            ),
+            # Prefetch(
+            #     'collaborator_list',
+            #     queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+            #     to_attr='stream_collaborator_verified'
+            # ),
             Prefetch(
                 "stream_contents",
-                queryset=StreamContent.objects.all().select_related('content', 'content__created_by__user_data').prefetch_related(
+                queryset=StreamContent.objects.all().select_related(
+                    'content', 'content__created_by__user_data').prefetch_related(
                     Prefetch(
                         "content__content_like_dislike_status",
                         queryset=LikeDislikeContent.objects.filter(status=1),
@@ -646,13 +664,13 @@ class UserLikedSteams(ListAPIView):
             ),
             Prefetch(
                 'stream_like_dislike_status',
-                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
-                        Prefetch(
-                            "user__who_follows",
-                            queryset=UserFollow.objects.all(),
-                            to_attr='user_liked_followers'
-                        ),
-
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related(
+                    'user__user_data').prefetch_related(
+                    Prefetch(
+                        "user__who_follows",
+                        queryset=UserFollow.objects.select_related("follower").all(),
+                        to_attr='user_liked_followers'
+                    ),
                 ),
                 to_attr='total_like_dislike_data'
             ),
@@ -661,29 +679,43 @@ class UserLikedSteams(ListAPIView):
                 queryset=StarredStream.objects.all().select_related('user'),
                 to_attr='total_starred_stream_data'
             ),
+            Prefetch(
+                'seen_stream',
+                queryset=NewEmogoViewStatusOnly.objects.all().select_related("user"),
+                to_attr='user_seen_streams'
+            ),
         )
-        non_converted = queryset
-        queryset = list(queryset)
-        stream_ids_list = list(stream_ids_list)
-        queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
-        return queryset, non_converted
+        # non_converted = queryset
+        # queryset = list(queryset)
+        # stream_ids_list = list(stream_ids_list)
+        # queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
+        return queryset
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
-        self.serializer_class = ViewStreamSerializer
-        queryset, non_converted = self.filter_queryset(self.get_queryset())
+        self.serializer_class = OptimisedViewStreamSerializer
+        queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked']
+        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type',
+                  'height', 'width', 'have_some_update', 'stream_permission', 'color',
+                  'stream_contents', 'collaborator_permission', 'total_collaborator',
+                  'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
+                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description',
+                  'status', 'liked', 'user_liked', 'collab_images',
+                  'total_stream_collaborators', 'is_bookmarked']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         #Search in liked streams
         if request.GET.get('stream_name'):
-            queryset = non_converted.filter(name__icontains=request.GET['stream_name'])
+            queryset = queryset.filter(name__icontains=request.GET['stream_name'])
 
-        page = self.paginate_queryset(queryset)
+        page = self.paginate_queryset(queryset.order_by(
+            "-stream_like_dislike_status__view_date"))
         if page is not None:
-            serializer = self.get_serializer(page, many=True, fields=fields, context=self.request)
-            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+            serializer = self.get_serializer(
+                page, many=True, fields=fields, context=self.request)
+            return self.get_paginated_response(
+                data=serializer.data, status_code=status.HTTP_200_OK)
 
 
 class UserCollaborators(ListAPIView):
