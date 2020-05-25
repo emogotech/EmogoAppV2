@@ -74,6 +74,7 @@ class ActivityLogAPI(ListAPIView):
     """
     Activity Log API CRUD API
     """
+    exclude_from_schema = True
     serializer_class = ActivityLogSerializer
     queryset = Notification.objects.all().order_by('-upd')
     authentication_classes = (TokenAuthentication,)
@@ -103,6 +104,7 @@ class ActivityLogAPI(ListAPIView):
 
 class DeleteNotificationAPI(DestroyAPIView):
     """ Delete Notification """
+    exclude_from_schema = True
     queryset = Notification.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -122,6 +124,7 @@ class DeleteNotificationAPI(DestroyAPIView):
 
 class BadgeCountAPI(ListAPIView):
     """ Badge Count Notification """
+    exclude_from_schema = True
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -138,6 +141,7 @@ class BadgeCountAPI(ListAPIView):
 
 class ResetBadgeCountAPI(ListAPIView):
     """ Reset Badge Count Notification """
+    exclude_from_schema = True
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
