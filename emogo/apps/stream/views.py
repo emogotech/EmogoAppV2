@@ -854,7 +854,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         fields = (
         'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name', 'thread', 'seen_index', 'stream_detail')
+        'user_name', 'thread', 'seen_index')
         content_fields = (
         'id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
         'full_name', 'user_image', 'liked', 'html_text')
@@ -1234,7 +1234,7 @@ class ContentShareExtensionAPI(CreateAPIView):
     """
     Save content from share extension API
     """
-    exclude_from_schema = True
+    swagger_schema = None
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 

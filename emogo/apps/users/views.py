@@ -843,7 +843,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
     serializer_class = UserFollowSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    qs = UserProfile.actives.select_related('user').prefetch_related(
+    queryset = UserProfile.actives.select_related('user').prefetch_related(
             Prefetch( 
                 "user__who_follows", 
                 queryset=UserFollow.objects.all().order_by('-follow_time'), 
@@ -870,7 +870,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         if kwargs.get('version'):
             to_user = User.objects.get(id = self.request.data.get('following'))
             NotificationAPI().send_notification(self.request.user, to_user, 'follower')
-        user_data = self.qs.get(user_id=self.request.user)
+        user_data = self.queryset.get(user_id=self.request.user)
         data = serializer.data
         data.update({'total_followers':user_data.user.followers.__len__(), 'total_following': user_data.user.following.__len__()})
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=data)
@@ -884,7 +884,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         if noti.__len__() > 0 :
             noti.delete()
         self.perform_destroy(instance)
-        user_data = self.qs.get(user_id=self.request.user)
+        user_data = self.queryset.get(user_id=self.request.user)
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={'followers':user_data.user.followers.__len__(), 'following':user_data.user.following.__len__()})
 
     def perform_create(self, serializer):
@@ -1133,6 +1133,7 @@ class GetTopStreamAPIV3(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     pagination_class = ContentPagination
+    swagger_schema = None
 
 
     def get_paginated_response(self, data, status_code=None):
