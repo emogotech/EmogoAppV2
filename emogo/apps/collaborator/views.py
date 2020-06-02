@@ -92,6 +92,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
 
 
 class StreamCollaboratorsAPI(ListAPIView):
+    swagger_schema = None
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -132,6 +133,7 @@ class StreamCollaboratorsAPI(ListAPIView):
 
 
 class CollaboratorDeletionAPI(DestroyAPIView):
+    swagger_schema = None
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 

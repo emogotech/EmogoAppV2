@@ -1132,7 +1132,7 @@ class RecentUpdatesDetailSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = StreamContent
         fields = ('user_image','first_content_cover','stream_name','content_type','added_by_user_id','user_profile_id',
-                  'user_name','seen_index','thread', 'stream_detail')
+                  'user_name','seen_index','thread')
 
     def get_user_image(self, obj):
         return obj.user.user_data.user_image
