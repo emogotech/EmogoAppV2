@@ -150,11 +150,14 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = OptimisedViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
-                  'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
-                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
-                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
-                  'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder', 'folder_name')
+        fields = (
+            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height',
+            'width', 'have_some_update', 'stream_permission', 'color', 'contents',
+            'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator',
+            'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category',
+            'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
+            'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder',
+            'folder_name')
         if current_url == 'stream_collaborator':
             user_data = User.objects.filter(username__in=[x.phone_number for x in instance.stream_collaborator]).values('username','user_data__user_image')
             self.request.data.update({'collab_user_image': user_data})
@@ -175,12 +178,15 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         # Collaborator.objects.user
         queryset = self.filter_queryset(self.queryset)
         #  Customized field list
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
-                  'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission',
-                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
-                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
-                  'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder', 'folder_name'
-                ]
+        fields = [
+            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height',
+            'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents',
+            'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator',
+            'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category',
+            'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
+            'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder',
+            'folder_name'
+        ]
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)
@@ -207,12 +213,15 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         stream = serializer.create(serializer.validated_data)
         # To return created stream data
         self.serializer_class = OptimisedViewStreamSerializer
-        stream = self.queryset.prefetch_related('stream_contents', 'collaborator_list').get(id=stream.id)
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
-                  'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
-                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
-                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
-                  'user_liked', 'collab_images', 'total_stream_collaborators', 'stream_folder_id', "folder"]
+        stream = self.queryset.prefetch_related(
+            'stream_contents', 'collaborator_list').get(id=stream.id)
+        fields = [
+            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type','height',
+            'width', 'have_some_update', 'stream_permission', 'color', 'contents',
+            'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator',
+            'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category',
+            'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
+            'collab_images', 'total_stream_collaborators', 'stream_folder_id', "folder"]
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(stream, context=self.request, fields=fields)
@@ -1815,11 +1824,10 @@ class FolderAPI(CreateAPIView, ListAPIView):
 
     def get_folder_data(self):
         data = {}
-        fields = ("id", "name", "stream_count")
-        folders = Folder.objects.filter(owner=self.request.user).annotate(stream_count=Count(Case(
-                                                                            When(stream_folders__status="Active", then=1),
-                                                                            output_field=IntegerField(),
-                                                                          )))
+        fields = ("id", "name", "icon", "stream_count")
+        folders = Folder.objects.filter(owner=self.request.user).annotate(
+            stream_count=Count(Case(When(stream_folders__status="Active", then=1),
+            output_field=IntegerField())))
         folder_serializer = FolderSerializer(folders, many=True, fields=fields)
         data["folders_count"] = folders.__len__()
         data["folder_data"] = folder_serializer.data
@@ -1832,7 +1840,7 @@ class FolderAPI(CreateAPIView, ListAPIView):
         :param kwargs: dict param
         :return: Create Folder API.
         """
-        serializer = self.get_serializer(data=request.data, fields=("name",))
+        serializer = self.get_serializer(data=request.data, fields=("name", "icon"))
         serializer.is_valid(raise_exception=True)
         serializer.validate_folder_name(request.data.get("name"))
         # To return created folder data
@@ -1869,11 +1877,12 @@ class FolderAPI(CreateAPIView, ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         # serializer = self.get_serializer(queryset, many=True)
-        fields = ("id", "name")
+        fields = ("id", "name", "icon")
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
-            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+            return self.get_paginated_response(
+                data=serializer.data, status_code=status.HTTP_200_OK)
 
 
 class StreamMoveToFolderAPI(UpdateAPIView):
