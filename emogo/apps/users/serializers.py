@@ -196,6 +196,11 @@ class UserDetailSerializer(UserProfileSerializer):
         model = UserProfile
         fields = '__all__'
 
+    def get_following_count(self):
+        return None
+
+    def get_followers_count(self):
+        return None
 
     def get_user_instance(self):
         if isinstance(self.context, dict):
