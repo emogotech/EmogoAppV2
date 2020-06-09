@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'autofixture',
     'branchio',
     'emogo.apps.notification',
-    'health_check'
+    'health_check',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +82,27 @@ TEMPLATES = [
         },
     },
 ]
+
+SWAGGER_SETTINGS = {
+
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },  # setting to pass token in header
+    'USE_SESSION_AUTH': False,
+    # set to True if session based authentication needed
+    'JSON_EDITOR': True,
+    'api_path': 'api/',
+    'api_version': 'v0',
+
+    "is_authenticated": False,  # Set to True to enforce user authentication,
+    "is_superuser": False,  # Set to True to enforce admin only access
+    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
+    # unauthenticated user will be shown as Anonymous user in swagger UI.
+}
 
 WSGI_APPLICATION = 'emogo.wsgi.application'
 

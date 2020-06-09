@@ -50,6 +50,7 @@ class CategoryMaster(DefaultStatusModel):
 
 class Folder(DefaultDateModel):
     name = models.CharField(max_length=50)
+    icon = models.CharField(max_length=50, null=True, blank=True)
     owner = models.ForeignKey(User, related_name="owner_folders")
 
     class Meta:

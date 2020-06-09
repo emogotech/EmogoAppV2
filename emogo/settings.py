@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'branchio',
     'emogo.apps.notification',
     'health_check',
-    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -223,9 +223,9 @@ AWS_SECRET_ACCESS_KEY = 'ljp75RTSJpTkenhMrZVEteQjOf4tJ7Ab+As5e4wj' #os.getenv('A
 AWS_BUCKET_NAME = 'emogo-v2'
 AWS_REGION_NAME = 'us-west-2' #os.getenv('AWS_REGION_NAME') #
 
-print(os.getenv('AWS_ACCESS_KEY_ID'))
-print(os.getenv('AWS_SECRET_ACCESS_KEY'))
-print(os.getenv('AWS_REGION_NAME'))
+# print(os.getenv('AWS_ACCESS_KEY_ID'))
+# print(os.getenv('AWS_SECRET_ACCESS_KEY'))
+# print(os.getenv('AWS_REGION_NAME'))
 
 
 # Max file upload size on server
@@ -343,6 +343,27 @@ LOGGING = {
 #         "PORT": "5432",
 #     },
 # }
+
+SWAGGER_SETTINGS = {
+
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },  # setting to pass token in header
+    'USE_SESSION_AUTH': False,
+    # set to True if session based authentication needed
+    'JSON_EDITOR': True,
+    'api_path': 'api/',
+    'api_version': 'v0',
+
+    "is_authenticated": False,  # Set to True to enforce user authentication,
+    "is_superuser": False,  # Set to True to enforce admin only access
+    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
+    # unauthenticated user will be shown as Anonymous user in swagger UI.
+}
 
 # Get Local Settings
 PEM_FILE = 'emogoDev.pem'
