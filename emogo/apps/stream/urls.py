@@ -41,5 +41,6 @@ urlpatterns = [
     url(r'^update_user_view_stream_status/$', views.AddUserViewStreamStatus.as_view()),
     url(r'^user_liked_content/$', views.UserLikedContentAPI.as_view()),
     url(r'^content_not_yet_added/$', views.NotYetAddedContentAPI.as_view()),
+    url(r'^folder/(?P<pk>[0-9]+)/$', views.FolderAPI.as_view()),
     url(r'^folder/$', views.FolderAPI.as_view()),
 ]

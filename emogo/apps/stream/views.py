@@ -1813,40 +1813,32 @@ class NotYetAddedContentAPI(ListAPIView):
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
-class FolderAPI(CreateAPIView, ListAPIView):
+class FolderAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
     """
     User Folder Create API
     """
     serializer_class = FolderSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    queryset = Folder.objects.all()
+    queryset = Folder.objects.annotate(
+        stream_count=Count(Case(When(stream_folders__status="Active", then=1),
+        output_field=IntegerField())))
 
     def get_folder_data(self):
         data = {}
         fields = ("id", "name", "icon", "stream_count")
-        folders = Folder.objects.filter(owner=self.request.user).annotate(
-            stream_count=Count(Case(When(stream_folders__status="Active", then=1),
-            output_field=IntegerField())))
+        folders = self.filter_queryset(self.get_queryset())
         folder_serializer = FolderSerializer(folders, many=True, fields=fields)
         data["folders_count"] = folders.__len__()
         data["folder_data"] = folder_serializer.data
         return data
 
     def create(self, request, *args, **kwargs):
-        """
-        :param request: The request data
-        :param args: list or tuple data
-        :param kwargs: dict param
-        :return: Create Folder API.
-        """
         serializer = self.get_serializer(data=request.data, fields=("name", "icon"))
         serializer.is_valid(raise_exception=True)
         serializer.validate_folder_name(request.data.get("name"))
-        # To return created folder data
         self.perform_create(serializer)
         data = self.get_folder_data()
-        # data = serializer.data
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=data)
 
     def get_paginated_response(self, data, status_code=None):
@@ -1876,13 +1868,32 @@ class FolderAPI(CreateAPIView, ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        # serializer = self.get_serializer(queryset, many=True)
-        fields = ("id", "name", "icon")
+        fields = ("id", "name", "icon", "stream_count")
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(
                 data=serializer.data, status_code=status.HTTP_200_OK)
+
+    def destroy(self, request,  *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return custom_render_response(status_code=status.HTTP_200_OK)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.serializer_class(instance, data=request.data,
+            fields=("name", "icon"), context=self.get_serializer_context())
+        serializer.is_valid(raise_exception=True)
+        serializer.validate_folder_name(request.data.get("name"))
+        self.perform_update(serializer)
+        data = {
+            "id": instance.id,
+            "name": instance.name,
+            "icon": instance.icon,
+            "stream_count": instance.stream_count,
+        }
+        return custom_render_response(status_code=status.HTTP_200_OK, data=data)
 
 
 class StreamMoveToFolderAPI(UpdateAPIView):
