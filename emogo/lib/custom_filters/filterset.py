@@ -21,7 +21,8 @@ class StreamFilter(django_filters.FilterSet):
 
     class Meta:
         model = Stream
-        fields = ['featured', 'emogo', 'my_stream', 'popular', 'self_created', 'folder']
+        fields = ['stream_name', 'featured', 'emogo', 'my_stream', 'popular',
+                  'self_created', 'folder']
     
     def filter_stream_name(self, qs, name, value):
         return qs.filter(name__icontains=value)
@@ -225,6 +226,7 @@ class ContentsFilter(django_filters.FilterSet):
 
 
 class UserStreamFilter(django_filters.FilterSet):
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
     created_by = django_filters.filters.NumberFilter(method='filter_created_by')
     emogo_stream = django_filters.filters.NumberFilter(method='filter_emogo_stream')
     collab_stream = django_filters.filters.NumberFilter(method='filter_collab_stream')
@@ -232,12 +234,11 @@ class UserStreamFilter(django_filters.FilterSet):
     public_stream = django_filters.filters.NumberFilter(method='filter_public_stream')
     following_stream = django_filters.filters.BooleanFilter(method='filter_following_stream')
     follower_stream = django_filters.filters.BooleanFilter(method='filter_follower_stream')
-    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
 
     class Meta:
         model = Stream
-        fields = ['created_by', 'emogo_stream', 'collab_stream', 'private_stream', 'public_stream', 'following_stream',
-                  'follower_stream']
+        fields = ['stream_name', 'created_by', 'emogo_stream', 'collab_stream',
+                  'private_stream', 'public_stream', 'following_stream', 'follower_stream']
 
     def filter_stream_name(self, qs, name, value):
         return qs.filter(name__icontains=value)
