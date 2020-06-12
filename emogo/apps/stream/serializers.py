@@ -566,6 +566,15 @@ class ViewStreamSerializer(StreamSerializer):
 
 class OptimisedViewStreamSerializer(ViewStreamSerializer):
 
+    def validate_name(self, value):
+        stream = Stream.objects.filter(
+            created_by=self.context.get('request').user, name__iexact=value.strip())
+        if self.instance:
+            stream = stream.exclude(id=self.instance.id)
+        if stream.exists():
+            raise serializers.ValidationError(messages.MSG_STREAM_NAME_EXISTS.format(value))
+        return value
+
     def get_total_stream_collaborators(self, obj):
         try:
             if hasattr(obj, "stream_collaborator_verified"):
