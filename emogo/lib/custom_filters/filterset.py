@@ -17,10 +17,14 @@ class StreamFilter(django_filters.FilterSet):
     global_search = django_filters.filters.CharFilter(method='filter_global_search')
     name = django_filters.filters.CharFilter(method='filter_name')
     collaborator_qs = Collaborator.actives.all()
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
 
     class Meta:
         model = Stream
         fields = ['featured', 'emogo', 'my_stream', 'popular', 'self_created', 'folder']
+    
+    def filter_stream_name(self, qs, name, value):
+        return qs.filter(name__icontains=value)
 
     def filter_my_stream(self, qs, name, value):
         # Get self created streams
@@ -136,6 +140,29 @@ class StreamFilter(django_filters.FilterSet):
         obj=queryset.filter(created_by=self.request.user).order_by('stream_starred')
         return obj.filter(name__icontains=request)
 
+
+class CollabsFilter(django_filters.FilterSet):
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
+
+    class Meta:
+        model = Stream
+        fields = ['stream_name']
+    
+    def filter_stream_name(self, qs, name, value):
+        return qs.filter(name__icontains=value)
+
+
+class UserLikedStreamFilter(django_filters.FilterSet):
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
+
+    class Meta:
+        model = Stream
+        fields = ['stream_name']
+    
+    def filter_stream_name(self, qs, name, value):
+        return qs.filter(name__icontains=value)
+
+
 class UsersFilter(django_filters.FilterSet):
     people = django_filters.filters.CharFilter(method='filter_people')
     phone = django_filters.filters.CharFilter(method='filter_phone')
@@ -205,11 +232,15 @@ class UserStreamFilter(django_filters.FilterSet):
     public_stream = django_filters.filters.NumberFilter(method='filter_public_stream')
     following_stream = django_filters.filters.BooleanFilter(method='filter_following_stream')
     follower_stream = django_filters.filters.BooleanFilter(method='filter_follower_stream')
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
 
     class Meta:
         model = Stream
         fields = ['created_by', 'emogo_stream', 'collab_stream', 'private_stream', 'public_stream', 'following_stream',
                   'follower_stream']
+
+    def filter_stream_name(self, qs, name, value):
+        return qs.filter(name__icontains=value)
 
     def filter_created_by(self, qs, name, value):
         get_object_or_404(UserFollow, follower=self.request.user, following_id=value)
