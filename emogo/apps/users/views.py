@@ -22,7 +22,9 @@ from emogo.constants import messages
 # util method
 from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
-from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter, FollowerFollowingUserFilter
+from emogo.lib.custom_filters.filterset import (
+    UsersFilter, UserStreamFilter, FollowerFollowingUserFilter, CollabsFilter,
+    UserLikedStreamFilter)
 from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
 from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates, Folder
 from emogo.apps.collaborator.models import Collaborator
@@ -597,6 +599,7 @@ class UserLikedSteams(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     queryset = Stream.actives.all()
+    filter_class = UserLikedStreamFilter
 
     def get_serializer_context(self):
         return {'request': self.request, 'version': self.kwargs.get('version')}
@@ -726,6 +729,7 @@ class UserCollaborators(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     queryset = Stream.actives.all()
+    filter_class = CollabsFilter
 
     def get_serializer_context(self):
         return {'request': self.request, 'version': self.kwargs.get('version')}
@@ -808,8 +812,8 @@ class UserCollaborators(ListAPIView):
         stream_ids = Collaborator.actives.filter(Q(created_by_id=self.request.user.id) |
                                                     Q(phone_number__endswith=str(self.request.user.username)[-10:])).values_list( 'stream', flat=True)
         #2. Fetch  stream Queryset objects as collaborators and exclude self.request.user created stream.
-        queryset = self.get_queryset().filter(id__in=stream_ids).exclude(created_by_id=self.request.user.id).order_by('-upd')
-
+        queryset = self.filter_queryset(self.get_queryset().filter(
+            id__in=stream_ids).exclude(created_by_id=self.request.user.id)).order_by('-upd')
         # Search stream by name
         if request.GET.get('name'):
             queryset = queryset.filter(name__icontains=request.GET.get('name'))
