@@ -1,7 +1,9 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from emogo.apps.stream.models import Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream, \
-    LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates, NewEmogoViewStatusOnly, Folder
+from emogo.apps.stream.models import (
+    Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream,
+    LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates,
+    NewEmogoViewStatusOnly, Folder, ContentSharedInImessage)
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer, OptimisedViewCollaboratorSerializer
 from rest_framework import serializers
@@ -1267,6 +1269,28 @@ class FolderSerializer(DynamicFieldsModelSerializer):
         if any(True for name in restricted_folder_name if name.lower() == value.lower()):
             raise serializers.ValidationError(messages.MSG_RESTRICTED_FOLDER_NAME)
         return value
+
+
+class SharecontentSerializer(DynamicFieldsModelSerializer):
+    """
+    ShareInImessageSerializer model Serializer
+    """
+
+    content = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Content.actives.all())
+
+    class Meta:
+        model = ContentSharedInImessage
+        fields = "__all__"
+
+    def is_valid(self, *args, **kwargs):
+        content_ids = self.initial_data.get("content")
+        if not content_ids:
+            raise serializers.ValidationError(messages.MSG_CONTENT_NOT_PROVIDED)
+        if content_ids and Content.actives.filter(
+            id__in=content_ids).__len__() != content_ids.__len__():
+                raise serializers.ValidationError(messages.MSG_INVALID_CONTENT)
+        return super(ShareInImessageSerializer, self).is_valid(*args, **kwargs)
 
 
 class StreamMoveToFolderSerializer(serializers.ModelSerializer):
