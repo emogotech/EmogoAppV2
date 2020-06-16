@@ -1201,6 +1201,7 @@ class IncreaseStreamViewCount(CreateAPIView):
 
 
 class TestUrlAPI(APIView):
+    swagger_schema = None
 
     def get(self, request, format=None):
         """
