@@ -1259,14 +1259,15 @@ class FolderSerializer(DynamicFieldsModelSerializer):
 
     def validate_folder_name(self, value):
         restricted_folder_name = [
-            "My Emogos", "Not yet Added", "Shared with Me", "All My Media", "Links"]
+            "My Emogos", "Collabs", "Shared in iMessage", "Links", "Not yet added",
+            "My media", "Loved", "Following"]
         folder = Folder.objects.filter(
-            name__iexact=value, owner=self.context.get("request").user)
+            name__iexact=value.strip(), owner=self.context.get("request").user)
         if self.instance:
             folder = folder.exclude(id=self.instance.id)
         if folder.exists():
             raise serializers.ValidationError(messages.MSG_FOLDER_NAME_EXISTS.format(value))
-        if any(True for name in restricted_folder_name if name.lower() == value.lower()):
+        if any(True for name in restricted_folder_name if name.lower() == value.strip().lower()):
             raise serializers.ValidationError(messages.MSG_RESTRICTED_FOLDER_NAME)
         return value
 
