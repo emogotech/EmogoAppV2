@@ -7,13 +7,19 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from emogo.apps.users.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from emogo.apps.stream.models import Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, Folder
-from emogo.apps.stream.serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
-    ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
-    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
-    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, \
-    RecentUpdatesSerializer, AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderSerializer, \
-    StreamMoveToFolderSerializer, OptimisedViewStreamSerializer
+from emogo.apps.stream.models import (
+    Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream,
+    StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, Folder,
+    ContentSharedInImessage)
+from emogo.apps.stream.serializers import (
+    StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer,
+    ViewContentSerializer, ContentBulkDeleteSerializer, MoveContentToStreamSerializer,
+    ExtremistReportSerializer, DeleteStreamContentSerializer, ReorderStreamContentSerializer,
+    ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer,
+    CopyContentSerializer, ContentLikeDislikeSerializer, StreamUserViewStatusSerializer,
+    StarredStreamSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer,
+    AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderSerializer,
+    StreamMoveToFolderSerializer, OptimisedViewStreamSerializer, SharecontentSerializer)
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -1923,3 +1929,61 @@ class StreamMoveToFolderAPI(UpdateAPIView):
             stream.folder.remove(folder_obj)
         stream.folder.add(serializer.validated_data["folder"][0])
         return stream
+
+
+class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
+    """
+    User ContentShareInImessage Create API
+    """
+    serializer_class = SharecontentSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = ContentSharedInImessage.objects.all()
+
+    def filter_queryset(self, queryset):
+        return queryset.filter(user=self.request.user)
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def perform_create(self, serializer):
+        shared_contents = []
+        content_ids = self.request.data['content']
+        ContentSharedInImessage.objects.filter(
+            user=self.request.user, content__id__in=content_ids).delete()
+        for content in Content.actives.filter(id__in=content_ids):
+            shared_contents.append(ContentSharedInImessage(
+                content=content, user=self.request.user))
+        return ContentSharedInImessage.objects.bulk_create(shared_contents)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, fields=("content",))
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return custom_render_response(status_code=status.HTTP_200_OK)
+
+    def list(self, request, *args, **kwargs):
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+                  'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'html_text')
+        queryset = Content.actives.filter(id__in=self.filter_queryset(
+            self.get_queryset()).values("content")).select_related(
+            'created_by__user_data__user').prefetch_related(
+                Prefetch(
+                    "content_like_dislike_status",
+                    queryset=LikeDislikeContent.objects.filter(status=1),
+                    to_attr='content_liked_user'
+                )
+        ).order_by("-shared_in_imessage__crd")
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = ViewContentSerializer(page, many=True, fields=fields)
+            return self.get_paginated_response(
+                data=serializer.data, status_code=status.HTTP_200_OK)
+
