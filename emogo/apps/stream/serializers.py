@@ -1271,7 +1271,7 @@ class FolderSerializer(DynamicFieldsModelSerializer):
         return value
 
 
-class SharecontentSerializer(DynamicFieldsModelSerializer):
+class ShareContentSerializer(DynamicFieldsModelSerializer):
     """
     ShareInImessageSerializer model Serializer
     """
@@ -1290,7 +1290,7 @@ class SharecontentSerializer(DynamicFieldsModelSerializer):
         if content_ids and Content.actives.filter(
             id__in=content_ids).__len__() != content_ids.__len__():
                 raise serializers.ValidationError(messages.MSG_INVALID_CONTENT)
-        return super(ShareInImessageSerializer, self).is_valid(*args, **kwargs)
+        return super(ShareContentSerializer, self).is_valid(*args, **kwargs)
 
 
 class StreamMoveToFolderSerializer(serializers.ModelSerializer):

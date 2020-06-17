@@ -19,7 +19,7 @@ from emogo.apps.stream.serializers import (
     CopyContentSerializer, ContentLikeDislikeSerializer, StreamUserViewStatusSerializer,
     StarredStreamSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer,
     AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderSerializer,
-    StreamMoveToFolderSerializer, OptimisedViewStreamSerializer, SharecontentSerializer)
+    StreamMoveToFolderSerializer, OptimisedViewStreamSerializer, ShareContentSerializer)
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -1935,7 +1935,7 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
     """
     User ContentShareInImessage Create API
     """
-    serializer_class = SharecontentSerializer
+    serializer_class = ShareContentSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     queryset = ContentSharedInImessage.objects.all()
