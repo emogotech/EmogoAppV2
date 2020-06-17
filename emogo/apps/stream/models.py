@@ -116,6 +116,14 @@ class Content(DefaultStatusModel):
         db_table = 'content'
 
 
+class ContentSharedInImessage(DefaultDateModel):
+    content = models.ForeignKey(Content, related_name='shared_content')
+    user = models.ForeignKey(User, related_name='content_sharing_user')
+
+    class Meta:
+        db_table = 'content_shared_in_imessage'
+
+
 class StreamContent(models.Model):
     stream = models.ForeignKey(Stream, related_name='stream_contents')
     content = models.ForeignKey(Content, related_name='content_streams')
