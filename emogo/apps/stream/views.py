@@ -1979,7 +1979,7 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
                     queryset=LikeDislikeContent.objects.filter(status=1),
                     to_attr='content_liked_user'
                 )
-        ).order_by("-shared_in_imessage__crd")
+        ).order_by("-shared_content__crd")
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = ViewContentSerializer(page, many=True, fields=fields)
