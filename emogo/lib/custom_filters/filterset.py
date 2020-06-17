@@ -219,10 +219,14 @@ class FollowerFollowingUserFilter(django_filters.FilterSet):
 
 class ContentsFilter(django_filters.FilterSet):
     type = django_filters.CharFilter(name='type', lookup_expr='iexact')
+    stream = django_filters.filters.CharFilter(method='filter_by_stream')
 
     class Meta:
         model = Content
         fields = ['type']
+
+    def filter_by_stream(self, qs, name, value):
+        return qs.filter(content_streams__stream=value)
 
 
 class UserStreamFilter(django_filters.FilterSet):
