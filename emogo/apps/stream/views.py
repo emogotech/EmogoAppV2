@@ -1829,7 +1829,7 @@ class FolderAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Folder.objects.annotate(
         stream_count=Count(Case(When(stream_folders__status="Active", then=1),
-        output_field=IntegerField())))
+        output_field=IntegerField()))).order_by("-crd")
 
     def get_folder_data(self):
         data = {}
