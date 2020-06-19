@@ -373,12 +373,13 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     Stream CRUD API
     """
     serializer_class = ContentSerializer
-    queryset = Content.actives.all().select_related('created_by__user_data__user').prefetch_related(
-        Prefetch(
-            "content_like_dislike_status",
-            queryset=LikeDislikeContent.objects.filter(status=1),
-            to_attr='content_liked_user'
-        )
+    queryset = Content.actives.all().select_related(
+        'created_by__user_data__user').prefetch_related(
+            Prefetch(
+                "content_like_dislike_status",
+                queryset=LikeDislikeContent.objects.filter(status=1),
+                to_attr='content_liked_user'
+            )
     ).order_by('order', '-upd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -440,68 +441,78 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by','video_image','url', 'full_name', 'view_count', 'type', 'height', 'width',
-                  'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
-                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
-                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status',
-                  'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'html_text')
-
+        fields = (
+            'id', 'name', 'image', 'author', 'created_by','video_image','url', 'full_name',
+            'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission',
+            'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes',
+            'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd',
+            'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
+            'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'html_text', 'file')
 
         if request.GET.get('name'):
             self.serializer_class = ViewStreamSerializer
             fields = (
-                'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-                'order', 'color', 'user_image', 'full_name', 'order', 'contents')
-            stream_obj =self.get_queryset().filter(streams__name__icontains=request.GET['name'], streams__status='Active').values_list('streams__id')
-            queryset= Stream.actives.filter(id__in=stream_obj).annotate(stream_view_count=Count('stream_user_view_status')).select_related('created_by__user_data__user').prefetch_related(
-            Prefetch(
-                "stream_contents",
-                queryset=StreamContent.objects.filter(content__created_by=request.user).select_related('content', 'content__created_by__user_data').prefetch_related(
-                    Prefetch(
-                        "content__content_like_dislike_status",
-                        queryset=LikeDislikeContent.objects.filter(status=1),
-                        to_attr='content_liked_user'
-                    )
-                ).order_by('order', '-attached_date'),
-                to_attr="content_list"
-            ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator'
-            ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator_verified'
-            ),
-            Prefetch(
-                'stream_user_view_status',
-                queryset=StreamUserViewStatus.objects.all(),
-                to_attr='total_view_count'
-            ),
-            Prefetch(
-                'stream_like_dislike_status',
-                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+                'height', 'width', 'order', 'color', 'user_image', 'full_name', 'order', 'contents')
+            stream_obj =self.get_queryset().filter(
+                streams__name__icontains=request.GET['name'],
+                streams__status='Active').values_list('streams__id')
+            queryset= Stream.actives.filter(id__in=stream_obj).annotate(
+                stream_view_count=Count('stream_user_view_status')).select_related(
+                'created_by__user_data__user').prefetch_related(
+                Prefetch(
+                    "stream_contents",
+                    queryset=StreamContent.objects.filter(
+                        content__created_by=request.user).select_related(
+                            'content', 'content__created_by__user_data').prefetch_related(
                         Prefetch(
-                            "user__who_follows",
-                            queryset=UserFollow.objects.all(),
-                            to_attr='user_liked_followers'
-                        ),
-
+                            "content__content_like_dislike_status",
+                            queryset=LikeDislikeContent.objects.filter(status=1),
+                            to_attr='content_liked_user'
+                        )
+                    ).order_by('order', '-attached_date'),
+                    to_attr="content_list"
                 ),
-                to_attr='total_like_dislike_data'
-            ),
-            Prefetch(
-                'stream_starred',
-                queryset=StarredStream.objects.all().select_related('user'),
-                to_attr='total_starred_stream_data'
-                        ),
-                    )
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                    to_attr='stream_collaborator'
+                ),
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.collab_actives.all().select_related(
+                        'created_by').order_by('-id'),
+                    to_attr='stream_collaborator_verified'
+                ),
+                Prefetch(
+                    'stream_user_view_status',
+                    queryset=StreamUserViewStatus.objects.all(),
+                    to_attr='total_view_count'
+                ),
+                Prefetch(
+                    'stream_like_dislike_status',
+                    queryset=LikeDislikeStream.objects.filter(status=1).select_related(
+                        'user__user_data').prefetch_related(
+                            Prefetch(
+                                "user__who_follows",
+                                queryset=UserFollow.objects.all(),
+                                to_attr='user_liked_followers'
+                            ),
+
+                    ),
+                    to_attr='total_like_dislike_data'
+                ),
+                Prefetch(
+                    'stream_starred',
+                    queryset=StarredStream.objects.all().select_related('user'),
+                    to_attr='total_starred_stream_data'
+                )
+            )
             page = self.paginate_queryset(queryset)
             if page is not None:
                 serializer = self.get_serializer(page, many=True, fields=fields)
-                return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+                return self.get_paginated_response(
+                    data=serializer.data, status_code=status.HTTP_200_OK)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -517,8 +528,8 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer.is_valid(raise_exception=True)
         instances = serializer.create(serializer.validated_data)
         serializer = ViewContentSerializer(instances, many=True, fields=(
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height',
-            'width', 'order', 'color', 'user_image', 'full_name', 'html_text'))
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'user_image', 'full_name', 'html_text', 'file'))
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
     def update(self, request, *args, **kwargs):
@@ -541,8 +552,9 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         self.serializer_class = ViewContentSerializer
         #  Customized field list
         fields = (
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height',
-            'width', 'order', 'color', 'user_image', 'full_name', 'liked', 'html_text')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'user_image', 'full_name', 'liked', 'html_text',
+            'file')
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -568,8 +580,9 @@ class GetTopContentAPI(ContentAPI):
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         fields = (
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'full_name', 'user_image', 'liked', 'html_text')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'full_name', 'user_image', 'liked', 'html_text',
+            'file')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         picture_type = self.get_serializer(queryset.filter(type='Picture')[0:10], many=True, fields=fields)
@@ -588,8 +601,9 @@ class GetTopTwentyContentAPI(ContentAPI):
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         fields = (
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'full_name', 'user_image', 'liked', 'html_text')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'full_name', 'user_image', 'liked', 'html_text',
+            'file')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         final_qs = itertools.chain(queryset.filter(type='Link')[0:5], queryset.filter(type='Picture')[0:5],
@@ -639,8 +653,8 @@ class LinkTypeContentAPI(ListAPIView):
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image','height', 'width',
-                  'full_name', 'user_image', 'liked', 'html_text')
+        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'file',
+            'video_image','height', 'width', 'full_name', 'user_image', 'liked', 'html_text')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -872,8 +886,8 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
         'user_name', 'thread', 'seen_index')
         content_fields = (
-        'id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-        'full_name', 'user_image', 'liked', 'html_text')
+        'id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height',
+        'width', 'color', 'full_name', 'user_image', 'liked', 'html_text', 'file')
         stream_fields = (
             'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
             'have_some_update',
@@ -1239,8 +1253,9 @@ class ContentInBulkAPI(ContentAPI):
         queryset = self.get_queryset().filter(id__in=ids)
         #  Customized field list
         fields = (
-        'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
-        'color', 'user_image', 'full_name', 'order', 'liked', 'html_text')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'user_image', 'full_name', 'order', 'liked',
+            'html_text', 'file')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -1673,8 +1688,8 @@ class UserLikedContentAPI(ListAPIView):
         :return:
         """
         fields = (
-        "color", "created_by", "description", "full_name", "height", "id", "liked", "name", "type", "url", "user_image",
-        "video_image", "width", "html_text")
+            "color", "created_by", "description", "full_name", "height", "id", "liked", "name",
+            "type", "url", "user_image", "video_image", "width", "html_text", 'file')
         like_dislike_qs = LikeDislikeContent.objects.filter(user=self.request.user, status=1).select_related('content',
                                                                                                              'content__created_by__user_data').prefetch_related(
             Prefetch(
@@ -1802,17 +1817,18 @@ class NotYetAddedContentAPI(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         qs = Content.actives.filter(created_by_id=self.request.user.id, streams__id=None).prefetch_related(
-        Prefetch(
-            "content_like_dislike_status",
-            queryset=LikeDislikeContent.objects.filter(status=1),
-            to_attr='content_liked_user'
-        )
-    ).order_by('-upd')
+            Prefetch(
+                "content_like_dislike_status",
+                queryset=LikeDislikeContent.objects.filter(status=1),
+                to_attr='content_liked_user'
+            )
+        ).order_by('-upd')
         self.serializer_class = ViewContentSerializer
         #  Customized field list
         fields = (
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'user_image', 'full_name', 'order', 'liked', 'html_text')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'user_image', 'full_name', 'order', 'liked',
+            'html_text', 'file')
 
         page = self.paginate_queryset(qs)
         if page is not None:
@@ -1970,8 +1986,9 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
         return custom_render_response(status_code=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
-                  'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'html_text')
+        fields = (
+            'id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'file',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'html_text')
         queryset = Content.actives.filter(id__in=self.filter_queryset(
             self.get_queryset()).values("content")).select_related(
             'created_by__user_data__user').prefetch_related(
