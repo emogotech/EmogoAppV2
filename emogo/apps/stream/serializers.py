@@ -491,7 +491,9 @@ class ViewStreamSerializer(StreamSerializer):
             return 0
 
     def get_collaborators(self, obj):
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status', 'created_by')
+        fields = (
+            'id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image',
+            'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status', 'created_by')
         if self.context.get('version'):
             instances = obj.stream_collaborator_verified
         else:
@@ -501,10 +503,11 @@ class ViewStreamSerializer(StreamSerializer):
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked', 'html_text')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'html_text', 'file')
         instances = obj.content_list
-        return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
+        return ViewContentSerializer(
+            [x.content for x in instances], many=True, fields=fields, context=self.context).data
 
     def get_stream_permission(self, obj):
         qs = obj.stream_collaborator
@@ -543,8 +546,8 @@ class ViewStreamSerializer(StreamSerializer):
         return {'can_add_content': True , 'can_add_people': False}
 
     def get_stream_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked', 'html_text')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'html_text', 'file')
         instances = obj.content_list[0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
