@@ -111,6 +111,7 @@ class Content(DefaultStatusModel):
     color = models.CharField(max_length=255, null=True, blank=True, default=None)
     order = models.IntegerField(default=0, blank=True, null=True)
     html_text = models.TextField(blank=True, null=True)
+    file = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
         db_table = 'content'
