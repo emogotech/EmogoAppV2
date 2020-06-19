@@ -122,7 +122,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                 queryset=NewEmogoViewStatusOnly.objects.all().select_related("user"),
                 to_attr='user_seen_streams'
             ),
-        ).order_by('-stream_view_count')
+        ).order_by('-upd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
