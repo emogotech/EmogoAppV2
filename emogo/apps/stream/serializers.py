@@ -1309,7 +1309,11 @@ class StreamMoveToFolderSerializer(serializers.ModelSerializer):
         return value
 
     def is_valid(self, *args, **kwargs):
-        if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
-                Folder.objects.filter(id=self.initial_data.get("folder")[0]).exists():
-            raise serializers.ValidationError(messages.MSG_FOLDER_NOT_VALID.format(self.initial_data.get("folder")[0]))
+        if self.initial_data.get("folder") and not Folder.objects.filter(
+            id=self.initial_data.get("folder")[0]).exists():
+                raise serializers.ValidationError({"folder": [messages.MSG_FOLDER_NOT_VALID.format(
+                    self.initial_data.get("folder")[0])]})
+        if self.instance and self.instance.created_by != self.context["request"].user:
+            raise serializers.ValidationError(
+                {"stream": [messages.MSG_STREAM_OWNER_NOT_VALID]})
         return super(StreamMoveToFolderSerializer, self).is_valid(*args, **kwargs)
