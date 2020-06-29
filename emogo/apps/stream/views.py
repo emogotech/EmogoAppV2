@@ -20,10 +20,18 @@ from emogo.apps.stream.serializers import (
     StarredStreamSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer,
     AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderSerializer,
     StreamMoveToFolderSerializer, OptimisedViewStreamSerializer, ShareContentSerializer)
-from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
+from emogo.lib.custom_filters.filterset import (
+    StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter)
+from emogo.apps.stream.swagger_schema import (
+    stream_schema_doc, stream_api_responses, content_schema_doc, content_api_responses,
+    content_update_schema_doc, content_update_api_response, move_content_to_stream_schema,
+    delete_content_schema, delete_stream_content_schema, reorder_stream_content_schema,
+    reorder_content_schema, stream_like_response, extremist_report_doc, folder_schema_doc,
+    move_emogo_to_folder_schema, share_imessage_schema)
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 import itertools
 import collections
 
@@ -200,6 +208,13 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+        request_body=stream_schema_doc,
+        responses=stream_api_responses,
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -232,6 +247,13 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             fields.remove('collaborators')
         serializer = self.get_serializer(stream, context=self.request, fields=fields)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+
+    @swagger_auto_schema(
+        request_body=stream_schema_doc,
+        responses=stream_api_responses,
+    )
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
         """
@@ -303,6 +325,15 @@ class DeleteStreamContentAPI(DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=delete_stream_content_schema,
+        responses={
+            '200': """{ "status_code": 204, "data": { } }""",
+        },
+    )
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
     def destroy(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -328,6 +359,12 @@ class DeleteStreamContentInBulkAPI(APIView):
     def get_object(self):
         return get_object_or_404(Stream, pk=self.kwargs.get('pk'))
 
+    @swagger_auto_schema(
+        request_body=delete_stream_content_schema,
+        responses={
+            '200': """{ "status_code": 204, "data": null }""",
+        },
+    )
     def post(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -348,6 +385,7 @@ class CopyContentAPI(APIView):
     serializer_class = CopyContentSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    swagger_schema = None
 
     def get_object(self):
         return get_object_or_404(Content.actives, pk=self.request.data.get('content_id'))
@@ -519,6 +557,13 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+        request_body=content_schema_doc,
+        responses=content_api_responses,
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         try:
             request.data.reverse()
@@ -531,6 +576,13 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
             'height', 'width', 'order', 'color', 'user_image', 'full_name', 'html_text', 'file'))
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+
+    @swagger_auto_schema(
+        request_body=content_update_schema_doc,
+        responses=content_update_api_response,
+    )
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
         """
@@ -597,6 +649,7 @@ class GetTopContentAPI(ContentAPI):
 
 
 class GetTopTwentyContentAPI(ContentAPI):
+    swagger_schema = None
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
@@ -673,6 +726,12 @@ class DeleteContentInBulk(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=delete_content_schema,
+        responses={
+            '200': """{ "status_code": 204, "data": { } }""",
+        },
+    )
     def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
@@ -938,6 +997,10 @@ class MoveContentToStream(APIView):
     def get_serializer_context(self):
         return {'request': self.request, 'version': self.kwargs.get('version')}
 
+    @swagger_auto_schema(
+        request_body=move_content_to_stream_schema,
+        responses={'200': """{ "status_code": 200, "data": { } }"""},
+    )
     def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
@@ -965,6 +1028,12 @@ class ReorderStreamContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=reorder_stream_content_schema,
+        responses={
+            '200': """{ "status_code": 200, "data": { } }""",
+        },
+    )
     def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
@@ -988,6 +1057,12 @@ class ReorderContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=reorder_content_schema,
+        responses={
+            '200': """{ "status_code": 200, "data": { } }""",
+        },
+    )
     def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
@@ -1008,6 +1083,18 @@ class ExtremistReportAPI(CreateAPIView):
     queryset = ExtremistReport.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+    @swagger_auto_schema(
+        request_body=extremist_report_doc,
+        responses={
+            '200': """{
+            "status_code": 201,
+                "data": {"type": "Inappropriate", "user_comment": "test"}
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, context=self.request)
@@ -1048,6 +1135,13 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
             else:
                 NotificationAPI().send_notification(
                     self.request.user, stream.created_by, 'liked_emogo', stream)
+
+    @swagger_auto_schema(
+        request_body=StreamLikeDislikeSerializer(fields=["stream", "status"]),
+        responses=stream_like_response,
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         """
@@ -1132,6 +1226,18 @@ class ContentLikeDislikeAPI(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
+    @swagger_auto_schema(
+        request_body=ContentLikeDislikeSerializer(fields=["content", "status"]),
+        responses={
+            '200': """{
+                "status_code": 201,
+                "data": {"content": 5553, "status": 1, "total_liked": 1}
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -1215,6 +1321,17 @@ class IncreaseStreamViewCount(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
+    @swagger_auto_schema(
+        request_body=StreamUserViewStatusSerializer(fields=["stream"]),
+        responses={
+            '200': """{
+                "status_code": 201, "data": {"total_view_count": 71, "stream": 5}
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -1286,6 +1403,7 @@ class BookmarkNewEmogosAPI(ListAPIView):
     """"
     View to list all the starred and new Emogos in home page.
     """
+    swagger_schema = None
     queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
         'created_by__user_data__user').prefetch_related(
         Prefetch(
@@ -1481,6 +1599,15 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
             serializer = self.get_serializer(page, many=True, fields=fields, context=self.get_serializer_context())
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+        request_body=StarredStreamSerializer(fields=["stream"]),
+        responses={
+            '200': """{"status_code": 201, "data": { } }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -1635,6 +1762,15 @@ class SeenIndexAPI(CreateAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=SeenIndexSerializer(fields=["thread", "seen_index"]),
+        responses={
+            '200': """{"status_code": 201, "data": { } }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -1657,6 +1793,15 @@ class AddUserViewStreamStatus(CreateAPIView):
     # queryset = Stream.objects.all().select_related('stream')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+    @swagger_auto_schema(
+        request_body=AddUserViewStatusSerializer(fields=["stream"]),
+        responses={
+            '200': """{"status_code": 201, "data": { "stream": 11 } }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -1856,6 +2001,20 @@ class FolderAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
         data["folder_data"] = folder_serializer.data
         return data
 
+    @swagger_auto_schema(
+        request_body=folder_schema_doc,
+        responses={
+            '200': """{"status_code": 201,
+                "data": {"folders_count": 2,
+                    "folder_data": [{"id": 32, "stream_count": 0, "name": "test Folder",
+                        "icon": null}]
+                }
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, fields=("name", "icon"))
         serializer.is_valid(raise_exception=True)
@@ -1903,6 +2062,18 @@ class FolderAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
         self.perform_destroy(instance)
         return custom_render_response(status_code=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+        request_body=folder_schema_doc,
+        responses={
+            '200': """{ "status_code": 200, "data":
+                "data": {
+                    "id": 42, "name": "new folder3", "icon": ":)", "stream_count": 0 }
+            }""",
+        },
+    )
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.serializer_class(instance, data=request.data,
@@ -1924,6 +2095,15 @@ class StreamMoveToFolderAPI(UpdateAPIView):
     queryset = Stream.actives.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+    @swagger_auto_schema(
+        request_body=move_emogo_to_folder_schema,
+        responses={
+            '200': """{ "status_code": 200, "data": {"success": true } }""",
+        },
+    )
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
         """
@@ -1977,6 +2157,17 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
             shared_contents.append(ContentSharedInImessage(
                 content=content, user=self.request.user))
         return ContentSharedInImessage.objects.bulk_create(shared_contents)
+
+    @swagger_auto_schema(
+        request_body=share_imessage_schema,
+        responses={
+            '200': """{
+                "status_code": 200, "data": null
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, fields=("content",))
