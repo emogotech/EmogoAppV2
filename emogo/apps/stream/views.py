@@ -628,6 +628,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
 
 
 class GetTopContentAPI(ContentAPI):
+    http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
@@ -1360,6 +1361,8 @@ class ContentInBulkAPI(ContentAPI):
     """
     Get Contents in bulk
     """
+    http_method_names = ['get']
+
     def list(self, request, *args, **kwargs):
         """
         :param ids: list of content ids
@@ -2095,6 +2098,7 @@ class StreamMoveToFolderAPI(UpdateAPIView):
     queryset = Stream.actives.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    http_method_names = ['patch']
 
     @swagger_auto_schema(
         request_body=move_emogo_to_folder_schema,

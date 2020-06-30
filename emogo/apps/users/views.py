@@ -475,6 +475,7 @@ class UserStearms(ListAPIView):
     """
     User Streams API
     """
+    swagger_schema = None
     serializer_class = StreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -1074,7 +1075,7 @@ class GetTopStreamAPIV2(APIView):
     """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-
+    swagger_schema = None
 
 
     def use_fields(self):

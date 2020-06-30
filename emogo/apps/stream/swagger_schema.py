@@ -320,11 +320,9 @@ extremist_report_doc = openapi.Schema(
     type=openapi.TYPE_OBJECT, required=['user_comment', 'type'],
     properties={
         'user_comment': openapi.Schema(type=openapi.TYPE_STRING, 
-                title='User Comment', maxLength=60, minLength=1,
-                description='User Comment'),
+                title='User Comment', maxLength=60, minLength=1),
         'type': openapi.Schema(type=openapi.TYPE_STRING, 
-                title='Type', maxLength=60, minLength=1,
-                description='Type')
+                title='Type', maxLength=60, minLength=1)
     },
     example=  {
         "user_comment":"test",
