@@ -151,8 +151,10 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :param kwargs: dict param
         :return: Create Stream API.
         """
-
-        instance = self.get_object()
+        try:
+            instance = self.get_object()
+        except:
+            raise Http404("The Emogo does not exist.")
         self.serializer_class = OptimisedViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
@@ -242,20 +244,16 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         """
 
         partial = kwargs.pop('partial', False)
-        # from django.db import connection, reset_queries
-        # reset_queries()
-        # print(len(connection.queries))
-        # print(time.time() - start_time)
-        # import time
-        # start_time = time.time()
-        # instance = self.get_object()
-        instance = Stream.actives.prefetch_related(
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator'
-            )
-        ).get(pk=self.kwargs.get('pk'))
+        try:
+            instance = Stream.actives.prefetch_related(
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                    to_attr='stream_collaborator'
+                )
+            ).get(pk=self.kwargs.get('pk'))
+        except:
+            raise Http404("The Emogo does not exist.")
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
@@ -285,7 +283,10 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :param kwargs:
         :return: Soft Delete Stream and it's attribute
         """
-        instance = self.get_object()
+        try:
+            instance = self.get_object()
+        except:
+            raise Http404("The Emogo does not exist.")
         #update notification when user delete stream
         noti = Notification.objects.filter(notification_type = 'collaborator_confirmation', stream = instance, from_user = instance.created_by)
         if noti.__len__() > 0 :
