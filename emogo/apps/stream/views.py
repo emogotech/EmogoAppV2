@@ -24,6 +24,8 @@ from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, Sta
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 import itertools
 import collections
 
@@ -2003,3 +2005,20 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
             return self.get_paginated_response(
                 data=serializer.data, status_code=status.HTTP_200_OK)
 
+
+class CommentAPI(APIView):
+    """
+    Comment on a content API
+    """
+
+    def post(self, request, *args, **kwargs):
+        group_name = "comment_{}".format(kwargs.get("content_id"))
+        comment = self.request.data.get("text")
+        async_to_sync(get_channel_layer().group_send)(
+            group_name,
+            {
+                'type': 'update_new_comment',
+                'comment': comment
+            }
+        )
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
