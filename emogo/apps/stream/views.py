@@ -1848,6 +1848,12 @@ class FolderAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
         stream_count=Count(Case(When(stream_folders__status="Active", then=1),
         output_field=IntegerField()))).order_by("-crd")
 
+    def get_object(self):
+        try:
+            return self.filter_queryset(self.get_queryset()).get(pk=self.kwargs.get('pk'))
+        except ObjectDoesNotExist:
+            raise Http404("Folder does not exist.")
+
     def get_folder_data(self):
         data = {}
         fields = ("id", "name", "icon", "stream_count")
