@@ -8,10 +8,10 @@ import json
 class CommentConsumer(WebsocketConsumer):
 
     def connect(self):
-        # self.room_name = self.scope['url_route']['kwargs']['group_id']
-        # self.room_group_name = 'chat_%s' % self.room_name
+        self.room_name = self.scope['url_route']['kwargs']['comment_id']
+        self.room_group_name = 'comment_%s' % self.room_name
         async_to_sync(self.channel_layer.group_add)(
-            'new_comment',
+            self.room_group_name,
             self.channel_name
         )
         self.accept()
@@ -19,7 +19,7 @@ class CommentConsumer(WebsocketConsumer):
 
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
-            'new_comment',
+            self.room_group_name,
             self.channel_name
         )
 
@@ -27,8 +27,8 @@ class CommentConsumer(WebsocketConsumer):
         pass
 
     def update_new_comment(self, event):
-        comments = event['comments']
-        self.send(text_data=json.dumps(comments))
+        comment = event['comment']
+        self.send(text_data=json.dumps(comment))
 
 # Connected to websocket.connect
 # def ws_connect(message):

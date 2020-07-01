@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'emogo.apps.notification',
     'health_check',
     'drf_yasg',
+    'channels',
 ]
 
 MIDDLEWARE = [
