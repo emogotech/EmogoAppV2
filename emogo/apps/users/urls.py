@@ -4,7 +4,7 @@ from emogo.apps.users import views
 urlpatterns = [
     url(r'^users/(?P<user_id>[0-9]+)/$', views.Users.as_view()),
     url(r'^users/$', views.Users.as_view()),
-    url('^users', views.Users.as_view()),
+    # url('^users', views.Users.as_view()),
     url(r'^signup/$', views.Signup.as_view()),
     url(r'^verify_otp/$', views.VerifyRegistration.as_view()),
     url(r'^login/$', views.Login.as_view()),
