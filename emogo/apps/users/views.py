@@ -29,7 +29,14 @@ from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
 from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates, Folder
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.notification.models import Notification
+from emogo.apps.users.swagger_schema import (
+    user_profile_update_schema_doc, user_profile_update_response, check_content_avail_schema,
+    check_content_avail_responses, check_is_business_doc, verify_login_otp_schema,
+    verify_login_otp_response, signup_schema_doc, verify_reg_schema_doc, login_api_response,
+    login_schema_doc, logout_schema_doc, uniq_username_schema_doc)
 from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from itertools import chain
 # models
 from django.contrib.auth.models import User
@@ -68,6 +75,11 @@ class Signup(APIView):
     """
     User can register his detail and able to login in system.
     """
+
+    @swagger_auto_schema(
+        request_body=signup_schema_doc,
+        responses={'200': '{ "status_code": 201, "data": { } }'},
+    )
     def post(self, request, version):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -83,6 +95,10 @@ class VerifyRegistration(APIView):
     This API to verify OTP.
     """
 
+    @swagger_auto_schema(
+        request_body=verify_reg_schema_doc,
+        responses=verify_login_otp_response
+    )
     def post(self, request, version):
         # if not request.data.get("device_name", None):
         #     raise serializers.ValidationError({'device_name': ["device name is required."]})
@@ -119,6 +135,10 @@ class Login(APIView):
     User login API
     """
 
+    @swagger_auto_schema(
+        request_body=login_schema_doc,
+        responses=login_api_response,
+    )
     def post(self, request, version):
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
@@ -156,6 +176,12 @@ class Logout(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=logout_schema_doc,
+        responses={
+            '200': '{"status_code": "200", "data": "Logout Successfully."}',
+        },
+    )
     def post(self, request, version):
         try:
             # simply delete the token to force a login
@@ -176,6 +202,13 @@ class UniqueUserName(APIView):
     """
     User unique name API
     """
+
+    @swagger_auto_schema(
+        request_body=uniq_username_schema_doc,
+        responses={
+            '200': """{"status_code": 200, "data": {"user_name": "swarnim" } }""",
+        },
+    )
     def post(self, request, version):
         serializer = UserSerializer(data=request.data, fields=('user_name',))
         if serializer.is_valid(raise_exception=True):
@@ -186,6 +219,13 @@ class ResendOTP(APIView):
     """
     This API for sending an OTP.
     """
+
+    @swagger_auto_schema(
+        request_body=uniq_username_schema_doc,
+        responses={
+            '200': """{"status_code": 200, "data": {"otp": null } }""",
+        },
+    )
     def post(self, request, version):
         serializer = UserResendOtpSerializer(data=request.data, fields=('phone_number', ))
         if serializer.is_valid(raise_exception=True):
@@ -330,6 +370,13 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             serializer = self.get_serializer(page, many=True, fields=fields)
             return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+        request_body=user_profile_update_schema_doc,
+        responses=user_profile_update_response,
+    )
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
     def update(self, request, *args, **kwargs):
         """
         :param request: ALL request data
@@ -428,6 +475,7 @@ class UserStearms(ListAPIView):
     """
     User Streams API
     """
+    swagger_schema = None
     serializer_class = StreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -864,6 +912,7 @@ class GetTopStreamAPI(APIView):
     serializer_class = GetTopStreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    swagger_schema = None
 
     def get_serializer_context(self):
         return {'request': self.request, 'version': self.kwargs.get('version')}
@@ -882,6 +931,10 @@ class VerifyLoginOTP(APIView):
     User login API
     """
 
+    @swagger_auto_schema(
+        request_body=verify_login_otp_schema,
+        responses=verify_login_otp_response,
+    )
     def post(self, request, version):
         # if not request.data.get("device_name", None):
         #     raise serializers.ValidationError({'device_name': ["device name is required."]})
@@ -917,6 +970,21 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
                 to_attr='following'
             )
         )
+
+    @swagger_auto_schema(
+        request_body=UserFollowSerializer(fields=["following"]),
+        responses={
+            '200': """{
+                "status_code": 201,
+                "data": {
+                    "is_follower": false, "is_following": false, "following": 2,
+                    "total_followers": 0, "total_following": 1
+                }
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         """
@@ -963,6 +1031,10 @@ class CheckContactInEmogo(APIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CheckContactInEmogoSerializer
 
+    @swagger_auto_schema(
+        request_body=check_content_avail_schema,
+        responses=check_content_avail_responses,
+    )
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -1003,7 +1075,7 @@ class GetTopStreamAPIV2(APIView):
     """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-
+    swagger_schema = None
 
 
     def use_fields(self):
@@ -1179,6 +1251,12 @@ class UserBuisnessAccount(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=check_is_business_doc,
+        responses={
+            '200': """{ "status_code": 200, "data": { } }""",
+        },
+    )
     def post(self, request, version):
         UserProfile.objects.filter(user_id = request.user).update(is_buisness_account = request.data['is_buisness_account'])
         return custom_render_response(status_code = status.HTTP_200_OK)
@@ -1364,8 +1442,9 @@ class GetTopStreamAPIV3(ListAPIView):
 
         #Content data
         fields = (
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'user_image', 'full_name', 'order', 'liked')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'user_image', 'full_name', 'order', 'liked',
+            'file')
         content_obj = Content.actives.filter(streams__type='Public').select_related('created_by__user_data__user').prefetch_related(
                     Prefetch(
                         "content_like_dislike_status",
@@ -1510,6 +1589,7 @@ class UploadMediaOnS3(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     parser_classes = (MultiPartParser,)
+    swagger_schema = None
 
     def post(self, request, *args, **kwargs):
         s3_client = boto3.client('s3', aws_access_key_id=settings.AWS_ACCESS_KEY_ID,

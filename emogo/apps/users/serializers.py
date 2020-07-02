@@ -262,7 +262,8 @@ class UserDetailSerializer(UserProfileSerializer):
         return False
 
     def get_contents(self, obj):
-        return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data
+        fields = ('id', 'name', 'url', 'type', 'video_image', 'file')
+        return ViewContentSerializer(obj.user_contents(), many=True, fields=fields).data
 
     def get_emogo_count(self, obj):
         if hasattr(obj, "stream_counts"):
@@ -1015,8 +1016,8 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file')
         instances = obj.content_list
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
@@ -1055,8 +1056,8 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
         return {'can_add_content': True , 'can_add_people': False}
 
     def get_stream_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file')
         instances = obj.content_list[0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 

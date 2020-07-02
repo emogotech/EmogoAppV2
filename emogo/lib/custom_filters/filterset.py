@@ -7,6 +7,8 @@ from django.db.models import Prefetch , Count
 from emogo.apps.stream.models import StreamUserViewStatus, StarredStream, Folder
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
 from itertools import chain
 
 
@@ -31,7 +33,7 @@ class StreamFilter(django_filters.FilterSet):
         except ObjectDoesNotExist:
             raise Http404("Folder does not exist.")
         return qs.filter(folder=folder)
-    
+
     def filter_stream_name(self, qs, name, value):
         return qs.filter(name__icontains=value)
 

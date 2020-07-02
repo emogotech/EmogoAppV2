@@ -491,7 +491,9 @@ class ViewStreamSerializer(StreamSerializer):
             return 0
 
     def get_collaborators(self, obj):
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status', 'created_by')
+        fields = (
+            'id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image',
+            'user_image', 'added_by_me', 'user_profile_id', 'user_id', 'status', 'created_by')
         if self.context.get('version'):
             instances = obj.stream_collaborator_verified
         else:
@@ -501,10 +503,11 @@ class ViewStreamSerializer(StreamSerializer):
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked', 'html_text')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'html_text', 'file')
         instances = obj.content_list
-        return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
+        return ViewContentSerializer(
+            [x.content for x in instances], many=True, fields=fields, context=self.context).data
 
     def get_stream_permission(self, obj):
         qs = obj.stream_collaborator
@@ -543,8 +546,8 @@ class ViewStreamSerializer(StreamSerializer):
         return {'can_add_content': True , 'can_add_people': False}
 
     def get_stream_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked', 'html_text')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'html_text', 'file')
         instances = obj.content_list[0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
@@ -569,7 +572,7 @@ class ViewStreamSerializer(StreamSerializer):
 class OptimisedViewStreamSerializer(ViewStreamSerializer):
 
     def validate_name(self, value):
-        stream = Stream.objects.filter(
+        stream = Stream.actives.filter(
             created_by=self.context.get('request').user, name__iexact=value.strip())
         if self.instance:
             stream = stream.exclude(id=self.instance.id)
@@ -1306,7 +1309,11 @@ class StreamMoveToFolderSerializer(serializers.ModelSerializer):
         return value
 
     def is_valid(self, *args, **kwargs):
-        if self.context['request'].method in ["POST", "PATCH"] and self.initial_data.get("folder") and not \
-                Folder.objects.filter(id=self.initial_data.get("folder")[0]).exists():
-            raise serializers.ValidationError(messages.MSG_FOLDER_NOT_VALID.format(self.initial_data.get("folder")[0]))
+        if self.initial_data.get("folder") and not Folder.objects.filter(
+            id=self.initial_data.get("folder")[0]).exists():
+                raise serializers.ValidationError({"folder": [messages.MSG_FOLDER_NOT_VALID.format(
+                    self.initial_data.get("folder")[0])]})
+        if self.instance and self.instance.created_by != self.context["request"].user:
+            raise serializers.ValidationError(
+                {"stream": [messages.MSG_STREAM_OWNER_NOT_VALID]})
         return super(StreamMoveToFolderSerializer, self).is_valid(*args, **kwargs)
