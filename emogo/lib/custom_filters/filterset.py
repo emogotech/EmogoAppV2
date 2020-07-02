@@ -4,7 +4,7 @@ from emogo.apps.users.models import UserProfile, UserFollow
 from django.db.models import Q
 from emogo.apps.collaborator.models import Collaborator
 from django.db.models import Prefetch , Count
-from emogo.apps.stream.models import StreamUserViewStatus, StarredStream
+from emogo.apps.stream.models import StreamUserViewStatus, StarredStream, Folder
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.http import Http404
@@ -20,11 +20,19 @@ class StreamFilter(django_filters.FilterSet):
     name = django_filters.filters.CharFilter(method='filter_name')
     collaborator_qs = Collaborator.actives.all()
     stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
+    folder = django_filters.filters.CharFilter(method='filter_by_folder')
 
     class Meta:
         model = Stream
-        fields = ['stream_name', 'featured', 'emogo', 'my_stream', 'popular',
-                  'self_created', 'folder']
+        fields = ['folder', 'stream_name', 'featured', 'emogo', 'my_stream', 'popular',
+                  'self_created']
+
+    def filter_by_folder(self, qs, name, value):
+        try:
+            folder = Folder.objects.get(id=value)
+        except ObjectDoesNotExist:
+            raise Http404("Folder does not exist.")
+        return qs.filter(folder=folder)
 
     def filter_stream_name(self, qs, name, value):
         return qs.filter(name__icontains=value)
@@ -228,6 +236,10 @@ class ContentsFilter(django_filters.FilterSet):
         fields = ['type']
 
     def filter_by_stream(self, qs, name, value):
+        try:
+            Stream.objects.get(id=value)
+        except ObjectDoesNotExist:
+            raise Http404("Emogo does not exist.")
         return qs.filter(content_streams__stream=value)
 
 
