@@ -572,7 +572,7 @@ class ViewStreamSerializer(StreamSerializer):
 class OptimisedViewStreamSerializer(ViewStreamSerializer):
 
     def validate_name(self, value):
-        stream = Stream.objects.filter(
+        stream = Stream.actives.filter(
             created_by=self.context.get('request').user, name__iexact=value.strip())
         if self.instance:
             stream = stream.exclude(id=self.instance.id)

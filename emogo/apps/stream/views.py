@@ -31,6 +31,8 @@ from emogo.apps.stream.swagger_schema import (
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from drf_yasg.utils import swagger_auto_schema
 import itertools
 import collections
@@ -159,8 +161,10 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :param kwargs: dict param
         :return: Create Stream API.
         """
-
-        instance = self.get_object()
+        try:
+            instance = self.get_object()
+        except:
+            raise Http404("The Emogo does not exist.")
         self.serializer_class = OptimisedViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
@@ -264,20 +268,16 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         """
 
         partial = kwargs.pop('partial', False)
-        # from django.db import connection, reset_queries
-        # reset_queries()
-        # print(len(connection.queries))
-        # print(time.time() - start_time)
-        # import time
-        # start_time = time.time()
-        # instance = self.get_object()
-        instance = Stream.actives.prefetch_related(
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator'
-            )
-        ).get(pk=self.kwargs.get('pk'))
+        try:
+            instance = Stream.actives.prefetch_related(
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                    to_attr='stream_collaborator'
+                )
+            ).get(pk=self.kwargs.get('pk'))
+        except:
+            raise Http404("The Emogo does not exist.")
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
@@ -307,7 +307,10 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :param kwargs:
         :return: Soft Delete Stream and it's attribute
         """
-        instance = self.get_object()
+        try:
+            instance = self.get_object()
+        except:
+            raise Http404("The Emogo does not exist.")
         #update notification when user delete stream
         noti = Notification.objects.filter(notification_type = 'collaborator_confirmation', stream = instance, from_user = instance.created_by)
         if noti.__len__() > 0 :
@@ -1995,6 +1998,12 @@ class FolderAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
         stream_count=Count(Case(When(stream_folders__status="Active", then=1),
         output_field=IntegerField()))).order_by("-crd")
 
+    def get_object(self):
+        try:
+            return self.filter_queryset(self.get_queryset()).get(pk=self.kwargs.get('pk'))
+        except ObjectDoesNotExist:
+            raise Http404("Folder does not exist.")
+
     def get_folder_data(self):
         data = {}
         fields = ("id", "name", "icon", "stream_count")
@@ -2198,3 +2207,20 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
             return self.get_paginated_response(
                 data=serializer.data, status_code=status.HTTP_200_OK)
 
+
+class CommentAPI(APIView):
+    """
+    Comment on a content API
+    """
+
+    def post(self, request, *args, **kwargs):
+        group_name = "comment_{}".format(kwargs.get("content_id"))
+        comment = self.request.data.get("text")
+        async_to_sync(get_channel_layer().group_send)(
+            group_name,
+            {
+                'type': 'update_new_comment',
+                'comment': comment
+            }
+        )
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
