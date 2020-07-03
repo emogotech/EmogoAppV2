@@ -31,8 +31,8 @@ from emogo.apps.stream.swagger_schema import (
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
+# from asgiref.sync import async_to_sync
+# from channels.layers import get_channel_layer
 from drf_yasg.utils import swagger_auto_schema
 import itertools
 import collections
