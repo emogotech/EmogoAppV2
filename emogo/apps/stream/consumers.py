@@ -1,49 +1,49 @@
-# In consumers.py
-# from channels import Group
-from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
-import json
+# # In consumers.py
+# # from channels import Group
+# from asgiref.sync import async_to_sync
+# from channels.generic.websocket import WebsocketConsumer
+# import json
 
 
-class CommentConsumer(WebsocketConsumer):
+# class CommentConsumer(WebsocketConsumer):
 
-    def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['comment_id']
-        self.room_group_name = 'comment_%s' % self.room_name
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name,
-            self.channel_name
-        )
-        self.accept()
-        self.send(text_data="You are now connected with comment socket.")
+#     def connect(self):
+#         self.room_name = self.scope['url_route']['kwargs']['comment_id']
+#         self.room_group_name = 'comment_%s' % self.room_name
+#         async_to_sync(self.channel_layer.group_add)(
+#             self.room_group_name,
+#             self.channel_name
+#         )
+#         self.accept()
+#         self.send(text_data="You are now connected with comment socket.")
 
-    def disconnect(self, close_code):
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name,
-            self.channel_name
-        )
+#     def disconnect(self, close_code):
+#         async_to_sync(self.channel_layer.group_discard)(
+#             self.room_group_name,
+#             self.channel_name
+#         )
 
-    def receive(self, text_data):
-        pass
+#     def receive(self, text_data):
+#         pass
 
-    def update_new_comment(self, event):
-        comment = event['comment']
-        self.send(text_data=json.dumps(comment))
+#     def update_new_comment(self, event):
+#         comment = event['comment']
+#         self.send(text_data=json.dumps(comment))
 
-# Connected to websocket.connect
-# def ws_connect(message):
-#     # Accept the connection
-#     print("helloooo")
-#     message.reply_channel.send({"accept": True})
-#     # Add to the chat group
-#     Group("chat").add(message.reply_channel)
+# # Connected to websocket.connect
+# # def ws_connect(message):
+# #     # Accept the connection
+# #     print("helloooo")
+# #     message.reply_channel.send({"accept": True})
+# #     # Add to the chat group
+# #     Group("chat").add(message.reply_channel)
 
-# # Connected to websocket.receive
-# def ws_receive(message):
-#     Group("chat").send({
-#         "text": "[user] %s" % message.content['text'],
-#     })
+# # # Connected to websocket.receive
+# # def ws_receive(message):
+# #     Group("chat").send({
+# #         "text": "[user] %s" % message.content['text'],
+# #     })
 
-# # Connected to websocket.disconnect
-# def ws_disconnect(message):
-#     Group("chat").discard(message.reply_channel)
+# # # Connected to websocket.disconnect
+# # def ws_disconnect(message):
+# #     Group("chat").discard(message.reply_channel)
