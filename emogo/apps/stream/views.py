@@ -2122,7 +2122,10 @@ class StreamMoveToFolderAPI(UpdateAPIView):
         """
         :param request: The request data
         """
-        instance = self.get_object()
+        try:
+            instance = self.get_object()
+        except:
+            raise Http404("The Emogo does not exist.")
         serializer = self.serializer_class(instance, data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
