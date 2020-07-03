@@ -1305,14 +1305,13 @@ class StreamMoveToFolderSerializer(serializers.ModelSerializer):
 
     def validate_folder(self, value):
         if value and value[0].owner != self.context["request"].user:
-            raise serializers.ValidationError(messages.MSG_FOLDER_OWNER_NOT_VALID)
+            raise serializers.ValidationError("Folder does not exist.")
         return value
 
     def is_valid(self, *args, **kwargs):
         if self.initial_data.get("folder") and not Folder.objects.filter(
             id=self.initial_data.get("folder")[0]).exists():
-                raise serializers.ValidationError({"folder": [messages.MSG_FOLDER_NOT_VALID.format(
-                    self.initial_data.get("folder")[0])]})
+                raise serializers.ValidationError({"folder": ["Folder does not exist."]})
         if self.instance and self.instance.created_by != self.context["request"].user:
             raise serializers.ValidationError(
                 {"stream": [messages.MSG_STREAM_OWNER_NOT_VALID]})
