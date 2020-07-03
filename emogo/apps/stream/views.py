@@ -2208,19 +2208,19 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
                 data=serializer.data, status_code=status.HTTP_200_OK)
 
 
-class CommentAPI(APIView):
-    """
-    Comment on a content API
-    """
+# class CommentAPI(APIView):
+#     """
+#     Comment on a content API
+#     """
 
-    def post(self, request, *args, **kwargs):
-        group_name = "comment_{}".format(kwargs.get("content_id"))
-        comment = self.request.data.get("text")
-        async_to_sync(get_channel_layer().group_send)(
-            group_name,
-            {
-                'type': 'update_new_comment',
-                'comment': comment
-            }
-        )
-        return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
+#     def post(self, request, *args, **kwargs):
+#         group_name = "comment_{}".format(kwargs.get("content_id"))
+#         comment = self.request.data.get("text")
+#         async_to_sync(get_channel_layer().group_send)(
+#             group_name,
+#             {
+#                 'type': 'update_new_comment',
+#                 'comment': comment
+#             }
+#         )
+#         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
