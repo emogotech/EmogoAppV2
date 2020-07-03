@@ -31,6 +31,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
+    swagger_schema = None
 
     # def update(self, request, version, *args, **kwargs):
     def update(self, request, *args, **kwargs):
