@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 # from rest_framework.authentication import TokenAuthentication
 from emogo.apps.users.authentication import TokenAuthentication
@@ -10,7 +10,7 @@ from emogo.lib.helpers.utils import custom_render_response
 from emogo.apps.stream.models import (
     Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream,
     StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, Folder,
-    ContentSharedInImessage)
+    ContentSharedInImessage, CONTENT_TYPE)
 from emogo.apps.stream.serializers import (
     StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer,
     ViewContentSerializer, ContentBulkDeleteSerializer, MoveContentToStreamSerializer,
@@ -568,6 +568,11 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
+        for content in self.request.data:
+            if content.get("type") and not any(
+                True for c_type in CONTENT_TYPE if c_type[0] == content.get("type")):
+                raise serializers.ValidationError(
+                    {'type': ["Please select valid media type."]})
         try:
             request.data.reverse()
         except:
@@ -596,6 +601,10 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         """
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
+        if self.request.data.get("type") and not any(True for c_type in \
+            CONTENT_TYPE if c_type[0] == self.request.data.get("type")):
+            raise serializers.ValidationError(
+                {'type': ["Please select valid media type."]})
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
@@ -631,7 +640,6 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
 
 
 class GetTopContentAPI(ContentAPI):
-    http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
@@ -1364,7 +1372,6 @@ class ContentInBulkAPI(ContentAPI):
     """
     Get Contents in bulk
     """
-    http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
         """
@@ -2107,7 +2114,6 @@ class StreamMoveToFolderAPI(UpdateAPIView):
     queryset = Stream.actives.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    http_method_names = ['patch']
 
     @swagger_auto_schema(
         request_body=move_emogo_to_folder_schema,

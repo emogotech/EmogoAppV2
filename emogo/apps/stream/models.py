@@ -22,7 +22,8 @@ CONTENT_TYPE = (
     ("pdf", "PDF"),
     ("audio", "Audio"),
     ("excel", "Excel"),
-    ("text", "Text")
+    ("text", "Text"),
+    ('zip', 'Zip'),
 )
 
 EVENT_TYPE = (
