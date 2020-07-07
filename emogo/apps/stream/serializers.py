@@ -1309,6 +1309,8 @@ class StreamMoveToFolderSerializer(serializers.ModelSerializer):
         return value
 
     def is_valid(self, *args, **kwargs):
+        if "folder" in self.initial_data.keys() and len(self.initial_data.get("folder")) == 0:
+            raise serializers.ValidationError({"folder": ["Please select a folder."]})
         if self.initial_data.get("folder") and not Folder.objects.filter(
             id=self.initial_data.get("folder")[0]).exists():
                 raise serializers.ValidationError({"folder": ["Folder does not exist."]})
