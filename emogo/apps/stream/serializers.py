@@ -723,6 +723,11 @@ class ContentBulkDeleteSerializer(DynamicFieldsModelSerializer):
         model = Content
         fields = ['content_list']
 
+    def validate_content_list(self, value):
+        if Content.actives.filter(id__in=value).__len__() != len(value):
+            raise serializers.ValidationError("Content does not exist.")
+        return value
+
 
 class ViewContentSerializer(ContentSerializer):
     """
@@ -789,10 +794,10 @@ class MoveContentToStreamSerializer(ContentSerializer):
         """
         contents = set(self.initial_data.get('contents'))
         contents = Content.actives.filter(id__in=contents)
-        if contents.exists():
+        if contents.__len__() == len(self.initial_data.get('contents')):
             self.initial_data['contents'] = contents
         else:
-            raise serializers.ValidationError({'contents': messages.MSG_INVALID_ACCESS.format('contents')})
+            raise serializers.ValidationError("Content does not exist.")
         return value
 
     def validate_streams(self, value):
@@ -805,7 +810,7 @@ class MoveContentToStreamSerializer(ContentSerializer):
         if streams.exists():
             self.initial_data['streams'] = streams
         else:
-            raise serializers.ValidationError({'streams': messages.MSG_INVALID_ACCESS.format('streams')})
+            raise serializers.ValidationError("The Emogo does not exist.")
         return value
 
     def save(self, **kwargs):
@@ -888,7 +893,12 @@ class DeleteStreamContentSerializer(DynamicFieldsModelSerializer):
                         }
 
     def delete_content(self):
-        self.instance.stream_contents.filter(content__in=self.validated_data.get("content")).delete()
+        stream_contents = self.instance.stream_contents.filter(
+            content__in=self.validated_data.get("content"))
+        if stream_contents.__len__() != len(self.validated_data.get("content")):
+            raise serializers.ValidationError({"content": ["Content does not exist."]})
+        stream_contents.delete()
+        # self.instance.stream_contents.filter(content__in=self.validated_data.get("content")).delete()
         # recent_updates_thread_list = RecentUpdates.objects.filter(stream=self.instance).values_list('thread', flat=True)
         # stream_content_thread_list = [x.thread for x in self.instance.stream_contents]
         # if stream_content_thread_list.__len__() > 0:
@@ -911,9 +921,21 @@ class ReorderStreamContentSerializer(DynamicFieldsModelSerializer):
                         'stream': {'required': True, 'allow_null': False}
                         }
 
+    def is_valid(self, *args, **kwargs):
+        try:
+            Stream.actives.get(id=self.initial_data.get("stream"))
+        except Exception as e:
+            raise serializers.ValidationError({"stream": ["The Emogo does not exist."]})
+        return super(ReorderStreamContentSerializer, self).is_valid(*args, **kwargs)
+
     def reorder_content(self):
+        content_ids = [cont["id"] for cont in self.validated_data.get('content')]
+        if StreamContent.objects.filter(content__in=content_ids,
+                stream=self.validated_data.get('stream')).__len__() != len(content_ids):
+            raise serializers.ValidationError({"content": ["Content does not exist."]})
         for instance in self.validated_data.get('content'):
-            StreamContent.objects.filter(content=instance.get('id'), stream=self.validated_data.get('stream')).update(order=instance.get('order'))
+            StreamContent.objects.filter(content=instance.get('id'),
+                stream=self.validated_data.get('stream')).update(order=instance.get('order'))
         return True
 
 
@@ -929,6 +951,9 @@ class ReorderContentSerializer(DynamicFieldsModelSerializer):
         extra_kwargs = {'content': {'required': True, 'allow_null': False}}
 
     def reorder_content(self):
+        content_ids = [cont["id"] for cont in self.validated_data.get('my_order')]
+        if Content.actives.filter(pk__in=content_ids).__len__() != len(content_ids):
+            raise serializers.ValidationError({"my_order": ["Content does not exist."]})
         for instance in self.validated_data.get('my_order'):
             Content.objects.filter(pk=instance.get('id')).update(order=instance.get('order'))
         return True
@@ -970,6 +995,13 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
         except AttributeError:
             return None
 
+    def is_valid(self, *args, **kwargs):
+        try:
+            Stream.actives.get(id=self.initial_data.get("stream"))
+        except Exception as e:
+            raise serializers.ValidationError({"stream": ["The Emogo does not exist."]})
+        return super(StreamLikeDislikeSerializer, self).is_valid(*args, **kwargs)
+
     def create(self, validated_data):
         obj, created = LikeDislikeStream.objects.update_or_create(
             stream=self.validated_data.get('stream'), user=self.context.get('request').user,
@@ -993,6 +1025,13 @@ class ContentLikeDislikeSerializer(DynamicFieldsModelSerializer):
     def get_total_liked(self, obj):
         return LikeDislikeContent.objects.filter(status=1, content=obj.get('content')).aggregate(total_liked=Count('id')).get('total_liked',0)
 
+    def is_valid(self, *args, **kwargs):
+        try:
+            Content.actives.get(id=self.initial_data.get("content"))
+        except Exception as e:
+            raise serializers.ValidationError({"content": ["Content does not exist."]})
+        return super(ContentLikeDislikeSerializer, self).is_valid(*args, **kwargs)
+
     def create(self, validated_data):
         obj, created = LikeDislikeContent.objects.update_or_create(
             content=self.validated_data.get('content'), user=self.context.get('request').user,
@@ -1012,6 +1051,13 @@ class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
         model = StreamUserViewStatus
         fields = '__all__'
         extra_kwargs = {'stream': {'required': True}}
+
+    def is_valid(self, *args, **kwargs):
+        try:
+            Stream.actives.get(id=self.initial_data.get("stream"))
+        except Exception as e:
+            raise serializers.ValidationError({"stream": ["The Emogo does not exist."]})
+        return super(StreamUserViewStatusSerializer, self).is_valid(*args, **kwargs)
 
     def get_total_view_count(self, obj):
         new_view_count = StreamUserViewStatus.objects.filter(stream=obj.get('stream')).aggregate(total_view_count=Count('id')).get('total_view_count', 0)
@@ -1187,6 +1233,13 @@ class StarredStreamSerializer(DynamicFieldsModelSerializer):
         model = StarredStream
         fields = ['user', 'stream', 'status']
 
+    def is_valid(self, *args, **kwargs):
+        try:
+            Stream.actives.get(id=self.initial_data.get("stream"))
+        except Exception as e:
+            raise serializers.ValidationError({"stream": ["The Emogo does not exist."]})
+        return super(StarredStreamSerializer, self).is_valid(*args, **kwargs)
+
     def create(self, validated_data):
         obj, created = StarredStream.objects.update_or_create(
             stream=self.validated_data.get('stream'),
@@ -1293,7 +1346,7 @@ class ShareContentSerializer(DynamicFieldsModelSerializer):
             raise serializers.ValidationError(messages.MSG_CONTENT_NOT_PROVIDED)
         if content_ids and Content.actives.filter(
             id__in=content_ids).__len__() != content_ids.__len__():
-                raise serializers.ValidationError(messages.MSG_INVALID_CONTENT)
+                raise serializers.ValidationError({"content": ["Content does not exist."]})
         return super(ShareContentSerializer, self).is_valid(*args, **kwargs)
 
 

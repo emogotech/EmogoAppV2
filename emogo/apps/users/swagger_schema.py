@@ -209,7 +209,6 @@ login_api_response = {
             }
         }
     }""",
-    '400': "Bad Request"
 }
 
 logout_schema_doc = openapi.Schema(
