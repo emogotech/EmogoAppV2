@@ -344,8 +344,10 @@ class DeleteStreamContentAPI(DestroyAPIView):
         :param kwargs: dict param
         :return: Delete Stream Content.
         """
-
-        instance = self.get_object()
+        try:
+            instance = self.get_object()
+        except:
+            raise Http404("The Emogo does not exist.")
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.delete_content()
@@ -360,7 +362,10 @@ class DeleteStreamContentInBulkAPI(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
-        return get_object_or_404(Stream, pk=self.kwargs.get('pk'))
+        try:
+            return self.queryset.get(pk=self.kwargs.get('pk'))
+        except ObjectDoesNotExist:
+            raise Http404("The Emogo does not exist.")
 
     @swagger_auto_schema(
         request_body=delete_stream_content_schema,
@@ -1021,12 +1026,14 @@ class MoveContentToStream(APIView):
         content_obj = request.data['contents']
         content_obj.reverse()
         request.data.update({"contents": content_obj})
-        serializer = self.serializer_class(data=request.data, context=self.get_serializer_context())
-        if serializer.is_valid():
+        serializer = self.serializer_class(
+            data=request.data, context=self.get_serializer_context())
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return custom_render_response(status_code=status.HTTP_200_OK, data={})
         else:
-            return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+            return custom_render_response(
+                status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
 
 
 class ReorderStreamContent(APIView):
@@ -1637,8 +1644,11 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
 
     def destroy(self, request, *args, **kwargs):
-
         stream_id = self.kwargs.get('stream_id')
+        try:
+            Stream.actives.get(id=stream_id)
+        except:
+            raise Http404("The Emogo does not exist.")
         stream = StarredStream.objects.filter(stream_id=stream_id, user=self.request.user)
         stream.delete()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={})
