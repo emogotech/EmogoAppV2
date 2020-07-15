@@ -252,12 +252,12 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         serializer = self.get_serializer(stream, context=self.request, fields=fields)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
-    # @swagger_auto_schema(
-    #     request_body=stream_schema_doc,
-    #     responses=stream_api_responses,
-    # )
-    # def patch(self, request, *args, **kwargs):
-    #     return self.update(request, *args, **kwargs)
+    @swagger_auto_schema(
+        request_body=stream_schema_doc,
+        responses=stream_api_responses,
+    )
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
         """
@@ -595,7 +595,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         responses=content_update_api_response,
     )
     def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        return self.partial_update(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
         """
@@ -2132,7 +2132,7 @@ class StreamMoveToFolderAPI(UpdateAPIView):
         },
     )
     def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        return self.partial_update(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
         """
