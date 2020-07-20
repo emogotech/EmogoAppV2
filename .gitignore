@@ -7,3 +7,4 @@ emogo/apps/collaborator/migrations/
 emogo/apps/notification/migrations/
 logs/
 *.log
+CODEOWNERS
