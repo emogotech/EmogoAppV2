@@ -239,9 +239,9 @@ class ContentsFilter(django_filters.FilterSet):
 
     def filter_by_stream(self, qs, name, value):
         try:
-            Stream.objects.get(id=value)
+            Stream.actives.get(id=value)
         except ObjectDoesNotExist:
-            raise Http404("Emogo does not exist.")
+            raise Http404("The Emogo does not exist.")
         return qs.filter(content_streams__stream=value)
 
 
