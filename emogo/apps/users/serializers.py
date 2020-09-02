@@ -12,8 +12,9 @@ from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerialize
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
 from emogo.apps.stream.serializers import (
     ViewStreamSerializer, ViewContentSerializer, OptimisedViewStreamSerializer)
-from emogo.apps.stream.models import Stream, LikeDislikeStream, RecentUpdates, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
-    LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
+from emogo.apps.stream.models import (Stream, LikeDislikeStream, RecentUpdates,
+    StreamContent, StreamUserViewStatus, LikeDislikeStream, LikeDislikeContent,
+    StarredStream, NewEmogoViewStatusOnly, ContentComment)
 from emogo.apps.collaborator.models import Collaborator
 from itertools import chain
 from django.db import IntegrityError
@@ -1074,3 +1075,19 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
             return True
         else:
             return False
+
+
+class ContentCommentSerializer(DynamicFieldsModelSerializer):
+    """
+    ContentComment model Serializer
+    """
+
+    user_data = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ContentComment
+        fields = "__all__"
+
+    def get_user_data(self, obj):
+        fields = ('user_profile_id', 'full_name', 'user_id', 'user_image', 'display_name')
+        return UserProfileSerializer(instance=obj.user.user_data, fields=fields).data

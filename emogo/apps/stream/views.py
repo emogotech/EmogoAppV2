@@ -2227,19 +2227,16 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
                 data=serializer.data, status_code=status.HTTP_200_OK)
 
 
-# class CommentAPI(APIView):
-#     """
-#     Comment on a content API
-#     """
+class DeleteStreamComments(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
-#     def post(self, request, *args, **kwargs):
-#         group_name = "comment_{}".format(kwargs.get("content_id"))
-#         comment = self.request.data.get("text")
-#         async_to_sync(get_channel_layer().group_send)(
-#             group_name,
-#             {
-#                 'type': 'update_new_comment',
-#                 'comment': comment
-#             }
-#         )
-#         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
+    def delete(self, request, *args, **kwargs):
+        try:
+            stream = Stream.actives.get(
+                pk=self.kwargs.get('stream_id'), created_by=self.request.user)
+        except ObjectDoesNotExist:
+            raise Http404("The Emogo does not exist.")
+        stream.stream_comments.all().update(status='Deleted')
+        return custom_render_response(
+            status_code=status.HTTP_204_NO_CONTENT, data=None)

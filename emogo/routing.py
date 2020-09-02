@@ -9,13 +9,14 @@
 
 
 # from channels.auth import AuthMiddlewareStack
-# from channels.routing import ProtocolTypeRouter, URLRouter
-# from emogo.apps.stream import routing
+from emogo.lib.common_middleware.channelsmiddleware import TokenAuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+from emogo.apps.stream import routing
 
-# application = ProtocolTypeRouter({
-#     'websocket': AuthMiddlewareStack(
-#         URLRouter(
-#             routing.websocket_comments_urlpatterns
-#         )
-#     ),
-# })
+application = ProtocolTypeRouter({
+    'websocket': TokenAuthMiddlewareStack(
+        URLRouter(
+            routing.websocket_comments_urlpatterns
+        )
+    ),
+})
