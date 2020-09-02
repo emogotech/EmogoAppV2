@@ -3,6 +3,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from emogo.lib.default_models.models import DefaultStatusModel, DefaultDateModel
+from emogo.lib.custom_managers.manager import ActiveManager
 import itertools
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -39,6 +40,11 @@ CHOICE_TYPE = (
 EXTREMIST_TYPE = (
     ('Inappropriate', 'Inappropriate'),
     ('Spam', 'Spam'),
+)
+
+COMMENT_STATUS = (
+    ('Active', 'Active'),
+    ('Deleted', 'Deleted'),
 )
 
 
@@ -116,6 +122,30 @@ class Content(DefaultStatusModel):
 
     class Meta:
         db_table = 'content'
+
+
+class ContentComment(DefaultDateModel):
+    stream = models.ForeignKey(Stream, related_name='stream_comments')
+    content = models.ForeignKey(Content, related_name='content_comments')
+    user = models.ForeignKey(User, related_name='user_comments')
+    text = models.CharField(max_length=100)
+    # content_type = models.CharField(max_length=10, choices=COMMENT_TYPE)
+    status = models.CharField(max_length=10, choices=COMMENT_STATUS, default="Active")
+    objects = models.Manager()
+    actives = ActiveManager()
+
+    class Meta:
+        db_table = 'content_comment'
+
+
+class CommentAcknowledgement(models.Model):
+    stream = models.ForeignKey(Stream, related_name='stream_acknowledge')
+    content = models.ForeignKey(Content, related_name='content_acknowledge')
+    user = models.ForeignKey(User, related_name='user_acknowledge')
+    last_seen = models.DateTimeField()
+
+    class Meta:
+        db_table = 'comment_acknowledgement'
 
 
 class ContentSharedInImessage(DefaultDateModel):
