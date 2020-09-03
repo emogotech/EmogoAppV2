@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'emogo.apps.notification',
     'health_check',
     'drf_yasg',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -105,6 +106,7 @@ SWAGGER_SETTINGS = {
 }
 
 WSGI_APPLICATION = 'emogo.wsgi.application'
+ASGI_APPLICATION = "emogo.routing.application"
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -360,6 +362,36 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
+
+SWAGGER_SETTINGS = {
+
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },  # setting to pass token in header
+    'USE_SESSION_AUTH': False,
+    # set to True if session based authentication needed
+    'JSON_EDITOR': True,
+    'api_path': 'api/',
+    'api_version': 'v0',
+
+    "is_authenticated": False,  # Set to True to enforce user authentication,
+    "is_superuser": False,  # Set to True to enforce admin only access
+    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
+    # unauthenticated user will be shown as Anonymous user in swagger UI.
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 
 # Get Local Settings
