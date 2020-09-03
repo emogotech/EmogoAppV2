@@ -232,6 +232,7 @@ class FollowerFollowingUserFilter(django_filters.FilterSet):
 class ContentsFilter(django_filters.FilterSet):
     type = django_filters.CharFilter(name='type', lookup_expr='iexact')
     stream = django_filters.filters.CharFilter(method='filter_by_stream')
+    content = django_filters.filters.CharFilter(method='filter_by_content')
 
     class Meta:
         model = Content
@@ -243,6 +244,14 @@ class ContentsFilter(django_filters.FilterSet):
         except ObjectDoesNotExist:
             raise Http404("The Emogo does not exist.")
         return qs.filter(content_streams__stream=value)
+
+    def filter_by_content(self, qs, name, value):
+        stream = self.request.GET.get("stream")
+        try:
+            qs.get(id=value, content_streams__stream=stream)
+        except ObjectDoesNotExist:
+            raise Http404("Content does not exist.")
+        return qs.filter(pk=value)
 
 
 class UserStreamFilter(django_filters.FilterSet):
