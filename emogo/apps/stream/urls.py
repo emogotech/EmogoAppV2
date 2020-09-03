@@ -44,6 +44,6 @@ urlpatterns = [
     url(r'^folder/(?P<pk>[0-9]+)/$', views.FolderAPI.as_view()),
     url(r'^folder/$', views.FolderAPI.as_view()),
     url(r'^share-content-in-imessage/$', views.ContentShareInImessageAPI.as_view()),
-    url(r'^delete_stream_comments/(?P<stream_id>[0-9]+)/$',
+    url(r'^streams/(?P<stream_id>[0-9]+)/delete_comments/$',
         views.DeleteStreamComments.as_view()),
 ]
