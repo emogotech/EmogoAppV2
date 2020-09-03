@@ -3,6 +3,8 @@ from emogo.apps.stream import views
 
 urlpatterns = [
     # url(r'^/stream/collaborators/(?P<pk>[0-9]+)/', views.StreamAPI.as_view(fields=), name='user-list')
+    url(r'^streams/(?P<stream_id>[0-9]+)/delete_comments/$',
+        views.DeleteStreamComments.as_view()),
     url(r'^stream-search-for-add-content/', views.SearchEmogoAPI.as_view()),
     url(r'^stream/collaborator/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view(), name='stream_collaborator'),
     url(r'^stream/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view(), name='view_stream'),
@@ -44,6 +46,4 @@ urlpatterns = [
     url(r'^folder/(?P<pk>[0-9]+)/$', views.FolderAPI.as_view()),
     url(r'^folder/$', views.FolderAPI.as_view()),
     url(r'^share-content-in-imessage/$', views.ContentShareInImessageAPI.as_view()),
-    url(r'^streams/(?P<stream_id>[0-9]+)/delete_comments/$',
-        views.DeleteStreamComments.as_view()),
 ]
