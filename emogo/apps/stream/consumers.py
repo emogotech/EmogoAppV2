@@ -65,6 +65,19 @@ class CommentConsumer(WebsocketConsumer):
             resp_data['auth_error'] = "Authentication credentials were not provided."
         return resp_data
 
+    def validate_stream_content(self, stream, content_id):
+        resp_data = {}
+        try:
+            resp_data['content'] = StreamContent.objects.select_related(
+                "content").only("content").get(stream=stream,
+                content__id=content_id).content
+        except ObjectDoesNotExist as e:
+            resp_data["exception_data"] = {
+                "status_code": 404,
+                "exception": "Content does not exist."
+            }
+        return resp_data
+
     def validate_user_content_and_stream(self, data):
         # Function to validate user, stream and content
         resp_data = {}
@@ -82,15 +95,11 @@ class CommentConsumer(WebsocketConsumer):
         if "exception_data" in stream_data.keys():
             return stream_data
         resp_data["stream"] = stream_data['stream']
-        try:
-            resp_data['content'] = StreamContent.objects.select_related(
-                "content").only("content").get(stream=stream_data['stream'],
-                content__id=data.get("content")).content
-        except ObjectDoesNotExist as e:
-            resp_data["exception_data"] = {
-                "status_code": 404,
-                "exception": "Content does not exist."
-            }
+        content_data = self.validate_stream_content(
+            stream_data['stream'], data.get("content"))
+        if "exception_data" in content_data.keys():
+            return content_data
+        resp_data["content"] = content_data['content']
         return resp_data
 
     def post_comment(self, data):
@@ -98,40 +107,104 @@ class CommentConsumer(WebsocketConsumer):
         validate_data = self.validate_user_content_and_stream(data)
         if "exception_data" in validate_data.keys():
             self.send(text_data=json.dumps(validate_data['exception_data']))
-        user = validate_data["user"]
-        content = validate_data["content"]
-        stream = validate_data["stream"]
-        comment = ContentComment.objects.create(stream=stream, content=content,
-            user=user, text=data.get("text").strip())
-        comment_obj = ContentComment.objects.select_related(
+        else:
+            user = validate_data["user"]
+            content = validate_data["content"]
+            stream = validate_data["stream"]
+            comment = ContentComment.objects.create(stream=stream, content=content,
+                user=user, text=data.get("text").strip())
+            comment_obj = ContentComment.objects.select_related(
+                "user__user_data").prefetch_related(
+                Prefetch(
+                    "user__user_data",
+                    queryset=UserProfile.objects.select_related('user'),
+                    to_attr="comment_user_data"
+                )
+            ).get(id=comment.id)
+            fields = ("id", "stream", "content", "text", "crd", "user_data")
+            comment_data = {"status_code": 200}
+            comment_data["data"] = ContentCommentSerializer(
+                instance=comment_obj, fields=fields).data
+
+            # Send notification to emogo owner and content creator
+            # thread = threading.Thread(target=self.send_new_comment_notification,
+            #     args=([stream, content, user]))
+            # thread.start()
+            self.broadcast_by_type(comment_data, "private", stream.id)
+            if stream.type == "Public":
+                self.broadcast_by_type(comment_data, "public", stream.id)
+
+    def broadcast_comment(self, event):
+        comment = event['comment']
+        self.send(text_data=json.dumps(comment))
+
+    def get_comments_by_pagination(self, page, filter_params):
+        # Function to return comments by pagination
+        # token = self.scope["cookies"]["X-Authorization"]
+        # stream_id = filter_params["stream__id"]
+        # try:
+        #     user = Token.objects.select_related(
+        #         "user").only("user").get(key=token).user
+        # except:
+        #     raise Http404("The user does not exist.")
+        # stream = self.check_user_is_authenticate_to_stream(stream_id, user)
+        comments_objs = ContentComment.actives.select_related(
             "user__user_data").prefetch_related(
             Prefetch(
                 "user__user_data",
                 queryset=UserProfile.objects.select_related('user'),
                 to_attr="comment_user_data"
             )
-        ).get(id=comment.id)
+        ).filter(**filter_params).order_by("-crd")
         fields = ("id", "stream", "content", "text", "crd", "user_data")
-        comment_data = {"status_code": 200}
-        comment_data["data"] = ContentCommentSerializer(
-            instance=comment_obj, fields=fields).data
+        paginator = Paginator(comments_objs, 10)
+        try:
+            comments = paginator.page(page)
+        except PageNotAnInteger:
+            comments = paginator.page(1)
+        except EmptyPage:
+            comments = []
+        comment_data = {
+            'data': ContentCommentSerializer(
+                comments, fields=fields, many=True).data,
+            'previous': comments.has_previous() \
+                if comments.__len__() and comments.has_previous() else None,
+            'next': comments.next_page_number() if comments.__len__() and \
+                comments.has_next() else None,
+            'count': paginator.count
+        }
+        self.send(text_data=json.dumps(comment_data))
 
-        # Send notification to emogo owner and content creator
-        # thread = threading.Thread(target=self.send_new_comment_notification,
-        #     args=([stream, content, user]))
-        # thread.start()
-        self.broadcast_by_type(comment_data, "private", stream.id)
-        if stream.type == "Public":
-            self.broadcast_by_type(comment_data, "public", stream.id)
+    def get_all_comments_of_content(self, data):
+        # Function to all the comments related to stream and content.
+        # stream_id = self.scope['url_route']['kwargs']['stream_id']
+        # try:
+        #     stream = Stream.actives.only("id").get(id=stream_id)
+        # except:
+        #     raise Http404("The Emogo does not exist.")
+        # try:
+        #     content = StreamContent.objects.select_related(
+        #         "content").only("content").get(
+        #         stream=stream, content__id=data.get("content")).content
+        # except:
+        #     raise Http404("Content does not exist.")
+        validate_data = self.validate_user_content_and_stream(data)
+        if "exception_data" in validate_data.keys():
+            self.send(text_data=json.dumps(validate_data['exception_data']))
+        else:
+            content = validate_data["content"]
+            stream = validate_data["stream"]
+            filter_params = {"stream__id": stream.id, "content": content}
+            page = data.get('page')
+            self.get_comments_by_pagination(page, filter_params)
 
-    def broadcast_comment(self, event):
-        comment = event['comment']
-        self.send(text_data=json.dumps(comment))
+    def send_comments(self, message):
+        self.send(text_data=json.dumps(message))
 
     comment_actions = {
         'post_comment': post_comment,
         # 'get_all_comments': get_all_comments,
-        # 'get_comments_by_stream_content': get_comments_by_stream_content,
+        'get_all_comments_of_content': get_all_comments_of_content,
         # "update_comment_last_seen_status": update_comment_last_seen_status,
         # "get_comments_seen_status": get_comments_seen_status
     }
