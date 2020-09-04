@@ -68,9 +68,15 @@ class CommentConsumer(WebsocketConsumer):
     def validate_stream_content(self, stream, content_id):
         resp_data = {}
         try:
-            resp_data['content'] = StreamContent.objects.select_related(
-                "content").only("content").get(stream=stream,
-                content__id=content_id).content
+            if not content_id:
+                resp_data["exception_data"] = {
+                    "status_code": 400,
+                    "exception": {"content": ["Content Id is required."]}
+                }
+            else:
+                resp_data['content'] = StreamContent.objects.select_related(
+                    "content").only("content").get(stream=stream,
+                    content__id=content_id).content
         except ObjectDoesNotExist as e:
             resp_data["exception_data"] = {
                 "status_code": 404,
@@ -104,35 +110,43 @@ class CommentConsumer(WebsocketConsumer):
 
     def post_comment(self, data):
         """Function to create a new comment."""
+        if not data.get("text"):
+            text_error = {
+                "status_code": 400,
+                "exception": {"text": ["text is required."]}
+            }
+            self.send(text_data=json.dumps(text_error))
+            return
         validate_data = self.validate_user_content_and_stream(data)
         if "exception_data" in validate_data.keys():
             self.send(text_data=json.dumps(validate_data['exception_data']))
-        else:
-            user = validate_data["user"]
-            content = validate_data["content"]
-            stream = validate_data["stream"]
-            comment = ContentComment.objects.create(stream=stream, content=content,
-                user=user, text=data.get("text").strip())
-            comment_obj = ContentComment.objects.select_related(
-                "user__user_data").prefetch_related(
-                Prefetch(
-                    "user__user_data",
-                    queryset=UserProfile.objects.select_related('user'),
-                    to_attr="comment_user_data"
-                )
-            ).get(id=comment.id)
-            fields = ("id", "stream", "content", "text", "crd", "user_data")
-            comment_data = {"status_code": 200}
-            comment_data["data"] = ContentCommentSerializer(
-                instance=comment_obj, fields=fields).data
+            return
+        user = validate_data["user"]
+        content = validate_data["content"]
+        stream = validate_data["stream"]
+        comment = ContentComment.objects.create(stream=stream, content=content,
+            user=user, text=data.get("text").strip())
+        comment_obj = ContentComment.objects.select_related(
+            "user__user_data").prefetch_related(
+            Prefetch(
+                "user__user_data",
+                queryset=UserProfile.objects.select_related('user'),
+                to_attr="comment_user_data"
+            )
+        ).get(id=comment.id)
+        fields = ("id", "stream", "content", "text", "crd", 'user_full_name',
+            'user_id', 'user_image', 'user_display_name')
+        comment_data = {"status_code": 200}
+        comment_data["data"] = ContentCommentSerializer(
+            instance=comment_obj, fields=fields).data
 
-            # Send notification to emogo owner and content creator
-            # thread = threading.Thread(target=self.send_new_comment_notification,
-            #     args=([stream, content, user]))
-            # thread.start()
-            self.broadcast_by_type(comment_data, "private", stream.id)
-            if stream.type == "Public":
-                self.broadcast_by_type(comment_data, "public", stream.id)
+        # Send notification to emogo owner and content creator
+        # thread = threading.Thread(target=self.send_new_comment_notification,
+        #     args=([stream, content, user]))
+        # thread.start()
+        self.broadcast_by_type(comment_data, "private", stream.id)
+        if stream.type == "Public":
+            self.broadcast_by_type(comment_data, "public", stream.id)
 
     def broadcast_comment(self, event):
         comment = event['comment']
@@ -156,7 +170,8 @@ class CommentConsumer(WebsocketConsumer):
                 to_attr="comment_user_data"
             )
         ).filter(**filter_params).order_by("-crd")
-        fields = ("id", "stream", "content", "text", "crd", "user_data")
+        fields = ("id", "stream", "content", "text", "crd", 'user_full_name',
+            'user_id', 'user_image', 'user_display_name')
         paginator = Paginator(comments_objs, 10)
         try:
             comments = paginator.page(page)
@@ -191,22 +206,61 @@ class CommentConsumer(WebsocketConsumer):
         validate_data = self.validate_user_content_and_stream(data)
         if "exception_data" in validate_data.keys():
             self.send(text_data=json.dumps(validate_data['exception_data']))
-        else:
-            content = validate_data["content"]
-            stream = validate_data["stream"]
-            filter_params = {"stream__id": stream.id, "content": content}
-            page = data.get('page')
-            self.get_comments_by_pagination(page, filter_params)
+            return
+        content = validate_data["content"]
+        stream = validate_data["stream"]
+        filter_params = {
+            "stream__id": stream.id, "content": content,
+            "status": "Active"
+        }
+        page = data.get('page')
+        self.get_comments_by_pagination(page, filter_params)
 
     def send_comments(self, message):
         self.send(text_data=json.dumps(message))
+
+    def delete_comment(self, data):
+        validate_data = self.validate_user_content_and_stream(data)
+        if "exception_data" in validate_data.keys():
+            self.send(text_data=json.dumps(validate_data['exception_data']))
+            return
+        if "comment_id" not in data.keys():
+            resp_data = {
+                "status_code": 400,
+                "exception": {"comment_id": ["Comment Id is required."]}
+            }
+            self.send(text_data=json.dumps(resp_data))
+            return
+        try:
+            user = validate_data['user']
+            comnt = ContentComment.objects.get(id=data["comment_id"], user=user)
+            comnt.status = "Deleted"
+            comnt.save()
+            comment_data = {"status_code": 204}
+            comment_data["data"] = {
+                "stream": validate_data["stream"].id,
+                "content": validate_data["content"].id,
+                "comment": data["comment_id"]
+            }
+            self.broadcast_by_type(
+                comment_data, "private", validate_data["stream"].id)
+            if validate_data["stream"].type == "Public":
+                self.broadcast_by_type(
+                    comment_data, "public", validate_data["stream"].id)
+        except:
+            resp_data = {
+                "status_code": 404,
+                "exception": "Comment does not exist."
+            }
+            self.send(text_data=json.dumps(resp_data))
 
     comment_actions = {
         'post_comment': post_comment,
         # 'get_all_comments': get_all_comments,
         'get_all_comments_of_content': get_all_comments_of_content,
         # "update_comment_last_seen_status": update_comment_last_seen_status,
-        # "get_comments_seen_status": get_comments_seen_status
+        # "get_comments_seen_status": get_comments_seen_status,
+        "delete_comment": delete_comment
     }
 
     def create_group_and_connect(self):

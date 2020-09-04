@@ -1082,15 +1082,23 @@ class ContentCommentSerializer(DynamicFieldsModelSerializer):
     ContentComment model Serializer
     """
 
-    user_data = serializers.SerializerMethodField()
+    user_full_name = serializers.SerializerMethodField()
+    user_id = serializers.SerializerMethodField()
+    user_image = serializers.SerializerMethodField()
+    user_display_name = serializers.SerializerMethodField()
 
     class Meta:
         model = ContentComment
         fields = "__all__"
 
-    def get_user_data(self, obj):
-        fields = (
-            'user_profile_id', 'full_name', 'user_id', 'user_image',
-            'display_name')
-        return UserProfileSerializer(
-            instance=obj.user.user_data, fields=fields).data
+    def get_user_full_name(self, obj):
+        return obj.user.user_data.full_name
+
+    def get_user_id(self, obj):
+        return obj.user.id
+
+    def get_user_image(self, obj):
+        return obj.user.user_data.user_image
+
+    def get_user_display_name(self, obj):
+        return obj.user.user_data.display_name
