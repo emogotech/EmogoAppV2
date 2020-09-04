@@ -1089,5 +1089,8 @@ class ContentCommentSerializer(DynamicFieldsModelSerializer):
         fields = "__all__"
 
     def get_user_data(self, obj):
-        fields = ('user_profile_id', 'full_name', 'user_id', 'user_image', 'display_name')
-        return UserProfileSerializer(instance=obj.user.user_data, fields=fields).data
+        fields = (
+            'user_profile_id', 'full_name', 'user_id', 'user_image',
+            'display_name')
+        return UserProfileSerializer(
+            instance=obj.user.user_data, fields=fields).data
