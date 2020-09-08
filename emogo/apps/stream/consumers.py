@@ -23,6 +23,7 @@ import threading
 class CommentConsumer(WebsocketConsumer):
 
     def broadcast_by_type(self, comment_data, comment_type, stream_id):
+        # A commnon method for broadcasting a comment by stream type
         group_name = '{}_{}_comment_group'.format(stream_id, comment_type)
         async_to_sync(self.channel_layer.group_send)(
             group_name,
@@ -33,6 +34,11 @@ class CommentConsumer(WebsocketConsumer):
         )
 
     def check_user_is_authenticate_to_stream(self, stream_id, user):
+        """
+        Method will check that the user can access the given stream or not.
+        If stream is private then only stream owner and collaborator can
+        access the stream.
+        """
         data = {}
         try:
             stream = Stream.actives.select_related(
@@ -53,6 +59,7 @@ class CommentConsumer(WebsocketConsumer):
             return data
 
     def validate_token(self, data):
+        # Comment method to validate the token
         resp_data = {}
         try:
             token = data["token"]
@@ -66,6 +73,7 @@ class CommentConsumer(WebsocketConsumer):
         return resp_data
 
     def validate_stream_content(self, stream, content_id):
+        # Common method to check that the content is exist in a stream
         resp_data = {}
         try:
             if not content_id:
@@ -108,7 +116,20 @@ class CommentConsumer(WebsocketConsumer):
         resp_data["content"] = content_data['content']
         return resp_data
 
-    def post_comment(self, data):
+    def validate_socket_data(func):
+        # Validator to check the received msg data is valid or not
+        @wraps(func)
+        def wrapped(self, *args, **kwargs):
+            resp = self.validate_user_content_and_stream(args[0])
+            if "exception_data" in resp.keys():
+                self.send(text_data=json.dumps(resp['exception_data']))
+                return
+            return func(self, resp["user"], resp["content"],
+                        resp["stream"], *args, **kwargs)
+        return wrapped
+
+    @validate_socket_data
+    def post_comment(self, user, content, stream, data):
         """Function to create a new comment."""
         if not data.get("text"):
             text_error = {
@@ -117,13 +138,6 @@ class CommentConsumer(WebsocketConsumer):
             }
             self.send(text_data=json.dumps(text_error))
             return
-        validate_data = self.validate_user_content_and_stream(data)
-        if "exception_data" in validate_data.keys():
-            self.send(text_data=json.dumps(validate_data['exception_data']))
-            return
-        user = validate_data["user"]
-        content = validate_data["content"]
-        stream = validate_data["stream"]
         comment = ContentComment.objects.create(stream=stream, content=content,
             user=user, text=data.get("text").strip())
         comment_obj = ContentComment.objects.select_related(
@@ -136,7 +150,7 @@ class CommentConsumer(WebsocketConsumer):
         ).get(id=comment.id)
         fields = ("id", "stream", "content", "text", "crd", 'user_full_name',
             'user_id', 'user_image', 'user_display_name')
-        comment_data = {"status_code": 200}
+        comment_data = {"status_code": 200, "action_type": "post_comment_broadcast"}
         comment_data["data"] = ContentCommentSerializer(
             instance=comment_obj, fields=fields).data
 
@@ -154,14 +168,6 @@ class CommentConsumer(WebsocketConsumer):
 
     def get_comments_by_pagination(self, page, filter_params):
         # Function to return comments by pagination
-        # token = self.scope["cookies"]["X-Authorization"]
-        # stream_id = filter_params["stream__id"]
-        # try:
-        #     user = Token.objects.select_related(
-        #         "user").only("user").get(key=token).user
-        # except:
-        #     raise Http404("The user does not exist.")
-        # stream = self.check_user_is_authenticate_to_stream(stream_id, user)
         comments_objs = ContentComment.actives.select_related(
             "user__user_data").prefetch_related(
             Prefetch(
@@ -172,7 +178,7 @@ class CommentConsumer(WebsocketConsumer):
         ).filter(**filter_params).order_by("-crd")
         fields = ("id", "stream", "content", "text", "crd", 'user_full_name',
             'user_id', 'user_image', 'user_display_name')
-        paginator = Paginator(comments_objs, 10)
+        paginator = Paginator(comments_objs, 20)
         try:
             comments = paginator.page(page)
         except PageNotAnInteger:
@@ -182,48 +188,28 @@ class CommentConsumer(WebsocketConsumer):
         comment_data = {
             'data': ContentCommentSerializer(
                 comments, fields=fields, many=True).data,
-            'previous': comments.has_previous() \
+            'new_data': comments.has_previous() \
                 if comments.__len__() and comments.has_previous() else None,
-            'next': comments.next_page_number() if comments.__len__() and \
+            'old_data': comments.next_page_number() if comments.__len__() and \
                 comments.has_next() else None,
-            'count': paginator.count
+            'count': paginator.count,
+            "action_type": "get_comments_of_content"
         }
         self.send(text_data=json.dumps(comment_data))
 
-    def get_all_comments_of_content(self, data):
+    @validate_socket_data
+    def get_all_comments_of_content(self, user, content, stream, data):
         # Function to all the comments related to stream and content.
-        # stream_id = self.scope['url_route']['kwargs']['stream_id']
-        # try:
-        #     stream = Stream.actives.only("id").get(id=stream_id)
-        # except:
-        #     raise Http404("The Emogo does not exist.")
-        # try:
-        #     content = StreamContent.objects.select_related(
-        #         "content").only("content").get(
-        #         stream=stream, content__id=data.get("content")).content
-        # except:
-        #     raise Http404("Content does not exist.")
-        validate_data = self.validate_user_content_and_stream(data)
-        if "exception_data" in validate_data.keys():
-            self.send(text_data=json.dumps(validate_data['exception_data']))
-            return
-        content = validate_data["content"]
-        stream = validate_data["stream"]
-        filter_params = {
-            "stream__id": stream.id, "content": content,
-            "status": "Active"
-        }
+        filter_params = {"stream__id": stream.id, "content": content}
         page = data.get('page')
         self.get_comments_by_pagination(page, filter_params)
 
     def send_comments(self, message):
         self.send(text_data=json.dumps(message))
 
-    def delete_comment(self, data):
-        validate_data = self.validate_user_content_and_stream(data)
-        if "exception_data" in validate_data.keys():
-            self.send(text_data=json.dumps(validate_data['exception_data']))
-            return
+    @validate_socket_data
+    def delete_comment(self, user, content, stream, data):
+        # Method to delete paricular comment by comment owner
         if "comment_id" not in data.keys():
             resp_data = {
                 "status_code": 400,
@@ -232,34 +218,70 @@ class CommentConsumer(WebsocketConsumer):
             self.send(text_data=json.dumps(resp_data))
             return
         try:
-            user = validate_data['user']
-            comnt = ContentComment.objects.get(id=data["comment_id"], user=user)
+            comnt = ContentComment.actives.get(id=data["comment_id"], user=user)
             comnt.status = "Deleted"
             comnt.save()
-            comment_data = {"status_code": 204}
+            comment_data = {
+                "status_code": 204,
+                "action_type": "delete_comment_broadcast"
+            }
             comment_data["data"] = {
-                "stream": validate_data["stream"].id,
-                "content": validate_data["content"].id,
+                "stream": stream.id, "content": content.id,
                 "comment": data["comment_id"]
             }
             self.broadcast_by_type(
-                comment_data, "private", validate_data["stream"].id)
-            if validate_data["stream"].type == "Public":
-                self.broadcast_by_type(
-                    comment_data, "public", validate_data["stream"].id)
+                comment_data, "private", stream.id)
+            if stream.type == "Public":
+                self.broadcast_by_type(comment_data, "public", stream.id)
         except:
-            resp_data = {
-                "status_code": 404,
-                "exception": "Comment does not exist."
-            }
+            resp_data = {"status_code": 404, "exception": "Comment does not exist."}
             self.send(text_data=json.dumps(resp_data))
+
+    @validate_socket_data
+    def update_read_status(self, user, content, stream, data):
+        # Function to update the last seen, date time for content
+        CommentAcknowledgement.objects.update_or_create(
+            stream=stream, content=content, user=user,
+            defaults={'last_seen':datetime.datetime.now()},
+        )
+        ack_data = {
+            "stream": stream.id, "content": content.id,
+            "user_id": user.id, "action_type": "update_read_status_broadcast"
+        }
+        self.broadcast_by_type(ack_data, "private", stream.id)
+        if stream.type == "Public":
+            self.broadcast_by_type(ack_data, "public", stream.id)
+
+    @validate_socket_data
+    def get_unread_status(self, user, content, stream, data):
+        # Function to check is there any unread comment for content
+        cmt_seen_data = {
+            "stream": stream.id, "content": content.id,
+            "user_id": user.id, "action_type": "get_unread_status_resp",
+            "unread_comments_count": 0,
+            "have_unread_comments": False
+        }
+        comment_last_seen = CommentAcknowledgement.objects.filter(
+            stream=stream, content=content, user=user).only("last_seen")
+        comments = ContentComment.actives.filter(
+            stream=stream, content=content).exclude(user=user).only("crd")
+        if not comment_last_seen:
+            if comments.__len__() > 0:
+                cmt_seen_data["unread_comments_count"] = comments.__len__()
+                cmt_seen_data["have_unread_comments"] = True
+        else:
+            unread_cmts = comments.filter(
+                crd__gt=comment_last_seen[0].last_seen)
+            if unread_cmts.__len__() > 0:
+                cmt_seen_data["unread_comments_count"] = unread_cmts.__len__()
+                cmt_seen_data["have_unread_comments"] = True
+        self.send(text_data=json.dumps(cmt_seen_data))
 
     comment_actions = {
         'post_comment': post_comment,
-        # 'get_all_comments': get_all_comments,
         'get_all_comments_of_content': get_all_comments_of_content,
-        # "update_comment_last_seen_status": update_comment_last_seen_status,
-        # "get_comments_seen_status": get_comments_seen_status,
+        "update_read_status": update_read_status,
+        "get_unread_status": get_unread_status,
         "delete_comment": delete_comment
     }
 
@@ -295,14 +317,15 @@ class CommentConsumer(WebsocketConsumer):
         return False
 
     def connect(self):
-        group_create = self.create_group_and_connect()
-        if group_create:
+        group_created = self.create_group_and_connect()
+        if group_created:
             self.accept()
             self.send(text_data="You are now connected with comment socket.")
         else:
             self.close()
 
     def disconnect(self, close_code):
+        print("Called disconnect. =========")
         if hasattr(self, "room_group_name"):
             async_to_sync(self.channel_layer.group_discard)(
                 self.room_group_name,
