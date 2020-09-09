@@ -37,6 +37,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     delete_content = serializers.ListField(child=serializers.IntegerField(min_value=1), read_only=True)
     folder_name = serializers.SerializerMethodField()
     folder = serializers.SerializerMethodField()
+    have_comments = serializers.SerializerMethodField()
+
+    def get_have_comments(self, obj):
+        if hasattr(obj, "comments_status"):
+            return obj.comments_status
+        return obj.stream_comments.filter(status="Active").exists()
 
     def get_folder_name(self, obj):
         if hasattr(obj, "folders"):

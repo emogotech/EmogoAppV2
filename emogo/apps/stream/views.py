@@ -10,7 +10,7 @@ from emogo.lib.helpers.utils import custom_render_response
 from emogo.apps.stream.models import (
     Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream,
     StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, Folder,
-    ContentSharedInImessage, CONTENT_TYPE)
+    ContentSharedInImessage, CONTENT_TYPE, ContentComment)
 from emogo.apps.stream.serializers import (
     StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer,
     ViewContentSerializer, ContentBulkDeleteSerializer, MoveContentToStreamSerializer,
@@ -41,8 +41,9 @@ from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.models import UserFollow
 from emogo.apps.notification.models import Notification
 from emogo.apps.notification.views import NotificationAPI
-from django.db.models import (Prefetch, Count, Q, When, Case, IntegerField, OuterRef, Subquery,
-                              QuerySet)
+from django.db.models import (
+    Prefetch, Count, Q, When, Case, IntegerField, OuterRef, Subquery,
+    QuerySet, Exists, OuterRef)
 from django.contrib.auth.models import User
 import datetime
 from rest_framework import filters
@@ -58,7 +59,10 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     Stream CRUD API
     """
     serializer_class = OptimisedViewStreamSerializer
-    queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related('created_by__user_data__user').prefetch_related(
+    queryset = Stream.actives.annotate(stream_view_count=Count(
+        'stream_user_view_status')).annotate(comments_status=Exists(
+            ContentComment.actives.filter(stream=OuterRef("pk")))
+        ).select_related('created_by__user_data__user').prefetch_related(
             Prefetch(
                 "stream_contents",
                 queryset=StreamContent.objects.all().select_related('content', 'content__created_by__user_data').prefetch_related(
@@ -175,7 +179,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category',
             'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
             'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder',
-            'folder_name')
+            'folder_name', 'have_comments')
         if current_url == 'stream_collaborator':
             user_data = User.objects.filter(username__in=[x.phone_number for x in instance.stream_collaborator]).values('username','user_data__user_image')
             self.request.data.update({'collab_user_image': user_data})
@@ -203,7 +207,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category',
             'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
             'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder',
-            'folder_name'
+            'folder_name', 'have_comments'
         ]
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
@@ -246,7 +250,8 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator',
             'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category',
             'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
-            'collab_images', 'total_stream_collaborators', 'stream_folder_id', "folder"]
+            'collab_images', 'total_stream_collaborators', 'stream_folder_id', "folder",
+            'have_comments']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(stream, context=self.request, fields=fields)
@@ -290,7 +295,8 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                   'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
                   'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
                   'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
-                  'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked', 'folder']
+                  'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked', 'folder',
+                  'have_comments']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(instance, context=self.request, fields=fields)
@@ -1876,7 +1882,9 @@ class SearchEmogoAPI(ListAPIView):
     serializer_class = OptimisedViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    queryset = Stream.actives.all().select_related(
+    queryset = Stream.actives.all().annotate(comments_status=Exists(
+            ContentComment.actives.filter(stream=OuterRef("pk")))
+        ).select_related(
         'created_by__user_data__user').prefetch_related(
         Prefetch(
             "stream_contents",
