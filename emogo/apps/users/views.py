@@ -26,7 +26,10 @@ from emogo.lib.custom_filters.filterset import (
     UsersFilter, UserStreamFilter, FollowerFollowingUserFilter, CollabsFilter,
     UserLikedStreamFilter)
 from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
-from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates, Folder
+from emogo.apps.stream.models import (
+    Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent,
+    LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates,
+    Folder, ContentComment)
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.notification.models import Notification
 from emogo.apps.users.swagger_schema import (
@@ -45,7 +48,7 @@ from emogo.apps.users.autofixtures import UserAutoFixture
 from django.http import HttpResponse
 from django.http import Http404
 from django.db.models import Prefetch, Count, OuterRef, Subquery
-from django.db.models import QuerySet, Q
+from django.db.models import QuerySet, Q, Exists
 from emogo.apps.notification.views import NotificationAPI
 import datetime
 from django.db.models import Case, When, Q, IntegerField, OuterRef, Subquery
@@ -671,7 +674,8 @@ class UserLikedSteams(ListAPIView):
         # stream_ids_list = LikeDislikeStream.objects.filter(
         #     user=self.request.user, status=1).values_list('stream', flat=True).order_by(
         #         '-view_date')
-        queryset = queryset.filter(
+        queryset = queryset.annotate(comments_status=Exists(
+                ContentComment.actives.filter(stream=OuterRef("pk")))).filter(
             stream_like_dislike_status__user=self.request.user,
             stream_like_dislike_status__status=1).select_related(
             'created_by__user_data').prefetch_related(
@@ -753,7 +757,7 @@ class UserLikedSteams(ListAPIView):
                   'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
                   'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description',
                   'status', 'liked', 'user_liked', 'collab_images',
-                  'total_stream_collaborators', 'is_bookmarked']
+                  'total_stream_collaborators', 'is_bookmarked', 'have_comments']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         #Search in liked streams
