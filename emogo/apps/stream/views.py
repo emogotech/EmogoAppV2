@@ -10,7 +10,7 @@ from emogo.lib.helpers.utils import custom_render_response
 from emogo.apps.stream.models import (
     Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream,
     StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, Folder,
-    ContentSharedInImessage, CONTENT_TYPE, ContentComment)
+    ContentSharedInImessage, CONTENT_TYPE, ContentComment, CommentAcknowledgement)
 from emogo.apps.stream.serializers import (
     StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer,
     ViewContentSerializer, ContentBulkDeleteSerializer, MoveContentToStreamSerializer,
@@ -19,7 +19,8 @@ from emogo.apps.stream.serializers import (
     CopyContentSerializer, ContentLikeDislikeSerializer, StreamUserViewStatusSerializer,
     StarredStreamSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer,
     AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderSerializer,
-    StreamMoveToFolderSerializer, OptimisedViewStreamSerializer, ShareContentSerializer)
+    StreamMoveToFolderSerializer, OptimisedViewStreamSerializer, ShareContentSerializer,
+    delete_comments_and_broadcast)
 from emogo.lib.custom_filters.filterset import (
     StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter)
 from emogo.apps.stream.swagger_schema import (
@@ -323,6 +324,9 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             noti.update(notification_type = 'deleted_stream')
         # Perform delete operation
         self.perform_destroy(instance)
+        thread = threading.Thread(target=delete_comments_and_broadcast, args=(
+            ["emogo_deleted_broadcast"]), kwargs={'stream': instance})
+        thread.start()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
@@ -763,7 +767,15 @@ class DeleteContentInBulk(APIView):
         serializer.is_valid(raise_exception=True)
         self.queryset.filter(id__in=self.request.data['content_list']).update(status='Inactive')
         # Delete stream and content relation.
-        StreamContent.objects.filter(content__in=self.request.data.get('content_list')).delete()
+        stream_contents = StreamContent.objects.filter(
+            content__in=self.request.data.get('content_list'))
+        stream_contents_data = [{"stream": sctn.stream.id,
+            "content": sctn.content.id} for sctn in stream_contents]
+        stream_contents.delete()
+        thread = threading.Thread(target=delete_comments_and_broadcast, args=(
+            ["content_deleted_broadcast"]), kwargs={
+            'stream_contents_data': stream_contents_data, "delete_ctn": True})
+        thread.start()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
@@ -2240,11 +2252,18 @@ class DeleteStreamComments(APIView):
     permission_classes = (IsAuthenticated,)
 
     def delete(self, request, *args, **kwargs):
+        """
+        This action will call when amogo owner change the emogo from
+        private to public select option to delete all the comments.
+        We will delete all the comments for emogo.
+        """
         try:
             stream = Stream.actives.get(
                 pk=self.kwargs.get('stream_id'), created_by=self.request.user)
         except ObjectDoesNotExist:
             raise Http404("The Emogo does not exist.")
-        stream.stream_comments.all().update(status='Deleted')
+        thread = threading.Thread(target=delete_comments_and_broadcast, args=(
+            ["comments_deleted_for_emogo"]), kwargs={'stream': stream})
+        thread.start()
         return custom_render_response(
             status_code=status.HTTP_204_NO_CONTENT, data=None)

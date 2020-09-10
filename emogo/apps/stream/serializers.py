@@ -3,7 +3,8 @@ from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerialize
 from emogo.apps.stream.models import (
     Stream, Content, ExtremistReport, RecentUpdates, StreamContent, LikeDislikeStream,
     LikeDislikeContent, StreamUserViewStatus, StarredStream, RecentUpdates,
-    NewEmogoViewStatusOnly, Folder, ContentSharedInImessage)
+    NewEmogoViewStatusOnly, Folder, ContentSharedInImessage, ContentComment,
+    CommentAcknowledgement)
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer, OptimisedViewCollaboratorSerializer
 from rest_framework import serializers
@@ -20,8 +21,44 @@ from itertools import product
 from emogo.apps.notification.views import NotificationAPI
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from functools import reduce
 import threading
+
+
+def broadcast_by_type(data, comment_type, stream_id):
+    # A commnon method for broadcasting a comment by stream type
+    group_name = '{}_{}_comment_group'.format(stream_id, comment_type)
+    async_to_sync(get_channel_layer().group_send)(
+        group_name,
+        {
+            'type': 'broadcast_delete',
+            'response': data
+        }
+    )
+
+
+def delete_comments_and_broadcast(
+        action_type, stream=None, stream_contents_data=None, delete_ctn=None):
+    # We will get 'stream_contents_data' while deleting content
+    data = {"action_type": action_type}
+    if delete_ctn:
+        for stream_content in stream_contents_data:
+            data["content"] = stream_content.get("content")
+            ContentComment.objects.filter(
+                stream__id=stream_content.get("stream"),
+                content__id=stream_content.get("content")).update(status='Deleted')
+            CommentAcknowledgement.objects.filter(
+                stream__id=stream_content.get("stream"),
+                content__id=stream_content.get("content")).delete()
+            broadcast_by_type(data, "private", stream_content.get("stream"))
+            broadcast_by_type(data, "public", stream_content.get("stream"))
+    else:
+        ContentComment.objects.filter(stream=stream).update(status='Deleted')
+        CommentAcknowledgement.objects.filter(stream=stream).delete()
+        broadcast_by_type(data, "private", stream.id)
+        broadcast_by_type(data, "public", stream.id)
 
 
 class StreamSerializer(DynamicFieldsModelSerializer):
@@ -903,6 +940,13 @@ class DeleteStreamContentSerializer(DynamicFieldsModelSerializer):
             content__in=self.validated_data.get("content"))
         if stream_contents.__len__() != len(self.validated_data.get("content")):
             raise serializers.ValidationError({"content": ["Content does not exist."]})
+        stream_contents_data = [{"stream": sctn.stream.id,
+            "content": sctn.content.id} for sctn in stream_contents]
+        if stream_contents_data:
+            thread = threading.Thread(target=delete_comments_and_broadcast, args=(
+                ["content_deleted_broadcast"]), kwargs={
+                'stream_contents_data': stream_contents_data, "delete_ctn": True})
+            thread.start()
         stream_contents.delete()
         # self.instance.stream_contents.filter(content__in=self.validated_data.get("content")).delete()
         # recent_updates_thread_list = RecentUpdates.objects.filter(stream=self.instance).values_list('thread', flat=True)
