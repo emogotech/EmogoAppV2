@@ -2,6 +2,7 @@ from channels.auth import AuthMiddlewareStack
 # from rest_framework.authtoken.models import Token
 from emogo.apps.users.models import Token
 from django.contrib.auth.models import AnonymousUser
+from urllib import parse as urlparse
 
 
 class TokenAuthMiddleware:
@@ -31,7 +32,9 @@ class TokenAuthMiddleware:
 
     def __call__(self, scope):
         try:
-            token = scope["query_string"].decode().split("token=")[1]
+            token = urlparse.parse_qs(
+                scope["query_string"]).get(b"token")[0].decode()
+            # token = scope["query_string"].decode().split("token=")[1]
             try:
                 user = Token.objects.select_related(
                         "user").only("user").get(key=token).user

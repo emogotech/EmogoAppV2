@@ -339,9 +339,9 @@ class CommentConsumer(WebsocketConsumer):
         data = json.loads(text_data)
         self.comment_actions[data['comment_action']](self, data)
 
-    def update_new_comment(self, event):
-        comment = event['comment']
-        self.send(text_data=json.dumps(comment))
+    def broadcast_delete(self, event):
+        response = event['response']
+        self.send(text_data=json.dumps(response))
 
 # Connected to websocket.connect
 # def ws_connect(message):
