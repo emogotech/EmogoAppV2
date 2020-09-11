@@ -128,6 +128,31 @@ class CommentConsumer(WebsocketConsumer):
                         resp["stream"], *args, **kwargs)
         return wrapped
 
+    def send_cmt_notification(self, stream, content, from_user, to_user):
+        # common method to send notification
+        noti = Notification.objects.filter(
+            notification_type='new_comment', from_user=from_user,
+            to_user=to_user, stream=stream, content=content)
+        if noti.__len__() > 0 :
+            # noti[0].is_open = False if noti[0].is_open else True
+            # noti[0].save()
+            NotificationAPI().initialize_notification(noti[0])
+        else:
+            NotificationAPI().send_notification(
+                from_user, to_user, 'new_comment', stream, content)
+
+    def send_new_comment_notification(self, stream, content, from_user):
+        # Check if stream creator and content creator are same then
+        # We will send single notification
+        # Otherwise we will notify both content creator and emogo creator
+        if content.created_by != from_user:
+            self.send_cmt_notification(
+                stream, content, from_user, content.created_by)
+        if stream.created_by != content.created_by and \
+            stream.created_by != from_user:
+            self.send_cmt_notification(
+                stream, content, from_user, stream.created_by)
+
     @validate_socket_data
     def post_comment(self, user, content, stream, data):
         """Function to create a new comment."""
@@ -155,9 +180,9 @@ class CommentConsumer(WebsocketConsumer):
             instance=comment_obj, fields=fields).data
 
         # Send notification to emogo owner and content creator
-        # thread = threading.Thread(target=self.send_new_comment_notification,
-        #     args=([stream, content, user]))
-        # thread.start()
+        thread = threading.Thread(target=self.send_new_comment_notification,
+            args=([stream, content, user]))
+        thread.start()
         self.broadcast_by_type(comment_data, "private", stream.id)
         if stream.type == "Public":
             self.broadcast_by_type(comment_data, "public", stream.id)

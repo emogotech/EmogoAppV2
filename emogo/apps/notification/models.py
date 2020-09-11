@@ -19,6 +19,7 @@ NOTIFICATION_TYPE = (
     ('decline', 'You declined to join {0}'),
     ('deleted_collaborator', 'This collaboration does not exists anymore'),
     ('deleted_stream', 'This {0} does not exists anymore'),
+    ('new_comment', '{0} has commented on your content')
 )
 
 class Notification(DefaultDateModel):
