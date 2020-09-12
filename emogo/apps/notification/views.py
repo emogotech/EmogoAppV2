@@ -28,10 +28,14 @@ class NotificationAPI():
         # Return all open notification counts
         return Notification.objects.filter(is_open=True)
 
-    def create_notification(self, from_user, to_user, type, stream=None, content=None, content_count= None, content_lists=None):
-        # Create Notification and return instance 
+    def create_notification(
+        self, from_user, to_user, type, stream=None, content=None,
+        content_count=None, content_lists=None, comment=None):
+        # Create Notification and return instance
         obj = Notification.objects.create(
-            notification_type=type, from_user=from_user, to_user=to_user, stream=stream, content=content, content_count=content_count,content_lists=content_lists )
+            notification_type=type, from_user=from_user, to_user=to_user,
+            stream=stream, content=content, content_count=content_count,
+            content_lists=content_lists, comment=comment)
         return obj 
 
     def initialize_notification(self, obj):
@@ -47,9 +51,13 @@ class NotificationAPI():
         except Exception as e:
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
     
-    def send_notification(self, from_user, to_user, type, stream=None, content=None, content_count=None, content_lists=None):
+    def send_notification(
+        self, from_user, to_user, type, stream=None, content=None,
+        content_count=None, content_lists=None, comment=None):
         # Call create notification metrhod and notify to user
-        obj = self.create_notification(from_user, to_user, type, stream, content, content_count, content_lists)
+        obj = self.create_notification(
+            from_user, to_user, type, stream, content, content_count,
+            content_lists, comment=comment)
         self.initialize_notification(obj)
 
     def notification_message(self, obj):

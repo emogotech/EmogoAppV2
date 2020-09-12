@@ -325,7 +325,8 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         # Perform delete operation
         self.perform_destroy(instance)
         thread = threading.Thread(target=delete_comments_and_broadcast, args=(
-            ["emogo_deleted_broadcast"]), kwargs={'stream': instance})
+            ["emogo_deleted_broadcast", "deleted_stream"]),
+            kwargs={'stream': instance})
         thread.start()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
@@ -654,6 +655,40 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
+class GetStreamContentAPI(ContentAPI):
+    """This class will return the single content of stream passed in
+    request parameter by following validations.
+    1. If stream is public then anybody can access the content.
+    2. If stream is private then only stream owner and collaborator can
+    access the content.
+    """
+    http_method_names = ['get']
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def get_object(self):
+        user = self.request.user
+        try:
+            stream = Stream.actives.select_related('created_by').prefetch_related(
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                    to_attr='stream_collaborator'
+                )).get(id=self.kwargs.get('stream_id'))
+        except ObjectDoesNotExist:
+            raise Http404("The Emogo does not exist.")
+        try:
+            if stream.type == "Private":
+                if stream.created_by != user and not any(True for collb in \
+                    stream.stream_collaborator if user.username.endswith(
+                        collb.phone_number[-10:])):
+                    raise ObjectDoesNotExist
+            return self.get_queryset().get(pk=self.kwargs.get('pk'))
+        except ObjectDoesNotExist:
+            raise Http404("Content does not exist.")
+
+
 class GetTopContentAPI(ContentAPI):
 
     def list(self, request, *args, **kwargs):
@@ -773,7 +808,7 @@ class DeleteContentInBulk(APIView):
             "content": sctn.content.id} for sctn in stream_contents]
         stream_contents.delete()
         thread = threading.Thread(target=delete_comments_and_broadcast, args=(
-            ["content_deleted_broadcast"]), kwargs={
+            ["content_deleted_broadcast", "deleted_content"]), kwargs={
             'stream_contents_data': stream_contents_data, "delete_ctn": True})
         thread.start()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
@@ -2263,7 +2298,8 @@ class DeleteStreamComments(APIView):
         except ObjectDoesNotExist:
             raise Http404("The Emogo does not exist.")
         thread = threading.Thread(target=delete_comments_and_broadcast, args=(
-            ["comments_deleted_for_emogo"]), kwargs={'stream': stream})
+            ["comments_deleted_for_emogo", "deleted_comment"]),
+            kwargs={'stream': stream})
         thread.start()
         return custom_render_response(
             status_code=status.HTTP_204_NO_CONTENT, data=None)
