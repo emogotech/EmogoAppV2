@@ -71,6 +71,10 @@ class UserDevice(DefaultDateModel):
     class Meta:
         db_table = 'user_device'
 
+class UserOnlineStatus(models.Model):
+    stream = models.ForeignKey(Stream, related_name="user_online_stream")
+    user_device = models.ForeignKey(UserDevice, related_name="user_online_device")
+
 
 class UserNotification(DefaultDateModel):
     status = models.CharField(max_length=10, choices=MESSAGE_STATUS, default=MESSAGE_STATUS[0][0])

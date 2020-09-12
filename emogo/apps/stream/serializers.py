@@ -19,6 +19,7 @@ import operator
 from django.db.models import Q, Count
 from itertools import product
 from emogo.apps.notification.views import NotificationAPI
+from emogo.apps.notification.models import Notification
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from asgiref.sync import async_to_sync
@@ -38,25 +39,35 @@ def broadcast_by_type(data, comment_type, stream_id):
         }
     )
 
+def remove_comments_notifications(comment_ids, notif_type):
+    Notification.objects.filter(comment__id__in=comment_ids).update(
+        notification_type=notif_type, is_open=False)
 
 def delete_comments_and_broadcast(
-        action_type, stream=None, stream_contents_data=None, delete_ctn=None):
+        action_type, notification_type, stream=None, stream_contents_data=None,
+        delete_ctn=None):
     # We will get 'stream_contents_data' while deleting content
     data = {"action_type": action_type}
     if delete_ctn:
         for stream_content in stream_contents_data:
             data["content"] = stream_content.get("content")
-            ContentComment.objects.filter(
+            comments = ContentComment.objects.filter(
                 stream__id=stream_content.get("stream"),
-                content__id=stream_content.get("content")).update(status='Deleted')
+                content__id=stream_content.get("content"))
+            comments.update(status='Deleted')
+            comment_ids = [cmt.id for cmt in comments]
             CommentAcknowledgement.objects.filter(
                 stream__id=stream_content.get("stream"),
                 content__id=stream_content.get("content")).delete()
+            remove_comments_notifications(comment_ids, notification_type)
             broadcast_by_type(data, "private", stream_content.get("stream"))
             broadcast_by_type(data, "public", stream_content.get("stream"))
     else:
-        ContentComment.objects.filter(stream=stream).update(status='Deleted')
+        comments = ContentComment.objects.filter(stream=stream)
+        comments.update(status='Deleted')
         CommentAcknowledgement.objects.filter(stream=stream).delete()
+        comment_ids = [cmt.id for cmt in comments]
+        remove_comments_notifications(comment_ids, notification_type)
         broadcast_by_type(data, "private", stream.id)
         broadcast_by_type(data, "public", stream.id)
 
@@ -149,6 +160,15 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                         {'delete_collaborator': messages.MSG_INVALID_LIST.format('Delete Collaborator')})
         return attrs
 
+    def delete_collbs_notifications(self, stream, deleted_collbs, collaborators):
+        for collb_phone in deleted_collbs:
+            if not any(True for clb in collaborators if clb.get(
+                'phone_number') not in deleted_collbs):
+                Notification.objects.filter(
+                    stream=stream,
+                    to_user__username__endswith=collb_phone[-10:]).update(
+                    notification_type="deleted_collaborator", is_open = False)
+
     def save(self, **kwargs):
         # Get variable any one can true
         any_one_can_edit = self.validated_data.get('any_one_can_edit')
@@ -164,10 +184,25 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             # If collaborators list is empty then delete existing collaborator.
             # If logged in user is owner of stream can delete all collaborators.
             if self.instance.created_by == self.context.get('request').user:
-                self.instance.collaborator_list.filter().delete()
+                stream_collbs = self.instance.collaborator_list.all()
+                deleted_collbs = [clb.phone_number for clb in stream_collbs]
+                if deleted_collbs:
+                    thread = threading.Thread(
+                        target=self.delete_collbs_notifications,
+                        args=([self.instance, deleted_collbs, collaborators]))
+                    thread.start()
+                stream_collbs.delete()
             # Other wise delete only self created collaborators.
             else:
-                self.instance.collaborator_list.filter(created_by=self.context.get('request').user).delete()
+                stream_collbs = self.instance.collaborator_list.filter(
+                    created_by=self.context.get('request').user)
+                deleted_collbs = [clb.phone_number for clb in stream_collbs]
+                if deleted_collbs:
+                    thread = threading.Thread(
+                        target=self.delete_collbs_notifications,
+                        args=([self.instance, deleted_collbs, collaborators]))
+                    thread.start()
+                stream_collbs.delete()
             if collaborators.__len__() > 0:
                 self.create_collaborator(self.instance)
 
@@ -944,7 +979,7 @@ class DeleteStreamContentSerializer(DynamicFieldsModelSerializer):
             "content": sctn.content.id} for sctn in stream_contents]
         if stream_contents_data:
             thread = threading.Thread(target=delete_comments_and_broadcast, args=(
-                ["content_deleted_broadcast"]), kwargs={
+                ["content_deleted_broadcast", "deleted_content"]), kwargs={
                 'stream_contents_data': stream_contents_data, "delete_ctn": True})
             thread.start()
         stream_contents.delete()
