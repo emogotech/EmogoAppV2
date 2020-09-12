@@ -4,7 +4,7 @@ from emogo.apps.users.models import Token
 from emogo.apps.stream.models import (
     Stream, ContentComment, Content, StreamContent, CommentAcknowledgement)
 from emogo.apps.users.serializers import ContentCommentSerializer
-from emogo.apps.users.models import UserProfile
+from emogo.apps.users.models import UserProfile, UserOnlineStatus, UserDevice
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from channels.exceptions import DenyConnection
@@ -148,11 +148,13 @@ class CommentConsumer(WebsocketConsumer):
         # Check if stream creator and content creator are same then
         # We will send single notification
         # Otherwise we will notify both content creator and emogo creator
-        if content.created_by != from_user:
+        if content.created_by != from_user and not UserOnlineStatus.objects.filter(
+            stream=stream, user_device__user=content.created_by).exists():
             self.send_cmt_notification(
                 stream, content, comment, from_user, content.created_by)
         if stream.created_by != content.created_by and \
-            stream.created_by != from_user:
+            stream.created_by != from_user and not UserOnlineStatus.objects.filter(
+            stream=stream, user_device__user=stream.created_by).exists():
             self.send_cmt_notification(
                 stream, content, comment, from_user, stream.created_by)
 
@@ -181,7 +183,6 @@ class CommentConsumer(WebsocketConsumer):
         comment_data = {"status_code": 200, "action_type": "post_comment_broadcast"}
         comment_data["data"] = ContentCommentSerializer(
             instance=comment_obj, fields=fields).data
-
         # Send notification to emogo owner and content creator
         thread = threading.Thread(target=self.send_new_comment_notification,
             args=([stream, content, comment_obj, user]))
@@ -330,6 +331,11 @@ class CommentConsumer(WebsocketConsumer):
         if "exception_data" not in validate_data.keys():
             stream = validate_data["stream"]
             print("======", stream.type)
+            print("=====", user.id)
+            device = UserDevice.objects.filter(user=user)
+            if device:
+                online_obj = UserOnlineStatus.objects.get_or_create(
+                    user_device=device[0], stream=stream)
             if stream.created_by == user or any(True for collb in \
                 stream.collaborator_list.all() if user.username.endswith(
                     collb.phone_number)):
@@ -356,6 +362,11 @@ class CommentConsumer(WebsocketConsumer):
 
     def disconnect(self, close_code):
         print("Called disconnect. =========")
+        if not self.scope['user'].is_anonymous():
+            stream_id = self.scope['url_route']['kwargs']['stream_id']
+            UserOnlineStatus.objects.filter(
+                user_device__user=self.scope['user'],
+                stream__id=stream_id).delete()
         if hasattr(self, "room_group_name"):
             async_to_sync(self.channel_layer.group_discard)(
                 self.room_group_name,
