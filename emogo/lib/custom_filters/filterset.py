@@ -254,6 +254,41 @@ class ContentsFilter(django_filters.FilterSet):
         return qs.filter(pk=value)
 
 
+class StreamContentFilter(django_filters.FilterSet):
+    stream = django_filters.filters.CharFilter(method='filter_by_stream')
+    content = django_filters.filters.CharFilter(method='filter_by_content')
+
+    class Meta:
+        model = Content
+        fields = []
+
+    def filter_by_stream(self, qs, name, value):
+        user = self.request.user
+        try:
+            stream = Stream.actives.select_related('created_by').prefetch_related(
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.actives.all().select_related(
+                        'created_by').order_by('-id'),
+                    to_attr='stream_collaborator'
+                )).get(pk=value)
+            if stream.type == "Private" and stream.created_by != user and not any(
+                True for collb in stream.stream_collaborator if \
+                    user.username.endswith(collb.phone_number[-10:])):
+                raise ObjectDoesNotExist
+        except ObjectDoesNotExist:
+            raise Http404("The Emogo does not exist.")
+        return qs.filter(content_streams__stream=value)
+
+    def filter_by_content(self, qs, name, value):
+        stream = self.request.GET.get("stream")
+        try:
+            qs.get(id=value, content_streams__stream=stream)
+        except ObjectDoesNotExist:
+            raise Http404("Content does not exist.")
+        return qs.filter(pk=value)
+
+
 class UserStreamFilter(django_filters.FilterSet):
     stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
     created_by = django_filters.filters.NumberFilter(method='filter_created_by')

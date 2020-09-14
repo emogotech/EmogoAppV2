@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^folder/$', views.FolderAPI.as_view()),
     url(r'^share-content-in-imessage/$', views.ContentShareInImessageAPI.as_view()),
     # in get_stream_content url, the pk is contnet id
-    url(r'^get_stream_content/(?P<stream_id>[0-9]+)/(?P<pk>[0-9]+)/$',
-        views.GetStreamContentAPI.as_view()),
+    # url(r'^get_stream_content/(?P<stream_id>[0-9]+)/(?P<pk>[0-9]+)/$',
+    #     views.GetStreamContentAPI.as_view()),
+    url(r'^get_stream_content/$', views.GetStreamContentAPI.as_view()),
 ]
