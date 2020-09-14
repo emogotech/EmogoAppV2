@@ -22,7 +22,8 @@ from emogo.apps.stream.serializers import (
     StreamMoveToFolderSerializer, OptimisedViewStreamSerializer, ShareContentSerializer,
     delete_comments_and_broadcast)
 from emogo.lib.custom_filters.filterset import (
-    StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter)
+    StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter,
+    StreamContentFilter)
 from emogo.apps.stream.swagger_schema import (
     stream_schema_doc, stream_api_responses, content_schema_doc, content_api_responses,
     content_update_schema_doc, content_update_api_response, move_content_to_stream_schema,
@@ -661,32 +662,22 @@ class GetStreamContentAPI(ContentAPI):
     1. If stream is public then anybody can access the content.
     2. If stream is private then only stream owner and collaborator can
     access the content.
+    here we can pass only stream or both stream and content.
     """
     http_method_names = ['get']
+    filter_class = StreamContentFilter
+
+    def filter_queryset(self, queryset):
+        """
+        We will return data according to the query parameter.
+        """
+        # queryset = queryset.filter(created_by=self.request.user)
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, self)
+        return queryset
 
     def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def get_object(self):
-        user = self.request.user
-        try:
-            stream = Stream.actives.select_related('created_by').prefetch_related(
-                Prefetch(
-                    'collaborator_list',
-                    queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
-                    to_attr='stream_collaborator'
-                )).get(id=self.kwargs.get('stream_id'))
-        except ObjectDoesNotExist:
-            raise Http404("The Emogo does not exist.")
-        try:
-            if stream.type == "Private":
-                if stream.created_by != user and not any(True for collb in \
-                    stream.stream_collaborator if user.username.endswith(
-                        collb.phone_number[-10:])):
-                    raise ObjectDoesNotExist
-            return self.get_queryset().get(pk=self.kwargs.get('pk'))
-        except ObjectDoesNotExist:
-            raise Http404("Content does not exist.")
+        return self.list(request, *args, **kwargs)
 
 
 class GetTopContentAPI(ContentAPI):
