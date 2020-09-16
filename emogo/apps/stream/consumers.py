@@ -247,22 +247,26 @@ class CommentConsumer(WebsocketConsumer):
             self.send(text_data=json.dumps(resp_data))
             return
         try:
-            comnt = ContentComment.actives.get(id=data["comment_id"], user=user)
-            comnt.status = "Deleted"
-            comnt.save()
-            comment_data = {
-                "status_code": 204,
-                "action_type": "delete_comment_broadcast"
-            }
-            comment_data["data"] = {
-                "stream": stream.id, "content": content.id,
-                "comment": data["comment_id"]
-            }
-            self.broadcast_by_type(comment_data, "private", stream.id)
-            if stream.type == "Public":
-                self.broadcast_by_type(comment_data, "public", stream.id)
-            Notification.objects.filter(comment__id=comnt.id).update(
-                notification_type="deleted_comment", is_open=False)
+            comnt = ContentComment.actives.get(id=data["comment_id"])
+            if stream.created_by == user or content.created_by == user or \
+                comnt.user == user:
+                comnt.status = "Deleted"
+                comnt.save()
+                comment_data = {
+                    "status_code": 204,
+                    "action_type": "delete_comment_broadcast"
+                }
+                comment_data["data"] = {
+                    "stream": stream.id, "content": content.id,
+                    "comment": data["comment_id"]
+                }
+                self.broadcast_by_type(comment_data, "private", stream.id)
+                if stream.type == "Public":
+                    self.broadcast_by_type(comment_data, "public", stream.id)
+                Notification.objects.filter(comment__id=comnt.id).update(
+                    notification_type="deleted_comment", is_open=False)
+            else:
+                raise ObjectDoesNotExist
         except:
             resp_data = {"status_code": 404, "exception": "Comment does not exist."}
             self.send(text_data=json.dumps(resp_data))
@@ -338,7 +342,7 @@ class CommentConsumer(WebsocketConsumer):
                     user_device=device[0], stream=stream)
             if stream.created_by == user or any(True for collb in \
                 stream.collaborator_list.all() if user.username.endswith(
-                    collb.phone_number)):
+                    collb.phone_number[-10:])):
                     connection_type = "private"
             else:
                 connection_type = "public"

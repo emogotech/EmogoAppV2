@@ -162,10 +162,13 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
     def delete_collbs_notifications(self, stream, deleted_collbs, collaborators):
         for collb_phone in deleted_collbs:
-            if not any(True for clb in collaborators if clb.get(
-                'phone_number') not in deleted_collbs):
+            has_collb = False
+            for clb in collaborators:
+                if collb_phone.endswith(clb.get('phone_number')[-10:]):
+                    has_collb = True
+            if not has_collb:
                 Notification.objects.filter(
-                    stream=stream,
+                    stream=stream, notification_type="new_comment",
                     to_user__username__endswith=collb_phone[-10:]).update(
                     notification_type="deleted_collaborator", is_open = False)
 
@@ -187,10 +190,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                 stream_collbs = self.instance.collaborator_list.all()
                 deleted_collbs = [clb.phone_number for clb in stream_collbs]
                 if deleted_collbs:
-                    thread = threading.Thread(
-                        target=self.delete_collbs_notifications,
-                        args=([self.instance, deleted_collbs, collaborators]))
-                    thread.start()
+                    # thread = threading.Thread(
+                    #     target=self.delete_collbs_notifications,
+                    #     args=([self.instance, deleted_collbs, collaborators]))
+                    # thread.start()
+                    self.delete_collbs_notifications(
+                        self.instance, deleted_collbs, collaborators)
                 stream_collbs.delete()
             # Other wise delete only self created collaborators.
             else:
@@ -198,10 +203,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                     created_by=self.context.get('request').user)
                 deleted_collbs = [clb.phone_number for clb in stream_collbs]
                 if deleted_collbs:
-                    thread = threading.Thread(
-                        target=self.delete_collbs_notifications,
-                        args=([self.instance, deleted_collbs, collaborators]))
-                    thread.start()
+                    # thread = threading.Thread(
+                    #     target=self.delete_collbs_notifications,
+                    #     args=([self.instance, deleted_collbs, collaborators]))
+                    # thread.start()
+                    self.delete_collbs_notifications(
+                        self.instance, deleted_collbs, collaborators)
                 stream_collbs.delete()
             if collaborators.__len__() > 0:
                 self.create_collaborator(self.instance)
