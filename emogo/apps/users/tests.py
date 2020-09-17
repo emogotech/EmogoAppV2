@@ -6,6 +6,7 @@ from emogo.apps.users.models import User, UserProfile
 
 
 class BaseAPITests(APITestCase):
+
     @classmethod
     def setUpTestData(cls):
         cls.url = '/api/v3'
@@ -81,7 +82,7 @@ class VerifyOtpTestCase(BaseAPITests):
     def test_verify_otp_without_phone_number(self):
         self.test_dict = {
             "phone_number": "",
-            "otp":"12345",
+            "otp": "12345",
             "device_name": "mac"
         }
         response = self.client.post(self.url, data=self.test_dict, format='json')
@@ -154,12 +155,12 @@ class SignOutTestCase(BaseAPITests):
 
     def setUp(self):
         super(SignOutTestCase, self).setUp()
-        self.urls = self.url + '/logout/'
+        self.url = self.url + '/logout/'
 
     def test_user_for_signout(self):
         # User can signout
         self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.urls)
+        response = self.client.post(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_user_signout_all_devices(self):
@@ -167,10 +168,36 @@ class SignOutTestCase(BaseAPITests):
             "logout_from_all_device": True
         }
         self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.urls, data=self.test_dict)
+        response = self.client.post(self.url, data=self.test_dict)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_user_for_signout_without_token(self):
         # User can not signout without token
-        response = self.client.post(self.urls)
+        response = self.client.post(self.url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class ResendOtpTestCase(BaseAPITests):
+    def setUp(self):
+        super(ResendOtpTestCase, self).setUp()
+        self.url = self.url + '/resend_otp/'
+
+    def test_resend_otp_with_invalid_phone_number(self):
+        self.test_dict = {
+            "phone_number": "+918103987"
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_resend_otp_without_phone_number(self):
+        self.test_dict = {
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_resend_otp(self):
+        self.test_dict = {
+            "phone_number": self.test_user.username
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
