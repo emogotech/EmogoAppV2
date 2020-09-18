@@ -14,9 +14,9 @@ class BaseAPITests(APITestCase):
         cls.test_user_profile = UserProfile.objects.get(user_id=cls.test_user)
 
 
-class UserTestCase(BaseAPITests):
+class UserSignupTestCase(BaseAPITests):
     def setUp(self):
-        super(UserTestCase, self).setUp()
+        super(UserSignupTestCase, self).setUp()
         self.url = self.url + '/signup/'
 
     def test_for_create_user(self):
@@ -200,4 +200,24 @@ class ResendOtpTestCase(BaseAPITests):
             "phone_number": self.test_user.username
         }
         response = self.client.post(self.url, data=self.test_dict, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class UserTestCase(BaseAPITests):
+    def setUp(self):
+        super(UserTestCase, self).setUp()
+        self.url = self.url + '/users'
+
+    def test_filter_user_by_name(self):
+        if self.test_user:
+            self.url += '?people=' + str(self.test_user_profile.full_name)
+        self.client.force_authenticate(self.test_user)
+        response = self.client.get(self.url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_filter_user_by_phone_number(self):
+        if self.test_user:
+            self.url += '?people=' + str(self.test_user.username)
+        self.client.force_authenticate(self.test_user)
+        response = self.client.get(self.url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
