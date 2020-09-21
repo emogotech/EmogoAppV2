@@ -45,15 +45,15 @@ class NotificationAPI():
             token_hex = obj.to_user.userdevice_set.all()[0].device_token
             if token_hex != '':
                 path = settings.NOTIFICATION_PEM_ROOT
-                logging.info('File Path {0}'.format(path))            
+                #logging.info('File Path {0}'.format(path))            
                 apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
-                logging.info('APNS Path') 
+                #logging.info('APNS Path') 
                 msg = self.notification_message(obj)
-                logging.info('Successfully send notificaton')
+                #logging.info('Successfully send notificaton')
                 payload = Payload(alert=msg, sound="default", badge=self.total_counts().filter(to_user = obj.to_user).count())
-                logging.info('Send Payload')
+                #logging.info('Send Payload')
                 apns.gateway_server.send_notification(token_hex, payload)
-                logging.info('Done Notification')
+                #logging.info('Done Notification')
         except Exception as e:
             logging.error('TestNotificaiton {0}'.format(e))
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
