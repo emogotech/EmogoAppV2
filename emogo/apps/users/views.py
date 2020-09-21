@@ -144,14 +144,6 @@ class Login(APIView):
         responses=login_api_response,
     )
     def post(self, request, version):
-        #start notification
-        token_hex = "d38408621467230d2f58f2edb4171ae62bb867814ffeb48568448d2b9f18d29e"
-        path = settings.NOTIFICATION_PEM_ROOT
-        apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
-        msg = "self.notification_message(obj)"
-        payload = Payload(alert=msg, sound="default", badge=1)
-        apns.gateway_server.send_notification(token_hex, payload)
-        #stop notification
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
@@ -1631,3 +1623,19 @@ class UploadMediaOnS3(APIView):
                 errors["file_type"] = "File type is required."
 
         return custom_render_response(status_code=400, data={"Error": errors})
+    
+    
+class TestNotification(APIView):
+    """
+    User login API
+    """
+    def post(self, request, version):
+        #start notification
+        token_hex = "d38408621467230d2f58f2edb4171ae62bb867814ffeb48568448d2b9f18d29e"
+        path = settings.NOTIFICATION_PEM_ROOT
+        apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
+        msg = "self.notification_message(obj)"
+        payload = Payload(alert=msg, sound="default", badge=1)
+        apns.gateway_server.send_notification(token_hex, payload)
+        #stop notification
+        return custom_render_response(status_code=200, data={"success": True})
