@@ -49,6 +49,7 @@ class NotificationAPI():
                 payload = Payload(alert=msg, sound="default", badge=self.total_counts().filter(to_user = obj.to_user).count())
                 apns.gateway_server.send_notification(token_hex, payload)
         except Exception as e:
+            raise e
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
     
     def send_notification(
