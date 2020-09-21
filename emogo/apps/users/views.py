@@ -143,7 +143,6 @@ class Login(APIView):
         responses=login_api_response,
     )
     def post(self, request, version):
-        return custom_render_response(status_code=status.HTTP_200_OK, data={"status": "Done"})
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
