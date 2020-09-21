@@ -6,6 +6,7 @@ from emogo.apps.users.models import User, UserProfile
 
 
 class BaseAPITests(APITestCase):
+    fixtures = ('test_data',)
 
     @classmethod
     def setUpTestData(cls):
