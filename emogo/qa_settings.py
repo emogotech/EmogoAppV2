@@ -333,7 +333,7 @@ CHANNEL_LAYERS = {
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Get Local Settings
 try:
-    PEM_FILE = 'EmogoDevQA.pem'
+    PEM_FILE = 'emogoDevQa.pem'
     IS_SANDBOX = True
     #Get PEM file url for notification
     NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
