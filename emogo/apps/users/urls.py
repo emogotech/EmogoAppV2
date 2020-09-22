@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^user-left-menu-data/$', views.UserLeftMenuData.as_view()),
     url(r'^upload-media-on-s3/$', views.UploadMediaOnS3.as_view()),
     url(r'^user-loggedin-devices/$', views.UserLoggedInDevices.as_view()),
+    url(r'^test-notify/$', views.TestNotification.as_view()),
 ]

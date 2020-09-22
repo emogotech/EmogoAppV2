@@ -60,6 +60,7 @@ import boto3
 import re
 import threading
 from django.conf import settings
+from apns import APNs, Frame, Payload
 from rest_framework import pagination
 import json
 from rest_framework.parsers import MultiPartParser, JSONParser
@@ -1622,3 +1623,21 @@ class UploadMediaOnS3(APIView):
                 errors["file_type"] = "File type is required."
 
         return custom_render_response(status_code=400, data={"Error": errors})
+    
+    
+class TestNotification(APIView):
+    """
+    User login API
+    """
+    def post(self, request, version):
+        #start notification
+        device_token = request.data.get("device_token")
+        token_hex = device_token
+        path = settings.NOTIFICATION_PEM_ROOT
+        return custom_render_response(status_code=200, data={"path": path})
+        apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
+        msg = "Hello"
+        payload = Payload(alert=msg, sound="default", badge=1)
+        apns.gateway_server.send_notification(token_hex, payload)
+        #stop notification
+        return custom_render_response(status_code=200, data={"success": True})
