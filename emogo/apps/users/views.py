@@ -1631,7 +1631,8 @@ class TestNotification(APIView):
     """
     def post(self, request, version):
         #start notification
-        token_hex = "d38408621467230d2f58f2edb4171ae62bb867814ffeb48568448d2b9f18d29e"
+        device_token = request.data.get("device_token")
+        token_hex = device_token
         path = settings.NOTIFICATION_PEM_ROOT
         apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
         msg = "Hello"
