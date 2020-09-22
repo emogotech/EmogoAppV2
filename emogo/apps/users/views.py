@@ -1634,6 +1634,7 @@ class TestNotification(APIView):
         device_token = request.data.get("device_token")
         token_hex = device_token
         path = settings.NOTIFICATION_PEM_ROOT
+        return custom_render_response(status_code=200, data={"path": path})
         apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
         msg = "Hello"
         payload = Payload(alert=msg, sound="default", badge=1)
