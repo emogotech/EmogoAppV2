@@ -334,7 +334,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Get Local Settings
 try:
     PEM_FILE = 'emogoDev.pem'
-    IS_SANDBOX = True
+    IS_SANDBOX = False
     #Get PEM file url for notification
     NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
 except ImportError:
