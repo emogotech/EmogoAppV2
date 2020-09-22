@@ -1634,7 +1634,7 @@ class TestNotification(APIView):
         token_hex = "d38408621467230d2f58f2edb4171ae62bb867814ffeb48568448d2b9f18d29e"
         path = settings.NOTIFICATION_PEM_ROOT
         apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
-        msg = "self.notification_message(obj)"
+        msg = "Hello"
         payload = Payload(alert=msg, sound="default", badge=1)
         apns.gateway_server.send_notification(token_hex, payload)
         #stop notification
