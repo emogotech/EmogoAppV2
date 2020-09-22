@@ -15,10 +15,10 @@ class BaseAPITests(APITestCase):
         cls.url = '/api/v3'
         cls.test_user = User.objects.latest('id')
         cls.test_user_profile = UserProfile.objects.get(user_id=cls.test_user)
-        cls.token = Token.objects.get_or_create(user=cls.test_user)
-        cls.header = {'HTTP_AUTHORIZATION': 'Token ' + str(cls.token[0])}
-        cls.test_user_stream = Stream.objects.filter(created_by_id=cls.test_user).order_by('-id')[0]
-        cls.test_user_content = Content.objects.filter(created_by_id=cls.test_user).order_by('-id')[0]
+        cls.token = Token.objects.get(user=cls.test_user)
+        cls.header = {'HTTP_AUTHORIZATION': 'Token ' + str(cls.token)}
+        cls.test_user_stream = Stream.objects.filter(created_by_id=cls.test_user).order_by('-id').first()
+        cls.test_user_content = Content.objects.filter(created_by_id=cls.test_user).order_by('-id').first()
 
 
 class StreamTestCase(BaseAPITests):
@@ -139,9 +139,7 @@ class StreamListingTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_stream_list_with_filter_my_stream_and_stream_name(self):
-        by_stream_name = ''
-        if self.test_user_stream:
-            by_stream_name += '&stream_name=' + str(self.test_user_stream.name)
+        by_stream_name = '&stream_name=' + str(self.test_user_stream.name)
         self.url = self.url + '?my_stream=True' + by_stream_name
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -156,21 +154,18 @@ class StreamListingTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_stream_with_pk(self):
-        if self.test_user_stream:
-            self.url += '/' + str(self.test_user_stream.id) + '/'
+        self.url += '/' + str(self.test_user_stream.id) + '/'
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_delete_stream_with_pk(self):
-        if self.test_user_stream:
-            self.url += '/' + str(self.test_user_stream.id) + '/'
+        self.url += '/' + str(self.test_user_stream.id) + '/'
         response = self.client.delete(self.url, format='json', **self.header)
         self.assertEqual(response.data['status_code'], status.HTTP_204_NO_CONTENT)
 
     def test_filter_stream_with_global_search(self):
         self.url += '?global_search=JULIE & SEAN/'
-        self.client.force_authenticate(self.test_user)
-        response = self.client.get(self.url, format='json')
+        response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
@@ -186,14 +181,13 @@ class ContentTestCase(BaseAPITests):
                 "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn"
                        ":ANd9GcRnkUxsZ0kpbI8nqOhCouv5YoTGCZFpbu3L3A__dggghttRsbWWZA",
                 "type": "zip",
-                "name": "component-testing",
-                "description": "This is first description.",
-                "html_text": "this is html file text",
+                "name": fake.name(),
+                "description": fake.sentence(),
+                "html_text": fake.sentence(),
                 "file": "test.html"
             }
         ]
-        self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.url, data=self.test_dict, format='json')
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
 
@@ -203,14 +197,13 @@ class ContentTestCase(BaseAPITests):
             {
                 "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn"
                        ":ANd9GcRnkUxsZ0kpbI8nqOhCouv5YoTGCZFpbu3L3A__dggghttRsbWWZA",
-                "name": "component-testing",
-                "description": "This is first description.",
-                "html_text": "this is html file text",
+                "name": fake.name(),
+                "description": fake.sentence(),
+                "html_text": fake.sentence(),
                 "file": "test.html"
             }
         ]
-        self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.url, data=self.test_dict, format='json')
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['data'][0]['type'], 'Video')
 
@@ -219,15 +212,14 @@ class ContentTestCase(BaseAPITests):
             {
                 "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn"
                        ":ANd9GcRnkUxsZ0kpbI8nqOhCouv5YoTGCZFpbu3L3A__dggghttRsbWWZA",
-                "type": "qqqqq",
-                "name": "component-testing",
-                "description": "This is first description.",
-                "html_text": "this is html file text",
+                "type": fake.words(),
+                "name": fake.name(),
+                "description": fake.sentence(),
+                "html_text": fake.sentence(),
                 "file": "test.html"
             }
         ]
-        self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.url, data=self.test_dict, format='json')
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_for_create_content_with_blank_type(self):
@@ -236,14 +228,13 @@ class ContentTestCase(BaseAPITests):
                 "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn"
                        ":ANd9GcRnkUxsZ0kpbI8nqOhCouv5YoTGCZFpbu3L3A__dggghttRsbWWZA",
                 "type": "",
-                "name": "component-testing",
-                "description": "This is first description.",
-                "html_text": "this is html file text",
+                "name": fake.name(),
+                "description": fake.sentence(),
+                "html_text": fake.sentence(),
                 "file": "test.html"
             }
         ]
-        self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.url, data=self.test_dict, format='json')
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_for_content_name_more_than_255_characters(self):
@@ -256,8 +247,7 @@ class ContentTestCase(BaseAPITests):
                         "electronic typesetting, remaining essentially unchanged."
             }
         ]
-        self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.url, data=self.test_dict, format='json')
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_for_content_update_with_blank_type(self):
@@ -267,66 +257,59 @@ class ContentTestCase(BaseAPITests):
                 "file": "test.html"
             }
         self.url = self.url + str(self.test_user_content.id) + '/'
-        self.client.force_authenticate(self.test_user)
-        response = self.client.patch(self.url, data=self.test_dict, format='json')
+        response = self.client.patch(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_for_content_update_with_invalid_type(self):
         self.test_dict = {
-            "type": "qqqqq",
+            "type": fake.words(),
             "name": fake.name(),
             "file": "test.html"
         }
         self.url = self.url + str(self.test_user_content.id) + '/'
-        self.client.force_authenticate(self.test_user)
-        response = self.client.patch(self.url, data=self.test_dict, format='json')
+        response = self.client.patch(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_for_content_update(self):
         self.test_dict = {
                 "type": "zip",
-                "name": "component-testing",
+                "name": fake.name(),
                 "file": "test.html"
             }
         self.url = self.url + str(self.test_user_content.id) + '/'
-        self.client.force_authenticate(self.test_user)
-        response = self.client.patch(self.url, data=self.test_dict, format='json')
+        response = self.client.patch(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_for_content_listing(self):
-        self.client.force_authenticate(self.test_user)
-        response = self.client.get(self.url, format='json')
+        response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_for_content_listing_with_filter_by_stream(self):
-        if self.test_user_stream:
-            self.url += '?stream=' + str(self.test_user_stream.id)
-        self.client.force_authenticate(self.test_user)
-        response = self.client.get(self.url, format='json')
+        self.url += '?stream=' + str(self.test_user_stream.id)
+        response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_for_content_listing_with_filter_by_stream_and_content(self):
-        if self.test_user_stream_content:
-            self.url += '?stream=' + str(self.test_user_stream_content.stream_id) + '&content=' + \
+        self.url += '?stream=' + str(self.test_user_stream_content.stream_id) + '&content=' + \
                         str(self.test_user_stream_content.content_id)
-        self.client.force_authenticate(self.test_user)
-        response = self.client.get(self.url, format='json')
+        response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_for_content_listing_with_filter_by_invalid_stream(self):
-        if self.test_user_stream:
-            self.url += '?stream=' + str(self.test_user_stream.id) + '111'
-        self.client.force_authenticate(self.test_user)
-        response = self.client.get(self.url, format='json')
+        self.url += '?stream=' + str(self.test_user_stream.id) + '111'
+        response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_for_content_listing_with_filter_by_invalid_stream_and_content(self):
-        if self.test_user_stream_content:
-            self.url += '?stream=' + str(self.test_user_stream_content.stream_id) + '111&content=' + \
+        self.url += '?stream=' + str(self.test_user_stream_content.stream_id) + '111&content=' + \
                         str(self.test_user_stream_content.content_id) + '111'
-        self.client.force_authenticate(self.test_user)
-        response = self.client.get(self.url, format='json')
+        response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_for_content_listing_filter_by_type_link(self):
+        self.url = self.url + '?type=link/'
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class MoveContentToStreamTestCase(BaseAPITests):
@@ -339,8 +322,7 @@ class MoveContentToStreamTestCase(BaseAPITests):
             "contents": [],
             "streams": [self.test_user_stream.id]
         }
-        self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.url, data=self.test_dict, format='json')
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_move_content_to_stream_with_stream_blank(self):
@@ -348,16 +330,14 @@ class MoveContentToStreamTestCase(BaseAPITests):
             "contents": [self.test_user_content.id],
             "streams": []
         }
-        self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.url, data=self.test_dict, format='json')
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_move_content_to_stream_without_stream(self):
         self.test_dict = {
             "contents": [],
         }
-        self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.url, data=self.test_dict, format='json')
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_move_content_to_stream(self):
@@ -365,6 +345,31 @@ class MoveContentToStreamTestCase(BaseAPITests):
             "contents": [self.test_user_content.id],
             "streams": [self.test_user_stream.id]
         }
-        self.client.force_authenticate(self.test_user)
-        response = self.client.post(self.url, data=self.test_dict, format='json')
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class DeleteContentTestCase(BaseAPITests):
+    def setUp(self):
+        super(DeleteContentTestCase, self).setUp()
+        self.url = self.url + '/delete_content/'
+
+    def test_for_delete_content_without_content_list(self):
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_delete_content_with_empty_content_list(self):
+        self.test_dict = {
+            "content_list": []
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_delete_content_with_content_list(self):
+        self.test_dict = {
+            "content_list": [self.test_user_content.id]
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_204_NO_CONTENT)
