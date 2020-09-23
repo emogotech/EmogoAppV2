@@ -656,7 +656,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
-class GetStreamContentAPI(ContentAPI):
+class GetStreamContentAPI(ListAPIView):
     """This class will return the single content of stream passed in
     request parameter by following validations.
     1. If stream is public then anybody can access the content.
@@ -664,8 +664,29 @@ class GetStreamContentAPI(ContentAPI):
     access the content.
     here we can pass only stream or both stream and content.
     """
+    queryset = StreamContent.objects.all().select_related(
+        'content', 'content__created_by__user_data').prefetch_related(
+            Prefetch(
+                "content__content_like_dislike_status",
+                queryset=LikeDislikeContent.objects.filter(status=1),
+                to_attr='content_liked_user'
+            )
+        ).order_by('order', '-attached_date', '-content__upd')
+    serializer_class = ViewContentSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     http_method_names = ['get']
     filter_class = StreamContentFilter
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def filter_queryset(self, queryset):
         """
@@ -678,6 +699,21 @@ class GetStreamContentAPI(ContentAPI):
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.queryset)
+        #  Customized field list
+        fields = (
+            'id', 'name', 'url', 'type', 'description', 'created_by',
+            'video_image', 'height', 'width', 'color', 'full_name',
+            'user_image', 'liked', 'html_text', 'file')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer([x.content for x in page],
+                many=True,
+                fields=fields, context=self.get_serializer_context())
+            return self.get_paginated_response(
+                data=serializer.data, status_code=status.HTTP_200_OK)
 
 
 class GetTopContentAPI(ContentAPI):

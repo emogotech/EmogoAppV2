@@ -259,7 +259,7 @@ class StreamContentFilter(django_filters.FilterSet):
     content = django_filters.filters.CharFilter(method='filter_by_content')
 
     class Meta:
-        model = Content
+        model = StreamContent
         fields = []
 
     def filter_by_stream(self, qs, name, value):
@@ -278,15 +278,14 @@ class StreamContentFilter(django_filters.FilterSet):
                 raise ObjectDoesNotExist
         except ObjectDoesNotExist:
             raise Http404("The Emogo does not exist.")
-        return qs.filter(content_streams__stream=value)
+        return qs.filter(stream_id=value)
 
     def filter_by_content(self, qs, name, value):
         stream = self.request.GET.get("stream")
-        try:
-            qs.get(id=value, content_streams__stream=stream)
-        except ObjectDoesNotExist:
-            raise Http404("Content does not exist.")
-        return qs.filter(pk=value)
+        stream_contents = qs.filter(content_id=value, stream_id=stream)
+        if stream_contents:
+            return stream_contents
+        raise Http404("Content does not exist.")
 
 
 class UserStreamFilter(django_filters.FilterSet):
