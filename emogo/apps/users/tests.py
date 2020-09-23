@@ -13,8 +13,8 @@ class BaseAPITests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.url = '/api/v3'
-        cls.test_user = User.objects.latest('id')
-        cls.test_user_profile = UserProfile.objects.get(user_id=cls.test_user)
+        cls.test_user = User.objects.prefetch_related('user_data').latest('id')
+        cls.test_user_profile = cls.test_user.user_data
         cls.token = Token.objects.get(user=cls.test_user)
         cls.header = {'HTTP_AUTHORIZATION': 'Token ' + str(cls.token)}
 
@@ -22,7 +22,7 @@ class BaseAPITests(APITestCase):
 class UserSignupTestCase(BaseAPITests):
     def setUp(self):
         super(UserSignupTestCase, self).setUp()
-        self.url = self.url + '/signup/'
+        self.url = f"{self.url}/signup/"
 
     def test_for_create_user(self):
         self.test_dict = {
@@ -60,7 +60,7 @@ class UserSignupTestCase(BaseAPITests):
 class UniqueUserTestCase(BaseAPITests):
     def setUp(self):
         super(UniqueUserTestCase, self).setUp()
-        self.url = self.url + '/unique_user_name/'
+        self.url = f"{self.url}/unique_user_name/"
 
     def test_unique_username_with_already_exist_username(self):
         self.test_dict = {
@@ -82,7 +82,7 @@ class UniqueUserTestCase(BaseAPITests):
 class VerifyOtpTestCase(BaseAPITests):
     def setUp(self):
         super(VerifyOtpTestCase, self).setUp()
-        self.url = self.url + '/verify_otp/'
+        self.url = f"{self.url}/verify_otp/"
 
     def test_verify_otp_without_phone_number(self):
         self.test_dict = {
@@ -133,7 +133,7 @@ class VerifyOtpTestCase(BaseAPITests):
 class UserLoginTestCase(BaseAPITests):
     def setUp(self):
         super(UserLoginTestCase, self).setUp()
-        self.url = self.url + '/login/'
+        self.url = f"{self.url}/login/"
 
     def test_user_login(self):
         self.test_dict = {
@@ -159,7 +159,7 @@ class SignOutTestCase(BaseAPITests):
 
     def setUp(self):
         super(SignOutTestCase, self).setUp()
-        self.url = self.url + '/logout/'
+        self.url = f"{self.url}/logout/"
 
     def test_user_for_signout(self):
         # User can signout
@@ -182,7 +182,7 @@ class SignOutTestCase(BaseAPITests):
 class ResendOtpTestCase(BaseAPITests):
     def setUp(self):
         super(ResendOtpTestCase, self).setUp()
-        self.url = self.url + '/resend_otp/'
+        self.url = f"{self.url}/resend_otp/"
 
     def test_resend_otp_with_invalid_phone_number(self):
         self.test_dict = {
@@ -207,30 +207,30 @@ class ResendOtpTestCase(BaseAPITests):
 class UserTestCase(BaseAPITests):
     def setUp(self):
         super(UserTestCase, self).setUp()
-        self.url = self.url + '/users'
+        self.url = f"{self.url}/users"
 
     def test_filter_user_by_name(self):
-        self.url += '?people=' + str(self.test_user_profile.full_name)
+        self.url = f"{self.url}?people={self.test_user_profile.full_name}"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_filter_user_by_phone_number(self):
-        self.url += '?people=' + str(self.test_user.username)
+        self.url = f"{self.url}?people={self.test_user.username}"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_for_get_userprofile_by_id(self):
-        self.url += '/' + str(self.test_user.id) + '/'
+        self.url = f"{self.url}/{self.test_user.id}/"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_for_get_userprofile_by_invalid_id(self):
-        self.url += '/' + str(fake.msisdn()) + '/'
+        self.url = f"{self.url}/{fake.msisdn()}/"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_for_update_userprofile(self):
-        self.url += '/' + str(self.test_user.id) + '/'
+        self.url = f"{self.url}/{self.test_user.id}/"
         self.test_dict = {
             "display_name": fake.name()
         }
@@ -241,13 +241,13 @@ class UserTestCase(BaseAPITests):
 class UserCollaboratorTestCase(BaseAPITests):
     def setUp(self):
         super(UserCollaboratorTestCase, self).setUp()
-        self.url += '/user_collaborators/'
+        self.url = f"{self.url}/user_collaborators/"
 
     def test_get_user_collaborators(self):
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_user_collaborators_filter_by_stream_name(self):
-        self.url += '?stream_name=my_stream'
+        self.url = f"{self.url}?stream_name=my_stream"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
