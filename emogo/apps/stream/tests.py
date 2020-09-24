@@ -321,6 +321,11 @@ class ContentTestCase(BaseAPITests):
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_for_get_content_notes_type(self):
+        self.url = f"{self.url}?type=Note"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
 
 class MoveContentToStreamTestCase(BaseAPITests):
     def setUp(self):
@@ -461,3 +466,117 @@ class DragAndDropStreamContentTestCase(BaseAPITests):
         }
         response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class DragAndDropMyStuffTestCase(BaseAPITests):
+    def setUp(self):
+        super(DragAndDropMyStuffTestCase, self).setUp()
+        self.url = f"{self.url}/reorder_content/"
+
+    def test_drag_and_drop_my_stuff_without_my_order(self):
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.data['status_code'], status.HTTP_400_BAD_REQUEST)
+
+    def test_drag_and_drop_my_stuff_with_blank_my_order(self):
+        self.test_dict = {
+            "my_order": [{}]
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.data['status_code'], status.HTTP_400_BAD_REQUEST)
+
+    def test_drag_and_drop_my_stuff_without_order(self):
+        self.test_dict = {
+            "my_order": [{"id": self.test_user_content.id}]
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.data['status_code'], status.HTTP_400_BAD_REQUEST)
+
+    def test_drag_and_drop_my_stuff_without_content_id(self):
+        self.test_dict = {
+            "my_order": [{"order": 1}]
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.data['status_code'], status.HTTP_400_BAD_REQUEST)
+
+    def test_drag_and_drop_my_stuff_with_invalid_my_content_id(self):
+        self.test_dict = {
+            "my_order": [{"id": fake.msisdn(), "order": 1}]
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.data['status_code'], status.HTTP_400_BAD_REQUEST)
+
+    def test_drag_and_drop_my_stuff_with_valid_request_param(self):
+        self.test_dict = {
+            "my_order": [{"id": self.test_user_content.id, "order": 1}]
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class LikeDislikeStreamTestCase(BaseAPITests):
+    def setUp(self):
+        super(LikeDislikeStreamTestCase, self).setUp()
+        self.url = f"{self.url}/like_dislike_stream/"
+
+    def test_like_dislike_stream_without_stream(self):
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_like_dislike_stream_with_blank_stream(self):
+        self.test_dict = {
+            "stream": ""
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_like_dislike_stream_without_status(self):
+        self.test_dict = {
+            "stream": self.test_user_stream.id
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_like_dislike_stream_with_valid_request_param(self):
+        self.test_dict = {
+            "stream": self.test_user_stream.id,
+            "status": 1
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+
+class LikeDislikeContentTestCase(BaseAPITests):
+    def setUp(self):
+        super(LikeDislikeContentTestCase, self).setUp()
+        self.url = f"{self.url}/like_dislike_content/"
+
+    def test_like_dislike_content_without_request_param(self):
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_like_dislike_content_with_blank_content(self):
+        self.test_dict = {
+            "content": ""
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_like_dislike_content_without_status(self):
+        self.test_dict = {
+            "content": self.test_user_content.id
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_like_dislike_content_with_valid_request_param(self):
+        self.test_dict = {
+            "content": self.test_user_content.id,
+            "status": 1
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)

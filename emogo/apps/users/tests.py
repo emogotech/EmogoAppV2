@@ -237,6 +237,40 @@ class UserTestCase(BaseAPITests):
         response = self.client.put(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_for_assign_stream_to_userprofile(self):
+        self.url = f"{self.url}/{self.test_user.id}/"
+        self.test_dict = {
+            "location": fake.city_suffix(),
+            "full_name": fake.name(),
+            "website": fake.safe_domain_name(),
+            "biography": fake.sentence(),
+            "user_image": "https://s3.amazonaws.com/emogo-v2/stream-media/A39DBB27-F327-4F6B-BCAB-6CEBB70A58B2.png",
+            "birthday": fake.date(),
+            "profile_stream": "2402"
+        }
+        response = self.client.put(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_user_following_list(self):
+        self.url = '/api/v3/get_user_following/'
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_search_user_by_name(self):
+        self.url = f"{self.url}/?name=vivek"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_get_user_following_list_filter_by_following_name(self):
+        self.url = '/api/v3/get_user_following/?following_name=jon'
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_get_user_follower_list_filter_by_follower_name(self):
+        self.url = '/api/v3/get_user_followers/?follower_name=clay'
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
 
 class UserCollaboratorTestCase(BaseAPITests):
     def setUp(self):
@@ -249,5 +283,89 @@ class UserCollaboratorTestCase(BaseAPITests):
 
     def test_get_user_collaborators_filter_by_stream_name(self):
         self.url = f"{self.url}?stream_name=my_stream"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class UserLikedStreamsListTestCase(BaseAPITests):
+    def setUp(self):
+        super(UserLikedStreamsListTestCase, self).setUp()
+        self.url = f"{self.url}/user_liked_streams/"
+
+    def test_get_user_liked_stream(self):
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_user_liked_stream_filter_by_stream_name(self):
+        self.url = f"{self.url}?stream_name=my stream"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class UserFollowTestCase(BaseAPITests):
+    def setUp(self):
+        super(UserFollowTestCase, self).setUp()
+        self.url = f"{self.url}/follow_user/"
+
+    def test_for_user_follow_without_request_param(self):
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_user_follow_with_following_blank(self):
+        self.test_dict = {
+            "following": ""
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_user_follow_with_valid_request_param(self):
+        self.test_dict = {
+            "following": "2"
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+
+class UserUnfollowTestCase(BaseAPITests):
+    def setUp(self):
+        super(UserUnfollowTestCase, self).setUp()
+        self.url = f"{self.url}/unfollow_user/"
+
+    def test_for_unfollow_user_with_invalid_kwargs(self):
+        self.url = f"{self.url}{fake.msisdn()}/"
+        response = self.client.delete(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_for_unfollow_user(self):
+        self.url = f"{self.url}2/"
+        response = self.client.delete(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_204_NO_CONTENT)
+
+
+class UserStreamsTestCase(BaseAPITests):
+    def setUp(self):
+        super(UserStreamsTestCase, self).setUp()
+        self.url = f"{self.url}/user_streams"
+
+    def test_get_user_streams_filter_by_following_stream_true(self):
+        self.url = f"{self.url}?following_stream=True"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_user_streams_filter_by_emogo_stream(self):
+        self.url = f"{self.url}?emogo_stream=5"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_user_streams_filter_by_collab_stream(self):
+        self.url = f"{self.url}?collab_stream=5"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_user_streams_filter_by_following_stream_and_stream_name(self):
+        self.url = f"{self.url}?following_stream=True&stream_name=my_stream"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
