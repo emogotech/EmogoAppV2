@@ -4,8 +4,13 @@ RUN mkdir -p /usr/src/app/
 
 WORKDIR /usr/src/app/
 
+RUN apt-get update
+
+RUN apt-get install -y redis-server
+
 COPY requirements.txt /usr/src/app/
 RUN pip3 install psycopg2-binary
+
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
