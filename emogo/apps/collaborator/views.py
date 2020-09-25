@@ -43,8 +43,10 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         """
         if kwargs['invites'] == 'accept' and request.method == 'PATCH':
             stream = Stream.objects.get(id=request.data.get('stream'))
-            collab = Collaborator.objects.filter(stream=stream).filter(Q(phone_number=request.user.username) | Q(
-                phone_number=stream.created_by.username, created_by=stream.created_by))
+            collab = Collaborator.objects.filter(stream=stream).filter(
+                Q(phone_number__endswith=self.request.user.username[-10:]) | Q(
+                phone_number__endswith=stream.created_by.username[-10:],
+                created_by=stream.created_by))
             collab.update(status='Active')
             if kwargs['version']:
                 obj = Notification.objects.filter(id = request.data.get('notification_id'))

@@ -920,7 +920,14 @@ class MoveContentToStreamSerializer(ContentSerializer):
                     to_user = User.objects.filter(username = collab.phone_number)
                     if to_user.__len__() > 0:
                         content_ids = [ x.id for x in self.initial_data['contents']]
-                        NotificationAPI().send_notification(self.context.get('request').user, to_user[0], 'add_content', stream, None, self.initial_data['contents'].count(), str(content_ids))
+                        # NotificationAPI().send_notification(self.context.get('request').user, to_user[0], 'add_content', stream, None, self.initial_data['contents'].count(), str(content_ids))
+                        thread = threading.Thread(
+                            target=NotificationAPI().send_notification, args=(
+                                [self.context.get('request').user, to_user[0],
+                                'add_content', stream, None,
+                                self.initial_data['contents'].count(),
+                                str(content_ids)]))
+                        thread.start()
         return True
 
     def add_content_to_stream(self, content, stream):
