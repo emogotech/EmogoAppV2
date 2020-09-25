@@ -38,16 +38,34 @@ class NotificationAPI():
             content_lists=content_lists, comment=comment)
         return obj 
 
+    # def initialize_notification(self, obj):
+    #     # Initialize and call Notification
+    #     try:
+    #         token_hex = obj.to_user.userdevice_set.all()[0].device_token
+    #         if token_hex != '':
+    #             path = settings.NOTIFICATION_PEM_ROOT
+    #             apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
+    #             msg = self.notification_message(obj)
+    #             payload = Payload(alert=msg, sound="default", badge=self.total_counts().filter(to_user = obj.to_user).count())
+    #             apns.gateway_server.send_notification(token_hex, payload)
+    #     except Exception as e:
+    #         return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
+
     def initialize_notification(self, obj):
         # Initialize and call Notification
         try:
-            token_hex = obj.to_user.userdevice_set.all()[0].device_token
-            if token_hex != '':
+            user_devices = obj.to_user.userdevice_set.all()
+            if user_devices:
                 path = settings.NOTIFICATION_PEM_ROOT
-                apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
+                apns = APNs(use_sandbox=settings.IS_SANDBOX,
+                    cert_file=path, key_file=path)
                 msg = self.notification_message(obj)
-                payload = Payload(alert=msg, sound="default", badge=self.total_counts().filter(to_user = obj.to_user).count())
-                apns.gateway_server.send_notification(token_hex, payload)
+                payload = Payload(alert=msg, sound="default",
+                    badge=self.total_counts().filter(to_user=obj.to_user).count())
+                for device in user_devices:
+                    if device.device_token and device.device_token != '':
+                        apns.gateway_server.send_notification(
+                            device.device_token, payload)
         except Exception as e:
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
     

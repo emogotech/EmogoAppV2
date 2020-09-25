@@ -1358,9 +1358,18 @@ class ContentLikeDislikeAPI(CreateAPIView):
                noti = noti.filter(stream = stream) 
             if noti.__len__() > 0 :
                 noti[0].save()
-                NotificationAPI().initialize_notification(noti[0])
+                # NotificationAPI().initialize_notification(noti[0])
+                thread = threading.Thread(
+                    target=NotificationAPI().initialize_notification, args=(
+                        [noti[0]]))
+                thread.start()
             else:
-                NotificationAPI().send_notification(self.request.user, content.created_by, 'liked_content', stream, content)
+                # NotificationAPI().send_notification(self.request.user, content.created_by, 'liked_content', stream, content)
+                thread = threading.Thread(
+                    target=NotificationAPI().send_notification, args=(
+                        [self.request.user, content.created_by, 'liked_content',
+                        stream, content]))
+                thread.start()
         # To return created stream data
         # self.serializer_class = ViewStreamSerializer
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
@@ -1495,7 +1504,13 @@ class ContentShareExtensionAPI(CreateAPIView):
         :return: Send notification API.
         """
         # content_ids = [ x.id for x in self.request.data.get('contents')]
-        NotificationAPI().send_notification(self.request.user, self.request.user, 'self', None, None, self.request.data.get('contents').__len__(), str(self.request.data.get('contents')))
+        # NotificationAPI().send_notification(self.request.user, self.request.user, 'self', None, None, self.request.data.get('contents').__len__(), str(self.request.data.get('contents')))
+        thread = threading.Thread(
+            target=NotificationAPI().send_notification, args=(
+                [self.request.user, self.request.user, 'self', None, None,
+                self.request.data.get('contents').__len__(),
+                str(self.request.data.get('contents'))]))
+        thread.start()
         return custom_render_response(status_code=status.HTTP_200_OK)
 
 
