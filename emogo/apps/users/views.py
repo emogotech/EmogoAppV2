@@ -193,7 +193,6 @@ class Logout(APIView):
             else:
                 request.user.auth_tokens.filter(key=request.META.get(
                     'HTTP_AUTHORIZATION', b'').split()[1]).delete()
-            request.user.userdevice_set.all().delete()
             message, status_code, response_status = messages.MSG_LOGOUT_SUCCESS, "200", status.HTTP_200_OK
             return custom_render_response(status_code, message, response_status)
         except:
@@ -1003,7 +1002,11 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         self.perform_create(serializer)
         if kwargs.get('version'):
             to_user = User.objects.get(id = self.request.data.get('following'))
-            NotificationAPI().send_notification(self.request.user, to_user, 'follower')
+            # NotificationAPI().send_notification(self.request.user, to_user, 'follower')
+            thread = threading.Thread(
+                target=NotificationAPI().send_notification, args=(
+                    [self.request.user, to_user, 'follower']))
+            thread.start()
         user_data = self.queryset.get(user_id=self.request.user)
         data = serializer.data
         data.update({'total_followers':user_data.user.followers.__len__(), 'total_following': user_data.user.following.__len__()})
