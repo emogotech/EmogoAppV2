@@ -369,3 +369,39 @@ class UserStreamsTestCase(BaseAPITests):
         self.url = f"{self.url}?following_stream=True&stream_name=my_stream"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class OtherApiTestCase(BaseAPITests):
+    def setUp(self):
+        super(OtherApiTestCase, self).setUp()
+
+    def test_for_check_contact_in_emogo_user_without_request_param(self):
+        self.url = f"{self.url}/check_contact_in_emogo_user/"
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_check_contact_in_emogo_user_with_blank_contact_list(self):
+        self.url = f"{self.url}/check_contact_in_emogo_user/"
+        self.test_dict = {
+            "contact_list": []
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_check_contact_in_emogo_user(self):
+        self.url = f"{self.url}/check_contact_in_emogo_user/"
+        self.test_dict = {
+            "contact_list": ["+911234567899"]
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['data']["+911234567899"], False)
+
+    def test_for_check_is_business_account(self):
+        self.url = f"{self.url}/is_buisness/"
+        self.test_dict = {
+            "is_buisness_account": "True"
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

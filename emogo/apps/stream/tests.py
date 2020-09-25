@@ -326,6 +326,66 @@ class ContentTestCase(BaseAPITests):
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_for_create_note_type_content_with_invalid_type(self):
+        self.test_dict = [
+            {
+                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn"
+                       ":ANd9GcRnkUxsZ0kpbI8nqOhCouv5YoTGCZFpbu3L3A__dggghttRsbWWZA",
+                "type": fake.words(),
+                "name": fake.name(),
+                "description": fake.sentence(),
+                "video_image": fake.sentence(),
+                "height": 500,
+                "width": 250,
+                "color": "red"
+            }
+        ]
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_create_note_type_content_with_blank_type(self):
+        self.test_dict = [
+            {
+                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn"
+                       ":ANd9GcRnkUxsZ0kpbI8nqOhCouv5YoTGCZFpbu3L3A__dggghttRsbWWZA",
+                "type": "",
+                "name": fake.name(),
+                "description": fake.sentence(),
+                "video_image": fake.sentence(),
+                "height": 500,
+                "width": 250,
+                "color": "red"
+            }
+        ]
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_create_note_type_content(self):
+        self.test_dict = [
+            {
+                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn"
+                       ":ANd9GcRnkUxsZ0kpbI8nqOhCouv5YoTGCZFpbu3L3A__dggghttRsbWWZA",
+                "type": "Note",
+                "name": fake.name(),
+                "description": fake.sentence(),
+                "video_image": fake.sentence(),
+                "height": 500,
+                "width": 250,
+                "color": "red"
+            }
+        ]
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+        
+    def test_for_content_share_extension(self):
+        self.url = f"{self.url}share_extension/"
+        self.test_dict = {
+            "contents": fake.name()
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
 
 class MoveContentToStreamTestCase(BaseAPITests):
     def setUp(self):
@@ -580,3 +640,94 @@ class LikeDislikeContentTestCase(BaseAPITests):
         response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+
+class IncreaseStreamViewStatusTestCase(BaseAPITests):
+    def setUp(self):
+        super(IncreaseStreamViewStatusTestCase, self).setUp()
+        self.url = f"{self.url}/increase_view_count/"
+
+    def test_increase_view_count_without_request_param(self):
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_increase_view_count_with_blank_stream(self):
+        self.test_dict = {
+            "stream": ""
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_increase_view_count(self):
+        self.test_dict = {
+            "stream": self.test_user_stream.id
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+
+class OtherStreamTestCase(BaseAPITests):
+    def setUp(self):
+        super(OtherStreamTestCase, self).setUp()
+
+    def test_for_stream_search_for_add_content(self):
+        self.url = f"{self.url}/stream-search-for-add-content?name=emo"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_get_top_content(self):
+        self.url = f"{self.url}/get_top_content/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_extremist_report(self):
+        self.url = f"{self.url}/extremist_report/"
+        self.test_dict = {
+            "user_comment": fake.sentence(),
+            "type": "Inappropriate"
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+    def test_for_bulk_contents(self):
+        self.url = f"{self.url}/bulk_contents/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_recent_updates(self):
+        self.url = f"{self.url}/recent_updates/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class BulkDeleteStreamContentTestCase(BaseAPITests):
+    def setUp(self):
+        super(BulkDeleteStreamContentTestCase, self).setUp()
+        self.url = f"{self.url}/bulk_delete_stream_content/"
+
+    def test_for_bulk_delete_stream_content_without_content(self):
+        self.test_dict = {}
+        self.url = f"{self.url}{self.test_user_stream.id}/"
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_bulk_delete_stream_content_with_blank_content(self):
+        self.test_dict = {
+            "content": []
+        }
+        self.url = f"{self.url}{self.test_user_stream.id}/"
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_bulk_delete_stream_content_with_content(self):
+        self.test_dict = {
+            "content": [self.test_user_content.id]
+        }
+        self.url = f"{self.url}{self.test_user_stream.id}/"
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_204_NO_CONTENT)
+
