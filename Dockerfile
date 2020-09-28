@@ -24,4 +24,4 @@ ENTRYPOINT ["/usr/src/app/start.sh"]
 RUN chmod 777 start.sh
 
 EXPOSE 80
-# CMD ["celery","-A","LetsAllBeHeard","worker","-l","info","-B"]
+CMD ["celery","-A","emogo","worker","-l","info","-B"]
