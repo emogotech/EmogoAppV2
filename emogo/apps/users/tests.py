@@ -271,6 +271,11 @@ class UserTestCase(BaseAPITests):
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_for_user_delete_api(self):
+        self.url = f"{self.url}/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
 
 class UserCollaboratorTestCase(BaseAPITests):
     def setUp(self):
@@ -404,4 +409,9 @@ class OtherApiTestCase(BaseAPITests):
             "is_buisness_account": "True"
         }
         response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_suggested_follow(self):
+        self.url = f"{self.url}/suggested_follow/"
+        response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

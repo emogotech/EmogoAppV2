@@ -702,6 +702,128 @@ class OtherStreamTestCase(BaseAPITests):
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_for_seen_index_with_string_seen_index(self):
+        self.url = f"{self.url}/seen_index/"
+        self.test_dict = {
+            "thread": fake.word(),
+            "seen_index": "a"
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_seen_index(self):
+        self.url = f"{self.url}/seen_index/"
+        self.test_dict = {
+            "thread": fake.word(),
+            "seen_index": 1
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+    def test_for_starred_streams_without_request_param(self):
+        self.url = f"{self.url}/starred_streams/"
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_starred_streams_with_blank_stream(self):
+        self.url = f"{self.url}/starred_streams/"
+        self.test_dict = {
+            "stream": ""
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_starred_streams_with_invalid_stream(self):
+        self.url = f"{self.url}/starred_streams/"
+        self.test_dict = {
+            "stream": fake.msisdn()
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_starred_streams_with_valid_stream(self):
+        self.url = f"{self.url}/starred_streams/"
+        self.test_dict = {
+            "stream": self.test_user_stream.id
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+    def test_for_bookmarks_api_without_request_param(self):
+        self.url = f"{self.url}/bookmarks/"
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_bookmarks_api_with_blank_stream(self):
+        self.url = f"{self.url}/bookmarks/"
+        self.test_dict = {
+            "stream": ""
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_bookmarks_api_with_invalid_stream(self):
+        self.url = f"{self.url}/bookmarks/"
+        self.test_dict = {
+            "stream": fake.msisdn()
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_bookmarks_api_with_valid_stream(self):
+        self.url = f"{self.url}/bookmarks/"
+        self.test_dict = {
+            "stream": self.test_user_stream.id
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+    def test_for_get_new_emogos_list(self):
+        self.url = f"{self.url}/new_emogos_list/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_update_user_view_stream_status_without_request_param(self):
+        self.url = f"{self.url}/update_user_view_stream_status/"
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_update_user_view_stream_status_with_blank_stream(self):
+        self.url = f"{self.url}/update_user_view_stream_status/"
+        self.test_dict = {
+            "stream": ""
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_update_user_view_stream_status_with_invalid_stream(self):
+        self.url = f"{self.url}/update_user_view_stream_status/"
+        self.test_dict = {
+            "stream": fake.msisdn()
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_update_user_view_stream_status_with_valid_stream(self):
+        self.url = f"{self.url}/update_user_view_stream_status/"
+        self.test_dict = {
+            "stream": self.test_user_stream.id
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+    def test_for_get_not_yet_added_content(self):
+        self.url = f"{self.url}/content_not_yet_added/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
 
 class BulkDeleteStreamContentTestCase(BaseAPITests):
     def setUp(self):
