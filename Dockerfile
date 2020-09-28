@@ -14,6 +14,8 @@ RUN pip3 install psycopg2-binary
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
+RUN celery -A emogo worker -l info
+
 COPY . /usr/src/app/
 COPY ./start.sh /usr/src/app/
 RUN 2to3 -w /usr/local/lib/python3.6/site-packages/apns.py
