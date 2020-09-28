@@ -14,8 +14,6 @@ RUN pip3 install psycopg2-binary
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-RUN celery -A /usr/src/app/emogo worker -l info
-
 COPY . /usr/src/app/
 COPY ./start.sh /usr/src/app/
 RUN 2to3 -w /usr/local/lib/python3.6/site-packages/apns.py
@@ -26,4 +24,4 @@ ENTRYPOINT ["/usr/src/app/start.sh"]
 RUN chmod 777 start.sh
 
 EXPOSE 80
-# CMD ["celery","-A","LetsAllBeHeard","worker","-l","info","-B"]
+CMD ["celery","-A","emogo","worker","-l","info","-B"]
