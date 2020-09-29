@@ -19,6 +19,7 @@ class BaseAPITests(APITestCase):
         cls.header = {'HTTP_AUTHORIZATION': 'Token ' + str(cls.token)}
         cls.test_user_stream = Stream.objects.filter(created_by_id=cls.test_user).order_by('-id').first()
         cls.test_user_content = Content.objects.filter(created_by_id=cls.test_user).order_by('-id').first()
+        cls.test_folder = Folder.objects.filter(owner_id=cls.test_user).values('id')
 
 
 class StreamTestCase(BaseAPITests):
@@ -113,7 +114,6 @@ class StreamTestCase(BaseAPITests):
 class StreamListingTestCase(BaseAPITests):
     def setUp(self):
         super(StreamListingTestCase, self).setUp()
-        self.test_folder = Folder.objects.filter(owner_id=self.test_user).values('id')
         self.url = f"{self.url}/stream"
 
     def test_stream_list(self):
@@ -177,7 +177,7 @@ class StreamListingTestCase(BaseAPITests):
 class ContentTestCase(BaseAPITests):
     def setUp(self):
         super(ContentTestCase, self).setUp()
-        self.test_user_stream_content = StreamContent.objects.filter(user_id=self.test_user).order_by('-id')[0]
+        self.test_user_stream_content = StreamContent.objects.filter(user_id=self.test_user).order_by('-id').first()
         self.url = f"{self.url}/content/"
 
     def test_for_create_content(self):
@@ -824,6 +824,52 @@ class OtherStreamTestCase(BaseAPITests):
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_for_emogo_move_to_folder_with_invalid_stream(self):
+        self.url = f"{self.url}/emogo-move-to-folder/{fake.msisdn()}/"
+        response = self.client.patch(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_for_emogo_move_to_folder_without_request_param(self):
+        self.url = f"{self.url}/emogo-move-to-folder/{self.test_user_stream.id}/"
+        self.test_dict = {}
+        response = self.client.patch(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_emogo_move_to_folder_with_empty_folder_id(self):
+        self.url = f"{self.url}/emogo-move-to-folder/{self.test_user_stream.id}/"
+        self.test_dict = {
+            "folder": []
+        }
+        response = self.client.patch(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_emogo_move_to_folder_with_invalid_folder_id(self):
+        self.url = f"{self.url}/emogo-move-to-folder/{self.test_user_stream.id}/"
+        self.test_dict = {
+            "folder": [fake.msisdn()]
+        }
+        response = self.client.patch(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_emogo_move_to_folder(self):
+        self.url = f"{self.url}/emogo-move-to-folder/{self.test_user_stream.id}/"
+        self.test_dict = {
+            "folder": [self.test_folder[0]['id']]
+        }
+        response = self.client.patch(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_delete_all_comments_of_emogo_with_invalid_stream_id(self):
+        self.url = f"{self.url}/streams/{fake.msisdn()}/delete_comments/"
+        response = self.client.delete(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_for_delete_all_comments_of_emogo(self):
+        self.url = f"{self.url}/streams/{self.test_user_stream.id}/delete_comments/"
+        response = self.client.delete(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_204_NO_CONTENT)
+
 
 class BulkDeleteStreamContentTestCase(BaseAPITests):
     def setUp(self):
@@ -853,3 +899,127 @@ class BulkDeleteStreamContentTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['status_code'], status.HTTP_204_NO_CONTENT)
 
+
+class FolderTestCase(BaseAPITests):
+    def setUp(self):
+        super(FolderTestCase, self).setUp()
+        self.url = f"{self.url}/folder/"
+
+    def test_for_create_new_folder_without_request_param(self):
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_create_new_folder_with_blank_name(self):
+        self.test_dict = {
+            "name": ""
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_create_new_folder(self):
+        self.test_dict = {
+            "name": fake.name()
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+    def test_for_get_list_of_folders_for_logged_in_user(self):
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_delete_folder_with_invalid_folder_id(self):
+        self.url = f"{self.url}{fake.msisdn()}/"
+        response = self.client.delete(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_for_delete_folder(self):
+        self.url = f"{self.url}{self.test_folder[0]['id']}/"
+        response = self.client.delete(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_update_folder_with_invalid_folder_id(self):
+        self.url = f"{self.url}{fake.msisdn()}/"
+        response = self.client.put(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_for_update_folder_with_blank_name(self):
+        self.url = f"{self.url}{fake.msisdn()}/"
+        self.test_dict = {
+            "name": ""
+        }
+        response = self.client.put(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_update_folder_with_blank_name(self):
+        self.url = f"{self.url}{self.test_folder[0]['id']}/"
+        self.test_dict = {
+            "name": "folder_new_name"
+        }
+        response = self.client.put(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class ShareContentInImessageTestCase(BaseAPITests):
+    def setUp(self):
+        super(ShareContentInImessageTestCase, self).setUp()
+        self.url = f"{self.url}/share-content-in-imessage/"
+
+    def test_for_share_content_in_imessage_without_request_param(self):
+        self.test_dict = {}
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_share_content_in_imessage_with_blank_content_id(self):
+        self.test_dict = {
+            "content": []
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_share_content_in_imessage_with_invalid_content_id(self):
+        self.test_dict = {
+            "content": [fake.msisdn()]
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_for_share_content_in_imessage(self):
+        self.test_dict = {
+            "content": [self.test_user_content.id]
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_get_list_of_share_content_in_imessage(self):
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class GetStreamContentTestCase(BaseAPITests):
+    def setUp(self):
+        super(GetStreamContentTestCase, self).setUp()
+        self.test_user_stream_content = StreamContent.objects.filter(user_id=self.test_user).order_by('-id').first()
+        self.url = f"{self.url}/get_stream_content/"
+
+    def test_for_get_stream_content_with_invalid_stream(self):
+        self.url = f"{self.url}?stream={fake.msisdn()}"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_for_get_stream_content_with_invalid_content(self):
+        self.url = f"{self.url}?stream={self.test_user_stream_content.stream_id}&content={fake.msisdn()}"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_for_get_stream_content(self):
+        self.url = f"{self.url}?stream={self.test_user_stream_content.stream_id}&content=" \
+                   f"{self.test_user_stream_content.content_id}"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_get_stream_content_with_valid_stream(self):
+        self.url = f"{self.url}?stream={self.test_user_stream_content.stream_id}"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

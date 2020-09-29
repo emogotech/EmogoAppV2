@@ -415,3 +415,64 @@ class OtherApiTestCase(BaseAPITests):
         self.url = f"{self.url}/suggested_follow/"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_user_left_menu_data(self):
+        self.url = f"{self.url}/user-left-menu-data/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_get_the_device_list_of_logged_in_user(self):
+        self.url = f"{self.url}/user-loggedin-devices/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class VerifyLoginOtpTestCase(BaseAPITests):
+    def setUp(self):
+        super(VerifyLoginOtpTestCase, self).setUp()
+        self.url = f"{self.url}/verify_login_otp/"
+
+    def test_verify_login_otp_without_phone_number(self):
+        self.test_dict = {
+            "phone_number": "",
+            "otp": "12345",
+            "device_name": "mac"
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_verify_login_otp_without_otp(self):
+        self.test_dict = {
+            "phone_number": "+918103987732",
+            "otp": "",
+            "device_name": "mac"
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_verify_login_otp_with_invalid_phone_number(self):
+        self.test_dict = {
+            "phone_number": "+9181039877",
+            "otp": "12345",
+            "device_name": "mac"
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_verify_login_otp_with_invalid_otp(self):
+        self.test_dict = {
+            "phone_number": self.test_user.username,
+            "otp": "1111111",
+            "device_name": "mac"
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_verify_login_otp(self):
+        self.test_dict = {
+            "phone_number": "+919751562896",
+            "otp": "12345",
+            "device_name": "mac"
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
