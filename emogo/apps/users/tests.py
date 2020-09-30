@@ -2,8 +2,7 @@ from django.test import Client
 from rest_framework.test import APITestCase
 from rest_framework.views import status
 
-from emogo.apps.users.models import User, UserProfile, Token
-from emogo.apps.stream.models import Stream
+from emogo.apps.users.models import User
 from faker import Faker
 fake = Faker()
 
@@ -14,9 +13,9 @@ class BaseAPITests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.url = '/api/v3'
-        cls.test_user = User.objects.prefetch_related('user_data').latest('id')
+        cls.test_user = User.objects.latest('id')
         cls.test_user_profile = cls.test_user.user_data
-        cls.token = Token.objects.get(user=cls.test_user)
+        cls.token = cls.test_user.auth_tokens.first()
         cls.header = {'HTTP_AUTHORIZATION': 'Token ' + str(cls.token)}
 
 
@@ -208,7 +207,7 @@ class ResendOtpTestCase(BaseAPITests):
 class UserTestCase(BaseAPITests):
     def setUp(self):
         super(UserTestCase, self).setUp()
-        self.test_user_stream = Stream.objects.filter(created_by_id=self.test_user).order_by('-id').first()
+        self.test_user_stream = self.test_user.stream_set.order_by('-id').first()
         self.url = f"{self.url}/users"
 
     def test_filter_user_by_name(self):

@@ -1,8 +1,7 @@
 from rest_framework.test import APITestCase
 from rest_framework.views import status
 
-from emogo.apps.users.models import User, UserProfile, Token
-from emogo.apps.stream.models import Stream, Folder, Content, StreamContent
+from emogo.apps.users.models import User
 from faker import Faker
 fake = Faker()
 
@@ -13,13 +12,14 @@ class BaseAPITests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.url = '/api/v3'
-        cls.test_user = User.objects.prefetch_related('user_data').latest('id')
+        cls.test_user = User.objects.latest('id')
         cls.test_user_profile = cls.test_user.user_data
-        cls.token = Token.objects.get(user=cls.test_user)
+        cls.token = cls.test_user.auth_tokens.first()
         cls.header = {'HTTP_AUTHORIZATION': 'Token ' + str(cls.token)}
-        cls.test_user_stream = Stream.objects.filter(created_by_id=cls.test_user).order_by('-id').first()
-        cls.test_user_content = Content.objects.filter(created_by_id=cls.test_user).order_by('-id').first()
-        cls.test_folder = Folder.objects.filter(owner_id=cls.test_user).values('id')
+        cls.test_user_stream = cls.test_user.stream_set.order_by('-id').first()
+        cls.test_user_content = cls.test_user.content_set.order_by('-id').first()
+        cls.test_folder = cls.test_user.owner_folders.order_by('-id').first()
+        cls.test_user_stream_content = cls.test_user.streamcontent_set.order_by('-id').first()
 
 
 class StreamTestCase(BaseAPITests):
@@ -136,9 +136,7 @@ class StreamListingTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_stream_list_with_filter_by_folder(self):
-        folder = ''
-        if self.test_folder:
-            folder = f"?folder={self.test_folder[0]['id']}"
+        folder = f"?folder={self.test_folder.id}"
         self.url = f"{self.url}{folder}"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -150,10 +148,8 @@ class StreamListingTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_stream_list_with_filter_by_folder_and_stream_name(self):
-        folder, by_stream_name = '', ''
-        if self.test_folder and self.test_user_stream:
-            folder = f"?folder={self.test_folder[0]['id']}"
-            by_stream_name = f"&stream_name={self.test_user_stream.name}"
+        folder = f"?folder={self.test_folder.id}"
+        by_stream_name = f"&stream_name={self.test_user_stream.name}"
         self.url = f"{self.url}{folder}{by_stream_name}"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -177,7 +173,6 @@ class StreamListingTestCase(BaseAPITests):
 class ContentTestCase(BaseAPITests):
     def setUp(self):
         super(ContentTestCase, self).setUp()
-        self.test_user_stream_content = StreamContent.objects.filter(user_id=self.test_user).order_by('-id').first()
         self.url = f"{self.url}/content/"
 
     def test_for_create_content(self):
@@ -197,7 +192,7 @@ class ContentTestCase(BaseAPITests):
         self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
 
     def test_for_create_content_without_type(self):
-        # default type is video
+        """default type is video"""
         self.test_dict = [
             {
                 "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn"
@@ -388,6 +383,7 @@ class ContentTestCase(BaseAPITests):
 
 
 class MoveContentToStreamTestCase(BaseAPITests):
+    """ request params: list of content_id and list of stream_id """
     def setUp(self):
         super(MoveContentToStreamTestCase, self).setUp()
         self.url = f"{self.url}/move_content_to_stream/"
@@ -479,6 +475,9 @@ class DeleteStreamContentTestCase(BaseAPITests):
 
 
 class DragAndDropStreamContentTestCase(BaseAPITests):
+    """ Reorder stream content
+        request params: stream_id and content:[{'id':xxx, 'order':1},{'id':yyy,'order':2 },...]
+    """
     def setUp(self):
         super(DragAndDropStreamContentTestCase, self).setUp()
         self.url = f"{self.url}/reorder_stream_content/"
@@ -529,6 +528,10 @@ class DragAndDropStreamContentTestCase(BaseAPITests):
 
 
 class DragAndDropMyStuffTestCase(BaseAPITests):
+    """
+    reorder content
+    request params: my_order : [{'id':xxx,'order':1}, {'id':yyy,'order':2},...]
+    """
     def setUp(self):
         super(DragAndDropMyStuffTestCase, self).setUp()
         self.url = f"{self.url}/reorder_content/"
@@ -854,7 +857,7 @@ class OtherStreamTestCase(BaseAPITests):
     def test_for_emogo_move_to_folder(self):
         self.url = f"{self.url}/emogo-move-to-folder/{self.test_user_stream.id}/"
         self.test_dict = {
-            "folder": [self.test_folder[0]['id']]
+            "folder": [self.test_folder.id]
         }
         response = self.client.patch(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -935,7 +938,7 @@ class FolderTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_for_delete_folder(self):
-        self.url = f"{self.url}{self.test_folder[0]['id']}/"
+        self.url = f"{self.url}{self.test_folder.id}/"
         response = self.client.delete(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -953,7 +956,7 @@ class FolderTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_for_update_folder_with_blank_name(self):
-        self.url = f"{self.url}{self.test_folder[0]['id']}/"
+        self.url = f"{self.url}{self.test_folder.id}/"
         self.test_dict = {
             "name": "folder_new_name"
         }
@@ -1000,7 +1003,6 @@ class ShareContentInImessageTestCase(BaseAPITests):
 class GetStreamContentTestCase(BaseAPITests):
     def setUp(self):
         super(GetStreamContentTestCase, self).setUp()
-        self.test_user_stream_content = StreamContent.objects.filter(user_id=self.test_user).order_by('-id').first()
         self.url = f"{self.url}/get_stream_content/"
 
     def test_for_get_stream_content_with_invalid_stream(self):
