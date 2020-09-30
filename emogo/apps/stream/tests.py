@@ -16,10 +16,10 @@ class BaseAPITests(APITestCase):
         cls.test_user_profile = cls.test_user.user_data
         cls.token = cls.test_user.auth_tokens.first()
         cls.header = {'HTTP_AUTHORIZATION': 'Token ' + str(cls.token)}
-        cls.test_user_stream = cls.test_user.stream_set.order_by('-id').first()
-        cls.test_user_content = cls.test_user.content_set.order_by('-id').first()
-        cls.test_folder = cls.test_user.owner_folders.order_by('-id').first()
-        cls.test_user_stream_content = cls.test_user.streamcontent_set.order_by('-id').first()
+        cls.test_user_stream = cls.test_user.stream_set.latest('id')
+        cls.test_user_content = cls.test_user.content_set.latest('id')
+        cls.test_folder = cls.test_user.owner_folders.latest('id')
+        cls.test_user_stream_content = cls.test_user.streamcontent_set.latest('id')
 
 
 class StreamTestCase(BaseAPITests):

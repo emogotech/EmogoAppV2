@@ -17,6 +17,7 @@ class BaseAPITests(APITestCase):
         cls.test_user_profile = cls.test_user.user_data
         cls.token = cls.test_user.auth_tokens.first()
         cls.header = {'HTTP_AUTHORIZATION': 'Token ' + str(cls.token)}
+        cls.verify_otp_phone = User.objects.all().order_by('-id')
 
 
 class UserSignupTestCase(BaseAPITests):
@@ -26,8 +27,8 @@ class UserSignupTestCase(BaseAPITests):
 
     def test_for_create_user(self):
         self.test_dict = {
-            "phone_number": "+918103987731",
-            "user_name": "akash968"
+            "phone_number": "+911234567899",
+            "user_name": "anonymous12"
         }
         # User create
         response = self.client.post(self.url, data=self.test_dict, format='json')
@@ -36,14 +37,14 @@ class UserSignupTestCase(BaseAPITests):
 
     def test_create_user_with_no_username(self):
         self.test_dict = {
-            "phone_number": "+918103987732"
+            "phone_number": "+911234567899"
         }
         response = self.client.post(self.url, data=self.test_dict, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_user_with_no_phone_number(self):
         self.test_dict = {
-            "username": "vivek968"
+            "username": "anonymous12"
         }
         response = self.client.post(self.url, data=self.test_dict, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -72,8 +73,8 @@ class UniqueUserTestCase(BaseAPITests):
 
     def test_username_availability(self):
         self.test_dict = {
-            "phone_number": "+918103987736",
-            "user_name": "akash968"
+            "phone_number": "+911234567899",
+            "user_name": "anonymous"
         }
         response = self.client.post(self.url, data=self.test_dict, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -95,7 +96,7 @@ class VerifyOtpTestCase(BaseAPITests):
 
     def test_verify_without_otp(self):
         self.test_dict = {
-            "phone_number": "+918103987732",
+            "phone_number": "+911234567899",
             "otp": "",
             "device_name": "mac"
         }
@@ -104,7 +105,7 @@ class VerifyOtpTestCase(BaseAPITests):
 
     def test_verify_otp_with_invalid_phone_number(self):
         self.test_dict = {
-            "phone_number": "+9181039877",
+            "phone_number": "+9112345678",
             "otp": "12345",
             "device_name": "mac"
         }
@@ -122,7 +123,7 @@ class VerifyOtpTestCase(BaseAPITests):
 
     def test_verify_otp(self):
         self.test_dict = {
-            "phone_number": "+919751562896",
+            "phone_number": self.verify_otp_phone[1].username,
             "otp": "12345",
             "device_name": "mac"
         }
@@ -144,7 +145,7 @@ class UserLoginTestCase(BaseAPITests):
 
     def test_user_login_with_invalid_phone_number(self):
         self.test_dict = {
-            "phone_number": "+9181039877"
+            "phone_number": "+9112345678"
         }
         response = self.client.post(self.url, data=self.test_dict, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -186,7 +187,7 @@ class ResendOtpTestCase(BaseAPITests):
 
     def test_resend_otp_with_invalid_phone_number(self):
         self.test_dict = {
-            "phone_number": "+918103987"
+            "phone_number": "+91123456"
         }
         response = self.client.post(self.url, data=self.test_dict, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -207,7 +208,7 @@ class ResendOtpTestCase(BaseAPITests):
 class UserTestCase(BaseAPITests):
     def setUp(self):
         super(UserTestCase, self).setUp()
-        self.test_user_stream = self.test_user.stream_set.order_by('-id').first()
+        self.test_user_stream = self.test_user.stream_set.latest('id')
         self.url = f"{self.url}/users"
 
     def test_filter_user_by_name(self):
@@ -258,7 +259,7 @@ class UserTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_search_user_by_name(self):
-        self.url = f"{self.url}/?name=vivek"
+        self.url = f"{self.url}/?name=abc"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -303,7 +304,7 @@ class UserLikedStreamsListTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_user_liked_stream_filter_by_stream_name(self):
-        self.url = f"{self.url}?stream_name=my stream"
+        self.url = f"{self.url}?stream_name=my_stream"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -327,7 +328,7 @@ class UserFollowTestCase(BaseAPITests):
 
     def test_for_user_follow_with_valid_request_param(self):
         self.test_dict = {
-            "following": "2"
+            "following": self.test_user.who_is_followed.first().following_id
         }
         response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -345,7 +346,7 @@ class UserUnfollowTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_for_unfollow_user(self):
-        self.url = f"{self.url}2/"
+        self.url = f"{self.url}{self.test_user.who_is_followed.first().following_id}/"
         response = self.client.delete(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['status_code'], status.HTTP_204_NO_CONTENT)
@@ -444,7 +445,7 @@ class VerifyLoginOtpTestCase(BaseAPITests):
 
     def test_verify_login_otp_without_otp(self):
         self.test_dict = {
-            "phone_number": "+918103987732",
+            "phone_number": "+911234567899",
             "otp": "",
             "device_name": "mac"
         }
@@ -453,7 +454,7 @@ class VerifyLoginOtpTestCase(BaseAPITests):
 
     def test_verify_login_otp_with_invalid_phone_number(self):
         self.test_dict = {
-            "phone_number": "+9181039877",
+            "phone_number": "+9112345678",
             "otp": "12345",
             "device_name": "mac"
         }
@@ -471,7 +472,7 @@ class VerifyLoginOtpTestCase(BaseAPITests):
 
     def test_verify_login_otp(self):
         self.test_dict = {
-            "phone_number": "+919751562896",
+            "phone_number": self.verify_otp_phone[1].username,
             "otp": "12345",
             "device_name": "mac"
         }
