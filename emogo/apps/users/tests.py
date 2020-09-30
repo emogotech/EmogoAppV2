@@ -3,6 +3,7 @@ from rest_framework.test import APITestCase
 from rest_framework.views import status
 
 from emogo.apps.users.models import User, UserProfile, Token
+from emogo.apps.stream.models import Stream
 from faker import Faker
 fake = Faker()
 
@@ -207,6 +208,7 @@ class ResendOtpTestCase(BaseAPITests):
 class UserTestCase(BaseAPITests):
     def setUp(self):
         super(UserTestCase, self).setUp()
+        self.test_user_stream = Stream.objects.filter(created_by_id=self.test_user).order_by('-id').first()
         self.url = f"{self.url}/users"
 
     def test_filter_user_by_name(self):
@@ -246,7 +248,7 @@ class UserTestCase(BaseAPITests):
             "biography": fake.sentence(),
             "user_image": "https://s3.amazonaws.com/emogo-v2/stream-media/A39DBB27-F327-4F6B-BCAB-6CEBB70A58B2.png",
             "birthday": fake.date(),
-            "profile_stream": "2402"
+            "profile_stream": self.test_user_stream.id
         }
         response = self.client.put(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
