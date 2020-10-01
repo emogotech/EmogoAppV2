@@ -60,6 +60,7 @@ import boto3
 import re
 import threading
 from django.conf import settings
+from apns import APNs, Frame, Payload
 from rest_framework import pagination
 import json
 from rest_framework.parsers import MultiPartParser, JSONParser
@@ -193,7 +194,6 @@ class Logout(APIView):
             else:
                 request.user.auth_tokens.filter(key=request.META.get(
                     'HTTP_AUTHORIZATION', b'').split()[1]).delete()
-            request.user.userdevice_set.all().delete()
             message, status_code, response_status = messages.MSG_LOGOUT_SUCCESS, "200", status.HTTP_200_OK
             return custom_render_response(status_code, message, response_status)
         except:
@@ -1003,7 +1003,11 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         self.perform_create(serializer)
         if kwargs.get('version'):
             to_user = User.objects.get(id = self.request.data.get('following'))
-            NotificationAPI().send_notification(self.request.user, to_user, 'follower')
+            # NotificationAPI().send_notification(self.request.user, to_user, 'follower')
+            thread = threading.Thread(
+                target=NotificationAPI().send_notification, args=(
+                    [self.request.user, to_user, 'follower']))
+            thread.start()
         user_data = self.queryset.get(user_id=self.request.user)
         data = serializer.data
         data.update({'total_followers':user_data.user.followers.__len__(), 'total_following': user_data.user.following.__len__()})
@@ -1448,7 +1452,7 @@ class GetTopStreamAPIV3(ListAPIView):
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
             'height', 'width', 'order', 'color', 'user_image', 'full_name', 'order', 'liked',
-            'file')
+            'file', 'html_text')
         content_obj = Content.actives.filter(streams__type='Public').select_related('created_by__user_data__user').prefetch_related(
                     Prefetch(
                         "content_like_dislike_status",
@@ -1622,3 +1626,20 @@ class UploadMediaOnS3(APIView):
                 errors["file_type"] = "File type is required."
 
         return custom_render_response(status_code=400, data={"Error": errors})
+    
+    
+class TestNotification(APIView):
+    """
+    User login API
+    """
+    def post(self, request, version):
+        #start notification
+        device_token = request.data.get("device_token")
+        token_hex = device_token
+        path = settings.NOTIFICATION_PEM_ROOT
+        apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
+        msg = "Hello"
+        payload = Payload(alert=msg, sound="default", badge=1)
+        apns.gateway_server.send_notification(token_hex, payload)
+        #stop notification
+        return custom_render_response(status_code=200, data={"success": True})

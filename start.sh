@@ -1,6 +1,8 @@
 #!/bin/sh
 # Start the run once job.
 echo "Docker container has been started"
+service redis-server start 
+
 
 #python3.6 manage.py collectstatic --yes --settings=emogo.qa_settings
 #python3.6 manage.py collectstatic --settings=emogo.qa_settings -y

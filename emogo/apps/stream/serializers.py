@@ -16,7 +16,7 @@ from django.core.urlresolvers import resolve
 from copy import deepcopy
 from django.contrib.auth.models import User
 import operator
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Prefetch
 from itertools import product
 from emogo.apps.notification.views import NotificationAPI
 from emogo.apps.notification.models import Notification
@@ -162,10 +162,13 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
     def delete_collbs_notifications(self, stream, deleted_collbs, collaborators):
         for collb_phone in deleted_collbs:
-            if not any(True for clb in collaborators if clb.get(
-                'phone_number') not in deleted_collbs):
+            has_collb = False
+            for clb in collaborators:
+                if collb_phone.endswith(clb.get('phone_number')[-10:]):
+                    has_collb = True
+            if not has_collb:
                 Notification.objects.filter(
-                    stream=stream,
+                    stream=stream, notification_type="new_comment",
                     to_user__username__endswith=collb_phone[-10:]).update(
                     notification_type="deleted_collaborator", is_open = False)
 
@@ -187,10 +190,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                 stream_collbs = self.instance.collaborator_list.all()
                 deleted_collbs = [clb.phone_number for clb in stream_collbs]
                 if deleted_collbs:
-                    thread = threading.Thread(
-                        target=self.delete_collbs_notifications,
-                        args=([self.instance, deleted_collbs, collaborators]))
-                    thread.start()
+                    # thread = threading.Thread(
+                    #     target=self.delete_collbs_notifications,
+                    #     args=([self.instance, deleted_collbs, collaborators]))
+                    # thread.start()
+                    self.delete_collbs_notifications(
+                        self.instance, deleted_collbs, collaborators)
                 stream_collbs.delete()
             # Other wise delete only self created collaborators.
             else:
@@ -198,10 +203,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                     created_by=self.context.get('request').user)
                 deleted_collbs = [clb.phone_number for clb in stream_collbs]
                 if deleted_collbs:
-                    thread = threading.Thread(
-                        target=self.delete_collbs_notifications,
-                        args=([self.instance, deleted_collbs, collaborators]))
-                    thread.start()
+                    # thread = threading.Thread(
+                    #     target=self.delete_collbs_notifications,
+                    #     args=([self.instance, deleted_collbs, collaborators]))
+                    # thread.start()
+                    self.delete_collbs_notifications(
+                        self.instance, deleted_collbs, collaborators)
                 stream_collbs.delete()
             if collaborators.__len__() > 0:
                 self.create_collaborator(self.instance)
@@ -883,9 +890,20 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :param value: request streams data
         :return: Validate streams request data
         """
-        streams = set(self.initial_data.get('streams'))
-        streams = Stream.actives.filter(id__in=streams)
-        if streams.exists():
+        stream_ids = set(self.initial_data.get('streams'))
+        streams = Stream.actives.select_related('created_by').prefetch_related(
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all(),
+                to_attr='active_stream_collaborator'
+            )).filter(id__in=stream_ids)
+        if streams.exists() and streams.__len__() == len(stream_ids):
+            user = self.context.get('request').user
+            for stream in streams:
+                if stream.created_by != user and not any(
+                    True for collb in stream.active_stream_collaborator if \
+                        user.username.endswith(collb.phone_number[-10:])):
+                    raise serializers.ValidationError("The Emogo does not exist.")
             self.initial_data['streams'] = streams
         else:
             raise serializers.ValidationError("The Emogo does not exist.")
@@ -913,7 +931,14 @@ class MoveContentToStreamSerializer(ContentSerializer):
                     to_user = User.objects.filter(username = collab.phone_number)
                     if to_user.__len__() > 0:
                         content_ids = [ x.id for x in self.initial_data['contents']]
-                        NotificationAPI().send_notification(self.context.get('request').user, to_user[0], 'add_content', stream, None, self.initial_data['contents'].count(), str(content_ids))
+                        # NotificationAPI().send_notification(self.context.get('request').user, to_user[0], 'add_content', stream, None, self.initial_data['contents'].count(), str(content_ids))
+                        thread = threading.Thread(
+                            target=NotificationAPI().send_notification, args=(
+                                [self.context.get('request').user, to_user[0],
+                                'add_content', stream, None,
+                                self.initial_data['contents'].count(),
+                                str(content_ids)]))
+                        thread.start()
         return True
 
     def add_content_to_stream(self, content, stream):

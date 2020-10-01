@@ -1,8 +1,8 @@
 # In consumers.py
-# from channels import Group
 from emogo.apps.users.models import Token
 from emogo.apps.stream.models import (
     Stream, ContentComment, Content, StreamContent, CommentAcknowledgement)
+from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.serializers import ContentCommentSerializer
 from emogo.apps.users.models import UserProfile, UserOnlineStatus, UserDevice
 from asgiref.sync import async_to_sync
@@ -12,6 +12,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from emogo.apps.notification.models import Notification
 from emogo.apps.notification.views import NotificationAPI
+# from emogo.apps.notification.tasks import send_comment_notification
+from urllib import parse as urlparse
 from django.db.models import Prefetch
 from django.http import Http404
 from functools import wraps
@@ -41,12 +43,15 @@ class CommentConsumer(WebsocketConsumer):
         """
         data = {}
         try:
-            stream = Stream.actives.select_related(
-                'created_by').prefetch_related(
-                "collaborator_list").get(id=stream_id)
+            stream = Stream.actives.select_related('created_by').prefetch_related(
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.actives.all().select_related('created_by'),
+                    to_attr='active_stream_collaborator'
+                )).get(id=stream_id)
             if stream.type == "Private":
                 if stream.created_by != user and not any(True for collb in \
-                    stream.collaborator_list.all() if user.username.endswith(
+                    stream.active_stream_collaborator if user.username.endswith(
                         collb.phone_number[-10:])):
                     raise Http404
             data["stream"] = stream
@@ -128,35 +133,26 @@ class CommentConsumer(WebsocketConsumer):
                         resp["stream"], *args, **kwargs)
         return wrapped
 
-    def send_cmt_notification(self, stream, content, comment, from_user, to_user):
-        # common method to send notification
-        # noti = Notification.objects.filter(
-        #     notification_type='new_comment', from_user=from_user,
-        #     to_user=to_user, stream=stream, content=content)
-        # if noti.__len__() > 0 :
-        #     # noti[0].is_open = False if noti[0].is_open else True
-        #     # noti[0].save()
-        #     NotificationAPI().initialize_notification(noti[0])
-        # else:
-        #     NotificationAPI().send_notification(
-        #         from_user, to_user, 'new_comment', stream, content)
-        NotificationAPI().send_notification(from_user, to_user,
-            'new_comment', stream, content, comment=comment)
-
-
     def send_new_comment_notification(self, stream, content, comment, from_user):
-        # Check if stream creator and content creator are same then
-        # We will send single notification
-        # Otherwise we will notify both content creator and emogo creator
+        """
+        Check if stream creator and content creator are same then
+        We will send single notification.
+        If content and created by collaborator and that collaborator if
+        Removed from the emogo then wont send notification to that user
+        Otherwise we will notify both content creator and emogo creator.
+        """
         if content.created_by != from_user and not UserOnlineStatus.objects.filter(
-            stream=stream, user_device__user=content.created_by).exists():
-            self.send_cmt_notification(
-                stream, content, comment, from_user, content.created_by)
+            stream=stream, auth_token__user=content.created_by).exists():
+            if stream.type == "Public" or (stream.type == "Private" and any(
+                True for collb in stream.active_stream_collaborator if \
+                content.created_by.username.endswith(collb.phone_number[-10:]))):
+                NotificationAPI().send_notification(from_user, content.created_by,
+                    'new_comment', stream, content, comment=comment)
         if stream.created_by != content.created_by and \
             stream.created_by != from_user and not UserOnlineStatus.objects.filter(
-            stream=stream, user_device__user=stream.created_by).exists():
-            self.send_cmt_notification(
-                stream, content, comment, from_user, stream.created_by)
+            stream=stream, auth_token__user=stream.created_by).exists():
+            NotificationAPI().send_notification(from_user, stream.created_by,
+                    'new_comment', stream, content, comment=comment)
 
     @validate_socket_data
     def post_comment(self, user, content, stream, data):
@@ -187,6 +183,8 @@ class CommentConsumer(WebsocketConsumer):
         thread = threading.Thread(target=self.send_new_comment_notification,
             args=([stream, content, comment_obj, user]))
         thread.start()
+        # send_comment_notification.apply_async(
+        #     args=(stream.id, content.id, comment_obj.id, user.id))
         self.broadcast_by_type(comment_data, "private", stream.id)
         if stream.type == "Public":
             self.broadcast_by_type(comment_data, "public", stream.id)
@@ -247,22 +245,26 @@ class CommentConsumer(WebsocketConsumer):
             self.send(text_data=json.dumps(resp_data))
             return
         try:
-            comnt = ContentComment.actives.get(id=data["comment_id"], user=user)
-            comnt.status = "Deleted"
-            comnt.save()
-            comment_data = {
-                "status_code": 204,
-                "action_type": "delete_comment_broadcast"
-            }
-            comment_data["data"] = {
-                "stream": stream.id, "content": content.id,
-                "comment": data["comment_id"]
-            }
-            self.broadcast_by_type(comment_data, "private", stream.id)
-            if stream.type == "Public":
-                self.broadcast_by_type(comment_data, "public", stream.id)
-            Notification.objects.filter(comment__id=comnt.id).update(
-                notification_type="deleted_comment", is_open=False)
+            comnt = ContentComment.actives.get(id=data["comment_id"])
+            if stream.created_by == user or content.created_by == user or \
+                comnt.user == user:
+                comnt.status = "Deleted"
+                comnt.save()
+                comment_data = {
+                    "status_code": 204,
+                    "action_type": "delete_comment_broadcast"
+                }
+                comment_data["data"] = {
+                    "stream": stream.id, "content": content.id,
+                    "comment": data["comment_id"]
+                }
+                self.broadcast_by_type(comment_data, "private", stream.id)
+                if stream.type == "Public":
+                    self.broadcast_by_type(comment_data, "public", stream.id)
+                Notification.objects.filter(comment__id=comnt.id).update(
+                    notification_type="deleted_comment", is_open=False)
+            else:
+                raise ObjectDoesNotExist
         except:
             resp_data = {"status_code": 404, "exception": "Comment does not exist."}
             self.send(text_data=json.dumps(resp_data))
@@ -317,33 +319,27 @@ class CommentConsumer(WebsocketConsumer):
 
     def create_group_and_connect(self):
         # Function to create dynamic channel group by stream type
-        # from django.db import connection, reset_queries
-        # reset_queries()
-        # print(len(connection.queries))
-        # print(connection.queries)
         stream_id = self.scope['url_route']['kwargs']['stream_id']
         if self.scope['user'].is_anonymous():
             return False
         user = self.scope['user']
         validate_data = self.check_user_is_authenticate_to_stream(
             stream_id, user)
-        print(validate_data)
         if "exception_data" not in validate_data.keys():
             stream = validate_data["stream"]
-            print("======", stream.type)
-            print("=====", user.id)
-            device = UserDevice.objects.filter(user=user)
-            if device:
-                online_obj = UserOnlineStatus.objects.get_or_create(
-                    user_device=device[0], stream=stream)
+            token = Token.objects.get(key=urlparse.parse_qs(
+                self.scope["query_string"]).get(b"token")[0].decode())
+            online_obj, created = UserOnlineStatus.objects.update_or_create(
+                auth_token=token,
+                defaults={"auth_token": token, "stream": stream}
+            )
             if stream.created_by == user or any(True for collb in \
-                stream.collaborator_list.all() if user.username.endswith(
-                    collb.phone_number)):
+                stream.active_stream_collaborator if user.username.endswith(
+                    collb.phone_number[-10:])):
                     connection_type = "private"
             else:
                 connection_type = "public"
             group_name = '{}_{}_comment_group'.format(stream_id, connection_type)
-            print("===============", group_name)
             self.room_group_name = group_name
             async_to_sync(self.channel_layer.group_add)(
                 self.room_group_name,
@@ -361,12 +357,12 @@ class CommentConsumer(WebsocketConsumer):
             self.close()
 
     def disconnect(self, close_code):
-        print("Called disconnect. =========")
         if not self.scope['user'].is_anonymous():
             stream_id = self.scope['url_route']['kwargs']['stream_id']
+            token = urlparse.parse_qs(
+                self.scope["query_string"]).get(b"token")[0].decode()
             UserOnlineStatus.objects.filter(
-                user_device__user=self.scope['user'],
-                stream__id=stream_id).delete()
+                auth_token__key=token, stream__id=stream_id).delete()
         if hasattr(self, "room_group_name"):
             async_to_sync(self.channel_layer.group_discard)(
                 self.room_group_name,
@@ -383,21 +379,3 @@ class CommentConsumer(WebsocketConsumer):
     def broadcast_delete(self, event):
         response = event['response']
         self.send(text_data=json.dumps(response))
-
-# Connected to websocket.connect
-# def ws_connect(message):
-#     # Accept the connection
-#     print("helloooo")
-#     message.reply_channel.send({"accept": True})
-#     # Add to the chat group
-#     Group("chat").add(message.reply_channel)
-
-# # Connected to websocket.receive
-# def ws_receive(message):
-#     Group("chat").send({
-#         "text": "[user] %s" % message.content['text'],
-#     })
-
-# # Connected to websocket.disconnect
-# def ws_disconnect(message):
-#     Group("chat").discard(message.reply_channel)

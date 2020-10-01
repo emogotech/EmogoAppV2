@@ -23,6 +23,7 @@ from emogo.apps.stream.views import get_stream_qs_objects
 from django.db.models import Prefetch, Count, Q
 import collections
 from emogo.apps.stream.serializers import RecentUpdatesSerializer
+from django.http import Http404
 import operator
 from itertools import product
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
@@ -852,11 +853,23 @@ class UserDeviceTokenSerializer(serializers.Serializer):
         model = UserDevice
         fields = ('device_token',  'user')
 
+    # def create(self, *args, **kwargs):
+    #     user, _ = UserDevice.objects.get_or_create( user=self.context.user)      
+    #     user.device_token=self.initial_data['device_token'] 
+    #     user.save()
+    #     return user
+
     def create(self, *args, **kwargs):
-        user, _ = UserDevice.objects.get_or_create( user=self.context.user)      
-        user.device_token=self.initial_data['device_token'] 
-        user.save()
-        return user
+        try:
+            token = Token.objects.get(
+                key=self.context.META.get('HTTP_AUTHORIZATION', b'').split()[1])
+            user, _= UserDevice.objects.update_or_create(
+                user=self.context.user, auth_token=token,
+                defaults={'device_token': self.initial_data['device_token']},
+            )
+            return user
+        except:
+            raise Http404("User does not exist.")
 
 
 class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
