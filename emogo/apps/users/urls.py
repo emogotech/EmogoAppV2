@@ -32,4 +32,3 @@ urlpatterns = [
     url(r'^user-loggedin-devices/$', views.UserLoggedInDevices.as_view()),
     url(r'^test-notify/$', views.TestNotification.as_view()),
 ]
-

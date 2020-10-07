@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from django.db import transaction
 from rest_framework import status
@@ -26,7 +26,6 @@ from emogo.lib.custom_filters.filterset import (
     UsersFilter, UserStreamFilter, FollowerFollowingUserFilter, CollabsFilter,
     UserLikedStreamFilter)
 from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
-
 from emogo.apps.stream.models import (
     Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent,
     LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates,
@@ -45,7 +44,7 @@ from itertools import chain
 # models
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
-from autofixtures import UserAutoFixture
+from emogo.apps.users.autofixtures import UserAutoFixture
 from django.http import HttpResponse
 from django.http import Http404
 from django.db.models import Prefetch, Count, OuterRef, Subquery
@@ -56,7 +55,6 @@ from django.db.models import Case, When, Q, IntegerField, OuterRef, Subquery
 from emogo.apps.stream.serializers import RecentUpdatesSerializer, ContentSerializer, ViewContentSerializer, FolderSerializer
 from rest_framework import serializers
 from emogo.apps.users.models import Token
-
 import collections
 import boto3
 import re
@@ -64,7 +62,6 @@ import threading
 from django.conf import settings
 from apns import APNs, Frame, Payload
 from rest_framework import pagination
-
 import json
 from rest_framework.parsers import MultiPartParser, JSONParser
 from botocore.exceptions import ClientError
@@ -77,8 +74,6 @@ import logging
 # logger = logging.getLogger('watchtower-logger')
 logger_name = logging.getLogger('email_log')
 
-def index(request):
-	return HttpResponse('Hello World')
 
 class Signup(APIView):
     """
@@ -973,7 +968,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
                 queryset=UserFollow.objects.all().order_by('-follow_time'), 
                 to_attr="followers" 
             ),
-            Prefetch( 
+            Prefetch(
                 'user__who_is_followed', 
                 queryset=UserFollow.objects.all().order_by('-follow_time'), 
                 to_attr='following'
@@ -1224,7 +1219,7 @@ class GetTopStreamAPIV2(APIView):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in grouped.items():
+        for thread, group in list(grouped.items()):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()
@@ -1317,10 +1312,6 @@ class GetTopStreamAPIV3(ListAPIView):
         """
         Return a list of all users.
         """
-
-        import logging
-        logger_name = logging.getLogger('email_log')
-        logger_name.info('Request url: {0}'.format(self.request.META['wsgi.url_scheme']))
         qs = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
             'created_by__user_data__user').prefetch_related(
             Prefetch(
@@ -1418,7 +1409,7 @@ class GetTopStreamAPIV3(ListAPIView):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in grouped.items():
+        for thread, group in list(grouped.items()):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()
@@ -1652,4 +1643,3 @@ class TestNotification(APIView):
         apns.gateway_server.send_notification(token_hex, payload)
         #stop notification
         return custom_render_response(status_code=200, data={"success": True})
-

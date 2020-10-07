@@ -260,7 +260,6 @@ CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_TIMEZONE = 'Africa/Nairobi'
 
 # Get Local Settings
-
 NOTIFICATION_PEM_FILE = os.getenv('NOTIFICATION_PEM_FILE')
 IS_SANDBOX = True
 NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR, NOTIFICATION_PEM_FILE)
@@ -278,3 +277,9 @@ DATABASES = {
         'PORT': os.environ.get('DBPORT'),
     }
 }
+
+try:
+    from .local_settings import *
+    #Get PEM file url for notification
+except ImportError:
+    pass

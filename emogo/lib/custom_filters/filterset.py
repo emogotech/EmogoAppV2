@@ -1,5 +1,5 @@
 import django_filters
-from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamContent, LikeDislikeContent
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamContent, LikeDislikeContent, Folder
 from emogo.apps.users.models import UserProfile, UserFollow
 from django.db.models import Q
 from emogo.apps.collaborator.models import Collaborator
