@@ -381,6 +381,16 @@ class ContentTestCase(BaseAPITests):
         response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_for_get_specific_content_by_id(self):
+        self.url = f"{self.url}{self.test_user_content.id}/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_get_specific_content_by_invalid_id(self):
+        self.url = f"{self.url}{fake.msisdn()}/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class MoveContentToStreamTestCase(BaseAPITests):
     """ request params: list of content_id and list of stream_id """
@@ -644,6 +654,14 @@ class LikeDislikeContentTestCase(BaseAPITests):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
 
+    def test_like_dislike_content_with_invalid_content_id(self):
+        self.test_dict = {
+            "content": fake.msisdn(),
+            "status": 1
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 
 class IncreaseStreamViewStatusTestCase(BaseAPITests):
     def setUp(self):
@@ -754,6 +772,11 @@ class OtherStreamTestCase(BaseAPITests):
         response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['status_code'], status.HTTP_201_CREATED)
+
+    def test_for_get_starred_streams(self):
+        self.url = f"{self.url}/starred_streams/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_for_bookmarks_api_without_request_param(self):
         self.url = f"{self.url}/bookmarks/"
@@ -872,6 +895,21 @@ class OtherStreamTestCase(BaseAPITests):
         response = self.client.delete(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['status_code'], status.HTTP_204_NO_CONTENT)
+
+    def test_for_get_top_twenty_content(self):
+        self.url = f"{self.url}/get_top_twenty_content/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_like_stream_api(self):
+        self.url = f"{self.url}/like_stream/{self.test_user_stream.id}/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_bookmarks_and_new_emogos_api(self):
+        self.url = f"{self.url}/bookmarks_and_new_emogos/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class BulkDeleteStreamContentTestCase(BaseAPITests):
