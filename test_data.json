@@ -1334,7 +1334,7 @@
         "stream": null,
         "content": null,
         "comment": null,
-        "content_lists": "test content",
+        "content_lists": null,
         "content_count": 12,
         "is_open": true
     }
