@@ -903,7 +903,8 @@ class MoveContentToStreamSerializer(ContentSerializer):
                 if stream.created_by != user and not any(
                     True for collb in stream.active_stream_collaborator if \
                         user.username.endswith(collb.phone_number[-10:])):
-                    raise serializers.ValidationError("The Emogo does not exist.")
+                    raise serializers.ValidationError(
+                        "Either the Emogo does not exist; Or you've been removed from it's collaborator list")
             self.initial_data['streams'] = streams
         else:
             raise serializers.ValidationError("The Emogo does not exist.")
