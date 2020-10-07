@@ -3,6 +3,7 @@ from rest_framework.test import APITestCase
 from rest_framework.views import status
 
 from emogo.apps.users.models import User
+from emogo.apps.users.serializers import UserDetailSerializer
 from faker import Faker
 fake = Faker()
 
@@ -425,6 +426,29 @@ class OtherApiTestCase(BaseAPITests):
 
     def test_for_get_the_device_list_of_logged_in_user(self):
         self.url = f"{self.url}/user-loggedin-devices/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_get_top_stream_v3(self):
+        self.url = f"{self.url}/get_top_stream_v3/"
+        response = self.client.get(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_notification_test(self):
+        self.url = f"{self.url}/test-notify/"
+        self.test_dict = {
+            "device_token": str(self.token)
+        }
+        response = self.client.post(self.url, data=self.test_dict, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_upload_media_on_s3(self):
+        self.url = f"{self.url}/upload-media-on-s3/"
+        response = self.client.post(self.url, format='json', **self.header)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_for_get_top_stream_v2(self):
+        self.url = f"{self.url}/get_top_stream_v2/"
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
