@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from twilio.rest import Client
 from twilio.base.exceptions import TwilioRestException
+import threading
 
 
 def custom_exception_handler(exc, context):
@@ -53,6 +54,14 @@ def generate_pin(length=5):
     return random.sample(range(10 ** (length - 1), 10 ** length), 1)[0]
 
 
+def generate_and_send_otp(phone_number, body, pin):
+    # client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    # try:
+    #     client.messages.create(to=phone_number, from_=settings.TWILIO_FROM_NUMBER, body="{0} : {1}".format(body, pin))
+    # except TwilioRestException as e:
+    #     return None  # Todo : developer return here is None it should return proper error from TwilioRestException class
+    pass
+
 def send_otp(phone_number, body):
     """
     :param phone_number:
@@ -60,6 +69,8 @@ def send_otp(phone_number, body):
     """
     pin = 12345
     # pin = generate_pin()
+    thread = threading.Thread(target=generate_and_send_otp, args=[phone_number, body, pin])
+    thread.start()
     # client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
     # try:
     #     client.messages.create(to=phone_number, from_=settings.TWILIO_FROM_NUMBER, body="{0} : {1}".format(body, pin))

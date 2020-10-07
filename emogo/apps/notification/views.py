@@ -11,14 +11,16 @@ from apns import APNs, Frame, Payload
 
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
-from rest_framework.authentication import TokenAuthentication
+# from rest_framework.authentication import TokenAuthentication
+from emogo.apps.users.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from emogo.apps.notification.serializers import ActivityLogSerializer
 from emogo.lib.helpers.utils import custom_render_response
 from emogo.apps.notification.models import Notification
 from emogo.apps.users.models import UserFollow, UserProfile
-
+import logging
+logger_name = logging.getLogger('email_log')
 
 # Create your views here.
 class NotificationAPI():
@@ -27,28 +29,55 @@ class NotificationAPI():
         # Return all open notification counts
         return Notification.objects.filter(is_open=True)
 
-    def create_notification(self, from_user, to_user, type, stream=None, content=None, content_count= None, content_lists=None):
-        # Create Notification and return instance 
+    def create_notification(
+        self, from_user, to_user, type, stream=None, content=None,
+        content_count=None, content_lists=None, comment=None):
+        # Create Notification and return instance
         obj = Notification.objects.create(
-            notification_type=type, from_user=from_user, to_user=to_user, stream=stream, content=content, content_count=content_count,content_lists=content_lists )
+            notification_type=type, from_user=from_user, to_user=to_user,
+            stream=stream, content=content, content_count=content_count,
+            content_lists=content_lists, comment=comment)
         return obj 
+
+    # def initialize_notification(self, obj):
+    #     # Initialize and call Notification
+    #     try:
+    #         token_hex = obj.to_user.userdevice_set.all()[0].device_token
+    #         if token_hex != '':
+    #             path = settings.NOTIFICATION_PEM_ROOT
+    #             apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
+    #             msg = self.notification_message(obj)
+    #             payload = Payload(alert=msg, sound="default", badge=self.total_counts().filter(to_user = obj.to_user).count())
+    #             apns.gateway_server.send_notification(token_hex, payload)
+    #     except Exception as e:
+    #         return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
 
     def initialize_notification(self, obj):
         # Initialize and call Notification
         try:
-            token_hex = obj.to_user.userdevice_set.all()[0].device_token
-            if token_hex != '':
+            user_devices = obj.to_user.userdevice_set.all()
+            if user_devices:
                 path = settings.NOTIFICATION_PEM_ROOT
-                apns = APNs(use_sandbox=settings.IS_SANDBOX, cert_file=path, key_file=path)
+                apns = APNs(use_sandbox=settings.IS_SANDBOX,
+                    cert_file=path, key_file=path)
                 msg = self.notification_message(obj)
-                payload = Payload(alert=msg, sound="default", badge=self.total_counts().filter(to_user = obj.to_user).count())
-                apns.gateway_server.send_notification(token_hex, payload)
+                payload = Payload(alert=msg, sound="default",
+                    badge=self.total_counts().filter(to_user=obj.to_user).count())
+                for device in user_devices:
+                    if device.device_token and device.device_token != '':
+                        apns.gateway_server.send_notification(
+                            device.device_token, payload)
         except Exception as e:
+            logging.error('TestNotificaiton {0}'.format(e))
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST)
     
-    def send_notification(self, from_user, to_user, type, stream=None, content=None, content_count=None, content_lists=None):
+    def send_notification(
+        self, from_user, to_user, type, stream=None, content=None,
+        content_count=None, content_lists=None, comment=None):
         # Call create notification metrhod and notify to user
-        obj = self.create_notification(from_user, to_user, type, stream, content, content_count, content_lists)
+        obj = self.create_notification(
+            from_user, to_user, type, stream, content, content_count,
+            content_lists, comment=comment)
         self.initialize_notification(obj)
 
     def notification_message(self, obj):
@@ -73,6 +102,7 @@ class ActivityLogAPI(ListAPIView):
     """
     Activity Log API CRUD API
     """
+    swagger_schema = None
     serializer_class = ActivityLogSerializer
     queryset = Notification.objects.all().order_by('-upd')
     authentication_classes = (TokenAuthentication,)
@@ -102,6 +132,7 @@ class ActivityLogAPI(ListAPIView):
 
 class DeleteNotificationAPI(DestroyAPIView):
     """ Delete Notification """
+    swagger_schema = None
     queryset = Notification.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -121,6 +152,7 @@ class DeleteNotificationAPI(DestroyAPIView):
 
 class BadgeCountAPI(ListAPIView):
     """ Badge Count Notification """
+    swagger_schema = None
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -137,6 +169,7 @@ class BadgeCountAPI(ListAPIView):
 
 class ResetBadgeCountAPI(ListAPIView):
     """ Reset Badge Count Notification """
+    swagger_schema = None
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 

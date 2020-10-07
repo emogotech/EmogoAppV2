@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password
 from models import UserProfile, UserFollow
 from autofixture.autofixtures import UserFixture
 from emogo.lib.custom_generators.generators import PhoneNumberGenerator
-from rest_framework.authtoken.models import Token
+from emogo.apps.users.models import Token
 
 
 class UserAutoFixture(UserFixture):

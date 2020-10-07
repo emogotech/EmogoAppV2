@@ -17,15 +17,33 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from django.conf import settings
 from django.conf.urls.static import static
-from emogo.apps.users import views
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Emogo API",
+      default_version='v3',
+      description="Emogo App",
+      terms_of_service="",
+      contact=openapi.Contact(email=""),
+      license=openapi.License(name=""),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
 urlpatterns = [
-    #url('', views.index),
+    url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     url(r'^admin/', admin.site.urls),
-    # url(r'^health/', include('health_check.urls')),
-    url(r'^api/((?P<version>(v3))/)?', include('emogo.apps.users.urls')),
-    url(r'^api/((?P<version>(v3))/)?', include('emogo.apps.stream.urls')),
-    url(r'^api/((?P<version>(v3))/)?', include('emogo.apps.collaborator.urls')),
-    url(r'^api/((?P<version>(v3))/)?', include('emogo.apps.notification.urls')),
+    url(r'^health/', include('health_check.urls')),
+    url(r'^api/((?P<version>(v3)))/?', include('emogo.apps.users.urls')),
+    url(r'^api/((?P<version>(v3)))/?', include('emogo.apps.stream.urls')),
+    url(r'^api/((?P<version>(v3)))/?', include('emogo.apps.collaborator.urls')),
+    url(r'^api/((?P<version>(v3)))/?', include('emogo.apps.notification.urls')),
 ]
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler500 = 'emogo.apps.users.views.api_500'

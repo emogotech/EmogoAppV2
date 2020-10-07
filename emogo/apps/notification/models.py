@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 
-from emogo.apps.stream.models import Stream, Content
+from emogo.apps.stream.models import Stream, Content, ContentComment
 from emogo.lib.default_models.models import DefaultDateModel
 
 # Create your models here.
@@ -19,6 +19,9 @@ NOTIFICATION_TYPE = (
     ('decline', 'You declined to join {0}'),
     ('deleted_collaborator', 'This collaboration does not exists anymore'),
     ('deleted_stream', 'This {0} does not exists anymore'),
+    ('new_comment', '{0} has commented on your content'),
+    ("deleted_comment", "Comment does not exist"),
+    ("deleted_content", "Content does not exist"),
 )
 
 class Notification(DefaultDateModel):
@@ -27,6 +30,7 @@ class Notification(DefaultDateModel):
     to_user = models.ForeignKey(User, related_name="receiver")
     stream = models.ForeignKey(Stream, null=True, blank=True)
     content = models.ForeignKey(Content, null=True, blank=True)
+    comment = models.ForeignKey(ContentComment, null=True, blank=True)
     content_lists = models.TextField(null=True, blank=True)
     content_count = models.IntegerField(default=0, blank=True, null=True)
     is_open = models.BooleanField(default=True)

@@ -7,7 +7,8 @@ from django.db.models import Q
 from django.utils.decorators import method_decorator
 
 from rest_framework.generics import UpdateAPIView, DestroyAPIView, ListAPIView
-from rest_framework.authentication import TokenAuthentication
+# from rest_framework.authentication import TokenAuthentication
+from emogo.apps.users.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
@@ -30,6 +31,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
+    swagger_schema = None
 
     # def update(self, request, version, *args, **kwargs):
     def update(self, request, *args, **kwargs):
@@ -41,8 +43,10 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         """
         if kwargs['invites'] == 'accept' and request.method == 'PATCH':
             stream = Stream.objects.get(id=request.data.get('stream'))
-            collab = Collaborator.objects.filter(stream=stream).filter(Q(phone_number=request.user.username) | Q(
-                phone_number=stream.created_by.username, created_by=stream.created_by))
+            collab = Collaborator.objects.filter(stream=stream).filter(
+                Q(phone_number__endswith=self.request.user.username[-10:]) | Q(
+                phone_number__endswith=stream.created_by.username[-10:],
+                created_by=stream.created_by))
             collab.update(status='Active')
             if kwargs['version']:
                 obj = Notification.objects.filter(id = request.data.get('notification_id'))
@@ -91,6 +95,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
 
 
 class StreamCollaboratorsAPI(ListAPIView):
+    swagger_schema = None
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -131,6 +136,7 @@ class StreamCollaboratorsAPI(ListAPIView):
 
 
 class CollaboratorDeletionAPI(DestroyAPIView):
+    swagger_schema = None
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 

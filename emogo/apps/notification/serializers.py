@@ -71,15 +71,15 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
         return dict()
 
     def get_content(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image') 
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'file')
         from emogo.apps.stream.serializers import ViewContentSerializer
         if obj.content is not None:
             return ViewContentSerializer(obj.content, fields=fields, context=self.context).data
 
     def get_content_list(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')        
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file')
         from emogo.apps.stream.serializers import ViewContentSerializer
         if obj.content_lists is not None:
             queryset = Content.actives.all().select_related('created_by__user_data__user').prefetch_related(

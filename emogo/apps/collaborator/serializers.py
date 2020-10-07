@@ -18,6 +18,7 @@ class CollaboratorSerializer(DynamicFieldsModelSerializer):
 
     def get_user_profile_id(self, obj):
         qs = User.objects.filter(is_active=True, username__icontains=str(obj.phone_number))
+
         if qs.exists():
             return qs[0].user_data.id
         else:
@@ -56,14 +57,18 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
     def get_user_image(self, obj):
         return obj.user_image
 
+
     def get_phone_number(self, obj):
         user_objects = User.objects.filter(username__endswith=obj.phone_number[-10:])
+
         if user_objects.__len__() > 0:
             return user_objects[0].username
         return None
 
     def get_user_profile_id(self, obj):
+        # Need to customise
         return obj.user_profile_id
+
 
     def get_name(self, obj):
         return obj.name
@@ -71,3 +76,16 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
     # Get User id 
     def get_user_id(self, obj):
         return obj.user_id
+
+
+class OptimisedViewCollaboratorSerializer(ViewCollaboratorSerializer):
+
+    def get_phone_number(self, obj):
+        if obj.collab_username:
+            return obj.collab_username
+        return None
+
+    def get_added_by_me(self, obj):
+        if self.context['request'].user == obj.created_by and obj.collab_username:
+            return True
+        return False

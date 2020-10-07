@@ -1,40 +1,69 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
-from rest_framework.authentication import TokenAuthentication
+# from rest_framework.authentication import TokenAuthentication
+from emogo.apps.users.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
-from serializers import StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
-    ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
-    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer, CopyContentSerializer, \
-    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer, StarredStreamSerializer, BookmarkNewEmogosSerializer, \
-    RecentUpdatesSerializer, AddUserViewStatusSerializer, RecentUpdatesDetailSerializer
-from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter
+from emogo.apps.stream.models import (
+    Stream, Content, ExtremistReport, StreamContent, RecentUpdates, LikeDislikeStream,
+    StreamUserViewStatus, LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, Folder,
+    ContentSharedInImessage, CONTENT_TYPE, ContentComment, CommentAcknowledgement)
+from emogo.apps.stream.serializers import (
+    StreamSerializer, SeenIndexSerializer, ViewStreamSerializer, ContentSerializer,
+    ViewContentSerializer, ContentBulkDeleteSerializer, MoveContentToStreamSerializer,
+    ExtremistReportSerializer, DeleteStreamContentSerializer, ReorderStreamContentSerializer,
+    ReorderContentSerializer, StreamLikeDislikeSerializer, StarredSerializer,
+    CopyContentSerializer, ContentLikeDislikeSerializer, StreamUserViewStatusSerializer,
+    StarredStreamSerializer, BookmarkNewEmogosSerializer, RecentUpdatesSerializer,
+    AddUserViewStatusSerializer, RecentUpdatesDetailSerializer, FolderSerializer,
+    StreamMoveToFolderSerializer, OptimisedViewStreamSerializer, ShareContentSerializer,
+    delete_comments_and_broadcast)
+from emogo.lib.custom_filters.filterset import (
+    StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter,
+    StreamContentFilter)
+from emogo.apps.stream.swagger_schema import (
+    stream_schema_doc, stream_api_responses, content_schema_doc, content_api_responses,
+    content_update_schema_doc, content_update_api_response, move_content_to_stream_schema,
+    delete_content_schema, delete_stream_content_schema, reorder_stream_content_schema,
+    reorder_content_schema, stream_like_response, extremist_report_doc, folder_schema_doc,
+    move_emogo_to_folder_schema, share_imessage_schema)
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
+# from asgiref.sync import async_to_sync
+# from channels.layers import get_channel_layer
+from drf_yasg.utils import swagger_auto_schema
 import itertools
 import collections
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.models import UserFollow
 from emogo.apps.notification.models import Notification
 from emogo.apps.notification.views import NotificationAPI
-from django.db.models import Prefetch, Count, Q
-from django.db.models import QuerySet
+from django.db.models import (
+    Prefetch, Count, Q, When, Case, IntegerField, OuterRef, Subquery,
+    QuerySet, Exists, OuterRef)
 from django.contrib.auth.models import User
 import datetime
 from rest_framework import filters
+from django.core.exceptions import ObjectDoesNotExist
+import logging
+import threading
+# logger = logging.getLogger('watchtower-logger')
+logger_name = logging.getLogger('email_log')
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
     """
     Stream CRUD API
     """
-    serializer_class = StreamSerializer
-    queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related('created_by__user_data__user').prefetch_related(
+    serializer_class = OptimisedViewStreamSerializer
+    queryset = Stream.actives.annotate(stream_view_count=Count(
+        'stream_user_view_status')).annotate(comments_status=Exists(
+            ContentComment.actives.filter(stream=OuterRef("pk")))
+        ).select_related('created_by__user_data__user').prefetch_related(
             Prefetch(
                 "stream_contents",
                 queryset=StreamContent.objects.all().select_related('content', 'content__created_by__user_data').prefetch_related(
@@ -49,14 +78,34 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             ),
             Prefetch(
                 'collaborator_list',
-                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                queryset=Collaborator.actives.all().select_related('created_by').annotate(collab_username=Subquery(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                    'username')[:1])).annotate(collab_fullname=Subquery(User.objects.filter(
+                    username__endswith=OuterRef('phone_number')).values(
+                    'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                    'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                    'id')[:1])).annotate(collab_userdata_id=Subquery(
+                    User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                    'user_data__id')[:1])).order_by('-id'),
                 to_attr='stream_collaborator'
             ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator_verified'
-            ),
+            # Prefetch(
+            #     'collaborator_list',
+            #     queryset=Collaborator.collab_actives.all().select_related('created_by').annotate(collab_username=Subquery(
+            #         User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+            #         'username')[:1])).annotate(collab_fullname=Subquery(User.objects.filter(
+            #         username__endswith=OuterRef('phone_number')).values(
+            #         'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
+            #         User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+            #         'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
+            #         User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+            #         'id')[:1])).annotate(collab_userdata_id=Subquery(
+            #         User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+            #         'user_data__id')[:1])).order_by('-id'),
+            #     to_attr='stream_collaborator_verified'
+            # ),
             Prefetch(
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
@@ -65,12 +114,11 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             Prefetch(
                 'stream_like_dislike_status',
                 queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
-                        Prefetch(
-                            "user__who_follows",                            
-                            queryset=UserFollow.objects.all(),
-                            to_attr='user_liked_followers'                                   
-                        ),
-
+                    Prefetch(
+                        "user__who_follows",
+                        queryset=UserFollow.objects.select_related("follower").all(),
+                        to_attr='user_liked_followers'
+                    ),
                 ),
                 to_attr='total_like_dislike_data'
             ),
@@ -79,14 +127,24 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                 queryset=StarredStream.objects.all().select_related('user'),
                 to_attr='total_starred_stream_data'
             ),
-        ).order_by('-stream_view_count')
+            Prefetch(
+                'folder',
+                queryset=Folder.objects.select_related("owner"),
+                to_attr='folders'
+            ),
+            Prefetch(
+                'seen_stream',
+                queryset=NewEmogoViewStatusOnly.objects.all().select_related("user"),
+                to_attr='user_seen_streams'
+            ),
+        ).order_by('-upd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
     filter_class = StreamFilter
 
     def get_serializer_context(self):
-        return {'request': self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -108,12 +166,21 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :param kwargs: dict param
         :return: Create Stream API.
         """
-
-        instance = self.get_object()
-        self.serializer_class = ViewStreamSerializer
+        try:
+            instance = self.get_object()
+        except:
+            raise Http404("The Emogo does not exist.")
+        self.serializer_class = OptimisedViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
+        fields = (
+            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height',
+            'width', 'have_some_update', 'stream_permission', 'color', 'contents',
+            'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator',
+            'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category',
+            'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
+            'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder',
+            'folder_name', 'have_comments')
         if current_url == 'stream_collaborator':
             user_data = User.objects.filter(username__in=[x.phone_number for x in instance.stream_collaborator]).values('username','user_data__user_image')
             self.request.data.update({'collab_user_image': user_data})
@@ -125,20 +192,38 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
 
     def list(self, request,  *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
-        self.serializer_class = ViewStreamSerializer
+        self.serializer_class = OptimisedViewStreamSerializer
+
+        # m = Collaborator.objects.annotate(new_finds=Subquery(
+        #     User.objects.filter(username=OuterRef('phone_number'))[:1]
+        # )).filter(id=9183)
+
+        # Collaborator.objects.user
+        print("============== ", 'stream list')
         queryset = self.filter_queryset(self.queryset)
         #  Customized field list
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
-                  'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission',
-                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
-                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
-                  'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked']
+        fields = [
+            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height',
+            'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents',
+            'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator',
+            'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category',
+            'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
+            'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'folder',
+            'folder_name', 'have_comments'
+        ]
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        request_body=stream_schema_doc,
+        responses=stream_api_responses,
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         """
@@ -159,13 +244,28 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         serializer.is_valid(raise_exception=True)
         stream = serializer.create(serializer.validated_data)
         # To return created stream data
-        self.serializer_class = ViewStreamSerializer
-        stream = self.queryset.filter(id=stream.id).prefetch_related('stream_contents', 'collaborator_list')[0]
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators']
+        self.serializer_class = OptimisedViewStreamSerializer
+        stream = self.queryset.prefetch_related(
+            'stream_contents', 'collaborator_list').get(id=stream.id)
+        fields = [
+            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type','height',
+            'width', 'have_some_update', 'stream_permission', 'color', 'contents',
+            'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator',
+            'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category',
+            'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
+            'collab_images', 'total_stream_collaborators', 'stream_folder_id', "folder",
+            'have_comments']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(stream, context=self.request, fields=fields)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+
+    @swagger_auto_schema(
+        request_body=stream_schema_doc,
+        responses=stream_api_responses,
+    )
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
         """
@@ -176,13 +276,27 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         """
 
         partial = kwargs.pop('partial', False)
-        instance = self.get_object()
+        try:
+            instance = Stream.actives.prefetch_related(
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                    to_attr='stream_collaborator'
+                )
+            ).get(pk=self.kwargs.get('pk'))
+        except:
+            raise Http404("The Emogo does not exist.")
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         instance = self.get_object()
-        self.serializer_class = ViewStreamSerializer
-        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked']
+        self.serializer_class = OptimisedViewStreamSerializer
+        fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
+                  'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
+                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
+                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked',
+                  'user_liked', 'collab_images', 'total_stream_collaborators','is_bookmarked', 'folder',
+                  'have_comments']
         if kwargs.get('version') == 'v3':
             fields.remove('collaborators')
         serializer = self.get_serializer(instance, context=self.request, fields=fields)
@@ -199,13 +313,20 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :param kwargs:
         :return: Soft Delete Stream and it's attribute
         """
-        instance = self.get_object()
+        try:
+            instance = self.get_object()
+        except:
+            raise Http404("The Emogo does not exist.")
         #update notification when user delete stream
         noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = instance, from_user = instance.created_by)
         if noti.__len__() > 0 :
             noti.update(notification_type = 'deleted_stream')
         # Perform delete operation
         self.perform_destroy(instance)
+        thread = threading.Thread(target=delete_comments_and_broadcast, args=(
+            ["emogo_deleted_broadcast", "deleted_stream"]),
+            kwargs={'stream': instance})
+        thread.start()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
@@ -217,6 +338,15 @@ class DeleteStreamContentAPI(DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=delete_stream_content_schema,
+        responses={
+            '200': """{ "status_code": 204, "data": { } }""",
+        },
+    )
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
     def destroy(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -224,8 +354,10 @@ class DeleteStreamContentAPI(DestroyAPIView):
         :param kwargs: dict param
         :return: Delete Stream Content.
         """
-
-        instance = self.get_object()
+        try:
+            instance = self.get_object()
+        except:
+            raise Http404("The Emogo does not exist.")
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.delete_content()
@@ -240,8 +372,17 @@ class DeleteStreamContentInBulkAPI(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
-        return get_object_or_404(Stream, pk=self.kwargs.get('pk'))
+        try:
+            return self.queryset.get(pk=self.kwargs.get('pk'))
+        except ObjectDoesNotExist:
+            raise Http404("The Emogo does not exist.")
 
+    @swagger_auto_schema(
+        request_body=delete_stream_content_schema,
+        responses={
+            '200': """{ "status_code": 204, "data": null }""",
+        },
+    )
     def post(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -262,6 +403,7 @@ class CopyContentAPI(APIView):
     serializer_class = CopyContentSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    swagger_schema = None
 
     def get_object(self):
         return get_object_or_404(Content.actives, pk=self.request.data.get('content_id'))
@@ -287,12 +429,13 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     Stream CRUD API
     """
     serializer_class = ContentSerializer
-    queryset = Content.actives.all().select_related('created_by__user_data__user').prefetch_related(
-        Prefetch(
-            "content_like_dislike_status",
-            queryset=LikeDislikeContent.objects.filter(status=1),
-            to_attr='content_liked_user'
-        )
+    queryset = Content.actives.all().select_related(
+        'created_by__user_data__user').prefetch_related(
+            Prefetch(
+                "content_like_dislike_status",
+                queryset=LikeDislikeContent.objects.filter(status=1),
+                to_attr='content_liked_user'
+            )
     ).order_by('order', '-upd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -326,11 +469,15 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             return self.list(request, *args, **kwargs)
 
     def get_object(self):
-        qs = self.get_queryset().filter(pk=self.kwargs.get('pk'))
-        if qs.exists():
-            return qs[0]
-        else:
-            return Http404
+        try:
+            return self.get_queryset().get(pk=self.kwargs.get('pk'))
+        except ObjectDoesNotExist:
+            raise Http404("Content does not exist.")
+        # qs = self.get_queryset().filter(pk=self.kwargs.get('pk'))
+        # if qs.exists():
+        #     return qs[0]
+        # else:
+        #     raise Http404("Content does not exist.")
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -350,75 +497,97 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by','video_image','url', 'full_name', 'view_count', 'type', 'height', 'width',
-                  'have_some_update', 'stream_permission', 'color', 'contents', 'collaborator_permission',
-                  'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
-                  'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status',
-                  'liked', 'user_liked', 'collab_images', 'total_stream_collaborators', 'is_bookmarked')
-
+        fields = (
+            'id', 'name', 'image', 'author', 'created_by','video_image','url', 'full_name',
+            'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission',
+            'color', 'contents', 'collaborator_permission', 'total_collaborator', 'total_likes',
+            'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd',
+            'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked',
+            'collab_images', 'total_stream_collaborators', 'is_bookmarked', 'html_text', 'file')
 
         if request.GET.get('name'):
             self.serializer_class = ViewStreamSerializer
             fields = (
-                'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-                'order', 'color', 'user_image', 'full_name', 'order', 'contents')
-            stream_obj =self.get_queryset().filter(streams__name__icontains=request.GET['name'], streams__status='Active').values_list('streams__id')
-            queryset= Stream.actives.filter(id__in=stream_obj).annotate(stream_view_count=Count('stream_user_view_status')).select_related('created_by__user_data__user').prefetch_related(
-            Prefetch(
-                "stream_contents",
-                queryset=StreamContent.objects.filter(content__created_by=request.user).select_related('content', 'content__created_by__user_data').prefetch_related(
-                    Prefetch(
-                        "content__content_like_dislike_status",
-                        queryset=LikeDislikeContent.objects.filter(status=1),
-                        to_attr='content_liked_user'
-                    )
-                ).order_by('order', '-attached_date'),
-                to_attr="content_list"
-            ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator'
-            ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator_verified'
-            ),
-            Prefetch(
-                'stream_user_view_status',
-                queryset=StreamUserViewStatus.objects.all(),
-                to_attr='total_view_count'
-            ),
-            Prefetch(
-                'stream_like_dislike_status',
-                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+                'height', 'width', 'order', 'color', 'user_image', 'full_name', 'order', 'contents')
+            stream_obj =self.get_queryset().filter(
+                streams__name__icontains=request.GET['name'],
+                streams__status='Active').values_list('streams__id')
+            queryset= Stream.actives.filter(id__in=stream_obj).annotate(
+                stream_view_count=Count('stream_user_view_status')).select_related(
+                'created_by__user_data__user').prefetch_related(
+                Prefetch(
+                    "stream_contents",
+                    queryset=StreamContent.objects.filter(
+                        content__created_by=request.user).select_related(
+                            'content', 'content__created_by__user_data').prefetch_related(
                         Prefetch(
-                            "user__who_follows",
-                            queryset=UserFollow.objects.all(),
-                            to_attr='user_liked_followers'
-                        ),
-
+                            "content__content_like_dislike_status",
+                            queryset=LikeDislikeContent.objects.filter(status=1),
+                            to_attr='content_liked_user'
+                        )
+                    ).order_by('order', '-attached_date'),
+                    to_attr="content_list"
                 ),
-                to_attr='total_like_dislike_data'
-            ),
-            Prefetch(
-                'stream_starred',
-                queryset=StarredStream.objects.all().select_related('user'),
-                to_attr='total_starred_stream_data'
-                        ),
-                    )
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                    to_attr='stream_collaborator'
+                ),
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.collab_actives.all().select_related(
+                        'created_by').order_by('-id'),
+                    to_attr='stream_collaborator_verified'
+                ),
+                Prefetch(
+                    'stream_user_view_status',
+                    queryset=StreamUserViewStatus.objects.all(),
+                    to_attr='total_view_count'
+                ),
+                Prefetch(
+                    'stream_like_dislike_status',
+                    queryset=LikeDislikeStream.objects.filter(status=1).select_related(
+                        'user__user_data').prefetch_related(
+                            Prefetch(
+                                "user__who_follows",
+                                queryset=UserFollow.objects.all(),
+                                to_attr='user_liked_followers'
+                            ),
+
+                    ),
+                    to_attr='total_like_dislike_data'
+                ),
+                Prefetch(
+                    'stream_starred',
+                    queryset=StarredStream.objects.all().select_related('user'),
+                    to_attr='total_starred_stream_data'
+                )
+            )
             page = self.paginate_queryset(queryset)
             if page is not None:
                 serializer = self.get_serializer(page, many=True, fields=fields)
-                return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+                return self.get_paginated_response(
+                    data=serializer.data, status_code=status.HTTP_200_OK)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+        request_body=content_schema_doc,
+        responses=content_api_responses,
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
+        for content in self.request.data:
+            if content.get("type") and not any(
+                True for c_type in CONTENT_TYPE if c_type[0] == content.get("type")):
+                raise serializers.ValidationError(
+                    {'type': ["Please select valid media type."]})
         try:
             request.data.reverse()
         except:
@@ -427,9 +596,16 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer.is_valid(raise_exception=True)
         instances = serializer.create(serializer.validated_data)
         serializer = ViewContentSerializer(instances, many=True, fields=(
-        'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
-        'color', 'user_image', 'full_name', 'order'))
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'user_image', 'full_name', 'html_text', 'file'))
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+
+    @swagger_auto_schema(
+        request_body=content_update_schema_doc,
+        responses=content_update_api_response,
+    )
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
         """
@@ -440,6 +616,10 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         """
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
+        if self.request.data.get("type") and not any(True for c_type in \
+            CONTENT_TYPE if c_type[0] == self.request.data.get("type")):
+            raise serializers.ValidationError(
+                {'type': ["Please select valid media type."]})
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
@@ -451,9 +631,9 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         self.serializer_class = ViewContentSerializer
         #  Customized field list
         fields = (
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order',
-            'color', 'user_image', 'full_name', 'order', 'liked')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'user_image', 'full_name', 'liked', 'html_text',
+            'file')
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -474,13 +654,74 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
+class GetStreamContentAPI(ListAPIView):
+    """This class will return the single content of stream passed in
+    request parameter by following validations.
+    1. If stream is public then anybody can access the content.
+    2. If stream is private then only stream owner and collaborator can
+    access the content.
+    here we can pass only stream or both stream and content.
+    """
+    queryset = StreamContent.objects.all().select_related(
+        'content', 'content__created_by__user_data').prefetch_related(
+            Prefetch(
+                "content__content_like_dislike_status",
+                queryset=LikeDislikeContent.objects.filter(status=1),
+                to_attr='content_liked_user'
+            )
+        ).order_by('order', '-attached_date', '-content__upd')
+    serializer_class = ViewContentSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    http_method_names = ['get']
+    filter_class = StreamContentFilter
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def filter_queryset(self, queryset):
+        """
+        We will return data according to the query parameter.
+        """
+        # queryset = queryset.filter(created_by=self.request.user)
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, self)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.queryset)
+        #  Customized field list
+        fields = (
+            'id', 'name', 'url', 'type', 'description', 'created_by',
+            'video_image', 'height', 'width', 'color', 'full_name',
+            'user_image', 'liked', 'html_text', 'file')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer([x.content for x in page],
+                many=True,
+                fields=fields, context=self.get_serializer_context())
+            return self.get_paginated_response(
+                data=serializer.data, status_code=status.HTTP_200_OK)
+
+
 class GetTopContentAPI(ContentAPI):
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         fields = (
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'full_name', 'user_image', 'liked')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'full_name', 'user_image', 'liked', 'html_text',
+            'file')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         picture_type = self.get_serializer(queryset.filter(type='Picture')[0:10], many=True, fields=fields)
@@ -495,12 +736,14 @@ class GetTopContentAPI(ContentAPI):
 
 
 class GetTopTwentyContentAPI(ContentAPI):
+    swagger_schema = None
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         fields = (
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'full_name', 'user_image', 'liked')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'full_name', 'user_image', 'liked', 'html_text',
+            'file')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         final_qs = itertools.chain(queryset.filter(type='Link')[0:5], queryset.filter(type='Picture')[0:5],
@@ -550,8 +793,8 @@ class LinkTypeContentAPI(ListAPIView):
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image','height', 'width',
-                  'full_name', 'user_image', 'liked')
+        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'file',
+            'video_image','height', 'width', 'full_name', 'user_image', 'liked', 'html_text')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -570,6 +813,12 @@ class DeleteContentInBulk(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=delete_content_schema,
+        responses={
+            '200': """{ "status_code": 204, "data": { } }""",
+        },
+    )
     def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
@@ -578,7 +827,15 @@ class DeleteContentInBulk(APIView):
         serializer.is_valid(raise_exception=True)
         self.queryset.filter(id__in=self.request.data['content_list']).update(status='Inactive')
         # Delete stream and content relation.
-        StreamContent.objects.filter(content__in=self.request.data.get('content_list')).delete()
+        stream_contents = StreamContent.objects.filter(
+            content__in=self.request.data.get('content_list'))
+        stream_contents_data = [{"stream": sctn.stream.id,
+            "content": sctn.content.id} for sctn in stream_contents]
+        stream_contents.delete()
+        thread = threading.Thread(target=delete_comments_and_broadcast, args=(
+            ["content_deleted_broadcast", "deleted_content"]), kwargs={
+            'stream_contents_data': stream_contents_data, "delete_ctn": True})
+        thread.start()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
@@ -781,10 +1038,10 @@ class RecentUpdatesDetailListAPI(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         fields = (
         'user_image', 'first_content_cover', 'stream_name', 'content_type', 'added_by_user_id', 'user_profile_id',
-        'user_name', 'thread', 'seen_index', 'stream_detail')
+        'user_name', 'thread', 'seen_index')
         content_fields = (
-        'id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-        'full_name', 'user_image', 'liked')
+        'id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height',
+        'width', 'color', 'full_name', 'user_image', 'liked', 'html_text', 'file')
         stream_fields = (
             'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
             'have_some_update',
@@ -833,8 +1090,12 @@ class MoveContentToStream(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get_serializer_context(self):
-        return {'request': self.request, 'version': self.kwargs['version']}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
+    @swagger_auto_schema(
+        request_body=move_content_to_stream_schema,
+        responses={'200': """{ "status_code": 200, "data": { } }"""},
+    )
     def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
@@ -843,12 +1104,14 @@ class MoveContentToStream(APIView):
         content_obj = request.data['contents']
         content_obj.reverse()
         request.data.update({"contents": content_obj})
-        serializer = self.serializer_class(data=request.data, context=self.get_serializer_context())
-        if serializer.is_valid():
+        serializer = self.serializer_class(
+            data=request.data, context=self.get_serializer_context())
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return custom_render_response(status_code=status.HTTP_200_OK, data={})
         else:
-            return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+            return custom_render_response(
+                status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
 
 
 class ReorderStreamContent(APIView):
@@ -862,6 +1125,12 @@ class ReorderStreamContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=reorder_stream_content_schema,
+        responses={
+            '200': """{ "status_code": 200, "data": { } }""",
+        },
+    )
     def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
@@ -885,6 +1154,12 @@ class ReorderContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=reorder_content_schema,
+        responses={
+            '200': """{ "status_code": 200, "data": { } }""",
+        },
+    )
     def post(self, request, *args, **kwargs):
         """
         Return a list of all users.
@@ -905,6 +1180,18 @@ class ExtremistReportAPI(CreateAPIView):
     queryset = ExtremistReport.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+    @swagger_auto_schema(
+        request_body=extremist_report_doc,
+        responses={
+            '200': """{
+            "status_code": 201,
+                "data": {"type": "Inappropriate", "user_comment": "test"}
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, context=self.request)
@@ -931,6 +1218,28 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         if kwargs.get('stream_id') is not None:
             return self.retrieve(request, *args, **kwargs)
 
+    def send_like_dislike_notification(self, version, stream, serializer):
+        noti = Notification.objects.filter(
+            notification_type='liked_emogo', stream=stream, from_user=self.request.user,
+            to_user=stream.created_by)
+        if noti.__len__() > 0:
+            noti[0].is_open = False if noti[0].is_open else True
+            noti[0].save()
+        if (serializer.data.get('status') == 1) and (
+                self.request.user != stream.created_by) and version:
+            if noti.__len__() > 0 :
+                NotificationAPI().initialize_notification(noti[0])
+            else:
+                NotificationAPI().send_notification(
+                    self.request.user, stream.created_by, 'liked_emogo', stream)
+
+    @swagger_auto_schema(
+        request_body=StreamLikeDislikeSerializer(fields=["stream", "status"]),
+        responses=stream_like_response,
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -941,16 +1250,21 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
         serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
-        stream = Stream.objects.get(id =  serializer.data.get('stream'))
-        noti = Notification.objects.filter(notification_type = 'liked_emogo' , stream = stream, from_user = self.request.user, to_user = stream.created_by)
-        if noti.__len__() > 0:
-            noti[0].is_open = False if noti[0].is_open else True
-            noti[0].save()
-        if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and kwargs.get('version'):
-            if noti.__len__() > 0 :
-                NotificationAPI().initialize_notification(noti[0])
-            else:
-                NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
+        stream = Stream.objects.select_related("created_by").get(id=serializer.data.get('stream'))
+        thread = threading.Thread(target=self.send_like_dislike_notification, args=(
+                [kwargs.get('version'), stream, serializer]))
+        thread.start()
+        # noti = Notification.objects.filter(
+        #     notification_type='liked_emogo', stream=stream, from_user=self.request.user,
+        #     to_user=stream.created_by)
+        # if noti.__len__() > 0:
+        #     noti[0].is_open = False if noti[0].is_open else True
+        #     noti[0].save()
+        # if (serializer.data.get('status') == 1) and (self.request.user !=  stream.created_by) and kwargs.get('version'):
+        #     if noti.__len__() > 0 :
+        #         NotificationAPI().initialize_notification(noti[0])
+        #     else:
+        #         NotificationAPI().send_notification(self.request.user, stream.created_by, 'liked_emogo', stream)
         # To return created stream data
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
     
@@ -1009,6 +1323,18 @@ class ContentLikeDislikeAPI(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
+    @swagger_auto_schema(
+        request_body=ContentLikeDislikeSerializer(fields=["content", "status"]),
+        responses={
+            '200': """{
+                "status_code": 201,
+                "data": {"content": 5553, "status": 1, "total_liked": 1}
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -1030,9 +1356,18 @@ class ContentLikeDislikeAPI(CreateAPIView):
                noti = noti.filter(stream = stream) 
             if noti.__len__() > 0 :
                 noti[0].save()
-                NotificationAPI().initialize_notification(noti[0])
+                # NotificationAPI().initialize_notification(noti[0])
+                thread = threading.Thread(
+                    target=NotificationAPI().initialize_notification, args=(
+                        [noti[0]]))
+                thread.start()
             else:
-                NotificationAPI().send_notification(self.request.user, content.created_by, 'liked_content', stream, content)
+                # NotificationAPI().send_notification(self.request.user, content.created_by, 'liked_content', stream, content)
+                thread = threading.Thread(
+                    target=NotificationAPI().send_notification, args=(
+                        [self.request.user, content.created_by, 'liked_content',
+                        stream, content]))
+                thread.start()
         # To return created stream data
         # self.serializer_class = ViewStreamSerializer
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
@@ -1092,6 +1427,17 @@ class IncreaseStreamViewCount(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
+    @swagger_auto_schema(
+        request_body=StreamUserViewStatusSerializer(fields=["stream"]),
+        responses={
+            '200': """{
+                "status_code": 201, "data": {"total_view_count": 71, "stream": 5}
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -1108,6 +1454,7 @@ class IncreaseStreamViewCount(CreateAPIView):
 
 
 class TestUrlAPI(APIView):
+    swagger_schema = None
 
     def get(self, request, format=None):
         """
@@ -1119,6 +1466,7 @@ class ContentInBulkAPI(ContentAPI):
     """
     Get Contents in bulk
     """
+
     def list(self, request, *args, **kwargs):
         """
         :param ids: list of content ids
@@ -1129,8 +1477,9 @@ class ContentInBulkAPI(ContentAPI):
         queryset = self.get_queryset().filter(id__in=ids)
         #  Customized field list
         fields = (
-        'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
-        'color', 'user_image', 'full_name', 'order', 'liked')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'user_image', 'full_name', 'order', 'liked',
+            'html_text', 'file')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -1141,6 +1490,7 @@ class ContentShareExtensionAPI(CreateAPIView):
     """
     Save content from share extension API
     """
+    swagger_schema = None
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -1152,7 +1502,13 @@ class ContentShareExtensionAPI(CreateAPIView):
         :return: Send notification API.
         """
         # content_ids = [ x.id for x in self.request.data.get('contents')]
-        NotificationAPI().send_notification(self.request.user, self.request.user, 'self', None, None, self.request.data.get('contents').__len__(), str(self.request.data.get('contents')))
+        # NotificationAPI().send_notification(self.request.user, self.request.user, 'self', None, None, self.request.data.get('contents').__len__(), str(self.request.data.get('contents')))
+        thread = threading.Thread(
+            target=NotificationAPI().send_notification, args=(
+                [self.request.user, self.request.user, 'self', None, None,
+                self.request.data.get('contents').__len__(),
+                str(self.request.data.get('contents'))]))
+        thread.start()
         return custom_render_response(status_code=status.HTTP_200_OK)
 
 
@@ -1160,6 +1516,7 @@ class BookmarkNewEmogosAPI(ListAPIView):
     """"
     View to list all the starred and new Emogos in home page.
     """
+    swagger_schema = None
     queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
         'created_by__user_data__user').prefetch_related(
         Prefetch(
@@ -1355,6 +1712,15 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
             serializer = self.get_serializer(page, many=True, fields=fields, context=self.get_serializer_context())
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+        request_body=StarredStreamSerializer(fields=["stream"]),
+        responses={
+            '200': """{"status_code": 201, "data": { } }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -1371,8 +1737,11 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
         return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
 
     def destroy(self, request, *args, **kwargs):
-
         stream_id = self.kwargs.get('stream_id')
+        try:
+            Stream.actives.get(id=stream_id)
+        except:
+            raise Http404("The Emogo does not exist.")
         stream = StarredStream.objects.filter(stream_id=stream_id, user=self.request.user)
         stream.delete()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data={})
@@ -1509,6 +1878,15 @@ class SeenIndexAPI(CreateAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @swagger_auto_schema(
+        request_body=SeenIndexSerializer(fields=["thread", "seen_index"]),
+        responses={
+            '200': """{"status_code": 201, "data": { } }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -1531,6 +1909,15 @@ class AddUserViewStreamStatus(CreateAPIView):
     # queryset = Stream.objects.all().select_related('stream')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+    @swagger_auto_schema(
+        request_body=AddUserViewStatusSerializer(fields=["stream"]),
+        responses={
+            '200': """{"status_code": 201, "data": { "stream": 11 } }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -1562,8 +1949,8 @@ class UserLikedContentAPI(ListAPIView):
         :return:
         """
         fields = (
-        "color", "created_by", "description", "full_name", "height", "id", "liked", "name", "type", "url", "user_image",
-        "video_image", "width")
+            "color", "created_by", "description", "full_name", "height", "id", "liked", "name",
+            "type", "url", "user_image", "video_image", "width", "html_text", 'file')
         like_dislike_qs = LikeDislikeContent.objects.filter(user=self.request.user, status=1).select_related('content',
                                                                                                              'content__created_by__user_data').prefetch_related(
             Prefetch(
@@ -1579,10 +1966,12 @@ class UserLikedContentAPI(ListAPIView):
 
 
 class SearchEmogoAPI(ListAPIView):
-    serializer_class = ViewStreamSerializer
+    serializer_class = OptimisedViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+    queryset = Stream.actives.all().annotate(comments_status=Exists(
+            ContentComment.actives.filter(stream=OuterRef("pk")))
+        ).select_related(
         'created_by__user_data__user').prefetch_related(
         Prefetch(
             "stream_contents",
@@ -1598,20 +1987,25 @@ class SearchEmogoAPI(ListAPIView):
         ),
         Prefetch(
             'collaborator_list',
-            queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+            queryset=Collaborator.actives.all().select_related('created_by').annotate(collab_username=Subquery(
+                User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                'username')[:1])).annotate(collab_fullname=Subquery(User.objects.filter(
+                username__endswith=OuterRef('phone_number')).values(
+                'user_data__full_name')[:1])).annotate(collab_userimage=Subquery(
+                User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                'user_data__user_image')[:1])).annotate(collab_user_id=Subquery(
+                User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                'id')[:1])).annotate(collab_userdata_id=Subquery(
+                User.objects.filter(username__endswith=OuterRef('phone_number')).values(
+                'user_data__id')[:1])).order_by('-id'),
             to_attr='stream_collaborator'
-        ),
-        Prefetch(
-            'collaborator_list',
-            queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
-            to_attr='stream_collaborator_verified'
         ),
         Prefetch(
             'stream_like_dislike_status',
             queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
                 Prefetch(
                     "user__who_follows",
-                    queryset=UserFollow.objects.all(),
+                    queryset=UserFollow.objects.select_related("follower").all(),
                     to_attr='user_liked_followers'
                 ),
             ),
@@ -1631,6 +2025,11 @@ class SearchEmogoAPI(ListAPIView):
             'seen_stream',
             queryset=NewEmogoViewStatusOnly.objects.filter().select_related('user'),
             to_attr='user_seen_streams'
+        ),
+        Prefetch(
+            'folder',
+            queryset=Folder.objects.select_related("owner"),
+            to_attr='folders'
         ),
     ).order_by('-id')
 
@@ -1681,22 +2080,265 @@ class NotYetAddedContentAPI(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         qs = Content.actives.filter(created_by_id=self.request.user.id, streams__id=None).prefetch_related(
-        Prefetch(
-            "content_like_dislike_status",
-            queryset=LikeDislikeContent.objects.filter(status=1),
-            to_attr='content_liked_user'
-        )
-    ).order_by('-upd')
+            Prefetch(
+                "content_like_dislike_status",
+                queryset=LikeDislikeContent.objects.filter(status=1),
+                to_attr='content_liked_user'
+            )
+        ).order_by('-upd')
         self.serializer_class = ViewContentSerializer
         #  Customized field list
         fields = (
-            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order',
-            'color', 'user_image', 'full_name', 'order', 'liked')
-
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+            'height', 'width', 'order', 'color', 'user_image', 'full_name', 'order', 'liked',
+            'html_text', 'file')
         page = self.paginate_queryset(qs)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
+class FolderAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
+    """
+    User Folder Create API
+    """
+    serializer_class = FolderSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = Folder.objects.annotate(
+        stream_count=Count(Case(When(stream_folders__status="Active", then=1),
+        output_field=IntegerField()))).order_by("-crd")
+
+    def get_object(self):
+        try:
+            return self.filter_queryset(self.get_queryset()).get(pk=self.kwargs.get('pk'))
+        except ObjectDoesNotExist:
+            raise Http404("Folder does not exist.")
+
+    def get_folder_data(self):
+        data = {}
+        fields = ("id", "name", "icon", "stream_count")
+        folders = self.filter_queryset(self.get_queryset())
+        folder_serializer = FolderSerializer(folders, many=True, fields=fields)
+        data["folders_count"] = folders.__len__()
+        data["folder_data"] = folder_serializer.data
+        return data
+
+    @swagger_auto_schema(
+        request_body=folder_schema_doc,
+        responses={
+            '200': """{"status_code": 201,
+                "data": {"folders_count": 2,
+                    "folder_data": [{"id": 32, "stream_count": 0, "name": "test Folder",
+                        "icon": null}]
+                }
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, fields=("name", "icon"))
+        serializer.is_valid(raise_exception=True)
+        serializer.validate_folder_name(request.data.get("name"))
+        self.perform_create(serializer)
+        data = self.get_folder_data()
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=data)
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    def filter_queryset(self, queryset):
+        """
+        Given a queryset, filter it with whichever filter backend is in use.
+
+        You are unlikely to want to override this method, although you may need
+        to call it either from a list view, or from a custom `get_object`
+        method if you want to apply the configured filtering backend to the
+        default queryset.
+        """
+        queryset = queryset.filter(owner=self.request.user)
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        fields = ("id", "name", "icon", "stream_count")
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
+            return self.get_paginated_response(
+                data=serializer.data, status_code=status.HTTP_200_OK)
+
+    def destroy(self, request,  *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return custom_render_response(status_code=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        request_body=folder_schema_doc,
+        responses={
+            '200': """{ "status_code": 200, "data":
+                "data": {
+                    "id": 42, "name": "new folder3", "icon": ":)", "stream_count": 0 }
+            }""",
+        },
+    )
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.serializer_class(instance, data=request.data,
+            fields=("name", "icon"), context=self.get_serializer_context())
+        serializer.is_valid(raise_exception=True)
+        serializer.validate_folder_name(request.data.get("name"))
+        self.perform_update(serializer)
+        data = {
+            "id": instance.id,
+            "name": instance.name,
+            "icon": instance.icon,
+            "stream_count": instance.stream_count,
+        }
+        return custom_render_response(status_code=status.HTTP_200_OK, data=data)
+
+
+class StreamMoveToFolderAPI(UpdateAPIView):
+    serializer_class = StreamMoveToFolderSerializer
+    queryset = Stream.actives.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    @swagger_auto_schema(
+        request_body=move_emogo_to_folder_schema,
+        responses={
+            '200': """{ "status_code": 200, "data": {"success": true } }""",
+        },
+    )
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        """
+        try:
+            instance = self.get_object()
+        except:
+            raise Http404("The Emogo does not exist.")
+        serializer = self.serializer_class(instance, data=request.data, context=self.get_serializer_context())
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return custom_render_response(status_code=status.HTTP_200_OK, data={"success": True})
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def perform_update(self, serializer):
+        stream = self.get_object()
+        for folder_obj in stream.folder.filter(owner=self.request.user):
+            stream.folder.remove(folder_obj)
+        stream.folder.add(serializer.validated_data["folder"][0])
+        return stream
+
+
+class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
+    """
+    User ContentShareInImessage Create API
+    """
+    serializer_class = ShareContentSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = ContentSharedInImessage.objects.all()
+
+    def filter_queryset(self, queryset):
+        return queryset.filter(user=self.request.user)
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def perform_create(self, serializer):
+        shared_contents = []
+        content_ids = self.request.data['content']
+        ContentSharedInImessage.objects.filter(
+            user=self.request.user, content__id__in=content_ids).delete()
+        for content in Content.actives.filter(id__in=content_ids):
+            shared_contents.append(ContentSharedInImessage(
+                content=content, user=self.request.user))
+        return ContentSharedInImessage.objects.bulk_create(shared_contents)
+
+    @swagger_auto_schema(
+        request_body=share_imessage_schema,
+        responses={
+            '200': """{
+                "status_code": 200, "data": null
+            }""",
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, fields=("content",))
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return custom_render_response(status_code=status.HTTP_200_OK)
+
+    def list(self, request, *args, **kwargs):
+        fields = (
+            'id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'file',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'html_text')
+        queryset = Content.actives.filter(id__in=self.filter_queryset(
+            self.get_queryset()).values("content")).select_related(
+            'created_by__user_data__user').prefetch_related(
+                Prefetch(
+                    "content_like_dislike_status",
+                    queryset=LikeDislikeContent.objects.filter(status=1),
+                    to_attr='content_liked_user'
+                )
+        ).order_by("-shared_content__crd")
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = ViewContentSerializer(page, many=True, fields=fields)
+            return self.get_paginated_response(
+                data=serializer.data, status_code=status.HTTP_200_OK)
+
+
+class DeleteStreamComments(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, *args, **kwargs):
+        """
+        This action will call when amogo owner change the emogo from
+        private to public select option to delete all the comments.
+        We will delete all the comments for emogo.
+        """
+        try:
+            stream = Stream.actives.get(
+                pk=self.kwargs.get('stream_id'), created_by=self.request.user)
+        except ObjectDoesNotExist:
+            raise Http404("The Emogo does not exist.")
+        thread = threading.Thread(target=delete_comments_and_broadcast, args=(
+            ["comments_deleted_for_emogo", "deleted_comment"]),
+            kwargs={'stream': stream})
+        thread.start()
+        return custom_render_response(
+            status_code=status.HTTP_204_NO_CONTENT, data=None)

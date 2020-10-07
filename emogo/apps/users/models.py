@@ -8,8 +8,10 @@ from emogo.apps.collaborator.models import Collaborator
 import requests
 import json
 from emogo.lib.default_models.models import DefaultDateModel, DefaultStatusModel, UsersStatusModel
+from django.utils.translation import ugettext_lazy as _
 import branchio
 from emogo import settings
+import rest_framework.authtoken.models
 
 DEVICE_TYPE = (
     ('Android', 'Android'),
@@ -20,6 +22,20 @@ MESSAGE_STATUS = (
     ('Complete', 'Complete'),
     ('Incomplete', 'Incomplete'),
 )
+
+
+class Token(rest_framework.authtoken.models.Token):
+    # key is no longer primary key, but still indexed and unique
+    key = models.CharField(_("Key"), max_length=40, db_index=True, unique=True)
+    # relation to user is a ForeignKey, so each user can have more than one token
+    user = models.ForeignKey(
+        User, related_name='auth_tokens',
+        on_delete=models.CASCADE, verbose_name=_("User")
+    )
+    device_name = models.CharField(_("Device Name"), max_length=90, null=True, blank=True)
+ 
+    # class Meta:
+    #     unique_together = (('user', 'name'),)
 
 
 class UserProfile(UsersStatusModel):
@@ -64,10 +80,19 @@ class UserDevice(DefaultDateModel):
     type = models.CharField(max_length=10, choices=DEVICE_TYPE, default=DEVICE_TYPE[1][0])
     is_device_enable = models.BooleanField(default=False)
     device_token = models.TextField(null=True)
+    auth_token = models.ForeignKey(
+        Token, related_name="device_auth_token", null=True, blank=True)
     objects = models.Manager()  # The default manager.
 
     class Meta:
         db_table = 'user_device'
+
+
+class UserOnlineStatus(models.Model):
+    stream = models.ForeignKey(Stream, related_name="user_online_stream")
+    # user_device = models.ForeignKey(UserDevice, related_name="user_online_device")
+    auth_token = models.ForeignKey(
+        Token, related_name="user_online_token", null=True, blank=True)
 
 
 class UserNotification(DefaultDateModel):
@@ -142,3 +167,4 @@ class UserFollow(models.Model):
 
     class Meta:
         db_table = 'user_follow'
+ 
