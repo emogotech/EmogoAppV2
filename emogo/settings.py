@@ -152,88 +152,18 @@ TWILIO_ACCOUNT_SID = 'AC470ab177bba5b96f4c1af3d3d29b8975'
 TWILIO_AUTH_TOKEN = '1491edbec65ec8a99f72b6c0bee54aca'
 TWILIO_FROM_NUMBER = '+13392090249'
 
-
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'formatters': {
-#         'standard': {
-#             'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
-#         },
-#     },
-#     'handlers': {
-#         'api.request.logger': {
-#             'level': 'DEBUG',
-#             'class': 'logging.handlers.RotatingFileHandler',
-#             'filename': BASE_DIR + '/logs/api_log.log',
-#             'maxBytes': 1024 * 1024 * 5,  # 5 MB
-#             'backupCount': 5,
-#             'formatter': 'standard',
-#         },
-#         'request_handler': {
-#             'level': 'DEBUG',
-#             'class': 'logging.handlers.RotatingFileHandler',
-#             'filename': BASE_DIR + '/logs/django_request.log',
-#             'maxBytes': 1024 * 1024 * 5,  # 5 MB
-#             'backupCount': 5,
-#             'formatter': 'standard',
-#         },
-#     },
-#     # filters will define when a logger should run
-#     'filters': {
-#         'require_debug_false': {
-#             '()': 'django.utils.log.RequireDebugFalse',
-#         },
-#         'require_debug_true': {
-#             '()': 'django.utils.log.RequireDebugTrue',
-#         },
-#     },
-#     'loggers': {
-#         '': {
-#             'handlers': ['api.request.logger'],
-#             'level': 'DEBUG',
-#             'propagate': True
-#         },
-#         'django.request': {
-#             'handlers': ['request_handler'],
-#             'level': 'DEBUG',
-#             'propagate': False
-#         },
-#     }
-# }
-#
-# LOGGING['handlers']['slack_admins'] = {
-#   'level': 'ERROR',
-#   'filters': ['require_debug_false'],
-#   'class': 'emogo.lib.helpers.slack_logger.SlackExceptionHandler',
-# }
-#
-# LOGGING['loggers']['django'] = {
-#   'handlers': ['slack_admins'],
-#   'level': 'INFO',
-# }
-
-
-
 branch_key = 'key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ'
 branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
 DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
 
 # S3 bucket credential
-AWS_ACCESS_KEY_ID = 'AKIAI44TFVCYXAX3XHIA' #os.getenv('AWS_ACCESS_KEY_ID') #
-AWS_SECRET_ACCESS_KEY = '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' #os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_BUCKET_NAME = 'emogo-v2'
-AWS_REGION_NAME = 'us-west-2' #os.getenv('AWS_REGION_NAME') #
-
-# print(os.getenv('AWS_ACCESS_KEY_ID'))
-# print(os.getenv('AWS_SECRET_ACCESS_KEY'))
-# print(os.getenv('AWS_REGION_NAME'))
-
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
+AWS_REGION_NAME = os.getenv('AWS_REGION_NAME')
 
 # Max file upload size on server
 DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520
-
-
 
 boto3_session = Session(
   aws_access_key_id=AWS_ACCESS_KEY_ID,
@@ -264,7 +194,7 @@ LOGGING = {
             'class': 'watchtower.CloudWatchLogHandler',
             'boto3_session': boto3_session,
             'log_group': 'Cloudwatch-Emogo-Group-Name',
-            'stream_name': 'DjangoInfoStream',
+            'stream_name': os.getenv('CONSOLE_FILENAME'),
             'formatter': 'aws',
         },
         'email_log_handlers': {
@@ -272,7 +202,7 @@ LOGGING = {
             'class': 'watchtower.CloudWatchLogHandler',
             'boto3_session': boto3_session,
             'log_group': 'Cloudwatch-Emogo-Group-Name',
-            'stream_name': 'EmailLogStream',
+            'stream_name': os.getenv('LOGGER_FILENAME'),
             'formatter': 'aws',
         },
     },
@@ -290,61 +220,6 @@ LOGGING = {
     },
 }
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     # 'root': {
-#     #     'level': logging.ERROR,
-#     #     'handlers': ['console'],
-#     # },
-#     'formatters': {
-#         'simple': {
-#             'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
-#             'datefmt': "%Y-%m-%d %H:%M:%S"
-#         },
-#         'aws': {
-#             # you can add specific format for aws here
-#             'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
-#             'datefmt': "%Y-%m-%d %H:%M:%S"
-#         },
-#     },
-#     'handlers': {
-#         'watchtower': {
-#             'level': 'DEBUG',
-#             'class': 'watchtower.CloudWatchLogHandler',
-#                      'boto3_session': boto3_session,
-#                      'log_group': 'MyLogGroupName',
-#                      'stream_name': 'MyStreamName',
-#             'formatter': 'aws',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'level': 'INFO',
-#             'handlers': ['watchtower'],
-#             'propagate': False,
-#         },
-#         # add your other loggers here...
-#     },
-# }
-
-# DATABASES = {
-#
-#     "default": {
-#         # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         # DB name or path to database file if using sqlite3.
-#         "NAME": "emogo_v3",
-#         # Not used with sqlite3.
-#         "USER": "plannah_user",
-#         # Not used with sqlite3.
-#         "PASSWORD": "northout@123",
-#         # Set to empty string for localhost. Not used with sqlite3.
-#         "HOST": "127.0.0.1",
-#         # Set to empty string for default. Not used with sqlite3.
-#         "PORT": "5432",
-#     },
-# }
 
 SWAGGER_SETTINGS = {
 
@@ -385,10 +260,24 @@ CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_TIMEZONE = 'Africa/Nairobi'
 
 # Get Local Settings
-PEM_FILE = 'emogoDev.pem'
+NOTIFICATION_PEM_FILE = os.getenv('NOTIFICATION_PEM_FILE')
 IS_SANDBOX = True
-NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR,PEM_FILE)
+NOTIFICATION_PEM_ROOT = os.path.join(BASE_DIR, NOTIFICATION_PEM_FILE)
 # print(NOTIFICATION_PEM_ROOT)
+
+DEBUG = os.getenv('DEBUG')
+
+DATABASES = {
+    'default': {
+        'ENGINE': os.environ.get('DBENGINE'),
+        'NAME': os.environ.get('DBNAME'),
+        'USER': os.environ.get('DBUSER'),
+        'PASSWORD': os.environ.get('DBPASSWORD'),
+        'HOST': os.environ.get('DBHOST'),
+        'PORT': os.environ.get('DBPORT'),
+    }
+}
+
 try:
     from .local_settings import *
     #Get PEM file url for notification
