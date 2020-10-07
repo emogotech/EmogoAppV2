@@ -319,21 +319,14 @@ class CommentConsumer(WebsocketConsumer):
 
     def create_group_and_connect(self):
         # Function to create dynamic channel group by stream type
-        # from django.db import connection, reset_queries
-        # reset_queries()
-        # print(len(connection.queries))
-        # print(connection.queries)
         stream_id = self.scope['url_route']['kwargs']['stream_id']
         if self.scope['user'].is_anonymous():
             return False
         user = self.scope['user']
         validate_data = self.check_user_is_authenticate_to_stream(
             stream_id, user)
-        print(validate_data)
         if "exception_data" not in validate_data.keys():
             stream = validate_data["stream"]
-            print("======", stream.type)
-            print("=====", user.id)
             token = Token.objects.get(key=urlparse.parse_qs(
                 self.scope["query_string"]).get(b"token")[0].decode())
             online_obj, created = UserOnlineStatus.objects.update_or_create(
@@ -347,7 +340,6 @@ class CommentConsumer(WebsocketConsumer):
             else:
                 connection_type = "public"
             group_name = '{}_{}_comment_group'.format(stream_id, connection_type)
-            print("===============", group_name)
             self.room_group_name = group_name
             async_to_sync(self.channel_layer.group_add)(
                 self.room_group_name,
@@ -365,7 +357,6 @@ class CommentConsumer(WebsocketConsumer):
             self.close()
 
     def disconnect(self, close_code):
-        print("Called disconnect. =========")
         if not self.scope['user'].is_anonymous():
             stream_id = self.scope['url_route']['kwargs']['stream_id']
             token = urlparse.parse_qs(

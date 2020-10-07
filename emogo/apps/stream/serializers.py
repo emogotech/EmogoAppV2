@@ -16,7 +16,7 @@ from django.core.urlresolvers import resolve
 from copy import deepcopy
 from django.contrib.auth.models import User
 import operator
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Prefetch
 from itertools import product
 from emogo.apps.notification.views import NotificationAPI
 from emogo.apps.notification.models import Notification
@@ -890,9 +890,21 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :param value: request streams data
         :return: Validate streams request data
         """
-        streams = set(self.initial_data.get('streams'))
-        streams = Stream.actives.filter(id__in=streams)
-        if streams.exists():
+        stream_ids = set(self.initial_data.get('streams'))
+        streams = Stream.actives.select_related('created_by').prefetch_related(
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all(),
+                to_attr='active_stream_collaborator'
+            )).filter(id__in=stream_ids)
+        if streams.exists() and streams.__len__() == len(stream_ids):
+            user = self.context.get('request').user
+            for stream in streams:
+                if stream.created_by != user and not any(
+                    True for collb in stream.active_stream_collaborator if \
+                        user.username.endswith(collb.phone_number[-10:])):
+                    raise serializers.ValidationError(
+                        "Either the Emogo does not exist; Or you've been removed from it's collaborator list")
             self.initial_data['streams'] = streams
         else:
             raise serializers.ValidationError("The Emogo does not exist.")

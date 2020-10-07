@@ -4,8 +4,8 @@ echo "Docker container has been started"
 service redis-server start 
 
 
-#python3.6 manage.py collectstatic --yes --settings=emogo.qa_settings
-#python3.6 manage.py collectstatic --settings=emogo.qa_settings -y
+#python3.6 manage.py collectstatic --yes --settings=emogo.settings
+#python3.6 manage.py collectstatic --settings=emogo.settings -y
 
 #celery -A sporttechie worker -l info -B > /dev/null 2>&1 &
 
@@ -30,6 +30,6 @@ sonar-scanner -Dsonar.projectKey=$KEY -Dsonar.sources=. -Dsonar.host.url=$URL -D
 # else
 #   echo "Build failed"
 # fi
-python3.6 manage.py runserver 0.0.0.0:80 --settings=emogo.qa_settings
+python3.6 manage.py runserver 0.0.0.0:80 --settings=emogo.settings
 
 exec "$@"
