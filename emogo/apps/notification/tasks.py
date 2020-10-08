@@ -19,16 +19,22 @@ def send_comment_notification(stream_id, content_id, comment_id, from_user_id):
         Removed from the emogo then wont send notification to that user
         Otherwise we will notify both content creator and emogo creator.
         """
-        print("====================")
         stream = Stream.actives.select_related('created_by').prefetch_related(
             Prefetch(
                 'collaborator_list',
                 queryset=Collaborator.actives.all().select_related('created_by'),
                 to_attr='active_stream_collaborator'
+            ),
+            Prefetch(
+                'stream_contents',
+                queryset=StreamContent.objects.select_related(
+		            "content").only("content").filter(content__id=content_id),
+                to_attr='stream_contents_list'
             )).get(id=stream_id)
-        content = StreamContent.objects.select_related(
-            "content").only("content").get(stream=stream,
-            content__id=content_id).content
+        content = stream.stream_contents_list[0].content
+        # content = StreamContent.objects.select_related(
+        #     "content").only("content").filter(stream=stream,
+        #     content__id=content_id)[0].content
         comment = ContentComment.objects.get(id=comment_id)
         from_user = User.objects.get(id=from_user_id)
         if content.created_by != from_user and not UserOnlineStatus.objects.filter(
@@ -43,5 +49,3 @@ def send_comment_notification(stream_id, content_id, comment_id, from_user_id):
             stream=stream, auth_token__user=stream.created_by).exists():
             NotificationAPI().send_notification(from_user, stream.created_by,
                     'new_comment', stream, content, comment=comment)
-
-        print("===== Success")
