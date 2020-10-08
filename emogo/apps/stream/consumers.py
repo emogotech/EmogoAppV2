@@ -87,9 +87,12 @@ class CommentConsumer(WebsocketConsumer):
                     "exception": {"content": ["Content Id is required."]}
                 }
             else:
-                resp_data['content'] = StreamContent.objects.select_related(
-                    "content").only("content").get(stream=stream,
-                    content__id=content_id).content
+                stream_contents = StreamContent.objects.select_related(
+                    "content").filter(stream=stream,
+                    content__id=content_id).only("content")
+                if not stream_contents:
+                    raise ObjectDoesNotExist
+                resp_data['content'] = stream_contents[0].content
         except ObjectDoesNotExist as e:
             resp_data["exception_data"] = {
                 "status_code": 404,
