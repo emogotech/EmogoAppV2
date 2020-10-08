@@ -278,9 +278,4 @@ DATABASES = {
     }
 }
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', os.environ.get('SECURE_PROXY_SSL_HEADER'))
-try:
-    from .local_settings import *
-    #Get PEM file url for notification
-except ImportError:
-    pass
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', os.environ.get('HTTP_X_FORWARDED_PROTO'))
