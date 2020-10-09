@@ -85,6 +85,7 @@ class Signup(APIView):
         responses={'200': '{ "status_code": 201, "data": { } }'},
     )
     def post(self, request, version):
+        logger_name.info("============= logger info")
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
@@ -1646,3 +1647,5 @@ class TestNotification(APIView):
         apns.gateway_server.send_notification(token_hex, payload)
         #stop notification
         return custom_render_response(status_code=200, data={"success": True})
+
+   
