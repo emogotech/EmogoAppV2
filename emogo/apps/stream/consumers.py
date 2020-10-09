@@ -20,6 +20,9 @@ from functools import wraps
 import datetime
 import json
 import threading
+import logging
+# logger = logging.getLogger('watchtower-logger')
+logger_name = logging.getLogger('email_log')
 
 
 class CommentConsumer(WebsocketConsumer):
@@ -186,8 +189,13 @@ class CommentConsumer(WebsocketConsumer):
         # thread = threading.Thread(target=self.send_new_comment_notification,
         #     args=([stream, content, comment_obj, user]))
         # thread.start()
-        send_comment_notification.apply_async(
-            args=(stream.id, content.id, comment_obj.id, user.id))
+        try:
+            logger_name.info("============= logger Before celery code")
+            send_comment_notification.apply_async(
+                args=(stream.id, content.id, comment_obj.id, user.id))
+            logger_name.info("============= logger After celery code")
+        except:
+            logger_name.info("============= logger error in celery code")
         self.broadcast_by_type(comment_data, "private", stream.id)
         if stream.type == "Public":
             self.broadcast_by_type(comment_data, "public", stream.id)
