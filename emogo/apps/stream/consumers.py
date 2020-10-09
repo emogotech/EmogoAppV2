@@ -12,7 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from emogo.apps.notification.models import Notification
 from emogo.apps.notification.views import NotificationAPI
-from emogo.apps.notification.tasks import send_comment_notification
+# from emogo.apps.notification.tasks import send_comment_notification
 from urllib import parse as urlparse
 from django.db.models import Prefetch
 from django.http import Http404
@@ -136,26 +136,26 @@ class CommentConsumer(WebsocketConsumer):
                         resp["stream"], *args, **kwargs)
         return wrapped
 
-    # def send_new_comment_notification(self, stream, content, comment, from_user):
-    #     """
-    #     Check if stream creator and content creator are same then
-    #     We will send single notification.
-    #     If content and created by collaborator and that collaborator if
-    #     Removed from the emogo then wont send notification to that user
-    #     Otherwise we will notify both content creator and emogo creator.
-    #     """
-    #     if content.created_by != from_user and not UserOnlineStatus.objects.filter(
-    #         stream=stream, auth_token__user=content.created_by).exists():
-    #         if stream.type == "Public" or (stream.type == "Private" and any(
-    #             True for collb in stream.active_stream_collaborator if \
-    #             content.created_by.username.endswith(collb.phone_number[-10:]))):
-    #             NotificationAPI().send_notification(from_user, content.created_by,
-    #                 'new_comment', stream, content, comment=comment)
-    #     if stream.created_by != content.created_by and \
-    #         stream.created_by != from_user and not UserOnlineStatus.objects.filter(
-    #         stream=stream, auth_token__user=stream.created_by).exists():
-    #         NotificationAPI().send_notification(from_user, stream.created_by,
-    #                 'new_comment', stream, content, comment=comment)
+    def send_new_comment_notification(self, stream, content, comment, from_user):
+        """
+        Check if stream creator and content creator are same then
+        We will send single notification.
+        If content and created by collaborator and that collaborator if
+        Removed from the emogo then wont send notification to that user
+        Otherwise we will notify both content creator and emogo creator.
+        """
+        if content.created_by != from_user and not UserOnlineStatus.objects.filter(
+            stream=stream, auth_token__user=content.created_by).exists():
+            if stream.type == "Public" or (stream.type == "Private" and any(
+                True for collb in stream.active_stream_collaborator if \
+                content.created_by.username.endswith(collb.phone_number[-10:]))):
+                NotificationAPI().send_notification(from_user, content.created_by,
+                    'new_comment', stream, content, comment=comment)
+        if stream.created_by != content.created_by and \
+            stream.created_by != from_user and not UserOnlineStatus.objects.filter(
+            stream=stream, auth_token__user=stream.created_by).exists():
+            NotificationAPI().send_notification(from_user, stream.created_by,
+                    'new_comment', stream, content, comment=comment)
 
     @validate_socket_data
     def post_comment(self, user, content, stream, data):
@@ -183,11 +183,11 @@ class CommentConsumer(WebsocketConsumer):
         comment_data["data"] = ContentCommentSerializer(
             instance=comment_obj, fields=fields).data
         # Send notification to emogo owner and content creator
-        # thread = threading.Thread(target=self.send_new_comment_notification,
-        #     args=([stream, content, comment_obj, user]))
-        # thread.start()
-        send_comment_notification.apply_async(
-            args=(stream.id, content.id, comment_obj.id, user.id))
+        thread = threading.Thread(target=self.send_new_comment_notification,
+            args=([stream, content, comment_obj, user]))
+        thread.start()
+        # send_comment_notification.apply_async(
+        #     args=(stream.id, content.id, comment_obj.id, user.id))
         self.broadcast_by_type(comment_data, "private", stream.id)
         if stream.type == "Public":
             self.broadcast_by_type(comment_data, "public", stream.id)
