@@ -7,9 +7,6 @@ from emogo.apps.stream.models import Stream, ContentComment, StreamContent
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.notification.views import NotificationAPI
 from django.db.models import Prefetch
-import logging
-# logger = logging.getLogger('watchtower-logger')
-logger_name = logging.getLogger('email_log')
 
 logger = get_task_logger(__name__)
 
@@ -22,7 +19,6 @@ def send_comment_notification(stream_id, content_id, comment_id, from_user_id):
         Removed from the emogo then wont send notification to that user
         Otherwise we will notify both content creator and emogo creator.
         """
-	logger_name.info("============= Inside celery code logger")
         stream = Stream.actives.select_related('created_by').prefetch_related(
             Prefetch(
                 'collaborator_list',
@@ -53,4 +49,3 @@ def send_comment_notification(stream_id, content_id, comment_id, from_user_id):
             stream=stream, auth_token__user=stream.created_by).exists():
             NotificationAPI().send_notification(from_user, stream.created_by,
                     'new_comment', stream, content, comment=comment)
-	logger_name.info("============= end celery code logger")
