@@ -1643,3 +1643,5 @@ class TestNotification(APIView):
         apns.gateway_server.send_notification(token_hex, payload)
         #stop notification
         return custom_render_response(status_code=200, data={"success": True})
+
+    
