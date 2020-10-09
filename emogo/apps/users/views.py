@@ -677,8 +677,11 @@ class UserLikedSteams(ListAPIView):
         queryset = queryset.annotate(comments_status=Exists(
                 ContentComment.actives.filter(stream=OuterRef("pk")))).filter(
             stream_like_dislike_status__user=self.request.user,
-            stream_like_dislike_status__status=1).select_related(
-            'created_by__user_data').prefetch_related(
+            stream_like_dislike_status__status=1).filter(
+            Q(type="Public") | Q(Q(created_by=self.request.user) |
+            Q(collaborator_list__phone_number__endswith=self.request.user.username[-10:],
+            collaborator_list__status="Active"
+            ))).select_related('created_by__user_data').prefetch_related(
             Prefetch(
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
