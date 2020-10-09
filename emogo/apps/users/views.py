@@ -85,7 +85,7 @@ class Signup(APIView):
         responses={'200': '{ "status_code": 201, "data": { } }'},
     )
     def post(self, request, version):
-        logger_name.info("===============", "logger here")
+        logging.info("===============", "logger here")
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
