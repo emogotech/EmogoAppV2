@@ -44,7 +44,6 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         :return: Update collab API status.
         """
         logger_name.info("============")
-        logger_name.info("invites ", kwargs['invites'])
         logger_name.info("request ", request.method)
         if kwargs['invites'] == 'accept' and request.method == 'PATCH':
             logger_name.info("stream ", request.data.get('stream'))
