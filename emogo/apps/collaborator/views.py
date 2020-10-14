@@ -42,20 +42,13 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         :param kwargs: dict param
         :return: Update collab API status.
         """
-        logger_name.info("============")
-        logger_name.info("invites ", kwargs['invites'])
-        logger_name.info("request ", request.method)
         if kwargs['invites'] == 'accept' and request.method == 'PATCH':
-            logger_name.info("stream ", request.data.get('stream'))
             stream = Stream.objects.get(id=request.data.get('stream'))
-            logger_name.info("user ", request.user.username)
             collab = Collaborator.objects.filter(stream=stream).filter(
                 Q(phone_number__endswith=self.request.user.username[-10:]) | Q(
                 phone_number__endswith=stream.created_by.username[-10:],
                 created_by=stream.created_by))
             collab.update(status='Active')
-            logger_name.info("collab ", collab.count(), " === ", [clb.id for clb in collab])
-            logger_name.info("version ", kwargs['version'], " == ", request.data.get('notification_id'))
             if kwargs['version'] and collab:
                 obj = Notification.objects.filter(id = request.data.get('notification_id'))
                 if obj.__len__() > 0:
