@@ -21,8 +21,7 @@ from emogo.apps.notification.serializers import *
 from emogo.apps.stream.serializers import ViewStreamSerializer
 
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
-import logging
-logger_name = logging.getLogger('email_log')
+from django.http import Http404
 
 # # Create your views here.
 class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
@@ -157,7 +156,10 @@ class CollaboratorDeletionAPI(DestroyAPIView):
         :return: Hard Delete collaborator
         """
         from emogo.apps.stream.models import StarredStream
-        collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
+        try:
+            collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
+        except:
+            raise Http404("The collaborator does not exist.")
         stream_id = collaborator.stream.id
         collab_user = User.objects.filter(username__endswith = collaborator.phone_number[-10:])
         if collab_user.__len__():
