@@ -278,8 +278,4 @@ DATABASES = {
     }
 }
 
-try:
-    from .local_settings import *
-    #Get PEM file url for notification
-except ImportError:
-    pass
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

@@ -24,10 +24,17 @@
 #                 'collaborator_list',
 #                 queryset=Collaborator.actives.all().select_related('created_by'),
 #                 to_attr='active_stream_collaborator'
+#             ),
+#             Prefetch(
+#                 'stream_contents',
+#                 queryset=StreamContent.objects.select_related(
+# 		            "content").only("content").filter(content__id=content_id),
+#                 to_attr='stream_contents_list'
 #             )).get(id=stream_id)
-#         content = StreamContent.objects.select_related(
-#             "content").only("content").get(stream=stream,
-#             content__id=content_id).content
+#         content = stream.stream_contents_list[0].content
+#         # content = StreamContent.objects.select_related(
+#         #     "content").only("content").filter(stream=stream,
+#         #     content__id=content_id)[0].content
 #         comment = ContentComment.objects.get(id=comment_id)
 #         from_user = User.objects.get(id=from_user_id)
 #         if content.created_by != from_user and not UserOnlineStatus.objects.filter(

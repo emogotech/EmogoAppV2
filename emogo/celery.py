@@ -4,10 +4,7 @@
 # from django.conf import settings
 
 # # set the default Django settings module for the 'celery' program.
-# try:
-# 	os.environ.setdefault('DJANGO_SETTINGS_MODULE', os.environ['DJANGO_SETTINGS_MODULE'])
-# except:
-# 	os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'emogo.settings')
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'emogo.settings')
 # app = Celery('emogo')
 
 # # Using a string here means the worker will not have to
