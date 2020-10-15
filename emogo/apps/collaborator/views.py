@@ -156,9 +156,16 @@ class CollaboratorDeletionAPI(DestroyAPIView):
         stream_id = collaborator.stream.id
         collab_user = User.objects.filter(username__endswith = collaborator.phone_number[-10:])
         if collab_user.__len__():
-            noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = collaborator.stream, from_user = self.request.user, to_user = collab_user[0] )
+            noti = Notification.objects.filter(
+                notification_type='collaborator_confirmation',
+                stream=collaborator.stream, from_user=self.request.user,
+                to_user=collab_user[0] )
             if noti.__len__() > 0 :
-                noti.update(notification_type = 'deleted_collaborator')
+                noti.update(notification_type='deleted_collaborator')
+        Notification.objects.filter(
+            stream=collaborator.stream, notification_type="new_comment",
+            to_user__username__endswith=collaborator.phone_number[-10:]).update(
+            notification_type="deleted_collaborator", is_open=False)
         collaborator.delete()
         if collab_user.__len__() > 0:
             StarredStream.objects.filter(user=collab_user[0], stream_id = stream_id).delete()
