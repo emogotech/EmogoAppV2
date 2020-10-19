@@ -620,9 +620,11 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_collaborator_permission(self, obj):
         if self.context.get('version') == 'v3':
-            list_of_obj = [_ for _ in obj.stream_collaborator if \
-                _.phone_number == obj.created_by.username and _.created_by == obj.created_by]
-            # list_of_obj = obj.collaborator_list.filter(phone_number = obj.created_by.username, created_by = obj.created_by)
+            # list_of_obj = [_ for _ in obj.stream_collaborator if \
+            #     _.phone_number == obj.created_by.username and _.created_by == obj.created_by]
+            list_of_obj = obj.collaborator_list.filter(
+                phone_number__endswith=obj.created_by.username[-10:],
+                created_by=obj.created_by)
         else:
             list_of_obj = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user and _.phone_number == self.context.get('request').user.username ]
 
@@ -701,19 +703,6 @@ class OptimisedViewStreamSerializer(ViewStreamSerializer):
                 list_of_instances = other_collab[0:3]
         return OptimisedViewCollaboratorSerializer(list_of_instances,
                                           many=True, fields=fields, context=self.context).data
-
-    def get_collaborator_permission(self, obj):
-        if self.context.get('version') == 'v3':
-            list_of_obj = [_ for _ in obj.stream_collaborator if \
-                _.phone_number == obj.created_by.username and _.created_by == obj.created_by]
-            # list_of_obj = obj.collaborator_list.filter(
-                # phone_number = obj.created_by.username, created_by = obj.created_by)
-        else:
-            list_of_obj = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user and _.phone_number == self.context.get('request').user.username ]
-
-        if list_of_obj.__len__() > 0:
-            return {'can_add_content': list_of_obj[0].can_add_content, 'can_add_people': list_of_obj[0].can_add_people}
-        return {'can_add_content': True , 'can_add_people': False}
 
     def get_collab_data(self, obj, instances):
         list_of_instances = list()
