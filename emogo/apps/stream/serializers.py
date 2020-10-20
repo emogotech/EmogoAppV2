@@ -212,6 +212,13 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                 stream_collbs.delete()
             if collaborators.__len__() > 0:
                 self.create_collaborator(self.instance)
+        else:
+            self.instance.collaborator_list.update(
+                can_add_content=self.initial_data.get('collaborator_permission').get(
+                    'can_add_content'),
+                can_add_people=self.initial_data.get('collaborator_permission').get(
+                    'can_add_people')
+            )
 
         # 2. Create Contents
         contents = self.initial_data.get('content')
@@ -246,9 +253,10 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     def removed_stream_bookmarked(self, obj):
         if self.instance.stream_collaborator.__len__() > 0:
             phone_number = [x.phone_number for x in self.instance.collaborator_list.all()]
-            # valid_users = []
-            valid_users = [user.id for user in User.objects.only("id").filter(reduce(
-                operator.or_, (Q(username__endswith=str(contact)[-10:]) for contact in phone_number)))]
+            valid_users = []
+            if phone_number:
+                valid_users = [user.id for user in User.objects.only("id").filter(reduce(
+                    operator.or_, (Q(username__endswith=str(contact)[-10:]) for contact in phone_number)))]
             # for contact in phone_number:
             #     users = User.objects.filter(username__endswith=str(contact)[-10:])
             #     if users.__len__() > 0:
@@ -630,7 +638,7 @@ class ViewStreamSerializer(StreamSerializer):
 
         if list_of_obj.__len__() > 0:
             return {'can_add_content': list_of_obj[0].can_add_content, 'can_add_people': list_of_obj[0].can_add_people}
-        return {'can_add_content': True , 'can_add_people': False}
+        return {'can_add_content': False , 'can_add_people': False}
 
     def get_stream_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
