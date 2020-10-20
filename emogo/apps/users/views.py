@@ -819,7 +819,11 @@ class UserCollaborators(ListAPIView):
         )
 
         # Ensure queryset is re-evaluated on each request.
-        queryset = self.queryset.filter(id__in=Collaborator.actives.filter(Q(phone_number= self.request.user.username )| Q(created_by_id=self.request.user.id) ).values_list('stream_id', flat=True)).select_related('created_by__user_data__user').prefetch_related(
+        queryset = self.queryset.filter(id__in=Collaborator.actives.filter(
+            Q(phone_number__endswith=str(self.request.user.username)[-10:])| Q(
+                created_by_id=self.request.user.id) ).values_list(
+                    'stream_id', flat=True)).select_related(
+                    'created_by__user_data__user').prefetch_related(
         Prefetch(
             "stream_contents",
             queryset=StreamContent.objects.all().select_related('content').order_by('order' , '-attached_date').prefetch_related(
@@ -865,8 +869,19 @@ class UserCollaborators(ListAPIView):
         # self.request.user
         self.serializer_class = ViewStreamSerializer
         # Fetch all self created streams
-        stream_ids = Collaborator.actives.filter(Q(created_by_id=self.request.user.id) |
-                                                    Q(phone_number__endswith=str(self.request.user.username)[-10:])).values_list( 'stream', flat=True)
+        # stream_ids = Collaborator.actives.filter(Q(created_by_id=self.request.user.id) |
+        #                                             Q(phone_number__endswith=str(self.request.user.username)[-10:])).values_list( 'stream', flat=True)
+        collabss = Collaborator.actives.select_related("stream", "created_by").filter(
+            Q(created_by_id=self.request.user.id) | Q(
+                phone_number__endswith=str(self.request.user.username)[-10:])).only(
+                    "phone_number", "stream", "created_by")
+        # Remove self created collaborator where current user is removed from
+        # collaborator list
+        stream_ids = [clb.stream.id for clb in collabss if \
+            clb.created_by != self.request.user or any(True for collb in collabss if \
+                    clb.stream == collb.stream and collb.phone_number.endswith(
+                        request.user.username[-10:]))]
+        stream_ids = list(set(stream_ids))
         #2. Fetch  stream Queryset objects as collaborators and exclude self.request.user created stream.
         queryset = self.filter_queryset(self.get_queryset().filter(
             id__in=stream_ids).exclude(created_by_id=self.request.user.id)).order_by('-upd')
