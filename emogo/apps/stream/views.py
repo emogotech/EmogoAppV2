@@ -284,7 +284,14 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                     to_attr='stream_collaborator'
                 )
             ).get(pk=self.kwargs.get('pk'))
-        except:
+            try:
+                if instance.created_by != self.request.user and not any(
+                    True for collb in instance.stream_collaborator if \
+                        self.request.user.username.endswith(collb.phone_number[-10:])):
+                    raise Http404
+            except:
+                raise Http404("Either the Emogo does not exist; Or you've been removed from it's collaborator list")
+        except ObjectDoesNotExist:
             raise Http404("The Emogo does not exist.")
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
