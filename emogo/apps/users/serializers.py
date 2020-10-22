@@ -264,7 +264,7 @@ class UserDetailSerializer(UserProfileSerializer):
         return False
 
     def get_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'video_image', 'file')
+        fields = ('id', 'name', 'url', 'type', 'video_image', 'file', 'html_text')
         return ViewContentSerializer(obj.user_contents(), many=True, fields=fields).data
 
     def get_emogo_count(self, obj):
@@ -1031,7 +1031,7 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
 
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
-            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file')
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file', 'html_text')
         instances = obj.content_list
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
@@ -1071,7 +1071,7 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
 
     def get_stream_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
-            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file')
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file', 'html_text')
         instances = obj.content_list[0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
