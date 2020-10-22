@@ -6,6 +6,7 @@ from emogo.apps.users.models import User
 from faker import Faker
 fake = Faker()
 
+
 class BaseAPITests(APITestCase):
     fixtures = ('test_data',)
 
@@ -47,7 +48,6 @@ class NotificationTestCases(BaseAPITests):
         }
         response = self.client.post(self.url, data=self.test_dict, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
 
     def test_for_delete_notification_with_invalid_id(self):
         self.url = f"{self.url}/notification/delete/{fake.msisdn()}/"
