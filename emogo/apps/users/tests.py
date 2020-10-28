@@ -434,13 +434,13 @@ class OtherApiTestCase(BaseAPITests):
         response = self.client.get(self.url, format='json', **self.header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_for_notification_test(self):
-        self.url = f"{self.url}/test-notify/"
-        self.test_dict = {
-            "device_token": str(self.token)
-        }
-        response = self.client.post(self.url, data=self.test_dict, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    # def test_for_notification_test(self):
+    #     self.url = f"{self.url}/test-notify/"
+    #     self.test_dict = {
+    #         "device_token": str(self.token)
+    #     }
+    #     response = self.client.post(self.url, data=self.test_dict, format='json')
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_for_upload_media_on_s3(self):
         self.url = f"{self.url}/upload-media-on-s3/"
