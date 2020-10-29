@@ -743,7 +743,7 @@ class UserLikedSteams(ListAPIView):
                 queryset=NewEmogoViewStatusOnly.objects.all().select_related("user"),
                 to_attr='user_seen_streams'
             ),
-        )
+        ).distinct()
         # non_converted = queryset
         # queryset = list(queryset)
         # stream_ids_list = list(stream_ids_list)
