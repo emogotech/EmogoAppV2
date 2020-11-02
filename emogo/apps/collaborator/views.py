@@ -57,8 +57,8 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
                         NotificationAPI().initialize_notification(obj)
                         NotificationAPI().send_notification(self.request.user, obj[0].from_user, 'accepted', stream)
                     serializer = self.get_serializer(obj[0], context=self.request)
-                    return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)   
-            # To return accpted
+                    return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+            raise Http404("Either the Emogo does not exist; Or you've been removed from it's collaborator list")
         else:
             return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)
 
