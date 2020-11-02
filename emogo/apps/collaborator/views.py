@@ -22,8 +22,6 @@ from emogo.apps.stream.serializers import ViewStreamSerializer
 
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from django.http import Http404
-import logging
-logger_name = logging.getLogger('email_log')
 
 # # Create your views here.
 class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
@@ -51,8 +49,6 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
                 phone_number__endswith=stream.created_by.username[-10:],
                 created_by=stream.created_by))
             collab.update(status='Active')
-            logger_name.info("======================")
-            logger_name.info(collab)
             if kwargs['version'] and collab:
                 obj = Notification.objects.filter(id = request.data.get('notification_id'))
                 if obj.__len__() > 0:
@@ -61,8 +57,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
                         NotificationAPI().initialize_notification(obj)
                         NotificationAPI().send_notification(self.request.user, obj[0].from_user, 'accepted', stream)
                     serializer = self.get_serializer(obj[0], context=self.request)
-                    return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
-            return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)    
+                    return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)   
             # To return accpted
         else:
             return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)
