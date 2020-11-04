@@ -30,7 +30,7 @@ sonar-scanner -Dsonar.projectKey=$KEY -Dsonar.sources=. -Dsonar.host.url=$URL -D
 # else
 #   echo "Build failed"
 # fi
-python3.6 manage.py runserver 0.0.0.0:80 --settings=emogo.settings
+#python3.6 manage.py runserver 0.0.0.0:80 --settings=emogo.settings
 uwsgi --http :80 --module emogo.wsgi --process 4
 
 
