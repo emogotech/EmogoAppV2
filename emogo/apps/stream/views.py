@@ -2353,3 +2353,13 @@ class DeleteStreamComments(APIView):
         thread.start()
         return custom_render_response(
             status_code=status.HTTP_204_NO_CONTENT, data=None)
+
+class LoadTestView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        """
+        This action will call when amogo owner change the emogo from
+        private to public select option to delete all the comments.
+        We will delete all the comments for emogo.
+        """
+        return custom_render_response(status_code=status.HTTP_200_OK)
