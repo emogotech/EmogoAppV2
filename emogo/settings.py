@@ -165,60 +165,60 @@ AWS_REGION_NAME = os.getenv('AWS_REGION_NAME')
 # Max file upload size on server
 DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520
 
-# boto3_session = Session(
-#   aws_access_key_id=AWS_ACCESS_KEY_ID,
-#   aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-#   region_name=AWS_REGION_NAME
-# )
+boto3_session = Session(
+  aws_access_key_id=AWS_ACCESS_KEY_ID,
+  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+  region_name=AWS_REGION_NAME
+)
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'formatters': {
-#         'simple': {
-#             'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
-#             'datefmt': "%Y-%m-%d %H:%M:%S"
-#         },
-#         'aws': {
-#             'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
-#             'datefmt': "%Y-%m-%d %H:%M:%S"
-#         },
-#     },
-#     'handlers': {
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#             'formatter': 'simple',
-#         },
-#         'debug_handlers': {
-#             'level': 'INFO',
-#             'class': 'watchtower.CloudWatchLogHandler',
-#             'boto3_session': boto3_session,
-#             'log_group': 'Cloudwatch-Emogo-Group-Name',
-#             'stream_name': os.getenv('CONSOLE_FILENAME'),
-#             'formatter': 'aws',
-#         },
-#         'email_log_handlers': {
-#             'level': 'INFO',
-#             'class': 'watchtower.CloudWatchLogHandler',
-#             'boto3_session': boto3_session,
-#             'log_group': 'Cloudwatch-Emogo-Group-Name',
-#             'stream_name': os.getenv('LOGGER_FILENAME'),
-#             'formatter': 'aws',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'level': 'INFO',
-#             'handlers': ['debug_handlers'],
-#             'propagate': True,
-#         },
-#         'email_log': {
-#             'level': 'INFO',
-#             'handlers': ['email_log_handlers'],
-#             'propagate': False,
-#         },
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+        'aws': {
+            'format': u"%(asctime)s [%(levelname)-8s] %(message)s",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'debug_handlers': {
+            'level': 'INFO',
+            'class': 'watchtower.CloudWatchLogHandler',
+            'boto3_session': boto3_session,
+            'log_group': 'Cloudwatch-Emogo-Group-Name',
+            'stream_name': os.getenv('CONSOLE_FILENAME'),
+            'formatter': 'aws',
+        },
+        'email_log_handlers': {
+            'level': 'INFO',
+            'class': 'watchtower.CloudWatchLogHandler',
+            'boto3_session': boto3_session,
+            'log_group': 'Cloudwatch-Emogo-Group-Name',
+            'stream_name': os.getenv('LOGGER_FILENAME'),
+            'formatter': 'aws',
+        },
+    },
+    'loggers': {
+        'django': {
+            'level': 'INFO',
+            'handlers': ['debug_handlers'],
+            'propagate': True,
+        },
+        'email_log': {
+            'level': 'INFO',
+            'handlers': ['email_log_handlers'],
+            'propagate': False,
+        },
+    },
+}
 
 
 SWAGGER_SETTINGS = {
