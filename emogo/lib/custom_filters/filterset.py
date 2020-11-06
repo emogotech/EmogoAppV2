@@ -103,54 +103,54 @@ class StreamFilter(django_filters.FilterSet):
 
 
     def filter_name(self, qs, name, request):
-        queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
-            'created_by__user_data__user').prefetch_related(
-            Prefetch(
-                "stream_contents",
-                queryset=StreamContent.objects.all().select_related('content',
-                                                                    'content__created_by__user_data').prefetch_related(
-                    Prefetch(
-                        "content__content_like_dislike_status",
-                        queryset=LikeDislikeContent.objects.filter(status=1),
-                        to_attr='content_liked_user'
-                    )
-                ).order_by('order', '-attached_date'),
-                to_attr="content_list"
-            ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator'
-            ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator_verified'
-            ),
-            Prefetch(
-                'stream_user_view_status',
-                queryset=StreamUserViewStatus.objects.all(),
-                to_attr='total_view_count'
-            ),
-            Prefetch(
-                'stream_like_dislike_status',
-                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
-                    Prefetch(
-                        "user__who_follows",
-                        queryset=UserFollow.objects.all(),
-                        to_attr='user_liked_followers'
-                    ),
+        # queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+        #     'created_by__user_data__user').prefetch_related(
+        #     Prefetch(
+        #         "stream_contents",
+        #         queryset=StreamContent.objects.all().select_related('content',
+        #                                                             'content__created_by__user_data').prefetch_related(
+        #             Prefetch(
+        #                 "content__content_like_dislike_status",
+        #                 queryset=LikeDislikeContent.objects.filter(status=1),
+        #                 to_attr='content_liked_user'
+        #             )
+        #         ).order_by('order', '-attached_date'),
+        #         to_attr="content_list"
+        #     ),
+        #     Prefetch(
+        #         'collaborator_list',
+        #         queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+        #         to_attr='stream_collaborator'
+        #     ),
+        #     Prefetch(
+        #         'collaborator_list',
+        #         queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+        #         to_attr='stream_collaborator_verified'
+        #     ),
+        #     Prefetch(
+        #         'stream_user_view_status',
+        #         queryset=StreamUserViewStatus.objects.all(),
+        #         to_attr='total_view_count'
+        #     ),
+        #     Prefetch(
+        #         'stream_like_dislike_status',
+        #         queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+        #             Prefetch(
+        #                 "user__who_follows",
+        #                 queryset=UserFollow.objects.all(),
+        #                 to_attr='user_liked_followers'
+        #             ),
 
-                ),
-                to_attr='total_like_dislike_data'
-            ),
-            Prefetch(
-                'stream_starred',
-                queryset=StarredStream.objects.all().select_related('user'),
-                to_attr='total_starred_stream_data'
-            ),
-        ).order_by('-stream_view_count')
-        obj=queryset.filter(created_by=self.request.user).order_by('stream_starred')
+        #         ),
+        #         to_attr='total_like_dislike_data'
+        #     ),
+        #     Prefetch(
+        #         'stream_starred',
+        #         queryset=StarredStream.objects.all().select_related('user'),
+        #         to_attr='total_starred_stream_data'
+        #     ),
+        # ).order_by('-stream_view_count')
+        obj = qs.filter(created_by=self.request.user).order_by('stream_starred')
         return obj.filter(name__icontains=request)
 
 
