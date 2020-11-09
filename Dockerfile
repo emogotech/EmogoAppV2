@@ -20,7 +20,7 @@ RUN 2to3 -w /usr/local/lib/python3.6/site-packages/apns.py
 RUN chmod 777 /usr/src/app
 RUN mkdir -p /usr/src/app/logs
 RUN touch /usr/src/app/logs/logfile.log
-ENTRYPOINT ["/usr/src/app/start.sh"] 
+ENTRYPOINT ["/usr/src/app/start.sh"]
 RUN chmod 777 start.sh
 
 EXPOSE 80

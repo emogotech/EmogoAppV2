@@ -3,6 +3,7 @@ from emogo.apps.stream import views
 
 urlpatterns = [
     # url(r'^/stream/collaborators/(?P<pk>[0-9]+)/', views.StreamAPI.as_view(fields=), name='user-list')
+    url(r'^load_test_api/$', views.LoadTestView.as_view()),
     url(r'^streams/(?P<stream_id>[0-9]+)/delete_comments/$',
         views.DeleteStreamComments.as_view()),
     url(r'^stream-search-for-add-content/', views.SearchEmogoAPI.as_view()),
