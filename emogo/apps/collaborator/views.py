@@ -49,6 +49,8 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         :param kwargs: dict param
         :return: Update collab API status.
         """
+        serializer = self.get_serializer(Notification.objects.first(),
+            context=self.request)
         if kwargs['invites'] == 'accept' and request.method == 'PATCH':
             stream = Stream.objects.get(id=request.data.get('stream'))
             collab = Collaborator.objects.filter(stream=stream).filter(

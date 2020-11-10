@@ -452,6 +452,13 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     permission_classes = (IsAuthenticated,)
     filter_class = ContentsFilter
 
+    def get_serializer_context(self):
+        context = super(ContentAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
+
     def filter_queryset(self, queryset):
         """
         Given a queryset, filter it with whichever filter backend is in use.
@@ -692,7 +699,7 @@ class GetStreamContentAPI(ListAPIView):
     filter_class = StreamContentFilter
 
     def get_serializer_context(self):
-        return {'request': self.request}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -975,6 +982,13 @@ class RecentUpdatesDetailListAPI(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def get_serializer_context(self):
+        context = super(RecentUpdatesDetailListAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
+
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
@@ -1236,7 +1250,7 @@ class StreamLikeDislikeAPI(CreateAPIView, RetrieveAPIView):
 
     def get_serializer_context(self):
         followers = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
-        return {'request': self.request, 'followers':followers}
+        return {'request': self.request, 'followers':followers, 'version': self.kwargs.get('version')}
     
     def get(self, request, *args, **kwargs):
         if kwargs.get('stream_id') is not None:
@@ -1317,7 +1331,7 @@ class StreamLikeAPI(RetrieveAPIView):
 
     def get_serializer_context(self):
         followers = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
-        return {'request': self.request, 'followers':followers}
+        return {'request': self.request, 'followers':followers, 'version': self.kwargs.get('version')}
     
     def get(self, request, *args, **kwargs):
         if kwargs.get('stream_id') is not None:
@@ -1587,6 +1601,13 @@ class BookmarkNewEmogosAPI(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def get_serializer_context(self):
+        context = super(BookmarkNewEmogosAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
+
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         queryset = list(sorted(queryset, key=lambda x:
@@ -1702,6 +1723,13 @@ class StarredAPI(ListAPIView, CreateAPIView, DestroyAPIView):
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+
+    def get_serializer_context(self):
+        context = super(StarredAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -1832,6 +1860,13 @@ class NewEmogosAPI(ListAPIView):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
 
+    def get_serializer_context(self):
+        context = super(NewEmogosAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
+
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
@@ -1934,6 +1969,13 @@ class AddUserViewStreamStatus(CreateAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def get_serializer_context(self):
+        context = super(AddUserViewStreamStatus, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
+
     @swagger_auto_schema(
         request_body=AddUserViewStatusSerializer(fields=["stream"]),
         responses={
@@ -1957,6 +1999,13 @@ class UserLikedContentAPI(ListAPIView):
     serializer_class = ViewContentSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+    def get_serializer_context(self):
+        context = super(UserLikedContentAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -2057,6 +2106,13 @@ class SearchEmogoAPI(ListAPIView):
         ),
     ).order_by('-id')
 
+    def get_serializer_context(self):
+        context = super(SearchEmogoAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
+
     def get_queryset(self):
         """
         Get the list of items for this view.
@@ -2094,6 +2150,13 @@ class NotYetAddedContentAPI(ListAPIView):
     serializer_class = ViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+    def get_serializer_context(self):
+        context = super(NotYetAddedContentAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -2183,7 +2246,7 @@ class FolderAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def get_serializer_context(self):
-        return {'request': self.request}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -2271,7 +2334,7 @@ class StreamMoveToFolderAPI(UpdateAPIView):
         return custom_render_response(status_code=status.HTTP_200_OK, data={"success": True})
 
     def get_serializer_context(self):
-        return {'request': self.request}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def perform_update(self, serializer):
         stream = self.get_object()
@@ -2294,7 +2357,7 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
         return queryset.filter(user=self.request.user)
 
     def get_serializer_context(self):
-        return {'request': self.request}
+        return {'request': self.request, 'version': self.kwargs.get('version')}
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -2357,6 +2420,13 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
 class DeleteStreamComments(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+    def get_serializer_context(self):
+        context = super(DeleteStreamComments, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
 
     def delete(self, request, *args, **kwargs):
         """

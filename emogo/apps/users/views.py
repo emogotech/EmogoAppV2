@@ -522,7 +522,6 @@ class UserStearms(ListAPIView):
     def get_serializer_context(self):
         return {'request': self.request, 'version': self.kwargs.get('version')}
 
-
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
