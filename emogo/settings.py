@@ -124,6 +124,8 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
+content_type_till_v3 = ["Video", "Picture", "Link", "Giphy", "Note"]
+
 # global status for application
 STATUSES = (
     ('Active', 'Active'),
