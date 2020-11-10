@@ -34,6 +34,13 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
     lookup_field = 'pk'
     swagger_schema = None
 
+    def get_serializer_context(self):
+        context = super(CollaboratorInvitationAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
+
     # def update(self, request, version, *args, **kwargs):
     def update(self, request, *args, **kwargs):
         """
