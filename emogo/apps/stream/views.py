@@ -201,7 +201,6 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         # )).filter(id=9183)
 
         # Collaborator.objects.user
-        print("============== ", 'stream list')
         queryset = self.filter_queryset(self.queryset)
         #  Customized field list
         fields = [
