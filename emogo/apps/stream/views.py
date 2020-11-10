@@ -2031,6 +2031,10 @@ class UserLikedContentAPI(ListAPIView):
                 queryset=LikeDislikeContent.objects.filter(status=1),
                 to_attr='content_liked_user')
         ).order_by('-view_date')
+        if self.kwargs.get('version') == 'v4':
+            like_dislike_qs = like_dislike_qs
+        else:
+            like_dislike_qs = like_dislike_qs.filter(content__type__in=content_type_till_v3)
         list_of_qs = [x.content for x in like_dislike_qs if x.content.status != 'Inactive' ]
         page = self.paginate_queryset(list_of_qs)
         if page is not None:
