@@ -10,6 +10,7 @@ from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.apps.notification.models import Notification
 from emogo.apps.stream.models import Content, LikeDislikeContent
+from emogo.settings import content_type_till_v3
 
 
 class ActivityLogSerializer(DynamicFieldsModelSerializer):
@@ -89,6 +90,10 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
                     to_attr='content_liked_user'
                 )
             ).order_by('order', '-crd')
+            if self.context.get('version') == 'v4':
+                queryset = queryset
+            else:
+                queryset = queryset.filter(type__in=content_type_till_v3)
             instances =  queryset.filter(id__in = eval(obj.content_lists) )
             return ViewContentSerializer([x for x in instances], many=True, fields=fields, context=self.context).data
 

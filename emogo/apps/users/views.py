@@ -66,6 +66,7 @@ import json
 from rest_framework.parsers import MultiPartParser, JSONParser
 from botocore.exceptions import ClientError
 from django.core.exceptions import ObjectDoesNotExist
+from emogo.settings import content_type_till_v3
 import logging
 import random
 import string
@@ -520,7 +521,6 @@ class UserStearms(ListAPIView):
 
     def get_serializer_context(self):
         return {'request': self.request, 'version': self.kwargs.get('version')}
-
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -1467,7 +1467,10 @@ class GetTopStreamAPIV3(ListAPIView):
                         to_attr='content_liked_user'
                     )
                 ).distinct().order_by('-upd')
-
+        if self.kwargs.get('version') == 'v4':
+            content_obj = content_obj
+        else:
+            content_obj = content_obj.filter(type__in=content_type_till_v3)
         obj = request.GET.get('page', 0)
         page = self.paginate_queryset(content_obj)
         if page is not None:

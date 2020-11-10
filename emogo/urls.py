@@ -40,10 +40,10 @@ urlpatterns = [
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     url(r'^admin/', admin.site.urls),
     url(r'^health/', include('health_check.urls')),
-    url(r'^api/((?P<version>(v3)))/?', include('emogo.apps.users.urls')),
-    url(r'^api/((?P<version>(v3)))/?', include('emogo.apps.stream.urls')),
-    url(r'^api/((?P<version>(v3)))/?', include('emogo.apps.collaborator.urls')),
-    url(r'^api/((?P<version>(v3)))/?', include('emogo.apps.notification.urls')),
+    url(r'^api/((?P<version>(v2|v3|v4)))/?', include('emogo.apps.users.urls')),
+    url(r'^api/((?P<version>(v2|v3|v4)))/?', include('emogo.apps.stream.urls')),
+    url(r'^api/((?P<version>(v2|v3|v4)))/?', include('emogo.apps.collaborator.urls')),
+    url(r'^api/((?P<version>(v2|v3|v4)))/?', include('emogo.apps.notification.urls')),
 ]
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler500 = 'emogo.apps.users.views.api_500'
