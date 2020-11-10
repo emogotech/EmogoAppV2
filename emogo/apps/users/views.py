@@ -1467,9 +1467,7 @@ class GetTopStreamAPIV3(ListAPIView):
                         to_attr='content_liked_user'
                     )
                 ).distinct().order_by('-upd')
-        if self.kwargs.get('version') == 'v4':
-            content_obj = content_obj
-        else:
+        if self.kwargs.get('version') != 'v4':
             content_obj = content_obj.filter(type__in=content_type_till_v3)
         obj = request.GET.get('page', 0)
         page = self.paginate_queryset(content_obj)
