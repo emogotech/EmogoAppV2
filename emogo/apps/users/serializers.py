@@ -267,9 +267,7 @@ class UserDetailSerializer(UserProfileSerializer):
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'video_image', 'file', 'html_text')
         contents_objs = obj.user_contents()
-        if self.context.get('version') == 'v4':
-            contents_objs = contents_objs
-        else:
+        if self.context.get('version') != 'v4':
             contents_objs = contents_objs.filter(type__in=content_type_till_v3)
         return ViewContentSerializer(contents_objs, many=True, fields=fields).data
 
@@ -1079,9 +1077,7 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
             'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file', 'html_text')
         instances = obj.content_list
-        if self.context.get('version') == 'v4':
-            instances = instances
-        else:
+        if self.context.get('version') != 'v4':
             instances = [cnt for cnt in instances if \
                 cnt.content.type in content_type_till_v3]
         instances = instances[0:6]

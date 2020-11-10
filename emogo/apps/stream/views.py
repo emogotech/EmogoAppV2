@@ -468,9 +468,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         default queryset.
         """
         queryset = queryset.filter(created_by=self.request.user)
-        if self.kwargs.get('version') == 'v4':
-            queryset = queryset
-        else:
+        if self.kwargs.get('version') != 'v4':
             queryset = queryset.filter(type__in=content_type_till_v3)
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, self)
@@ -714,11 +712,8 @@ class GetStreamContentAPI(ListAPIView):
         # queryset = queryset.filter(created_by=self.request.user)
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, self)
-            if self.kwargs.get('version') == 'v4':
-                queryset = queryset
-            else:
-                queryset = queryset.filter(
-                    content__type__in=content_type_till_v3)
+            if self.kwargs.get('version') != 'v4':
+                queryset = queryset.filter(content__type__in=content_type_till_v3)
         return queryset
 
     def get(self, request, *args, **kwargs):
@@ -1063,9 +1058,7 @@ class RecentUpdatesDetailListAPI(ListAPIView):
             )
         )
         queryset = queryset.filter(thread=self.request.query_params.get('thread'), attached_date__gt=week_ago)
-        if self.kwargs.get('version') == 'v4':
-            queryset = queryset
-        else:
+        if self.kwargs.get('version') != 'v4':
             queryset = queryset.filter(content__type__in=content_type_till_v3)
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, self)
@@ -2030,9 +2023,7 @@ class UserLikedContentAPI(ListAPIView):
                 queryset=LikeDislikeContent.objects.filter(status=1),
                 to_attr='content_liked_user')
         ).order_by('-view_date')
-        if self.kwargs.get('version') == 'v4':
-            like_dislike_qs = like_dislike_qs
-        else:
+        if self.kwargs.get('version') != 'v4':
             like_dislike_qs = like_dislike_qs.filter(content__type__in=content_type_till_v3)
         list_of_qs = [x.content for x in like_dislike_qs if x.content.status != 'Inactive' ]
         page = self.paginate_queryset(list_of_qs)
@@ -2176,9 +2167,7 @@ class NotYetAddedContentAPI(ListAPIView):
                 to_attr='content_liked_user'
             )
         ).order_by('-upd')
-        if self.kwargs.get('version') == 'v4':
-            qs = qs
-        else:
+        if self.kwargs.get('version') != 'v4':
             qs = qs.filter(type__in=content_type_till_v3)
         self.serializer_class = ViewContentSerializer
         #  Customized field list
@@ -2409,9 +2398,8 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
                     to_attr='content_liked_user'
                 )
         ).order_by("-shared_content__crd")
-        if self.kwargs.get('version') == 'v4':
-            queryset = queryset
-        else:
+
+        if self.kwargs.get('version') != 'v4':
             queryset = queryset.filter(type__in=content_type_till_v3)
         page = self.paginate_queryset(queryset)
         if page is not None:

@@ -90,11 +90,10 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
                     to_attr='content_liked_user'
                 )
             ).order_by('order', '-crd')
-            if self.context.get('version') == 'v4':
-                queryset = queryset
-            else:
+
+            if self.context.get('version') != 'v4':
                 queryset = queryset.filter(type__in=content_type_till_v3)
-            instances =  queryset.filter(id__in = eval(obj.content_lists) )
+            instances = queryset.filter(id__in = eval(obj.content_lists) )
             return ViewContentSerializer([x for x in instances], many=True, fields=fields, context=self.context).data
 
     def get_is_click(self, obj):
