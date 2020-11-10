@@ -34,6 +34,13 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
     lookup_field = 'pk'
     swagger_schema = None
 
+    def get_serializer_context(self):
+        context = super(CollaboratorInvitationAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
+
     # def update(self, request, version, *args, **kwargs):
     def update(self, request, *args, **kwargs):
         """
@@ -42,6 +49,8 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         :param kwargs: dict param
         :return: Update collab API status.
         """
+        serializer = self.get_serializer(Notification.objects.first(),
+            context=self.request)
         if kwargs['invites'] == 'accept' and request.method == 'PATCH':
             stream = Stream.objects.get(id=request.data.get('stream'))
             collab = Collaborator.objects.filter(stream=stream).filter(
