@@ -10,14 +10,14 @@ service redis-server start
 #celery -A sporttechie worker -l info -B > /dev/null 2>&1 &
 
 echo "Docker container has been started"
-wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-unzip sonar-scanner-cli-3.3.0.1492-linux.zip
-export PATH=$PATH:./sonar-scanner-3.3.0.1492-linux/bin/
-export SONAR_SCANNER_OPTS="-Xmx512m"
-mkdir -p /codebuild/output/src857048737/src/sonar-scanner-3.3.0.1492-linux/conf/
-cp sonar-scanner.properties /codebuild/output/src857048737/src/sonar-scanner-3.3.0.1492-linux/conf/sonar-scanner.properties
-cat /codebuild/output/src857048737/src/sonar-scanner-3.3.0.1492-linux/conf/sonar-scanner.properties
-cp sonar-scanner.properties sonar-scanner-3.3.0.1492-linux/conf/sonar-scanner.properties
+#wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+#unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+#export PATH=$PATH:./sonar-scanner-3.3.0.1492-linux/bin/
+#export SONAR_SCANNER_OPTS="-Xmx512m"
+#mkdir -p /codebuild/output/src857048737/src/sonar-scanner-3.3.0.1492-linux/conf/
+#cp sonar-scanner.properties /codebuild/output/src857048737/src/sonar-scanner-3.3.0.1492-linux/conf/sonar-scanner.properties
+#cat /codebuild/output/src857048737/src/sonar-scanner-3.3.0.1492-linux/conf/sonar-scanner.properties
+#cp sonar-scanner.properties sonar-scanner-3.3.0.1492-linux/conf/sonar-scanner.properties
 
 # python3.6 manage.py test -k
 
