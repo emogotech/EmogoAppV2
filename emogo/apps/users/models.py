@@ -112,13 +112,14 @@ def create_user_deep_link(user):
         channel="Emogo", data={
             "user_full_name": user.user_data.full_name,
             "user_image": user.user_data.user_image,
-            "user_id": user.user_data.id,
+            "user_id": user.id,
             "$ios_url": settings.DATA_BRANCH_IOS_URL,
             "location": user.user_data.location,
             "website": user.user_data.website,
             "birthday": user.user_data.birthday,
             "biography": user.user_data.biography,
-            "phone": user.username
+            "phone": user.username,
+            "user_profile_id": user.user_data.id
         }
 
     )
@@ -135,13 +136,14 @@ def update_user_deep_link_url(user):
         "data": {
             "user_full_name": user.user_data.full_name,
             "user_image": user.user_data.user_image,
-            "user_id": user.user_data.id,
+            "user_id": user.id,
             "$ios_url": settings.DATA_BRANCH_IOS_URL,
             "location": user.user_data.location,
             "website": user.user_data.website,
             "birthday": user.user_data.birthday,
             "biography": user.user_data.biography,
-            "phone": user.username
+            "phone": user.username,
+            "user_profile_id": user.user_data.id
         }
     }
     if user.user_data.branchio_url is not None:
