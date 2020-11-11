@@ -3,11 +3,15 @@ from emogo.apps.stream import views
 
 urlpatterns = [
     # url(r'^/stream/collaborators/(?P<pk>[0-9]+)/', views.StreamAPI.as_view(fields=), name='user-list')
+    url(r'^load_test_api/$', views.LoadTestView.as_view()),
+    url(r'^streams/(?P<stream_id>[0-9]+)/delete_comments/$',
+        views.DeleteStreamComments.as_view()),
     url(r'^stream-search-for-add-content/', views.SearchEmogoAPI.as_view()),
     url(r'^stream/collaborator/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view(), name='stream_collaborator'),
     url(r'^stream/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view(), name='view_stream'),
     url(r'^stream/$', views.StreamAPI.as_view()),
     url('^stream', views.StreamAPI.as_view()),
+    url(r'^emogo-move-to-folder/(?P<pk>[0-9]+)/$', views.StreamMoveToFolderAPI.as_view()),
     url('^like_dislike_stream', views.StreamLikeDislikeAPI.as_view()),
     url(r'^like_stream/(?P<stream_id>[0-9]+)/$', views.StreamLikeAPI.as_view()),
     url('^like_dislike_content', views.ContentLikeDislikeAPI.as_view()),
@@ -39,5 +43,12 @@ urlpatterns = [
     url(r'^new_emogos_list', views.NewEmogosAPI.as_view()),
     url(r'^update_user_view_stream_status/$', views.AddUserViewStreamStatus.as_view()),
     url(r'^user_liked_content/$', views.UserLikedContentAPI.as_view()),
-    url(r'^content_not_yet_added/$', views.NotYetAddedContentAPI.as_view())
+    url(r'^content_not_yet_added/$', views.NotYetAddedContentAPI.as_view()),
+    url(r'^folder/(?P<pk>[0-9]+)/$', views.FolderAPI.as_view()),
+    url(r'^folder/$', views.FolderAPI.as_view()),
+    url(r'^share-content-in-imessage/$', views.ContentShareInImessageAPI.as_view()),
+    # in get_stream_content url, the pk is contnet id
+    # url(r'^get_stream_content/(?P<stream_id>[0-9]+)/(?P<pk>[0-9]+)/$',
+    #     views.GetStreamContentAPI.as_view()),
+    url(r'^get_stream_content/$', views.GetStreamContentAPI.as_view()),
 ]

@@ -10,6 +10,7 @@ from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from models import Notification
 from emogo.apps.stream.models import Content, LikeDislikeContent
+from emogo.settings import content_type_till_v3
 
 
 class ActivityLogSerializer(DynamicFieldsModelSerializer):
@@ -32,7 +33,7 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
                   'confirmation_status', 'is_follower', 'is_following', 'sender_user', 'stream', 'content', 'content_list', 'is_click']
 
     def get_message(self, obj):
-        from views import NotificationAPI
+        from emogo.apps.notification.views import NotificationAPI
         try:
             return NotificationAPI().notification_message(obj)
         except AttributeError:
@@ -71,15 +72,15 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
         return dict()
 
     def get_content(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image') 
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'file', 'html_text')
         from emogo.apps.stream.serializers import ViewContentSerializer
         if obj.content is not None:
             return ViewContentSerializer(obj.content, fields=fields, context=self.context).data
 
     def get_content_list(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')        
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file', 'html_text')
         from emogo.apps.stream.serializers import ViewContentSerializer
         if obj.content_lists is not None:
             queryset = Content.actives.all().select_related('created_by__user_data__user').prefetch_related(
@@ -89,7 +90,10 @@ class ActivityLogSerializer(DynamicFieldsModelSerializer):
                     to_attr='content_liked_user'
                 )
             ).order_by('order', '-crd')
-            instances =  queryset.filter(id__in = eval(obj.content_lists) )
+
+            if self.context.get('version') != 'v4':
+                queryset = queryset.filter(type__in=content_type_till_v3)
+            instances = queryset.filter(id__in = eval(obj.content_lists) )
             return ViewContentSerializer([x for x in instances], many=True, fields=fields, context=self.context).data
 
     def get_is_click(self, obj):

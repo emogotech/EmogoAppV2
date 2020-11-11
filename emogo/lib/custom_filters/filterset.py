@@ -4,9 +4,13 @@ from emogo.apps.users.models import UserProfile, UserFollow
 from django.db.models import Q
 from emogo.apps.collaborator.models import Collaborator
 from django.db.models import Prefetch , Count
-from emogo.apps.stream.models import StreamUserViewStatus, StarredStream
+from emogo.apps.stream.models import StreamUserViewStatus, StarredStream, Folder
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
 from itertools import chain
 
 
@@ -17,10 +21,23 @@ class StreamFilter(django_filters.FilterSet):
     global_search = django_filters.filters.CharFilter(method='filter_global_search')
     name = django_filters.filters.CharFilter(method='filter_name')
     collaborator_qs = Collaborator.actives.all()
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
+    folder = django_filters.filters.CharFilter(method='filter_by_folder')
 
     class Meta:
         model = Stream
-        fields = ['featured', 'emogo', 'my_stream', 'popular', 'self_created']
+        fields = ['folder', 'stream_name', 'featured', 'emogo', 'my_stream', 'popular',
+                  'self_created']
+
+    def filter_by_folder(self, qs, name, value):
+        try:
+            folder = Folder.objects.get(id=value)
+        except ObjectDoesNotExist:
+            raise Http404("Folder does not exist.")
+        return qs.filter(folder=folder)
+    
+    def filter_stream_name(self, qs, name, value):
+        return qs.filter(name__icontains=value)
 
     def filter_my_stream(self, qs, name, value):
         # Get self created streams
@@ -36,11 +53,20 @@ class StreamFilter(django_filters.FilterSet):
         # return result_list
 
         #Get only starred stream in cronological order
-        starred_stream = qs.filter(created_by=self.request.user, stream_starred__id__isnull=False).order_by('-stream_starred__upd')
+        # starred_stream = qs.filter(created_by=self.request.user, stream_starred__id__isnull=False).order_by('-stream_starred__upd')
+        # #Get not starred stream in cronological order
+        # un_starred_stream = qs.filter(created_by=self.request.user, stream_starred__id__isnull=True).order_by('-upd')
+        starred_stream = Stream.objects.select_related(
+            "created_by").filter(
+            created_by=self.request.user, stream_starred__id__isnull=False).order_by(
+            '-stream_starred__upd')
         #Get not starred stream in cronological order
-        un_starred_stream = qs.filter(created_by=self.request.user, stream_starred__id__isnull=True).order_by('-upd')
+        un_starred_stream = Stream.objects.select_related(
+            "created_by").filter(
+            created_by=self.request.user, stream_starred__id__isnull=True).order_by('-upd')
         # Merge result
-        return list(chain(starred_stream, un_starred_stream))
+        stream_list = list(chain(starred_stream, un_starred_stream))
+        return qs.filter(id__in=[obj.id for obj in stream_list])
 
     def filter_self_created(self, qs, name, value):
         # Fetch all self created streams
@@ -77,55 +103,78 @@ class StreamFilter(django_filters.FilterSet):
 
 
     def filter_name(self, qs, name, request):
-        queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
-            'created_by__user_data__user').prefetch_related(
-            Prefetch(
-                "stream_contents",
-                queryset=StreamContent.objects.all().select_related('content',
-                                                                    'content__created_by__user_data').prefetch_related(
-                    Prefetch(
-                        "content__content_like_dislike_status",
-                        queryset=LikeDislikeContent.objects.filter(status=1),
-                        to_attr='content_liked_user'
-                    )
-                ).order_by('order', '-attached_date'),
-                to_attr="content_list"
-            ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator'
-            ),
-            Prefetch(
-                'collaborator_list',
-                queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
-                to_attr='stream_collaborator_verified'
-            ),
-            Prefetch(
-                'stream_user_view_status',
-                queryset=StreamUserViewStatus.objects.all(),
-                to_attr='total_view_count'
-            ),
-            Prefetch(
-                'stream_like_dislike_status',
-                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
-                    Prefetch(
-                        "user__who_follows",
-                        queryset=UserFollow.objects.all(),
-                        to_attr='user_liked_followers'
-                    ),
+        # queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+        #     'created_by__user_data__user').prefetch_related(
+        #     Prefetch(
+        #         "stream_contents",
+        #         queryset=StreamContent.objects.all().select_related('content',
+        #                                                             'content__created_by__user_data').prefetch_related(
+        #             Prefetch(
+        #                 "content__content_like_dislike_status",
+        #                 queryset=LikeDislikeContent.objects.filter(status=1),
+        #                 to_attr='content_liked_user'
+        #             )
+        #         ).order_by('order', '-attached_date'),
+        #         to_attr="content_list"
+        #     ),
+        #     Prefetch(
+        #         'collaborator_list',
+        #         queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+        #         to_attr='stream_collaborator'
+        #     ),
+        #     Prefetch(
+        #         'collaborator_list',
+        #         queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+        #         to_attr='stream_collaborator_verified'
+        #     ),
+        #     Prefetch(
+        #         'stream_user_view_status',
+        #         queryset=StreamUserViewStatus.objects.all(),
+        #         to_attr='total_view_count'
+        #     ),
+        #     Prefetch(
+        #         'stream_like_dislike_status',
+        #         queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+        #             Prefetch(
+        #                 "user__who_follows",
+        #                 queryset=UserFollow.objects.all(),
+        #                 to_attr='user_liked_followers'
+        #             ),
 
-                ),
-                to_attr='total_like_dislike_data'
-            ),
-            Prefetch(
-                'stream_starred',
-                queryset=StarredStream.objects.all().select_related('user'),
-                to_attr='total_starred_stream_data'
-            ),
-        ).order_by('-stream_view_count')
-        obj=queryset.filter(created_by=self.request.user).order_by('stream_starred')
+        #         ),
+        #         to_attr='total_like_dislike_data'
+        #     ),
+        #     Prefetch(
+        #         'stream_starred',
+        #         queryset=StarredStream.objects.all().select_related('user'),
+        #         to_attr='total_starred_stream_data'
+        #     ),
+        # ).order_by('-stream_view_count')
+        obj = qs.filter(created_by=self.request.user).order_by('stream_starred')
         return obj.filter(name__icontains=request)
+
+
+class CollabsFilter(django_filters.FilterSet):
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
+
+    class Meta:
+        model = Stream
+        fields = ['stream_name']
+    
+    def filter_stream_name(self, qs, name, value):
+        return qs.filter(name__icontains=value)
+
+
+class UserLikedStreamFilter(django_filters.FilterSet):
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
+
+    class Meta:
+        model = Stream
+        fields = ['stream_name']
+    
+    def filter_stream_name(self, qs, name, value):
+        return qs.filter(name__icontains=value)
+
 
 class UsersFilter(django_filters.FilterSet):
     people = django_filters.filters.CharFilter(method='filter_people')
@@ -182,13 +231,65 @@ class FollowerFollowingUserFilter(django_filters.FilterSet):
 
 class ContentsFilter(django_filters.FilterSet):
     type = django_filters.CharFilter(name='type', lookup_expr='iexact')
+    stream = django_filters.filters.CharFilter(method='filter_by_stream')
+    content = django_filters.filters.CharFilter(method='filter_by_content')
 
     class Meta:
         model = Content
         fields = ['type']
 
+    def filter_by_stream(self, qs, name, value):
+        try:
+            Stream.actives.get(id=value)
+        except ObjectDoesNotExist:
+            raise Http404("The Emogo does not exist.")
+        return qs.filter(content_streams__stream=value)
+
+    def filter_by_content(self, qs, name, value):
+        stream = self.request.GET.get("stream")
+        try:
+            qs.get(id=value, content_streams__stream=stream)
+        except ObjectDoesNotExist:
+            raise Http404("Content does not exist.")
+        return qs.filter(pk=value)
+
+
+class StreamContentFilter(django_filters.FilterSet):
+    stream = django_filters.filters.CharFilter(method='filter_by_stream')
+    content = django_filters.filters.CharFilter(method='filter_by_content')
+
+    class Meta:
+        model = StreamContent
+        fields = []
+
+    def filter_by_stream(self, qs, name, value):
+        user = self.request.user
+        try:
+            stream = Stream.actives.select_related('created_by').prefetch_related(
+                Prefetch(
+                    'collaborator_list',
+                    queryset=Collaborator.actives.all().select_related(
+                        'created_by').order_by('-id'),
+                    to_attr='stream_collaborator'
+                )).get(pk=value)
+            if stream.type == "Private" and stream.created_by != user and not any(
+                True for collb in stream.stream_collaborator if \
+                    user.username.endswith(collb.phone_number[-10:])):
+                raise ObjectDoesNotExist
+        except ObjectDoesNotExist:
+            raise Http404("The Emogo does not exist.")
+        return qs.filter(stream_id=value)
+
+    def filter_by_content(self, qs, name, value):
+        stream = self.request.GET.get("stream")
+        stream_contents = qs.filter(content_id=value, stream_id=stream)
+        if stream_contents:
+            return stream_contents
+        raise Http404("Content does not exist.")
+
 
 class UserStreamFilter(django_filters.FilterSet):
+    stream_name = django_filters.filters.CharFilter(method='filter_stream_name')
     created_by = django_filters.filters.NumberFilter(method='filter_created_by')
     emogo_stream = django_filters.filters.NumberFilter(method='filter_emogo_stream')
     collab_stream = django_filters.filters.NumberFilter(method='filter_collab_stream')
@@ -199,8 +300,11 @@ class UserStreamFilter(django_filters.FilterSet):
 
     class Meta:
         model = Stream
-        fields = ['created_by', 'emogo_stream', 'collab_stream', 'private_stream', 'public_stream', 'following_stream',
-                  'follower_stream']
+        fields = ['stream_name', 'created_by', 'emogo_stream', 'collab_stream',
+                  'private_stream', 'public_stream', 'following_stream', 'follower_stream']
+
+    def filter_stream_name(self, qs, name, value):
+        return qs.filter(name__icontains=value)
 
     def filter_created_by(self, qs, name, value):
         get_object_or_404(UserFollow, follower=self.request.user, following_id=value)

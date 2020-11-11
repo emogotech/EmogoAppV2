@@ -30,52 +30,52 @@ class Command(BaseCommand):
         index_max = scipy.argmax(counts)                    # find most frequent
         peak = codes[index_max]
         colour = ''.join(chr(int(c)) for c in peak).encode('hex')
-        print 'most frequent color is  #%s \n' % ( colour)
+        print('most frequent color is  #%s \n' % ( colour))
         return colour
 
     def handle(self, *args, **options):
         # Get all Streams data
         streams = Stream.objects.all().order_by('id')
-        print 'total stream count %s', streams.count()
-        print '\n'
+        print('total stream count %s', streams.count())
+        print('\n')
 
         count = 0
-        print 'Start stream count %s', count
-        print '\n'
+        print('Start stream count %s', count)
+        print('\n')
 
         for stream in streams:
             if stream.color == None:
 
-                print 'stream count is %s ', count
-                print '\n'
-                print 'reading stream image %s %s ', stream.id, stream.image
-                print '\n'
+                print('stream count is %s ', count)
+                print('\n')
+                print('reading stream image %s %s ', stream.id, stream.image)
+                print('\n')
                 try:
                     colour = self.add_color(stream.image)
                     stream.color = '#%s' % colour
                     stream.save()
                 except Exception as e:
-                    print 'getting stream error %s and image is %s \n', stream.id, stream.image
+                    print('getting stream error %s and image is %s \n', stream.id, stream.image)
                     pass
             count = count + 1
 
         # # Get all contents data
         contents = Content.objects.all().order_by('id')
-        print 'total content count %s', contents.count()
+        print('total content count %s', contents.count())
 
         content_count = 0
-        print 'Start content count %s', content_count
+        print('Start content count %s', content_count)
 
         for content in contents:
             if content.color == None :
-                print 'content count is %s ', content_count
-                print 'reading content image %s %s ', content.id, content.video_image
+                print('content count is %s ', content_count)
+                print('reading content image %s %s ', content.id, content.video_image)
                 try:
                     image_type = content.url if content.type == 'Picture' else content.video_image
                     colour = self.add_color(image_type)
                     content.color = '#%s' % colour
                     content.save()
                 except Exception as e:
-                    print 'getting content error %s and image is %s \n', content.id, content.video_image
+                    print('getting content error %s and image is %s \n', content.id, content.video_image)
                     pass
             content_count = content_count + 1

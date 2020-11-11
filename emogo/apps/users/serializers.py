@@ -3,15 +3,18 @@ import re
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token
+# from rest_framework.authtoken.models import Token
+from emogo.apps.users.models import Token
 from emogo import settings
 from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url, UserFollow, UserDevice
 from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
-from emogo.apps.stream.serializers import ViewStreamSerializer, ViewContentSerializer
-from emogo.apps.stream.models import Stream, LikeDislikeStream, RecentUpdates, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
-    LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly
+from emogo.apps.stream.serializers import (
+    ViewStreamSerializer, ViewContentSerializer, OptimisedViewStreamSerializer)
+from emogo.apps.stream.models import (Stream, LikeDislikeStream, RecentUpdates,
+    StreamContent, StreamUserViewStatus, LikeDislikeStream, LikeDislikeContent,
+    StarredStream, NewEmogoViewStatusOnly, ContentComment)
 from emogo.apps.collaborator.models import Collaborator
 from itertools import chain
 from django.db import IntegrityError
@@ -20,10 +23,13 @@ from emogo.apps.stream.views import get_stream_qs_objects
 from django.db.models import Prefetch, Count, Q
 import collections
 from emogo.apps.stream.serializers import RecentUpdatesSerializer
+from django.http import Http404
 import operator
 from itertools import product
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
-
+from emogo.settings import content_type_till_v3
+from functools import reduce
+import threading
 
 
 class UserSerializer(DynamicFieldsModelSerializer):
@@ -58,7 +64,8 @@ class UserSerializer(DynamicFieldsModelSerializer):
             raise serializers.ValidationError({'phone_number': messages.MSG_UNABLE_TO_SEND_OTP.format(validated_data.get('username'))})
 
         try:
-            user_profile = UserProfile.objects.get(full_name=validated_data.get('user_name'), otp__isnull=False)
+            user_profile = UserProfile.objects.select_related("user").get(
+                full_name=validated_data.get('user_name'), otp__isnull=False)
             user_profile.otp = self.user_pin
             user_profile.save()
 
@@ -80,7 +87,9 @@ class UserSerializer(DynamicFieldsModelSerializer):
             user.user_data.otp = self.user_pin
             user.user_data.save()
         # Create user deep link url
-        create_user_deep_link(user)
+        thread = threading.Thread(target=create_user_deep_link, args=[user])
+        thread.start()
+        # create_user_deep_link(user)
         return user
 
     def validate_user_name(self, value):
@@ -114,9 +123,12 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
             , 'streams', 'contents', 'collaborators', 'username', 'display_name', 'location', 'website', 'biography', 'birthday', 'branchio_url', 'profile_stream']
 
     def get_token(self, obj):
-        if hasattr(obj.user, 'auth_token'):
-            return obj.user.auth_token.key
-        return None
+        # if hasattr(obj.user, 'auth_token'):
+        #     return obj.user.auth_token.key
+        try:
+            return self.context.get("request").META.get('HTTP_AUTHORIZATION', b'').split()[1]
+        except:
+            return None
 
     def get_phone_number(self, obj):
         return obj.user.username
@@ -180,18 +192,29 @@ class UserDetailSerializer(UserProfileSerializer):
     followers_count = serializers.SerializerMethodField()
     emogo_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
+    # exceed_login_limit = serializers.SerializerMethodField()
 
 
     class Meta:
         model = UserProfile
         fields = '__all__'
 
+    def get_following_count(self):
+        return None
+
+    def get_followers_count(self):
+        return None
 
     def get_user_instance(self):
         if isinstance(self.context, dict):
             return self.context.get('request').user
         else:
             return self.context.user
+
+    # def get_exceed_login_limit(self, obj):
+    #     if Token.objects.filter(user=obj.user).count() >= 5:
+    #         return True
+    #     return False
 
     def get_profile_stream(self, obj):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update', 'stream_permission', 'color', 'stream_contents', 'collaborator_permission', 'total_collaborator', 'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators', 'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description', 'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
@@ -242,10 +265,49 @@ class UserDetailSerializer(UserProfileSerializer):
         return False
 
     def get_contents(self, obj):
-        return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data
+        fields = ('id', 'name', 'url', 'type', 'video_image', 'file', 'html_text')
+        contents_objs = obj.user_contents()
+        if self.context.get('version') != 'v4':
+            contents_objs = contents_objs.filter(type__in=content_type_till_v3)
+        return ViewContentSerializer(contents_objs, many=True, fields=fields).data
 
     def get_emogo_count(self, obj):
+        if hasattr(obj, "stream_counts"):
+            return obj.stream_counts
         return obj.user.stream_set.all().filter(status='Active').count()
+
+
+class OptimisedUserDetailSerializer(UserDetailSerializer):
+
+    def get_profile_stream(self, obj):
+        fields = (
+            'id', 'name', 'image', 'author', 'created_by', 'view_count', 'type',
+            'height', 'width', 'have_some_update', 'stream_permission', 'color',
+            'stream_contents', 'collaborator_permission', 'total_collaborator',
+            'total_likes', 'is_collaborator', 'any_one_can_edit', 'collaborators',
+            'user_image', 'crd', 'upd', 'category', 'emogo', 'featured', 'description',
+            'status', 'liked', 'user_liked', 'collab_images', 'total_stream_collaborators')
+
+        if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
+            if self.context['version']:
+                collaborator_list =  [collab for collab in \
+                        obj.profile_stream.profile_stream_collaborator_list if \
+                            collab.status in ['Active', 'Unverified']]
+                setattr(obj.profile_stream, 'stream_collaborator_verified', collaborator_list)
+            else:
+                collaborator_list =  obj.profile_stream.profile_stream_collaborator_list
+            setattr(obj.profile_stream, 'stream_collaborator', collaborator_list)
+            setattr(obj.profile_stream, 'content_list', obj.profile_stream.profile_stream_content_list)
+
+            if obj.profile_stream.type == 'Private' and obj.profile_stream.created_by != self.get_user_instance():
+                if self.get_user_instance().username in [x.phone_number for x in collaborator_list]:
+                    return OptimisedViewStreamSerializer(obj.profile_stream, fields=fields, context = self.context).data
+                return dict()
+            else:
+                return OptimisedViewStreamSerializer(
+                    obj.profile_stream, fields=fields, context = self.context).data
+        return dict()
+
 
 class UserListFollowerFollowingSerializer(UserDetailSerializer):
     pass
@@ -311,11 +373,11 @@ class UserOtpSerializer(UserProfileSerializer):
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
 
-    def save(self):
+    def save(self, device_name=None):
         self.instance.otp = None
         self.instance.save(update_fields=['otp'])
-        Token.objects.get_or_create(user=self.instance.user)
-        return self.instance
+        token = Token.objects.create(user=self.instance.user, device_name=device_name)
+        return self.instance, token.key
 
 
 class UserLoginSerializer(UserSerializer):
@@ -330,39 +392,42 @@ class UserLoginSerializer(UserSerializer):
         else:
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
+    def sent_otp_to_user(self, user):
+        body = "Here is your emogo one time passcode"
+        sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
+        if sent_otp is not None:
+            setattr(self, 'user_pin', sent_otp)
+        else:
+            raise serializers.ValidationError({'phone_number': messages.MSG_UNABLE_TO_SEND_OTP.format(self.validated_data.get('username'))})
+        # print self.user_pin
+        if str(user.username) == str('+15089511377'):
+            user.set_password('12345')
+        else:
+            user.set_password(self.user_pin)
+        user.save()
+
     def authenticate_user(self):
         try:
-            user = User.objects.get(username=self.validated_data.get('username'))
+            user = User.objects.only("username", "password").get(username=self.validated_data.get('username'))
             # If user is already login then logout requested user and try to new log-in.
-            if user.is_authenticated():
-                if hasattr(user, 'auth_token'):
-                    user.auth_token.delete()
-                user.user_data.otp = None
-                user.user_data.save()
+            # if user.is_authenticated():
+            #     if hasattr(user, 'auth_token'):
+            #         user.auth_token.delete()
+            #     user.user_data.otp = None
+            #     user.user_data.save()
             user_profile = UserProfile.objects.select_related('user').prefetch_related(
             Prefetch(
                 "user__who_follows",
-                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                queryset=UserFollow.objects.only("id"),
                 to_attr="followers"
             ),
             Prefetch(
                 'user__who_is_followed',
-                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                queryset=UserFollow.objects.only("id"),
                 to_attr='following'
-            )).get(user=user, otp__isnull=True)
-            
-            body = "Here is your emogo one time passcode"
-            sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
-            if sent_otp is not None:
-                setattr(self, 'user_pin', sent_otp)
-            else:
-                raise serializers.ValidationError({'phone_number': messages.MSG_UNABLE_TO_SEND_OTP.format(self.validated_data.get('username'))})
-            # print self.user_pin
-            if str(user.username) == str('+15089511377'):
-                user.set_password('12345')
-            else:
-                user.set_password(self.user_pin)
-            user.save()
+            )).get(user=user)
+            thread = threading.Thread(target=self.sent_otp_to_user, args=[user])
+            thread.start()
 
         except (UserProfile.DoesNotExist, User.DoesNotExist):
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
@@ -391,7 +456,23 @@ class VerifyOtpLoginSerializer(UserSerializer):
         else:
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
-    def authenticate_login_OTP(self, otp):
+    def validate_and_create_token(self, user, device_name, device_to_logout):
+        user_tokens = Token.objects.filter(user=user)
+        if user_tokens.__len__() >= 5:
+            if not device_to_logout:
+                raise serializers.ValidationError(
+                    {'device_name': ["Select atleast one device to Signout before login."]})
+            # token_ids = [tokn.id for tokn in user_tokens]
+            token_ids_to_logout = [tokn.id for tokn in user_tokens if tokn.id in device_to_logout]
+            user_tokens = user_tokens.filter(pk__in=token_ids_to_logout).delete()
+            if user_tokens.__len__() > 4:
+                raise serializers.ValidationError(
+                    {'device_name': ["Select valid device to Signout."]})
+        token = Token.objects.create(user=user, device_name=device_name)
+        token.save()
+        return token
+
+    def authenticate_login_OTP(self, otp, device_name=None, device_to_logout=None):
         # print self.validated_data.get('username')
         try:
             User.objects.get(username=self.validated_data.get('username'))
@@ -409,13 +490,14 @@ class VerifyOtpLoginSerializer(UserSerializer):
                 queryset=UserFollow.objects.all().order_by('-follow_time'),
                 to_attr='following'
             )).get(user=user)
-            if hasattr(user, 'auth_token'):
-                user.auth_token.delete()
-            token = Token.objects.create(user=user)
-            token.save()
+            # if hasattr(user, 'auth_token'):
+            #     user.auth_token.delete()
+            token = self.validate_and_create_token(user, device_name, device_to_logout)
+            user_profile.otp = None
+            user_profile.save()
+            return user_profile, token.key
         except (UserProfile.DoesNotExist, User.DoesNotExist):
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
-        return user_profile
 
 
 class UserResendOtpSerializer(UserProfileSerializer):
@@ -775,11 +857,23 @@ class UserDeviceTokenSerializer(serializers.Serializer):
         model = UserDevice
         fields = ('device_token',  'user')
 
+    # def create(self, *args, **kwargs):
+    #     user, _ = UserDevice.objects.get_or_create( user=self.context.user)      
+    #     user.device_token=self.initial_data['device_token'] 
+    #     user.save()
+    #     return user
+
     def create(self, *args, **kwargs):
-        user, _ = UserDevice.objects.get_or_create( user=self.context.user)      
-        user.device_token=self.initial_data['device_token'] 
-        user.save()
-        return user
+        try:
+            token = Token.objects.get(
+                key=self.context.META.get('HTTP_AUTHORIZATION', b'').split()[1])
+            user, _= UserDevice.objects.update_or_create(
+                user=self.context.user, auth_token=token,
+                defaults={'device_token': self.initial_data['device_token']},
+            )
+            return user
+        except:
+            raise Http404("User does not exist.")
 
 
 class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
@@ -940,8 +1034,8 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file', 'html_text')
         instances = obj.content_list
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
@@ -980,9 +1074,13 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
         return {'can_add_content': True , 'can_add_people': False}
 
     def get_stream_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
-                  'full_name', 'user_image', 'liked')
-        instances = obj.content_list[0:6]
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
+            'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file', 'html_text')
+        instances = obj.content_list
+        if self.context.get('version') != 'v4':
+            instances = [cnt for cnt in instances if \
+                cnt.content.type in content_type_till_v3]
+        instances = instances[0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
     def get_is_bookmarked(self, obj):
@@ -998,3 +1096,30 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
             return True
         else:
             return False
+
+
+class ContentCommentSerializer(DynamicFieldsModelSerializer):
+    """
+    ContentComment model Serializer
+    """
+
+    user_full_name = serializers.SerializerMethodField()
+    user_id = serializers.SerializerMethodField()
+    user_image = serializers.SerializerMethodField()
+    user_display_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ContentComment
+        fields = "__all__"
+
+    def get_user_full_name(self, obj):
+        return obj.user.user_data.full_name
+
+    def get_user_id(self, obj):
+        return obj.user.id
+
+    def get_user_image(self, obj):
+        return obj.user.user_data.user_image
+
+    def get_user_display_name(self, obj):
+        return obj.user.user_data.display_name

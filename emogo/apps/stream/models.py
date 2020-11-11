@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 from emogo.lib.default_models.models import DefaultStatusModel, DefaultDateModel
+from emogo.lib.custom_managers.manager import ActiveManager
 import itertools
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -18,8 +19,12 @@ CONTENT_TYPE = (
     ('Picture', 'Picture'),
     ('Link', 'Link'),
     ('Giphy', 'Giphy'),
-    ('Note', 'Note')
-
+    ('Note', 'Note'),
+    ("pdf", "PDF"),
+    ("audio", "Audio"),
+    ("excel", "Excel"),
+    ("text", "Text"),
+    ('zip', 'Zip'),
 )
 
 EVENT_TYPE = (
@@ -37,6 +42,11 @@ EXTREMIST_TYPE = (
     ('Spam', 'Spam'),
 )
 
+COMMENT_STATUS = (
+    ('Active', 'Active'),
+    ('Deleted', 'Deleted'),
+)
+
 
 class CategoryMaster(DefaultStatusModel):
     name = models.CharField(max_length=45, null=True, blank=True)
@@ -44,6 +54,14 @@ class CategoryMaster(DefaultStatusModel):
     class Meta:
         db_table = 'category_master'
 
+
+class Folder(DefaultDateModel):
+    name = models.CharField(max_length=50)
+    icon = models.CharField(max_length=50, null=True, blank=True)
+    owner = models.ForeignKey(User, related_name="owner_folders")
+
+    class Meta:
+        db_table = "folder"
 
 class Stream(DefaultStatusModel):
     name = models.CharField(max_length=75, null=True, blank=True)
@@ -97,9 +115,43 @@ class Content(DefaultStatusModel):
     width = models.CharField(max_length=10, null=True, blank=True, default=300)
     color = models.CharField(max_length=255, null=True, blank=True, default=None)
     order = models.IntegerField(default=0, blank=True, null=True)
+    html_text = models.TextField(blank=True, null=True)
+    file = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
         db_table = 'content'
+
+
+class ContentComment(DefaultDateModel):
+    stream = models.ForeignKey(Stream, related_name='stream_comments')
+    content = models.ForeignKey(Content, related_name='content_comments')
+    user = models.ForeignKey(User, related_name='user_comments')
+    text = models.CharField(max_length=100)
+    # content_type = models.CharField(max_length=10, choices=COMMENT_TYPE)
+    status = models.CharField(max_length=10, choices=COMMENT_STATUS, default="Active")
+    objects = models.Manager()
+    actives = ActiveManager()
+
+    class Meta:
+        db_table = 'content_comment'
+
+
+class CommentAcknowledgement(models.Model):
+    stream = models.ForeignKey(Stream, related_name='stream_acknowledge')
+    content = models.ForeignKey(Content, related_name='content_acknowledge')
+    user = models.ForeignKey(User, related_name='user_acknowledge')
+    last_seen = models.DateTimeField()
+
+    class Meta:
+        db_table = 'comment_acknowledgement'
+
+
+class ContentSharedInImessage(DefaultDateModel):
+    content = models.ForeignKey(Content, related_name='shared_content')
+    user = models.ForeignKey(User, related_name='content_sharing_user')
+
+    class Meta:
+        db_table = 'content_shared_in_imessage'
 
 
 class StreamContent(models.Model):

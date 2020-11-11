@@ -7,7 +7,8 @@ from django.db.models import Q
 from django.utils.decorators import method_decorator
 
 from rest_framework.generics import UpdateAPIView, DestroyAPIView, ListAPIView
-from rest_framework.authentication import TokenAuthentication
+# from rest_framework.authentication import TokenAuthentication
+from emogo.apps.users.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
@@ -19,7 +20,8 @@ from emogo.apps.notification.views import NotificationAPI
 from emogo.apps.notification.serializers import *
 from emogo.apps.stream.serializers import ViewStreamSerializer
 
-from serializers import ViewCollaboratorSerializer
+from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
+from django.http import Http404
 
 # # Create your views here.
 class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
@@ -30,6 +32,14 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
+    swagger_schema = None
+
+    def get_serializer_context(self):
+        context = super(CollaboratorInvitationAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
 
     # def update(self, request, version, *args, **kwargs):
     def update(self, request, *args, **kwargs):
@@ -39,12 +49,16 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
         :param kwargs: dict param
         :return: Update collab API status.
         """
+        serializer = self.get_serializer(Notification.objects.first(),
+            context=self.request)
         if kwargs['invites'] == 'accept' and request.method == 'PATCH':
             stream = Stream.objects.get(id=request.data.get('stream'))
-            collab = Collaborator.objects.filter(stream=stream).filter(Q(phone_number=request.user.username) | Q(
-                phone_number=stream.created_by.username, created_by=stream.created_by))
+            collab = Collaborator.objects.filter(stream=stream).filter(
+                Q(phone_number__endswith=self.request.user.username[-10:]) | Q(
+                phone_number__endswith=stream.created_by.username[-10:],
+                created_by=stream.created_by))
             collab.update(status='Active')
-            if kwargs['version']:
+            if kwargs['version'] and collab:
                 obj = Notification.objects.filter(id = request.data.get('notification_id'))
                 if obj.__len__() > 0:
                     if not (obj[0].notification_type == 'deleted_collaborator' or obj[0].notification_type == 'deleted_stream' ):
@@ -53,7 +67,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
                         NotificationAPI().send_notification(self.request.user, obj[0].from_user, 'accepted', stream)
                     serializer = self.get_serializer(obj[0], context=self.request)
                     return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
-            # To return accpted
+            raise Http404("Either the Emogo does not exist; Or you've been removed from it's collaborator list")
         else:
             return custom_render_response(status_code=status.HTTP_404_NOT_FOUND)
 
@@ -91,6 +105,7 @@ class CollaboratorInvitationAPI(UpdateAPIView, DestroyAPIView):
 
 
 class StreamCollaboratorsAPI(ListAPIView):
+    swagger_schema = None
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -131,6 +146,7 @@ class StreamCollaboratorsAPI(ListAPIView):
 
 
 class CollaboratorDeletionAPI(DestroyAPIView):
+    swagger_schema = None
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -142,13 +158,23 @@ class CollaboratorDeletionAPI(DestroyAPIView):
         :return: Hard Delete collaborator
         """
         from emogo.apps.stream.models import StarredStream
-        collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
+        try:
+            collaborator = Collaborator.objects.get(id=kwargs.get('pk'))
+        except:
+            raise Http404("The collaborator does not exist.")
         stream_id = collaborator.stream.id
         collab_user = User.objects.filter(username__endswith = collaborator.phone_number[-10:])
         if collab_user.__len__():
-            noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = collaborator.stream, from_user = self.request.user, to_user = collab_user[0] )
-            if noti.__len__() > 0 :
-                noti.update(notification_type = 'deleted_collaborator')
+            noti = Notification.objects.filter(
+                notification_type='collaborator_confirmation',
+                stream=collaborator.stream, from_user=self.request.user,
+                to_user=collab_user[0])
+            if noti.__len__() > 0:
+                noti.update(notification_type='deleted_collaborator')
+        Notification.objects.filter(
+            stream=collaborator.stream, notification_type="new_comment",
+            to_user__username__endswith=collaborator.phone_number[-10:]).update(
+            notification_type="deleted_collaborator", is_open=False)
         collaborator.delete()
         if collab_user.__len__() > 0:
             StarredStream.objects.filter(user=collab_user[0], stream_id = stream_id).delete()
