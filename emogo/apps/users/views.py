@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from django.db import transaction
 from rest_framework import status
@@ -26,7 +26,6 @@ from emogo.lib.custom_filters.filterset import (
     UsersFilter, UserStreamFilter, FollowerFollowingUserFilter, CollabsFilter,
     UserLikedStreamFilter)
 from emogo.apps.users.models import UserProfile, UserFollow, UserDevice
-
 from emogo.apps.stream.models import (
     Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent,
     LikeDislikeContent, StarredStream, NewEmogoViewStatusOnly, RecentUpdates,
@@ -976,7 +975,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
                 queryset=UserFollow.objects.all().order_by('-follow_time'), 
                 to_attr="followers" 
             ),
-            Prefetch( 
+            Prefetch(
                 'user__who_is_followed', 
                 queryset=UserFollow.objects.all().order_by('-follow_time'), 
                 to_attr='following'
@@ -1227,7 +1226,7 @@ class GetTopStreamAPIV2(APIView):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in grouped.items():
+        for thread, group in list(grouped.items()):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()
@@ -1417,7 +1416,7 @@ class GetTopStreamAPIV3(ListAPIView):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in grouped.items():
+        for thread, group in list(grouped.items()):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()

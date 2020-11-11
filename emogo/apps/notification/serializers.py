@@ -8,7 +8,7 @@ from emogo.constants import messages
 
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Notification
+from emogo.apps.notification.models import Notification
 from emogo.apps.stream.models import Content, LikeDislikeContent
 from emogo.settings import content_type_till_v3
 

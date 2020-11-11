@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from rest_framework import status, serializers
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
@@ -30,7 +30,6 @@ from emogo.apps.stream.swagger_schema import (
     delete_content_schema, delete_stream_content_schema, reorder_stream_content_schema,
     reorder_content_schema, stream_like_response, extremist_report_doc, folder_schema_doc,
     move_emogo_to_folder_schema, share_imessage_schema)
-
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
@@ -40,6 +39,7 @@ from drf_yasg.utils import swagger_auto_schema
 from emogo.settings import content_type_till_v3
 import itertools
 import collections
+
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.users.models import UserFollow
 from emogo.apps.notification.models import Notification
@@ -74,7 +74,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                         queryset=LikeDislikeContent.objects.filter(status=1),
                         to_attr='content_liked_user'
                     )
-                ).order_by('order', '-attached_date').order_by('-content__upd'),
+                ).order_by('order', '-attached_date', '-content__upd'),
 
                 to_attr="content_list"
             ),
@@ -240,8 +240,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             request.data.update({"content": content_obj})
         except:
             None
-
-        serializer = self.get_serializer(data= request.data, context=self.get_serializer_context())
+        serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         stream = serializer.create(serializer.validated_data)
         # To return created stream data
@@ -297,6 +296,9 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
+        # if request.data.get("folder") is None:
+        #     instance.folder = None
+        #     instance.save()
         instance = self.get_object()
         self.serializer_class = OptimisedViewStreamSerializer
         fields = ['id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width',
@@ -326,7 +328,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         except:
             raise Http404("The Emogo does not exist.")
         #update notification when user delete stream
-        noti = Notification.objects.filter(notification_type = 'collaborator_confirmation' , stream = instance, from_user = instance.created_by)
+        noti = Notification.objects.filter(notification_type = 'collaborator_confirmation', stream = instance, from_user = instance.created_by)
         if noti.__len__() > 0 :
             noti.update(notification_type = 'deleted_stream')
         # Perform delete operation
@@ -937,7 +939,7 @@ class RecentUpdatesAPI(ListAPIView):
         for item in content_ids:
             grouped[item.thread].append(item)
         return_list = list()
-        for thread, group in grouped.items():
+        for thread, group in list(grouped.items()):
             if group.__len__() > 0:
                 setattr(group[0], 'total_added_contents', group.__len__())
                 total_added_contents = group.__len__()

@@ -129,6 +129,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                         # 'image': {'required': True, 'allow_blank': False, 'allow_null': False}
                         }
 
+    # def validate_folder(self, value):
+    #     if value and value.owner != self.context["request"].user:
+    #         raise serializers.ValidationError(messages.MSG_FOLDER_OWNER_NOT_VALID)
+    #     else:
+    #         return value
+
     def validate(self, attrs):
         # This code is run only in case of update through the PATCH method:
         delete_content = self.initial_data.get('delete_content')
@@ -224,16 +230,16 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                 self.create_content(self.instance)
         #3  Update the status of  all collaborator is Inactive When Stream is Global otherwise Collaborator Status is Active
         if self.context['version']:
-            collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')    
+            collaborator_list = self.instance.collaborator_list.exclude(status='Unverified')
         else:
-            collaborator_list = self.instance.collaborator_list.all()    
-        if collaborator_list.__len__ > 0:
+            collaborator_list = self.instance.collaborator_list.all()
+        if collaborator_list.__len__() > 0:
             stream_type = self.validated_data.get('type')
             if stream_type == 'Public':
-                # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public) 
+                # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public)
                 status = 'Inactive' if any_one_can_edit else 'Active'
             else:
-                # When Stream is (Global  -> Private), so collaboratopr status is Active 
+                # When Stream is (Global  -> Private), so collaboratopr status is Active
                 status = 'Active'
             collaborator_list.update(status=status)
 
@@ -296,12 +302,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
         collaborator_list = self.initial_data.get('collaborator')
         self.owner_collaborator(stream, collaborator_list)
-        collaborators = map(self.save_collaborator, collaborator_list,
-                            itertools.repeat(stream, collaborator_list.__len__()))
-        
+        collaborators = list(map(self.save_collaborator, collaborator_list,
+                            itertools.repeat(stream, collaborator_list.__len__())))
         if stream.collaborator_list.count() == 1:
-            if  stream.collaborator_list.all()[0].created_by == self.context.get('request').user and \
-                stream.collaborator_list.all()[0].phone_number == self.context.get('request').user.username:
+            if stream.collaborator_list.all()[0].created_by == self.context.get('request').user and \
+                stream.collaborator_list.all()[0].phone_number == self.context.get('request').user.username and \
+                    self.instance:
                 self.instance.collaborator_list.filter().delete()
         else:
             return collaborators
@@ -347,7 +353,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         :return: Add Stream content
         """
         content_list = self.initial_data.get('content')
-        contents = map(self.save_content, content_list, itertools.repeat(stream, content_list.__len__()))
+        contents = list(map(self.save_content, content_list, itertools.repeat(stream, content_list.__len__())))
         return contents
 
     def save_content(self, data, stream):
@@ -384,7 +390,8 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             created_by=self.context.get('request').user,
             height=self.validated_data.get('height', 300),
             width=self.validated_data.get('width', 300),
-            color = self.validated_data.get('color')
+            color=self.validated_data.get('color'),
+            # folder=self.validated_data.get("folder", None)
         )
         # stream.save()
         # Update any_one_can_edit flag is type is Public
@@ -406,6 +413,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                 status = 'Unverified'
         else:
             status = 'Active'
+
         if not stream.collaborator_list.all().exists():
             collaborator, created = Collaborator.objects.get_or_create(
                 phone_number=user_qs.username,
@@ -455,7 +463,7 @@ class ViewStreamSerializer(StreamSerializer):
             return obj.stream_collaborator_verified.__len__()
         except Exception:
             return '0'
-            
+
     def get_collab_data(self, obj, instances):
         list_of_instances = list()
         user_qs = list()
@@ -487,7 +495,7 @@ class ViewStreamSerializer(StreamSerializer):
                         setattr(instance, 'user_id', user.get('id'))
                         setattr(instance, 'user_image', user.get('user_data__user_image'))
                     # If some collaborator are not registered.
-                    elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in map(lambda x: x.phone_number, list_of_instances):
+                    elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in [x.phone_number for x in list_of_instances]:
                         setattr(instance, 'name', instance.name)
                         setattr(instance, 'user_profile_id', None)
                         setattr(instance, 'user_id', None)
@@ -524,7 +532,7 @@ class ViewStreamSerializer(StreamSerializer):
                 list_of_instances = other_collab[0:3]
         return ViewCollaboratorSerializer(list_of_instances,
                                           many=True, fields=fields, context=self.context).data
-    
+
     def get_total_collaborator(self, obj):
         try:
             return obj.stream_collaborator.__len__()
@@ -563,10 +571,10 @@ class ViewStreamSerializer(StreamSerializer):
         return False
 
     def get_user_liked(self, obj):
-        # Find the logged in user and fetch current user's followers 
+        # Find the logged in user and fetch current user's followers
         user_id = self.context.get('request').user.id
         try:
-            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if user_id in  map(lambda y: y.follower.id, x.user.user_liked_followers) else False } for x in obj.total_like_dislike_data ]
+            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if user_id in  [y.follower.id for y in x.user.user_liked_followers] else False } for x in obj.total_like_dislike_data ]
         except AttributeError:
             return None
 
@@ -611,7 +619,7 @@ class ViewStreamSerializer(StreamSerializer):
             return {'can_add_content': True, 'can_add_people': True}
 
         if qs.__len__() > 0:
-            # If Collaborator have permission for can add content 
+            # If Collaborator have permission for can add content
             return {'can_add_content': qs[0].can_add_content, 'can_add_people': qs[0].can_add_people}
             # fields = ('can_add_content', 'can_add_people')
             # return ViewCollaboratorSerializer(qs[0], fields=fields).data
@@ -925,8 +933,8 @@ class MoveContentToStreamSerializer(ContentSerializer):
         self.initial_data['contents'].update(upd=datetime.datetime.now())
         for stream in self.initial_data.get('streams'):
             self.initial_data['thread'] = random_generator()
-            map(self.add_content_to_stream, self.initial_data.get('contents'),
-                                itertools.repeat(stream, self.initial_data.get('contents').__len__()))
+            list(map(self.add_content_to_stream, self.initial_data.get('contents'),
+                                itertools.repeat(stream, self.initial_data.get('contents').__len__())))
 
             if self.context['version']:
                 collab_list = stream.collaborator_list.filter(status= 'Active')
@@ -951,7 +959,7 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :return: Function add content to stream
         """
         # Create Stream and content
-        obj , created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
+        obj, created = StreamContent.objects.get_or_create(content=content, stream=stream, user=self.context.get('request').user)
         # Set True in have_some_update field, When user move content to stream
         obj.thread = self.initial_data.get("thread")
         obj.save()
@@ -1087,7 +1095,7 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
 
     def liked(self, obj):
         try:
-            stream = obj.get('stream') 
+            stream = obj.get('stream')
         except:
             stream = obj
         return LikeDislikeStream.objects.filter(
@@ -1095,9 +1103,9 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
 
     def get_total_liked(self, obj):
         return self.liked(obj).aggregate(total_liked=Count('id')).get('total_liked',0)
-   
+
     def get_user_liked(self, obj):
-        # Find the logged in user and fetch current user's followers 
+        # Find the logged in user and fetch current user's followers
         try:
             return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id,
                     'user_image': x.user.user_data.user_image,
