@@ -26,7 +26,7 @@ cp sonar-scanner.properties sonar-scanner-3.3.0.1492-linux/conf/sonar-scanner.pr
 # if [ $? -eq 0 ]
 # then
 #   echo "posting data to sonarqube after maven build"
-sonar-scanner -Dsonar.projectKey=$KEY -Dsonar.sources=. -Dsonar.host.url=$URL -Dsonar.login=$TOKEN
+#sonar-scanner -Dsonar.projectKey=$KEY -Dsonar.sources=. -Dsonar.host.url=$URL -Dsonar.login=$TOKEN
 # else
 #   echo "Build failed"
 # fi
