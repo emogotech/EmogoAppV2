@@ -2403,7 +2403,8 @@ class ContentShareInImessageAPI(CreateAPIView, ListAPIView):
             queryset = queryset.filter(type__in=content_type_till_v3)
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = ViewContentSerializer(page, many=True, fields=fields)
+            serializer = ViewContentSerializer(
+                page, many=True, fields=fields, context=self.get_serializer_context())
             return self.get_paginated_response(
                 data=serializer.data, status_code=status.HTTP_200_OK)
 
