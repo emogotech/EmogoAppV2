@@ -31,7 +31,7 @@ echo "Docker container has been started"
 #   echo "Build failed"
 # fi
 #python3.6 manage.py runserver 0.0.0.0:80 --settings=emogo.settings
-daphne -p 80 emogo.asgi:application
+daphne -p 80 emogo.asgi:application -b 0.0.0.0
 #uwsgi --http :80 --module emogo.wsgi --process 10 --master
 
 exec "$@"
