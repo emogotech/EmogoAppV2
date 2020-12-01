@@ -56,8 +56,8 @@ class UserSerializer(DynamicFieldsModelSerializer):
         # The code is run while user was not verified but try to sign-up with different user_name or phone number
         # 1. While user request with same user_name and different phone number
         body =  "Emogo sign up OTP"
-        #sent_otp = send_otp(validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
-        sent_otp = 12345
+        sent_otp = send_otp(validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
+        #sent_otp = 12345
         if sent_otp is not None:
             setattr(self, 'user_pin', sent_otp)
         else:
