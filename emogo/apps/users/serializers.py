@@ -27,6 +27,7 @@ from django.http import Http404
 import operator
 from itertools import product
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
+from emogo.settings import content_type_till_v3
 from functools import reduce
 import threading
 
@@ -265,7 +266,10 @@ class UserDetailSerializer(UserProfileSerializer):
 
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'video_image', 'file', 'html_text')
-        return ViewContentSerializer(obj.user_contents(), many=True, fields=fields).data
+        contents_objs = obj.user_contents()
+        if self.context.get('version') != 'v4':
+            contents_objs = contents_objs.filter(type__in=content_type_till_v3)
+        return ViewContentSerializer(contents_objs, many=True, fields=fields).data
 
     def get_emogo_count(self, obj):
         if hasattr(obj, "stream_counts"):
@@ -1072,7 +1076,11 @@ class ViewGetTopStreamSerializer(DynamicFieldsModelSerializer):
     def get_stream_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
             'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'file', 'html_text')
-        instances = obj.content_list[0:6]
+        instances = obj.content_list
+        if self.context.get('version') != 'v4':
+            instances = [cnt for cnt in instances if \
+                cnt.content.type in content_type_till_v3]
+        instances = instances[0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
     def get_is_bookmarked(self, obj):

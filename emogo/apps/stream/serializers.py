@@ -24,6 +24,7 @@ from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from emogo.settings import content_type_till_v3
 from functools import reduce
 import threading
 
@@ -598,7 +599,12 @@ class ViewStreamSerializer(StreamSerializer):
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
             'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'html_text', 'file')
-        instances = obj.content_list
+        if self.context.get('version') == 'v4':
+            instances = obj.content_list
+        else:
+            instances = [cnt for cnt in obj.content_list if \
+                cnt.content.type in content_type_till_v3]
+        #instances = obj.content_list
         return ViewContentSerializer(
             [x.content for x in instances], many=True, fields=fields, context=self.context).data
 
@@ -643,7 +649,13 @@ class ViewStreamSerializer(StreamSerializer):
     def get_stream_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image',
             'height', 'width', 'color', 'full_name', 'user_image', 'liked', 'html_text', 'file')
-        instances = obj.content_list[0:6]
+        # instances = obj.content_list[0:6]
+        print(self.context.get('version'))
+        if self.context.get('version') == 'v4':
+            instances = obj.content_list[0:6]
+        else:
+            instances = [cnt for cnt in obj.content_list if \
+                cnt.content.type in content_type_till_v3][0:6]
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields, context=self.context).data
 
     def get_is_bookmarked(self, obj):
@@ -667,12 +679,13 @@ class ViewStreamSerializer(StreamSerializer):
 class OptimisedViewStreamSerializer(ViewStreamSerializer):
 
     def validate_name(self, value):
-        stream = Stream.actives.filter(
-            created_by=self.context.get('request').user, name__iexact=value.strip())
-        if self.instance:
-            stream = stream.exclude(id=self.instance.id)
-        if stream.exists():
-            raise serializers.ValidationError(messages.MSG_STREAM_NAME_EXISTS.format(value))
+        if self.context.get('version') == 'v4':
+            stream = Stream.actives.filter(
+                created_by=self.context.get('request').user, name__iexact=value.strip())
+            if self.instance:
+                stream = stream.exclude(id=self.instance.id)
+            if stream.exists():
+                raise serializers.ValidationError(messages.MSG_STREAM_NAME_EXISTS.format(value))
         return value
 
     def get_total_stream_collaborators(self, obj):

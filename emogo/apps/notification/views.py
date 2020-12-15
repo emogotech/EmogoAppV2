@@ -108,6 +108,13 @@ class ActivityLogAPI(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def get_serializer_context(self):
+        context = super(ActivityLogAPI, self).get_serializer_context()
+        context.update({
+            'version': self.kwargs.get('version')
+        })
+        return context
+
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
@@ -126,7 +133,7 @@ class ActivityLogAPI(ListAPIView):
         #  Customized field list
         page = self.paginate_queryset(self.filter_queryset(queryset))
         if page is not None:
-            serializer = self.get_serializer(page, many=True)
+            serializer = self.get_serializer(page, many=True, context=self.get_serializer_context())
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 

@@ -20,6 +20,8 @@ from functools import wraps
 import datetime
 import json
 import threading
+import logging
+logger_name = logging.getLogger('email_log')
 
 
 class CommentConsumer(WebsocketConsumer):
@@ -352,6 +354,7 @@ class CommentConsumer(WebsocketConsumer):
         return False
 
     def connect(self):
+        logger_name.info("==================== Connect method call")
         group_created = self.create_group_and_connect()
         if group_created:
             self.accept()
