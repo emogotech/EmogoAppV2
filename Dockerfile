@@ -26,3 +26,4 @@ RUN chmod 777 start.sh
 EXPOSE 80
 #CMD ["celery","-A","emogo","worker","-l","info","-B"]
 #CMD ["daphne", "-b", "0.0.0.0", "-p", "80", "emogo.asgi:application"]
+
