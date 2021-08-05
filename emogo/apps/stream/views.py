@@ -23,7 +23,7 @@ from emogo.apps.stream.serializers import (
     delete_comments_and_broadcast)
 from emogo.lib.custom_filters.filterset import (
     StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter,
-    StreamContentFilter)
+    StreamContentFilter, OpenStreamContentFilter)
 from emogo.apps.stream.swagger_schema import (
     stream_schema_doc, stream_api_responses, content_schema_doc, content_api_responses,
     content_update_schema_doc, content_update_api_response, move_content_to_stream_schema,
@@ -2447,3 +2447,10 @@ class LoadTestView(APIView):
         We will delete all the comments for emogo.
         """
         return custom_render_response(status_code=status.HTTP_200_OK)
+
+
+class GetOpenStreamContentAPI(GetStreamContentAPI):
+    filter_class = OpenStreamContentFilter
+
+    def get(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
