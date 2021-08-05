@@ -51,4 +51,5 @@ urlpatterns = [
     # url(r'^get_stream_content/(?P<stream_id>[0-9]+)/(?P<pk>[0-9]+)/$',
     #     views.GetStreamContentAPI.as_view()),
     url(r'^get_stream_content/$', views.GetStreamContentAPI.as_view()),
+    url(r'^get_open_stream_content/$', views.GetOpenStreamContentAPI.as_view()),
 ]
