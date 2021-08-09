@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM 753657886637.dkr.ecr.us-east-1.amazonaws.com/python:latest
 
 RUN mkdir -p /usr/src/app/
 
