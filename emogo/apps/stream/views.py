@@ -23,7 +23,7 @@ from emogo.apps.stream.serializers import (
     delete_comments_and_broadcast)
 from emogo.lib.custom_filters.filterset import (
     StreamFilter, ContentsFilter, StarredStreamFilter, NewEmogosFilter,
-    StreamContentFilter)
+    StreamContentFilter, OpenStreamContentFilter)
 from emogo.apps.stream.swagger_schema import (
     stream_schema_doc, stream_api_responses, content_schema_doc, content_api_responses,
     content_update_schema_doc, content_update_api_response, move_content_to_stream_schema,
@@ -2447,3 +2447,84 @@ class LoadTestView(APIView):
         We will delete all the comments for emogo.
         """
         return custom_render_response(status_code=status.HTTP_200_OK)
+
+
+class GetOpenStreamContentAPI(ListAPIView):
+    queryset = StreamContent.objects.all().select_related(
+        'content', 'content__created_by__user_data').prefetch_related(
+        Prefetch(
+            "content__content_like_dislike_status",
+            queryset=LikeDislikeContent.objects.filter(status=1),
+            to_attr='content_liked_user'
+        )
+    ).order_by('order', '-attached_date', '-content__upd')
+    serializer_class = ViewContentSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    http_method_names = ['get']
+    filter_class = OpenStreamContentFilter
+
+    def get_serializer_context(self):
+        return {'request': self.request, 'version': self.kwargs.get('version')}
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def filter_queryset(self, queryset):
+        """
+        We will return data according to the query parameter.
+        """
+        # queryset = queryset.filter(created_by=self.request.user)
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, self)
+            if self.kwargs.get('version') != 'v4':
+                queryset = queryset.filter(content__type__in=content_type_till_v3)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.queryset)
+        # get stream
+        stream_instance = None
+        if self.request.GET.get("stream"):
+            try:
+                stream_instance = Stream.actives.select_related('created_by__user_data__user').prefetch_related(
+                    Prefetch(
+                        'collaborator_list',
+                        queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                        to_attr='stream_collaborator'
+                    ),
+                    Prefetch(
+                        'collaborator_list',
+                        queryset=Collaborator.collab_actives.all().select_related('created_by').order_by('-id'),
+                        to_attr='stream_collaborator_verified'
+                    ),
+                ).get(pk=self.request.GET.get("stream"))
+            except:
+                raise Http404("The Emogo does not exist.")
+        stream_data = None
+        if stream_instance:
+            stream_fields = ['id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image',
+                             'height', 'width', 'order', 'color', 'user_image', 'full_name', 'order',
+                             'html_text', 'file', 'collaborators']
+            stream_serializer = ViewStreamSerializer(stream_instance, fields=stream_fields,
+                                                     context=self.get_serializer_context())
+            stream_data = stream_serializer.data
+        #  Customized field list
+        fields = (
+            'id', 'name', 'url', 'type', 'description', 'created_by',
+            'video_image', 'height', 'width', 'color', 'full_name',
+            'user_image', 'liked', 'html_text', 'file')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer([x.content for x in page],
+                                             many=True,
+                                             fields=fields, context=self.get_serializer_context())
+            return self.get_paginated_response(
+                data={"stream": stream_data, "content": serializer.data}, status_code=status.HTTP_200_OK)

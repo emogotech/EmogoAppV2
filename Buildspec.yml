@@ -16,8 +16,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - sonar-scanner -Dsonar.projectKey=emogo-v2 -Dsonar.sources=. -Dsonar.host.url=http://sonar.northout.net -Dsonar.login=76c331471abbd6a9a56d566ca7f13a42f9aef107
-   #   - sh -x sonar-status.sh
+      #- sonar-scanner -Dsonar.projectKey=emogo-v2 -Dsonar.sources=. -Dsonar.host.url=http://sonar.northout.net -Dsonar.login=76c331471abbd6a9a56d566ca7f13a42f9aef107
+      #- sh -x sonar-status.sh
       - docker --version
       - docker build -t $IMAGE_REPO_NAME .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG

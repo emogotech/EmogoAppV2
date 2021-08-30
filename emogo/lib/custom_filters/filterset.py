@@ -410,3 +410,24 @@ class NewEmogosFilter(django_filters.FilterSet):
 
     def filter_emogo_name(self, qs, name, value):
         return qs.filter(name__icontains=value)
+
+
+class OpenStreamContentFilter(django_filters.FilterSet):
+    stream = django_filters.filters.CharFilter(method='filter_by_stream')
+    content = django_filters.filters.CharFilter(method='filter_by_content')
+
+    class Meta:
+        model = StreamContent
+        fields = []
+
+    def filter_by_stream(self, qs, name, value):
+        stream_contents = qs.filter(stream_id=value)
+        if stream_contents:
+            return stream_contents
+        raise Http404("The Emogo does not exist.")
+
+    def filter_by_content(self, qs, name, value):
+        stream_contents = qs.filter(content_id=value)
+        if stream_contents:
+            return stream_contents
+        raise Http404("Content does not exist.")
