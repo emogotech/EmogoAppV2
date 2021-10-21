@@ -3,11 +3,9 @@
 
 
 cd /home/ubuntu
-rm -rf EmogoAppV2/*
 rm -rf EmogoAppV2/.git
 rm -rf EmogoAppV2/.gitignore
 rm -rf EmogoAppV2/.ebextensions
-
 
 
 echo "successfully installed"
