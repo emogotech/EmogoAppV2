@@ -1,5 +1,5 @@
 #!/bin/bash
-service rabbitmq-server start
+
 export C_FORCE_ROOT='true'
 
 source /home/ubuntu/EmogoAppV2/venv/bin/activate
