@@ -1,33 +1,22 @@
 version: 0.2
 phases:
-
-install:
-runtime-versions:
-java: corretto8
-
-pre_build:
-commands:
-- wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-- unzip sonar-scanner-cli-3.3.0.1492-linux.zip
-- export PATH=$PATH:./sonar-scanner-3.3.0.1492-linux/bin/
-- export SONAR_SCANNER_OPTS="-Xmx512m"
-
-build:
-commands:
-- echo Build started on `date`
-# - sh -x sonar-status.sh
-# - docker build -t $IMAGE_REPO_NAME .
-# - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-# post_build:
-# commands:
-# - echo Build completed on `date`
-# - echo Pushing the Docker image...
-# - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-# - echo renaming _Dockerrun.aws.json file
-# - mv $DOCKERRUN Dockerrun.aws.json
-# - echo deleting Dockerfile
-# - chmod +x start.sh
-# - rm Dockerfile
+  install:
+    runtime-versions:
+      java: corretto8
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+      - unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+      - export PATH=$PATH:./sonar-scanner-3.3.0.1492-linux/bin/
+      - export SONAR_SCANNER_OPTS="-Xmx512m"
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+  post_build:
+    commands:
+      - echo Build completed on `date`
 artifacts:
-files:
-- '**/*'
+  files:
+    - '**/*'
